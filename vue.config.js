@@ -45,7 +45,7 @@ module.exports = {
   productionSourceMap: false, // 设置为true的时候,打包完成后生成一些js.map文件,如果有报错,可以精确的输出哪一个文件、哪一行报错
   css: {
     sourceMap: false, // 设置为true的时候 打包完成后会生成一些css.map文件,如果有报错,可以精确的输出哪一个文件、哪一行报错
-    extract: true, // 是否使用 css 分离插件 ExtractTextPlugin，采用独立样式文件载入，不采用 <style> 方式内联至 html 文件中
+    // extract: true, // 是否使用 css 分离插件 ExtractTextPlugin，采用独立样式文件载入，不采用 <style> 方式内联至 html 文件中
     requireModuleExtension: true, // 开启module <style module></style>
     loaderOptions: {
       less: {
@@ -56,7 +56,7 @@ module.exports = {
     },
   },
   devServer: {
-    open: true, // 启动后是否自动打开浏览器
+    open: false, // 启动后是否自动打开浏览器
     // host: 'localhost', // 默认是localhost 设置启动的服务器地址 可设置为192.168.0.0本地ip方式
     port: 8018, // 启动服务端口号
     // index: '',   //启动项目后，默认进入的页面地址
