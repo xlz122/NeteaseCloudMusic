@@ -5,7 +5,7 @@ export interface Getters<T> {
 }
 
 const getters: Getters<State> = {
-  msg: state => state.msg
+  heaerActiveIndex: state => state.heaerActiveIndex
 };
 
 export default getters;

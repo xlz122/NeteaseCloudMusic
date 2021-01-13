@@ -81,7 +81,7 @@
             href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010902002564"
             target="_blank"
           >
-            <span class="logo"></span>
+            <i class="logo"></i>
             浙公网安备 33010902002564号
           </a>
         </div>
@@ -94,7 +94,7 @@
               href="https://web-amped.music.163.com/"
               target="_blank"
             ></a>
-            <span class="text amped-text"></span>
+            <i class="text amped-text"></i>
           </li>
           <li class="item">
             <a
@@ -102,7 +102,7 @@
               href="https://music.163.com/st/userbasic#/auth"
               target="_blank"
             ></a>
-            <span class="text auth-text"></span>
+            <i class="text auth-text"></i>
           </li>
           <li class="item">
             <a
@@ -110,7 +110,7 @@
               href="https://music.163.com/st/musician"
               target="_blank"
             ></a>
-            <span class="text musician-text"></span>
+            <i class="text musician-text"></i>
           </li>
           <li class="item">
             <a
@@ -118,7 +118,7 @@
               href="https://music.163.com/web/reward"
               target="_blank"
             ></a>
-            <span class="text reward-text"></span>
+            <i class="text reward-text"></i>
           </li>
           <li class="item">
             <a
@@ -126,7 +126,7 @@
               href="https://music.163.com/uservideo#/plan"
               target="_blank"
             ></a>
-            <span class="text cash-text"></span>
+            <i class="text cash-text"></i>
           </li>
         </ul>
       </div>
@@ -151,131 +151,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-.footer {
-  height: 172px;
-  overflow: hidden;
-  border-top: 1px solid #d3d3d3;
-  background: #f2f2f2;
-  .content {
-    position: relative;
-    width: 980px;
-    margin: 0 auto;
-    .content-left {
-      position: absolute;
-      top: 0px;
-      left: 0;
-      display: inline-block;
-      width: 520px;
-      padding-top: 15px;
-      line-height: 24px;
-      text-align: left;
-      .left-nav {
-        .item {
-          display: inline-block;
-          .link {
-            color: #999;
-          }
-          .line {
-            margin: 0 8px 0 10px;
-            color: #c2c2c2;
-          }
-        }
-      }
-      .group {
-        color: #666;
-        .sep {
-          margin-right: 14px;
-        }
-        .link {
-          color: #666;
-          .logo {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            background: url(../../assets/image/police-logo.png) no-repeat;
-            background-size: cover;
-            display: inline-block;
-            margin-right: 2px;
-            vertical-align: -2px;
-          }
-        }
-        .link:hover {
-          color: #666;
-          text-decoration: underline;
-        }
-      }
-    }
-    .content-right {
-      position: absolute;
-      top: 0px;
-      right: 0;
-      display: inline-block;
-      vertical-align: top;
-      margin-top: 33px;
-      .right-nav {
-        display: inline-block;
-        vertical-align: middle;
-        .item {
-          display: inline-block;
-          width: 72px;
-          height: 70px;
-          text-align: center;
-          color: #666;
-          .link {
-            display: inline-block;
-            width: 50px;
-            height: 45px;
-            margin: 0 auto;
-            margin-left: -6px;
-            background: url(../../assets/image/foot_enter.png) no-repeat;
-            background-size: 110px 552px;
-          }
-          .amped-icon {
-            background-position: -63px -456.5px;
-          }
-          .auth-icon {
-            background-position: -63px -101px;
-          }
-          .musician-icon {
-            background-position: 0 0;
-          }
-          .reward-icon {
-            background-position: -60px -50px;
-          }
-          .cash-icon {
-            background-position: 0 -101px;
-          }
-          .text {
-            display: inline-block;
-            width: 100%;
-            height: 14px;
-            margin: 5px 5px 0;
-            background: url(../../assets/image/foot_enter_tt.png) no-repeat;
-            background-size: 180px 139px;
-          }
-          .amped-text {
-            margin-left: -5px;
-            background-position: 0 -108px;
-          }
-          .auth-text {
-            margin-left: 7px;
-            background-position: -1px -91px;
-          }
-          .musician-text {
-            margin-left: 8px;
-            background-position: 0 0;
-          }
-          .reward-text {
-            margin-left: 10px;
-            background-position: 0 -54px;
-          }
-          .cash-text {
-            margin-left: 8px;
-            background-position: -1px -72px;
-          }
-        }
-      }
-    }
-  }
-}
+@import './footer.less';
 </style>

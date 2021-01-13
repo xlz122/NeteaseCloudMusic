@@ -5,8 +5,10 @@ interface Mutations<T, U> {
 }
 
 const mutations: Mutations<State, unknown> = {
-  setHeaderNavIndex(state, msg) {
-    state.msg = msg as string;
+  // 头部选中导航
+  setHeaderActiveIndex(state, index) {
+    state.heaerActiveIndex = index as number;
+    localStorage.setItem('heaerActiveIndex', (index as number).toString());
   }
 };
 

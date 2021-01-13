@@ -1,9 +1,9 @@
 export interface State {
-  msg: string;
+  heaerActiveIndex: number;
 }
 
 const state: State = {
-  msg: ''
+  heaerActiveIndex: Number(localStorage.getItem('heaerActiveIndex')) || 0
 };
 
 export default state;

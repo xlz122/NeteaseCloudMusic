@@ -9,13 +9,15 @@
             v-for="(item, index) in navList"
             :key="index"
             :class="[
-              { 'active-item': index === navActive },
+              { 'active-item': index === heaerActiveIndex },
               { 'last-item': index === navList.length - 1 }
             ]"
             @click="navChange(index)"
           >
-            <router-link class="link" to="">{{ item.title }}</router-link>
-            <span class="hot" v-if="index === navList.length - 1"></span>
+            <router-link class="link" :to="item.link">
+              {{ item.title }}
+            </router-link>
+            <i class="hot" v-if="index === navList.length - 1"></i>
           </li>
         </ul>
         <div class="other">
@@ -37,7 +39,7 @@
       </div>
     </div>
     <div class="h-bottom">
-      <div class="h-warp subnav" v-if="navActive === 0">
+      <div class="h-warp subnav" v-if="heaerActiveIndex === 0">
         <ul class="nav">
           <li
             class="item"
@@ -50,7 +52,7 @@
             @click="subNavChange(index)"
           >
             <router-link class="link" to="">{{ item.title }}</router-link>
-            <span class="white-icon" v-if="index === 2"></span>
+            <i class="white-icon" v-if="index === 2"></i>
           </li>
         </ul>
       </div>
@@ -69,7 +71,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
+import { useStore } from 'vuex';
 // 使用setup语法糖，没有export default爆红，不是语法问题
 import MyDialog from '@/components/MyDialog.vue';
 
@@ -83,39 +86,42 @@ export default defineComponent({
     MyDialog
   },
   setup() {
+    const $store = useStore();
+    console.log($store);
+
     const navList = ref<NavList[]>([
       {
         title: '发现音乐',
-        link: ''
+        link: '/'
       },
       {
         title: '我的音乐',
-        link: ''
+        link: '/'
       },
       {
         title: '朋友',
-        link: ''
+        link: '/'
       },
       {
         title: '商城',
-        link: ''
+        link: '/'
       },
       {
         title: '音乐人',
-        link: ''
+        link: '/'
       },
       {
         title: '下载客户端',
-        link: ''
+        link: '/download'
       }
     ]);
 
     // 导航当前选中项
-    const navActive = ref<number>(0);
+    const heaerActiveIndex = computed(() => $store.getters.heaerActiveIndex);
 
     // 导航更改
     function navChange(index: number): void {
-      navActive.value = index;
+      $store.commit('setHeaderActiveIndex', index);
     }
 
     // 子导航数据
@@ -167,7 +173,7 @@ export default defineComponent({
     }
     return {
       navList,
-      navActive,
+      heaerActiveIndex,
       navChange,
       subNavList,
       subNavActive,
