@@ -56,10 +56,22 @@
       </div>
     </div>
   </div>
+  <teleport to="#modal">
+    <my-dialog
+      class="dialog"
+      :visible="dialogvisible"
+      :title="'登录'"
+      @cancel="dialogCancel"
+    >
+      这是个弹窗
+    </my-dialog>
+  </teleport>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+// 使用setup语法糖，没有export default爆红，不是语法问题
+import MyDialog from '@/components/MyDialog.vue';
 
 interface NavList {
   title: string;
@@ -67,6 +79,9 @@ interface NavList {
 }
 
 export default defineComponent({
+  components: {
+    MyDialog
+  },
   setup() {
     const navList = ref<NavList[]>([
       {
@@ -138,9 +153,17 @@ export default defineComponent({
       subNavActive.value = index;
     }
 
+    // 登录弹框显隐
+    const dialogvisible = ref<boolean>(false);
+
     // 登录
     function login(): void {
-      alert('登录');
+      dialogvisible.value = true;
+    }
+
+    // 登录 - 弹框关闭
+    function dialogCancel(): void {
+      dialogvisible.value = false;
     }
     return {
       navList,
@@ -149,7 +172,9 @@ export default defineComponent({
       subNavList,
       subNavActive,
       subNavChange,
-      login
+      dialogvisible,
+      login,
+      dialogCancel
     };
   }
 });
