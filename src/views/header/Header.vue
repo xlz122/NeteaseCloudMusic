@@ -133,7 +133,6 @@ export default defineComponent({
 
     // 子导航当前选中项
     const subNavActive = ref<number>(0);
-    
     // 导航更改
     function subNavChange(index: number): void {
       subNavActive.value = index;

@@ -4,65 +4,128 @@
       <div class="content-left">
         <ul class="left-nav">
           <li class="item">
-            <router-link class="link" to="">服务条款</router-link>
+            <a
+              class="link"
+              href="https://st.music.163.com/official-terms/service"
+              target="_blank"
+            >
+              服务条款
+            </a>
             <span class="line">|</span>
           </li>
           <li class="item">
-            <router-link class="link" to="">服务条款</router-link>
+            <a
+              class="link"
+              href="https://st.music.163.com/official-terms/privacy"
+              target="_blank"
+            >
+              隐私政策
+            </a>
             <span class="line">|</span>
           </li>
           <li class="item">
-            <router-link class="link" to="">服务条款</router-link>
+            <a
+              class="link"
+              href="https://st.music.163.com/official-terms/children"
+              target="_blank"
+            >
+              儿童隐私政策
+            </a>
             <span class="line">|</span>
           </li>
           <li class="item">
-            <router-link class="link" to="">服务条款</router-link>
+            <a
+              class="link"
+              href="https://music.163.com/st/staticdeal/complaints.html"
+              target="_blank"
+            >
+              版权投诉指引
+            </a>
             <span class="line">|</span>
           </li>
           <li class="item">
-            <router-link class="link" to="">服务条款</router-link>
+            <a class="link" href="#" target="_blank" @click="feedback">
+              意见反馈
+            </a>
+            <span class="line">|</span>
           </li>
         </ul>
         <div class="group">
           <span>网易公司版权所有©1997-2021</span>
           <span class="sep">杭州乐读科技有限公司运营：</span>
-          <router-link class="link" to="">浙网文[2018]3506-263号</router-link>
+          <a
+            class="link"
+            href="https://p1.music.126.net/Mos9LTpl6kYt6YTutA6gjg==/109951164248627501.png"
+            target="_blank"
+          >
+            浙网文[2018]3506-263号
+          </a>
         </div>
         <div class="group">
           <span class="sep">违法和不良信息举报电话：0571-89853516</span>
           <span>举报邮箱：</span>
-          <router-link class="link" to="">ncm5990@163.com</router-link>
+          <a class="link" href="mailto:ncm5990@163.com" target="_blank">
+            ncm5990@163.com
+          </a>
         </div>
         <div class="group">
-          <router-link class="link sep" to="">
+          <a
+            class="link"
+            href="https://beian.miit.gov.cn/#/Integrated/index"
+            target="_blank"
+          >
             粤B2-20090191-18 工业和信息化部备案管理系统网站
-          </router-link>
-          <router-link class="link" to="">
+          </a>
+          <a
+            class="link"
+            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=33010902002564"
+            target="_blank"
+          >
             <span class="logo"></span>
             浙公网安备 33010902002564号
-          </router-link>
+          </a>
         </div>
       </div>
       <div class="content-right">
         <ul class="right-nav">
           <li class="item">
-            <router-link class="link amped-icon" to=""></router-link>
+            <a
+              class="link amped-icon"
+              href="https://web-amped.music.163.com/"
+              target="_blank"
+            ></a>
             <span class="text amped-text"></span>
           </li>
           <li class="item">
-            <router-link class="link auth-icon" to=""></router-link>
+            <a
+              class="link auth-icon"
+              href="https://music.163.com/st/userbasic#/auth"
+              target="_blank"
+            ></a>
             <span class="text auth-text"></span>
           </li>
           <li class="item">
-            <router-link class="link musician-icon" to=""></router-link>
+            <a
+              class="link musician-icon"
+              href="https://music.163.com/st/musician"
+              target="_blank"
+            ></a>
             <span class="text musician-text"></span>
           </li>
           <li class="item">
-            <router-link class="link reward-icon" to=""></router-link>
+            <a
+              class="link reward-icon"
+              href="https://music.163.com/web/reward"
+              target="_blank"
+            ></a>
             <span class="text reward-text"></span>
           </li>
           <li class="item">
-            <router-link class="link cash-icon" to=""></router-link>
+            <a
+              class="link cash-icon"
+              href="https://music.163.com/uservideo#/plan"
+              target="_blank"
+            ></a>
             <span class="text cash-text"></span>
           </li>
         </ul>
@@ -70,6 +133,22 @@
     </div>
   </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  setup() {
+    // 意见反馈
+    function feedback(): void {
+      alert('意见反馈');
+    }
+    return {
+      feedback
+    };
+  }
+});
+</script>
 
 <style lang="less" scoped>
 .footer {
