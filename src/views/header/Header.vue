@@ -65,16 +65,18 @@
       :title="'登录'"
       @cancel="dialogCancel"
     >
-      这是个弹窗
+      <login @cancel="dialogCancel" />
     </my-dialog>
   </teleport>
 </template>
 
 <script lang="ts">
+// @ts-nocheck
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 // 使用setup语法糖，没有export default爆红，不是语法问题
 import MyDialog from '@/components/MyDialog.vue';
+import Login from '@views/login/Login.vue';
 
 interface NavList {
   title: string;
@@ -83,11 +85,11 @@ interface NavList {
 
 export default defineComponent({
   components: {
-    MyDialog
+    MyDialog,
+    Login
   },
   setup() {
     const $store = useStore();
-    console.log($store);
 
     const navList = ref<NavList[]>([
       {

@@ -3,7 +3,7 @@ export interface State {
 }
 
 const state: State = {
-  heaerActiveIndex: Number(localStorage.getItem('heaerActiveIndex')) || 0
+  heaerActiveIndex: Number(sessionStorage.getItem('heaerActiveIndex')) || 0
 };
 
 export default state;

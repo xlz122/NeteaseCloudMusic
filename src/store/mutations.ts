@@ -8,7 +8,7 @@ const mutations: Mutations<State, unknown> = {
   // 头部选中导航
   setHeaderActiveIndex(state, index) {
     state.heaerActiveIndex = index as number;
-    localStorage.setItem('heaerActiveIndex', (index as number).toString());
+    sessionStorage.setItem('heaerActiveIndex', (index as number).toString());
   }
 };
 
