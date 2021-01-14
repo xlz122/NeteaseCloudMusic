@@ -15,7 +15,7 @@ export default defineComponent({
   components: {
     Qrcode
   },
-  setup({}, ctx) {
+  setup(props, ctx) {
     // 扫码登录成功
     function qrcodeSuccess() {
       // 关闭弹框
@@ -25,7 +25,6 @@ export default defineComponent({
     function otherLogin() {
       console.log('切换其他方式登录');
     }
-
     return {
       qrcodeSuccess,
       otherLogin
@@ -49,7 +48,7 @@ export default defineComponent({
     border-radius: 15px;
     line-height: 28px;
     text-align: center;
-    color: rgba(0,0,0,0.80);
+    color: rgba(0, 0, 0, 0.8);
     background-color: #fff;
     outline: none;
     cursor: pointer;

@@ -29,21 +29,14 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  defineComponent,
-  ref,
-  onMounted,
-  onUnmounted,
-  defineEmit,
-  useContext
-} from 'vue';
+import { ref, onMounted, onUnmounted, defineEmit, useContext } from 'vue';
 import { qrcodeKey, qrcodeImg, qrcodeStatus } from '@api/login';
-import { responseDataType } from '@/types/types';
+import { ResponseDataType } from '@/types/types';
 
 // 获取二维码登录key
 const qrcodeImgKey = ref<string>('');
 function getQrcodeImgKey() {
-  qrcodeKey().then((res: responseDataType) => {
+  qrcodeKey().then((res: ResponseDataType) => {
     if (res.code === 200) {
       qrcodeImgKey.value = res.data.unikey;
       getQrcodeImg();
@@ -60,8 +53,8 @@ const qrcodeImgSrc = ref<string>('');
 function getQrcodeImg() {
   qrcodeImg({
     key: qrcodeImgKey.value,
-    qrimg: true,
-  }).then((res: responseDataType) => {
+    qrimg: true
+  }).then((res: ResponseDataType) => {
     if (res.code === 200) {
       qrcodeImgSrc.value = res.data.qrimg;
       getQrcodeStatus();
@@ -82,8 +75,8 @@ const timer = ref<number>(0);
 
 function getQrcodeStatus() {
   qrcodeStatus({
-    key: qrcodeImgKey.value,
-  }).then((res: responseDataType) => {
+    key: qrcodeImgKey.value
+  }).then((res: ResponseDataType) => {
     console.log(res);
     // 800失效，
     if (res.code === 800) {
@@ -117,6 +110,7 @@ function getQrcodeStatus() {
 }
 
 // 刷新
+// eslint-disable-next-line
 function refresh(): void {
   getQrcodeImgKey();
 }
