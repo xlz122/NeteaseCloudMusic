@@ -3,14 +3,16 @@
     <i class="icon-phone"></i>
     <div class="qrcode-right">
       <p class="title">扫码登录</p>
+      <!-- 二维码 -->
       <div class="qrcode-img">
-        <div class="tip" v-if="qrcodeInvalid">
-          <div class="text">二维码已失效</div>
-          <span class="refresh" @click="refresh">点击刷新</span>
-        </div>
         <div class="canvas">
           <img class="canvas-img" :src="qrcodeImgSrc" alt="Scan me!" />
         </div>
+      </div>
+      <!-- 二维码失效 -->
+      <div class="tip" v-if="qrcodeInvalid">
+        <div class="text">二维码已失效</div>
+        <span class="refresh" @click="refresh">点击刷新</span>
       </div>
       <div class="text">
         使用
@@ -21,106 +23,121 @@
       </div>
     </div>
   </div>
+  <!-- 扫码成功 - 待确认 -->
   <div class="qrcode-authorized" v-else>
     <i class="icon-phone"></i>
     <p class="title">扫描成功</p>
     <p class="text">请在手机上确认登录</p>
   </div>
+  <button class="other-btn" @click="otherLogin">
+    选择其他登录模式
+  </button>
 </template>
 
-<script lang="ts" setup>
-import { ref, onMounted, onUnmounted, defineEmit, useContext } from 'vue';
+<script lang="ts">
+import { defineComponent, ref, onMounted, onUnmounted } from 'vue';
 import { qrcodeKey, qrcodeImg, qrcodeStatus } from '@api/login';
 import { ResponseDataType } from '@/types/types';
 
-// 获取二维码登录key
-const qrcodeImgKey = ref<string>('');
-function getQrcodeImgKey() {
-  qrcodeKey().then((res: ResponseDataType) => {
-    if (res.code === 200) {
-      qrcodeImgKey.value = res.data.unikey;
-      getQrcodeImg();
+export default defineComponent({
+  emits: ['otherLogin'],
+  setup(props, ctx) {
+    // 获取二维码登录key
+    const qrcodeImgKey = ref<string>('');
+    function getQrcodeImgKey() {
+      qrcodeKey().then((res: ResponseDataType) => {
+        if (res.code === 200) {
+          qrcodeImgKey.value = res.data.unikey;
+          getQrcodeImg();
+        }
+      });
     }
-  });
-}
 
-onMounted(() => {
-  getQrcodeImgKey();
-});
+    onMounted(() => {
+      // getQrcodeImgKey();
+    });
 
-// 二维码图片路径
-const qrcodeImgSrc = ref<string>('');
-function getQrcodeImg() {
-  qrcodeImg({
-    key: qrcodeImgKey.value,
-    qrimg: true
-  }).then((res: ResponseDataType) => {
-    if (res.code === 200) {
-      qrcodeImgSrc.value = res.data.qrimg;
-      getQrcodeStatus();
+    // 二维码图片路径
+    const qrcodeImgSrc = ref<string>('');
+    function getQrcodeImg() {
+      qrcodeImg({
+        key: qrcodeImgKey.value,
+        qrimg: true
+      }).then((res: ResponseDataType) => {
+        if (res.code === 200) {
+          qrcodeImgSrc.value = res.data.qrimg;
+          getQrcodeStatus();
+        }
+      });
     }
-  });
-}
 
-defineEmit(['success']);
+    // 二维码失效
+    const qrcodeInvalid = ref<boolean>(false);
+    // 二维码待确认
+    const qrcodeAuthorized = ref<boolean>(false);
+    // 定时器
+    const timer = ref<number>(0);
 
-const { emit } = useContext();
-
-// 二维码失效
-const qrcodeInvalid = ref<boolean>(false);
-// 二维码待确认
-const qrcodeAuthorized = ref<boolean>(false);
-// 定时器
-const timer = ref<number>(0);
-
-function getQrcodeStatus() {
-  qrcodeStatus({
-    key: qrcodeImgKey.value
-  }).then((res: ResponseDataType) => {
-    console.log(res);
-    // 800失效，
-    if (res.code === 800) {
-      qrcodeInvalid.value = true;
+    function getQrcodeStatus() {
+      qrcodeStatus({
+        key: qrcodeImgKey.value
+      }).then((res: ResponseDataType) => {
+        console.log(res);
+        // 800失效，
+        if (res.code === 800) {
+          qrcodeInvalid.value = true;
+        }
+        // 801等待扫码，
+        if (res.code === 801) {
+          if (timer.value) {
+            clearTimeout(timer.value);
+          }
+          timer.value = setTimeout(() => {
+            getQrcodeStatus();
+          }, 1000);
+        }
+        // 802待确认
+        if (res.code === 802) {
+          if (timer.value) {
+            clearTimeout(timer.value);
+          }
+          timer.value = setTimeout(() => {
+            getQrcodeStatus();
+          }, 1000);
+          qrcodeAuthorized.value = true;
+        }
+        // 803授权成功
+        if (res.code === 803) {
+          document.cookie = `${res.cookie}`;
+        }
+      });
     }
-    // 801等待扫码，
-    if (res.code === 801) {
+
+    // 刷新
+    function refresh(): void {
+      getQrcodeImgKey();
+    }
+
+    // 其他登录
+    function otherLogin(): void {
+      ctx.emit('otherLogin');
+    }
+
+    onUnmounted(() => {
       if (timer.value) {
         clearTimeout(timer.value);
       }
-      timer.value = setTimeout(() => {
-        getQrcodeStatus();
-      }, 1000);
-    }
-    // 802待确认
-    if (res.code === 802) {
-      if (timer.value) {
-        clearTimeout(timer.value);
-      }
-      timer.value = setTimeout(() => {
-        getQrcodeStatus();
-      }, 1000);
-      qrcodeAuthorized.value = true;
-    }
-    // 803授权成功
-    if (res.code === 803) {
-      document.cookie = `${res.cookie}`;
-      emit('success');
-    }
-  });
-}
-
-// 刷新
-// eslint-disable-next-line
-function refresh(): void {
-  getQrcodeImgKey();
-}
-
-onUnmounted(() => {
-  if (timer.value) {
-    clearTimeout(timer.value);
+      qrcodeImgKey.value = '';
+      qrcodeImgSrc.value = '';
+    });
+    return {
+      qrcodeImgSrc,
+      qrcodeInvalid,
+      qrcodeAuthorized,
+      refresh,
+      otherLogin
+    };
   }
-  qrcodeImgKey.value = '';
-  qrcodeImgSrc.value = '';
 });
 </script>
 
@@ -232,5 +249,21 @@ onUnmounted(() => {
     color: #333;
     text-align: center;
   }
+}
+.other-btn {
+  display: block;
+  width: 118px;
+  height: 100%;
+  margin: 20px auto 25px;
+  padding-right: 0;
+  font-size: 12px;
+  border: 1px solid #979797;
+  border-radius: 15px;
+  line-height: 28px;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.8);
+  background-color: #fff;
+  outline: none;
+  cursor: pointer;
 }
 </style>

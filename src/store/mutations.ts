@@ -9,6 +9,10 @@ const mutations: Mutations<State, unknown> = {
   setHeaderActiveIndex(state, index) {
     state.heaerActiveIndex = index as number;
     sessionStorage.setItem('heaerActiveIndex', (index as number).toString());
+  },
+  // 登录对话框
+  setLoginDialog(state, bool) {
+    state.loginDialog = bool as boolean;
   }
 };
 
