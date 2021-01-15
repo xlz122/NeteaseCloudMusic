@@ -90,8 +90,6 @@ export default defineComponent({
 
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
-    console.log(userInfo);
-    console.log(userInfo.value.profile);
 
     const navList = ref<NavList[]>([
       {
