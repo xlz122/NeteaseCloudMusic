@@ -1,5 +1,6 @@
 <template>
   <div class="header">
+    <!-- 头部导航及其他 -->
     <div class="h-top">
       <div class="h-warp">
         <div class="logo"></div>
@@ -32,12 +33,16 @@
           <div class="create">
             <router-link class="link" to="">创作中心</router-link>
           </div>
-          <div class="login" @click="login">
+          <div class="login" v-if="isLogin">
+            <img class="user-img" :src="userInfo?.profile?.avatarUrl" />
+          </div>
+          <div v-else class="login" @click="openLogin">
             登录
           </div>
         </div>
       </div>
     </div>
+    <!-- 头部子导航 -->
     <div class="h-bottom">
       <div class="h-warp subnav" v-if="heaerActiveIndex === 0">
         <ul class="nav">
@@ -59,23 +64,13 @@
     </div>
   </div>
   <teleport to="#modal">
-    <my-dialog
-      class="dialog"
-      :visible="dialogvisible"
-      :title="'登录'"
-      @cancel="dialogCancel"
-    >
-      <login @cancel="dialogCancel" />
-    </my-dialog>
+    <login />
   </teleport>
 </template>
 
 <script lang="ts">
-// @ts-nocheck
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
-// 使用setup语法糖，没有export default爆红，不是语法问题
-import MyDialog from '@/components/MyDialog.vue';
 import Login from '@views/login/Login.vue';
 
 interface NavList {
@@ -85,11 +80,16 @@ interface NavList {
 
 export default defineComponent({
   components: {
-    MyDialog,
     Login
   },
   setup() {
     const $store = useStore();
+
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
+
+    // 用户信息
+    const userInfo = computed(() => $store.getters.userInfo);
 
     const navList = ref<NavList[]>([
       {
@@ -164,16 +164,13 @@ export default defineComponent({
     // 登录弹框显隐
     const dialogvisible = ref<boolean>(false);
 
-    // 登录
-    function login(): void {
-      dialogvisible.value = true;
-    }
-
-    // 登录 - 弹框关闭
-    function dialogCancel(): void {
-      dialogvisible.value = false;
+    // 打开登录对话框
+    function openLogin(): void {
+      $store.commit('setLoginDialog', true);
     }
     return {
+      isLogin,
+      userInfo,
       navList,
       heaerActiveIndex,
       navChange,
@@ -181,8 +178,7 @@ export default defineComponent({
       subNavActive,
       subNavChange,
       dialogvisible,
-      login,
-      dialogCancel
+      openLogin
     };
   }
 });

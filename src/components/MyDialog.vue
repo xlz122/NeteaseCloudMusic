@@ -154,7 +154,6 @@ function confirm(): void {
 }
 .my_dialog_bottom {
   margin: 0;
-  padding: 16px 0;
   text-align: center;
   border-top: 1px solid transparent;
 }

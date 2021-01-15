@@ -1,57 +1,62 @@
 <template>
-  <div class="login">
-    <!-- 扫码登录 -->
-    <qrcode @success="qrcodeSuccess" />
-    <button class="other-btn" @click="otherLogin">选择其他登录模式</button>
-    <div class="other"></div>
-  </div>
+  <my-dialog
+    class="my-dialog"
+    :visible="loginDialog"
+    :title="'登录'"
+    @cancel="dialogCancel"
+  >
+    <div class="login">
+      <!-- 扫码登录 -->
+      <qrcode v-if="qrcodeLoginShow" @otherLogin="otherLogin" />
+      <!-- 其他登录方式 -->
+      <other v-else @qrcodeLogin="qrcodeLogin" />
+    </div>
+  </my-dialog>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
+import { useStore } from 'vuex';
+// 使用setup语法糖，没有export default爆红，不是语法问题
+import MyDialog from '@/components/MyDialog.vue';
 import Qrcode from '@views/login/Qrcode.vue';
+import Other from '@views/login/Other.vue';
 
 export default defineComponent({
   components: {
-    Qrcode
+    MyDialog,
+    Qrcode,
+    Other
   },
-  setup(props, ctx) {
-    // 扫码登录成功
-    function qrcodeSuccess() {
-      // 关闭弹框
-      ctx.emit('cancel');
+  setup() {
+    const $store = useStore();
+    const loginDialog = computed(() => $store.getters.loginDialog);
+
+    // 扫码/其他登录方式切换
+    const qrcodeLoginShow = ref<boolean>(true);
+
+    // 切换扫码登录
+    function qrcodeLogin(): void {
+      qrcodeLoginShow.value = true;
     }
+
     // 切换其他方式登录
-    function otherLogin() {
-      console.log('切换其他方式登录');
+    function otherLogin(): void {
+      qrcodeLoginShow.value = false;
+    }
+
+    // 关闭登录对话框
+    function dialogCancel(): void {
+      qrcodeLoginShow.value = true;
+      $store.commit('setLoginDialog', false);
     }
     return {
-      qrcodeSuccess,
-      otherLogin
+      loginDialog,
+      qrcodeLoginShow,
+      qrcodeLogin,
+      otherLogin,
+      dialogCancel
     };
   }
 });
 </script>
-
-<style lang="less" scoped>
-.login {
-  position: relative;
-  margin: 0 auto;
-  .other-btn {
-    display: block;
-    width: 118px;
-    height: 100%;
-    margin: 20px auto 0;
-    padding-right: 0;
-    font-size: 12px;
-    border: 1px solid #979797;
-    border-radius: 15px;
-    line-height: 28px;
-    text-align: center;
-    color: rgba(0, 0, 0, 0.8);
-    background-color: #fff;
-    outline: none;
-    cursor: pointer;
-  }
-}
-</style>
