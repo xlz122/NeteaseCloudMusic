@@ -1,0 +1,287 @@
+.other {
+  overflow: hidden;
+
+  .phone-login {
+    display: inline-block;
+    width: 224px;
+    padding: 0 35px 3px 40px;
+    border-right: 1px dotted #ccc;
+    vertical-align: top;
+
+    .icon-phone {
+      display: inline-block;
+      width: 100%;
+      height: 120px;
+      background: url(../../assets/image/login/other-phone.png) no-repeat;
+      background-size: contain;
+    }
+
+    .phone-login-btn,
+    .phone-register-btn {
+      display: block;
+      width: 233px;
+      margin-top: 10px;
+      margin-left: -6px;
+      background: url(../../assets/image/icon-button.png) no-repeat 0 9999px;
+      background-position: right -428px;
+      color: #fff;
+      border: none;
+      outline: none;
+      height: 32px;
+      line-height: 31px;
+      text-align: center;
+      cursor: pointer;
+
+      .icon-phone-login,
+      .icon-register-login {
+        display: inline-block;
+        width: 229px;
+        height: 100%;
+        color: #fff;
+        background: url(../../assets/image/icon-button.png) no-repeat 0 9999px;
+        background-position: 0 -387px;
+        font-style: normal;
+      }
+    }
+
+    .phone-register-btn {
+      background-position: right -100px;
+
+      .icon-register-login {
+        background-position: 0 -59px;
+        color: #333;
+      }
+    }
+  }
+
+  .other-login {
+    display: inline-block;
+    vertical-align: top;
+    padding: 3px 0 3px 39px;
+
+    .item {
+      margin-top: 15px;
+      cursor: pointer;
+
+      .icon {
+        display: inline-block;
+        width: 38px;
+        height: 38px;
+        margin-right: 14px;
+        background: url(../../assets/image/icon-logo.png) no-repeat 0 9999px;
+        vertical-align: middle;
+      }
+
+      .wechat {
+        background-position: -150px -670px;
+      }
+
+      .qq {
+        background-position: -190px -670px;
+      }
+
+      .micro-blog {
+        background-position: -231px -670px;
+      }
+
+      .mailbox {
+        background-position: -271px -670px;
+      }
+
+      .text {
+        display: inline-block;
+        vertical-align: middle;
+        font-style: normal;
+      }
+
+      .text:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .first-item {
+      margin-top: 2px;
+    }
+  }
+}
+
+.icon-qrcode-login {
+  position: relative;
+}
+
+.icon-qrcode-login::before {
+  content: '';
+  position: absolute;
+  left: 478px;
+  bottom: 0;
+  z-index: 100000;
+  width: 52px;
+  height: 52px;
+  background: url(../../assets/image/login/icon-qrcode-login.png) no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.official {
+  margin: 30px 0 0 40px;
+  padding-bottom: 32px;
+
+  .official-checkbox {
+    display: inline-block;
+    vertical-align: middle;
+
+    .checkbox {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .text {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 2px;
+      color: rgba(0, 0, 0, 0.4);
+      line-height: 15px;
+      font-family: NotoSansHans-Regular;
+      font-size: 10px;
+      white-space: nowrap;
+    }
+  }
+
+  .left-nav {
+    display: inline-block;
+    vertical-align: middle;
+
+    .item {
+      display: inline-block;
+
+      .link {
+        color: #507DAF;
+      }
+    }
+  }
+}
+
+.mailbox-form {
+  width: 220px;
+  padding: 30px 0 43px;
+  margin: 0 auto;
+
+  .form-content {
+    .input {
+      width: 200px;
+      height: 19px;
+      margin: 0;
+      padding: 5px 6px 6px;
+      border: 1px solid #cdcdcd;
+      border-radius: 2px;
+      line-height: 19px;
+      box-sizing: content-box;
+      font-size: 12px;
+      color: #333;
+      outline: none;
+    }
+
+    .input-password {
+      margin-top: 10px;
+    }
+  }
+
+  .mailbox-checkbox {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+    margin-top: 10px;
+
+    .checkbox {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .text {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 12px;
+      color: rgba(0, 0, 0, 0.4);
+      line-height: 15px;
+      font-family: NotoSansHans-Regular;
+      font-size: 12px;
+      color: #333;
+      white-space: nowrap;
+    }
+
+    .forget-password {
+      position: absolute;
+      right: 0;
+      display: inline-block;
+      vertical-align: middle;
+      color: #666;
+    }
+
+    .forget-password:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .verification {
+    margin-top: 15px;
+
+    .icon-verification {
+      display: inline-block;
+      vertical-align: middle;
+      width: 14px;
+      height: 14px;
+      margin-right: 8px;
+      background: url(../../assets/image/icon.png) no-repeat;
+      background-position: -50px -270px;
+    }
+
+    .text {
+      display: inline-block;
+      vertical-align: middle;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      color: #e33232;
+    }
+  }
+
+  .mailbox-submit {
+    display: block;
+    width: 233px;
+    margin-top: 20px;
+    margin-left: -6px;
+    background: url(../../assets/image/icon-button.png) no-repeat 0 9999px;
+    background-position: right -428px;
+    color: #fff;
+    border: none;
+    outline: none;
+    height: 32px;
+    line-height: 31px;
+    text-align: center;
+    cursor: pointer;
+
+    .icon-mailbox-submit {
+      display: inline-block;
+      width: 229px;
+      height: 100%;
+      color: #fff;
+      background: url(../../assets/image/icon-button.png) no-repeat 0 9999px;
+      background-position: 0 -387px;
+      font-style: normal;
+    }
+  }
+}
+
+.return-other-login {
+  padding: 0 19px;
+  height: 48px;
+  border-top: 1px solid #c6c6c6;
+  border-radius: 0 0 4px 4px;
+  line-height: 48px;
+  background-color: #f7f7f7;
+
+  .text {
+    color: #0c72c3;
+    cursor: pointer;
+  }
+}
