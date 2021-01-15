@@ -33,7 +33,10 @@
           <div class="create">
             <router-link class="link" to="">创作中心</router-link>
           </div>
-          <div class="login" @click="openLogin">
+          <div class="login" v-if="isLogin">
+            <img class="user-img" :src="userInfo?.profile?.avatarUrl" />
+          </div>
+          <div v-else class="login" @click="openLogin">
             登录
           </div>
         </div>
@@ -81,6 +84,14 @@ export default defineComponent({
   },
   setup() {
     const $store = useStore();
+
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
+
+    // 用户信息
+    const userInfo = computed(() => $store.getters.userInfo);
+    console.log(userInfo);
+    console.log(userInfo.value.profile);
 
     const navList = ref<NavList[]>([
       {
@@ -160,6 +171,8 @@ export default defineComponent({
       $store.commit('setLoginDialog', true);
     }
     return {
+      isLogin,
+      userInfo,
       navList,
       heaerActiveIndex,
       navChange,

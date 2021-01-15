@@ -72,7 +72,7 @@
   <!-- 右下角二维码  -->
   <i class="icon-qrcode-login" v-if="allOtherLogin" @click="qrcodeLogin"></i>
   <!-- 邮箱表单 -->
-  <div class="mailbox-form" v-if="mailboxLogin">
+  <div class="mailbox-form" v-if="mailboxLoginShow">
     <div class="form-content">
       <input
         class="input"
@@ -119,6 +119,9 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
+import { useStore } from 'vuex';
+import { mailboxLogin, userInfo } from '@api/login';
+import { ResponseDataType } from '@/types/types';
 
 interface MailboxFormData {
   mailbox: string;
@@ -128,6 +131,8 @@ interface MailboxFormData {
 export default defineComponent({
   emits: ['qrcodeLogin'],
   setup(props, ctx) {
+    const $store = useStore();
+
     // 扫码登录
     function qrcodeLogin() {
       ctx.emit('qrcodeLogin');
@@ -155,14 +160,14 @@ export default defineComponent({
     }
 
     // 邮箱登录部分
-    const mailboxLogin = ref<boolean>(false);
+    const mailboxLoginShow = ref<boolean>(false);
     function mailbox(): boolean | undefined {
       if (!officialCheckbox.value) {
         alert('请先勾选同意《服务条款》、《隐私政策》、《儿童隐私政策》');
         return false;
       }
       allOtherLogin.value = false;
-      mailboxLogin.value = true;
+      mailboxLoginShow.value = true;
     }
     // 邮箱表单数据
     const mailboxFormData = reactive<MailboxFormData>({
@@ -180,12 +185,47 @@ export default defineComponent({
         mailboxVerify.value = '请输入登录密码';
         return false;
       }
+      mailboxLogin({
+        email: mailboxFormData.mailbox,
+        password: mailboxFormData.password
+      }).then((res: ResponseDataType) => {
+        console.log(res);
+        if (res.code === 200) {
+          document.cookie = `${res.cookie}`;
+          // 存储账户信息
+          localStorage.setItem('token', res?.token || '');
+          localStorage.setItem('accountInfo', JSON.stringify(res?.account));
+          $store.commit('setAccountInfo', res?.account);
+          // 获取用户详情
+          getUserInfo(res?.account?.id);
+        } else {
+          alert(res?.msg);
+        }
+      });
+    }
+
+    // 获取用户详情
+    // 未完成，用户邮箱未绑定手机号，需先绑定手机号
+    function getUserInfo(uid: string): void {
+      // 使用测试uid
+      uid = '32953014';
+      userInfo({ uid }).then((res: ResponseDataType) => {
+        if (res.code === 200) {
+          // 存储用户信息
+          localStorage.setItem('userInfo', JSON.stringify(res));
+          $store.commit('setUserInfo', res);
+          // 关闭登录对话框
+          $store.commit('setLoginDialog', false);
+        } else {
+          alert(res?.msg);
+        }
+      });
     }
 
     // 返回其他登录
     function returnOtherLogin(): void {
       allOtherLogin.value = true;
-      mailboxLogin.value = false;
+      mailboxLoginShow.value = false;
       // 清空邮箱登录数据
       mailboxFormData.mailbox = '';
       mailboxFormData.password = '';
@@ -198,7 +238,7 @@ export default defineComponent({
       phoneLogin,
       register,
       mailbox,
-      mailboxLogin,
+      mailboxLoginShow,
       mailboxFormData,
       mailboxVerify,
       mailboxSubmit,

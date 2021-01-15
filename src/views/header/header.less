@@ -127,11 +127,23 @@
         }
       }
       .login {
+        position: relative;
         display: inline-block;
         width: 28px;
         margin-left: 20px;
         color: #787878;
+        vertical-align: middle;
         cursor: pointer;
+        .user-img {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+          border-radius: 30px;
+          cursor: default;
+        }
       }
     }
   }

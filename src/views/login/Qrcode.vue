@@ -36,12 +36,21 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, onUnmounted } from 'vue';
-import { qrcodeKey, qrcodeImg, qrcodeStatus } from '@api/login';
+import { useStore } from 'vuex';
+import {
+  qrcodeKey,
+  qrcodeImg,
+  qrcodeStatus,
+  accountInfo,
+  userInfo
+} from '@api/login';
 import { ResponseDataType } from '@/types/types';
 
 export default defineComponent({
   emits: ['otherLogin'],
   setup(props, ctx) {
+    const $store = useStore();
+
     // 获取二维码登录key
     const qrcodeImgKey = ref<string>('');
     function getQrcodeImgKey() {
@@ -54,7 +63,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      // getQrcodeImgKey();
+      getQrcodeImgKey();
     });
 
     // 二维码图片路径
@@ -109,6 +118,36 @@ export default defineComponent({
         // 803授权成功
         if (res.code === 803) {
           document.cookie = `${res.cookie}`;
+          getAccount();
+        }
+      });
+    }
+
+    // 获取账号信息
+    function getAccount(): void {
+      accountInfo().then((res: ResponseDataType) => {
+        if (res.code === 200) {
+          // 存储账户信息
+          localStorage.setItem('token', res?.token || '');
+          localStorage.setItem('accountInfo', JSON.stringify(res?.account));
+          $store.commit('setAccountInfo', res?.account);
+          // 获取用户详情
+          getUserInfo(res?.account?.id);
+        }
+      });
+    }
+
+    // 获取用户详情
+    function getUserInfo(uid: string): void {
+      userInfo({ uid }).then((res: ResponseDataType) => {
+        if (res.code === 200) {
+          // 存储用户信息
+          localStorage.setItem('userInfo', JSON.stringify(res));
+          $store.commit('setUserInfo', res);
+          // 关闭登录对话框
+          $store.commit('setLoginDialog', false);
+        } else {
+          alert(res?.msg);
         }
       });
     }

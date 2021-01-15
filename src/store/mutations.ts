@@ -13,6 +13,14 @@ const mutations: Mutations<State, unknown> = {
   // 登录对话框
   setLoginDialog(state, bool) {
     state.loginDialog = bool as boolean;
+  },
+  // 账户信息
+  setAccountInfo(state, accountInfo) {
+    state.accountInfo = accountInfo as unknown;
+  },
+  // 用户信息
+  setUserInfo(state, userInfo) {
+    state.userInfo = userInfo as unknown;
   }
 };
 
