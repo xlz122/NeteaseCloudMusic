@@ -11,6 +11,21 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../views/my-music/MyMusic.vue')
       },
       {
+        path: '/friend',
+        name: 'friend',
+        component: () => import('../views/friend/Friend.vue')
+      },
+      {
+        path: '/shopping-mall',
+        name: 'shopping-mall',
+        component: () => import('../views/shopping-mall/ShoppingMall.vue')
+      },
+      {
+        path: '/musician',
+        name: 'musician',
+        component: () => import('../views/musician/Musician.vue')
+      },
+      {
         path: '/download',
         name: 'download',
         component: () => import('../views/download/Download.vue')
