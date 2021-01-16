@@ -4,11 +4,17 @@
  * @param { String } value - value
  * @param { String | Number } [expires] - 过期时间，可选
  */
-export function setCookie(key: string, value: string, expires?: string | number): void {
+export function setCookie(
+  key: string,
+  value: string,
+  expires?: string | number
+): void {
   // 过期时间不存在，设置一天过期
   // 转回中国时间 new Date(new Date('expires').getTime())
   if (!expires) {
-    expires = new Date(new Date().getTime() + 1 * 24 * 60 * 60 * 1000).toUTCString();
+    expires = new Date(
+      new Date().getTime() + 1 * 24 * 60 * 60 * 1000
+    ).toUTCString();
   }
   document.cookie = `${key}=${value};expires=${expires}`;
 }
