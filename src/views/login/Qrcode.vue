@@ -3,16 +3,16 @@
     <i class="icon-phone"></i>
     <div class="qrcode-right">
       <p class="title">扫码登录</p>
-      <!-- 二维码 -->
       <div class="qrcode-img">
-        <div class="canvas">
-          <img class="canvas-img" :src="qrcodeImgSrc" alt="Scan me!" />
+        <!-- 二维码 -->
+        <div class="img">
+          <img :src="qrcodeImgSrc" alt="Scan me!" />
         </div>
-      </div>
-      <!-- 二维码失效 -->
-      <div class="tip" v-if="qrcodeInvalid">
-        <div class="text">二维码已失效</div>
-        <span class="refresh" @click="refresh">点击刷新</span>
+        <!-- 二维码失效 -->
+        <div class="tip" v-if="qrcodeInvalid">
+          <div class="text">二维码已失效</div>
+          <span class="refresh" @click="refresh">点击刷新</span>
+        </div>
       </div>
       <div class="text">
         使用
@@ -29,13 +29,11 @@
     <p class="title">扫描成功</p>
     <p class="text">请在手机上确认登录</p>
   </div>
-  <button class="other-btn" @click="otherLogin">
-    选择其他登录模式
-  </button>
+  <button class="other-btn" @click="otherLogin">选择其他登录模式</button>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted } from 'vue';
+import { defineComponent, ref, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import {
   qrcodeKey,
@@ -61,10 +59,7 @@ export default defineComponent({
         }
       });
     }
-
-    onMounted(() => {
-      getQrcodeImgKey();
-    });
+    getQrcodeImgKey();
 
     // 二维码图片路径
     const qrcodeImgSrc = ref<string>('');
@@ -206,6 +201,14 @@ export default defineComponent({
       height: 130px;
       padding: 4px;
       margin: 13px auto;
+      .img {
+        width: 100%;
+        height: 100%;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
       .tip {
         position: absolute;
         top: 0;
@@ -238,14 +241,6 @@ export default defineComponent({
           color: #fff;
           font-size: 12px;
           cursor: pointer;
-        }
-      }
-      .canvas {
-        width: 100%;
-        height: 100%;
-        .canvas-img {
-          width: 100%;
-          height: 100%;
         }
       }
     }

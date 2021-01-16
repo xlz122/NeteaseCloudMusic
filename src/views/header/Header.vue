@@ -98,7 +98,7 @@ export default defineComponent({
       },
       {
         title: '我的音乐',
-        link: '/'
+        link: '/my-music'
       },
       {
         title: '朋友',
