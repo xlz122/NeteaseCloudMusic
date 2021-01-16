@@ -29,11 +29,10 @@ function resolve(dir) {
 // gzip压缩
 // 需要安装插件：npm install --save-dev compression-webpack-plugin
 // yarn add compression-webpack-plugin -D--S
-const CompressionWebpackPlugin = require("compression-webpack-plugin");
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
 // 可加入需要的其他文件类型，比如json
 // 图片不要压缩，体积会比原来还大
-const productionGzipExtensions = ["js", "css", "json"];
-
+const productionGzipExtensions = ['js', 'css', 'json'];
 
 module.exports = {
   //如果使用了history.pushState pages的路由时； 选项构建多页面应用时；
@@ -50,10 +49,10 @@ module.exports = {
     loaderOptions: {
       less: {
         lessOptions: {
-          javascriptEnabled: true,
-        },
-      },
-    },
+          javascriptEnabled: true
+        }
+      }
+    }
   },
   devServer: {
     open: false, // 启动后是否自动打开浏览器
@@ -78,7 +77,7 @@ module.exports = {
       // 为生产环境修改配置...
       // 去掉所有console.log()
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
-      
+
       return {
         // 配置不进行webpack打包的文件
         // externals: externals,
@@ -86,12 +85,14 @@ module.exports = {
         plugins: [
           new CompressionWebpackPlugin({
             // filename: '[path].gz[query]',
-            algorithm: "gzip",
-            test: new RegExp("\\.(" + productionGzipExtensions.join("|") + ")$"),
+            algorithm: 'gzip',
+            test: new RegExp(
+              '\\.(' + productionGzipExtensions.join('|') + ')$'
+            ),
             threshold: 10240, //对超过10k的数据进行压缩
             minRatio: 0.6 // 压缩比例，值为0 ~ 1
           })
-        ],
+        ]
       };
     } else {
       // 为开发环境修改配置...
@@ -108,7 +109,7 @@ module.exports = {
       .set('@store', resolve('src/store'))
       .set('@types', resolve('src/types'))
       .set('@utils', resolve('src/utils'))
-      .set('@views', resolve('src/views'))
+      .set('@views', resolve('src/views'));
     // 配置cdn引入
     config.plugin('html').tap(args => {
       // 配置index.html title
@@ -117,8 +118,8 @@ module.exports = {
       // if (process.env.NODE_ENV === 'production') {
       //   args[0].cdn = cdn
       // }
-      return args
-    })
+      return args;
+    });
     // 移除 prefetch 插件
     config.plugins.delete('prefetch');
     // 移除 preload 插件
