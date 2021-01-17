@@ -3,6 +3,7 @@ export interface ResponseDataType<T = any> {
   msg?: string;
   message?: string;
   code?: number;
+  count?: number;
   data: T;
   cookie?: string;
   token?: string;
