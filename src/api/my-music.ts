@@ -29,3 +29,19 @@ export const myMvSbulist = () => {
     params
   });
 };
+
+/**
+ * @desc 获取用户歌单列表
+ * @param { Number } timestamp - 防止接口缓存
+ */
+export const userPlayList = ({ uid }: { uid: string }) => {
+  const params = {
+    timestamp: new Date().getTime(),
+    uid
+  };
+  return axios.request({
+    url: '/user/playlist',
+    method: 'get',
+    params
+  });
+};
