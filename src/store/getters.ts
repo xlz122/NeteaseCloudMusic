@@ -16,7 +16,7 @@ const getters: Getters<State> = {
         {}
     ).length > 0
       ? true
-      : false
+      : false // 是否登录
 };
 
 export default getters;
