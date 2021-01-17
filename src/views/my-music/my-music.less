@@ -1,11 +1,47 @@
 .my-music {
   background: #f5f5f5;
+  .my-music-container {
+    width: 980px;
+    min-height: 653px;
+    margin: 0 auto;
+    background-color: #fff;
+    background: url(../../assets/image/my-music/my-music-scroll.png) repeat-y center 0;
+    background-size: contain;
+    border: 1px solid #d3d3d3;
+    border-width: 0 1px;
+    .my-music-scroll {
+      display: inline-block;
+      vertical-align: top;
+      width: 240px;
+      height: 653px;
+      padding-top: 40px;
+      padding-bottom: 50px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      .music-my-mv {
+        height: 36px;
+        line-height: 36px;
+        padding-left: 35px;
+        background: #eee;
+        text-align: left;
+        font-size: 14px;
+        color: #000;
+        font-family: simsun,\5b8b\4f53;
+        cursor: pointer;
+      }
+    }
+    .my-music-main {
+      display: inline-block;
+      vertical-align: top;
+      width: 740px;
+      height: 100%;
+    }
+  }
   .my-music-login {
     width: 980px;
     min-height: 700px;
     margin: 0 auto;
     background-color: #fff;
-    border: 1px solid #d3d3d3;
     border-width: 0 1px;
     .login-content {
       position: relative;
