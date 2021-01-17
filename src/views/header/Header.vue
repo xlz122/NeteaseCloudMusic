@@ -98,19 +98,19 @@ export default defineComponent({
       },
       {
         title: '我的音乐',
-        link: '/'
+        link: '/my-music'
       },
       {
         title: '朋友',
-        link: '/'
+        link: '/friend'
       },
       {
         title: '商城',
-        link: '/'
+        link: '/shopping-mall'
       },
       {
         title: '音乐人',
-        link: '/'
+        link: '/musician'
       },
       {
         title: '下载客户端',
