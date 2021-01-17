@@ -29,6 +29,10 @@ const routes: Array<RouteRecordRaw> = [
         path: '/download',
         name: 'download',
         component: () => import('../views/download/Download.vue')
+      },
+      {
+        path: '/my-home-page',
+        component: () => import('../views/my-home-page/MyHomePage.vue')
       }
     ]
   }
