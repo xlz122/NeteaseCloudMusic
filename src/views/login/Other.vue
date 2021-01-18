@@ -84,7 +84,7 @@
         class="input input-password"
         v-model="mailboxFormData.password"
         type="password"
-        placeholder="请输入账号"
+        placeholder="请输入密码"
       />
     </div>
     <div class="verification" v-if="mailboxVerify">

@@ -14,15 +14,15 @@
       </div>
       <!-- 底部按钮 -->
       <div class="my_dialog_bottom">
-        <button class="btn cancelBtn" v-if="showCancelButton" @click="cancel">
-          {{ canceltext }}
-        </button>
         <button
           class="btn confirmBtn"
           v-if="showConfirmButton"
           @click="confirm"
         >
-          {{ confirmtext }}
+          <span class="icon">{{ confirmtext }}</span>
+        </button>
+        <button class="btn cancelBtn" v-if="showCancelButton" @click="cancel">
+          <span class="icon">{{ canceltext }}</span>
         </button>
       </div>
     </div>
@@ -51,14 +51,14 @@ defineProps({
     type: String,
     default: '取消'
   },
-  showCancelButton: {
-    type: Boolean,
-    default: false
-  },
   showConfirmButton: {
     type: Boolean,
     default: false
-  }
+  },
+  showCancelButton: {
+    type: Boolean,
+    default: false
+  } 
 });
 
 defineEmit(['cancel', 'confirm']);
@@ -159,39 +159,57 @@ function confirm(): void {
 }
 .btn {
   min-width: 60px;
+  height: 31px;
+  line-height: 31px;
   text-align: center;
   vertical-align: middle;
   font-size: 14px;
-  padding: 5px 15px;
+  margin-bottom: 35px;
   border-radius: 3px;
   text-decoration: none;
   border-radius: 3px;
+  border: none;
+  outline: none;
   cursor: pointer;
-}
-.my_dialog_bottom .cancelBtn:focus,
-.my_dialog_bottom .cancelBtn:hover {
-  color: #409eff;
-  background: #ecf5ff;
-  border: 1px solid #b3d8ff;
-}
-.my_dialog_bottom .confirmBtn:focus,
-.my_dialog_bottom .confirmBtn:hover {
-  background: #66b1ff;
-  border: 1px solid #66b1ff;
-  color: #fff;
 }
 .my_dialog_bottom .confirm_btn .marginLeft {
   margin-left: 10px;
 }
-.cancelBtn {
-  border: 1px solid #dcdfe6;
-  background-color: #fff;
-  color: #606266;
-}
 .confirmBtn {
-  border: 1px solid #409eff;
-  background-color: #409eff;
+  padding: 0 5px 0 0;
   color: #fff;
+  background: url(../assets/image/icon-button.png) no-repeat;
+  background-position: right -428px;
+  .icon {
+    display: inline-block;
+    padding: 0 23px 0 28px;
+    background: url(../assets/image/icon-button.png) no-repeat;
+    background-position: 0 -387px;
+  }
+}
+.confirmBtn:hover {
+  background-position: right -510px;
+  .icon {
+    background-position: 0 -469px;
+  }
+}
+.cancelBtn {
+  padding: 0 5px 0 0;
+  color: #333;
+  background: url(../assets/image/icon-button.png) no-repeat;
+  background-position: right -100px;
+  .icon {
+    display: inline-block;
+    padding: 0 23px 0 28px;
+    background: url(../assets/image/icon-button.png) no-repeat;
+    background-position: 0 -59px;
+  }
+}
+.cancelBtn:hover {
+  background-position: right -182px;
+  .icon {
+    background-position: 0 -141px;
+  }
 }
 button + button {
   margin-left: 15px;

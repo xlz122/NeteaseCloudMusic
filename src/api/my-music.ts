@@ -45,3 +45,53 @@ export const userPlayList = ({ uid }: { uid: string }) => {
     params
   });
 };
+
+/**
+ * @desc 新增用户歌单
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { String } name - 歌单名称
+ */
+export const addPlayList = ({ name }: { name: string }) => {
+  const data = {
+    timestamp: new Date().getTime(),
+    name
+  };
+  return axios.request({
+    url: '/playlist/create',
+    method: 'post',
+    data
+  });
+};
+
+/**
+ * @desc 删除用户歌单
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } id - 歌单id
+ */
+export const deletePlayList = ({ id }: { id: number }) => {
+  const data = {
+    timestamp: new Date().getTime(),
+    id
+  };
+  return axios.request({
+    url: '/playlist/delete',
+    method: 'post',
+    data
+  });
+};
+
+/* @desc 获取用户歌单详情
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } id - 歌单id
+ */
+export const playListDetail = ({ id }: { id: number }) => {
+  const params = {
+    timestamp: new Date().getTime(),
+    id
+  };
+  return axios.request({
+    url: '/playlist/detail',
+    method: 'get',
+    params
+  });
+};

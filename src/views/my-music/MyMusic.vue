@@ -9,38 +9,14 @@
         >
           我的视频({{ myMvCount }})
         </h2>
-        <div class="music-play-list">
-          <div class="title">
-            <div class="title-left" @click="playList">
-              <i
-                class="icon-arrow"
-                :class="{ 'icon-arrow-down': playListShow }"
-              ></i>
-              <h2 class="text">创建的歌单</h2>
-              <h2 class="text-num">({{ createdPlayCount }})</h2>
-            </div>
-            <div class="title-right">新建</div>
-          </div>
-          <ul class="list" v-if="playListShow">
-            <li
-              class="item"
-              v-for="(item, index) in playListData"
-              :key="index"
-              @click="playListOption(item)"
-            >
-              <div class="item-left">
-                <img class="img" :src="item.coverImgUrl" alt="" />
-              </div>
-              <div class="item-right">
-                <span class="name">{{ item.name }}</span>
-                <span class="num">{{ item.trackCount }}首</span>
-              </div>
-            </li>
-          </ul>
-        </div>
+        <play-list
+          :createdPlayCount="createdPlayCount"
+          @playListOption="playListOption"
+        />
       </div>
       <div class="my-music-main">
-        <my-mv :myMvList="myMvList" :myMvCount="myMvCount" />
+        <my-mv v-if="false" :myMvList="myMvList" :myMvCount="myMvCount" />
+        <play-list-main :playDetailData="playDetailData" />
       </div>
     </div>
   </div>
@@ -57,16 +33,19 @@
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import MyMv from '@views/my-music/MyMv.vue';
-import { userSubcount, myMvSbulist, userPlayList } from '@api/my-music';
-import { ResponseDataType } from '@/types/types';
+import PlayList from '@views/my-music/PlayList.vue';
+import PlayListMain from '@views/my-music/PlayListMain.vue';
+import { userSubcount, myMvSbulist } from '@api/my-music';
 
-interface ClassifyCount {
+interface ResponseType {
   [key: string]: any;
 }
 
 export default defineComponent({
   components: {
-    MyMv
+    MyMv,
+    PlayList,
+    PlayListMain
   },
   setup() {
     const $store = useStore();
@@ -84,7 +63,7 @@ export default defineComponent({
       if (!isLogin.value) {
         return false;
       }
-      userSubcount().then((res: ClassifyCount) => {
+      userSubcount().then((res: ResponseType) => {
         myMvCount.value = res.mvCount || 0;
         createdPlayCount.value = res.createdPlaylistCount || 0;
       });
@@ -96,7 +75,7 @@ export default defineComponent({
     const myMvActive = ref<boolean>(false);
     function getMyMvSbulist(): void {
       myMvActive.value = true;
-      myMvSbulist().then((res: ResponseDataType) => {
+      myMvSbulist().then((res: ResponseType) => {
         if (res.code == 200) {
           myMvCount.value = res.count || 0;
           myMvList.value = res.data;
@@ -104,39 +83,12 @@ export default defineComponent({
       });
     }
 
-    // 创建的歌单显隐
-    const playListShow = ref<boolean>(true);
-    function playList(): void {
-      playListShow.value = !playListShow.value;
+    // 创建歌单项点击
+    const playDetailData = ref<unknown>({});
+    function playListOption(detailData: unknown): void {
+      playDetailData.value = detailData;
       // 我的视频取消选中
       myMvActive.value = false;
-      if (playListShow.value) {
-        getUserPlayList();
-      }
-    }
-
-    // 获取创建的歌单列表
-    const playListData = ref<unknown[]>([]);
-    function getUserPlayList(): boolean | undefined {
-      // 重复请求
-      if (playListData.value.length > 0) {
-        return false;
-      }
-      // 账户数据
-      const accountInfo = computed(() => $store.getters.accountInfo);
-      userPlayList({
-        uid: accountInfo.value.id
-      }).then((res: ClassifyCount) => {
-        if (res.code == 200) {
-          playListData.value = res.playlist;
-        }
-      });
-    }
-    getUserPlayList();
-
-    // 创建的歌单项点击
-    function playListOption(item: unknown): void {
-      console.log(item);
     }
 
     // 打开登录对话框
@@ -150,9 +102,7 @@ export default defineComponent({
       myMvCount,
       createdPlayCount,
       getMyMvSbulist,
-      playList,
-      playListShow,
-      playListData,
+      playDetailData,
       playListOption,
       openLogin
     };

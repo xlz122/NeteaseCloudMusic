@@ -58,7 +58,7 @@ export default defineComponent({
       profileInfo
     };
   }
-}); 
+});
 </script>
 
 <style lang="less" scoped>
