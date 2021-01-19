@@ -119,6 +119,12 @@ export default defineComponent({
         if (res.code == 200) {
           playListData.value = res.playlist;
           // 初始化获取第一项创建歌单详情
+          const musicDetail = JSON.parse(JSON.stringify(myMusicDetail.value));
+          for (const value in musicDetail) {
+            musicDetail[value] = false;
+          }
+          musicDetail.playListDetail = true;
+          $store.commit('setMyMusicDetail', musicDetail);
           getPlayListDetail(playListData.value[activeIndex.value].id);
         }
       });
