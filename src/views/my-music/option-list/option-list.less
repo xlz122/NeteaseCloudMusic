@@ -1,3 +1,18 @@
+.music-my-mv {
+  height: 36px;
+  line-height: 36px;
+  padding-left: 35px;
+  text-align: left;
+  font-size: 14px;
+  color: #000;
+  font-family: simsun, \5b8b\4f53;
+  cursor: pointer;
+}
+
+.music-my-mv-active {
+  background: #eee;
+}
+
 .music-play-list {
   margin-top: 5px;
 
@@ -61,7 +76,7 @@
         display: inline-block;
         width: 8px;
         height: 8px;
-        background: url(../../assets/image/my-music/icon-my-music-r@3x.png) no-repeat;
+        background: url(../../../assets/image/my-music/icon-my-music-r@3x.png) no-repeat;
         background-size: cover;
       }
     }
@@ -75,7 +90,7 @@
       padding-left: 5px;
       margin-top: 5px;
       margin-left: 30px;
-      background: url(../../assets/image/my-music/icon-button.png) no-repeat;
+      background: url(../../../assets/image/my-music/icon-button.png) no-repeat;
       background-position: 0 -96px;
       cursor: pointer;
     }
@@ -137,7 +152,7 @@
           display: inline-block;
           vertical-align: middle;
           margin-right: 10px;
-          background: url(../../assets/image/icon.png) no-repeat;
+          background: url(../../../assets/image/icon.png) no-repeat;
           background-position: 0 -96px;
           cursor: pointer;
         }
@@ -167,58 +182,9 @@
     .active-item {
       background: #e6e6e6;
     }
+
     .active-item:hover {
       background: #e6e6e6;
-    }
-  }
-}
-
-.music-play-list {
-  ::v-deep(.my-dialog) {
-    .my_dialog_box {
-      width: 480px;
-    }
-    .content {
-      text-align: center;
-      color: #333;
-      font-size: 14px;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-  }
-  ::v-deep(.my-dialog-add) {
-    .my_dialog_bottom {
-      margin-left: 86px;
-      text-align: left;
-    }
-    .content {
-      color: #333;
-      font-size: 14px;
-      font-family: Arial, Helvetica, sans-serif;
-      text-align: left;
-      .form {
-        margin-left: 30px;
-        .name {
-          display: inline-block;
-          vertical-align: middle;
-        }
-        .input {
-          display: inline-block;
-          vertical-align: middle;
-          width: 330px;
-          height: 19px;
-          margin: 0;
-          padding: 5px 6px 6px;
-          border: 1px solid #cdcdcd;
-          border-radius: 2px;
-          line-height: 19px;
-          box-sizing: content-box;
-          outline: none;
-        }
-      }
-      .desc {
-        margin: 8px 0 20px 86px;
-        color: #999;
-      }
     }
   }
 }

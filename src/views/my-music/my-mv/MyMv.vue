@@ -32,19 +32,27 @@
 
 <script lang="ts" setup>
 /* eslint-disable */
-import { defineProps } from 'vue';
+import { ref } from 'vue';
 import { timeStampToDuration } from '@utils/utils.ts';
+import { myMvSbulist } from '@api/my-music';
 
-defineProps({
-  myMvList: {
-    type: Array,
-    default: []
-  },
-  myMvCount: {
-    type: Number,
-    default: 0
-  }
-});
+interface ResponseType {
+  [key: string]: any;
+}
+
+// 我的视频数量
+const myMvCount = ref<number>(0);
+// 获取我的视频列表
+const myMvList = ref<unknown[]>([]);
+function getMyMvSbulist(): void {
+  myMvSbulist().then((res: ResponseType) => {
+    if (res.code == 200) {
+      myMvCount.value = res.count || 0;
+      myMvList.value = res.data;
+    }
+  });
+}
+getMyMvSbulist();
 
 // 播放
 function myMvplay(): void {
@@ -104,7 +112,7 @@ function myMvplay(): void {
             width: 15px;
             height: 10px;
             margin-right: 3px;
-            background: url('../../assets/image/my-music/icon-my-music.png')
+            background: url('../../../assets/image/my-music/icon-my-music.png')
               no-repeat;
             background-position: -60px -310px;
           }
