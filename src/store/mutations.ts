@@ -31,6 +31,11 @@ const mutations: Mutations<State, unknown> = {
   setPlayDetailData(state, playDetailData) {
     state.playDetailData = playDetailData as unknown;
     sessionStorage.setItem('playDetailData', JSON.stringify(playDetailData));
+  },
+  // 我的音乐 - 创建歌单详情数据
+  setPlayMusicData(state, playMusicData) {
+    state.playMusicData = playMusicData as unknown;
+    sessionStorage.setItem('playMusicData', JSON.stringify(playMusicData));
   }
 };
 
