@@ -87,11 +87,17 @@
         <tr
           v-for="(item, index) in playDetailData?.playlist?.tracks"
           :key="index"
+          :class="{ 'even-tr': (index + 1) % 2 }"
         >
           <td class="tbody-left">
             <div class="hd">
               <span class="text">{{ index + 1 }}</span>
-              <i class="icon-play"></i>
+              <!-- 播放选中，当前项保存到本地，根据id判断 -->
+              <i
+                class="icon-play"
+                :class="{ 'active-play': item.id === playMusicData.id }"
+                @click="playMusic(item)"
+              ></i>
             </div>
           </td>
           <td class="tbody-td">
@@ -145,11 +151,19 @@ export default defineComponent({
 
     // 详情数据
     const playDetailData = computed(() => $store.getters.playDetailData);
-    console.log(playDetailData);
+    // 当前播放音乐数据
+    const playMusicData = computed(() => $store.getters.playMusicData);
+
+    // 播放音乐
+    function playMusic(item: unknown): void {
+      $store.commit('setPlayMusicData', item);
+    }
     return {
       timeStampToDuration,
       formatDateTime,
-      playDetailData
+      playDetailData,
+      playMusicData,
+      playMusic
     };
   }
 });

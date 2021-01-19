@@ -5,6 +5,7 @@ export interface State {
   userInfo: unknown;
   myMusicDetail: MyMusicDetail;
   playDetailData: unknown;
+  playMusicData: unknown;
 }
 
 export interface MyMusicDetail {
@@ -22,7 +23,9 @@ const state: State = {
     playListDetail: false
   }, // 我的音乐详情显示
   playDetailData:
-    JSON.parse(localStorage.getItem('playDetailData') as string) || {} // 我的音乐 - 创建歌单详情数据
+    JSON.parse(sessionStorage.getItem('playDetailData') as string) || {}, // 我的音乐 - 创建歌单详情数据
+  playMusicData:
+    JSON.parse(sessionStorage.getItem('playMusicData') as string) || {} // 我的音乐 - 当前播放音乐数据
 };
 
 export default state;
