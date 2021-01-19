@@ -47,24 +47,24 @@ const { emit } = useContext();
 
 // 对话框 - 确定
 function dialogConfirm(): void {
+  const params: { type: string, id: number } = {
+    type: 'add',
+    id: 0
+  }
   if (playDialogeData.type === 'add') {
     addPlayList({ name: playDialogeData.name }).then((res: ResponseType) => {
       if (res.code === 200) {
-        playListData.value.splice(1, 0, res.playlist);
-        // 获取当前项详情
-        emit('dialogConfirm', res.id);
+        params.type = 'add';
+        params.id = res.id;
+        emit('dialogConfirm', params);
       }
     });
   } else {
     deletePlayList({ id: playDialogeData.id }).then((res: ResponseType) => {
       if (res.code === 200) {
-        const index = playListData.value.findIndex(
-          (item) => (item as any).id === playDialogeData.id
-        );
-        playListData.value.splice(index, 1);
-        // 获取上一项详情
-        const id = playListData.value[index - 1].id;
-        emit('dialogConfirm', id);
+        params.type = 'delete';
+        params.id = playDialogeData.id;
+        emit('dialogConfirm', params);
       }
     });
   }

@@ -119,7 +119,7 @@ export default defineComponent({
         if (res.code == 200) {
           playListData.value = res.playlist;
           // 初始化获取第一项创建歌单详情
-          playListClick(playListData.value[activeIndex.value].id, 0);
+          getPlayListDetail(playListData.value[activeIndex.value].id);
         }
       });
     }
@@ -180,9 +180,27 @@ export default defineComponent({
     }
 
     // 创建歌单 - 对话框确定
-    function dialogConfirm(id: number): void {
-      // 获取歌单详情
-      getPlayListDetail(id);
+    function dialogConfirm(params: { type: string; id: number }): void {
+      // 添加 - 到歌单第二项
+      if (params.type === 'add') {
+        // 刷新选项栏
+        getUserPlayList();
+        // 获取歌单详情
+        playListClick(params.id, 1);
+      }
+
+      // 删除 - 刷新为上一项数据
+      if (params.type === 'delete') {
+        // 获取上一项id
+        const index = playListData.value.findIndex(
+          item => (item as any).id === params.id
+        );
+        params.id = playListData.value[index - 1].id;
+        // 刷新选项栏
+        getUserPlayList();
+        // 获取歌单详情
+        playListClick(params.id, index - 1);
+      }
     }
 
     return {
