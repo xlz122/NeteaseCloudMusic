@@ -31,7 +31,7 @@
           </div>
           <div class="operate-btn">
             <div class="play">
-              <icon class="icon-play">播放</icon>
+              <span class="icon-play">播放</span>
             </div>
             <div class="play-add"></div>
             <div class="other">
@@ -67,24 +67,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
+import { useStore } from 'vuex';
 import { formatDateTime } from '@utils/utils.ts';
 
 export default defineComponent({
-  props: ({
-    playDetailData: {
-      type: Object,
-      default: {}
-    }
-  } as unknown) as undefined,
   setup() {
+    const $store = useStore();
+
+    // 详情数据
+    const playDetailData = computed(() => $store.getters.playDetailData);
     return {
-      formatDateTime
+      formatDateTime,
+      playDetailData
     };
   }
 });
 </script>
 
 <style lang="less" scoped>
-@import './play-list-main.less';
+@import './play-list-detail.less';
 </style>

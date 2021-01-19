@@ -16,7 +16,9 @@ const getters: Getters<State> = {
         {}
     ).length > 0
       ? true
-      : false // 是否登录
+      : false, // 是否登录
+  myMusicDetail: state => state.myMusicDetail,
+  playDetailData: state => state.playDetailData
 };
 
 export default getters;
