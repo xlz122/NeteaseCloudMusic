@@ -30,10 +30,22 @@
             </span>
           </div>
           <div class="operate-btn">
-            <div class="play">
+            <div
+              class="play"
+              :class="{
+                'disable-play': playDetailData?.playlist?.tracks.length === 0
+              }"
+              @click="playTitleMusic"
+            >
               <span class="icon-play">播放</span>
             </div>
-            <div class="play-add"></div>
+            <div
+              class="play-add"
+              :class="{
+                'disable-play-add':
+                  playDetailData?.playlist?.tracks.length === 0
+              }"
+            ></div>
             <div class="other">
               <span class="icon">收藏</span>
             </div>
@@ -87,16 +99,18 @@
         <tr
           v-for="(item, index) in playDetailData?.playlist?.tracks"
           :key="index"
-          :class="{ 'even-tr': (index + 1) % 2 }"
+          :class="[
+            { 'even-tr': (index + 1) % 2 },
+            { 'no-copyright': isCopyright(item.id) }
+          ]"
         >
           <td class="tbody-left">
             <div class="hd">
               <span class="text">{{ index + 1 }}</span>
-              <!-- 播放选中，当前项保存到本地，根据id判断 -->
               <i
                 class="icon-play"
                 :class="{ 'active-play': item.id === playMusicData.id }"
-                @click="playMusic(item)"
+                @click="playListMusic(item)"
               ></i>
             </div>
           </td>
@@ -104,7 +118,9 @@
             <div class="hd">
               <span class="text">
                 <span class="title">{{ item.name }}</span>
-                <span class="no-click"> - {{ item.alia[0] }}</span>
+                <span class="no-click" v-if="item.alia[0]">
+                  - {{ item.alia[0] }}
+                </span>
               </span>
               <i class="icon-play" v-if="item.mv > 0"></i>
             </div>
@@ -112,18 +128,13 @@
           <td class="tbody-td">
             <div class="hd">
               <span class="text">
-                {{
-                  timeStampToDuration(item.dt / 1000)
-                }}
+                {{ timeStampToDuration(item.dt / 1000) }}
               </span>
             </div>
           </td>
           <td class="tbody-td singer">
             <div class="hd">
-              <span
-                class="text"
-                v-for="(i, ind) in item.ar" :key="ind"
-              >
+              <span class="text" v-for="(i, ind) in item.ar" :key="ind">
                 {{ i.name }}
                 <span class="line" v-if="ind !== item.ar.length - 1">/</span>
               </span>
@@ -145,6 +156,10 @@ import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration, formatDateTime } from '@utils/utils.ts';
 
+interface ResponseType {
+  [key: string]: any;
+}
+
 export default defineComponent({
   setup() {
     const $store = useStore();
@@ -154,16 +169,41 @@ export default defineComponent({
     // 当前播放音乐数据
     const playMusicData = computed(() => $store.getters.playMusicData);
 
-    // 播放音乐
-    function playMusic(item: unknown): void {
+    // 计算歌曲是否有版权
+    function isCopyright(id: number): boolean | undefined {
+      const privilege = playDetailData.value?.privileges.find(
+        (item: any) => item.id === id
+      );
+      if (privilege?.cp === 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    // 头部播放 - 默认播放列表第一项
+    function playTitleMusic() {
+      if (playDetailData.value?.playlist?.tracks.length > 0) {
+        $store.commit(
+          'setPlayMusicList',
+          playDetailData.value?.playlist?.tracks[0]
+        );
+      }
+    }
+
+    // 播放列表音乐
+    function playListMusic(item: unknown): void {
       $store.commit('setPlayMusicData', item);
     }
+
     return {
       timeStampToDuration,
       formatDateTime,
       playDetailData,
       playMusicData,
-      playMusic
+      isCopyright,
+      playTitleMusic,
+      playListMusic
     };
   }
 });
