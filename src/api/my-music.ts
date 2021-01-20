@@ -95,3 +95,26 @@ export const playListDetail = ({ id }: { id: number }) => {
     params
   });
 };
+
+/* @desc 获取播放url
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { String } id - 歌单id，可多个，id1，id2 用逗号隔开
+ */
+
+interface GetPlayMusicUrl {
+  id: number | string;
+  br?: number | string;
+}
+
+export const getPlayMusicUrl = ({ id, br }: GetPlayMusicUrl) => {
+  const params = {
+    timestamp: new Date().getTime(),
+    id,
+    br
+  };
+  return axios.request({
+    url: '/song/url',
+    method: 'get',
+    params
+  });
+};

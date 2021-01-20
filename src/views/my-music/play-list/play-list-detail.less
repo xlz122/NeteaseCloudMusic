@@ -155,6 +155,24 @@
               background-position: -28px -1622px;
             }
           }
+          .disable-play,
+          .disable-play:hover {
+            width: 67px;
+            margin-right: 8px;
+            color: #bebebe;
+            background-position: right -934px;
+
+            .icon-play {
+              color: #bebebe;
+              background-position: 0 -891px;
+              cursor: default;
+            }
+
+            .icon-play::before {
+              margin-right: 12px;
+              background-position: 0 9999px;
+            }
+          }
 
           .play-add {
             display: inline-block;
@@ -172,6 +190,10 @@
 
           .play-add:hover {
             background-position: -40px -1588px;
+          }
+
+          .disable-play-add {
+            display: none;
           }
 
           .other {
@@ -415,6 +437,7 @@
             text-decoration: underline;
           }
           .no-click {
+            margin-left: 1px;
             color: #aeaeae;
             cursor: default;
           }
@@ -430,6 +453,22 @@
     .tbody tr:hover {
       td {
         height: 36px;
+      }
+    }
+    .no-copyright {
+      .tbody-left {
+        .hd {
+          .icon-play {
+            opacity: 0.5;
+          }
+        }
+      }
+      .tbody-td {
+        .hd {
+          .text {
+            color: #bbb;
+          }
+        }
       }
     }
   }
