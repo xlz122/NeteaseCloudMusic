@@ -25,23 +25,32 @@ const mutations: Mutations<State, unknown> = {
   // 我的音乐显示详情
   setMyMusicDetail(state, myMusicDetail) {
     state.myMusicDetail = myMusicDetail as MyMusicDetail;
-    sessionStorage.setItem('myMusicDetail', JSON.stringify(myMusicDetail));
   },
   // 我的音乐 - 创建歌单详情数据
   setPlayDetailData(state, playDetailData) {
     state.playDetailData = playDetailData as unknown;
-    sessionStorage.setItem('playDetailData', JSON.stringify(playDetailData));
+    localStorage.setItem('playDetailData', JSON.stringify(playDetailData));
   },
-  // 我的音乐 - 当前播放数据
-  setPlayMusicData(state, playMusicData) {
-    state.playMusicData = playMusicData as unknown;
-    sessionStorage.setItem('playMusicData', JSON.stringify(playMusicData));
+  // 我的音乐 - 当前播放音乐id
+  setPlayMusicId(state, playMusicId) {
+    state.playMusicId = playMusicId as number;
+    localStorage.setItem('playMusicId', JSON.stringify(playMusicId));
   },
   // 我的音乐 - 播放列表数据
   setPlayMusicList(state, playMusicData) {
-    state.playMusicList.push(playMusicData);
-    console.log(playMusicData);
-    localStorage.setItem('playMusicData', JSON.stringify(state.playMusicList));
+    // 数据去重
+    const list = JSON.parse(JSON.stringify(state.playMusicList));
+    const index = list.findIndex((item: { [key: string]: any }) =>
+      item.id === (playMusicData as { [key: string]: any }).id
+    );
+    if (index !== -1) {
+      list.splice(index, 1);
+    }
+    // 新数据添加到第一项
+    list.unshift(playMusicData);
+    // 保存数据
+    state.playMusicList = list as unknown[];
+    localStorage.setItem('playMusicData', JSON.stringify(list));
   }
 };
 
