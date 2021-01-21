@@ -52,10 +52,7 @@ import { defineComponent, ref, reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 import { userPlayList, playListDetail } from '@api/my-music';
 import CreatePlayDialog from './createPlayDialog.vue';
-
-interface ResponseType {
-  [key: string]: any;
-}
+import { ResponseType, LoopType } from '@/types/types';
 
 interface PlayDialogData {
   visible: boolean;
@@ -199,7 +196,7 @@ export default defineComponent({
       if (params.type === 'delete') {
         // 获取上一项id
         const index = playListData.value.findIndex(
-          item => (item as any).id === params.id
+          (item: LoopType) => item .id === params.id
         );
         params.id = playListData.value[index - 1].id;
         // 刷新选项栏

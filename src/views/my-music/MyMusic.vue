@@ -26,10 +26,7 @@ import OptionList from '@views/my-music/option-list/OptionList.vue';
 import MyMv from '@views/my-music/my-mv/MyMv.vue';
 import PlayListDetail from '@views/my-music/play-list/PlayListDetail.vue';
 import { userSubcount } from '@api/my-music';
-
-interface ResponseType {
-  [key: string]: any;
-}
+import { ResponseType } from '@/types/types';
 
 interface OptionsCount {
   myMvCount: number;

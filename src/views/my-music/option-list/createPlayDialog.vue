@@ -29,10 +29,7 @@
 import { useContext, defineProps, defineEmit } from 'vue';
 import MyDialog from '@/components/MyDialog.vue';
 import { addPlayList, deletePlayList } from '@api/my-music';
-
-interface ResponseType {
-  [key: string]: any;
-}
+import { ResponseType } from '@/types/types';
 
 const { playDialogeData } = defineProps({
   playDialogeData: {
