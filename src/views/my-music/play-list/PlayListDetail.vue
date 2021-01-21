@@ -109,8 +109,8 @@
               <span class="text">{{ index + 1 }}</span>
               <i
                 class="icon-play"
-                :class="{ 'active-play': item.id === playMusicData.id }"
-                @click="playListMusic(item)"
+                :class="{ 'active-play': item.id === playMusicId }"
+                @click="playListMusic(item.id)"
               ></i>
             </div>
           </td>
@@ -166,8 +166,8 @@ export default defineComponent({
 
     // 详情数据
     const playDetailData = computed(() => $store.getters.playDetailData);
-    // 当前播放音乐数据
-    const playMusicData = computed(() => $store.getters.playMusicData);
+    // 当前播放音乐id
+    const playMusicId = computed(() => $store.getters.playMusicId);
 
     // 计算歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
@@ -192,15 +192,15 @@ export default defineComponent({
     }
 
     // 播放列表音乐
-    function playListMusic(item: unknown): void {
-      $store.commit('setPlayMusicData', item);
+    function playListMusic(id: number): void {
+      $store.commit('setPlayMusicId', id);
     }
 
     return {
       timeStampToDuration,
       formatDateTime,
       playDetailData,
-      playMusicData,
+      playMusicId,
       isCopyright,
       playTitleMusic,
       playListMusic

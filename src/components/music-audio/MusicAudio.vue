@@ -1,11 +1,14 @@
 <template>
   <audio
     ref="musicAudio"
-    :src="audioSrc"
+    :muted="audioData.muted"
+    :autoplay="audioData.autoplay"
+    :loop="audioData.loop"
+    @play="onPlay"
     controls="controls"
-    autoplay="autoplay"
-    loop="loop"
-  />
+  >
+    <source :src="audioData.src" />
+  </audio>
   <div class="music-audio">
     <div class="music-audio-playbar">
       <!-- 锁定 -->
@@ -21,7 +24,12 @@
       <div class="wrap">
         <div class="operate-btn">
           <button class="btn prev-btn" title="上一首(ctrl+←)"></button>
-          <button class="btn look-btn" title="播放/暂停(p)"></button>
+          <button
+            class="btn look-btn"
+            :class="{ 'look-play-btn': playMusicStatus }"
+            title="播放/暂停(p)"
+            @click="lookPlayMusic"
+          ></button>
           <button class="btn down-btn" title="下一首(ctrl+→)"></button>
         </div>
         <div class="music-img">
@@ -66,12 +74,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
+import { defineComponent, ref, computed, watch, reactive, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { getPlayMusicUrl } from '@api/my-music';
 
 interface ResponseType {
   [key: string]: any;
+}
+
+interface AudioData {
+  src: string;
+  muted: boolean;
+  autoplay: boolean;
+  loop: boolean;
 }
 
 export default defineComponent({
@@ -88,7 +103,6 @@ export default defineComponent({
     watch(
       () => playMusicList.value,
       cur => {
-        console.log(cur);
         playMusic.value = cur[0];
         playMusicSrc(cur[0].id);
       },
@@ -99,25 +113,39 @@ export default defineComponent({
 
     // 播放器实例
     const musicAudio = ref<HTMLVideoElement>();
-
     // 播放地址
-    const audioSrc = ref<string>('');
+    const audioData = reactive<AudioData>({
+      src: '', // 地址
+      muted: true, // 静音
+      autoplay: true, // 自动播放
+      loop: true // 循环播放
+    });
+    // 播放/暂停切换状态
+    const playMusicStatus = ref<boolean>(false);
 
     // 获取播放地址
     function playMusicSrc(id: number): boolean | undefined {
       if (playMusicList.value?.length === 0) {
         return false;
       }
-      console.log(id);
       getPlayMusicUrl({
         id
       }).then((res: ResponseType) => {
-        console.log(res);
-        audioSrc.value = res.data[0].url;
-        setTimeout(() => {
-          startPlayMusic();
-        }, 1000);
+        audioData.src = res.data[0].url;
+        
+        playMusicStatus.value = !playMusicStatus.value;
+        startPlayMusic();
       });
+    }
+
+    // 播放/暂停切换
+    function lookPlayMusic(): void {
+      playMusicStatus.value = !playMusicStatus.value;
+      if (playMusicStatus.value) {
+        startPlayMusic();
+      } else {
+        stopPlayMusic();
+      }
     }
 
     // 开始播放
@@ -130,10 +158,28 @@ export default defineComponent({
       (musicAudio.value as HTMLVideoElement).pause();
     }
 
+    // 音频开始播放
+    function onPlay(res: any) {
+     console.log(res);
+     setAudioMuted();
+    }
+
+    // 浏览器音频限制处理
+    function setAudioMuted(): void {
+      audioData.muted = false;
+    }
+    document.body.addEventListener('mousedown', setAudioMuted, false);
+
+    onUnmounted(() => {
+      document.body.removeEventListener('mousedown', setAudioMuted, false);
+    });
     return {
       playMusic,
       musicAudio,
-      audioSrc
+      audioData,
+      playMusicStatus,
+      lookPlayMusic,
+      onPlay
     };
   }
 });
