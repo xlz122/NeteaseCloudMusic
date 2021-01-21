@@ -155,10 +155,7 @@
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration, formatDateTime } from '@utils/utils.ts';
-
-interface ResponseType {
-  [key: string]: any;
-}
+import { LoopType } from '@/types/types';
 
 export default defineComponent({
   setup() {
@@ -172,7 +169,7 @@ export default defineComponent({
     // 计算歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
       const privilege = playDetailData.value?.privileges.find(
-        (item: any) => item.id === id
+        (item: LoopType) => item.id === id
       );
       if (privilege?.cp === 0) {
         return true;

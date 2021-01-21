@@ -40,8 +40,9 @@ const mutations: Mutations<State, unknown> = {
   setPlayMusicList(state, playMusicData) {
     // 数据去重
     const list = JSON.parse(JSON.stringify(state.playMusicList));
-    const index = list.findIndex((item: { [key: string]: any }) =>
-      item.id === (playMusicData as { [key: string]: any }).id
+    const index = list.findIndex(
+      (item: { [key: string]: any }) =>
+        item.id === (playMusicData as { [key: string]: any }).id
     );
     if (index !== -1) {
       list.splice(index, 1);

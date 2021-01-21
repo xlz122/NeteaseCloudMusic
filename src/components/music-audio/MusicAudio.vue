@@ -7,7 +7,7 @@
     :muted="audioData.muted"
     :autoplay="audioData.autoplay"
     :loop="audioData.loop"
-    @play="onPlay"
+    @play="musicPlaying"
     controls="controls"
   >
     <source :src="audioData.src" />
@@ -46,15 +46,30 @@
         <div class="music-img">
           <img
             class="img"
-            src="http://p3.music.126.net/mwCUI0iL3xEC2a4WVICHlA==/109951163115369030.jpg?param=34y34"
+            v-if="playMusic?.al?.picUrl"
+            :src="playMusic?.al?.picUrl"
           />
           <span class="default-img"></span>
         </div>
         <div class="play">
           <div class="play-info">
-            <span class="music-name"></span>
-            <span class="singer-name"></span>
-            <span class="link"></span>
+            <span class="music-name">
+              <span class="name">{{ playMusic?.name }}</span>
+              <span class="icon-mv" v-if="playMusic?.mv > 0"></span>
+            </span>
+            <span class="singer-name">
+              <span
+                class="text"
+                v-for="(item, index) in playMusic?.ar"
+                :key="index"
+              >
+                {{ item.name }}
+                <span class="line" v-if="index !== playMusic.ar.length - 1">
+                  /
+                </span>
+              </span>
+            </span>
+            <span class="link" v-if="playMusic.name"></span>
           </div>
           <div class="play-progress">
             <div class="progress">
@@ -86,13 +101,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch, reactive, onUnmounted } from 'vue';
+import {
+  defineComponent,
+  ref,
+  computed,
+  watch,
+  reactive,
+  onUnmounted
+} from 'vue';
 import { useStore } from 'vuex';
 import { getPlayMusicUrl } from '@api/my-music';
-
-interface ResponseType {
-  [key: string]: any;
-}
+import { ResponseType, LoopType } from '@/types/types';
 
 interface AudioData {
   src: string;
@@ -113,9 +132,8 @@ export default defineComponent({
 
     // 当前播放数据
     const playMusic = ref<unknown>({});
-    console.log(playMusicList);
 
-    // 监听播放
+    // 监听播放列表变化
     watch(
       () => playMusicList.value,
       () => {
@@ -154,6 +172,12 @@ export default defineComponent({
         playMusicStatus.loading = false;
         audioData.src = res.data[0].url;
         startPlayMusic();
+        // 当前播放音乐数据
+        const musicData: unknown = playMusicList.value.find(
+          (item: LoopType) => item.id === playMusicId.value
+        );
+        playMusic.value = musicData;
+        console.log(musicData);
         // 当前播放音乐id
         $store.commit('setPlayMusicId', id);
       });
@@ -165,8 +189,8 @@ export default defineComponent({
       if (playMusicList.value.length === 0) {
         return false;
       }
-      const index: number = playMusicList.value.findIndex((item: { [key: string]: any }) =>
-        item.id === playMusicId.value
+      const index: number = playMusicList.value.findIndex(
+        (item: LoopType) => item.id === playMusicId.value
       );
       // 当前播放在列表存在，并且不是第一项
       if (index !== -1 && index > 0) {
@@ -183,8 +207,8 @@ export default defineComponent({
       if (playMusicList.value.length === 0) {
         return false;
       }
-      const index: number = playMusicList.value.findIndex((item: { [key: string]: any }) =>
-        item.id === playMusicId.value
+      const index: number = playMusicList.value.findIndex(
+        (item: LoopType) => item.id === playMusicId.value
       );
       // 当前播放在列表存在，并且不是最后一项
       if (index !== -1 && index < playMusicList.value.length - 1) {
@@ -218,7 +242,9 @@ export default defineComponent({
     }
 
     // 音频开始播放
-    function onPlay(res: any) {}
+    function musicPlaying(res: any) {
+      console.log('播放开始' + res);
+    }
 
     // 浏览器音频限制处理
     function setAudioMuted(): void {
@@ -237,7 +263,7 @@ export default defineComponent({
       prevPlayMusic,
       nextPlayMusic,
       lookPlayMusic,
-      onPlay
+      musicPlaying
     };
   }
 });
