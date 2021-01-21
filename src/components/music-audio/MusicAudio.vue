@@ -1,4 +1,7 @@
 <template>
+  <!-- 遇到的坑： -->
+  <!-- 直接 audio 标签上添加scr，可以播放，但是控制会报错，使用source解决 -->
+  <!-- 改变source src地址，调用play()，音频无法播放，需要调用load()重新加载，然后调用play()播放 -->
   <audio
     ref="musicAudio"
     :muted="audioData.muted"
@@ -23,14 +26,22 @@
       <!-- 内容 -->
       <div class="wrap">
         <div class="operate-btn">
-          <button class="btn prev-btn" title="上一首(ctrl+←)"></button>
+          <button
+            class="btn prev-btn"
+            title="上一首(ctrl+←)"
+            @click="prevPlayMusic"
+          ></button>
           <button
             class="btn look-btn"
-            :class="{ 'look-play-btn': playMusicStatus }"
+            :class="{ 'look-play-btn': playMusicStatus.look }"
             title="播放/暂停(p)"
             @click="lookPlayMusic"
           ></button>
-          <button class="btn down-btn" title="下一首(ctrl+→)"></button>
+          <button
+            class="btn down-btn"
+            title="下一首(ctrl+→)"
+            @click="nextPlayMusic"
+          ></button>
         </div>
         <div class="music-img">
           <img
@@ -49,6 +60,7 @@
             <div class="progress">
               <div class="current-progress">
                 <i class="icon"></i>
+                <i class="icon-loading" v-if="playMusicStatus.loading"></i>
               </div>
               <div class="total-progress"></div>
             </div>
@@ -96,15 +108,18 @@ export default defineComponent({
     // 播放列表数据
     const playMusicList = computed(() => $store.getters.playMusicList);
 
+    // 当前播放音乐id
+    const playMusicId = computed(() => $store.getters.playMusicId);
+
     // 当前播放数据
     const playMusic = ref<unknown>({});
+    console.log(playMusicList);
 
     // 监听播放
     watch(
       () => playMusicList.value,
-      cur => {
-        playMusic.value = cur[0];
-        playMusicSrc(cur[0].id);
+      () => {
+        playMusicSrc(playMusicId.value);
       },
       {
         deep: true
@@ -121,27 +136,70 @@ export default defineComponent({
       loop: true // 循环播放
     });
     // 播放/暂停切换状态
-    const playMusicStatus = ref<boolean>(false);
+    const playMusicStatus = reactive({
+      look: false,
+      loading: false
+    });
 
     // 获取播放地址
     function playMusicSrc(id: number): boolean | undefined {
-      if (playMusicList.value?.length === 0) {
+      playMusicStatus.look = true;
+      playMusicStatus.loading = true;
+      if (playMusicList.value.length === 0) {
         return false;
       }
       getPlayMusicUrl({
         id
       }).then((res: ResponseType) => {
+        playMusicStatus.loading = false;
         audioData.src = res.data[0].url;
-        
-        playMusicStatus.value = !playMusicStatus.value;
         startPlayMusic();
+        // 当前播放音乐id
+        $store.commit('setPlayMusicId', id);
       });
+    }
+
+    // 上一首
+    function prevPlayMusic(): boolean | undefined {
+      console.log('上一首');
+      if (playMusicList.value.length === 0) {
+        return false;
+      }
+      const index: number = playMusicList.value.findIndex((item: { [key: string]: any }) =>
+        item.id === playMusicId.value
+      );
+      // 当前播放在列表存在，并且不是第一项
+      if (index !== -1 && index > 0) {
+        playMusicSrc(playMusicList.value[index - 1].id);
+      }
+      // 列表回到最后一项项
+      if (index !== -1 && index === 0) {
+        playMusicSrc(playMusicList.value[playMusicList.value.length - 1].id);
+      }
+    }
+
+    // 下一首
+    function nextPlayMusic(): boolean | undefined {
+      if (playMusicList.value.length === 0) {
+        return false;
+      }
+      const index: number = playMusicList.value.findIndex((item: { [key: string]: any }) =>
+        item.id === playMusicId.value
+      );
+      // 当前播放在列表存在，并且不是最后一项
+      if (index !== -1 && index < playMusicList.value.length - 1) {
+        playMusicSrc(playMusicList.value[index + 1].id);
+      }
+      // 列表回到第一项
+      if (index !== -1 && index === playMusicList.value.length - 1) {
+        playMusicSrc(playMusicList.value[0].id);
+      }
     }
 
     // 播放/暂停切换
     function lookPlayMusic(): void {
-      playMusicStatus.value = !playMusicStatus.value;
-      if (playMusicStatus.value) {
+      playMusicStatus.look = !playMusicStatus.look;
+      if (playMusicStatus.look) {
         startPlayMusic();
       } else {
         stopPlayMusic();
@@ -150,6 +208,7 @@ export default defineComponent({
 
     // 开始播放
     function startPlayMusic(): void {
+      (musicAudio.value as HTMLVideoElement).load();
       (musicAudio.value as HTMLVideoElement).play();
     }
 
@@ -159,10 +218,7 @@ export default defineComponent({
     }
 
     // 音频开始播放
-    function onPlay(res: any) {
-     console.log(res);
-     setAudioMuted();
-    }
+    function onPlay(res: any) {}
 
     // 浏览器音频限制处理
     function setAudioMuted(): void {
@@ -178,6 +234,8 @@ export default defineComponent({
       musicAudio,
       audioData,
       playMusicStatus,
+      prevPlayMusic,
+      nextPlayMusic,
       lookPlayMusic,
       onPlay
     };
