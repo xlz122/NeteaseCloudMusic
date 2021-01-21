@@ -110,7 +110,7 @@
               <i
                 class="icon-play"
                 :class="{ 'active-play': item.id === playMusicId }"
-                @click="playListMusic(item.id)"
+                @click="playListMusic(item.id, item)"
               ></i>
             </div>
           </td>
@@ -184,6 +184,12 @@ export default defineComponent({
     // 头部播放 - 默认播放列表第一项
     function playTitleMusic() {
       if (playDetailData.value?.playlist?.tracks.length > 0) {
+        // 当前播放音乐id
+        $store.commit(
+          'setPlayMusicId',
+          playDetailData.value?.playlist?.tracks[0].id
+        );
+        // 播放音乐数据
         $store.commit(
           'setPlayMusicList',
           playDetailData.value?.playlist?.tracks[0]
@@ -192,8 +198,11 @@ export default defineComponent({
     }
 
     // 播放列表音乐
-    function playListMusic(id: number): void {
+    function playListMusic(id: number, item: unknown): void {
+      // 当前播放音乐id
       $store.commit('setPlayMusicId', id);
+      // 播放音乐数据
+      $store.commit('setPlayMusicList', item);
     }
 
     return {

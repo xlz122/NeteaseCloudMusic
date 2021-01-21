@@ -47,7 +47,7 @@ const mutations: Mutations<State, unknown> = {
       list.splice(index, 1);
     }
     // 新数据添加到第一项
-    list.unshift(playMusicData);
+    list.push(playMusicData);
     // 保存数据
     state.playMusicList = list as unknown[];
     localStorage.setItem('playMusicData', JSON.stringify(list));
