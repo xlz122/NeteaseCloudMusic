@@ -3,8 +3,13 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
+    component: () => import(/* webpackChunkName: "home" */ '../views/Main.vue'),
     children: [
+      {
+        path: '/',
+        name: 'home',
+        component: () => import('../views/home/Home.vue')
+      },
       {
         path: '/my-music',
         name: 'my-music',

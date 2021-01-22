@@ -178,7 +178,6 @@ export default defineComponent({
           (item: LoopType) => item.id === playMusicId.value
         );
         playMusic.value = musicData;
-        console.log(musicData);
         // 当前播放音乐id
         $store.commit('setPlayMusicId', id);
       });

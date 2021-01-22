@@ -40,10 +40,12 @@
       </li>
     </ul>
   </div>
-  <create-play-dialog
-    :playDialogeData="playDialogeData"
-    @dialogConfirm="dialogConfirm"
-  />
+  <teleport to="#modal">
+    <create-play-dialog
+      :playDialogeData="playDialogeData"
+      @dialogConfirm="dialogConfirm"
+    />
+  </teleport>
 </template>
 
 <script lang="ts">

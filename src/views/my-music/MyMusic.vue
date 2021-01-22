@@ -20,7 +20,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, reactive, onMounted, onUnmounted } from 'vue';
+import {
+  defineComponent,
+  computed,
+  reactive,
+  onMounted,
+  onUnmounted
+} from 'vue';
 import { useStore } from 'vuex';
 import OptionList from '@views/my-music/option-list/OptionList.vue';
 import MyMv from '@views/my-music/my-mv/MyMv.vue';
@@ -80,7 +86,7 @@ export default defineComponent({
     onUnmounted(() => {
       const homeDom = document.querySelector('.home') as HTMLElement;
       const footerDom = document.querySelector('.footer') as HTMLElement;
-      homeDom.style.height = '100%';
+      homeDom.style.height = '100vh';
       footerDom.style.display = 'block';
     });
     return {

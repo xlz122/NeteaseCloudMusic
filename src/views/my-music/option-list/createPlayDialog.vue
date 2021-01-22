@@ -1,5 +1,6 @@
 <template>
-  <div class="create-play-dialog">
+  <!-- 使用 ::v-deep() 更改组件样式，必须包裹一层容器 -->
+  <div>
     <my-dialog
       class="my-dialog"
       :class="{ 'my-dialog-add': playDialogeData.type === 'add' }"
@@ -25,7 +26,6 @@
 
 <script lang="ts" setup>
 /* eslint-disable */
-// @ts-nocheck
 import { useContext, defineProps, defineEmit } from 'vue';
 import MyDialog from '@/components/MyDialog.vue';
 import { addPlayList, deletePlayList } from '@api/my-music';
@@ -44,10 +44,10 @@ const { emit } = useContext();
 
 // 对话框 - 确定
 function dialogConfirm(): void {
-  const params: { type: string, id: number } = {
+  const params: { type: string; id: number } = {
     type: 'add',
     id: 0
-  }
+  };
   if (playDialogeData.type === 'add') {
     addPlayList({ name: playDialogeData.name }).then((res: ResponseType) => {
       if (res.code === 200) {
@@ -75,52 +75,50 @@ function dialogCancel(): void {
 </script>
 
 <style lang="less" scoped>
-.create-play-dialog {
-  ::v-deep(.my-dialog) {
-    .my_dialog_box {
-      width: 480px;
-    }
-    .content {
-      text-align: center;
-      color: #333;
-      font-size: 14px;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+::v-deep(.my-dialog) {
+  .my_dialog_box {
+    width: 480px;
   }
-  ::v-deep(.my-dialog-add) {
-    .my_dialog_bottom {
-      margin-left: 86px;
-      text-align: left;
+  .content {
+    text-align: center;
+    color: #333;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}
+::v-deep(.my-dialog-add) {
+  .my_dialog_bottom {
+    margin-left: 86px;
+    text-align: left;
+  }
+  .content {
+    color: #333;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: left;
+    .form {
+      margin-left: 30px;
+      .name {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      .input {
+        display: inline-block;
+        vertical-align: middle;
+        width: 330px;
+        height: 19px;
+        margin: 0;
+        padding: 5px 6px 6px;
+        border: 1px solid #cdcdcd;
+        border-radius: 2px;
+        line-height: 19px;
+        box-sizing: content-box;
+        outline: none;
+      }
     }
-    .content {
-      color: #333;
-      font-size: 14px;
-      font-family: Arial, Helvetica, sans-serif;
-      text-align: left;
-      .form {
-        margin-left: 30px;
-        .name {
-          display: inline-block;
-          vertical-align: middle;
-        }
-        .input {
-          display: inline-block;
-          vertical-align: middle;
-          width: 330px;
-          height: 19px;
-          margin: 0;
-          padding: 5px 6px 6px;
-          border: 1px solid #cdcdcd;
-          border-radius: 2px;
-          line-height: 19px;
-          box-sizing: content-box;
-          outline: none;
-        }
-      }
-      .desc {
-        margin: 8px 0 20px 86px;
-        color: #999;
-      }
+    .desc {
+      margin: 8px 0 20px 86px;
+      color: #999;
     }
   }
 }
