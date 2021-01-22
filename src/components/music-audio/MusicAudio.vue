@@ -241,7 +241,7 @@ export default defineComponent({
     }
 
     // 音频开始播放
-    function musicPlaying(res: any) {
+    function musicPlaying(res: Record<string, any>) {
       console.log('播放开始' + res);
     }
 

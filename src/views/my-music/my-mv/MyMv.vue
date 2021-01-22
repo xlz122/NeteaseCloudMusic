@@ -35,10 +35,7 @@
 import { ref } from 'vue';
 import { timeStampToDuration } from '@utils/utils.ts';
 import { myMvSbulist } from '@api/my-music';
-
-interface ResponseType {
-  [key: string]: any;
-}
+import { ResponseType } from '@/types/types';
 
 // 我的视频数量
 const myMvCount = ref<number>(0);
