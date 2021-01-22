@@ -69,9 +69,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import Login from '@views/login/Login.vue';
+import { LoopType } from '@/types/types';
 
 interface NavList {
   title: string;
@@ -83,6 +85,7 @@ export default defineComponent({
     Login
   },
   setup() {
+    const $route = useRoute();
     const $store = useStore();
 
     // 是否登录
@@ -153,6 +156,17 @@ export default defineComponent({
         link: ''
       }
     ]);
+
+    // 监听导航变化
+    watch(
+      () => $route.path,
+      (path: string) => {
+        const index = navList.value.findIndex(
+          (item: LoopType) => item.link === path
+        );
+        $store.commit('setHeaderActiveIndex', index);
+      }
+    );
 
     // 子导航当前选中项
     const subNavActive = ref<number>(0);
