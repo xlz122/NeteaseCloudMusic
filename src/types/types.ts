@@ -11,11 +11,7 @@ export interface ResponseDataType<T = any> {
 }
 
 // 不固定接口返回值类型
-export interface ResponseType {
-  [key: string]: any;
-}
+export type ResponseType = Record<string, any>;
 
 // 循环类型，forEach map...
-export interface LoopType {
-  [key: string]: any;
-}
+export type LoopType = Record<string, any>;

@@ -3,6 +3,7 @@
   <!-- 直接 audio 标签上添加scr，可以播放，但是控制会报错，使用source解决 -->
   <!-- 改变source src地址，调用play()，音频无法播放，需要调用load()重新加载，然后调用play()播放 -->
   <audio
+    class="music-audio"
     ref="musicAudio"
     :muted="audioData.muted"
     :autoplay="audioData.autoplay"
@@ -12,7 +13,7 @@
   >
     <source :src="audioData.src" />
   </audio>
-  <div class="music-audio">
+  <div class="music-audio-container">
     <div class="music-audio-playbar">
       <!-- 锁定 -->
       <div class="updn">
@@ -93,7 +94,7 @@
           <button class="btn volume-btn" title="音量"></button>
           <button class="btn mode-btn" title="模式"></button>
           <button class="btn list-btn" title="列表"></button>
-          <span class="list-text">12</span>
+          <span class="list-text">{{ playMusicList?.length }}</span>
         </div>
       </div>
     </div>
@@ -185,7 +186,6 @@ export default defineComponent({
 
     // 上一首
     function prevPlayMusic(): boolean | undefined {
-      console.log('上一首');
       if (playMusicList.value.length === 0) {
         return false;
       }
@@ -256,6 +256,7 @@ export default defineComponent({
       document.body.removeEventListener('mousedown', setAudioMuted, false);
     });
     return {
+      playMusicList,
       playMusic,
       musicAudio,
       audioData,
