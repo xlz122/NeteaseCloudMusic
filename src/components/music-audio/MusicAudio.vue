@@ -107,6 +107,7 @@
       :playListShow="playListShow"
       :playMusicList="playMusicList"
       :playMusicId="playMusicId"
+      :playMusic="playMusic"
       @playlistItem="playlistItem"
       @closePlayList="closePlayList"
     />

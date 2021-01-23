@@ -12,7 +12,7 @@
         <i class="icon"></i>
         <span>清除</span>
       </div>
-      <div class="song-title">测试歌名</div>
+      <div class="song-title">{{ playMusic.name}}</div>
       <i class="clear-icon" @click="closePlayList"></i>
     </div>
     <!-- 内容部分 -->
@@ -94,6 +94,10 @@ export default defineComponent({
     playMusicId: {
       type: Number,
       default: 0
+    },
+    playMusic: {
+      type: Object,
+      default: {}
     }
   } as unknown) as undefined,
   setup(props, { emit }) {
