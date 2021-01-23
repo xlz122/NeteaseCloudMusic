@@ -93,11 +93,23 @@
         <div class="other">
           <button class="btn volume-btn" title="音量"></button>
           <button class="btn mode-btn" title="模式"></button>
-          <button class="btn list-btn" title="列表"></button>
+          <button
+            class="btn list-btn"
+            title="列表"
+            @click="setPlayListShow"
+          ></button>
           <span class="list-text">{{ playMusicList?.length }}</span>
         </div>
       </div>
     </div>
+    <play-list
+      class="play-list"
+      :playListShow="playListShow"
+      :playMusicList="playMusicList"
+      :playMusicId="playMusicId"
+      @playlistItem="playlistItem"
+      @closePlayList="closePlayList"
+    />
   </div>
 </template>
 
@@ -111,6 +123,7 @@ import {
   onUnmounted
 } from 'vue';
 import { useStore } from 'vuex';
+import PlayList from './PlayList.vue';
 import { getPlayMusicUrl } from '@api/my-music';
 import { ResponseType, LoopType } from '@/types/types';
 
@@ -122,6 +135,9 @@ interface AudioData {
 }
 
 export default defineComponent({
+  components: {
+    PlayList
+  },
   setup() {
     const $store = useStore();
 
@@ -223,6 +239,7 @@ export default defineComponent({
     function lookPlayMusic(): void {
       playMusicStatus.look = !playMusicStatus.look;
       if (playMusicStatus.look) {
+        playMusicStatus.loading = true;
         startPlayMusic();
       } else {
         stopPlayMusic();
@@ -245,6 +262,22 @@ export default defineComponent({
       console.log('播放开始' + res);
     }
 
+    // 显示播放列表
+    const playListShow = ref<boolean>(false);
+    function setPlayListShow(): void {
+      playListShow.value = !playListShow.value;
+    }
+
+    // 列表项播放
+    function playlistItem(id: number): void {
+      playMusicSrc(id);
+    }
+
+    // 关闭播放列表
+    function closePlayList(): void {
+      playListShow.value = false;
+    }
+
     // 浏览器音频限制处理
     function setAudioMuted(): void {
       audioData.muted = false;
@@ -256,6 +289,7 @@ export default defineComponent({
     });
     return {
       playMusicList,
+      playMusicId,
       playMusic,
       musicAudio,
       audioData,
@@ -263,7 +297,11 @@ export default defineComponent({
       prevPlayMusic,
       nextPlayMusic,
       lookPlayMusic,
-      musicPlaying
+      musicPlaying,
+      setPlayListShow,
+      playListShow,
+      playlistItem,
+      closePlayList
     };
   }
 });
