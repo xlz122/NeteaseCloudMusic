@@ -148,29 +148,16 @@
         </tr>
       </tbody>
     </table>
-    <my-dialog
-      class="no-copyright-dialog"
-      :visible="noCopyrightDialog"
-      :confirmtext="'知道了'"
-      showConfirmButton
-      @confirm="noCopyrightConfirm"
-    >
-      <p class="content">由于版权保护，您所在的地区暂时无法使用。</p>
-    </my-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, computed,ref } from 'vue';
 import { useStore } from 'vuex';
-import MyDialog from '@/components/MyDialog.vue';
 import { timeStampToDuration, formatDateTime } from '@utils/utils.ts';
 import { LoopType } from '@/types/types';
 
 export default defineComponent({
-  components: {
-    MyDialog
-  },
   setup() {
     const $store = useStore();
 
@@ -225,6 +212,7 @@ export default defineComponent({
     function noCopyrightConfirm(): void {
       noCopyrightDialog.value = false;
     }
+
     return {
       timeStampToDuration,
       formatDateTime,

@@ -30,7 +30,7 @@ import {
 import { useStore } from 'vuex';
 import OptionList from '@views/my-music/option-list/OptionList.vue';
 import MyMv from '@views/my-music/my-mv/MyMv.vue';
-import PlayListDetail from '@views/my-music/play-list/PlayListDetail.vue';
+import PlayListDetail from '@views/my-music/play-list-detail/PlayListDetail.vue';
 import { userSubcount } from '@api/my-music';
 import { ResponseType } from '@/types/types';
 
