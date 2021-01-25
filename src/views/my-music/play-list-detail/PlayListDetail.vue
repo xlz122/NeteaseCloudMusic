@@ -135,7 +135,7 @@
                 <i class="icon collect"></i>
                 <i class="icon share"></i>
                 <i class="icon download"></i>
-                <i class="icon delete"></i>
+                <i class="icon delete" @click="deleteMusicShow(item.id)"></i>
               </div>
             </div>
           </td>
@@ -155,6 +155,7 @@
         </tr>
       </tbody>
     </table>
+    <!-- 无版权弹框 -->
     <my-dialog
       class="no-copyright-dialog"
       :visible="noCopyrightDialog"
@@ -164,6 +165,19 @@
     >
       <p class="content">由于版权保护，您所在的地区暂时无法使用。</p>
     </my-dialog>
+    <!-- 删除歌曲弹框 -->
+    <my-dialog
+      class="delete-music-dialog"
+      :visible="deleteMusicDialog"
+      :confirmtext="'确定'"
+      :canceltext="'取消'"
+      showConfirmButton
+      showCancelButton
+      @confirm="deleteMusicConfirm"
+      @cancel="deleteMusicCancel"
+    >
+      <p class="content">确定删除歌曲？</p>
+    </my-dialog>
   </div>
 </template>
 
@@ -172,6 +186,7 @@ import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import MyDialog from '@/components/MyDialog.vue';
 import { timeStampToDuration, formatDateTime } from '@utils/utils.ts';
+import { deleteMusic } from '@api/my-music';
 import { LoopType } from '@/types/types';
 
 export default defineComponent({
@@ -235,6 +250,35 @@ export default defineComponent({
     function noCopyrightConfirm(): void {
       noCopyrightDialog.value = false;
     }
+
+    // 删除歌曲弹框
+    const deleteMusicDialog = ref<boolean>(false);
+    // 即将删除的歌曲id
+    const deleteMuiscId = ref<number>(0);
+    // 列表 - 删除图标点击
+    function deleteMusicShow(id: number): void {
+      deleteMusicDialog.value = !deleteMusicDialog.value;
+      deleteMuiscId.value = id;
+    }
+
+    // 删除歌曲 - 确定
+    function deleteMusicConfirm(): void {
+      deleteMusicDialog.value = false;
+      deleteMusic({
+        pid: playDetailData.value.playlist.id,
+        tracks: deleteMuiscId.value
+      }).then(() => {
+        const index = playDetailData.value?.playlist?.tracks?.findIndex(
+          (item: LoopType) => item.id === deleteMuiscId.value
+        );
+        playDetailData.value?.playlist?.tracks?.splice(index, 1);
+      });
+    }
+
+    // 删除歌曲 - 取消
+    function deleteMusicCancel(): void {
+      deleteMusicDialog.value = false;
+    }
     return {
       timeStampToDuration,
       formatDateTime,
@@ -244,7 +288,11 @@ export default defineComponent({
       playTitleMusic,
       noCopyrightDialog,
       noCopyrightConfirm,
-      playListMusic
+      playListMusic,
+      deleteMusicDialog,
+      deleteMusicShow,
+      deleteMusicConfirm,
+      deleteMusicCancel
     };
   }
 });

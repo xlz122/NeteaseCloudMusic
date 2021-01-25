@@ -98,7 +98,7 @@ export const playListDetail = ({ id }: { id: number }) => {
 
 /* @desc 获取播放url
  * @param { Number } timestamp - 防止接口缓存
- * @param { String } id - 歌单id，可多个，id1，id2 用逗号隔开
+ * @param { Number } id - 歌曲id，可多个，id1，id2 用逗号隔开
  */
 
 interface GetPlayMusicUrl {
@@ -114,6 +114,32 @@ export const getPlayMusicUrl = ({ id, br }: GetPlayMusicUrl) => {
   };
   return axios.request({
     url: '/song/url',
+    method: 'get',
+    params
+  });
+};
+
+/* @desc 删除歌单歌曲
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { String } op - 从歌单增加单曲为 add, 删除为 del
+ * @param { Number } pid: 歌单 id
+ * @param { Number } id - 歌曲id，可多个，id1，id2 用逗号隔开
+ */
+
+interface DeleteMusic {
+  pid: number | string;
+  tracks: number | string;
+}
+
+export const deleteMusic = ({ pid, tracks }: DeleteMusic) => {
+  const params = {
+    timestamp: new Date().getTime(),
+    op: 'del',
+    pid,
+    tracks
+  };
+  return axios.request({
+    url: '/playlist/tracks',
     method: 'get',
     params
   });
