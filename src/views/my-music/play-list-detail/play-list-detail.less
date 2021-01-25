@@ -155,6 +155,7 @@
               background-position: -28px -1622px;
             }
           }
+
           .disable-play,
           .disable-play:hover {
             width: 67px;
@@ -312,12 +313,14 @@
       }
     }
   }
+
   .play-list-table {
     width: 100%;
     border: 1px solid #d9d9d9;
     border-collapse: collapse;
     border-spacing: 0;
     table-layout: fixed;
+
     th {
       height: 38px;
       background-color: #f7f7f7;
@@ -327,6 +330,7 @@
       text-align: left;
       font-weight: normal;
       color: #666;
+
       .icon {
         display: inline-block;
         height: 18px;
@@ -337,55 +341,69 @@
         font-style: normal;
       }
     }
+
     .first-th {
       width: 74px;
       height: 18px;
+
       .icon {
         display: none;
       }
     }
+
     .two-th {
       height: 18px;
       line-height: 18px;
+
       .icon::before {
         content: '歌曲标题';
       }
     }
+
     .three-th {
       width: 111px;
       height: 18px;
       line-height: 18px;
+
       .icon::before {
         content: '时长';
       }
     }
+
     .four-th {
       width: 14%;
       height: 18px;
       line-height: 18px;
+
       .icon::before {
         content: '歌手';
       }
     }
+
     .five-th {
       width: 20%;
       height: 18px;
       line-height: 18px;
+
       .icon::before {
         content: '专辑';
       }
     }
+
     td {
       padding: 6px 10px;
       line-height: 18px;
       text-align: left;
     }
+
     .even-tr td {
       background-color: #f7f7f7;
     }
+
     .tbody-left {
       .hd {
         height: 18px;
+
         .icon-play {
           display: inline-block;
           vertical-align: middle;
@@ -395,9 +413,11 @@
           background-position: 0 -103px;
           cursor: pointer;
         }
+
         .active-play {
           background-position: -20px -128px;
         }
+
         .text {
           display: inline-block;
           vertical-align: middle;
@@ -407,9 +427,11 @@
         }
       }
     }
+
     .tbody-td {
       .hd {
         height: 18px;
+
         .icon-play {
           display: inline-block;
           vertical-align: middle;
@@ -417,10 +439,10 @@
           height: 17px;
           margin-top: -3px;
           background: url(../../../assets/image/my-music/my-music-table.png);
-          background-position: -20px -128px;
           background-position: 0 -151px;
           cursor: pointer;
         }
+
         .text {
           display: inline-block;
           vertical-align: middle;
@@ -433,28 +455,120 @@
           text-overflow: ellipsis;
           white-space: nowrap;
           cursor: pointer;
+
           .title:hover {
             text-decoration: underline;
           }
+
           .no-click {
             margin-left: 1px;
             color: #aeaeae;
             cursor: default;
           }
         }
+
+        .operate-btn {
+          visibility: hidden;
+          display: inline-block;
+          vertical-align: middle;
+          width: 98px;
+          height: 28px;
+          line-height: 28px;
+
+          .icon {
+            display: inline-block;
+            vertical-align: middle;
+            width: 16px;
+            height: 16px;
+            margin-left: 0px;
+            margin-right: 10px;
+            background: url(../../../assets/image/my-music/my-music-table.png);
+            cursor: pointer;
+          }
+
+          .add {
+            width: 13px;
+            height: 13px;
+            background: url(../../../assets/image/icon.png);
+            background-position: 0 -700px;
+
+            &:hover {
+              background-position: -22px -700px;
+            }
+          }
+
+          .collect {
+            width: 18px;
+            background-position: 0 -174px;
+
+            &:hover {
+              background-position: -20px -174px;
+            }
+          }
+
+          .share {
+            background-position: 0 -195px;
+
+            &:hover {
+              background-position: -20px -195px;
+            }
+          }
+
+          .download {
+            background-position: -81px -174px;
+
+            &:hover {
+              background-position: -104px -174px;
+            }
+          }
+
+          .delete {
+            margin-right: 0px;
+            background-position: 0 -217px;
+
+            &:hover {
+              background-position: -20px -217px;
+            }
+          }
+        }
       }
     }
+
     .singer {
       width: 100%;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
     }
+
     .tbody tr:hover {
       td {
-        height: 36px;
+        padding: 6px 10px;
+        line-height: 18px;
+      }
+
+      .tbody-td {
+        .hd {
+          height: auto;
+
+          .time {
+            display: none;
+          }
+
+          .operate-btn {
+            visibility: visible;
+            width: 85px;
+            height: auto;
+            line-height: 18px;
+
+            .icon {
+              margin-right: 4px;
+            }
+          }
+        }
       }
     }
+
     .no-copyright {
       .tbody-left {
         .hd {
@@ -463,10 +577,43 @@
           }
         }
       }
+
       .tbody-td {
         .hd {
           .text {
             color: #bbb;
+          }
+
+          .icon-play {
+            background: url(../../../assets/image/my-music/my-music-table.png);
+            background-position: -60px -151px;
+          }
+
+          .operate-btn {
+            .add {
+              display: none;
+            }
+
+            .collect {
+              display: none;
+            }
+
+            .share {
+              display: none;
+            }
+
+            .download {
+              display: none;
+            }
+
+            .delete {
+              margin-right: 0px;
+              background-position: 0 -217px;
+  
+              &:hover {
+                background-position: -20px -217px;
+              }
+            }
           }
         }
       }
@@ -478,6 +625,20 @@
   .my_dialog_box {
     width: 480px;
   }
+
+  .content {
+    text-align: center;
+    color: #333;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}
+
+::v-deep(.delete-music-dialog) {
+  .my_dialog_box {
+    width: 480px;
+  }
+
   .content {
     text-align: center;
     color: #333;
