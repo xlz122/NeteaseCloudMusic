@@ -12,7 +12,7 @@
         <i class="icon"></i>
         <span>清除</span>
       </div>
-      <div class="song-title">{{ playMusic.name}}</div>
+      <div class="song-title">{{ playMusic.name }}</div>
       <i class="clear-icon" @click="closePlayList"></i>
     </div>
     <!-- 内容部分 -->
