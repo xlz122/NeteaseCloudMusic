@@ -18,7 +18,7 @@
     <!-- 内容部分 -->
     <div class="play-list-content">
       <div class="left-content">
-        <ul class="list">
+        <ul class="list" v-if="playMusicList.length > 0">
           <li
             class="item"
             v-for="(item, index) in playMusicList"
@@ -51,6 +51,20 @@
             <i class="share"></i>
           </li>
         </ul>
+        <!-- 列表空时展示 -->
+        <div class="no-list-data" v-else>
+          <div class="title">
+            <i class="icon"></i>
+            <span class="text">你还没有添加任何歌曲</span>
+          </div>
+          <p class="desc">
+            <span>去首页</span>
+            <span class="link">发现音乐</span>
+            <span>，或在</span>
+            <span class="link">我的音乐</span>
+            <span>收听自己收藏得歌单</span>
+          </p>
+        </div>
       </div>
       <i class="line"></i>
       <div class="right-content">

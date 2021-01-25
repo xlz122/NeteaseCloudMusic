@@ -135,6 +135,7 @@
     background-repeat: repeat-y;
 
     .left-content {
+      position: relative;
       display: inline-block;
       vertical-align: middle;
       height: 260px;
@@ -277,6 +278,45 @@
 
           .text {
             color: #fff;
+          }
+        }
+      }
+
+      .no-list-data {
+        position: absolute;
+        top: 32%;
+        left: 50%;
+        transform: translateX(-50%);
+
+        .title {
+          width: 100%;
+          margin: 0 auto;
+          text-align: center;
+          color: #aaa;
+
+          .icon {
+            display: inline-block;
+            vertical-align: middle;
+            width: 36px;
+            height: 29px;
+            margin-right: 3px;
+            background: url(../../assets/image/music-audio/play-list.png);
+            background-position: -138px 0;
+          }
+
+          .text {
+            display: inline-block;
+            vertical-align: middle;
+          }
+        }
+
+        .desc {
+          margin-top: 20px;
+          color: #aaa;
+
+          .link {
+            text-decoration: underline;
+            cursor: pointer;
           }
         }
       }
