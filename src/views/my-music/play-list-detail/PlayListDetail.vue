@@ -127,9 +127,16 @@
           </td>
           <td class="tbody-td">
             <div class="hd">
-              <span class="text">
+              <span class="text time">
                 {{ timeStampToDuration(item.dt / 1000) }}
               </span>
+              <div class="operate-btn">
+                <i class="icon add"></i>
+                <i class="icon collect"></i>
+                <i class="icon share"></i>
+                <i class="icon download"></i>
+                <i class="icon delete"></i>
+              </div>
             </div>
           </td>
           <td class="tbody-td singer">
@@ -209,9 +216,12 @@ export default defineComponent({
 
     // 播放列表音乐
     const noCopyrightDialog = ref<boolean>(false);
-    function playListMusic(id: number, item: Record<string, any>): boolean | undefined {
+    function playListMusic(
+      id: number,
+      item: Record<string, any>
+    ): boolean | undefined {
       // 无版权处理
-      if (item.mv === 0) {
+      if (isCopyright(id)) {
         noCopyrightDialog.value = true;
         return false;
       }
