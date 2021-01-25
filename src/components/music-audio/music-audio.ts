@@ -1,4 +1,4 @@
-import { render, createVNode } from 'vue';
+import { createVNode, render } from 'vue';
 import MusicAudioComponent from './MusicAudio.vue';
 
 const MusicAudio = {

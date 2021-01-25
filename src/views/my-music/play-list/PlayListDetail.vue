@@ -148,16 +148,29 @@
         </tr>
       </tbody>
     </table>
+    <my-dialog
+      class="no-copyright-dialog"
+      :visible="noCopyrightDialog"
+      :confirmtext="'知道了'"
+      showConfirmButton
+      @confirm="noCopyrightConfirm"
+    >
+      <p class="content">由于版权保护，您所在的地区暂时无法使用。</p>
+    </my-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
+import MyDialog from '@/components/MyDialog.vue';
 import { timeStampToDuration, formatDateTime } from '@utils/utils.ts';
 import { LoopType } from '@/types/types';
 
 export default defineComponent({
+  components: {
+    MyDialog
+  },
   setup() {
     const $store = useStore();
 
@@ -195,13 +208,23 @@ export default defineComponent({
     }
 
     // 播放列表音乐
-    function playListMusic(id: number, item: unknown): void {
+    const noCopyrightDialog = ref<boolean>(false);
+    function playListMusic(id: number, item: Record<string, any>): boolean | undefined {
+      // 无版权处理
+      if (item.mv === 0) {
+        noCopyrightDialog.value = true;
+        return false;
+      }
       // 当前播放音乐id
       $store.commit('setPlayMusicId', id);
       // 播放音乐数据
       $store.commit('setPlayMusicList', item);
     }
 
+    // 无版权弹框 - 确定
+    function noCopyrightConfirm(): void {
+      noCopyrightDialog.value = false;
+    }
     return {
       timeStampToDuration,
       formatDateTime,
@@ -209,6 +232,8 @@ export default defineComponent({
       playMusicId,
       isCopyright,
       playTitleMusic,
+      noCopyrightDialog,
+      noCopyrightConfirm,
       playListMusic
     };
   }

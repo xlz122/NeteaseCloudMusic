@@ -78,15 +78,11 @@ export default defineComponent({
 
     // 我的音乐样式设置
     onMounted(() => {
-      const homeDom = document.querySelector('.home') as HTMLElement;
       const footerDom = document.querySelector('.footer') as HTMLElement;
-      homeDom.style.height = '100vh';
       footerDom.style.display = 'none';
     });
     onUnmounted(() => {
-      const homeDom = document.querySelector('.home') as HTMLElement;
       const footerDom = document.querySelector('.footer') as HTMLElement;
-      homeDom.style.height = '100vh';
       footerDom.style.display = 'block';
     });
     return {
