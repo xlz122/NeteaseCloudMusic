@@ -78,12 +78,20 @@ export default defineComponent({
 
     // 我的音乐样式设置
     onMounted(() => {
-      const footerDom = document.querySelector('.footer') as HTMLElement;
-      footerDom.style.display = 'none';
+      if (isLogin.value) {
+        const appDom = document.getElementById('app') as HTMLElement;
+        const footerDom = document.querySelector('.footer') as HTMLElement;
+        appDom.style.height = '100vh';
+        footerDom.style.display = 'none';
+      }
     });
     onUnmounted(() => {
-      const footerDom = document.querySelector('.footer') as HTMLElement;
-      footerDom.style.display = 'block';
+      if (isLogin.value) {
+        const appDom = document.getElementById('app') as HTMLElement;
+        const footerDom = document.querySelector('.footer') as HTMLElement;
+        appDom.style.height = 'auto';
+        footerDom.style.display = 'block';
+      }
     });
     return {
       isLogin,

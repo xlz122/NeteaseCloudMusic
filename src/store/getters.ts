@@ -11,8 +11,8 @@ const getters: Getters<State> = {
   userInfo: state => state.userInfo,
   isLogin: state =>
     Object.keys(
-      JSON.parse(localStorage.getItem('userInfo') as string) ||
-        state.userInfo ||
+      state.userInfo ||
+        JSON.parse(localStorage.getItem('userInfo') as string) ||
         {}
     ).length > 0
       ? true
