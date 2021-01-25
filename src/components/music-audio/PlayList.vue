@@ -8,7 +8,7 @@
         <span>收藏全部</span>
       </div>
       <span class="line"></span>
-      <div class="clear-all">
+      <div class="clear-all" @click="emptyMusicList">
         <i class="icon"></i>
         <span>清除</span>
       </div>
@@ -32,7 +32,10 @@
               <i class="icon collect"></i>
               <i class="icon share"></i>
               <i class="icon download"></i>
-              <i class="icon delete"></i>
+              <i
+                class="icon delete"
+                @click="deleteMusicList(item.id, $event)"
+              ></i>
             </div>
             <span class="text name">
               <span v-for="(i, ind) in item?.ar" :key="ind">
@@ -79,6 +82,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils.ts';
 
 export default defineComponent({
@@ -101,16 +105,31 @@ export default defineComponent({
     }
   } as unknown) as undefined,
   setup(props, { emit }) {
+    const $store = useStore();
+    // 清除列表
+    function emptyMusicList(): void {
+      $store.commit('emptyPlayMusicList');
+    }
+
+    // 列表项删除
+    function deleteMusicList(id: number, event: MouseEvent): void {
+      event.stopPropagation();
+      $store.commit('deletePlayMusicList', id);
+    }
+
     // 列表项点击
     function playlistItem(id: number): void {
       emit('playlistItem', id);
     }
+
     // 关闭列表
     function closePlayList(): void {
       emit('closePlayList');
     }
     return {
       timeStampToDuration,
+      emptyMusicList,
+      deleteMusicList,
       playlistItem,
       closePlayList
     };
