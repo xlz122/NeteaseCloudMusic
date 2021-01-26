@@ -118,3 +118,18 @@ export const userInfo = ({ uid }: { uid: string }) => {
     data
   });
 };
+
+/**
+ * @desc 退出登录
+ * @param { Number } timestamp - 防止接口缓存
+ */
+export const logout = () => {
+  const params = {
+    timestamp: new Date().getTime()
+  };
+  return axios.request({
+    url: '/logout',
+    method: 'get',
+    params
+  });
+};
