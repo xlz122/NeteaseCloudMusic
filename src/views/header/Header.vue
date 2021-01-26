@@ -129,6 +129,20 @@ export default defineComponent({
       $store.commit('setHeaderActiveIndex', index);
     }
 
+    // 监听导航变化
+    watch(
+      () => $route.path,
+      (path: string) => {
+        const index = navList.value.findIndex(
+          (item: LoopType) => item.link === path
+        );
+        $store.commit('setHeaderActiveIndex', index);
+      },
+      {
+        immediate: true
+      }
+    );
+
     // 子导航数据
     const subNavList = ref<NavList[]>([
       {
@@ -156,17 +170,6 @@ export default defineComponent({
         link: ''
       }
     ]);
-
-    // 监听导航变化
-    watch(
-      () => $route.path,
-      (path: string) => {
-        const index = navList.value.findIndex(
-          (item: LoopType) => item.link === path
-        );
-        $store.commit('setHeaderActiveIndex', index);
-      }
-    );
 
     // 子导航当前选中项
     const subNavActive = ref<number>(0);

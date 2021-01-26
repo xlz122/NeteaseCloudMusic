@@ -9,7 +9,7 @@ const mutations: Mutations<State, unknown> = {
   // 头部选中导航
   setHeaderActiveIndex(state, index) {
     state.heaerActiveIndex = index as number;
-    sessionStorage.setItem('heaerActiveIndex', (index as number).toString());
+    localStorage.setItem('heaerActiveIndex', (index as number).toString());
   },
   // 登录对话框
   setLoginDialog(state, bool) {

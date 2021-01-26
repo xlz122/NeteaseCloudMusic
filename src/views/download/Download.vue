@@ -253,7 +253,6 @@ export default defineComponent({
         console.log('download.vue 点击事件移除');
       });
     });
-
     return {
       otherDownload,
       otherDownloadModal,
