@@ -41,3 +41,19 @@ export function getCookie(key: string) {
 export function removeCookie(key: string): void {
   setCookie(key, '', -1);
 }
+
+/**
+ * @desc 清除所有cookie
+ */
+export function clearAllCookie() {
+  const date = new Date();
+  date.setTime(date.getTime() - 10000);
+  // eslint-disable-next-line
+  const keys = document.cookie.match(/[^ =;]+(?=\=)/g);
+  if (keys) {
+    for (let i = keys.length; i--; ) {
+      document.cookie =
+        keys[i] + '=0; expire=' + date.toUTCString() + '; path=/';
+    }
+  }
+}

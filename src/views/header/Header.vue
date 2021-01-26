@@ -35,6 +35,7 @@
           </div>
           <div class="login" v-if="isLogin">
             <img class="user-img" :src="userInfo?.profile?.avatarUrl" />
+            <user class="user-list" />
           </div>
           <div v-else class="login" @click="openLogin">
             登录
@@ -73,6 +74,7 @@ import { defineComponent, ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import Login from '@views/login/Login.vue';
+import User from '@views/user/User.vue';
 import { LoopType } from '@/types/types';
 
 interface NavList {
@@ -82,7 +84,8 @@ interface NavList {
 
 export default defineComponent({
   components: {
-    Login
+    Login,
+    User
   },
   setup() {
     const $route = useRoute();
