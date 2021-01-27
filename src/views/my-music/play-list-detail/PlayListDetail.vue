@@ -46,16 +46,32 @@
                   playDetailData?.playlist?.tracks.length === 0
               }"
             ></div>
-            <div class="other">
+            <div class="other collection">
               <span class="icon">收藏</span>
             </div>
-            <div class="other share">
+            <div
+              class="other share"
+              :class="{
+                'disable-share': playDetailData?.playlist?.tracks.length === 0
+              }"
+            >
               <span class="icon">分享</span>
             </div>
-            <div class="other download">
+            <div
+              class="other download"
+              :class="{
+                'disable-download':
+                  playDetailData?.playlist?.tracks.length === 0
+              }"
+            >
               <span class="icon">下载</span>
             </div>
-            <div class="other comment">
+            <div
+              class="other comment"
+              :class="{
+                'disable-comment': playDetailData?.playlist?.tracks.length === 0
+              }"
+            >
               <span class="icon">评论</span>
             </div>
           </div>

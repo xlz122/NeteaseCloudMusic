@@ -148,11 +148,13 @@ export default defineComponent({
       musicDetail.playListDetail = true;
       $store.commit('setMyMusicDetail', musicDetail);
       
-      // 创建歌单选中
-      activeIndex.value = index;
+      if (index !== activeIndex.value) {
+        // 创建歌单选中
+        activeIndex.value = index;
 
-      // 获取歌单详情
-      getPlayListDetail(id);
+        // 获取歌单详情
+        getPlayListDetail(id);
+      }
     }
 
     // 创建歌单 - 对话框数据
