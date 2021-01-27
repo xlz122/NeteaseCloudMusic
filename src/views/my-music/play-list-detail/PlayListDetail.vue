@@ -1,5 +1,6 @@
 <template>
   <div class="play-list-main">
+    <!-- 个人信息部分 -->
     <div class="main-header">
       <div class="header-info">
         <div class="info-img">
@@ -16,9 +17,9 @@
               class="user-avatar"
               :src="playDetailData?.playlist?.creator?.avatarUrl"
             />
-            <span class="user-name">{{
-              playDetailData?.playlist?.creator?.nickname
-            }}</span>
+            <span class="user-name">
+              {{ playDetailData?.playlist?.creator?.nickname }}
+            </span>
             <span class="user-time">
               {{
                 formatDateTime(
@@ -91,6 +92,7 @@
         次
       </div>
     </div>
+    <!-- 歌曲列表部分 -->
     <table class="play-list-table">
       <thead>
         <tr>
@@ -171,6 +173,64 @@
         </tr>
       </tbody>
     </table>
+    <!-- 评论 -->
+    <div class="detail-comment">
+      <div class="list-title">
+        <h3 class="title-text">评论</h3>
+        <span class="title-text-num">
+          共{{ playDetailData?.playlist?.commentCount }}条评论
+        </span>
+      </div>
+      <div class="comment-content">
+        <img
+          class="user-avatar"
+          :src="playDetailData?.playlist?.creator?.avatarUrl"
+        />
+        <textarea class="comment-textarea" placeholder="评论"></textarea>
+      </div>
+      <div class="operate">
+        <div class="operate-icon">
+          <i class="icon expression"></i>
+          <i class="icon att"></i>
+        </div>
+        <div class="operate-publish">
+          <span class="text">140</span>
+          <button class="publish">评论</button>
+        </div>
+      </div>
+      <h3 class="comment-list-title">
+        最新评论({{ playDetailData?.playlist?.commentCount }})
+      </h3>
+      <ul
+        class="comment-list"
+        v-if="playDetailData?.playlist?.commentCount > 0"
+      >
+        <li class="item">
+          <img
+            class="user-avatar"
+            :src="playDetailData?.playlist?.creator?.avatarUrl"
+          />
+          <div class="item-right">
+            <div class="detail-text">
+              <span class="name">
+                {{ playDetailData?.playlist?.creator?.nickname }}:
+              </span>
+              <span class="text">哈哈</span>
+            </div>
+            <div class="item-operate">
+              <span class="time">18分钟前</span>
+              <div class="reply-operate">
+                <span class="delete">删除</span>
+                <span class="delete-line">|</span>
+                <i class="give"></i>
+                <span class="line">|</span>
+                <span class="reply">回复</span>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
     <!-- 无版权弹框 -->
     <my-dialog
       class="no-copyright-dialog"
