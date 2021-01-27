@@ -34,22 +34,20 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import { logout } from '@api/login';
 import { ResponseType } from '@/types/types';
-import { clearAllCookie } from '@utils/cookie';
 
 export default defineComponent({
   setup() {
     const $router = useRouter();
+    const $store = useStore();
 
     // 退出登录
     function signOut(): void {
       logout().then((res: ResponseType) => {
         if (res.code === 200) {
-          // 清除所有本地存储
-          localStorage.clear();
-          // 清除所有cookie
-          clearAllCookie();
+          $store.commit('setLogout');
           // 跳转首页
           $router.push('/');
         }
