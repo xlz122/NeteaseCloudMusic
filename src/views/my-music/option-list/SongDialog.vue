@@ -3,19 +3,19 @@
   <div>
     <my-dialog
       class="my-dialog"
-      :class="{ 'my-dialog-add': playDialogeData.type === 'add' }"
-      :visible="playDialogeData.visible"
-      :title="playDialogeData.title"
-      :confirmtext="playDialogeData.confirmtext"
+      :class="{ 'my-dialog-add': dialogeData.type === 'add' }"
+      :visible="dialogeData.visible"
+      :title="dialogeData.title"
+      :confirmtext="dialogeData.confirmtext"
       showCancelButton
       showConfirmButton
       @confirm="dialogConfirm"
       @cancel="dialogCancel"
     >
-      <div class="content" v-if="playDialogeData.type === 'add'">
+      <div class="content" v-if="dialogeData.type === 'add'">
         <div class="form">
           <span class="name">歌单名：</span>
-          <input class="input" v-model="playDialogeData.name" type="text" />
+          <input class="input" v-model="dialogeData.name" type="text" />
         </div>
         <p class="desc">可通过“收藏”将音乐添加到新歌单中</p>
       </div>
@@ -28,11 +28,9 @@
 /* eslint-disable */
 import { useContext, defineProps, defineEmit } from 'vue';
 import MyDialog from '@/components/MyDialog.vue';
-import { addPlayList, deletePlayList } from '@api/my-music';
-import { ResponseType } from '@/types/types';
 
-const { playDialogeData } = defineProps({
-  playDialogeData: {
+const { dialogeData } = defineProps({
+  dialogeData: {
     type: Object,
     default: {}
   }
@@ -44,33 +42,22 @@ const { emit } = useContext();
 
 // 对话框 - 确定
 function dialogConfirm(): void {
-  const params: { type: string; id: number } = {
+  const params: { type: string; name: string } = {
     type: 'add',
-    id: 0
+    name: dialogeData.name
   };
-  if (playDialogeData.type === 'add') {
-    addPlayList({ name: playDialogeData.name }).then((res: ResponseType) => {
-      if (res.code === 200) {
-        params.type = 'add';
-        params.id = res.id;
-        emit('dialogConfirm', params);
-      }
-    });
+  if (dialogeData.type === 'add') {
+    params.type = 'add';
   } else {
-    deletePlayList({ id: playDialogeData.id }).then((res: ResponseType) => {
-      if (res.code === 200) {
-        params.type = 'delete';
-        params.id = playDialogeData.id;
-        emit('dialogConfirm', params);
-      }
-    });
+    params.type = 'delete';
   }
-  playDialogeData.visible = false;
+  emit('dialogConfirm', params);
+  dialogeData.visible = false;
 }
 
 // 对话框 - 取消
 function dialogCancel(): void {
-  playDialogeData.visible = false;
+  dialogeData.visible = false;
 }
 </script>
 

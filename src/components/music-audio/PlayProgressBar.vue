@@ -1,0 +1,124 @@
+<template>
+  <div class="progress" ref="progressRef" @click="handleProgressClick">
+    <div class="current-progress" ref="currentProgressRef">
+      <i class="icon" ref="progressIconRef"></i>
+      <!-- <i class="icon-loading" v-if="playMusicStatus.loading"></i> -->
+    </div>
+    <div class="total-progress"></div>
+  </div>
+  <div class="time">
+    <span class="duration">
+      {{ timeStampToDuration(perData.currentTime) || '00:00' }}
+    </span>
+    <span class="total-duration">
+      / {{ timeStampToDuration(perData.duration) || '00:00' }}
+    </span>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref, watch, onMounted, onUnmounted } from 'vue';
+import { timeStampToDuration } from '@utils/utils';
+import { LoopType } from '@/types/types';
+
+export default defineComponent({
+  props: ({
+    perData: {
+      type: Object,
+      default: {}
+    }
+  } as unknown) as undefined,
+  setup(props: { perData: LoopType }) {
+    // 当前进度距离左边距离
+    const currentLeft = ref<number>(0);
+    // 总进度 当前进度 进度图标
+    const progressRef = ref<HTMLElement>();
+    const currentProgressRef = ref<HTMLElement>();
+    const progressIconRef = ref<HTMLElement>();
+    // 鼠标是否按下
+    const isMouseDown = ref<boolean>(false);
+
+    // 监听进度
+    watch(
+      () => props.perData.number,
+      (curVal: number) => {
+        if (!isNaN(curVal)) {
+          (currentProgressRef.value as HTMLElement).style.width = curVal + '%';
+        }
+      }
+    );
+
+    // 进度点击
+    function handleProgressClick(e: MouseEvent): boolean | undefined {
+      // 点击进度图标
+      const target = e.target as HTMLElement;
+      if (target.className === 'icon') {
+        return false;
+      }
+      const progressWidth = (progressRef.value as HTMLElement).offsetWidth;
+      (currentProgressRef.value as HTMLElement).style.width =
+        (e.offsetX / progressWidth) * 100 + '%';
+    }
+
+    // 监听鼠标按下事件
+    function mousedown(e: MouseEvent): void {
+      const target = e.target as HTMLElement;
+      if (target.className === 'icon') {
+        isMouseDown.value = true;
+        currentLeft.value =
+          e.clientX - (progressIconRef.value as HTMLElement)?.offsetLeft;
+      }
+    }
+
+    // 监听鼠标移动事件
+    function mousemove(e: MouseEvent): void {
+      if (isMouseDown.value) {
+        // 12为圆点宽度一半
+        let moveX = e.clientX - currentLeft.value + 12;
+        const progressWidth = (progressRef.value as HTMLElement).offsetWidth;
+        if (moveX >= progressWidth) {
+          moveX = progressWidth;
+        }
+        if (moveX <= 0) {
+          moveX = 0;
+        }
+        (currentProgressRef.value as HTMLElement).style.width =
+          (moveX / progressWidth) * 100 + '%';
+      }
+    }
+
+    // 监听鼠标放开事件
+    function mouseup(): void {
+      isMouseDown.value = false;
+    }
+
+    onMounted(() => {
+      // 监听鼠标按下事件
+      document.addEventListener('mousedown', mousedown);
+      // 监听鼠标移动事件
+      document.addEventListener('mousemove', mousemove);
+      // 监听鼠标放开事件
+      document.addEventListener('mouseup', mouseup);
+    });
+    onUnmounted(() => {
+      // 移除监听鼠标按下事件
+      document.removeEventListener('mousedown', mousedown);
+      // 移除监听鼠标移动事件
+      document.removeEventListener('mousemove', mousemove);
+      // 移除监听鼠标放开事件
+      document.removeEventListener('mouseup', mouseup);
+    });
+    return {
+      timeStampToDuration,
+      progressRef,
+      currentProgressRef,
+      progressIconRef,
+      handleProgressClick
+    };
+  }
+});
+</script>
+
+<style lang="less" scoped>
+@import './music-audio.less';
+</style>

@@ -1,5 +1,6 @@
 .play-list-main {
-  margin-bottom: 130px;
+  margin-bottom: 50px;
+
   .main-header {
     padding: 40px;
 
@@ -61,6 +62,7 @@
           }
 
           .title-text {
+            width: 368px;
             display: inline-block;
             vertical-align: middle;
             font-size: 20px;
@@ -112,7 +114,7 @@
           .play {
             display: inline-block;
             vertical-align: middle;
-            width: 56px;
+            width: 59px;
             height: 31px;
             line-height: 31px;
             padding-right: 5px;
@@ -201,7 +203,7 @@
           .other {
             display: inline-block;
             vertical-align: middle;
-            width: 61px;
+            width: 70px;
             height: 31px;
             line-height: 30px;
             margin-left: -3px;
@@ -209,25 +211,24 @@
             padding-right: 0;
             background: url(../../../assets/image/icon-button.png) no-repeat;
             background-position: right -1192px;
-            color: #bebebe;
+            color: #333;
             font-style: normal;
             text-align: left;
             font-size: inherit;
+            font-family: simsun,\5b8b\4f53;
             cursor: pointer;
 
             .icon {
               display: inline-block;
               vertical-align: middle;
-              width: 29px;
+              width: 36px;
               height: 31px;
               padding-right: 2px;
-              padding-left: 28px;
+              padding-left: 30px;
               background: url(../../../assets/image/icon-button.png) no-repeat;
               background-position: 0 -1149px;
             }
           }
-
-          // .disable-collection{}
 
           .share {
             .icon {
@@ -247,12 +248,6 @@
             }
           }
 
-          // .other:hover {
-          //   background-position: right -1106px;
-          //   .icon {
-          //     background-position: 0 -1268px;
-          //   }
-          // }
           .share:hover {
             background-position: right -1106px;
 
@@ -276,29 +271,46 @@
               background-position: 0 -1508px;
             }
           }
+
+          .disable-collection,
+          .disable-collection:hover {
+            color: #bebebe;
+            background-position: right -1192px;
+            cursor: default;
+
+            .icon {
+              background-position: 0 -1354px;
+            }
+          }
+
           .disable-share,
           .disable-share:hover {
             color: #bebebe;
             background-position: right -1192px;
             cursor: default;
+
             .icon {
               background-position: 0 -1311px;
             }
           }
+
           .disable-download,
           .disable-download:hover {
             color: #bebebe;
             background-position: right -1192px;
             cursor: default;
+
             .icon {
               background-position: 0 -3024px;
             }
           }
+
           .disable-comment,
           .disable-comment:hover {
             color: #bebebe;
             background-position: right -1192px;
             cursor: default;
+
             .icon {
               background-position: 0 -1551px;
             }
@@ -639,13 +651,78 @@
             .delete {
               margin-right: 0px;
               background-position: 0 -217px;
-  
+
               &:hover {
                 background-position: -20px -217px;
               }
             }
           }
         }
+      }
+    }
+  }
+
+  .no-list-data {
+    padding: 95px 0 95px 0;
+    text-align: center;
+
+    .title {
+      width: 100%;
+      margin: 0 auto;
+      padding-bottom: 16px;
+      font-size: 18px;
+      text-align: center;
+      color: #333;
+
+      .icon {
+        display: inline-block;
+        vertical-align: middle;
+        width: 64px;
+        height: 50px;
+        margin-right: 17px;
+        background: url(../../../assets/image/icon.png);
+        background-position: 0 -347px;
+      }
+
+      .text {
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
+
+    .desc {
+      margin-top: 20px;
+      color: #aaa;
+
+      .text {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .link {
+        display: inline-block;
+        vertical-align: middle;
+        color: #0c73c2;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .icon {
+        display: inline-block;
+        vertical-align: middle;
+        width: 16px;
+        height: 14px;
+        margin: 0 9px 0 7px;
+        background: url(../../../assets/image/icon.png);
+        background-position: 0 -400px;
+      }
+
+      .go {
+        margin-left: 10px;
+        margin-right: 5px;
       }
     }
   }

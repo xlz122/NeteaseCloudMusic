@@ -2,7 +2,7 @@
   <div class="my-music" v-if="isLogin">
     <div class="my-music-container">
       <div class="my-music-scroll">
-        <option-list :optionsCount="optionsCount" />
+        <option-list />
       </div>
       <div class="my-music-main">
         <my-mv v-if="myMusicDetail.myMv" />
@@ -20,24 +20,11 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  computed,
-  reactive,
-  onMounted,
-  onUnmounted
-} from 'vue';
+import { defineComponent, computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import OptionList from '@views/my-music/option-list/OptionList.vue';
 import MyMv from '@views/my-music/my-mv/MyMv.vue';
 import PlayListDetail from '@views/my-music/play-list-detail/PlayListDetail.vue';
-import { userSubcount } from '@api/my-music';
-import { ResponseType } from '@/types/types';
-
-interface OptionsCount {
-  myMvCount: number;
-  createdPlayCount: number;
-}
 
 export default defineComponent({
   components: {
@@ -53,23 +40,6 @@ export default defineComponent({
 
     // 详情显示
     const myMusicDetail = computed(() => $store.getters.myMusicDetail);
-
-    const optionsCount = reactive<OptionsCount>({
-      myMvCount: 0, // 我的视频数量
-      createdPlayCount: 0 // 创建歌单数量
-    });
-
-    // 获取歌单，收藏，mv, dj 数量
-    function getUserSubcount(): boolean | undefined {
-      if (!isLogin.value) {
-        return false;
-      }
-      userSubcount().then((res: ResponseType) => {
-        optionsCount.myMvCount = res.mvCount || 0;
-        optionsCount.createdPlayCount = res.createdPlaylistCount || 0;
-      });
-    }
-    getUserSubcount();
 
     // 打开登录对话框
     function openLogin(): void {
@@ -96,7 +66,6 @@ export default defineComponent({
     return {
       isLogin,
       myMusicDetail,
-      optionsCount,
       openLogin
     };
   }

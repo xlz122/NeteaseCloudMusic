@@ -7,7 +7,7 @@ interface Mutations<T, U> {
 }
 
 const mutations: Mutations<State, unknown> = {
-  // 头部选中导航z
+  // 头部选中导航
   setHeaderActiveIndex(state, index) {
     state.heaerActiveIndex = index as number;
     localStorage.setItem('heaerActiveIndex', (index as number).toString());
@@ -38,6 +38,11 @@ const mutations: Mutations<State, unknown> = {
   // 我的音乐显示详情
   setMyMusicDetail(state, myMusicDetail) {
     state.myMusicDetail = myMusicDetail as MyMusicDetail;
+  },
+  // 我的音乐 - 侧边列表选中项id
+  setActiveSongListId(state, activeSongListId) {
+    state.activeSongListId = activeSongListId as number;
+    localStorage.setItem('activeSongListId', JSON.stringify(activeSongListId));
   },
   // 我的音乐 - 创建歌单详情数据
   setPlayDetailData(state, playDetailData) {

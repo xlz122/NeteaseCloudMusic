@@ -1,5 +1,6 @@
 <template>
   <div class="play-list-main">
+    <!-- 个人信息部分 -->
     <div class="main-header">
       <div class="header-info">
         <div class="info-img">
@@ -16,9 +17,9 @@
               class="user-avatar"
               :src="playDetailData?.playlist?.creator?.avatarUrl"
             />
-            <span class="user-name">{{
-              playDetailData?.playlist?.creator?.nickname
-            }}</span>
+            <span class="user-name">
+              {{ playDetailData?.playlist?.creator?.nickname }}
+            </span>
             <span class="user-time">
               {{
                 formatDateTime(
@@ -46,8 +47,20 @@
                   playDetailData?.playlist?.tracks.length === 0
               }"
             ></div>
-            <div class="other collection">
-              <span class="icon">收藏</span>
+            <div
+              class="other collection"
+              :class="{
+                'disable-collection':
+                  playDetailData?.playlist?.subscribedCount > 0
+              }"
+            >
+              <span
+                class="icon"
+                v-if="playDetailData?.playlist?.subscribedCount > 0"
+              >
+                ({{ playDetailData?.playlist?.subscribedCount }})
+              </span>
+              <span class="icon" v-else>收藏</span>
             </div>
             <div
               class="other share"
@@ -55,7 +68,13 @@
                 'disable-share': playDetailData?.playlist?.tracks.length === 0
               }"
             >
-              <span class="icon">分享</span>
+              <span
+                class="icon"
+                v-if="playDetailData?.playlist?.shareCount > 0"
+              >
+                ({{ playDetailData?.playlist?.shareCount }})
+              </span>
+              <span class="icon" v-else>分享</span>
             </div>
             <div
               class="other download"
@@ -72,7 +91,13 @@
                 'disable-comment': playDetailData?.playlist?.tracks.length === 0
               }"
             >
-              <span class="icon">评论</span>
+              <span
+                class="icon"
+                v-if="playDetailData?.playlist?.commentCount > 0"
+              >
+                ({{ playDetailData?.playlist?.commentCount }})
+              </span>
+              <span class="icon" v-else>评论</span>
             </div>
           </div>
         </div>
@@ -83,7 +108,10 @@
       <span class="title-text-num">
         {{ playDetailData?.playlist?.trackCount }}首歌
       </span>
-      <div class="title-play-num">
+      <div
+        class="title-play-num"
+        v-if="playDetailData?.playlist?.tracks.length > 0"
+      >
         播放:
         <span class="eye-catching">{{
           playDetailData?.playlist?.playCount
@@ -91,7 +119,11 @@
         次
       </div>
     </div>
-    <table class="play-list-table">
+    <!-- 歌曲列表部分 -->
+    <table
+      class="play-list-table"
+      v-if="playDetailData?.playlist?.tracks.length > 0"
+    >
       <thead>
         <tr>
           <th class="th first-th">
@@ -171,6 +203,28 @@
         </tr>
       </tbody>
     </table>
+    <!-- 音乐列表空时展示 -->
+    <div
+      class="no-list-data"
+      v-if="playDetailData?.playlist?.tracks.length === 0"
+    >
+      <div class="title">
+        <i class="icon"></i>
+        <h3 class="text">暂无音乐！</h3>
+      </div>
+      <p class="desc">
+        <span class="text">点击</span>
+        <span class="icon"></span>
+        <span class="text">即可将你喜欢的音乐收藏到“我的音乐”</span>
+        <span class="text go">马上去</span>
+        <span class="link">发现音乐</span>
+      </p>
+    </div>
+    <!-- 评论 -->
+    <comment
+      v-if="playDetailData?.playlist?.tracks.length > 0"
+      :playDetailData="playDetailData"
+    />
     <!-- 无版权弹框 -->
     <my-dialog
       class="no-copyright-dialog"
@@ -201,12 +255,14 @@
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import MyDialog from '@/components/MyDialog.vue';
+import Comment from '@views/my-music/play-list-detail/Comment.vue';
 import { timeStampToDuration, formatDateTime } from '@utils/utils.ts';
 import { deleteMusic } from '@api/my-music';
 import { LoopType } from '@/types/types';
 
 export default defineComponent({
   components: {
+    Comment,
     MyDialog
   },
   setup() {
