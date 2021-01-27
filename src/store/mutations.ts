@@ -1,12 +1,13 @@
 import { State, MyMusicDetail } from '@store/state';
 import { LoopType } from '@/types/types';
+import { clearAllCookie } from '@utils/cookie';
 
 interface Mutations<T, U> {
   [key: string]: (state: T, payload: U) => void;
 }
 
 const mutations: Mutations<State, unknown> = {
-  // 头部选中导航
+  // 头部选中导航z
   setHeaderActiveIndex(state, index) {
     state.heaerActiveIndex = index as number;
     localStorage.setItem('heaerActiveIndex', (index as number).toString());
@@ -22,6 +23,17 @@ const mutations: Mutations<State, unknown> = {
   // 用户信息
   setUserInfo(state, userInfo) {
     state.userInfo = userInfo as unknown;
+  },
+  // 退出登录
+  setLogout(state) {
+    // 清除账户信息
+    state.accountInfo = {};
+    // 清除用户信息
+    state.userInfo = {};
+    // 清除所有本地存储
+    localStorage.clear();
+    // 清除所有cookie
+    clearAllCookie();
   },
   // 我的音乐显示详情
   setMyMusicDetail(state, myMusicDetail) {
