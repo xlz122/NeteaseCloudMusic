@@ -96,6 +96,30 @@ export const playListDetail = ({ id }: { id: number }) => {
   });
 };
 
+/* @desc 获取用户歌单评论
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } id - 歌单id
+ * @param { Number } [limit] - 评论条数
+ */
+
+interface CommentPlayList {
+  id: number;
+  limit?: number;
+}
+
+export const commentPlayList = ({ id, limit }: CommentPlayList) => {
+  const params = {
+    timestamp: new Date().getTime(),
+    id,
+    limit
+  };
+  return axios.request({
+    url: '/comment/playlist',
+    method: 'get',
+    params
+  });
+};
+
 /* @desc 获取播放url
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌曲id，可多个，id1，id2 用逗号隔开
