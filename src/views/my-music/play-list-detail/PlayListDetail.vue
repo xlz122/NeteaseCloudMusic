@@ -84,7 +84,10 @@
       <span class="title-text-num">
         {{ playDetailData?.playlist?.trackCount }}首歌
       </span>
-      <div class="title-play-num">
+      <div
+        class="title-play-num"
+        v-if="playDetailData?.playlist?.tracks.length > 0"
+      >
         播放:
         <span class="eye-catching">{{
           playDetailData?.playlist?.playCount
@@ -93,7 +96,10 @@
       </div>
     </div>
     <!-- 歌曲列表部分 -->
-    <table class="play-list-table">
+    <table
+      class="play-list-table"
+      v-if="playDetailData?.playlist?.tracks.length > 0"
+    >
       <thead>
         <tr>
           <th class="th first-th">
@@ -173,8 +179,29 @@
         </tr>
       </tbody>
     </table>
+    <!-- 音乐列表空时展示 -->
+    <div
+      class="no-list-data"
+      v-if="playDetailData?.playlist?.tracks.length === 0"
+    >
+      <div class="title">
+        <i class="icon"></i>
+        <h3 class="text">暂无音乐！</h3>
+      </div>
+      <p class="desc">
+        <span class="text">点击</span>
+        <span class="icon"></span>
+        <span class="text">即可将你喜欢的音乐收藏到“我的音乐”</span>
+        <span class="text go">马上去</span>
+        <span class="link">发现音乐</span>
+        
+      </p>
+    </div>
     <!-- 评论 -->
-    <comment :playDetailData="playDetailData" />
+    <comment
+      v-if="playDetailData?.playlist?.tracks.length > 0"
+      :playDetailData="playDetailData"
+    />
     <!-- 无版权弹框 -->
     <my-dialog
       class="no-copyright-dialog"
