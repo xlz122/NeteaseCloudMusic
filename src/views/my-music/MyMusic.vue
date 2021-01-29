@@ -37,6 +37,7 @@ import { ResponseType } from '@/types/types';
 interface OptionsCount {
   myMvCount: number;
   createdPlayCount: number;
+  collectionPlayCount: number;
 }
 
 export default defineComponent({
@@ -56,7 +57,8 @@ export default defineComponent({
 
     const optionsCount = reactive<OptionsCount>({
       myMvCount: 0, // 我的视频数量
-      createdPlayCount: 0 // 创建歌单数量
+      createdPlayCount: 0, // 创建歌单数量
+      collectionPlayCount: 0 // 创建歌单数量
     });
 
     // 获取歌单，收藏，mv, dj 数量
@@ -67,6 +69,7 @@ export default defineComponent({
       userSubcount().then((res: ResponseType) => {
         optionsCount.myMvCount = res.mvCount || 0;
         optionsCount.createdPlayCount = res.createdPlaylistCount || 0;
+        optionsCount.collectionPlayCount = res.subPlaylistCount || 0;
       });
     }
     getUserSubcount();

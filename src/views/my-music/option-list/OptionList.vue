@@ -8,14 +8,14 @@
   </h2>
   <div class="music-play-list">
     <div class="title">
-      <div class="title-left" @click="playList">
-        <i class="icon-arrow" :class="{ 'icon-arrow-down': playListShow }"></i>
+      <div class="title-left" @click="createPlayList">
+        <i class="icon-arrow" :class="{ 'icon-arrow-down': createPlayListShow }"></i>
         <h2 class="text">创建的歌单</h2>
         <h2 class="text-num">({{ optionsCount.createdPlayCount }})</h2>
       </div>
       <div class="title-right" @click="playAddDialog">新建</div>
     </div>
-    <ul class="list" v-if="playListShow">
+    <ul class="list" v-if="createPlayListShow">
       <li
         class="item"
         :class="{ 'active-item': index === activeIndex }"
@@ -37,6 +37,44 @@
             @click="playDeleteDialog(item.id, $event)"
           ></i>
         </div>
+      </li>
+    </ul>
+  </div>
+  <div class="music-play-list">
+    <div class="title">
+      <div class="title-left" @click="collectionPlayList">
+        <i class="icon-arrow" :class="{ 'icon-arrow-down': collectionPlayListShow }"></i>
+        <h2 class="text">收藏的歌单</h2>
+        <h2 class="text-num">({{ optionsCount.collectionPlayCount }})</h2>
+      </div>
+      <div class="title-right" @click="playAddDialog" style="visibility: hidden;">新建</div>
+    </div>
+    <ul class="list" v-if="false">
+      <li
+        class="item"
+        :class="{ 'active-item': index === activeIndex }"
+        v-for="(item, index) in playListData"
+        :key="index"
+        @click="playListClick(item.id, index)"
+      >
+      <!-- subscribed收藏 -->
+      <!-- subscribedCount 收藏数量 -->
+        <template v-if="item.subscribed">
+          <div class="item-left">
+            <img class="img" :src="item.coverImgUrl" alt="" />
+          </div>
+          <div class="item-right">
+            <span class="name">{{ item.name }}</span>
+            <span class="num">{{ item.trackCount }}首</span>
+          </div>
+          <div class="item-operate" v-if="index !== 0">
+            <!-- <i class="operate-icon operate-edit"></i> -->
+            <i
+              class="operate-icon operate-delete"
+              @click="playDeleteDialog(item.id, $event)"
+            ></i>
+          </div>
+        </template>
       </li>
     </ul>
   </div>
@@ -99,10 +137,10 @@ export default defineComponent({
     }
 
     // 创建的歌单显隐
-    const playListShow = ref<boolean>(true);
-    function playList(): void {
-      playListShow.value = !playListShow.value;
-      if (playListShow.value) {
+    const createPlayListShow = ref<boolean>(true);
+    function createPlayList(): void {
+      createPlayListShow.value = !createPlayListShow.value;
+      if (createPlayListShow.value) {
         getUserPlayList();
       }
     }
@@ -210,18 +248,29 @@ export default defineComponent({
       }
     }
 
+    // 收藏的歌单显隐
+    const collectionPlayListShow = ref<boolean>(true);
+    function collectionPlayList(): void {
+      collectionPlayListShow.value = !collectionPlayListShow.value;
+      if (collectionPlayListShow.value) {
+        getUserPlayList();
+      }
+    }
+
     return {
       myMusicDetail,
       activeIndex,
       myMvClick,
-      playList,
-      playListShow,
+      createPlayList,
+      createPlayListShow,
       playListData,
       playListClick,
       playDialogeData,
       playAddDialog,
       playDeleteDialog,
-      dialogConfirm
+      dialogConfirm,
+      collectionPlayList,
+      collectionPlayListShow
     };
   }
 });
