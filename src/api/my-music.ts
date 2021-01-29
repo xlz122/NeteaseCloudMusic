@@ -120,6 +120,114 @@ export const commentPlayList = ({ id, limit }: CommentPlayList) => {
   });
 };
 
+/* @desc 新增歌单评论
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } id - 歌单id
+ * @param { String } content - 评论内容
+ */
+
+interface AddComment {
+  id: number;
+  content: string;
+}
+
+export const addSongSheetComment = ({ id, content }: AddComment) => {
+  const params = {
+    timestamp: new Date().getTime(),
+    t: 1, // t 1为新增评论
+    tpye: 2, // type 2为歌单
+    id,
+    content
+  };
+  return axios.request({
+    url: `/comment?timestamp=${params.timestamp}&t=${params.t}&type=${params.tpye}&id=${params.id}&content=${params.content}`,
+    method: 'get'
+  });
+};
+
+/* @desc 回复评论
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } id - 歌单id
+ * @param { String } content - 评论内容
+ * @param { Number } commentId - 内容id
+ */
+
+interface ReplyComment {
+  id: number;
+  content: string;
+  commentId: number;
+}
+
+export const replySongSheetComment = ({
+  id,
+  content,
+  commentId
+}: ReplyComment) => {
+  const params = {
+    timestamp: new Date().getTime(),
+    t: 2, // t 1为回复评论
+    tpye: 2, // type 2为歌单
+    id,
+    content,
+    commentId
+  };
+  return axios.request({
+    url: `/comment?timestamp=${params.timestamp}&t=${params.t}&type=${params.tpye}&id=${params.id}&content=${params.content}&commentId=${params.commentId}`,
+    method: 'get'
+  });
+};
+
+/* @desc 删除歌单评论
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } id - 歌单id
+ * @param { Number } commentId - 内容id
+ */
+
+interface DeleteComment {
+  id: number;
+  commentId: number;
+}
+
+export const deleteSongSheetComment = ({ id, commentId }: DeleteComment) => {
+  const params = {
+    timestamp: new Date().getTime(),
+    t: 0, // t 0为删除
+    tpye: 2, // type 2为歌单
+    id,
+    commentId
+  };
+  return axios.request({
+    url: `/comment?timestamp=${params.timestamp}&t=${params.t}&type=${params.tpye}&id=${params.id}&commentId=${params.commentId}`,
+    method: 'get'
+  });
+};
+
+/* @desc 歌单评论点赞
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } id - 歌单id
+ * @param { Number } cid - 评论id
+ * @param { Number } t - 是否点赞 ,1 为点赞 ,0 为取消点赞
+ */
+interface SongSheetLike {
+  id: number;
+  cid: number;
+  t: number;
+}
+
+export const songSheetLike = ({ id, cid, t }: SongSheetLike) => {
+  const params = {
+    timestamp: new Date().getTime(),
+    tpye: 2, // type 2为歌单
+    id,
+    cid,
+    t
+  };
+  return axios.request({
+    url: `/comment/like?timestamp=${params.timestamp}&type=${params.tpye}&id=${params.id}&cid=${params.cid}&t=${params.t}`,
+    method: 'get'
+  });
+};
+
 /* @desc 获取播放url
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌曲id，可多个，id1，id2 用逗号隔开
