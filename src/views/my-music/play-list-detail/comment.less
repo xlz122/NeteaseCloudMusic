@@ -115,6 +115,10 @@
         line-height: 25px;
       }
 
+      .words-beyond {
+        color: #c20c0c;
+      }
+
       .publish {
         display: inline-block;
         vertical-align: top;
@@ -148,7 +152,7 @@
   }
 
   .comment-list {
-    padding: 15px 0 0;
+    padding-bottom: 15px;
 
     .item {
       position: relative;
@@ -174,7 +178,7 @@
         width: 100%;
 
         .detail-text {
-          width: 100%;
+          width: 90%;
           margin-left: 60px;
           line-height: 20px;
           text-align: left;
@@ -222,6 +226,116 @@
             color: #333;
             font-family: Arial, Helvetica, sans-serif;
           }
+
+          .delete-text {
+            color: #666;
+          }
+        }
+
+        .comment-content-reply {
+          padding: 15px;
+          margin-top: 43px;
+          margin-left: 60px;
+          background: #f8f8f8;
+          border: 1px solid #fcfcfc;
+          border-radius: 2px;
+          line-height: 20px;
+          font-size: 12px;
+          color: #666;
+          word-break: break-word;
+          text-align: left;
+          .comment-content {
+            margin: 0;
+            .comment-textarea {
+              display: inline-block;
+              vertical-align: top;
+              width: 560px;
+              height: 50px;
+              margin-left: 15px;
+              border: 1px solid #cdcdcd;
+              outline: none;
+              border-radius: 2px;
+              line-height: 19px;
+              font-size: 12px;
+              font-family: Arial, Helvetica, sans-serif;
+              color: #333;
+              box-sizing: content-box;
+              resize: none;
+              overflow: auto;
+            }
+          }
+          .operate {
+            position: relative;
+            height: 27px;
+            padding-top: 10px;
+            margin: 0 auto;
+        
+            .operate-icon {
+              position: absolute;
+              left: 0;
+              display: inline-block;
+              vertical-align: top;
+              padding-left: 14px;
+        
+              .icon {
+                display: inline-block;
+                width: 18px;
+                height: 18px;
+                background: url(../../../assets/image/icon.png);
+                cursor: pointer;
+              }
+        
+              .expression {
+                margin-right: 10px;
+                background-position: -40px -490px;
+              }
+        
+              .att {
+                background-position: -60px -490px;
+              }
+            }
+        
+            .operate-publish {
+              position: absolute;
+              right: 0;
+              display: inline-block;
+              vertical-align: top;
+        
+              .text {
+                display: inline-block;
+                vertical-align: top;
+                margin-right: 10px;
+                color: #999;
+                font-size: 12px;
+                line-height: 25px;
+              }
+        
+              .words-beyond {
+                color: #c20c0c;
+              }
+        
+              .publish {
+                display: inline-block;
+                vertical-align: top;
+                width: 46px;
+                height: 25px;
+                background: url(../../../assets/image/my-music/icon-button.png);
+                background-position: -84px -64px;
+                color: #fff;
+                text-align: center;
+                line-height: 25px;
+                outline: none;
+                border: none;
+                cursor: pointer;
+        
+                &:hover {
+                  background-position: -84px -94px;
+                  color: #fff;
+                  text-decoration: none;
+                }
+              }
+            }
+          }
         }
 
         .item-operate {
@@ -264,14 +378,33 @@
               color: #999;
             }
 
-            .give {
+            .like {
               display: inline-block;
               vertical-align: middle;
               width: 15px;
               height: 14px;
               background: url(../../../assets/image/icon2.png);
-              background-position: -150px 0;
               cursor: pointer;
+            }
+
+            .liked {
+              background-position: -170px 0;
+            }
+
+            .no-like {
+              background-position: -150px 0;
+            }
+
+            .like-num {
+              display: inline-block;
+              vertical-align: middle;
+              margin: 0 3px 0 8px;
+              color: #666;
+              cursor: pointer;
+
+              &:hover {
+                text-decoration: underline;
+              }
             }
 
             .line {
@@ -305,5 +438,18 @@
         visibility: visible;
       }
     }
+  }
+}
+
+::v-deep(.delete-comment-dialog) {
+  .my_dialog_box {
+    width: 480px;
+  }
+
+  .content {
+    text-align: center;
+    color: #333;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
   }
 }

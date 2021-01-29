@@ -194,7 +194,6 @@
         <span class="text">即可将你喜欢的音乐收藏到“我的音乐”</span>
         <span class="text go">马上去</span>
         <span class="link">发现音乐</span>
-        
       </p>
     </div>
     <!-- 评论 -->
