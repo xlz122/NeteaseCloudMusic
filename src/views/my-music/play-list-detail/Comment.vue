@@ -167,6 +167,10 @@ export default defineComponent({
 
     // 评论提交
     function commentSubmit(): boolean | undefined {
+      if (commentTextLength.value === 0) {
+        alert('输入点内容再提交吧');
+        return false;
+      }
       if (commentTextLength.value < 0) {
         alert('输入不能超过140个字符');
         return false;
