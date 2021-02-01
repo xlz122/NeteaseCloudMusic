@@ -1,7 +1,7 @@
 <template>
   <div class="list-title">
     <h3 class="title-text">评论</h3>
-    <span class="title-text-num">共{{ commentList?.length }}条评论</span>
+    <span class="title-text-num">共{{ commentTotal }}条评论</span>
   </div>
   <div class="detail-comment">
     <div class="comment-content">
@@ -27,8 +27,96 @@
         <button class="publish" @click="commentSubmit">评论</button>
       </div>
     </div>
+    <!-- 精彩评论 -->
+    <h3 class="comment-list-title" v-if="hotCommentsList?.length > 0">
+      精彩评论
+    </h3>
+    <ul class="comment-list" v-if="hotCommentsList?.length > 0">
+      <li class="item" v-for="(item, index) in hotCommentsList" :key="index">
+        <img class="user-avatar" :src="item?.user?.avatarUrl" />
+        <div class="item-right">
+          <div class="detail-text">
+            <span class="name">
+              {{ item?.user?.nickname }}
+            </span>
+            <span class="text">: {{ item?.content }}</span>
+          </div>
+          <!-- 他人回复部分 -->
+          <template v-if="item?.beReplied.length > 0">
+            <div
+              class="comment-content-detail"
+              v-for="(i, ind) in item?.beReplied"
+              :key="ind"
+            >
+              <template v-if="i.status === 0">
+                <span class="name">
+                  {{ i?.user?.nickname }}
+                </span>
+                <span class="text">: {{ i?.content }}</span>
+              </template>
+              <template v-if="i.status === -5">
+                <span class="text delete-text">该评论已删除</span>
+              </template>
+            </div>
+          </template>
+          <div class="item-operate">
+            <span class="time">{{ formatDate(item?.time) }}</span>
+            <div class="reply-operate">
+              <span class="delete" @click="deleteCommentList(item.commentId)">
+                删除
+              </span>
+              <span class="delete-line">|</span>
+              <!-- 点赞 -->
+              <i
+                class="like liked"
+                v-if="item.liked"
+                @click="songSheetLikeList(item.commentId, 0)"
+              ></i>
+              <i
+                class="like no-like"
+                v-else
+                @click="songSheetLikeList(item.commentId, 1)"
+              ></i>
+              <span class="like-num" v-if="item.likedCount > 0">
+                ({{ item.likedCount }})
+              </span>
+              <span class="line">|</span>
+              <span class="reply" @click="replyComment(item.commentId, index)">
+                回复
+              </span>
+            </div>
+          </div>
+          <!-- 回复他人 -->
+          <div class="comment-content-reply" v-if="item?.replyShow || false">
+            <div class="comment-content">
+              <textarea
+                class="comment-textarea"
+                v-model="replyText"
+                :placeholder="`回复${item?.user?.nickname}`"
+              ></textarea>
+            </div>
+            <div class="operate">
+              <div class="operate-icon">
+                <i class="icon expression"></i>
+                <i class="icon att"></i>
+              </div>
+              <div class="operate-publish">
+                <span
+                  class="text"
+                  :class="{ 'words-beyond': replyTextLength < 0 }"
+                >
+                  {{ replyTextLength }}
+                </span>
+                <button class="publish" @click="replySubmit">评论</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <!-- 最新评论 -->
     <h3 class="comment-list-title" v-if="commentList?.length > 0">
-      最新评论({{ commentList?.length }})
+      最新评论({{ commentTotal }})
     </h3>
     <ul class="comment-list" v-if="commentList?.length > 0">
       <li class="item" v-for="(item, index) in commentList" :key="index">
@@ -153,6 +241,14 @@ export default defineComponent({
     }
   } as unknown) as undefined,
   setup(props: { playDetailData: ResponseType }) {
+    // 播放列表更新，重新请求评论数据
+    watch(
+      () => props.playDetailData,
+      () => {
+        getCommentPlayList();
+      }
+    );
+
     // 评论内容
     const commentText = ref<string>('');
 
@@ -187,16 +283,26 @@ export default defineComponent({
     }
 
     // 获取评论列表
+    const hotCommentsList = ref<LoopType>([]);
     const commentList = ref<LoopType>([]);
+    const commentTotal = ref<number>(0);
     function getCommentPlayList(): void {
       commentPlayList({
         id: props?.playDetailData?.playlist?.id
       }).then((res: ResponseType) => {
         if (res.code === 200) {
+          // 精彩评论
+          res.hotComments.forEach((item: LoopType) => {
+            item.replyShow = false;
+          });
+          hotCommentsList.value = res.hotComments;
+          // 最新评论
           res.comments.forEach((item: LoopType) => {
             item.replyShow = false;
           });
           commentList.value = res.comments;
+          // 最新评论 - 总数
+          commentTotal.value = res.total;
         }
       });
     }
@@ -292,7 +398,9 @@ export default defineComponent({
       commentText,
       commentTextLength,
       commentSubmit,
+      hotCommentsList,
       commentList,
+      commentTotal,
       deleteCommentList,
       deleteCommentDialog,
       deleteCommentConfirm,
