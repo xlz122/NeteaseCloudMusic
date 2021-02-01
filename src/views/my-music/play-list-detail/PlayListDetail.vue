@@ -47,8 +47,20 @@
                   playDetailData?.playlist?.tracks.length === 0
               }"
             ></div>
-            <div class="other collection">
-              <span class="icon">收藏</span>
+            <div
+              class="other collection"
+              :class="{
+                'disable-collection':
+                  playDetailData?.playlist?.subscribedCount > 0
+              }"
+            >
+              <span
+                class="icon"
+                v-if="playDetailData?.playlist?.subscribedCount > 0"
+              >
+                ({{ playDetailData?.playlist?.subscribedCount }})
+              </span>
+              <span class="icon" v-else>收藏</span>
             </div>
             <div
               class="other share"
@@ -56,7 +68,13 @@
                 'disable-share': playDetailData?.playlist?.tracks.length === 0
               }"
             >
-              <span class="icon">分享</span>
+              <span
+                class="icon"
+                v-if="playDetailData?.playlist?.shareCount > 0"
+              >
+                ({{ playDetailData?.playlist?.shareCount }})
+              </span>
+              <span class="icon" v-else>分享</span>
             </div>
             <div
               class="other download"
@@ -73,7 +91,13 @@
                 'disable-comment': playDetailData?.playlist?.tracks.length === 0
               }"
             >
-              <span class="icon">评论</span>
+              <span
+                class="icon"
+                v-if="playDetailData?.playlist?.commentCount > 0"
+              >
+                ({{ playDetailData?.playlist?.commentCount }})
+              </span>
+              <span class="icon" v-else>评论</span>
             </div>
           </div>
         </div>

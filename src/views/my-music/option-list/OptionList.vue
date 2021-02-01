@@ -161,6 +161,11 @@ export default defineComponent({
     function getSongListDetail(id: number): void {
       playListDetail({ id }).then((res: ResponseType) => {
         if (res.code === 200) {
+          // 单独处理我喜欢的音乐
+          if (res?.playlist?.name.includes('喜欢的音乐')) {
+            res.playlist.name = '我喜欢的音乐';
+          }
+
           $store.commit('setPlayDetailData', res);
         }
       });
