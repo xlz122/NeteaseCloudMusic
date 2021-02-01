@@ -4,6 +4,7 @@ export interface State {
   accountInfo: unknown;
   userInfo: unknown;
   myMusicDetail: MyMusicDetail;
+  activeSongListId: number;
   playDetailData: unknown;
   playMusicId: number;
   playMusicList: unknown[];
@@ -23,6 +24,8 @@ const state: State = {
     myMv: false,
     playListDetail: false
   }, // 我的音乐详情显示
+  activeSongListId:
+    JSON.parse(localStorage.getItem('activeSongListId') as string) || 0,
   playDetailData:
     JSON.parse(localStorage.getItem('playDetailData') as string) || {}, // 我的音乐 - 创建歌单详情数据
   playMusicId: JSON.parse(localStorage.getItem('playMusicId') as string) || 0, // 我的音乐 - 当前播放音乐id
