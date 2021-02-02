@@ -386,6 +386,61 @@
           }
         }
 
+        .volume-progress-bar {
+          position: absolute;
+          top: auto;
+          left: 23px;
+          bottom: 44px;
+          z-index: -1;
+          width: 4px;
+          height: 90px;
+          .current-progress {
+            position: relative;
+            position: absolute;
+            top: auto;
+            bottom: -2px;
+            left: 0;
+            z-index: -2;
+            width: 4px;
+            height: 0%;
+            background: url(../../assets/image/music-audio/playbar.png);
+            background-position: -40px bottom;
+
+            .volume-icon {
+              position: absolute;
+              top: -11px;
+              right: -5px;
+              z-index: 10;
+              width: 15px;
+              height: 15px;
+              margin-left: -11px;
+              background: url(../../assets/image/music-audio/iconall.png);
+              background-position: -41px -281px;
+            }
+            .volume-icon:hover {
+              position: absolute;
+              top: -11px;
+              right: -6px;
+              z-index: 10;
+              width: 15px;
+              height: 15px;
+              margin-left: -11px;
+              background: url(../../assets/image/music-audio/iconall.png);
+              background-position: -42px -281px;
+            }
+          }
+          .total-progress {
+            position: absolute;
+            top: -13px;
+            left: -14px;
+            z-index: -3;
+            width: 32px;
+            height: 113px;
+            background: url(../../assets/image/music-audio/playbar.png);
+            background-position: 0 -503px;
+          }
+        }
+
         .mode-btn {
           background-position: -66px -344px;
 

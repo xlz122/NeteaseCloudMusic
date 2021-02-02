@@ -100,6 +100,8 @@
         </div>
         <div class="other">
           <button class="btn volume-btn" title="音量"></button>
+          <!-- 音量控制 -->
+          <volume-progress-bar v-if="false" />
           <button class="btn mode-btn" title="模式"></button>
           <button
             class="btn list-btn"
@@ -134,6 +136,7 @@ import {
 import { useStore } from 'vuex';
 import PlayList from './PlayList.vue';
 import PlayProgressBar from './PlayProgressBar.vue';
+import VolumeProgressBar from './VolumeProgressBar.vue';
 import { getPlayMusicUrl } from '@api/my-music';
 import { ResponseType, LoopType } from '@/types/types';
 
@@ -155,7 +158,8 @@ interface ProgressData {
 export default defineComponent({
   components: {
     PlayList,
-    PlayProgressBar
+    PlayProgressBar,
+    VolumeProgressBar
   },
   setup() {
     const $store = useStore();
