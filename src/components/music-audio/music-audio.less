@@ -254,7 +254,7 @@
             position: relative;
             width: 493px;
             height: 9px;
-            background: url(../../assets/image/music-audio/playbar.png);
+            background: url(../../assets/image/music-audio/progress.png);
             background-position: right 0;
 
             .current-progress {
@@ -292,8 +292,9 @@
 
               .icon-loading {
                 position: absolute;
+                z-index: 10;
                 top: -2px;
-                right: -8px;
+                right: -4px;
                 width: 12px;
                 height: 12px;
                 background: url(../../assets/image/music-audio/loading.gif);
@@ -301,7 +302,7 @@
             }
 
             .total-progress {
-              width: 99.9972%;
+              width: 0%;
               height: 9px;
               background: url(../../assets/image/music-audio/progress.png);
               background-position: right -30px;
