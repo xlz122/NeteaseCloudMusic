@@ -9,6 +9,7 @@
     :muted="audioData.muted"
     :autoplay="audioData.autoplay"
     :loop="audioData.loop"
+    :volume="musicVolume"
     @play="musicPlaying"
     @timeupdate="musicUpdateTime"
     @ended="musicPlayEnded"
@@ -75,17 +76,6 @@
             <span class="link" v-if="playMusic.name"></span>
           </div>
           <div class="play-progress">
-            <!-- <div class="progress">
-              <div class="current-progress">
-                <i class="icon"></i>
-                <i class="icon-loading" v-if="playMusicStatus.loading"></i>
-              </div>
-              <div class="total-progress"></div>
-            </div>
-            <div class="time">
-              <span class="duration">00:00</span>
-              <span class="total-duration"> / 03:00</span>
-            </div> -->
             <play-progress-bar
               :loading="playMusicStatus.loading"
               :progressData="progressData"
@@ -99,8 +89,27 @@
           <button class="btn share-btn" title="分享"></button>
         </div>
         <div class="other">
-          <button class="btn volume-btn" title="音量"></button>
-          <button class="btn mode-btn" title="模式"></button>
+          <button
+            class="btn volume-btn"
+            title="音量"
+            @click="volumeBar"
+          ></button>
+          <!-- 音量控制 -->
+          <volume-progress-bar v-if="volumeBarShow" @volumeChange="volumeChange" />
+          <button
+            class="btn"
+            title="模式"
+            :class="[
+              { 'mode-single': modeType === 0 },
+              { 'mode-loop': modeType === 1 },
+              { 'mode-random': modeType === 2 }
+            ]"
+            @click="modeChange"
+          ></button>
+          <!-- 模式提示 -->
+          <div class="mode-tip" v-if="modeTipShow">
+            {{ modeType === 0 ? '单曲循环' : modeType === 1 ? '循环' : '随机' }}
+          </div>
           <button
             class="btn list-btn"
             title="列表"
@@ -134,6 +143,7 @@ import {
 import { useStore } from 'vuex';
 import PlayList from './PlayList.vue';
 import PlayProgressBar from './PlayProgressBar.vue';
+import VolumeProgressBar from './VolumeProgressBar.vue';
 import { getPlayMusicUrl } from '@api/my-music';
 import { ResponseType, LoopType } from '@/types/types';
 
@@ -155,7 +165,8 @@ interface ProgressData {
 export default defineComponent({
   components: {
     PlayList,
-    PlayProgressBar
+    PlayProgressBar,
+    VolumeProgressBar
   },
   setup() {
     const $store = useStore();
@@ -203,6 +214,9 @@ export default defineComponent({
       cacheProgress: 0 // 缓存进度
     });
 
+    // 播放进度更新
+    const stopProgress = ref<boolean>(false);
+
     // 获取播放地址
     function playMusicSrc(id: number): boolean | undefined {
       playMusicStatus.look = true;
@@ -213,8 +227,13 @@ export default defineComponent({
       getPlayMusicUrl({
         id
       }).then((res: ResponseType) => {
-        // 重置播放时间
+        // 清空所有播放进度
+        stopProgress.value = false;
+        progressData.progress = 0;
         progressData.currentTime = 0;
+        progressData.duration = 0;
+        progressData.cacheProgress = 0;
+        // 播放地址
         audioData.src = res.data[0].url;
         startPlayMusic();
         // 当前播放音乐数据
@@ -232,11 +251,6 @@ export default defineComponent({
       if (playMusicList.value.length === 0) {
         return false;
       }
-      // 清空所有播放进度
-      progressData.progress = 0;
-      progressData.currentTime = 0;
-      progressData.duration = 0;
-      progressData.cacheProgress = 0;
       // 获取当前id索引
       const index: number = playMusicList.value.findIndex(
         (item: LoopType) => item.id === playMusicId.value
@@ -261,11 +275,6 @@ export default defineComponent({
       if (playMusicList.value.length === 0) {
         return false;
       }
-      // 清空所有播放进度
-      progressData.progress = 0;
-      progressData.currentTime = 0;
-      progressData.duration = 0;
-      progressData.cacheProgress = 0;
       // 获取当前id索引
       const index: number = playMusicList.value.findIndex(
         (item: LoopType) => item.id === playMusicId.value
@@ -330,8 +339,6 @@ export default defineComponent({
       }, 1000);
     }
 
-    // 播放进度更新
-    const stopProgress = ref<boolean>(false);
     function handleProgressChange(value: number): void {
       // 停止进度
       stopProgress.value = true;
@@ -342,6 +349,9 @@ export default defineComponent({
       progressData.currentTime = progress;
       // 开启进度
       stopProgress.value = false;
+      // 开始播放
+      playMusicStatus.look = true;
+      (musicAudio.value as HTMLVideoElement).play();
     }
 
     // 音乐加载缓存进度
@@ -360,6 +370,40 @@ export default defineComponent({
       nextPlayMusic();
     }
 
+    // 音量显隐
+    const volumeBarShow = ref<boolean>(false);
+    function volumeBar(): void {
+      volumeBarShow.value = !volumeBarShow.value;
+    }
+
+    // 音量改变
+    const musicVolume = computed(() => $store.getters.musicVolume);
+    function volumeChange(volume: number): void {
+      $store.commit('setMusicVolume', Number((volume / 100).toFixed(1)));
+    }
+
+    // 模式切换
+    const modeType = ref<number>(0);
+    const modeTipShow = ref<boolean>(false);
+    function modeChange(): void {
+      modeTipShow.value = true;
+      if (modeType.value === 2) {
+        modeType.value = 0;
+      } else {
+        modeType.value++;
+      }
+      let timer = 0;
+      timer = setTimeout(() => {
+        modeTipShow.value = false;
+      }, 3000);
+      if (timer) {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          modeTipShow.value = false;
+        }, 3000);
+      }
+    }
+
     // 显示播放列表
     const playListShow = ref<boolean>(false);
     function setPlayListShow(): void {
@@ -368,11 +412,6 @@ export default defineComponent({
 
     // 列表项播放
     function playlistItem(id: number): void {
-      // 清空所有播放进度
-      progressData.progress = 0;
-      progressData.currentTime = 0;
-      progressData.duration = 0;
-      progressData.cacheProgress = 0;
       // 当前播放音乐id
       $store.commit('setPlayMusicId', id);
       playMusicSrc(id);
@@ -407,6 +446,13 @@ export default defineComponent({
       handleProgressChange,
       musicUpdateTime,
       musicPlayEnded,
+      volumeBar,
+      volumeBarShow,
+      musicVolume,
+      volumeChange,
+      modeType,
+      modeTipShow,
+      modeChange,
       musicPlaying,
       setPlayListShow,
       playListShow,

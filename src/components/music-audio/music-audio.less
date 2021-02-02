@@ -278,6 +278,7 @@
                 background: url(../../assets/image/music-audio/play-btn.png);
                 background-position: 0 -264px;
               }
+
               .icon:hover {
                 position: absolute;
                 top: -7px;
@@ -386,12 +387,100 @@
           }
         }
 
-        .mode-btn {
+        .volume-progress-bar {
+          position: relative;
+          position: absolute;
+          left: 24px;
+          bottom: 40px;
+          width: 4px;
+          height: 97px;
+        }
+
+        .current-progress {
+          position: absolute;
+          bottom: 0;
+          z-index: -1;
+          width: 4px;
+          height: 0%;
+          background: url(../../assets/image/music-audio/playbar.png);
+          background-position: -40px bottom;
+          border-radius: 2px;
+        }
+
+        .volume-icon {
+          position: relative;
+          position: absolute;
+          right: -5px;
+          bottom: 0;
+          z-index: 10;
+          width: 15px;
+          height: 15px;
+          margin-left: -11px;
+          background: url(../../assets/image/music-audio/iconall.png);
+          background-position: -41px -281px;
+        }
+
+        .volume-icon:hover {
+          position: relative;
+          position: absolute;
+          right: -6px;
+          bottom: 0;
+          z-index: 10;
+          width: 15px;
+          height: 15px;
+          margin-left: -11px;
+          background: url(../../assets/image/music-audio/iconall.png);
+          background-position: -42px -281px;
+        }
+
+        .volume-progress-bar-bg {
+          position: relative;
+          position: absolute;
+          top: -112px;
+          left: 9px;
+          z-index: -2;
+          width: 32px;
+          height: 113px;
+          background: url(../../assets/image/music-audio/playbar.png);
+          background-position: 0 -503px;
+        }
+
+        // 歌曲模式
+        .mode-single {
           background-position: -66px -344px;
 
           &:hover {
             background-position: -93px -344px;
           }
+        }
+
+        .mode-loop {
+          background-position: -3px -344px;
+
+          &:hover {
+            background-position: -33px -344px;
+          }
+        }
+
+        .mode-random {
+          background-position: -93px -248px;
+
+          &:hover {
+            background-position: -66px -248px;
+          }
+        }
+
+        .mode-tip {
+          position: absolute;
+          top: -41px;
+          left: 12px;
+          width: 81px;
+          height: 39px;
+          line-height: 34px;
+          background: url(../../assets/image/music-audio/playbar.png);
+          background-position: 0 -457px;
+          text-align: center;
+          color: #fff;
         }
 
         .list-btn {

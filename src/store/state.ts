@@ -7,6 +7,7 @@ export interface State {
   activeSongListId: number;
   playDetailData: unknown;
   playMusicId: number;
+  musicVolume: number;
   playMusicList: unknown[];
 }
 
@@ -29,6 +30,7 @@ const state: State = {
   playDetailData:
     JSON.parse(localStorage.getItem('playDetailData') as string) || {}, // 我的音乐 - 创建歌单详情数据
   playMusicId: JSON.parse(localStorage.getItem('playMusicId') as string) || 0, // 我的音乐 - 当前播放音乐id
+  musicVolume: JSON.parse(localStorage.getItem('musicVolume') as string) || 0.5, // 我的音乐 - 当前播放音乐id
   playMusicList:
     JSON.parse(localStorage.getItem('playMusicData') as string) || [] // 我的音乐 - 播放列表数据
 };
