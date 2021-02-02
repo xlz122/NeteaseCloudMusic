@@ -203,6 +203,9 @@ export default defineComponent({
       cacheProgress: 0 // 缓存进度
     });
 
+    // 播放进度更新
+    const stopProgress = ref<boolean>(false);
+
     // 获取播放地址
     function playMusicSrc(id: number): boolean | undefined {
       playMusicStatus.look = true;
@@ -213,8 +216,13 @@ export default defineComponent({
       getPlayMusicUrl({
         id
       }).then((res: ResponseType) => {
-        // 重置播放时间
+        // 清空所有播放进度
+        stopProgress.value = false;
+        progressData.progress = 0;
         progressData.currentTime = 0;
+        progressData.duration = 0;
+        progressData.cacheProgress = 0;
+        // 播放地址
         audioData.src = res.data[0].url;
         startPlayMusic();
         // 当前播放音乐数据
@@ -232,11 +240,6 @@ export default defineComponent({
       if (playMusicList.value.length === 0) {
         return false;
       }
-      // 清空所有播放进度
-      progressData.progress = 0;
-      progressData.currentTime = 0;
-      progressData.duration = 0;
-      progressData.cacheProgress = 0;
       // 获取当前id索引
       const index: number = playMusicList.value.findIndex(
         (item: LoopType) => item.id === playMusicId.value
@@ -261,11 +264,6 @@ export default defineComponent({
       if (playMusicList.value.length === 0) {
         return false;
       }
-      // 清空所有播放进度
-      progressData.progress = 0;
-      progressData.currentTime = 0;
-      progressData.duration = 0;
-      progressData.cacheProgress = 0;
       // 获取当前id索引
       const index: number = playMusicList.value.findIndex(
         (item: LoopType) => item.id === playMusicId.value
@@ -330,8 +328,6 @@ export default defineComponent({
       }, 1000);
     }
 
-    // 播放进度更新
-    const stopProgress = ref<boolean>(false);
     function handleProgressChange(value: number): void {
       // 停止进度
       stopProgress.value = true;
@@ -342,6 +338,9 @@ export default defineComponent({
       progressData.currentTime = progress;
       // 开启进度
       stopProgress.value = false;
+      // 开始播放
+      playMusicStatus.look = true;
+      (musicAudio.value as HTMLVideoElement).play();
     }
 
     // 音乐加载缓存进度
@@ -368,11 +367,6 @@ export default defineComponent({
 
     // 列表项播放
     function playlistItem(id: number): void {
-      // 清空所有播放进度
-      progressData.progress = 0;
-      progressData.currentTime = 0;
-      progressData.duration = 0;
-      progressData.cacheProgress = 0;
       // 当前播放音乐id
       $store.commit('setPlayMusicId', id);
       playMusicSrc(id);
