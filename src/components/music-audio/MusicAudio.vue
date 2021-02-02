@@ -73,7 +73,7 @@
             <span class="link" v-if="playMusic.name"></span>
           </div>
           <div class="play-progress">
-            <div class="progress">
+            <!-- <div class="progress">
               <div class="current-progress">
                 <i class="icon"></i>
                 <i class="icon-loading" v-if="playMusicStatus.loading"></i>
@@ -83,7 +83,8 @@
             <div class="time">
               <span class="duration">00:00</span>
               <span class="total-duration"> / 03:00</span>
-            </div>
+            </div> -->
+            <play-progress-bar :perData="perData" />
           </div>
         </div>
         <div class="oper">
@@ -125,6 +126,7 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import PlayList from './PlayList.vue';
+import PlayProgressBar from './PlayProgressBar.vue';
 import { getPlayMusicUrl } from '@api/my-music';
 import { ResponseType, LoopType } from '@/types/types';
 
@@ -137,7 +139,8 @@ interface AudioData {
 
 export default defineComponent({
   components: {
-    PlayList
+    PlayList,
+    PlayProgressBar
   },
   setup() {
     const $store = useStore();
@@ -259,8 +262,23 @@ export default defineComponent({
     }
 
     // 音频开始播放
-    function musicPlaying(res: Record<string, any>) {
-      console.log('播放开始' + res);
+    const perData = reactive({
+      number: 0,
+      currentTime: 0,
+      duration: 0
+    });
+    function musicPlaying(): void {
+      const musicMp3 = musicAudio.value as HTMLVideoElement;
+      // 计算播放进度
+      const timer = setInterval(() => {
+        const numbers = musicMp3.currentTime / musicMp3.duration;
+        perData.number = Number((numbers * 100).toFixed(2));
+        perData.currentTime = musicMp3.currentTime;
+        perData.duration = musicMp3.duration;
+        if (perData.number >= 100) {
+          clearInterval(timer);
+        }
+      }, 30);
     }
 
     // 显示播放列表
@@ -298,6 +316,7 @@ export default defineComponent({
       prevPlayMusic,
       nextPlayMusic,
       lookPlayMusic,
+      perData,
       musicPlaying,
       setPlayListShow,
       playListShow,
