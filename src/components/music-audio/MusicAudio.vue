@@ -232,6 +232,12 @@ export default defineComponent({
       if (playMusicList.value.length === 0) {
         return false;
       }
+      // 清空所有播放进度
+      progressData.progress = 0;
+      progressData.currentTime = 0;
+      progressData.duration = 0;
+      progressData.cacheProgress = 0;
+      // 获取当前id索引
       const index: number = playMusicList.value.findIndex(
         (item: LoopType) => item.id === playMusicId.value
       );
@@ -255,6 +261,12 @@ export default defineComponent({
       if (playMusicList.value.length === 0) {
         return false;
       }
+      // 清空所有播放进度
+      progressData.progress = 0;
+      progressData.currentTime = 0;
+      progressData.duration = 0;
+      progressData.cacheProgress = 0;
+      // 获取当前id索引
       const index: number = playMusicList.value.findIndex(
         (item: LoopType) => item.id === playMusicId.value
       );
@@ -356,6 +368,11 @@ export default defineComponent({
 
     // 列表项播放
     function playlistItem(id: number): void {
+      // 清空所有播放进度
+      progressData.progress = 0;
+      progressData.currentTime = 0;
+      progressData.duration = 0;
+      progressData.cacheProgress = 0;
       // 当前播放音乐id
       $store.commit('setPlayMusicId', id);
       playMusicSrc(id);
