@@ -387,26 +387,37 @@
         }
 
         .volume-progress-bar {
+          position: relative;
           position: absolute;
-          top: auto;
-          left: 23px;
-          bottom: 44px;
-          z-index: -1;
+          top: -113px;
+          left: 9px;
+          width: 32px;
+          height: 113px;
+        }
+
+        .volume-progress {
+          position: relative;
+          position: absolute;
+          left: 14px;
+          bottom: 10px;
+          z-index: 3;
           width: 4px;
           height: 90px;
+          background-color: transparent;
           .current-progress {
             position: relative;
             position: absolute;
             top: auto;
             bottom: -2px;
             left: 0;
-            z-index: -2;
+            z-index: -1;
             width: 4px;
             height: 0%;
             background: url(../../assets/image/music-audio/playbar.png);
             background-position: -40px bottom;
 
             .volume-icon {
+              position: relative;
               position: absolute;
               top: -11px;
               right: -5px;
@@ -418,6 +429,7 @@
               background-position: -41px -281px;
             }
             .volume-icon:hover {
+              position: relative;
               position: absolute;
               top: -11px;
               right: -6px;
@@ -429,16 +441,18 @@
               background-position: -42px -281px;
             }
           }
-          .total-progress {
-            position: absolute;
-            top: -13px;
-            left: -14px;
-            z-index: -3;
-            width: 32px;
-            height: 113px;
-            background: url(../../assets/image/music-audio/playbar.png);
-            background-position: 0 -503px;
-          }
+        }
+        
+        .volume-progress-bar-bg {
+          position: relative;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 2;
+          width: 32px;
+          height: 113px;
+          background: url(../../assets/image/music-audio/playbar.png);
+          background-position: 0 -503px;
         }
 
         .mode-btn {

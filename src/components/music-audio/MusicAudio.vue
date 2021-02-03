@@ -99,9 +99,10 @@
           <button class="btn share-btn" title="分享"></button>
         </div>
         <div class="other">
-          <button class="btn volume-btn" title="音量"></button>
-          <!-- 音量控制 -->
-          <volume-progress-bar v-if="false" />
+          <button class="btn volume-btn" title="音量">
+            <!-- 音量控制 -->
+            <volume-progress-bar v-if="false" />
+          </button>
           <button class="btn mode-btn" title="模式"></button>
           <button
             class="btn list-btn"
