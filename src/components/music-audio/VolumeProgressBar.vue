@@ -1,9 +1,11 @@
 <template>
-  <div class="volume-progress-bar" ref="progressRef" @click="handleProgressClick">
-    <div class="current-progress" ref="currentProgressRef">
-      <i class="volume-icon" ref="progressIconRef"></i>
+  <div class="volume-progress-bar">
+    <div class="volume-progress" ref="progressRef" @click="handleProgressClick">
+      <div class="current-progress" ref="currentProgressRef">
+        <i class="volume-icon" ref="progressIconRef"></i>
+      </div>
     </div>
-    <div class="total-progress"></div>
+    <div class="volume-progress-bar-bg"></div>
   </div>
 </template>
 
@@ -37,33 +39,38 @@ export default defineComponent({
     function mousedown(e: MouseEvent): void {
       const target = e.target as HTMLElement;
       if (target.className === 'volume-icon') {
-        console.log(e);
         isMouseDown.value = true;
         currentTop.value = e.offsetY;
-        console.log(currentTop.value);
       }
     }
 
     // 监听鼠标移动事件
     function mousemove(e: MouseEvent): void {
-      // if (isMouseDown.value) {
-      //   // 12为圆点宽度一半
-      //   let moveX = e.clientX - currentLeft.value + 12;
-      //   const progressWidth = (progressRef.value as HTMLElement).offsetWidth;
-      //   if (moveX >= progressWidth) {
-      //     moveX = progressWidth;
-      //   }
-      //   if (moveX <= 0) {
-      //     moveX = 0;
-      //   }
-      //   (currentProgressRef.value as HTMLElement).style.width =
-      //     (moveX / progressWidth) * 100 + '%';
-      // }
+      if (isMouseDown.value) {
+        const target = e.target as HTMLElement;
+        if (target.className === 'volume-progress-bar-bg') {
+          let moveY = e.offsetY - currentTop.value;
+          console.log(e);
+          console.log(moveY);
+          const progressHeight = (progressRef.value as HTMLElement).offsetHeight;
+          if (moveY >= progressHeight) {
+            moveY = progressHeight;
+          }
+          if (moveY <= 0) {
+            moveY = 0;
+          }
+          (currentProgressRef.value as HTMLElement).style.height =
+            ((progressHeight - moveY) / progressHeight) * 100 + '%';
+        } else if (target.className === 'current-progress') {
+          console.log(e);
+          
+        }
+      }
     }
 
     // 监听鼠标放开事件
     function mouseup(): void {
-      // isMouseDown.value = false;
+      isMouseDown.value = false;
     }
 
     onMounted(() => {
