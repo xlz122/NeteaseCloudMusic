@@ -1,19 +1,22 @@
 <template>
-  <div class="volume-progress-bar">
-    <div class="volume-progress" ref="progressRef" @click="handleProgressClick">
-      <div class="current-progress" ref="currentProgressRef">
-        <i class="volume-icon" ref="progressIconRef"></i>
-      </div>
-    </div>
-    <div class="volume-progress-bar-bg"></div>
-  </div>
+  <div
+    class="volume-progress-bar"
+    ref="progressRef"
+    @click="handleProgressClick"
+  >
+    <div class="current-progress" ref="currentProgressRef"></div>
+    <div class="volume-icon" ref="progressIconRef"></div>
+	</div>
+  <div class="volume-progress-bar-bg"></div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted } from 'vue';
+import { defineComponent, ref, watch, onMounted, onUnmounted, computed } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
-  setup() {
+  emits: ['volumeChange'],
+  setup(props, { emit }) {
     // 当前进度距离顶部距离
     const currentTop = ref<number>(0);
     // 总进度 当前进度 进度图标
@@ -23,6 +26,29 @@ export default defineComponent({
     // 鼠标是否按下
     const isMouseDown = ref<boolean>(false);
 
+    // 音量百分比
+    const volumePer = ref<number>(0);
+
+    // 监听进度变更
+    watch(
+      () => volumePer.value,
+      (curVal: number) => {
+        emit('volumeChange', curVal);
+      }
+    );
+
+    // 初始化音量进度条
+    const $store = useStore();
+    const musicVolume = computed(() => $store.getters.musicVolume);
+    onMounted(() => {
+      // 设置当前高度
+      (currentProgressRef.value as HTMLElement).style.height = musicVolume.value * 100 + '%';
+      // 设置滑块的top
+      const progressHeight = (progressRef.value as HTMLElement).offsetHeight;
+      (progressIconRef.value as HTMLElement).style.top =
+        progressHeight - (musicVolume.value * 100) + 'px';
+    });
+
     // 进度点击
     function handleProgressClick(e: MouseEvent): boolean | undefined {
       // 点击进度图标
@@ -31,8 +57,14 @@ export default defineComponent({
         return false;
       }
       const progressHeight = (progressRef.value as HTMLElement).offsetHeight;
+      const iconOffsetHeight = (progressIconRef.value as HTMLElement).offsetHeight;
+      // 设置当前高度
       (currentProgressRef.value as HTMLElement).style.height =
         ((progressHeight - e.offsetY) / progressHeight) * 100 + '%';
+      // 设置滑块的top
+      (progressIconRef.value as HTMLElement).style.top = e.offsetY - (iconOffsetHeight / 2) + 'px';
+      // 存储音量百分比
+      volumePer.value = ((progressHeight - e.offsetY) / progressHeight) * 100;
     }
 
     // 监听鼠标按下事件
@@ -40,31 +72,33 @@ export default defineComponent({
       const target = e.target as HTMLElement;
       if (target.className === 'volume-icon') {
         isMouseDown.value = true;
-        currentTop.value = e.offsetY;
+        // 页面事件的Y减去当前相对于最近的祖先定位元素
+        currentTop.value = e.clientY - (progressIconRef.value as HTMLElement).offsetTop;
       }
     }
 
     // 监听鼠标移动事件
     function mousemove(e: MouseEvent): void {
       if (isMouseDown.value) {
-        const target = e.target as HTMLElement;
-        if (target.className === 'volume-progress-bar-bg') {
-          let moveY = e.offsetY - currentTop.value;
-          console.log(e);
-          console.log(moveY);
-          const progressHeight = (progressRef.value as HTMLElement).offsetHeight;
-          if (moveY >= progressHeight) {
-            moveY = progressHeight;
-          }
-          if (moveY <= 0) {
-            moveY = 0;
-          }
-          (currentProgressRef.value as HTMLElement).style.height =
-            ((progressHeight - moveY) / progressHeight) * 100 + '%';
-        } else if (target.className === 'current-progress') {
-          console.log(e);
-          
+        // 获取移动的距离
+        let moveY = e.clientY - currentTop.value;
+        const progressHeight = (progressRef.value as HTMLElement).offsetHeight;
+        const iconOffsetHeight = (progressIconRef.value as HTMLElement).offsetHeight;
+        // 滑到底部
+        if (moveY >= progressHeight - iconOffsetHeight) {
+          moveY = progressHeight - iconOffsetHeight;
         }
+        // 滑到顶部
+        if (moveY <= 0) {
+          moveY = 0;
+        }
+        // 设置当前高度
+        (currentProgressRef.value as HTMLElement).style.height =
+          (progressHeight - iconOffsetHeight - moveY) / (progressHeight - iconOffsetHeight) * 100 + '%';
+        // 设置滑块的top
+        (progressIconRef.value as HTMLElement).style.top = moveY + 'px';
+        // 存储音量百分比
+        volumePer.value = (progressHeight - iconOffsetHeight - moveY) / (progressHeight - iconOffsetHeight) * 100;
       }
     }
 

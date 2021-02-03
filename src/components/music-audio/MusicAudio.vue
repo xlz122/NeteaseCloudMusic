@@ -9,6 +9,7 @@
     :muted="audioData.muted"
     :autoplay="audioData.autoplay"
     :loop="audioData.loop"
+    :volume="musicVolume"
     @play="musicPlaying"
     @timeupdate="musicUpdateTime"
     @ended="musicPlayEnded"
@@ -99,10 +100,13 @@
           <button class="btn share-btn" title="分享"></button>
         </div>
         <div class="other">
-          <button class="btn volume-btn" title="音量">
-            <!-- 音量控制 -->
-            <volume-progress-bar v-if="false" />
-          </button>
+          <button
+            class="btn volume-btn"
+            title="音量"
+            @click="volumeBar"
+          ></button>
+          <!-- 音量控制 -->
+          <volume-progress-bar v-if="volumeBarShow" @volumeChange="volumeChange" />
           <button class="btn mode-btn" title="模式"></button>
           <button
             class="btn list-btn"
@@ -364,6 +368,18 @@ export default defineComponent({
       nextPlayMusic();
     }
 
+    // 音量显隐
+    const volumeBarShow = ref<boolean>(false);
+    function volumeBar(): void {
+      volumeBarShow.value = !volumeBarShow.value;
+    }
+
+    // 音量改变
+    const musicVolume = computed(() => $store.getters.musicVolume);
+    function volumeChange(volume: number): void {
+      $store.commit('setMusicVolume', Number((volume / 100).toFixed(1)));
+    }
+
     // 显示播放列表
     const playListShow = ref<boolean>(false);
     function setPlayListShow(): void {
@@ -406,6 +422,10 @@ export default defineComponent({
       handleProgressChange,
       musicUpdateTime,
       musicPlayEnded,
+      volumeBar,
+      volumeBarShow,
+      musicVolume,
+      volumeChange,
       musicPlaying,
       setPlayListShow,
       playListShow,
