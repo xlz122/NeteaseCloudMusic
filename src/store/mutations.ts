@@ -54,6 +54,11 @@ const mutations: Mutations<State, unknown> = {
     state.playMusicId = playMusicId as number;
     localStorage.setItem('playMusicId', JSON.stringify(playMusicId));
   },
+  // 我的音乐 - 音量控制
+  setMusicVolume(state, musicVolume) {
+    state.musicVolume = musicVolume as number;
+    localStorage.setItem('musicVolume', JSON.stringify(musicVolume));
+  },
   // 我的音乐 - 播放列表数据
   setPlayMusicList(state, playMusicData) {
     // 数据去重
