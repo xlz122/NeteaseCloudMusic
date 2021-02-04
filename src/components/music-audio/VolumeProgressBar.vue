@@ -11,6 +11,7 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable */
 import {
   defineComponent,
   ref,

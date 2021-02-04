@@ -66,7 +66,7 @@
           </p>
         </div>
       </div>
-      <i class="line"></i>
+      <i class="line" v-if="playMusicList.length === 0"></i>
       <div class="right-content">
         <i class="icon-doubt"></i>
         <ul class="list">

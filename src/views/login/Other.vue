@@ -189,11 +189,9 @@ export default defineComponent({
         email: mailboxFormData.mailbox,
         password: mailboxFormData.password
       }).then((res: ResponseDataType) => {
-        console.log(res);
         if (res.code === 200) {
           document.cookie = `${res.cookie}`;
           // 存储账户信息
-          localStorage.setItem('token', res?.token || '');
           localStorage.setItem('accountInfo', JSON.stringify(res?.account));
           $store.commit('setAccountInfo', res?.account);
           // 获取用户详情
@@ -206,9 +204,9 @@ export default defineComponent({
 
     // 获取用户详情
     // 未完成，用户邮箱未绑定手机号，需先绑定手机号
-    function getUserInfo(uid: string): void {
+    function getUserInfo(uid: number): void {
       // 使用测试uid
-      uid = '32953014';
+      uid = 32953014;
       userInfo({ uid }).then((res: ResponseDataType) => {
         if (res.code === 200) {
           // 存储用户信息
