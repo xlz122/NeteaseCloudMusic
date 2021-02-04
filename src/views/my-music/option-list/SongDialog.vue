@@ -33,7 +33,7 @@ const { dialogeData } = defineProps({
   dialogeData: {
     type: Object,
     default: {}
-  }
+  },
 });
 
 defineEmit(['dialogConfirm']);
