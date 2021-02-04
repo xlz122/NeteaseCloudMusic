@@ -16,17 +16,36 @@
   >
     <source :src="audioData.src" />
   </audio>
+  <!-- 播放器 -->
   <div class="music-audio-container">
-    <div class="music-audio-playbar">
+    <div
+      class="music-audio-playbar"
+      :class="[
+        { 'music-audio-playbar-enter': isMusicAudioEnter },
+        { 'music-audio-playbar-leave': !isMusicAudioEnter },
+        { 'music-audio-playbar-lock': isMysicAudioLock }
+      ]"
+      @mouseenter="mysicAudioEnter"
+      @mouseleave="mysicAudioLeave"
+    >
       <!-- 锁定 -->
       <div class="updn">
         <div class="updn-left">
-          <i class="icon-updn-left"></i>
+          <i
+            class="updn-icon"
+            :class="[
+              { 'icon-updn-left': !isMysicAudioLock },
+              { 'icon-updn-left-lock': isMysicAudioLock }
+            ]"
+            @click="mysicAudioLock"
+          ></i>
         </div>
         <div class="updn-right"></div>
       </div>
       <!-- 背景 -->
       <div class="playbar-bg"></div>
+      <!-- 播放器展示 -->
+      <div class="hand" title="展开播放条" @mouseenter="mysicAudioEnter"></div>
       <!-- 内容 -->
       <div class="wrap">
         <div class="operate-btn">
@@ -130,6 +149,7 @@
       :playMusic="playMusic"
       @playlistItem="playlistItem"
       @closePlayList="closePlayList"
+      @mouseenter="mysicAudioEnter"
     />
   </div>
 </template>
@@ -413,10 +433,42 @@ export default defineComponent({
       }
     }
 
+    // 音乐播放器锁定在底部
+    const isMysicAudioLock = computed(() => $store.getters.isMysicAudioLock);
+    function mysicAudioLock(): void {
+      if (isMysicAudioLock.value) {
+        $store.commit('setIsMysicAudioLock', false);
+      } else {
+        $store.commit('setIsMysicAudioLock', true);
+      }
+    }
+    // 播放器鼠标移入事件
+    const isMusicAudioEnter = ref<boolean>(false);
+    function mysicAudioEnter(): boolean | undefined {
+      // 锁定之后不触发
+      if (isMysicAudioLock.value) {
+        return false;
+      }
+      isMusicAudioEnter.value = true;
+    }
+
     // 显示播放列表
     const playListShow = ref<boolean>(false);
     function setPlayListShow(): void {
       playListShow.value = !playListShow.value;
+    }
+
+    // 播放器鼠标移出事件
+    function mysicAudioLeave(): boolean | undefined {
+      // 锁定之后不触发
+      if (isMysicAudioLock.value) {
+        return false;
+      }
+      // 列表显示时不触发
+      if (playListShow.value) {
+        return false;
+      }
+      isMusicAudioEnter.value = false;
     }
 
     // 列表项播放
@@ -427,8 +479,13 @@ export default defineComponent({
     }
 
     // 关闭播放列表
-    function closePlayList(): void {
+    function closePlayList(): boolean | undefined {
       playListShow.value = false;
+      // 锁定之后不触发
+      if (isMysicAudioLock.value) {
+        return false;
+      }
+      isMusicAudioEnter.value = false;
     }
 
     // 浏览器音频限制处理
@@ -462,6 +519,11 @@ export default defineComponent({
       modeType,
       modeTipShow,
       modeChange,
+      isMysicAudioLock,
+      mysicAudioLock,
+      isMusicAudioEnter,
+      mysicAudioEnter,
+      mysicAudioLeave,
       musicPlaying,
       setPlayListShow,
       playListShow,
