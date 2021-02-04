@@ -76,17 +76,6 @@
             <span class="link" v-if="playMusic.name"></span>
           </div>
           <div class="play-progress">
-            <!-- <div class="progress">
-              <div class="current-progress">
-                <i class="icon"></i>
-                <i class="icon-loading" v-if="playMusicStatus.loading"></i>
-              </div>
-              <div class="total-progress"></div>
-            </div>
-            <div class="time">
-              <span class="duration">00:00</span>
-              <span class="total-duration"> / 03:00</span>
-            </div> -->
             <play-progress-bar
               :loading="playMusicStatus.loading"
               :progressData="progressData"
@@ -107,7 +96,20 @@
           ></button>
           <!-- 音量控制 -->
           <volume-progress-bar v-if="volumeBarShow" @volumeChange="volumeChange" />
-          <button class="btn mode-btn" title="模式"></button>
+          <button
+            class="btn"
+            title="模式"
+            :class="[
+              { 'mode-single': modeType === 0 },
+              { 'mode-loop': modeType === 1 },
+              { 'mode-random': modeType === 2 }
+            ]"
+            @click="modeChange"
+          ></button>
+          <!-- 模式提示 -->
+          <div class="mode-tip" v-if="modeTipShow">
+            {{ modeType === 0 ? '单曲循环' : modeType === 1 ? '循环' : '随机' }}
+          </div>
           <button
             class="btn list-btn"
             title="列表"
@@ -380,6 +382,28 @@ export default defineComponent({
       $store.commit('setMusicVolume', Number((volume / 100).toFixed(1)));
     }
 
+    // 模式切换
+    const modeType = ref<number>(0);
+    const modeTipShow = ref<boolean>(false);
+    function modeChange(): void {
+      modeTipShow.value = true;
+      if (modeType.value === 2) {
+        modeType.value = 0;
+      } else {
+        modeType.value++;
+      }
+      let timer = 0;
+      timer = setTimeout(() => {
+        modeTipShow.value = false;
+      }, 3000);
+      if (timer) {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          modeTipShow.value = false;
+        }, 3000);
+      }
+    }
+
     // 显示播放列表
     const playListShow = ref<boolean>(false);
     function setPlayListShow(): void {
@@ -426,6 +450,9 @@ export default defineComponent({
       volumeBarShow,
       musicVolume,
       volumeChange,
+      modeType,
+      modeTipShow,
+      modeChange,
       musicPlaying,
       setPlayListShow,
       playListShow,
