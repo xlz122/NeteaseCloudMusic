@@ -46,6 +46,7 @@
 <script lang="ts">
 import { defineComponent, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
+
 export default defineComponent({
   setup() {
     const $store = useStore();
