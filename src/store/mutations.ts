@@ -59,6 +59,11 @@ const mutations: Mutations<State, unknown> = {
     state.musicVolume = musicVolume as number;
     localStorage.setItem('musicVolume', JSON.stringify(musicVolume));
   },
+  // 我的音乐 - 音乐播放器锁定在底部
+  setIsMysicAudioLock(state, isMysicAudioLock) {
+    state.isMysicAudioLock = isMysicAudioLock as boolean;
+    localStorage.setItem('isMysicAudioLock', JSON.stringify(isMysicAudioLock));
+  },
   // 我的音乐 - 播放列表数据
   setPlayMusicList(state, playMusicData) {
     // 数据去重

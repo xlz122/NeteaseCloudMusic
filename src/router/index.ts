@@ -13,31 +13,45 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/my-music',
         name: 'my-music',
-        component: () => import('../views/my-music/MyMusic.vue')
+        component: () =>
+          import(
+            /* webpackChunkName: "my-music" */ '../views/my-music/MyMusic.vue'
+          )
       },
       {
         path: '/friend',
         name: 'friend',
-        component: () => import('../views/friend/Friend.vue')
+        component: () =>
+          import(/* webpackChunkName: "friend" */ '../views/friend/Friend.vue')
       },
       {
         path: '/shopping-mall',
         name: 'shopping-mall',
-        component: () => import('../views/shopping-mall/ShoppingMall.vue')
+        component: () =>
+          import(
+            /* webpackChunkName: "shopping-mall" */ '../views/shopping-mall/ShoppingMall.vue'
+          )
       },
       {
         path: '/musician',
         name: 'musician',
-        component: () => import('../views/musician/Musician.vue')
+        component: () => import(/* webpackChunkName: "musician" */ '../Bug.vue')
       },
       {
         path: '/download',
         name: 'download',
-        component: () => import('../views/download/Download.vue')
+        component: () =>
+          import(
+            /* webpackChunkName: "download" */ '../views/download/Download.vue'
+          )
       },
       {
         path: '/my-home-page',
-        component: () => import('../views/my-home-page/MyHomePage.vue')
+        name: 'my-home-page',
+        component: () =>
+          import(
+            /* webpackChunkName: "my-home-page" */ '../views/my-home-page/MyHomePage.vue'
+          )
       }
     ]
   }

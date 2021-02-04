@@ -4,9 +4,6 @@ export const drag = {
   beforeMount: (el, binding, vnode) => {
     vnode = vnode.el;
     el.onmousedown = event => {
-      // if (event.target.className !== 'my_dialog_title') {
-      //   return false;
-      // }
       // (clientX, clientY)点击位置距离当前可视区域的坐标(x，y)
       // offsetLeft, offsetTop 距离上层或父级的左边距和上边距
 

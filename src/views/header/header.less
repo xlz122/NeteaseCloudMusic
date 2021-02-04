@@ -1,16 +1,19 @@
 .header {
   width: 100%;
+
   .h-warp {
     position: relative;
     width: 1100px;
     margin: 0 auto;
   }
+
   .h-top {
     height: 70px;
     background: #242424;
     border-bottom: 1px solid #000;
     box-sizing: border-box;
     text-align: left;
+
     .logo {
       display: inline-block;
       width: 176px;
@@ -19,16 +22,19 @@
       background-position: 0 0;
       cursor: pointer;
     }
+
     .nav {
       display: inline-block;
       height: 70px;
       line-height: 70px;
       vertical-align: top;
+
       .item {
         position: relative;
         display: inline-block;
-        height: 100%; 
+        height: 100%;
         font-size: 14px;
+
         .link {
           display: inline-block;
           width: 100%;
@@ -37,12 +43,15 @@
           color: #ccc;
         }
       }
+
       .item:hover {
         background: #000;
+
         .link {
           color: #fff;
         }
       }
+
       .last-item {
         .hot {
           position: absolute;
@@ -54,13 +63,16 @@
           background-position: -190px 0;
         }
       }
+
       .active-item {
         position: relative;
         background: #000;
+
         .link {
           color: #fff;
         }
       }
+
       .active-item::before {
         position: absolute;
         left: 50%;
@@ -73,6 +85,7 @@
         border-color: transparent transparent red;
       }
     }
+
     .other {
       position: absolute;
       top: 0;
@@ -81,9 +94,11 @@
       line-height: 70px;
       vertical-align: top;
       margin-left: 40px;
+
       .search {
         position: relative;
         display: inline-block;
+
         .icon {
           position: absolute;
           top: 50%;
@@ -95,6 +110,7 @@
           background: url(../../assets/image/header/topbar.png) no-repeat 0 9999px;
           background-position: 0 -99px;
         }
+
         .search-input {
           display: inline-block;
           width: 128px;
@@ -106,9 +122,11 @@
           border-radius: 32px;
         }
       }
+
       .create {
         display: inline-block;
         margin-left: 12px;
+
         .link {
           display: inline-block;
           width: 90px;
@@ -121,11 +139,13 @@
           box-sizing: border-box;
           vertical-align: middle;
         }
+
         .link:hover {
           color: #fff;
           border-color: #fff;
         }
       }
+
       .login {
         position: relative;
         z-index: 11;
@@ -135,6 +155,7 @@
         color: #787878;
         vertical-align: middle;
         cursor: pointer;
+
         .user-img {
           position: absolute;
           top: 50%;
@@ -145,11 +166,13 @@
           border-radius: 30px;
           cursor: default;
         }
+
         .user-list {
           display: none;
           position: absolute;
           top: 21px;
           right: -69px;
+
           &::before {
             position: absolute;
             top: -16px;
@@ -163,6 +186,7 @@
           }
         }
       }
+
       .login:hover {
         .user-list {
           display: block;
@@ -170,19 +194,22 @@
       }
     }
   }
+
   .h-bottom {
     position: relative;
     min-height: 5px;
     box-sizing: border-box;
     background-color: #C20C0C;
     border-bottom: 1px solid #a40011;
+
     .subnav {
       height: 35px;
     }
+
     .nav {
       position: absolute;
       left: 184px;
-      
+
       .item {
         position: relative;
         display: inline-block;
@@ -190,17 +217,20 @@
         height: 34px;
         line-height: 34px;
         text-align: center;
+
         .link {
           padding: 4px 13px;
           color: #fff;
           border-radius: 20px;
         }
       }
+
       .active-item {
         .link {
           background: #9B0909;
         }
       }
+
       .song-sheet {
         .white-icon {
           position: absolute;
