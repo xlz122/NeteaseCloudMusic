@@ -344,7 +344,11 @@ export default defineComponent({
       }, 1000);
     }
 
-    function handleProgressChange(value: number): void {
+    function handleProgressChange(value: number): boolean | undefined {
+      // 播放器没有歌曲，没有播放歌曲，拖动会报错
+      if (!audioData.src) {
+        return false;
+      }
       // 停止进度
       stopProgress.value = true;
       // 设置进度时间
