@@ -95,7 +95,10 @@
             @click="volumeBar"
           ></button>
           <!-- 音量控制 -->
-          <volume-progress-bar v-if="volumeBarShow" @volumeChange="volumeChange" />
+          <volume-progress-bar
+            v-if="volumeBarShow"
+            @volumeChange="volumeChange"
+          />
           <button
             class="btn"
             title="模式"
@@ -142,7 +145,9 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import PlayList from './PlayList.vue';
+// 播放进度条
 import PlayProgressBar from './PlayProgressBar.vue';
+// 音量
 import VolumeProgressBar from './VolumeProgressBar.vue';
 import { getPlayMusicUrl } from '@api/my-music';
 import { ResponseType, LoopType } from '@/types/types';
@@ -287,7 +292,7 @@ export default defineComponent({
       }
       // 列表回到第一项
       if (index !== -1 && index === playMusicList.value.length - 1) {
-        id = playMusicList.value[0].id
+        id = playMusicList.value[0].id;
         playMusicSrc(playMusicList.value[0].id);
       }
       // 当前播放音乐id
@@ -359,10 +364,10 @@ export default defineComponent({
       const musicMp3 = musicAudio.value as HTMLVideoElement;
       // 获取.buffered.end(0)前，先判断一下.buffered.length是不是大于0
       let cache = 0;
-      if(musicMp3.buffered.length !== 0){
+      if (musicMp3.buffered.length !== 0) {
         cache += musicMp3.buffered.end(0);
       }
-      progressData.cacheProgress = cache / musicMp3.duration * 100;
+      progressData.cacheProgress = (cache / musicMp3.duration) * 100;
     }
 
     // 播放完成

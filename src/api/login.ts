@@ -17,7 +17,7 @@ export const qrcodeKey = () => {
  * @desc 二维码登录 - 获取二维码
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } key - 二维码登录key
- * @param { Boolean } [qrimg] - 生成二维码base64链接，可选
+ * @param { Boolean } [qrimg] - 是否生成二维码base64链接，可选
  */
 
 interface GetQrcodeImg {
@@ -39,7 +39,7 @@ export const qrcodeImg = ({ key, qrimg }: GetQrcodeImg) => {
 };
 
 /**
- * @desc 二维码登录 - 检测扫码状态接口
+ * @desc 二维码登录 - 检测扫码状态
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } key - 二维码登录key
  */
@@ -105,9 +105,9 @@ export const accountInfo = () => {
 /**
  * @desc 获取用户信息
  * @param { Number } timestamp - 防止接口缓存
- * @param { String } uid - 账号id
+ * @param { Number } uid - 账号id
  */
-export const userInfo = ({ uid }: { uid: string }) => {
+export const userInfo = ({ uid }: { uid: number }) => {
   const data = {
     timestamp: new Date().getTime(),
     uid

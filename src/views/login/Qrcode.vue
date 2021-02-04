@@ -123,7 +123,6 @@ export default defineComponent({
       accountInfo().then((res: ResponseDataType) => {
         if (res.code === 200) {
           // 存储账户信息
-          localStorage.setItem('token', res?.token || '');
           localStorage.setItem('accountInfo', JSON.stringify(res?.account));
           $store.commit('setAccountInfo', res?.account);
           // 获取用户详情
@@ -133,7 +132,7 @@ export default defineComponent({
     }
 
     // 获取用户详情
-    function getUserInfo(uid: string): void {
+    function getUserInfo(uid: number): void {
       userInfo({ uid }).then((res: ResponseDataType) => {
         if (res.code === 200) {
           // 存储用户信息

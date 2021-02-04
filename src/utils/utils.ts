@@ -86,31 +86,31 @@ export function formatDateTime(
  */
 export function formatDate(timestamp: number) {
   // 补全为13位
-  let arrTimestamp = (timestamp + '').split('');
+  const arrTimestamp = (timestamp + '').split('');
   for (let start = 0; start < 13; start++) {
     if (!arrTimestamp[start]) {
       arrTimestamp[start] = '0';
     }
   }
   timestamp = arrTimestamp.join('') * 1;
-  let minute = 1000 * 60;
-  let hour = minute * 60;
-  let day = hour * 24;
-  let month = day * 30;
-  let now = new Date().getTime();
-  let diffValue = now - timestamp;
+  const minute = 1000 * 60;
+  const hour = minute * 60;
+  const day = hour * 24;
+  const month = day * 30;
+  const now = new Date().getTime();
+  const diffValue = now - timestamp;
   // 如果本地时间反而小于变量时间
   if (diffValue < 0) {
     return '不久前';
   }
   // 计算差异时间的量级
-  let monthC = diffValue / month;
-  let weekC = diffValue / (7 * day);
-  let dayC = diffValue / day;
-  let hourC = diffValue / hour;
-  let minC = diffValue / minute;
+  const monthC = diffValue / month;
+  const weekC = diffValue / (7 * day);
+  const dayC = diffValue / day;
+  const hourC = diffValue / hour;
+  const minC = diffValue / minute;
   // 数值补0方法
-  let zero = function (value) {
+  const zero = function(value) {
     if (value < 10) {
       return '0' + value;
     }
@@ -119,9 +119,16 @@ export function formatDate(timestamp: number) {
   // 使用
   if (monthC > 4) {
     // 超过1年，直接显示年月日
-    return (function () {
-      let date = new Date(timestamp);
-      return date.getFullYear() + '年' + zero(date.getMonth() + 1) + '月' + zero(date.getDate()) + '日';
+    return (function() {
+      const date = new Date(timestamp);
+      return (
+        date.getFullYear() +
+        '年' +
+        zero(date.getMonth() + 1) +
+        '月' +
+        zero(date.getDate()) +
+        '日'
+      );
     })();
   } else if (monthC >= 1) {
     return parseInt(monthC) + '月前';

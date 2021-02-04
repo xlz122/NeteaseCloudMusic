@@ -1,7 +1,7 @@
 import axios from '@utils/axios';
 
 /**
- * @desc 获取用户信息 , 歌单，收藏，mv, dj 数量
+ * @desc 获取用户歌单，收藏，mv, dj 数量
  * @param { Number } timestamp - 防止接口缓存
  */
 export const userSubcount = () => {
@@ -33,8 +33,9 @@ export const myMvSbulist = () => {
 /**
  * @desc 获取用户歌单列表
  * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } uid - 账号id
  */
-export const userPlayList = ({ uid }: { uid: string }) => {
+export const userPlayList = ({ uid }: { uid: number }) => {
   const params = {
     timestamp: new Date().getTime(),
     uid
@@ -96,10 +97,36 @@ export const playListDetail = ({ id }: { id: number }) => {
   });
 };
 
-/* @desc 获取用户歌单评论
+/* @desc 删除歌单歌曲
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { String } op - 从歌单增加单曲为 add, 删除为 del
+ * @param { Number } pid: 歌单 id
+ * @param { Number } id - 歌曲id
+ */
+
+interface DeleteMusic {
+  pid: number | string;
+  tracks: number | string;
+}
+
+export const deleteMusic = ({ pid, tracks }: DeleteMusic) => {
+  const params = {
+    timestamp: new Date().getTime(),
+    op: 'del',
+    pid,
+    tracks
+  };
+  return axios.request({
+    url: '/playlist/tracks',
+    method: 'get',
+    params
+  });
+};
+
+/* @desc 获取歌单评论列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单id
- * @param { Number } [limit] - 评论条数
+ * @param { Number } [limit] - 每页评论条数，默认20
  */
 
 interface CommentPlayList {
@@ -145,7 +172,7 @@ export const addSongSheetComment = ({ id, content }: AddComment) => {
   });
 };
 
-/* @desc 回复评论
+/* @desc 回复歌单评论
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单id
  * @param { String } content - 评论内容
@@ -230,7 +257,8 @@ export const songSheetLike = ({ id, cid, t }: SongSheetLike) => {
 
 /* @desc 获取播放url
  * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 歌曲id，可多个，id1，id2 用逗号隔开
+ * @param { Number } id - 歌曲id
+ * @param { Number } [br] - 码率,默认设置了 999000 即最大码率,如果要 320k 则可设置为 320000,其他类推
  */
 
 interface GetPlayMusicUrl {
@@ -246,32 +274,6 @@ export const getPlayMusicUrl = ({ id, br }: GetPlayMusicUrl) => {
   };
   return axios.request({
     url: '/song/url',
-    method: 'get',
-    params
-  });
-};
-
-/* @desc 删除歌单歌曲
- * @param { Number } timestamp - 防止接口缓存
- * @param { String } op - 从歌单增加单曲为 add, 删除为 del
- * @param { Number } pid: 歌单 id
- * @param { Number } id - 歌曲id，可多个，id1，id2 用逗号隔开
- */
-
-interface DeleteMusic {
-  pid: number | string;
-  tracks: number | string;
-}
-
-export const deleteMusic = ({ pid, tracks }: DeleteMusic) => {
-  const params = {
-    timestamp: new Date().getTime(),
-    op: 'del',
-    pid,
-    tracks
-  };
-  return axios.request({
-    url: '/playlist/tracks',
     method: 'get',
     params
   });
