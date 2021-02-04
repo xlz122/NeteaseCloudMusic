@@ -142,9 +142,26 @@
       width: 553px;
       overflow: hidden;
 
+      ::-webkit-scrollbar {
+        width: 6px;
+        background: #000;
+        border-radius: 5px;
+        opacity: .5;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        width: 4px;
+        border-radius: 5px;
+        height: 100px;
+        cursor: pointer;
+        background: #868686;
+        border: 1px solid #a6a6a6;
+      }
+
       .list {
+        height: 100%;
         color: #ccc;
-        overflow: hidden;
+        overflow-y: scroll;
 
         .item {
           position: relative;
