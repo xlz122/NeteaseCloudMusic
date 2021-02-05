@@ -203,7 +203,7 @@
           .other {
             display: inline-block;
             vertical-align: middle;
-            width: 70px;
+            width: 60px;
             height: 31px;
             line-height: 30px;
             margin-left: -3px;
@@ -221,12 +221,19 @@
             .icon {
               display: inline-block;
               vertical-align: middle;
-              width: 36px;
+              width: 26px;
               height: 32px;
               padding-right: 2px;
               padding-left: 30px;
               background: url(../../../assets/image/icon-button.png) no-repeat;
               background-position: 0 -1149px;
+              font-family: simsun,\5b8b\4f53;
+            }
+          }
+
+          .collection {
+            .icon {
+              background-position: 0 -977px;
             }
           }
 
@@ -245,6 +252,13 @@
           .comment {
             .icon {
               background-position: 0 -1465px;
+            }
+          }
+
+          .collection:hover {
+            background-position: right -1106px;
+            .icon {
+              background-position: 0 -1063px;
             }
           }
 
@@ -274,22 +288,28 @@
 
           .disable-collection,
           .disable-collection:hover {
+            width: 70px;
             color: #bebebe;
             background-position: right -1192px;
             cursor: default;
 
             .icon {
+              width: 32px;
+              color: #bebebe;
               background-position: 0 -1354px;
             }
           }
 
           .disable-share,
           .disable-share:hover {
+            width: 70px;
             color: #bebebe;
             background-position: right -1192px;
             cursor: default;
 
             .icon {
+              width: 32px;
+              color: #bebebe;
               background-position: 0 -1311px;
             }
           }
@@ -301,17 +321,21 @@
             cursor: default;
 
             .icon {
+              color: #bebebe;
               background-position: 0 -3024px;
             }
           }
 
           .disable-comment,
           .disable-comment:hover {
+            width: 70px;
             color: #bebebe;
             background-position: right -1192px;
             cursor: default;
 
             .icon {
+              width: 32px;
+              color: #bebebe;
               background-position: 0 -1551px;
             }
           }
@@ -436,6 +460,7 @@
       padding: 6px 10px;
       line-height: 18px;
       text-align: left;
+      background-color: #fff;
     }
 
     .even-tr td {
