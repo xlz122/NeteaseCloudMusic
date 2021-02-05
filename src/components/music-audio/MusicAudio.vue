@@ -16,17 +16,36 @@
   >
     <source :src="audioData.src" />
   </audio>
+  <!-- 播放器 -->
   <div class="music-audio-container">
-    <div class="music-audio-playbar">
+    <div
+      class="music-audio-playbar"
+      :class="[
+        { 'music-audio-playbar-enter': isMusicAudioEnter },
+        { 'music-audio-playbar-leave': !isMusicAudioEnter },
+        { 'music-audio-playbar-lock': isMysicAudioLock }
+      ]"
+      @mouseenter="mysicAudioEnter"
+      @mouseleave="mysicAudioLeave"
+    >
       <!-- 锁定 -->
       <div class="updn">
         <div class="updn-left">
-          <i class="icon-updn-left"></i>
+          <i
+            class="updn-icon"
+            :class="[
+              { 'icon-updn-left': !isMysicAudioLock },
+              { 'icon-updn-left-lock': isMysicAudioLock }
+            ]"
+            @click="mysicAudioLock"
+          ></i>
         </div>
         <div class="updn-right"></div>
       </div>
       <!-- 背景 -->
       <div class="playbar-bg"></div>
+      <!-- 播放器展示 -->
+      <div class="hand" title="展开播放条" @mouseenter="mysicAudioEnter"></div>
       <!-- 内容 -->
       <div class="wrap">
         <div class="operate-btn">
@@ -95,10 +114,7 @@
             @click="volumeBar"
           ></button>
           <!-- 音量控制 -->
-          <volume-progress-bar
-            v-if="volumeBarShow"
-            @volumeChange="volumeChange"
-          />
+          <volume-progress-bar v-if="volumeBarShow" />
           <button
             class="btn"
             title="模式"
@@ -130,6 +146,7 @@
       :playMusic="playMusic"
       @playlistItem="playlistItem"
       @closePlayList="closePlayList"
+      @mouseenter="mysicAudioEnter"
     />
   </div>
 </template>
@@ -144,11 +161,11 @@ import {
   onUnmounted
 } from 'vue';
 import { useStore } from 'vuex';
-import PlayList from './PlayList.vue';
+import PlayList from './play-list/PlayList.vue';
 // 播放进度条
-import PlayProgressBar from './PlayProgressBar.vue';
+import PlayProgressBar from './play-progress-bar/PlayProgressBar.vue';
 // 音量
-import VolumeProgressBar from './VolumeProgressBar.vue';
+import VolumeProgressBar from './volume-progress-bar/VolumeProgressBar.vue';
 import { getPlayMusicUrl } from '@api/my-music';
 import { ResponseType, LoopType } from '@/types/types';
 
@@ -344,7 +361,11 @@ export default defineComponent({
       }, 1000);
     }
 
-    function handleProgressChange(value: number): void {
+    function handleProgressChange(value: number): boolean | undefined {
+      // 播放器没有歌曲，没有播放歌曲，拖动会报错
+      if (!audioData.src) {
+        return false;
+      }
       // 停止进度
       stopProgress.value = true;
       // 设置进度时间
@@ -375,16 +396,12 @@ export default defineComponent({
       nextPlayMusic();
     }
 
+    // 音量
+    const musicVolume = computed(() => $store.getters.musicVolume);
     // 音量显隐
     const volumeBarShow = ref<boolean>(false);
     function volumeBar(): void {
       volumeBarShow.value = !volumeBarShow.value;
-    }
-
-    // 音量改变
-    const musicVolume = computed(() => $store.getters.musicVolume);
-    function volumeChange(volume: number): void {
-      $store.commit('setMusicVolume', Number((volume / 100).toFixed(1)));
     }
 
     // 模式切换
@@ -409,10 +426,42 @@ export default defineComponent({
       }
     }
 
+    // 音乐播放器锁定在底部
+    const isMysicAudioLock = computed(() => $store.getters.isMysicAudioLock);
+    function mysicAudioLock(): void {
+      if (isMysicAudioLock.value) {
+        $store.commit('setIsMysicAudioLock', false);
+      } else {
+        $store.commit('setIsMysicAudioLock', true);
+      }
+    }
+    // 播放器鼠标移入事件
+    const isMusicAudioEnter = ref<boolean>(false);
+    function mysicAudioEnter(): boolean | undefined {
+      // 锁定之后不触发
+      if (isMysicAudioLock.value) {
+        return false;
+      }
+      isMusicAudioEnter.value = true;
+    }
+
     // 显示播放列表
     const playListShow = ref<boolean>(false);
     function setPlayListShow(): void {
       playListShow.value = !playListShow.value;
+    }
+
+    // 播放器鼠标移出事件
+    function mysicAudioLeave(): boolean | undefined {
+      // 锁定之后不触发
+      if (isMysicAudioLock.value) {
+        return false;
+      }
+      // 列表显示时不触发
+      if (playListShow.value) {
+        return false;
+      }
+      isMusicAudioEnter.value = false;
     }
 
     // 列表项播放
@@ -423,8 +472,13 @@ export default defineComponent({
     }
 
     // 关闭播放列表
-    function closePlayList(): void {
+    function closePlayList(): boolean | undefined {
       playListShow.value = false;
+      // 锁定之后不触发
+      if (isMysicAudioLock.value) {
+        return false;
+      }
+      isMusicAudioEnter.value = false;
     }
 
     // 浏览器音频限制处理
@@ -454,10 +508,14 @@ export default defineComponent({
       volumeBar,
       volumeBarShow,
       musicVolume,
-      volumeChange,
       modeType,
       modeTipShow,
       modeChange,
+      isMysicAudioLock,
+      mysicAudioLock,
+      isMusicAudioEnter,
+      mysicAudioEnter,
+      mysicAudioLeave,
       musicPlaying,
       setPlayListShow,
       playListShow,

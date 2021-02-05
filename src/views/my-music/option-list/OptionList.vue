@@ -17,6 +17,7 @@
   />
   <!-- 收藏的歌单 -->
   <toggle-list
+    v-if="optionsCount.collectionPlayCount > 0"
     :title="'收藏的歌单'"
     :listCount="optionsCount.collectionPlayCount"
     :listData="songList.collectionSongList"
