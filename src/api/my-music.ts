@@ -278,3 +278,19 @@ export const getPlayMusicUrl = ({ id, br }: GetPlayMusicUrl) => {
     params
   });
 };
+
+interface GetLyric {
+  id: number | string;
+}
+// 获取歌词
+export const getLyric = ({ id }: GetLyric) => {
+  const params = {
+    timestamp: new Date().getTime(),
+    id
+  };
+  return axios.request({
+    url: '/lyric',
+    method: 'get',
+    params
+  });
+};

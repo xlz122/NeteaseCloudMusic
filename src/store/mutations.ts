@@ -1,5 +1,4 @@
-import { State, MyMusicDetail } from '@store/state';
-import { LoopType } from '@/types/types';
+import { State } from '@store/state';
 import { clearAllCookie } from '@utils/cookie';
 
 interface Mutations<T, U> {
@@ -34,68 +33,6 @@ const mutations: Mutations<State, unknown> = {
     localStorage.clear();
     // 清除所有cookie
     clearAllCookie();
-  },
-  // 我的音乐显示详情
-  setMyMusicDetail(state, myMusicDetail) {
-    state.myMusicDetail = myMusicDetail as MyMusicDetail;
-  },
-  // 我的音乐 - 侧边列表选中项id
-  setActiveSongListId(state, activeSongListId) {
-    state.activeSongListId = activeSongListId as number;
-    localStorage.setItem('activeSongListId', JSON.stringify(activeSongListId));
-  },
-  // 我的音乐 - 创建歌单详情数据
-  setPlayDetailData(state, playDetailData) {
-    state.playDetailData = playDetailData as unknown;
-    localStorage.setItem('playDetailData', JSON.stringify(playDetailData));
-  },
-  // 我的音乐 - 当前播放音乐id
-  setPlayMusicId(state, playMusicId) {
-    state.playMusicId = playMusicId as number;
-    localStorage.setItem('playMusicId', JSON.stringify(playMusicId));
-  },
-  // 我的音乐 - 音量控制
-  setMusicVolume(state, musicVolume) {
-    state.musicVolume = musicVolume as number;
-    localStorage.setItem('musicVolume', JSON.stringify(musicVolume));
-  },
-  // 我的音乐 - 音乐播放器锁定在底部
-  setIsMysicAudioLock(state, isMysicAudioLock) {
-    state.isMysicAudioLock = isMysicAudioLock as boolean;
-    localStorage.setItem('isMysicAudioLock', JSON.stringify(isMysicAudioLock));
-  },
-  // 我的音乐 - 播放列表数据
-  setPlayMusicList(state, playMusicData) {
-    // 数据去重
-    const list = JSON.parse(JSON.stringify(state.playMusicList));
-    const index = list.findIndex(
-      (item: LoopType) => item.id === (playMusicData as LoopType).id
-    );
-    if (index !== -1) {
-      list.splice(index, 1);
-    }
-    // 新数据添加到第一项
-    list.push(playMusicData);
-    // 保存数据
-    state.playMusicList = list as unknown[];
-    localStorage.setItem('playMusicData', JSON.stringify(list));
-  },
-  // 播放器 - 清空播放列表数据
-  emptyPlayMusicList(state) {
-    state.playMusicList = [] as unknown[];
-    localStorage.setItem('playMusicData', [] as never);
-  },
-  // 播放器 - 删除播放列表单项数据
-  deletePlayMusicList(state, id) {
-    // 查找索引
-    const list = JSON.parse(JSON.stringify(state.playMusicList));
-    const index = list.findIndex((item: LoopType) => item.id === id);
-    if (index !== -1) {
-      list.splice(index, 1);
-    }
-    // 保存数据
-    state.playMusicList = list as unknown[];
-    localStorage.setItem('playMusicData', JSON.stringify(list));
   }
 };
 
