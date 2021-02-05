@@ -21,10 +21,7 @@ import { defineComponent, ref } from 'vue';
 export default defineComponent({
   setup() {
     // bug
-    const bugList = ref<string[]>([
-      '歌单详情 - 个人信息部分，按钮是否禁用样式问题',
-      '删除收藏的歌单，获取详情报错'
-    ]);
+    const bugList = ref<string[]>(['删除收藏的歌单，获取详情报错']);
     // 未完成
     const incompleteFunction = ref<string[]>(['邮箱登录', '手机号登录']);
     return {
