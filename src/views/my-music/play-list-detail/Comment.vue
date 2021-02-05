@@ -306,9 +306,6 @@ export default defineComponent({
         }
       });
     }
-    onMounted(() => {
-      getCommentPlayList();
-    });
 
     // 删除评论
     const deleteCommentDialog = ref<boolean>(false);
