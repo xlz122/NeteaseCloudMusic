@@ -102,8 +102,36 @@
       top: 0;
       right: -4px;
       z-index: 20;
-      width: 254px;
+      width: 256px;
       height: 285px;
+      background: url('../../../assets/image/home/download.png') no-repeat 0 0;
+      .download-link {
+        position: relative;
+        display: block;
+        width: 215px;
+        height: 56px;
+        margin: 186px 0 0 19px;
+        background: url('../../../assets/image/home/download.png');
+        background-position: 0 -290px;
+        text-indent: -9999px;
+        cursor: pointer;
+        &:hover {
+          background-position: 0 -290px;
+        }
+        .link {
+          position: absolute;
+          top: 0;
+          left: 0;
+          display: inline-block;
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .desc {
+        margin: 10px auto;
+        text-align: center;
+        color: #8d8d8d;
+      }
     }
   }
 }

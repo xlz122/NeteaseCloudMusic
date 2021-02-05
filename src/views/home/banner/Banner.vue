@@ -33,7 +33,14 @@
         ></li>
       </ul>
       <!-- 下载部分 -->
-      <div class="download"></div>
+      <div class="download">
+        <div class="download-link">
+          <router-link class="link" to="/download"></router-link>
+        </div>
+        <p class="desc">PC 安卓 iPhone WP iPad Mac 六大客户端</p>
+        <span class="shadow"></span>
+        <span class="shadowr"></span>
+      </div>
     </div>
   </div>
 </template>
