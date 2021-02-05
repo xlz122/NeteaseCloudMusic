@@ -21,11 +21,13 @@
     <div class="group">
       <div class="list-title">
         <span class="title">新碟上架</span>
+        <span class="more">更多</span>
       </div>
     </div>
     <div class="group">
       <div class="list-title">
         <span class="title">榜单</span>
+        <span class="more">更多</span>
       </div>
     </div>
   </div>
@@ -107,6 +109,9 @@
           height: 12px;
           background: url('../../../assets/image/home/home-icon.png');
           background-position: 0 -240px;
+        }
+        &:hover {
+          text-decoration: underline;
         }
       }
     }
