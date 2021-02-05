@@ -114,10 +114,7 @@
             @click="volumeBar"
           ></button>
           <!-- 音量控制 -->
-          <volume-progress-bar
-            v-if="volumeBarShow"
-            @volumeChange="volumeChange"
-          />
+          <volume-progress-bar v-if="volumeBarShow" />
           <button
             class="btn"
             title="模式"
@@ -164,11 +161,11 @@ import {
   onUnmounted
 } from 'vue';
 import { useStore } from 'vuex';
-import PlayList from './PlayList.vue';
+import PlayList from './play-list/PlayList.vue';
 // 播放进度条
-import PlayProgressBar from './PlayProgressBar.vue';
+import PlayProgressBar from './play-progress-bar/PlayProgressBar.vue';
 // 音量
-import VolumeProgressBar from './VolumeProgressBar.vue';
+import VolumeProgressBar from './volume-progress-bar/VolumeProgressBar.vue';
 import { getPlayMusicUrl } from '@api/my-music';
 import { ResponseType, LoopType } from '@/types/types';
 
@@ -399,16 +396,12 @@ export default defineComponent({
       nextPlayMusic();
     }
 
+    // 音量
+    const musicVolume = computed(() => $store.getters.musicVolume);
     // 音量显隐
     const volumeBarShow = ref<boolean>(false);
     function volumeBar(): void {
       volumeBarShow.value = !volumeBarShow.value;
-    }
-
-    // 音量改变
-    const musicVolume = computed(() => $store.getters.musicVolume);
-    function volumeChange(volume: number): void {
-      $store.commit('setMusicVolume', Number((volume / 100).toFixed(1)));
     }
 
     // 模式切换
@@ -515,7 +508,6 @@ export default defineComponent({
       volumeBar,
       volumeBarShow,
       musicVolume,
-      volumeChange,
       modeType,
       modeTipShow,
       modeChange,

@@ -218,7 +218,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, onMounted } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import MyDialog from '@/components/MyDialog.vue';
 import {
   commentPlayList,
