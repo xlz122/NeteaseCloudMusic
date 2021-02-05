@@ -24,26 +24,15 @@ import { useStore } from 'vuex';
 
 export default defineComponent({
   emits: ['volumeChange'],
-  setup(props, { emit }) {
-    // 当前进度距离顶部距离
-    const currentTop = ref<number>(0);
+  setup() {
     // 总进度 当前进度 进度图标
     const progressRef = ref<HTMLElement>();
     const currentProgressRef = ref<HTMLElement>();
     const progressIconRef = ref<HTMLElement>();
+    // 当前进度距离顶部距离
+    const currentTop = ref<number>(0);
     // 鼠标是否按下
     const isMouseDown = ref<boolean>(false);
-
-    // 音量百分比
-    const volumePer = ref<number>(0);
-
-    // 监听进度变更
-    watch(
-      () => volumePer.value,
-      (curVal: number) => {
-        emit('volumeChange', curVal);
-      }
-    );
 
     // 初始化音量进度条
     const $store = useStore();
@@ -54,9 +43,20 @@ export default defineComponent({
         musicVolume.value * 100 + '%';
       // 设置滑块的top
       const progressHeight = (progressRef.value as HTMLElement).offsetHeight;
-      (progressIconRef.value as HTMLElement).style.top =
-        progressHeight - musicVolume.value * 100 + 'px';
+      const progressIcon = progressIconRef.value as HTMLElement;
+      progressIcon.style.top = progressHeight - musicVolume.value * 100 + 'px';
     });
+
+    // 音量百分比
+    const volumePer = ref<number>(0);
+
+    // 监听进度变更
+    watch(
+      () => volumePer.value,
+      (curVal: number) => {
+        $store.commit('setMusicVolume', Number((curVal / 100).toFixed(1)));
+      }
+    );
 
     // 进度点击
     function handleProgressClick(e: MouseEvent): boolean | undefined {
@@ -69,11 +69,12 @@ export default defineComponent({
       const iconOffsetHeight =
         (progressIconRef.value as HTMLElement).offsetHeight;
       // 设置当前高度
-      (currentProgressRef.value as HTMLElement).style.height =
+      const currentProgress = currentProgressRef.value as HTMLElement;
+      currentProgress.style.height =
         ((progressHeight - e.offsetY) / progressHeight) * 100 + '%';
       // 设置滑块的top
-      (progressIconRef.value as HTMLElement).style.top =
-        e.offsetY - iconOffsetHeight / 2 + 'px';
+      const progressIcon = progressIconRef.value as HTMLElement;
+      progressIcon.style.top = e.offsetY - iconOffsetHeight / 2 + 'px';
       // 存储音量百分比
       volumePer.value = ((progressHeight - e.offsetY) / progressHeight) * 100;
     }
@@ -105,11 +106,13 @@ export default defineComponent({
           moveY = 0;
         }
         // 设置当前高度
-        (currentProgressRef.value as HTMLElement).style.height =
+        const currentProgress = currentProgressRef.value as HTMLElement;
+        currentProgress.style.height =
           (progressHeight - iconOffsetHeight - moveY) /
             (progressHeight - iconOffsetHeight) * 100 + '%';
         // 设置滑块的top
-        (progressIconRef.value as HTMLElement).style.top = moveY + 'px';
+        const progressIcon = progressIconRef.value as HTMLElement;
+        progressIcon.style.top = moveY + 'px';
         // 存储音量百分比
         volumePer.value =
           (progressHeight - iconOffsetHeight - moveY) /
@@ -149,5 +152,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './music-audio.less';
+@import './volume-progress-bar.less';
 </style>

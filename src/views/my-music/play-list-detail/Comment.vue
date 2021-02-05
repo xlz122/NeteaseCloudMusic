@@ -218,7 +218,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, onMounted } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import MyDialog from '@/components/MyDialog.vue';
 import {
   commentPlayList,
@@ -306,9 +306,6 @@ export default defineComponent({
         }
       });
     }
-    onMounted(() => {
-      getCommentPlayList();
-    });
 
     // 删除评论
     const deleteCommentDialog = ref<boolean>(false);
