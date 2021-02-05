@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref, watch, onUnmounted } from 'vue';
 import { bannerImgUrl } from '@api/home';
 import { ResponseType } from '@/types/types';
 
@@ -144,16 +144,23 @@ export default defineComponent({
       }, 4000);
     }
 
-    // 轮播移入
+    // 轮播区域鼠标移入
     function bannerEnter(): void {
       // 清除定时器
       clearInterval(bannerTimer.value as number);
     }
-    // 轮播移入
+    // 轮播区域鼠标移出
     function bannerLeave(): void {
       // 重新轮播
       autoBanner();
     }
+
+    onUnmounted(() => {
+      if (bannerTimer.value) {
+        // 清除定时器
+        clearInterval(bannerTimer.value as number);
+      }
+    });
     return {
       bannerRef,
       bannerData,
