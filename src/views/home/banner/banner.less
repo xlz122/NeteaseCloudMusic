@@ -1,0 +1,109 @@
+.home-banner {
+  width: 100%;
+  height: 285px;
+  overflow: hidden;
+  .banner-warp {
+    position: relative;
+    width: 982px;
+    height: 285px;
+    margin: 0 auto;
+
+    // 两侧按钮及图片
+    .banner-content {
+      width: 730px;
+      height: 285px;
+
+      .banner-img {
+        width: 100%;
+        height: 285px;
+        overflow: hidden;
+
+        .img {
+          display: inline-block;
+          width: 730px;
+          height: 100%;
+          transition: none 0.2s ease 0s;
+          opacity: 1;
+        }
+
+        .switching-img {
+          transition: opacity 1s ease-in 0s;
+          opacity: 0.2;
+        }
+      }
+
+      .banner-btn {
+        display: block;
+        position: absolute;
+        top: 50%;
+        margin-top: -31px;
+        width: 37px;
+        height: 63px;
+        text-indent: -9999px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+      }
+
+      .banner-left-btn {
+        left: -68px;
+        background: url('../../../assets/image/home/banner-btn-left.png');
+        background-position: 0 -378px;
+
+        &:hover {
+          background: url('../../../assets/image/home/banner-btn-left-hover.png');
+          background-position: 0 -441px;
+        }
+      }
+
+      .banner-right-btn {
+        right: -68px;
+        background: url('../../../assets/image/home/banner-btn-right.png');
+        background-position: 0 -503px;
+
+        &:hover {
+          background: url('../../../assets/image/home/banner-btn-right-hover.png');
+          background-position: 0 -566px;
+        }
+      }
+    }
+
+    .warp-dots {
+      position: absolute;
+      top: 259px;
+      left: 0;
+      width: 730px;
+      height: 20px;
+      text-align: center;
+
+      .dots-item {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        background: url('../../../assets/image/home/banner-dot.png');
+        background-position: 0 -340px;
+        cursor: pointer;
+
+        &:hover {
+          background: url('../../../assets/image/home/banner-dot-hover.png');
+          background-position: 0 -340px;
+        }
+      }
+
+      .dots-active-item,
+      .dots-active-item:hover {
+        background: url('../../../assets/image/home/banner-dot-hover.png');
+        background-position: 0 -340px;
+      }
+    }
+
+    .download {
+      position: absolute;
+      top: 0;
+      right: -4px;
+      z-index: 20;
+      width: 254px;
+      height: 285px;
+    }
+  }
+}
