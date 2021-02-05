@@ -110,10 +110,15 @@ export default defineComponent({
     watch(
       () => bannerUrl.value,
       () => {
-        const banner = bannerRef.value as HTMLElement;
-        banner.style.backgroundImage = `url(${bannerUrl.value}?imageView&blur=40x20)`;
-        banner.style.backgroundSize = '6000px';
-        banner.style.backgroundPosition = 'center center';
+        // 修复切换背景图时出现的“白色闪屏”现象
+        const img = new Image();
+        img.src = `${bannerUrl.value}?imageView&blur=40x20`;
+        img.onload = function() {
+          const banner = bannerRef.value as HTMLElement;
+          banner.style.backgroundImage = `url(${bannerUrl.value}?imageView&blur=40x20)`;
+          banner.style.backgroundSize = '6000px';
+          banner.style.backgroundPosition = 'center center';
+        };
       }
     );
 
