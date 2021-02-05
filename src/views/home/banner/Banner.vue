@@ -138,6 +138,7 @@ export default defineComponent({
         return false;
       }
       bannerTimer.value = setInterval(() => {
+        // 图片切换增加动画，1s后清除动画并显示下一张图片
         bannerImgSwitching.value = true;
         if (bannerIndex.value === bannerData.value.length - 1) {
           bannerIndex.value = 0;
