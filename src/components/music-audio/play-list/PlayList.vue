@@ -69,25 +69,8 @@
       <i class="line" v-if="playMusicList.length === 0"></i>
       <div class="right-content">
         <i class="icon-doubt"></i>
-        <ul class="list">
-          <li class="item">测试歌词 测试歌词</li>
-          <li class="item">测试歌词 测试歌词</li>
-          <li class="item">测试歌词 测试歌词</li>
-          <li class="item">测试歌词 测试歌词</li>
-          <li class="item">测试歌词 测试歌词</li>
-          <li class="item">测试歌词 测试歌词</li>
-          <li class="item">测试歌词 测试歌词</li>
-          <li class="item">测试歌词 测试歌词</li>
-          <li class="item">测试歌词 测试歌词</li>
-          <li class="item">测试歌词 测试歌词</li>
-          <li class="item">测试歌词 测试歌词</li>
-          <li class="item">测试歌词 测试歌词</li>
-          <li class="item">测试歌词 测试歌词</li>
-          <li class="item">测试歌词 测试歌词</li>
-          <li class="item">测试歌词 测试歌词</li>
-          <li class="item">测试歌词 测试歌词</li>
-          <li class="item">测试歌词 测试歌词</li>
-          <li class="item">测试歌词 测试歌词</li>
+        <ul class="list" ref="lyricUL">
+          <li class="item" ref="lyric" :class="{'active':lyricIndex === index }" v-for="(item,index) in lyricsObjArr" :data-time="item.time" :key="item.uid">{{item.lyric}}</li>
         </ul>
       </div>
     </div>
@@ -95,7 +78,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+  // @ts-nockeck
+  import { getLyric } from '@api/my-music';
+  import {defineComponent, reactive, ref, toRefs, watch,onMounted} from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils.ts';
 
@@ -116,9 +101,87 @@ export default defineComponent({
     playMusic: {
       type: Object,
       default: {}
-    }
+    },
+    timeStamp: {
+      type:Number,
+      default:''
+    },
+    lyricString:{
+      type:String,
+      default:'',
+    },
   } as unknown) as undefined,
-  setup(props, { emit }) {
+  setup(props: { playMusicId: number,timeStamp:string,lyricString:String }, { emit }) {
+    const state:any = reactive({
+      lyricsObjArr:[],
+      lyricIndex:0,
+    })
+    const lyricUL = ref<HTMLElement>();
+    watch(
+            ()=>props.timeStamp,
+            (curvAL)=>{
+              getWatch(props,curvAL);
+            },
+    )
+    watch(
+            ()=>props.lyricString,
+            (curvAL)=>{
+              setLyricFun(props.lyricString);
+            },
+    )
+
+    function getWatch(value,curvAL){
+      let timeStamp=value.timeStamp;
+      // 匹配歌词
+      for (let i = 0; i < state.lyricsObjArr.length; i++) {
+        if (timeStamp > (parseInt(state.lyricsObjArr[i].time))) {
+          state.lyricIndex=i;
+          if(curvAL){
+            state.lyricIndex?setTimeout(()=>{
+              (lyricUL.value as HTMLElement).scrollTop=(32 * (state.lyricIndex + 1))-110
+            },750):'';
+          }
+        }
+      }
+    }
+    function setLyricFun(res:any) {
+      state.lyricsObjArr=[];
+      const regNewLine = /\n/;
+      const lineArr = res.lrc.lyric.split(regNewLine); // 每行歌词的数组
+      const regTime = /\[\d{2}:\d{2}.\d{2,3}\]/;
+      lineArr.forEach((item:any) => {
+        if (item === '') return
+        let obj={
+          lyric:'',
+          time:0,
+          uid:'',
+        }
+        let time = item.match(regTime)
+
+        obj.lyric = item.split(']')[1].trim() === '' ? '' : item.split(']')[1].trim()
+        obj.time = time ? formatLyricTime(time[0].slice(1, time[0].length - 1)) : 0
+        obj.uid = Math.random().toString().slice(-6)
+        if (obj.lyric === '') {
+          console.log('这一行没有歌词')
+        } else {
+          state.lyricsObjArr.push(obj)
+        }
+      })
+    }
+    function formatLyricTime (time:any) { // 格式化歌词的时间 转换成 sss:ms
+      const regMin = /.*:/
+      const regSec = /:.*\./
+      const regMs = /\./
+
+      const min = parseInt(time.match(regMin)[0].slice(0, 2))
+      let sec = parseInt(time.match(regSec)[0].slice(1, 3))
+      const ms = time.slice(time.match(regMs).index + 1, time.match(regMs).index + 3)
+      if (min !== 0) {
+        sec += min * 60
+      }
+      return Number(sec + '.' + ms)
+    }
+
     const $store = useStore();
     // 清除列表
     function emptyMusicList(): void {
@@ -140,12 +203,17 @@ export default defineComponent({
     function closePlayList(): void {
       emit('closePlayList');
     }
+
+    const toRefsData=toRefs(state)
+
     return {
+      ...toRefsData,
       timeStampToDuration,
       emptyMusicList,
       deleteMusicList,
       playlistItem,
-      closePlayList
+      closePlayList,
+      lyricUL,
     };
   }
 });
