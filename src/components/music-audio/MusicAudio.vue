@@ -143,6 +143,8 @@
       :playListShow="playListShow"
       :playMusicList="playMusicList"
       :playMusicId="playMusicId"
+      :lyricString="lyricString"
+      :timeStamp="progressData.currentTime"
       :playMusic="playMusic"
       @playlistItem="playlistItem"
       @closePlayList="closePlayList"
@@ -152,21 +154,21 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  computed,
-  watch,
-  reactive,
-  onUnmounted
-} from 'vue';
+  import {
+    defineComponent,
+    ref,
+    computed,
+    watch,
+    reactive,
+    onUnmounted, toRefs
+  } from 'vue';
 import { useStore } from 'vuex';
 import PlayList from './play-list/PlayList.vue';
 // 播放进度条
 import PlayProgressBar from './play-progress-bar/PlayProgressBar.vue';
 // 音量
 import VolumeProgressBar from './volume-progress-bar/VolumeProgressBar.vue';
-import { getPlayMusicUrl } from '@api/my-music';
+import {getLyric, getPlayMusicUrl} from '@api/my-music';
 import { ResponseType, LoopType } from '@/types/types';
 
 interface AudioData {
@@ -202,6 +204,11 @@ export default defineComponent({
     // 当前播放数据
     const playMusic = ref<unknown>({});
 
+    const timeStamp=ref();
+
+    // 歌词
+    const lyricString=ref();
+
     // 监听播放列表变化
     watch(
       () => playMusicList.value,
@@ -212,6 +219,17 @@ export default defineComponent({
         deep: true
       }
     );
+
+    //歌词
+    function getLyricFun(){
+      lyricString.value='';
+      getLyric({
+        id:playMusicId.value,
+      }).then((res:any)=>{
+        lyricString.value=res;
+      })
+    }
+    // end
 
     // 播放器实例
     const musicAudio = ref<HTMLVideoElement>();
@@ -265,6 +283,7 @@ export default defineComponent({
         playMusic.value = musicData;
         // 当前播放音乐id
         $store.commit('setPlayMusicId', id);
+        getLyricFun();
       });
     }
 
@@ -520,7 +539,8 @@ export default defineComponent({
       setPlayListShow,
       playListShow,
       playlistItem,
-      closePlayList
+      closePlayList,
+      lyricString,
     };
   }
 });
