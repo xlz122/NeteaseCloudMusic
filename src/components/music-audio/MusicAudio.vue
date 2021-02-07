@@ -69,30 +69,33 @@
         <div class="music-img">
           <img
             class="img"
-            v-if="playMusic?.al?.picUrl"
-            :src="playMusic?.al?.picUrl"
+            v-if="curPlayMusicData?.al?.picUrl"
+            :src="curPlayMusicData?.al?.picUrl"
           />
           <span class="default-img"></span>
         </div>
         <div class="play">
           <div class="play-info">
             <span class="music-name">
-              <span class="name">{{ playMusic?.name }}</span>
-              <span class="icon-mv" v-if="playMusic?.mv > 0"></span>
+              <span class="name">{{ curPlayMusicData?.name }}</span>
+              <span class="icon-mv" v-if="curPlayMusicData?.mv > 0"></span>
             </span>
             <span class="singer-name">
               <span
                 class="text"
-                v-for="(item, index) in playMusic?.ar"
+                v-for="(item, index) in curPlayMusicData?.ar"
                 :key="index"
               >
                 {{ item.name }}
-                <span class="line" v-if="index !== playMusic.ar.length - 1">
+                <span
+                  class="line"
+                  v-if="index !== curPlayMusicData.ar.length - 1"
+                >
                   /
                 </span>
               </span>
             </span>
-            <span class="link" v-if="playMusic.name"></span>
+            <span class="link" v-if="curPlayMusicData.name"></span>
           </div>
           <div class="play-progress">
             <play-progress
@@ -138,12 +141,14 @@ export default defineComponent({
     const playMusicList = computed(() => $store.getters['music/playMusicList']);
 
     // 当前播放音乐id
-    const curPlayMusicId = computed(
+    const curPlayMusicId = computed<number>(
       () => $store.getters['music/curPlayMusicId']
     );
 
     // 当前播放数据
-    const playMusic = ref<unknown>({});
+    const curPlayMusicData = computed<unknown>(
+      () => $store.getters['music/curPlayMusicData']
+    );
 
     // 音量
     const musicVolume = computed(() => $store.getters['music/musicVolume']);
@@ -204,11 +209,6 @@ export default defineComponent({
         // 播放地址
         audioData.src = res.data[0].url;
         startPlayMusic();
-        // 当前播放音乐数据
-        const musicData: unknown = playMusicList.value.find(
-          (item: LoopType) => item.id === curPlayMusicId.value
-        );
-        playMusic.value = musicData;
         // 当前播放音乐id
         $store.commit('music/setCurPlayMusicId', id);
       });
@@ -400,7 +400,7 @@ export default defineComponent({
     return {
       playMusicList,
       curPlayMusicId,
-      playMusic,
+      curPlayMusicData,
       musicVolume,
       musicAudio,
       audioData,
