@@ -12,11 +12,59 @@
         </ul>
         <span class="more">更多</span>
       </div>
+      <ul class="list-content">
+        <li class="item">
+          <div class="item-top">
+            <img class="img" src="" alt="" />
+            <div class="info">
+              <i class="info-icon"></i>
+              <span class="num">161万</span>
+              <i class="info-icon-right"></i>
+            </div>
+          </div>
+          <div class="item-bottom" title="快过年了 给你熬了一碗音乐鸡汤">
+            快过年了 给你熬了一碗音乐鸡汤
+          </div>
+        </li>
+      </ul>
     </div>
+    <!-- 个性化推荐 -->
     <div class="group">
       <div class="list-title">
         <span class="title">个性化推荐</span>
       </div>
+      <ul class="list-content">
+        <li class="item individualization">
+          <div class="item-top">
+            <i class="img"></i>
+            <span class="head">星期日</span>
+            <span class="head-text">7</span>
+            <span class="mask"></span>
+          </div>
+          <div class="item-bottom" title="每日歌曲推荐">每日歌曲推荐</div>
+          <em class="item-like">猜你喜欢</em>
+        </li>
+        <li
+          class="item individualization"
+          v-for="(item, index) in individualizatData"
+          :key="index"
+          :class="{ 'last-item': index === individualizatData.length - 1 }"
+        >
+          <div class="item-top">
+            <img class="img" :src="item.picUrl" alt="" />
+            <div class="info">
+              <i class="info-icon"></i>
+              <span class="num">{{ item.playcount }}</span>
+              <i class="info-icon-right"></i>
+            </div>
+          </div>
+          <div class="item-bottom" title="快过年了 给你熬了一碗音乐鸡汤">
+            {{ item.name }}
+          </div>
+          <em class="item-like">{{ item.copywriter }}</em>
+          <button class="disable-like">不感兴趣</button>
+        </li>
+      </ul>
     </div>
     <div class="group">
       <div class="list-title">
@@ -33,88 +81,29 @@
   </div>
 </template>
 
-<style lang="less" scoped>
-.content {
-  padding: 20px 20px 40px;
-  .group {
-    .list-title {
-      position: relative;
-      height: 33px;
-      padding: 0 10px 0 34px;
-      background-position: -225px -156px;
-      border-bottom: 2px solid #c10d0c;
-      text-align: left;
-      .title {
-        position: relative;
-        display: inline-block;
-        vertical-align: middle;
-        line-height: 28px;
-        font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
-        font-size: 20px;
-        font-weight: normal;
-        cursor: pointer;
-        &::before {
-          content: '';
-          position: absolute;
-          left: -31px;
-          width: 34px;
-          height: 33px;
-          background: url('../../../assets/image/home/home-icon.png');
-          background-position: -225px -156px;
-        }
-      }
-      .tab {
-        position: relative;
-        display: inline-block;
-        vertical-align: middle;
-        margin: 0px 0 0 20px;
-        .item {
-          position: relative;
-          display: inline-block;
-          margin-left: 10px;
-          margin-right: 10px;
-          color: #666;
-          cursor: pointer;
-          &::after {
-            content: '|';
-            position: absolute;
-            top: 1px;
-            right: -10px;
-            width: 1px;
-            color: #666;
-          }
-        }
-        .first-item {
-          margin-left: 0;
-        }
-        .last-item {
-          &::after {
-            content: '';
-          }
-        }
-      }
-      .more {
-        position: absolute;
-        top: 50%;
-        right: 28px;
-        transform: translateY(-50%);
-        color: #666;
-        cursor: pointer;
-        &::after {
-          content: '';
-          position: absolute;
-          top: 2px;
-          right: -15px;
-          width: 12px;
-          height: 12px;
-          background: url('../../../assets/image/home/home-icon.png');
-          background-position: 0 -240px;
-        }
-        &:hover {
-          text-decoration: underline;
-        }
-      }
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+import { recommendResource } from '@api/home';
+import { ResponseType } from '@/types/types';
+
+export default defineComponent({
+  setup() {
+    const individualizatData = ref<unknown[]>([]);
+    // 获取个性化推荐数据
+    function getIndividualizat(): void {
+      recommendResource().then((res: ResponseType) => {
+        // 截取前三项
+        individualizatData.value = res?.recommend.slice(0, 3);
+      });
     }
+    getIndividualizat();
+    return {
+      individualizatData
+    };
   }
-}
+});
+</script>
+
+<style lang="less" scoped>
+@import './content.less';
 </style>

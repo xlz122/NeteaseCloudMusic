@@ -16,3 +16,16 @@ export const bannerImgUrl = () => {
     params
   });
 };
+
+/**
+ * @desc 获取个性化推荐
+ * @param { Number } timestamp - 防止接口缓存
+ */
+export const recommendResource = () => {
+  const params = { timestamp: new Date().getTime() };
+  return axios.request({
+    url: '/recommend/resource',
+    method: 'get',
+    params
+  });
+};
