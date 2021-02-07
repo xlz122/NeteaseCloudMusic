@@ -43,7 +43,7 @@ import { useStore } from 'vuex';
 // 音量
 import VolumeProgressBar from '../volume-progress-bar/VolumeProgressBar.vue';
 // 播放列表
-import PlayList from '../play-list/PlayList.vue';
+import PlayList from './play-list/PlayList.vue';
 
 export default defineComponent({
   components: {

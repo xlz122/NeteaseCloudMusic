@@ -12,7 +12,8 @@
         <i class="icon"></i>
         <span>清除</span>
       </div>
-      <div class="song-title">{{ playMusic.name }}</div>
+      <!-- playMusic.name -->
+      <div class="song-title">{{ '' }}</div>
       <i class="clear-icon" @click="closePlayList"></i>
     </div>
     <!-- 内容部分 -->
@@ -88,49 +89,35 @@
 import { getLyric } from '@api/my-music';
 import { defineComponent, reactive, ref, toRefs, watch, computed } from 'vue';
 import { useStore } from 'vuex';
-import { timeStampToDuration } from '@utils/utils.ts';
+import { timeStampToDuration } from '@utils/utils';
+import { ResponseType } from '@/types/types';
 
 export default defineComponent({
   props: ({
     playListShow: {
       type: Boolean,
       default: false
-    },
-    playMusic: {
-      type: Object,
-      default: {}
     }
   } as unknown) as undefined,
   setup(props, { emit }) {
     const $store = useStore();
 
     // 播放列表数据
-    const playMusicList = computed(() => $store.getters['music/playMusicList']);
+    const playMusicList = computed<unknown[]>(
+      () => $store.getters['music/playMusicList']
+    );
 
     // 当前播放音乐id
-    const curPlayMusicId = computed(
+    const curPlayMusicId = computed<number>(
       () => $store.getters['music/curPlayMusicId']
     );
 
-    // 当前播放音乐进度
-    const timeStamp = computed(
-      () => $store.getters['music/musicPlayProgress']
+    // 当前播放音乐时间
+    const musicPlayTime = computed<number>(
+      () => $store.getters['music/musicPlayTime']
     );
 
-    // 歌词
-    const lyricString = ref();
-
-    //歌词
-    function getLyricFun() {
-      lyricString.value = '';
-      getLyric({
-        id: curPlayMusicId.value
-      }).then((res: any) => {
-        lyricString.value = res;
-      });
-    }
-
-    // 监听播放id更改
+    // 监听播放id更改,获取歌词
     watch(
       () => curPlayMusicId.value,
       () => {
@@ -138,41 +125,21 @@ export default defineComponent({
       }
     );
 
+    // 获取歌词
+    function getLyricFun() {
+      getLyric({
+        id: curPlayMusicId.value
+      }).then((res: ResponseType) => {
+        setLyricFun(res);
+      });
+    }
+
     const state: any = reactive({
       lyricsObjArr: [],
       lyricIndex: 0
     });
-    const lyricUL = ref<HTMLElement>();
-    watch(
-      () => timeStamp.value,
-      (curvAL: any) => {
-        getWatch(timeStamp.value, curvAL);
-      }
-    );
-    watch(
-      () => lyricString.value,
-      () => {
-        setLyricFun(lyricString.value);
-      }
-    );
 
-    function getWatch(value: any, curvAL: any) {
-      const timeStamp = value;
-      // 匹配歌词
-      for (let i = 0; i < state.lyricsObjArr.length; i++) {
-        if (timeStamp > parseInt(state.lyricsObjArr[i].time)) {
-          state.lyricIndex = i;
-          if (curvAL) {
-            state.lyricIndex
-              ? setTimeout(() => {
-                  (lyricUL.value as HTMLElement).scrollTop =
-                    32 * (state.lyricIndex + 1) - 110;
-                }, 750)
-              : '';
-          }
-        }
-      }
-    }
+    // 格式化歌词
     function setLyricFun(res: any) {
       state.lyricsObjArr = [];
       const regNewLine = /\n/;
@@ -202,8 +169,9 @@ export default defineComponent({
         }
       });
     }
+
+    // 格式化歌词的时间 转换成 sss:ms
     function formatLyricTime(time: any) {
-      // 格式化歌词的时间 转换成 sss:ms
       const regMin = /.*:/;
       const regSec = /:.*\./;
       const regMs = /\./;
@@ -218,6 +186,32 @@ export default defineComponent({
         sec += min * 60;
       }
       return Number(sec + '.' + ms);
+    }
+
+    // 监听歌曲时间,歌曲滚动
+    watch(
+      () => musicPlayTime.value,
+      (curvAL: any) => {
+        getWatch(musicPlayTime.value, curvAL);
+      }
+    );
+
+    const lyricUL = ref<HTMLElement>();
+    // 匹配歌词
+    function getWatch(value: any, curvAL: any) {
+      for (let i = 0; i < state.lyricsObjArr.length; i++) {
+        if (value > parseInt(state.lyricsObjArr[i].time)) {
+          state.lyricIndex = i;
+          if (curvAL) {
+            state.lyricIndex
+              ? setTimeout(() => {
+                  (lyricUL.value as HTMLElement).scrollTop =
+                    32 * (state.lyricIndex + 1) - 110;
+                }, 750)
+              : '';
+          }
+        }
+      }
     }
 
     // 清除列表
@@ -235,7 +229,6 @@ export default defineComponent({
     function playlistItem(id: number): void {
       // 当前播放音乐id
       $store.commit('music/setCurPlayMusicId', id);
-      emit('playlistItem', id);
     }
 
     // 关闭列表
@@ -243,18 +236,16 @@ export default defineComponent({
       emit('closePlayList');
     }
 
-    const toRefsData = toRefs(state);
-
     return {
       playMusicList,
       curPlayMusicId,
-      ...toRefsData,
       timeStampToDuration,
+      ...toRefs(state),
+      lyricUL,
       emptyMusicList,
       deleteMusicList,
       playlistItem,
-      closePlayList,
-      lyricUL
+      closePlayList
     };
   }
 });
