@@ -160,7 +160,7 @@
               <span class="text">{{ index + 1 }}</span>
               <i
                 class="icon-play"
-                :class="{ 'active-play': item.id === Number(curPlayMusicId) }"
+                :class="{ 'active-play': item.id === curPlayMusicId }"
                 @click="playListMusic(item.id, item)"
               ></i>
             </div>

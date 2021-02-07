@@ -29,10 +29,10 @@ const state: State = {
     playListDetail: false
   }, // 我的音乐 - 详情显示
   songListDetailData: faultTolerant('songListDetailData') || {}, // 我的音乐 - 歌单详情数据
-  curPlayMusicId: faultTolerant('curPlayMusicId') || 0, // 我的音乐 - 当前播放音乐id
+  curPlayMusicId: Number(localStorage.getItem('curPlayMusicId')) || 0, // 我的音乐 - 当前播放音乐id
   curPlayMusicData: faultTolerant('curPlayMusicData') || 0, // 我的音乐 - 当前播放音乐详细数据
-  musicPlayTime: faultTolerant('musicPlayTime') || 0, // 我的音乐 - 当前播放音乐时间
-  musicVolume: faultTolerant('musicVolume') || 0.5, // 我的音乐 - 音量
+  musicPlayTime: Number(localStorage.getItem('musicPlayTime')) || 0, // 我的音乐 - 当前播放音乐时间
+  musicVolume: Number(localStorage.getItem('musicVolume')) || 0.5, // 我的音乐 - 音量
   isMysicAudioLock: faultTolerant('isMysicAudioLock') || false, // 我的音乐 - 音乐播放器锁定在底部
   playMusicList: faultTolerant('playMusicData') || [] // 我的音乐 - 播放列表数据
 };
