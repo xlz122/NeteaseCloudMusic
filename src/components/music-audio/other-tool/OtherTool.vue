@@ -10,7 +10,7 @@
       title="音量"
       @click="setVolumeProgress"
     ></button>
-    <volume-progress-bar v-if="volumeProgressShow" />
+    <volume-progress v-if="volumeProgressShow" />
     <!-- 模式切换 -->
     <button
       class="btn"
@@ -41,13 +41,13 @@
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 // 音量
-import VolumeProgressBar from '../volume-progress-bar/VolumeProgressBar.vue';
+import VolumeProgress from '../volume-progress/VolumeProgress.vue';
 // 播放列表
 import PlayList from './play-list/PlayList.vue';
 
 export default defineComponent({
   components: {
-    VolumeProgressBar,
+    VolumeProgress,
     PlayList
   },
   setup() {

@@ -152,5 +152,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './volume-progress-bar.less';
+@import './volume-progress.less';
 </style>
