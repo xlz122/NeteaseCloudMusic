@@ -103,133 +103,61 @@
             />
           </div>
         </div>
-        <div class="oper">
-          <button class="btn collection-btn" title="收藏"></button>
-          <button class="btn share-btn" title="分享"></button>
-        </div>
-        <div class="other">
-          <button
-            class="btn volume-btn"
-            title="音量"
-            @click="volumeBar"
-          ></button>
-          <!-- 音量控制 -->
-          <volume-progress-bar v-if="volumeBarShow" />
-          <button
-            class="btn"
-            title="模式"
-            :class="[
-              { 'mode-single': modeType === 0 },
-              { 'mode-loop': modeType === 1 },
-              { 'mode-random': modeType === 2 }
-            ]"
-            @click="modeChange"
-          ></button>
-          <!-- 模式提示 -->
-          <div class="mode-tip" v-if="modeTipShow">
-            {{ modeType === 0 ? '单曲循环' : modeType === 1 ? '循环' : '随机' }}
-          </div>
-          <button
-            class="btn list-btn"
-            title="列表"
-            @click="setPlayListShow"
-          ></button>
-          <span class="list-text">{{ playMusicList?.length }}</span>
-        </div>
+        <other-tool />
       </div>
     </div>
-    <play-list
-      class="play-list"
-      :playListShow="playListShow"
-      :playMusicList="playMusicList"
-      :playMusicId="playMusicId"
-      :lyricString="lyricString"
-      :timeStamp="progressData.currentTime"
-      :playMusic="playMusic"
-      @playlistItem="playlistItem"
-      @closePlayList="closePlayList"
-      @mouseenter="mysicAudioEnter"
-    />
   </div>
 </template>
 
 <script lang="ts">
-  import {
-    defineComponent,
-    ref,
-    computed,
-    watch,
-    reactive,
-    onUnmounted, toRefs
-  } from 'vue';
+import {
+  defineComponent,
+  ref,
+  computed,
+  watch,
+  reactive,
+  onUnmounted
+} from 'vue';
 import { useStore } from 'vuex';
-import PlayList from './play-list/PlayList.vue';
+import { getPlayMusicUrl } from '@api/my-music';
 // 播放进度条
 import PlayProgressBar from './play-progress-bar/PlayProgressBar.vue';
-// 音量
-import VolumeProgressBar from './volume-progress-bar/VolumeProgressBar.vue';
-import {getLyric, getPlayMusicUrl} from '@api/my-music';
-import { ResponseType, LoopType } from '@/types/types';
+// 其他工具
+import OtherTool from './other-tool/OtherTool.vue';
+import { AudioData, ProgressData, ResponseType, LoopType } from '@/types/types';
 
-interface AudioData {
-  src: string;
-  muted: boolean;
-  autoplay: boolean;
-  loop: boolean;
-}
-
-interface ProgressData {
-  progress: number;
-  currentTime: number;
-  duration: number;
-  cacheProgress: number;
-}
-
-// 未完成功能：拖动比缓冲更快，需置为加载
 export default defineComponent({
   components: {
-    PlayList,
     PlayProgressBar,
-    VolumeProgressBar
+    OtherTool
   },
   setup() {
     const $store = useStore();
 
     // 播放列表数据
-    const playMusicList = computed(() => $store.getters.playMusicList);
+    const playMusicList = computed(() => $store.getters['music/playMusicList']);
 
     // 当前播放音乐id
-    const playMusicId = computed(() => $store.getters.playMusicId);
+    const curPlayMusicId = computed(
+      () => $store.getters['music/curPlayMusicId']
+    );
 
     // 当前播放数据
     const playMusic = ref<unknown>({});
 
-    const timeStamp=ref();
-
-    // 歌词
-    const lyricString=ref();
+    // 音量
+    const musicVolume = computed(() => $store.getters['music/musicVolume']);
 
     // 监听播放列表变化
     watch(
       () => playMusicList.value,
       () => {
-        playMusicSrc(playMusicId.value);
+        playMusicSrc(curPlayMusicId.value);
       },
       {
         deep: true
       }
     );
-
-    //歌词
-    function getLyricFun(){
-      lyricString.value='';
-      getLyric({
-        id:playMusicId.value,
-      }).then((res:any)=>{
-        lyricString.value=res;
-      })
-    }
-    // end
 
     // 播放器实例
     const musicAudio = ref<HTMLVideoElement>();
@@ -278,12 +206,11 @@ export default defineComponent({
         startPlayMusic();
         // 当前播放音乐数据
         const musicData: unknown = playMusicList.value.find(
-          (item: LoopType) => item.id === playMusicId.value
+          (item: LoopType) => item.id === curPlayMusicId.value
         );
         playMusic.value = musicData;
         // 当前播放音乐id
-        $store.commit('setPlayMusicId', id);
-        getLyricFun();
+        $store.commit('music/setCurPlayMusicId', id);
       });
     }
 
@@ -294,7 +221,7 @@ export default defineComponent({
       }
       // 获取当前id索引
       const index: number = playMusicList.value.findIndex(
-        (item: LoopType) => item.id === playMusicId.value
+        (item: LoopType) => item.id === curPlayMusicId.value
       );
       let id = null;
       // 当前播放在列表存在，并且不是第一项
@@ -308,7 +235,7 @@ export default defineComponent({
         playMusicSrc(playMusicList.value[playMusicList.value.length - 1].id);
       }
       // 当前播放音乐id
-      $store.commit('setPlayMusicId', id);
+      $store.commit('music/setCurPlayMusicId', id);
     }
 
     // 下一首
@@ -318,7 +245,7 @@ export default defineComponent({
       }
       // 获取当前id索引
       const index: number = playMusicList.value.findIndex(
-        (item: LoopType) => item.id === playMusicId.value
+        (item: LoopType) => item.id === curPlayMusicId.value
       );
       let id = null;
       // 当前播放在列表存在，并且不是最后一项
@@ -332,7 +259,7 @@ export default defineComponent({
         playMusicSrc(playMusicList.value[0].id);
       }
       // 当前播放音乐id
-      $store.commit('setPlayMusicId', id);
+      $store.commit('music/setCurPlayMusicId', id);
     }
 
     // 播放/暂停切换
@@ -374,6 +301,8 @@ export default defineComponent({
         progressData.progress = progress * 100;
         progressData.currentTime = musicMp3.currentTime || 0;
         progressData.duration = musicMp3.duration || 0;
+        // 音乐播放进度
+        $store.commit('music/setMusicPlayProgress', progressData.currentTime);
         if (progressData.progress >= 100) {
           clearInterval(timer);
         }
@@ -415,43 +344,13 @@ export default defineComponent({
       nextPlayMusic();
     }
 
-    // 音量
-    const musicVolume = computed(() => $store.getters.musicVolume);
-    // 音量显隐
-    const volumeBarShow = ref<boolean>(false);
-    function volumeBar(): void {
-      volumeBarShow.value = !volumeBarShow.value;
-    }
-
-    // 模式切换
-    const modeType = ref<number>(0);
-    const modeTipShow = ref<boolean>(false);
-    function modeChange(): void {
-      modeTipShow.value = true;
-      if (modeType.value === 2) {
-        modeType.value = 0;
-      } else {
-        modeType.value++;
-      }
-      let timer = 0;
-      timer = setTimeout(() => {
-        modeTipShow.value = false;
-      }, 3000);
-      if (timer) {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          modeTipShow.value = false;
-        }, 3000);
-      }
-    }
-
     // 音乐播放器锁定在底部
     const isMysicAudioLock = computed(() => $store.getters.isMysicAudioLock);
     function mysicAudioLock(): void {
       if (isMysicAudioLock.value) {
-        $store.commit('setIsMysicAudioLock', false);
+        $store.commit('music/setIsMysicAudioLock', false);
       } else {
-        $store.commit('setIsMysicAudioLock', true);
+        $store.commit('music/setIsMysicAudioLock', true);
       }
     }
     // 播放器鼠标移入事件
@@ -464,35 +363,8 @@ export default defineComponent({
       isMusicAudioEnter.value = true;
     }
 
-    // 显示播放列表
-    const playListShow = ref<boolean>(false);
-    function setPlayListShow(): void {
-      playListShow.value = !playListShow.value;
-    }
-
     // 播放器鼠标移出事件
     function mysicAudioLeave(): boolean | undefined {
-      // 锁定之后不触发
-      if (isMysicAudioLock.value) {
-        return false;
-      }
-      // 列表显示时不触发
-      if (playListShow.value) {
-        return false;
-      }
-      isMusicAudioEnter.value = false;
-    }
-
-    // 列表项播放
-    function playlistItem(id: number): void {
-      // 当前播放音乐id
-      $store.commit('setPlayMusicId', id);
-      playMusicSrc(id);
-    }
-
-    // 关闭播放列表
-    function closePlayList(): boolean | undefined {
-      playListShow.value = false;
       // 锁定之后不触发
       if (isMysicAudioLock.value) {
         return false;
@@ -511,8 +383,9 @@ export default defineComponent({
     });
     return {
       playMusicList,
-      playMusicId,
+      curPlayMusicId,
       playMusic,
+      musicVolume,
       musicAudio,
       audioData,
       playMusicStatus,
@@ -524,23 +397,12 @@ export default defineComponent({
       handleProgressChange,
       musicUpdateTime,
       musicPlayEnded,
-      volumeBar,
-      volumeBarShow,
-      musicVolume,
-      modeType,
-      modeTipShow,
-      modeChange,
       isMysicAudioLock,
       mysicAudioLock,
       isMusicAudioEnter,
       mysicAudioEnter,
       mysicAudioLeave,
-      musicPlaying,
-      setPlayListShow,
-      playListShow,
-      playlistItem,
-      closePlayList,
-      lyricString,
+      musicPlaying
     };
   }
 });

@@ -285,11 +285,11 @@ interface GetLyric {
 // 获取歌词
 export const getLyric = ({ id }: GetLyric) => {
   const params = {
-    timestamp:new Date().getTime(),
+    timestamp: new Date().getTime(),
     id
   };
   return axios.request({
-    url: `/lyric`,
+    url: '/lyric',
     method: 'get',
     params
   });

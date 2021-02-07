@@ -23,7 +23,7 @@
             class="item"
             v-for="(item, index) in playMusicList"
             :key="index"
-            :class="{ 'active-item': item.id === playMusicId }"
+            :class="{ 'active-item': item.id === curPlayMusicId }"
             @click="playlistItem(item.id)"
           >
             <i class="play-icon"></i>
@@ -40,9 +40,7 @@
             <span class="text name">
               <span v-for="(i, ind) in item?.ar" :key="ind">
                 {{ i.name }}
-                <span v-if="ind !== item.ar.length - 1">
-                  /
-                </span>
+                <span v-if="ind !== item.ar.length - 1"> / </span>
               </span>
             </span>
             <span class="text time">
@@ -70,7 +68,16 @@
       <div class="right-content">
         <i class="icon-doubt"></i>
         <ul class="list" ref="lyricUL">
-          <li class="item" ref="lyric" :class="{'active':lyricIndex === index }" v-for="(item,index) in lyricsObjArr" :data-time="item.time" :key="item.uid">{{item.lyric}}</li>
+          <li
+            class="item"
+            ref="lyric"
+            :class="{ active: lyricIndex === index }"
+            v-for="(item, index) in lyricsObjArr"
+            :data-time="item.time"
+            :key="item.uid"
+          >
+            {{ item.lyric }}
+          </li>
         </ul>
       </div>
     </div>
@@ -78,9 +85,8 @@
 </template>
 
 <script lang="ts">
-  // @ts-nockeck
-  import { getLyric } from '@api/my-music';
-  import {defineComponent, reactive, ref, toRefs, watch,onMounted} from 'vue';
+import { getLyric } from '@api/my-music';
+import { defineComponent, reactive, ref, toRefs, watch, computed } from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils.ts';
 
@@ -90,112 +96,145 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    playMusicList: {
-      type: Array,
-      default: []
-    },
-    playMusicId: {
-      type: Number,
-      default: 0
-    },
     playMusic: {
       type: Object,
       default: {}
-    },
-    timeStamp: {
-      type:Number,
-      default:''
-    },
-    lyricString:{
-      type:String,
-      default:'',
-    },
+    }
   } as unknown) as undefined,
-  setup(props: { playMusicId: number,timeStamp:string,lyricString:String }, { emit }) {
-    const state:any = reactive({
-      lyricsObjArr:[],
-      lyricIndex:0,
-    })
+  setup(props, { emit }) {
+    const $store = useStore();
+
+    // 播放列表数据
+    const playMusicList = computed(() => $store.getters['music/playMusicList']);
+
+    // 当前播放音乐id
+    const curPlayMusicId = computed(
+      () => $store.getters['music/curPlayMusicId']
+    );
+
+    // 当前播放音乐进度
+    const timeStamp = computed(
+      () => $store.getters['music/musicPlayProgress']
+    );
+
+    // 歌词
+    const lyricString = ref();
+
+    //歌词
+    function getLyricFun() {
+      lyricString.value = '';
+      getLyric({
+        id: curPlayMusicId.value
+      }).then((res: any) => {
+        lyricString.value = res;
+      });
+    }
+
+    // 监听播放id更改
+    watch(
+      () => curPlayMusicId.value,
+      () => {
+        getLyricFun();
+      }
+    );
+
+    const state: any = reactive({
+      lyricsObjArr: [],
+      lyricIndex: 0
+    });
     const lyricUL = ref<HTMLElement>();
     watch(
-            ()=>props.timeStamp,
-            (curvAL)=>{
-              getWatch(props,curvAL);
-            },
-    )
+      () => timeStamp.value,
+      (curvAL: any) => {
+        getWatch(timeStamp.value, curvAL);
+      }
+    );
     watch(
-            ()=>props.lyricString,
-            (curvAL)=>{
-              setLyricFun(props.lyricString);
-            },
-    )
+      () => lyricString.value,
+      () => {
+        setLyricFun(lyricString.value);
+      }
+    );
 
-    function getWatch(value,curvAL){
-      let timeStamp=value.timeStamp;
+    function getWatch(value: any, curvAL: any) {
+      const timeStamp = value;
       // 匹配歌词
       for (let i = 0; i < state.lyricsObjArr.length; i++) {
-        if (timeStamp > (parseInt(state.lyricsObjArr[i].time))) {
-          state.lyricIndex=i;
-          if(curvAL){
-            state.lyricIndex?setTimeout(()=>{
-              (lyricUL.value as HTMLElement).scrollTop=(32 * (state.lyricIndex + 1))-110
-            },750):'';
+        if (timeStamp > parseInt(state.lyricsObjArr[i].time)) {
+          state.lyricIndex = i;
+          if (curvAL) {
+            state.lyricIndex
+              ? setTimeout(() => {
+                  (lyricUL.value as HTMLElement).scrollTop =
+                    32 * (state.lyricIndex + 1) - 110;
+                }, 750)
+              : '';
           }
         }
       }
     }
-    function setLyricFun(res:any) {
-      state.lyricsObjArr=[];
+    function setLyricFun(res: any) {
+      state.lyricsObjArr = [];
       const regNewLine = /\n/;
       const lineArr = res.lrc.lyric.split(regNewLine); // 每行歌词的数组
       const regTime = /\[\d{2}:\d{2}.\d{2,3}\]/;
-      lineArr.forEach((item:any) => {
-        if (item === '') return
-        let obj={
-          lyric:'',
-          time:0,
-          uid:'',
-        }
-        let time = item.match(regTime)
+      lineArr.forEach((item: any) => {
+        if (item === '') return;
+        const obj = {
+          lyric: '',
+          time: 0,
+          uid: ''
+        };
+        const time = item.match(regTime);
 
-        obj.lyric = item.split(']')[1].trim() === '' ? '' : item.split(']')[1].trim()
-        obj.time = time ? formatLyricTime(time[0].slice(1, time[0].length - 1)) : 0
-        obj.uid = Math.random().toString().slice(-6)
+        obj.lyric =
+          item.split(']')[1].trim() === '' ? '' : item.split(']')[1].trim();
+        obj.time = time
+          ? formatLyricTime(time[0].slice(1, time[0].length - 1))
+          : 0;
+        obj.uid = Math.random()
+          .toString()
+          .slice(-6);
         if (obj.lyric === '') {
-          console.log('这一行没有歌词')
+          console.log('这一行没有歌词');
         } else {
-          state.lyricsObjArr.push(obj)
+          state.lyricsObjArr.push(obj);
         }
-      })
+      });
     }
-    function formatLyricTime (time:any) { // 格式化歌词的时间 转换成 sss:ms
-      const regMin = /.*:/
-      const regSec = /:.*\./
-      const regMs = /\./
+    function formatLyricTime(time: any) {
+      // 格式化歌词的时间 转换成 sss:ms
+      const regMin = /.*:/;
+      const regSec = /:.*\./;
+      const regMs = /\./;
 
-      const min = parseInt(time.match(regMin)[0].slice(0, 2))
-      let sec = parseInt(time.match(regSec)[0].slice(1, 3))
-      const ms = time.slice(time.match(regMs).index + 1, time.match(regMs).index + 3)
+      const min = parseInt(time.match(regMin)[0].slice(0, 2));
+      let sec = parseInt(time.match(regSec)[0].slice(1, 3));
+      const ms = time.slice(
+        time.match(regMs).index + 1,
+        time.match(regMs).index + 3
+      );
       if (min !== 0) {
-        sec += min * 60
+        sec += min * 60;
       }
-      return Number(sec + '.' + ms)
+      return Number(sec + '.' + ms);
     }
 
-    const $store = useStore();
     // 清除列表
     function emptyMusicList(): void {
-      $store.commit('emptyPlayMusicList');
+      $store.commit('music/emptyPlayMusicList');
     }
 
     // 列表项删除
     function deleteMusicList(id: number, event: MouseEvent): void {
       event.stopPropagation();
-      $store.commit('deletePlayMusicList', id);
+      $store.commit('music/deletePlayMusicList', id);
     }
 
     // 列表项点击
     function playlistItem(id: number): void {
+      // 当前播放音乐id
+      $store.commit('music/setCurPlayMusicId', id);
       emit('playlistItem', id);
     }
 
@@ -204,16 +243,18 @@ export default defineComponent({
       emit('closePlayList');
     }
 
-    const toRefsData=toRefs(state)
+    const toRefsData = toRefs(state);
 
     return {
+      playMusicList,
+      curPlayMusicId,
       ...toRefsData,
       timeStampToDuration,
       emptyMusicList,
       deleteMusicList,
       playlistItem,
       closePlayList,
-      lyricUL,
+      lyricUL
     };
   }
 });

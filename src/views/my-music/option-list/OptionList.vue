@@ -2,7 +2,7 @@
   <!-- 我的视频 -->
   <h2
     class="music-my-mv"
-    :class="{ 'music-my-mv-active': myMusicDetail.myMv }"
+    :class="{ 'music-my-mv-active': musicDetailOptions.myMv }"
     @click="myMvClick"
   >
     我的视频({{ optionsCount.myMvCount }})
@@ -39,12 +39,12 @@ export default defineComponent({
   },
   setup() {
     const $store = useStore();
-
+    
     // 详情页面显示
-    const myMusicDetail = computed(() => $store.getters.myMusicDetail);
+    const musicDetailOptions = computed(() => $store.getters['music/musicDetailOptions']);
 
-    // 当前选中列表id
-    const activeSongListId = computed(() => $store.getters.activeSongListId);
+    // 侧边歌单列表选中项id
+    const activeSongListId = computed(() => $store.getters['music/activeSongListId']);
 
     const optionsCount = reactive<OptionsCount>({
       myMvCount: 0, // 我的视频数量
@@ -92,12 +92,12 @@ export default defineComponent({
           });
 
           // 初始化获取详情，列表id获取对应详情，不存在获取我喜欢的音乐详情
-          const musicDetail = JSON.parse(JSON.stringify(myMusicDetail.value));
+          const musicDetail = JSON.parse(JSON.stringify(musicDetailOptions.value));
           for (const value in musicDetail) {
             musicDetail[value] = false;
           }
           musicDetail.playListDetail = true;
-          $store.commit('setMyMusicDetail', musicDetail);
+          $store.commit('music/setMusicDetailOptions', musicDetail);
 
           if (activeSongListId.value) {
             getSongListDetail(activeSongListId.value);
@@ -111,25 +111,25 @@ export default defineComponent({
 
     // 我的视频点击
     function myMvClick(): void {
-      const musicDetail = JSON.parse(JSON.stringify(myMusicDetail.value));
+      const musicDetail = JSON.parse(JSON.stringify(musicDetailOptions.value));
       for (const value in musicDetail) {
         musicDetail[value] = false;
       }
       musicDetail.myMv = true;
-      $store.commit('setMyMusicDetail', musicDetail);
+      $store.commit('music/setMusicDetailOptions', musicDetail);
 
       // 取消其他项选中
-      $store.commit('setActiveSongListId', -1);
+      $store.commit('music/setActiveSongListId', -1);
     }
 
     // 创建歌单项点击
     function createListClick(id: number): void {
-      const musicDetail = JSON.parse(JSON.stringify(myMusicDetail.value));
+      const musicDetail = JSON.parse(JSON.stringify(musicDetailOptions.value));
       for (const value in musicDetail) {
         musicDetail[value] = false;
       }
       musicDetail.playListDetail = true;
-      $store.commit('setMyMusicDetail', musicDetail);
+      $store.commit('music/setMusicDetailOptions', musicDetail);
       
       // 获取歌单详情
       if (id !== activeSongListId.value) {
@@ -137,17 +137,17 @@ export default defineComponent({
       }
 
       // 存储选中id
-      $store.commit('setActiveSongListId', id);
+      $store.commit('music/setActiveSongListId', id);
     }
 
     // 收藏歌单项点击
     function collectionListClick(id: number): void {
-      const musicDetail = JSON.parse(JSON.stringify(myMusicDetail.value));
+      const musicDetail = JSON.parse(JSON.stringify(musicDetailOptions.value));
       for (const value in musicDetail) {
         musicDetail[value] = false;
       }
       musicDetail.playListDetail = true;
-      $store.commit('setMyMusicDetail', musicDetail);
+      $store.commit('music/setMusicDetailOptions', musicDetail);
       
       // 获取歌单详情
       if (id !== activeSongListId.value) {
@@ -155,7 +155,7 @@ export default defineComponent({
       }
 
       // 存储选中id
-      $store.commit('setActiveSongListId', id);
+      $store.commit('music/setActiveSongListId', id);
     }
 
     // 获取歌单详情
@@ -167,12 +167,12 @@ export default defineComponent({
             res.playlist.name = '我喜欢的音乐';
           }
 
-          $store.commit('setPlayDetailData', res);
+          $store.commit('music/setSongListDetailData', res);
         }
       });
     }
     return {
-      myMusicDetail,
+      musicDetailOptions,
       optionsCount,
       songList,
       myMvClick,
