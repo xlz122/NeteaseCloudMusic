@@ -160,7 +160,7 @@
               <span class="text">{{ index + 1 }}</span>
               <i
                 class="icon-play"
-                :class="{ 'active-play': item.id === curPlayMusicId }"
+                :class="{ 'active-play': item.id === Number(curPlayMusicId) }"
                 @click="playListMusic(item.id, item)"
               ></i>
             </div>
@@ -276,7 +276,9 @@ export default defineComponent({
       () => $store.getters['music/songListDetailData']
     );
     // 当前播放音乐id
-    const curPlayMusicId = computed(() => $store.getters.curPlayMusicId);
+    const curPlayMusicId = computed(
+      () => $store.getters['music/curPlayMusicId']
+    );
 
     // 计算歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
