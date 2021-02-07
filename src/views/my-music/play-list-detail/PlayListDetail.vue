@@ -276,7 +276,9 @@ export default defineComponent({
       () => $store.getters['music/songListDetailData']
     );
     // 当前播放音乐id
-    const curPlayMusicId = computed(() => $store.getters.curPlayMusicId);
+    const curPlayMusicId = computed(
+      () => $store.getters['music/curPlayMusicId']
+    );
 
     // 计算歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {

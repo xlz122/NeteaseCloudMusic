@@ -28,10 +28,10 @@ const mutations: Mutations<State, unknown> = {
     state.curPlayMusicId = curPlayMusicId as number;
     localStorage.setItem('curPlayMusicId', JSON.stringify(curPlayMusicId));
   },
-  // 我的音乐 - 当前播放音乐id
+  // 我的音乐 - 当前播放音乐时间
   setMusicPlayTime(state, musicPlayTime) {
     state.musicPlayTime = musicPlayTime as number;
-    localStorage.setItem('musicPlayProgress', JSON.stringify(musicPlayTime));
+    localStorage.setItem('musicPlayTime', JSON.stringify(musicPlayTime));
   },
   // 我的音乐 - 音量控制
   setMusicVolume(state, musicVolume) {
@@ -53,7 +53,7 @@ const mutations: Mutations<State, unknown> = {
     if (index !== -1) {
       list.splice(index, 1);
     }
-    // 新数据添加到第一项
+    // 新数据添加
     list.push(playMusicData);
     // 保存数据
     state.playMusicList = list as unknown[];

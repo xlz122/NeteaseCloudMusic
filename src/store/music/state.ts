@@ -6,7 +6,7 @@ export interface State {
   musicPlayTime: number;
   musicVolume: number;
   isMysicAudioLock: boolean;
-  playMusicList: unknown[];
+  playMusicList: unknown;
 }
 
 export interface MusicDetailOptions {
@@ -14,24 +14,25 @@ export interface MusicDetailOptions {
   playListDetail: boolean;
 }
 
+// 本地存储容错处理
+function faultTolerant(name: string) {
+  if (localStorage.getItem(name) as string) {
+    return JSON.parse(localStorage.getItem(name) as string);
+  }
+}
+
 const state: State = {
-  activeSongListId:
-    JSON.parse(localStorage.getItem('activeSongListId') as string) || 0, // 我的音乐 - 侧边歌单列表选中项id
+  activeSongListId: faultTolerant('activeSongListId') || 0, // 我的音乐 - 侧边歌单列表选中项id
   musicDetailOptions: {
     myMv: false,
     playListDetail: false
   }, // 我的音乐 - 详情显示
-  songListDetailData:
-    JSON.parse(localStorage.getItem('songListDetailData') as string) || {}, // 我的音乐 - 歌单详情数据
-  curPlayMusicId:
-    JSON.parse(localStorage.getItem('curPlayMusicId') as string) || 0, // 我的音乐 - 当前播放音乐id
-  musicPlayTime:
-    JSON.parse(localStorage.getItem('musicPlayTime') as string) || 0, // 我的音乐 - 当前播放音乐时间
-  musicVolume: JSON.parse(localStorage.getItem('musicVolume') as string) || 0.5, // 我的音乐 - 音量
-  isMysicAudioLock:
-    JSON.parse(localStorage.getItem('isMysicAudioLock') as string) || false, // 我的音乐 - 音乐播放器锁定在底部
-  playMusicList:
-    JSON.parse(localStorage.getItem('playMusicData') as string) || [] // 我的音乐 - 播放列表数据
+  songListDetailData: faultTolerant('songListDetailData') || {}, // 我的音乐 - 歌单详情数据
+  curPlayMusicId: Number(localStorage.getItem('curPlayMusicId')) || 0, // 我的音乐 - 当前播放音乐id
+  musicPlayTime: Number(localStorage.getItem('musicPlayTime')) || 0, // 我的音乐 - 当前播放音乐时间
+  musicVolume: Number(localStorage.getItem('musicVolume')) || 0.5, // 我的音乐 - 音量
+  isMysicAudioLock: faultTolerant('isMysicAudioLock') || false, // 我的音乐 - 音乐播放器锁定在底部
+  playMusicList: faultTolerant('playMusicData') || [] // 我的音乐 - 播放列表数据
 };
 
 export default state;

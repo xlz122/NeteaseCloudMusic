@@ -44,7 +44,16 @@ export default defineComponent({
       // 设置滑块的top
       const progressHeight = (progressRef.value as HTMLElement).offsetHeight;
       const progressIcon = progressIconRef.value as HTMLElement;
-      progressIcon.style.top = progressHeight - musicVolume.value * 100 + 'px';
+      let iconTop = ((1 - musicVolume.value) * progressHeight) - (progressIcon.offsetHeight / 2);
+      // 底部
+      if (iconTop >= progressHeight - progressIcon.offsetHeight) {
+        iconTop = progressHeight - progressIcon.offsetHeight;
+      }
+      // 顶部
+      if (iconTop <= 0) {
+        iconTop = 0;
+      }
+      progressIcon.style.top = iconTop + 'px';
     });
 
     // 音量百分比
@@ -54,7 +63,7 @@ export default defineComponent({
     watch(
       () => volumePer.value,
       (curVal: number) => {
-        $store.commit('music/setMusicVolume', Number((curVal / 100).toFixed(1)));
+        $store.commit('music/setMusicVolume', Number((curVal / 100).toFixed(2)));
       }
     );
 
