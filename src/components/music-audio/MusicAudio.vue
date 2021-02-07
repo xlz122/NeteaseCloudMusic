@@ -6,7 +6,6 @@
   <audio
     class="music-audio"
     ref="musicAudio"
-    :muted="audioData.muted"
     :autoplay="audioData.autoplay"
     :loop="audioData.loop"
     :volume="musicVolume"
@@ -169,7 +168,6 @@ export default defineComponent({
     // 播放地址
     const audioData = reactive<AudioData>({
       src: '', // 地址
-      muted: true, // 静音
       autoplay: true, // 自动播放
       loop: true // 循环播放
     });
@@ -387,16 +385,6 @@ export default defineComponent({
       }
       isMusicAudioEnter.value = false;
     }
-
-    // 浏览器音频限制处理
-    function setAudioMuted(): void {
-      audioData.muted = false;
-    }
-    document.body.addEventListener('mousedown', setAudioMuted, false);
-
-    onUnmounted(() => {
-      document.body.removeEventListener('mousedown', setAudioMuted, false);
-    });
     return {
       playMusicList,
       curPlayMusicId,

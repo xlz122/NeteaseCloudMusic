@@ -32,7 +32,6 @@ export interface SongList {
 // 播放器数据
 export interface AudioData {
   src: string;
-  muted: boolean;
   autoplay: boolean;
   loop: boolean;
 }

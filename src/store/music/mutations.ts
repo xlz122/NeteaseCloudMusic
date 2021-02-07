@@ -27,13 +27,6 @@ const mutations: Mutations<State, unknown> = {
   setCurPlayMusicId(state, curPlayMusicId) {
     state.curPlayMusicId = curPlayMusicId as number;
     localStorage.setItem('curPlayMusicId', JSON.stringify(curPlayMusicId));
-    // 当前播放音乐id详细数据
-    const list = JSON.parse(JSON.stringify(state.playMusicList));
-    const index = list.findIndex(
-      (item: LoopType) => item.id === curPlayMusicId
-    );
-    state.curPlayMusicData = list[index] as unknown;
-    localStorage.setItem('curPlayMusicData', JSON.stringify(list[index]));
   },
   // 我的音乐 - 当前播放音乐时间
   setMusicPlayTime(state, musicPlayTime) {
