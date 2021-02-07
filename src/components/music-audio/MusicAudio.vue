@@ -148,9 +148,9 @@ export default defineComponent({
     // 音量
     const musicVolume = computed(() => $store.getters['music/musicVolume']);
 
-    // 监听播放列表变化
+    // 监听播放音乐id变化
     watch(
-      () => playMusicList.value,
+      () => curPlayMusicId.value,
       () => {
         playMusicSrc(curPlayMusicId.value);
       },
