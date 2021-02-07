@@ -45,7 +45,7 @@ export default defineComponent({
       const progressHeight = (progressRef.value as HTMLElement).offsetHeight;
       const progressIcon = progressIconRef.value as HTMLElement;
       let iconTop = ((1 - musicVolume.value) * progressHeight) - (progressIcon.offsetHeight / 2);
-      // 滑到底部
+      // 底部
       if (iconTop >= progressHeight - progressIcon.offsetHeight) {
         iconTop = progressHeight - progressIcon.offsetHeight;
       }
@@ -63,7 +63,7 @@ export default defineComponent({
     watch(
       () => volumePer.value,
       (curVal: number) => {
-        $store.commit('music/setMusicVolume', Number((curVal / 100).toFixed(1)));
+        $store.commit('music/setMusicVolume', Number((curVal / 100).toFixed(2)));
       }
     );
 
