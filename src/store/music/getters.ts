@@ -9,6 +9,7 @@ const getters: Getters<State> = {
   musicDetailOptions: state => state.musicDetailOptions,
   songListDetailData: state => state.songListDetailData,
   curPlayMusicId: state => state.curPlayMusicId,
+  curPlayMusicData: state => state.curPlayMusicData,
   musicPlayTime: state => state.musicPlayTime,
   musicVolume: state => state.musicVolume,
   isMysicAudioLock: state => state.isMysicAudioLock,
