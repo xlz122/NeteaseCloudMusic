@@ -5,8 +5,8 @@
         <option-list />
       </div>
       <div class="my-music-main">
-        <my-mv v-if="myMusicDetail.myMv" />
-        <play-list-detail v-if="myMusicDetail.playListDetail" />
+        <my-mv v-if="musicDetailOptions.myMv" />
+        <play-list-detail v-if="musicDetailOptions.playListDetail" />
       </div>
     </div>
   </div>
@@ -39,7 +39,9 @@ export default defineComponent({
     const isLogin = computed(() => $store.getters.isLogin);
 
     // 详情显示
-    const myMusicDetail = computed(() => $store.getters.myMusicDetail);
+    const musicDetailOptions = computed(
+      () => $store.getters['music/musicDetailOptions']
+    );
 
     // 打开登录对话框
     function openLogin(): void {
@@ -65,7 +67,7 @@ export default defineComponent({
     });
     return {
       isLogin,
-      myMusicDetail,
+      musicDetailOptions,
       openLogin
     };
   }

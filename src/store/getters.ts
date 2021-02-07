@@ -16,14 +16,7 @@ const getters: Getters<State> = {
         {}
     ).length > 0
       ? true
-      : false, // 是否登录
-  myMusicDetail: state => state.myMusicDetail,
-  activeSongListId: state => state.activeSongListId,
-  playDetailData: state => state.playDetailData,
-  playMusicId: state => state.playMusicId,
-  musicVolume: state => state.musicVolume,
-  isMysicAudioLock: state => state.isMysicAudioLock,
-  playMusicList: state => state.playMusicList
+      : false // 是否登录
 };
 
 export default getters;

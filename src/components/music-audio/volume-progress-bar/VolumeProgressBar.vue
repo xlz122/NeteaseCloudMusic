@@ -36,7 +36,7 @@ export default defineComponent({
 
     // 初始化音量进度条
     const $store = useStore();
-    const musicVolume = computed(() => $store.getters.musicVolume);
+    const musicVolume = computed(() => $store.getters['music/musicVolume']);
     onMounted(() => {
       // 设置当前高度
       (currentProgressRef.value as HTMLElement).style.height =
@@ -54,7 +54,7 @@ export default defineComponent({
     watch(
       () => volumePer.value,
       (curVal: number) => {
-        $store.commit('setMusicVolume', Number((curVal / 100).toFixed(1)));
+        $store.commit('music/setMusicVolume', Number((curVal / 100).toFixed(1)));
       }
     );
 
