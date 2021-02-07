@@ -313,7 +313,7 @@ export default defineComponent({
         if (progressData.progress >= 100) {
           clearInterval(playTimer.value as number);
         }
-      }, 1000);
+      }, 500);
     }
 
     onUnmounted(() => {

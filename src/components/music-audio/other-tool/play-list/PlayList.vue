@@ -191,25 +191,21 @@ export default defineComponent({
     // 监听歌曲时间,歌曲滚动
     watch(
       () => musicPlayTime.value,
-      (curvAL: any) => {
-        getWatch(musicPlayTime.value, curvAL);
+      () => {
+        getWatch();
       }
     );
 
     const lyricUL = ref<HTMLElement>();
     // 匹配歌词
-    function getWatch(value: any, curvAL: any) {
+    function getWatch() {
       for (let i = 0; i < state.lyricsObjArr.length; i++) {
-        if (value > parseInt(state.lyricsObjArr[i].time)) {
+        if (musicPlayTime.value > parseInt(state.lyricsObjArr[i].time)) {
           state.lyricIndex = i;
-          if (curvAL) {
-            state.lyricIndex
-              ? setTimeout(() => {
-                  (lyricUL.value as HTMLElement).scrollTop =
-                    32 * (state.lyricIndex + 1) - 110;
-                }, 750)
-              : '';
-          }
+          // state.lyricIndex
+          //   ? ((lyricUL.value as HTMLElement).scrollTop =
+          //       32 * (state.lyricIndex + 1) - 110)
+          //   : '';
         }
       }
     }
