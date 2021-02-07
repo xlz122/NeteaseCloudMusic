@@ -301,8 +301,8 @@ export default defineComponent({
         progressData.progress = progress * 100;
         progressData.currentTime = musicMp3.currentTime || 0;
         progressData.duration = musicMp3.duration || 0;
-        // 音乐播放进度
-        $store.commit('music/setMusicPlayProgress', progressData.currentTime);
+        // 音乐播放时间
+        $store.commit('music/setMusicPlayTime', progressData.currentTime);
         if (progressData.progress >= 100) {
           clearInterval(timer);
         }
@@ -345,7 +345,9 @@ export default defineComponent({
     }
 
     // 音乐播放器锁定在底部
-    const isMysicAudioLock = computed(() => $store.getters.isMysicAudioLock);
+    const isMysicAudioLock = computed(
+      () => $store.getters['music/isMysicAudioLock']
+    );
     function mysicAudioLock(): void {
       if (isMysicAudioLock.value) {
         $store.commit('music/setIsMysicAudioLock', false);

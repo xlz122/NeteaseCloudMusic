@@ -29,9 +29,9 @@ const mutations: Mutations<State, unknown> = {
     localStorage.setItem('curPlayMusicId', JSON.stringify(curPlayMusicId));
   },
   // 我的音乐 - 当前播放音乐id
-  setMusicPlayProgress(state, musicPlayProgress) {
-    state.musicPlayProgress = musicPlayProgress as number;
-    localStorage.setItem('musicPlayProgress', JSON.stringify(musicPlayProgress));
+  setMusicPlayTime(state, musicPlayTime) {
+    state.musicPlayTime = musicPlayTime as number;
+    localStorage.setItem('musicPlayProgress', JSON.stringify(musicPlayTime));
   },
   // 我的音乐 - 音量控制
   setMusicVolume(state, musicVolume) {
