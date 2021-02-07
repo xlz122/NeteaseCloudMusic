@@ -86,7 +86,7 @@
                 v-for="(item, index) in curPlayMusicData?.ar"
                 :key="index"
               >
-                {{ item.name }}
+                {{ item?.name }}
                 <span
                   class="line"
                   v-if="index !== curPlayMusicData.ar.length - 1"
@@ -95,7 +95,7 @@
                 </span>
               </span>
             </span>
-            <span class="link" v-if="curPlayMusicData.name"></span>
+            <span class="link" v-if="curPlayMusicData?.name"></span>
           </div>
           <div class="play-progress">
             <play-progress
