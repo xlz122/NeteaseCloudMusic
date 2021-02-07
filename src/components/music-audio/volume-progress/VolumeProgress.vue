@@ -44,7 +44,16 @@ export default defineComponent({
       // 设置滑块的top
       const progressHeight = (progressRef.value as HTMLElement).offsetHeight;
       const progressIcon = progressIconRef.value as HTMLElement;
-      progressIcon.style.top = progressHeight - musicVolume.value * 100 - progressIcon.offsetHeight + 'px';
+      let iconTop = ((1 - musicVolume.value) * progressHeight) - (progressIcon.offsetHeight / 2);
+      // 滑到底部
+      if (iconTop >= progressHeight - progressIcon.offsetHeight) {
+        iconTop = progressHeight - progressIcon.offsetHeight;
+      }
+      // 顶部
+      if (iconTop <= 0) {
+        iconTop = 0;
+      }
+      progressIcon.style.top = iconTop + 'px';
     });
 
     // 音量百分比
