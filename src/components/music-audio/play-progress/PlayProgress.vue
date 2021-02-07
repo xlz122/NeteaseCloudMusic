@@ -147,5 +147,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './play-progress-bar.less';
+@import './play-progress.less';
 </style>

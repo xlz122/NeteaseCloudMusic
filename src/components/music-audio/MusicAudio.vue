@@ -95,7 +95,7 @@
             <span class="link" v-if="playMusic.name"></span>
           </div>
           <div class="play-progress">
-            <play-progress-bar
+            <play-progress
               :loading="playMusicStatus.loading"
               :progressData="progressData"
               :stopProgress="stopProgress"
@@ -121,14 +121,14 @@ import {
 import { useStore } from 'vuex';
 import { getPlayMusicUrl } from '@api/my-music';
 // 播放进度条
-import PlayProgressBar from './play-progress-bar/PlayProgressBar.vue';
+import PlayProgress from './play-progress/PlayProgress.vue';
 // 其他工具
 import OtherTool from './other-tool/OtherTool.vue';
 import { AudioData, ProgressData, ResponseType, LoopType } from '@/types/types';
 
 export default defineComponent({
   components: {
-    PlayProgressBar,
+    PlayProgress,
     OtherTool
   },
   setup() {
@@ -289,13 +289,20 @@ export default defineComponent({
       (musicAudio.value as HTMLVideoElement).pause();
     }
 
+    // 播放进度更新定时器
+    const playTimer = ref<number | null>(null);
+
     // 音频开始播放
     function musicPlaying(): void {
       // 关闭加载loading
       playMusicStatus.loading = false;
       // 计算播放进度
       const musicMp3 = musicAudio.value as HTMLVideoElement;
-      const timer = setInterval(() => {
+      // 清除已存在定时器
+      if (playTimer.value) {
+        clearInterval(playTimer.value as number);
+      }
+      playTimer.value = setInterval(() => {
         const progress = musicMp3.currentTime / musicMp3.duration;
         // 存储当前进度，当前播放时间，总进度
         progressData.progress = progress * 100;
@@ -304,10 +311,17 @@ export default defineComponent({
         // 音乐播放时间
         $store.commit('music/setMusicPlayTime', progressData.currentTime);
         if (progressData.progress >= 100) {
-          clearInterval(timer);
+          clearInterval(playTimer.value as number);
         }
       }, 1000);
     }
+
+    onUnmounted(() => {
+      // 清除已存在定时器
+      if (playTimer.value) {
+        clearInterval(playTimer.value as number);
+      }
+    });
 
     function handleProgressChange(value: number): boolean | undefined {
       // 播放器没有歌曲，没有播放歌曲，拖动会报错
