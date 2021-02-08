@@ -129,7 +129,10 @@ export default defineComponent({
     watch(
       () => playMusicList.value,
       () => {
-        getLyricFun();
+        // 播放列表长度大于0
+        if (playMusicList.value.length > 0) {
+          getLyricFun();
+        }
       }
     );
 
@@ -138,6 +141,7 @@ export default defineComponent({
       getLyric({
         id: curPlayMusicId.value
       }).then((res: ResponseType) => {
+        console.log(res);
         setLyricFun(res);
       });
     }
@@ -146,6 +150,18 @@ export default defineComponent({
       lyricsObjArr: [],
       lyricIndex: 0
     });
+
+    // 初始化获取本地歌词
+    const playLyrics = computed(() => $store.getters['music/playLyrics']);
+    watch(
+      () => playLyrics.value,
+      () => {
+        state.lyricsObjArr = playLyrics.value;
+      },
+      {
+        immediate: true
+      }
+    );
 
     // 格式化歌词
     function setLyricFun(res: any) {
@@ -176,6 +192,8 @@ export default defineComponent({
           state.lyricsObjArr.push(obj);
         }
       });
+      // 歌词存储
+      $store.commit('music/setLyrics', state.lyricsObjArr);
     }
 
     // 格式化歌词的时间 转换成 sss:ms

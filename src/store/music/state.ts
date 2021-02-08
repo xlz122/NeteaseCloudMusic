@@ -7,6 +7,7 @@ export interface State {
   musicVolume: number;
   isMysicAudioLock: boolean;
   playMusicList: unknown;
+  playLyrics: unknown;
 }
 
 export interface MusicDetailOptions {
@@ -32,7 +33,8 @@ const state: State = {
   musicPlayTime: Number(localStorage.getItem('musicPlayTime')) || 0, // 我的音乐 - 当前播放音乐时间
   musicVolume: Number(localStorage.getItem('musicVolume')) || 0.5, // 我的音乐 - 音量
   isMysicAudioLock: faultTolerant('isMysicAudioLock') || false, // 我的音乐 - 音乐播放器锁定在底部
-  playMusicList: faultTolerant('playMusicData') || [] // 我的音乐 - 播放列表数据
+  playMusicList: faultTolerant('playMusicData') || [], // 我的音乐 - 播放列表数据
+  playLyrics: faultTolerant('playLyrics') || [] // 我的音乐 - 播放歌词
 };
 
 export default state;

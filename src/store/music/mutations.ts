@@ -62,10 +62,18 @@ const mutations: Mutations<State, unknown> = {
     state.playMusicList = list as unknown[];
     localStorage.setItem('playMusicData', JSON.stringify(list));
   },
+  // 播放器 - 歌词
+  setLyrics(state, playLyrics) {
+    state.playLyrics = playLyrics as unknown[];
+    localStorage.setItem('playLyrics', JSON.stringify(playLyrics));
+  },
   // 播放器 - 清空播放列表数据
   emptyPlayMusicList(state) {
     state.playMusicList = [] as unknown[];
     localStorage.setItem('playMusicData', [] as never);
+    // 清除歌词
+    state.playLyrics = [] as unknown[];
+    localStorage.setItem('playLyrics', [] as never);
   },
   // 播放器 - 删除播放列表单项数据
   deletePlayMusicList(state, id) {
