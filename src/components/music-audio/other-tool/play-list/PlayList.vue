@@ -68,18 +68,20 @@
       <i class="line" v-if="playMusicList.length === 0"></i>
       <div class="right-content">
         <i class="icon-doubt"></i>
-        <ul class="list" ref="lyricUL">
-          <li
-            class="item"
-            ref="lyric"
-            :class="{ active: lyricIndex === index }"
-            v-for="(item, index) in lyricsObjArr"
-            :data-time="item.time"
-            :key="item.uid"
-          >
-            {{ item.lyric }}
-          </li>
-        </ul>
+        <div class="content" ref="lyricUL">
+          <ul class="list" :style="listStyle">
+            <li
+              class="item"
+              :ref="getLiRef"
+              :class="{ active: lyricIndex === index }"
+              v-for="(item, index) in lyricsObjArr"
+              :data-time="item.time"
+              :key="item.uid"
+            >
+              {{ item.lyric }}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -92,6 +94,12 @@ import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils';
 import { ResponseType } from '@/types/types';
 
+interface ListOffest {
+  transform: number;
+  duration: number;
+}
+
+// 歌词动画需优化，不够完美
 export default defineComponent({
   props: ({
     playListShow: {
@@ -196,16 +204,65 @@ export default defineComponent({
       }
     );
 
+    // 列表偏移样式
+    const listOffest = reactive<ListOffest>({
+      transform: 0,
+      duration: 0.7
+    });
+
+    const listStyle = computed(() => {
+      return {
+        transform: `translate3d(0, -${listOffest.transform}px, 0)`,
+        transition: `all ${listOffest.duration}s linear`
+      };
+    });
+
     const lyricUL = ref<HTMLElement>();
+    // 获取所有li
+    const liRef = ref<HTMLElement[]>([]);
+    const getLiRef = (el: HTMLElement) => {
+      if (state?.lyricsObjArr.length >= liRef.value.length) {
+        liRef.value.push(el);
+      }
+    };
+
     // 匹配歌词
+    /*
+     * 动画思路： 获取ul一半高度，获取有active的li,距离顶部的offsetTop
+     * ul一半高度一般减去一行歌词高度，超过ul一半高度，歌词开始滚动
+     */
     function getWatch() {
-      for (let i = 0; i < state.lyricsObjArr.length; i++) {
-        if (musicPlayTime.value > parseInt(state.lyricsObjArr[i].time)) {
-          state.lyricIndex = i;
-          // state.lyricIndex
-          //   ? ((lyricUL.value as HTMLElement).scrollTop =
-          //       32 * (state.lyricIndex + 1) - 110)
-          //   : '';
+      const ulRef = lyricUL.value as HTMLElement;
+      const liArrRef = liRef.value as HTMLElement[];
+      // ul已加载
+      if (lyricUL.value?.clientHeight) {
+        // 获取ul一半高度
+        const ulHalfHeight = ulRef.clientHeight / 2;
+        // 获取当前选中li的高度
+        let liActiveHeight = 0;
+        // 当个li高度
+        let liClientHeight = 0;
+        liArrRef.forEach(item => {
+          liClientHeight = item.clientHeight;
+          if (item.className === 'item active') {
+            liActiveHeight = item.offsetTop;
+          }
+        });
+
+        // 当前选中即将超过一半，开始滚动
+        if (liActiveHeight > ulHalfHeight - liClientHeight) {
+          for (let i = 0; i < state.lyricsObjArr.length; i++) {
+            if (musicPlayTime.value > parseInt(state.lyricsObjArr[i].time)) {
+              state.lyricIndex = i;
+            }
+          }
+          listOffest.transform = liActiveHeight - liClientHeight * 2;
+        } else {
+          for (let i = 0; i < state.lyricsObjArr.length; i++) {
+            if (musicPlayTime.value > parseInt(state.lyricsObjArr[i].time)) {
+              state.lyricIndex = i;
+            }
+          }
         }
       }
     }
@@ -238,6 +295,8 @@ export default defineComponent({
       timeStampToDuration,
       ...toRefs(state),
       lyricUL,
+      getLiRef,
+      listStyle,
       emptyMusicList,
       deleteMusicList,
       playlistItem,
