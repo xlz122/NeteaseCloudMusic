@@ -118,7 +118,8 @@ import {
   computed,
   watch,
   reactive,
-  onUnmounted
+  onUnmounted,
+  onMounted
 } from 'vue';
 import { useStore } from 'vuex';
 import { getPlayMusicUrl } from '@api/my-music';
@@ -152,9 +153,9 @@ export default defineComponent({
     // 音量
     const musicVolume = computed(() => $store.getters['music/musicVolume']);
 
-    // 监听播放音乐id变化
+    // 监听播放列表变化
     watch(
-      () => curPlayMusicId.value,
+      () => playMusicList.value,
       () => {
         playMusicSrc(curPlayMusicId.value);
       },
@@ -187,6 +188,19 @@ export default defineComponent({
 
     // 播放进度更新
     const stopProgress = ref<boolean>(false);
+
+    // 初始化获取播放地址
+    onMounted(() => {
+      // 播放地址不存在，播放数据存在
+      const curMusicData = JSON.parse(JSON.stringify(curPlayMusicData.value));
+      if (!audioData.src && Object.keys(curMusicData).length > 0) {
+        getPlayMusicUrl({
+          id: curMusicData.id
+        }).then((res: ResponseType) => {
+          audioData.src = res?.data[0].url;
+        });
+      }
+    });
 
     // 获取播放地址
     function playMusicSrc(id: number): boolean | undefined {
@@ -261,8 +275,13 @@ export default defineComponent({
     }
 
     // 播放/暂停切换
-    function lookPlayMusic(): void {
+    function lookPlayMusic(): boolean | undefined {
       playMusicStatus.look = !playMusicStatus.look;
+      // 播放数据不存在
+      const curMusicData = JSON.parse(JSON.stringify(curPlayMusicData.value));
+      if (Object.keys(curMusicData).length === 0) {
+        return false;
+      }
       if (playMusicStatus.look) {
         playMusicStatus.loading = true;
         startPlayMusic();
