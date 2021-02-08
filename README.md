@@ -13,8 +13,8 @@
 ### 项目使用技术栈
 
 本项目使用到的技术栈如下：
-* vue全家桶
-* vue3.0 Composions Api
+* Vue全家桶
+* Vue3.0 Composions Api
 * TypeScript
 
 ## 加入项目
@@ -28,8 +28,9 @@
 	* 基本页面结构搭建
 	* 扫码登录
 	* 下载页面
-	* 我的音乐完成50%
-	* 音乐播放器完成50%
+	* 我的音乐完成70%
+	* 音乐播放器完成70%
+	* 首页完成70%
 ### 项目说明
 
 启动项目
@@ -50,6 +51,7 @@ yarn build
 
 ### 项目效果图
 
+![](./src/assets/design-sketch/home.png)
 ![](./src/assets/design-sketch/my-music.jpg)
 ## 写在最后
 
