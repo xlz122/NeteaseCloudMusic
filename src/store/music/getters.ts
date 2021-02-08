@@ -20,7 +20,8 @@ const getters: Getters<State> = {
   musicPlayTime: state => state.musicPlayTime,
   musicVolume: state => state.musicVolume,
   isMysicAudioLock: state => state.isMysicAudioLock,
-  playMusicList: state => state.playMusicList
+  playMusicList: state => state.playMusicList,
+  playLyrics: state => state.playLyrics
 };
 
 export default getters;
