@@ -13,17 +13,57 @@
         <span class="more">更多</span>
       </div>
       <ul class="list-content">
-        <li class="item">
+        <!-- 推荐歌单部分 -->
+        <li class="item" v-for="(item, index) in songListData" :key="index">
           <div class="item-top">
-            <img class="img" src="" alt="" />
+            <img class="img" :src="item.picUrl" alt="" />
             <div class="info">
               <i class="info-icon"></i>
-              <span class="num">161万</span>
+              <span class="num">{{ item.playCount }}</span>
               <i class="info-icon-right"></i>
             </div>
           </div>
-          <div class="item-bottom" title="快过年了 给你熬了一碗音乐鸡汤">
-            快过年了 给你熬了一碗音乐鸡汤
+          <div class="item-bottom" :title="item.name">
+            {{ item.name }}
+          </div>
+        </li>
+        <!-- 个性化推荐歌单部分 -->
+        <li
+          class="item"
+          v-for="(item, index) in individualizatData"
+          :key="index"
+          :class="{ 'last-item': index === 1 }"
+        >
+          <div class="item-top">
+            <img class="img" :src="item.picUrl" alt="" />
+            <div class="info">
+              <i class="info-icon"></i>
+              <span class="num">{{ item.playcount }}</span>
+              <i class="info-icon-right"></i>
+            </div>
+          </div>
+          <div class="item-bottom" :title="item.name">
+            {{ item.name }}
+          </div>
+        </li>
+        <!-- 推荐电台部分 -->
+        <li
+          class="item"
+          v-for="(item, index) in djprogramData"
+          :key="index"
+          :class="{ 'last-item': index === 2 }"
+        >
+          <div class="item-top">
+            <img class="img" :src="item.picUrl" alt="" />
+            <div class="info">
+              <i class="info-icon"></i>
+              <span class="num">{{ item?.program?.adjustedPlayCount }}</span>
+              <i class="info-icon-right"></i>
+            </div>
+          </div>
+          <div class="item-bottom" :title="item.name">
+            <span class="radio-station"></span>
+            {{ item.name }}
           </div>
         </li>
       </ul>
@@ -58,7 +98,7 @@
               <i class="info-icon-right"></i>
             </div>
           </div>
-          <div class="item-bottom" title="快过年了 给你熬了一碗音乐鸡汤">
+          <div class="item-bottom" :title="item.name">
             {{ item.name }}
           </div>
           <em class="item-like">{{ item.copywriter }}</em>
@@ -83,21 +123,52 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { recommendResource } from '@api/home';
+import {
+  recommendSongList,
+  recommendDjprogram,
+  recommendResource
+} from '@api/home';
 import { ResponseType } from '@/types/types';
 
 export default defineComponent({
   setup() {
+    // 获取热门推荐 - 推荐歌单数据(2项)
+    const songListData = ref<unknown[]>([]);
+    function getSongListData() {
+      recommendSongList({ limit: 2 }).then((res: ResponseType) => {
+        if (res.code === 200) {
+          songListData.value = res?.result;
+        }
+      });
+    }
+    getSongListData();
+
+    // 获取热门推荐 - 推荐电台数据
+    const djprogramData = ref<unknown[]>([]);
+    function getDjprogramData() {
+      recommendDjprogram().then((res: ResponseType) => {
+        if (res.code === 200) {
+          // 截取前三项
+          djprogramData.value = res?.result.slice(0, 3);
+        }
+      });
+    }
+    getDjprogramData();
+
     const individualizatData = ref<unknown[]>([]);
-    // 获取个性化推荐数据
+    // 获取个性化推荐歌单数据
     function getIndividualizat(): void {
       recommendResource().then((res: ResponseType) => {
-        // 截取前三项
-        individualizatData.value = res?.recommend.slice(0, 3);
+        if (res.code === 200) {
+          // 截取前三项
+          individualizatData.value = res?.recommend.slice(0, 3);
+        }
       });
     }
     getIndividualizat();
     return {
+      songListData,
+      djprogramData,
       individualizatData
     };
   }
