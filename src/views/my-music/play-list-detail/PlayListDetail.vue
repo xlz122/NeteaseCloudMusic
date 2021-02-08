@@ -4,7 +4,10 @@
     <div class="main-header">
       <div class="header-info">
         <div class="info-img">
-          <img class="img" :src="songListDetailData?.playlist?.coverImgUrl" />
+          <img
+            class="img"
+            :src="`${songListDetailData?.playlist?.coverImgUrl}?param=200y200`"
+          />
           <i class="icon"></i>
         </div>
         <div class="info-right">
@@ -295,16 +298,11 @@ export default defineComponent({
     // 头部播放 - 默认播放列表第一项
     function playTitleMusic() {
       if (songListDetailData.value?.playlist?.tracks.length > 0) {
+        const musicId = songListDetailData.value?.playlist?.tracks[0].id;
         // 当前播放音乐id
-        $store.commit(
-          'music/setCurPlayMusicId',
-          songListDetailData.value?.playlist?.tracks[0].id
-        );
+        $store.commit('music/setCurPlayMusicId', musicId);
         // 播放音乐数据
-        $store.commit(
-          'music/setPlayMusicList',
-          songListDetailData.value?.playlist?.tracks[0]
-        );
+        $store.commit('music/setPlayMusicList', musicId);
       }
     }
 

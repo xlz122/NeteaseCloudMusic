@@ -3,6 +3,7 @@ export interface State {
   loginDialog: boolean;
   accountInfo: unknown;
   userInfo: unknown;
+  isLogin: boolean;
 }
 
 // 本地存储容错处理
@@ -16,7 +17,8 @@ const state: State = {
   heaerActiveIndex: Number(localStorage.getItem('heaerActiveIndex')) || 0, // 头部导航选中
   loginDialog: false, // 登录对话框显隐
   accountInfo: faultTolerant('accountInfo') || {}, // 账户信息
-  userInfo: faultTolerant('userInfo') || {} // 用户信息
+  userInfo: faultTolerant('userInfo') || {}, // 用户信息
+  isLogin: faultTolerant('isLogin') || false // 是否登录
 };
 
 export default state;

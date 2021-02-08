@@ -25,7 +25,7 @@
             v-for="(item, index) in playMusicList"
             :key="index"
             :class="{ 'active-item': item.id === curPlayMusicId }"
-            @click="playlistItem(item.id)"
+            @click="playlistItem(item.id, item)"
           >
             <i class="play-icon"></i>
             <span class="text song-title">{{ item.name }}</span>
@@ -68,8 +68,8 @@
       <i class="line" v-if="playMusicList.length === 0"></i>
       <div class="right-content">
         <i class="icon-doubt"></i>
-        <div class="content" ref="lyricUL">
-          <ul class="list" :style="listStyle">
+        <div class="content" ref="lyricContentRef">
+          <ul class="list" :style="listStyle" ref="lyricUlRef">
             <li
               class="item"
               :ref="getLiRef"
@@ -99,7 +99,9 @@ interface ListOffest {
   duration: number;
 }
 
-// 歌词动画需优化，不够完美
+// 歌词动画需优化
+// 歌词容器高度需调整
+// 歌曲播放完，滚动条bug
 export default defineComponent({
   props: ({
     playListShow: {
@@ -125,11 +127,14 @@ export default defineComponent({
       () => $store.getters['music/musicPlayTime']
     );
 
-    // 监听播放id更改,获取歌词
+    // 监听播放列表,获取歌词
     watch(
-      () => curPlayMusicId.value,
+      () => playMusicList.value,
       () => {
-        getLyricFun();
+        // 播放列表长度大于0
+        if (playMusicList.value.length > 0) {
+          getLyricFun();
+        }
       }
     );
 
@@ -138,6 +143,7 @@ export default defineComponent({
       getLyric({
         id: curPlayMusicId.value
       }).then((res: ResponseType) => {
+        console.log(res);
         setLyricFun(res);
       });
     }
@@ -146,6 +152,18 @@ export default defineComponent({
       lyricsObjArr: [],
       lyricIndex: 0
     });
+
+    // 初始化获取本地歌词
+    const playLyrics = computed(() => $store.getters['music/playLyrics']);
+    watch(
+      () => playLyrics.value,
+      () => {
+        state.lyricsObjArr = playLyrics.value;
+      },
+      {
+        immediate: true
+      }
+    );
 
     // 格式化歌词
     function setLyricFun(res: any) {
@@ -176,6 +194,8 @@ export default defineComponent({
           state.lyricsObjArr.push(obj);
         }
       });
+      // 歌词存储
+      $store.commit('music/setLyrics', state.lyricsObjArr);
     }
 
     // 格式化歌词的时间 转换成 sss:ms
@@ -217,51 +237,67 @@ export default defineComponent({
       };
     });
 
-    const lyricUL = ref<HTMLElement>();
+    // 歌词容器
+    const lyricContentRef = ref<HTMLElement>();
+    // 歌词ul
+    const lyricUlRef = ref<HTMLElement>();
     // 获取所有li
     const liRef = ref<HTMLElement[]>([]);
     const getLiRef = (el: HTMLElement) => {
-      if (state?.lyricsObjArr.length >= liRef.value.length) {
+      if (state?.lyricsObjArr.length !== liRef.value.length) {
         liRef.value.push(el);
       }
     };
 
     // 匹配歌词
-    /*
-     * 动画思路： 获取ul一半高度，获取有active的li,距离顶部的offsetTop
-     * ul一半高度一般减去一行歌词高度，超过ul一半高度，歌词开始滚动
-     */
-    function getWatch() {
-      const ulRef = lyricUL.value as HTMLElement;
+    function getWatch(): boolean | undefined {
+      const contentRef = lyricContentRef.value as HTMLElement;
+      const ulRef = lyricUlRef.value as HTMLElement;
       const liArrRef = liRef.value as HTMLElement[];
-      // ul已加载
-      if (lyricUL.value?.clientHeight) {
-        // 获取ul一半高度
-        const ulHalfHeight = ulRef.clientHeight / 2;
-        // 获取当前选中li的高度
-        let liActiveHeight = 0;
-        // 当个li高度
-        let liClientHeight = 0;
-        liArrRef.forEach(item => {
-          liClientHeight = item.clientHeight;
-          if (item.className === 'item active') {
-            liActiveHeight = item.offsetTop;
-          }
-        });
+      // ul未加载
+      if (!contentRef?.clientHeight) {
+        return false;
+      }
+      // li未加载完成
+      if (liArrRef.length !== state?.lyricsObjArr.length) {
+        return false;
+      }
 
-        // 当前选中即将超过一半，开始滚动
-        if (liActiveHeight > ulHalfHeight - liClientHeight) {
-          for (let i = 0; i < state.lyricsObjArr.length; i++) {
-            if (musicPlayTime.value > parseInt(state.lyricsObjArr[i].time)) {
-              state.lyricIndex = i;
-            }
+      // 动态设置ul高度
+      ulRef.style.height = ulRef.clientHeight + 'px';
+
+      // 获取容器一半高度
+      const contentHalfHeight = contentRef.clientHeight / 2;
+      // 单个li高度
+      let liClientHeight = 0;
+      // 获取当前选中li距离顶部高度
+      let liActiveHeight = 0;
+      liArrRef.forEach(item => {
+        liClientHeight = item.clientHeight;
+        if (item.className === 'item active') {
+          liActiveHeight = item.offsetTop;
+        }
+      });
+
+      // 当前选中即将超过一半少一行，开始滚动
+      if (liActiveHeight > contentHalfHeight - liClientHeight) {
+        for (let i = 0; i < state.lyricsObjArr.length; i++) {
+          if (musicPlayTime.value > parseInt(state.lyricsObjArr[i].time)) {
+            state.lyricIndex = i;
           }
-          listOffest.transform = liActiveHeight - liClientHeight * 2;
-        } else {
-          for (let i = 0; i < state.lyricsObjArr.length; i++) {
-            if (musicPlayTime.value > parseInt(state.lyricsObjArr[i].time)) {
-              state.lyricIndex = i;
-            }
+        }
+        // 设置列表滚动
+        listOffest.transform = liActiveHeight - liClientHeight * 3;
+        // 设置滚动条
+        // // 获取对应比例
+        // const scale = (liActiveHeight - liClientHeight) / ulRef.clientHeight;
+        // console.log(scale);
+        // contentRef.scrollTop = contentRef.clientHeight * scale;
+        // console.log(contentRef.clientHeight * scale);
+      } else {
+        for (let i = 0; i < state.lyricsObjArr.length; i++) {
+          if (musicPlayTime.value > parseInt(state.lyricsObjArr[i].time)) {
+            state.lyricIndex = i;
           }
         }
       }
@@ -279,9 +315,11 @@ export default defineComponent({
     }
 
     // 列表项点击
-    function playlistItem(id: number): void {
+    function playlistItem(id: number, item: unknown): void {
       // 当前播放音乐id
       $store.commit('music/setCurPlayMusicId', id);
+      // 播放音乐数据
+      $store.commit('music/setPlayMusicList', item);
     }
 
     // 关闭列表
@@ -294,7 +332,8 @@ export default defineComponent({
       curPlayMusicId,
       timeStampToDuration,
       ...toRefs(state),
-      lyricUL,
+      lyricContentRef,
+      lyricUlRef,
       getLiRef,
       listStyle,
       emptyMusicList,
