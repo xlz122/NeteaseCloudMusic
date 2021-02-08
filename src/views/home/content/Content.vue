@@ -82,7 +82,7 @@
             <span class="mask"></span>
           </div>
           <div class="item-bottom" title="每日歌曲推荐">每日歌曲推荐</div>
-          <em class="item-like">猜你喜欢</em>
+          <em class="item-like">根据你的口味生成，每天6:00更新</em>
         </li>
         <li
           class="item individualization"
@@ -111,6 +111,7 @@
         <span class="title">新碟上架</span>
         <span class="more">更多</span>
       </div>
+      <album-newest />
     </div>
     <div class="group">
       <div class="list-title">
@@ -128,24 +129,29 @@ import {
   recommendDjprogram,
   recommendResource
 } from '@api/home';
+// 新碟上架
+import AlbumNewest from './album-newest/AlbumNewest.vue';
 import { ResponseType } from '@/types/types';
 
 export default defineComponent({
+  components: {
+    AlbumNewest
+  },
   setup() {
     // 获取热门推荐 - 推荐歌单数据(2项)
     const songListData = ref<unknown[]>([]);
-    function getSongListData() {
+    function getSongList() {
       recommendSongList({ limit: 2 }).then((res: ResponseType) => {
         if (res.code === 200) {
           songListData.value = res?.result;
         }
       });
     }
-    getSongListData();
+    getSongList();
 
     // 获取热门推荐 - 推荐电台数据
     const djprogramData = ref<unknown[]>([]);
-    function getDjprogramData() {
+    function getDjprogram() {
       recommendDjprogram().then((res: ResponseType) => {
         if (res.code === 200) {
           // 截取前三项
@@ -153,7 +159,7 @@ export default defineComponent({
         }
       });
     }
-    getDjprogramData();
+    getDjprogram();
 
     const individualizatData = ref<unknown[]>([]);
     // 获取个性化推荐歌单数据

@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@types/lodash": "^4.14.168",
     "axios": "^0.21.1",
     "compression-webpack-plugin": "^7.1.2",
     "core-js": "^3.6.5",

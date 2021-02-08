@@ -59,3 +59,16 @@ export const recommendResource = () => {
     params
   });
 };
+
+/**
+ * @desc 获取新碟上架
+ * @param { Number } timestamp - 防止接口缓存
+ */
+export const albumNewest = () => {
+  const params = { timestamp: new Date().getTime() };
+  return axios.request({
+    url: '/album/newest',
+    method: 'get',
+    params
+  });
+};
