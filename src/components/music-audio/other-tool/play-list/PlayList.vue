@@ -99,7 +99,9 @@ interface ListOffest {
   duration: number;
 }
 
-// 歌词动画需优化，不够完美
+// 歌词动画需优化
+// 歌词容器高度需调整
+// 歌曲播放完，滚动条bug
 export default defineComponent({
   props: ({
     playListShow: {
