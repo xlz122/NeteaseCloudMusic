@@ -24,6 +24,39 @@
       padding-bottom: 50px;
       overflow-y: auto;
       overflow-x: hidden;
+      &:hover {
+        &::-webkit-scrollbar {
+          width: 6px;
+          background: #fff;
+          border-radius: 5px;
+          opacity: .5;
+        }
+  
+        &::-webkit-scrollbar-thumb {
+          width: 4px;
+          border-radius: 5px;
+          height: 100px;
+          cursor: pointer;
+          background: #ccc;
+          border: 1px solid #a6a6a6;
+        }
+      }
+      &::-webkit-scrollbar {
+        width: 6px;
+        background: #fff;
+        border-radius: 5px;
+        opacity: .5;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        width: 4px;
+        border-radius: 5px;
+        height: 100px;
+        cursor: pointer;
+        background: #ddd;
+        border: 1px solid #ccc;
+        opacity: .1;
+      }
     }
 
     .my-music-main {
