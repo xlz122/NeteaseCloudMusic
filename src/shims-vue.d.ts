@@ -12,3 +12,6 @@ declare module '*.ts';
 declare interface Window {
   g: string
 }
+
+// 声明lodash
+declare module 'lodash';
