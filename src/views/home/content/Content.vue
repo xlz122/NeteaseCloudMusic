@@ -13,8 +13,13 @@
         <span class="more">更多</span>
       </div>
       <ul class="list-content">
-        <!-- 推荐歌单部分 -->
-        <li class="item" v-for="(item, index) in songListData" :key="index">
+        <!-- 未登录展示5条推荐歌单，登录后，后3条替换未个性化推荐 -->
+        <li
+          class="item"
+          v-for="(item, index) in songListData"
+          :key="index"
+          :class="{ 'last-item': songListData.length > 2 && index === 3 }"
+        >
           <div class="item-top">
             <img class="img" :src="item.picUrl" alt="" />
             <div class="info">
@@ -27,25 +32,27 @@
             {{ item.name }}
           </div>
         </li>
-        <!-- 个性化推荐歌单部分 -->
-        <li
-          class="item"
-          v-for="(item, index) in individualizatData"
-          :key="index"
-          :class="{ 'last-item': index === 1 }"
-        >
-          <div class="item-top">
-            <img class="img" :src="item.picUrl" alt="" />
-            <div class="info">
-              <i class="info-icon"></i>
-              <span class="num">{{ item.playcount }}</span>
-              <i class="info-icon-right"></i>
+        <!-- 登录后展示个性化推荐 -->
+        <template v-if="isLogin">
+          <li
+            class="item"
+            v-for="(item, index) in individualizatData"
+            :key="index"
+            :class="{ 'last-item': index === 1 }"
+          >
+            <div class="item-top">
+              <img class="img" :src="item.picUrl" alt="" />
+              <div class="info">
+                <i class="info-icon"></i>
+                <span class="num">{{ item.playcount }}</span>
+                <i class="info-icon-right"></i>
+              </div>
             </div>
-          </div>
-          <div class="item-bottom" :title="item.name">
-            {{ item.name }}
-          </div>
-        </li>
+            <div class="item-bottom" :title="item.name">
+              {{ item.name }}
+            </div>
+          </li>
+        </template>
         <!-- 推荐电台部分 -->
         <li
           class="item"
@@ -69,7 +76,7 @@
       </ul>
     </div>
     <!-- 个性化推荐 -->
-    <div class="group">
+    <div class="group" v-if="isLogin">
       <div class="list-title">
         <span class="title">个性化推荐</span>
       </div>
@@ -123,7 +130,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
+import { useStore } from 'vuex';
 import {
   recommendSongList,
   recommendDjprogram,
@@ -138,10 +146,22 @@ export default defineComponent({
     AlbumNewest
   },
   setup() {
+    const $store = useStore();
+
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
+
     // 获取热门推荐 - 推荐歌单数据(2项)
     const songListData = ref<unknown[]>([]);
     function getSongList() {
-      recommendSongList({ limit: 2 }).then((res: ResponseType) => {
+      // 登录只获取两条，未登录获取5条
+      let limit = 0;
+      if (isLogin.value) {
+        limit = 2;
+      } else {
+        limit = 5;
+      }
+      recommendSongList({ limit }).then((res: ResponseType) => {
         if (res.code === 200) {
           songListData.value = res?.result;
         }
@@ -163,7 +183,10 @@ export default defineComponent({
 
     const individualizatData = ref<unknown[]>([]);
     // 获取个性化推荐歌单数据
-    function getIndividualizat(): void {
+    function getIndividualizat(): boolean | undefined {
+      if (!isLogin.value) {
+        return false;
+      }
       recommendResource().then((res: ResponseType) => {
         if (res.code === 200) {
           // 截取前三项
@@ -173,6 +196,7 @@ export default defineComponent({
     }
     getIndividualizat();
     return {
+      isLogin,
       songListData,
       djprogramData,
       individualizatData

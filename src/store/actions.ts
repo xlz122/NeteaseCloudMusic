@@ -1,5 +1,8 @@
 import { State } from '@store/state';
 import { Getters } from '@store/getters';
+import router from '@/router';
+import { logout } from '@api/login';
+import { ResponseDataType } from '@/types/types';
 
 export interface Store {
   state: State;
@@ -15,8 +18,17 @@ interface Actions<T, U> {
 }
 
 const actions: Actions<Store, unknown> = {
-  setMsg({ commit }, msg) {
-    commit('setMsg', msg as string);
+  setLogout({ commit }) {
+    return new Promise(resolve => {
+      logout().then((res: ResponseDataType) => {
+        if (res?.code === 200) {
+          commit('setLogout', '');
+          // 跳转首页
+          router.push('/');
+          resolve(res);
+        }
+      });
+    });
   }
 };
 
