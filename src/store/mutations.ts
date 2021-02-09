@@ -18,13 +18,19 @@ const mutations: Mutations<State, unknown> = {
   // 账户信息
   setAccountInfo(state, accountInfo) {
     state.accountInfo = accountInfo as unknown;
+    localStorage.setItem('accountInfo', JSON.stringify(accountInfo));
   },
   // 用户信息
   setUserInfo(state, userInfo) {
     state.userInfo = userInfo as unknown;
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+    // 是否登录
+    state.isLogin = true;
+    localStorage.setItem('isLogin', JSON.stringify(true));
   },
   // 退出登录
   setLogout(state) {
+    state.isLogin = false;
     // 清除账户信息
     state.accountInfo = {};
     // 清除用户信息

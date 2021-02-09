@@ -9,14 +9,7 @@ const getters: Getters<State> = {
   loginDialog: state => state.loginDialog,
   accountInfo: state => state.accountInfo,
   userInfo: state => state.userInfo,
-  isLogin: state =>
-    Object.keys(
-      state.userInfo ||
-        JSON.parse(localStorage.getItem('userInfo') as string) ||
-        {}
-    ).length > 0
-      ? true
-      : false // 是否登录
+  isLogin: state => state.isLogin
 };
 
 export default getters;

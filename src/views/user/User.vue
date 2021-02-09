@@ -33,25 +33,15 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { logout } from '@api/login';
-import { ResponseDataType } from '@/types/types';
 
 export default defineComponent({
   setup() {
-    const $router = useRouter();
     const $store = useStore();
 
     // 退出登录
     function signOut(): void {
-      logout().then((res: ResponseDataType) => {
-        if (res.code === 200) {
-          $store.commit('setLogout');
-          // 跳转首页
-          $router.push('/');
-        }
-      });
+      $store.dispatch('setLogout');
     }
     return {
       signOut
