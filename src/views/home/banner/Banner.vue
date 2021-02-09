@@ -16,10 +16,15 @@
             alt=""
           />
         </div>
-        <button class="banner-btn banner-left-btn" @click="bannerPrev"></button>
+        <button
+          class="banner-btn banner-left-btn"
+          @click="bannerPrev"
+          @mouseenter="bannerEnter"
+        ></button>
         <button
           class="banner-btn banner-right-btn"
           @click="bannerNext"
+          @mouseenter="bannerEnter"
         ></button>
       </div>
       <!-- 底部小圆点 -->
