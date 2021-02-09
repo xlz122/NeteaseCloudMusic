@@ -10,7 +10,7 @@
             ref="liRef"
           >
             <div class="item-img">
-              <img class="img" :src="item.picUrl" alt="" />
+              <img class="img" :src="`${item.picUrl}?param=100y100`" alt="" />
               <i class="icon"></i>
             </div>
             <div class="title" :title="item?.name">{{ item?.name }}</div>

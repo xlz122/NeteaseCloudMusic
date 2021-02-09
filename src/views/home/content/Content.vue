@@ -21,7 +21,7 @@
           :class="{ 'last-item': songListData.length > 2 && index === 3 }"
         >
           <div class="item-top">
-            <img class="img" :src="item.picUrl" alt="" />
+            <img class="img" :src="`${item.picUrl}?param=140y140`" alt="" />
             <div class="info">
               <i class="info-icon"></i>
               <span class="num">{{ item.playCount }}</span>
@@ -41,7 +41,7 @@
             :class="{ 'last-item': index === 1 }"
           >
             <div class="item-top">
-              <img class="img" :src="item.picUrl" alt="" />
+              <img class="img" :src="`${item.picUrl}?param=140y140`" alt="" />
               <div class="info">
                 <i class="info-icon"></i>
                 <span class="num">{{ item.playcount }}</span>
@@ -61,7 +61,7 @@
           :class="{ 'last-item': index === 2 }"
         >
           <div class="item-top">
-            <img class="img" :src="item.picUrl" alt="" />
+            <img class="img" :src="`${item.picUrl}?param=140y140`" alt="" />
             <div class="info">
               <i class="info-icon"></i>
               <span class="num">{{ item?.program?.adjustedPlayCount }}</span>
@@ -98,7 +98,7 @@
           :class="{ 'last-item': index === individualizatData.length - 1 }"
         >
           <div class="item-top">
-            <img class="img" :src="item.picUrl" alt="" />
+            <img class="img" :src="`${item.picUrl}?param=140y140`" alt="" />
             <div class="info">
               <i class="info-icon"></i>
               <span class="num">{{ item.playcount }}</span>

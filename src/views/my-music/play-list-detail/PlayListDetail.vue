@@ -4,7 +4,10 @@
     <div class="main-header">
       <div class="header-info">
         <div class="info-img">
-          <img class="img" :src="songListDetailData?.playlist?.coverImgUrl" />
+          <img
+            class="img"
+            :src="`${songListDetailData?.playlist?.coverImgUrl}?param=200y200`"
+          />
           <i class="icon"></i>
         </div>
         <div class="info-right">
