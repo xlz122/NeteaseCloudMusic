@@ -69,7 +69,7 @@
       <div class="right-content">
         <i class="icon-doubt"></i>
         <div class="content" ref="lyricContentRef">
-          <ul class="list" :style="listStyle">
+          <ul class="list" :style="listStyle" ref="lyricUlRef">
             <li
               class="item"
               :ref="getLiRef"
@@ -239,6 +239,8 @@ export default defineComponent({
 
     // 歌词容器
     const lyricContentRef = ref<HTMLElement>();
+    // 歌词ul
+    const lyricUlRef = ref<HTMLElement>();
     // 获取所有li
     const liRef = ref<HTMLElement[]>([]);
     const getLiRef = (el: HTMLElement) => {
@@ -249,10 +251,11 @@ export default defineComponent({
 
     // 匹配歌词
     function getWatch(): boolean | undefined {
-      const ulRef = lyricContentRef.value as HTMLElement;
+      const contentRef = lyricContentRef.value as HTMLElement;
+      const ulRef = lyricUlRef.value as HTMLElement;
       const liArrRef = liRef.value as HTMLElement[];
       // ul未加载
-      if (!ulRef?.clientHeight) {
+      if (!contentRef?.clientHeight) {
         return false;
       }
       // li未加载完成
@@ -260,8 +263,11 @@ export default defineComponent({
         return false;
       }
 
-      // 获取ul一半高度
-      const ulHalfHeight = ulRef.clientHeight / 2;
+      // 动态设置ul高度
+      ulRef.style.height = ulRef.clientHeight + 'px';
+
+      // 获取容器一半高度
+      const contentHalfHeight = contentRef.clientHeight / 2;
       // 单个li高度
       let liClientHeight = 0;
       // 获取当前选中li距离顶部高度
@@ -274,13 +280,20 @@ export default defineComponent({
       });
 
       // 当前选中即将超过一半少一行，开始滚动
-      if (liActiveHeight > ulHalfHeight - liClientHeight) {
+      if (liActiveHeight > contentHalfHeight - liClientHeight) {
         for (let i = 0; i < state.lyricsObjArr.length; i++) {
           if (musicPlayTime.value > parseInt(state.lyricsObjArr[i].time)) {
             state.lyricIndex = i;
           }
         }
-        listOffest.transform = liActiveHeight - liClientHeight * 2;
+        // 设置列表滚动
+        listOffest.transform = liActiveHeight - liClientHeight * 3;
+        // 设置滚动条
+        // // 获取对应比例
+        // const scale = (liActiveHeight - liClientHeight) / ulRef.clientHeight;
+        // console.log(scale);
+        // contentRef.scrollTop = contentRef.clientHeight * scale;
+        // console.log(contentRef.clientHeight * scale);
       } else {
         for (let i = 0; i < state.lyricsObjArr.length; i++) {
           if (musicPlayTime.value > parseInt(state.lyricsObjArr[i].time)) {
@@ -320,6 +333,7 @@ export default defineComponent({
       timeStampToDuration,
       ...toRefs(state),
       lyricContentRef,
+      lyricUlRef,
       getLiRef,
       listStyle,
       emptyMusicList,
