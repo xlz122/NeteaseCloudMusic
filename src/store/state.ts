@@ -3,39 +3,22 @@ export interface State {
   loginDialog: boolean;
   accountInfo: unknown;
   userInfo: unknown;
-  myMusicDetail: MyMusicDetail;
-  activeSongListId: number;
-  playDetailData: unknown;
-  playMusicId: number;
-  musicVolume: number;
-  isMysicAudioLock: boolean;
-  playMusicList: unknown[];
+  isLogin: boolean;
 }
 
-export interface MyMusicDetail {
-  myMv: boolean;
-  playListDetail: boolean;
+// 本地存储容错处理
+function faultTolerant(name: string) {
+  if (localStorage.getItem(name) as string) {
+    return JSON.parse(localStorage.getItem(name) as string);
+  }
 }
 
 const state: State = {
   heaerActiveIndex: Number(localStorage.getItem('heaerActiveIndex')) || 0, // 头部导航选中
   loginDialog: false, // 登录对话框显隐
-  accountInfo: JSON.parse(localStorage.getItem('accountInfo') as string) || {}, // 账户信息
-  userInfo: JSON.parse(localStorage.getItem('userInfo') as string) || {}, // 用户信息
-  myMusicDetail: {
-    myMv: false,
-    playListDetail: false
-  }, // 我的音乐详情显示
-  activeSongListId:
-    JSON.parse(localStorage.getItem('activeSongListId') as string) || 0,
-  playDetailData:
-    JSON.parse(localStorage.getItem('playDetailData') as string) || {}, // 我的音乐 - 创建歌单详情数据
-  playMusicId: JSON.parse(localStorage.getItem('playMusicId') as string) || 0, // 我的音乐 - 当前播放音乐id
-  musicVolume: JSON.parse(localStorage.getItem('musicVolume') as string) || 0.5, // 我的音乐 - 当前播放音乐id
-  isMysicAudioLock:
-    JSON.parse(localStorage.getItem('isMysicAudioLock') as string) || false, // 我的音乐 - 音乐播放器锁定在底部
-  playMusicList:
-    JSON.parse(localStorage.getItem('playMusicData') as string) || [] // 我的音乐 - 播放列表数据
+  accountInfo: faultTolerant('accountInfo') || {}, // 账户信息
+  userInfo: faultTolerant('userInfo') || {}, // 用户信息
+  isLogin: faultTolerant('isLogin') || false // 是否登录
 };
 
 export default state;

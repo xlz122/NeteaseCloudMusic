@@ -28,3 +28,18 @@ export interface SongList {
   createSongList: unknown[];
   collectionSongList: unknown[];
 }
+
+// 播放器数据
+export interface AudioData {
+  src: string;
+  autoplay: boolean;
+  loop: boolean;
+}
+
+// 音乐进度条数据
+export interface ProgressData {
+  progress: number;
+  currentTime: number;
+  duration: number;
+  cacheProgress: number;
+}

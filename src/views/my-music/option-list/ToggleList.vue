@@ -95,8 +95,10 @@ export default defineComponent({
 
     const $store = useStore();
 
-    // 当前选中列表id
-    const activeSongListId = computed(() => $store.getters.activeSongListId);
+    // 侧边歌单列表选中项id
+    const activeSongListId = computed(
+      () => $store.getters['music/activeSongListId']
+    );
 
     // 列表显隐切换
     const listShow = ref<boolean>(true);

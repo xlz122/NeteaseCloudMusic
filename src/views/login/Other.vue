@@ -192,7 +192,6 @@ export default defineComponent({
         if (res.code === 200) {
           document.cookie = `${res.cookie}`;
           // 存储账户信息
-          localStorage.setItem('accountInfo', JSON.stringify(res?.account));
           $store.commit('setAccountInfo', res?.account);
           // 获取用户详情
           getUserInfo(res?.account?.id);
@@ -210,7 +209,6 @@ export default defineComponent({
       userInfo({ uid }).then((res: ResponseDataType) => {
         if (res.code === 200) {
           // 存储用户信息
-          localStorage.setItem('userInfo', JSON.stringify(res));
           $store.commit('setUserInfo', res);
           // 关闭登录对话框
           $store.commit('setLoginDialog', false);

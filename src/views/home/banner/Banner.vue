@@ -16,10 +16,15 @@
             alt=""
           />
         </div>
-        <button class="banner-btn banner-left-btn" @click="bannerPrev"></button>
+        <button
+          class="banner-btn banner-left-btn"
+          @click="bannerPrev"
+          @mouseenter="bannerEnter"
+        ></button>
         <button
           class="banner-btn banner-right-btn"
           @click="bannerNext"
+          @mouseenter="bannerEnter"
         ></button>
       </div>
       <!-- 底部小圆点 -->
@@ -122,9 +127,11 @@ export default defineComponent({
         img.src = `${bannerUrl.value}?imageView&blur=40x20`;
         img.onload = function() {
           const banner = bannerRef.value as HTMLElement;
-          banner.style.backgroundImage = `url(${bannerUrl.value}?imageView&blur=40x20)`;
-          banner.style.backgroundSize = '6000px';
-          banner.style.backgroundPosition = 'center center';
+          if (banner) {
+            banner.style.backgroundImage = `url(${bannerUrl.value}?imageView&blur=40x20)`;
+            banner.style.backgroundSize = '6000px';
+            banner.style.backgroundPosition = 'center center';
+          }
         };
       }
     );
