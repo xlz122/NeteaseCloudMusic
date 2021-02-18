@@ -15,12 +15,11 @@
             <i class="lv-icon-left">{{ userInfo?.level }}</i>
             <i class="lv-icon-right"></i>
           </p>
-          <button
-            class="btnwarp"
-            :class="{ 'disable-btnwarp': isSignIn }"
-            @click="signIn"
-          >
+          <button v-if="!isSignIn" class="btnwarp" @click="signIn">
             <i class="btnwarp-icon">签到</i>
+          </button>
+          <button v-else class="btnwarp disable-btnwarp">
+            <i class="btnwarp-icon">已签到</i>
           </button>
         </div>
       </div>
@@ -54,6 +53,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
+import { formatDateTime } from '@utils/utils';
 import { dailySignin } from '@api/home';
 import { ResponseType } from '@/types/types';
 
@@ -67,20 +67,41 @@ export default defineComponent({
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
 
+    // 重置签到
+    function resetSignIn(): boolean | undefined {
+      // 获取本地签到日期
+      const signInTimestamp = localStorage.getItem('signInTimestamp') || 0;
+      if (Number(signInTimestamp) === 0) {
+        return false;
+      }
+      const signInDay = formatDateTime(
+        Number(signInTimestamp) / 1000,
+        'yyyyMMdd'
+      );
+      // 获取今天日期
+      const today = formatDateTime(new Date().getTime() / 1000, 'yyyyMMdd');
+      // 今天大于签到日期
+      if (Number(today) > Number(signInDay)) {
+        $store.commit('setSignIn', false);
+      }
+    }
+    resetSignIn();
+
     // 是否已签到
     const isSignIn = computed(() => $store.getters.userInfo.pcSign);
 
     // 签到
-    function signIn(): boolean | undefined {
-      // 防止重复签到
-      if (isSignIn.value) {
-        return false;
-      }
+    function signIn(): void {
+      // 存储签到时间戳，用于重置签到
+      localStorage.setItem(
+        'signInTimestamp',
+        JSON.stringify(new Date().getTime())
+      );
       dailySignin().then((res: ResponseType) => {
         if (res.code === 200) {
           $store.commit('setSignIn', true);
         }
-      })
+      });
     }
 
     // 打开登录对话框
@@ -92,9 +113,9 @@ export default defineComponent({
       userInfo,
       isSignIn,
       signIn,
-      openLogin,
+      openLogin
     };
-  },
+  }
 });
 </script>
 

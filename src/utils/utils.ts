@@ -1,7 +1,35 @@
-/* eslint-disable */
-// @ts-nocheck
+/**
+ * @desc 日期字符串转时间戳
+ * @param { String} - 日期字符串
+ * @returns { Nubmer } 时间戳
+ */
+export function datestrToTimestamp(datestr: string): number {
+  return new Date(Date.parse(datestr.replace(/-/g, '/'))).getTime();
+}
+
+/**
+ * @desc 获取当前星期几
+ * @return { String } 星期几
+ */
+export function getWeekDate() {
+  const now = new Date();
+  const day = now.getDay();
+  const weeks = [
+    '星期日',
+    '星期一',
+    '星期二',
+    '星期三',
+    '星期四',
+    '星期五',
+    '星期六'
+  ];
+  const week = weeks[day];
+  return week;
+}
+
 /**
  * @desc 时间戳转视频时长
+ * @return { String } 视频时长 01:23:45
  */
 export function timeStampToDuration(timeStamp: number): string {
   const time = timeStamp.toString();
@@ -17,7 +45,7 @@ export function timeStampToDuration(timeStamp: number): string {
     }
   }
   // 补零
-  const zero = function (v: number) {
+  const zero = function(v: number) {
     return v >> 0 < 10 ? '0' + v : v;
   };
   const h2 = zero(h);
@@ -33,12 +61,12 @@ export function timeStampToDuration(timeStamp: number): string {
 }
 
 /**
- * @desc 日期格式化
+ * @desc 日期字符串格式化
  * @param { String | Date } - date 日期或者时间戳
  * @param { String } - fmt 格式化后的日期字符串格式
  */
 export function formatDateTime(
-  date: string | Date,
+  date: string | Date | number,
   fmt = 'yyyy-MM-dd hh:mm:ss'
 ) {
   if (!date) {
@@ -48,14 +76,13 @@ export function formatDateTime(
     date = new Date(date * 1000);
   }
   const o = {
-    'M+': (date as Date).getMonth() + 1, // 月份
-    'd+': (date as Date).getDate(), // 日
-    'h+': (date as Date).getHours(), // 小时
-    'm+': (date as Date).getMinutes(), // 分
-    's+': (date as Date).getSeconds(), // 秒
-    'q+': Math.floor(((date as Date).getMonth() + 3) / 3), // 季度
-    // eslint-disable-next-line
-    'S': (date as Date).getMilliseconds() // 毫秒
+    M: (date as Date).getMonth() + 1, // 月份
+    d: (date as Date).getDate(), // 日
+    h: (date as Date).getHours(), // 小时
+    m: (date as Date).getMinutes(), // 分
+    s: (date as Date).getSeconds(), // 秒
+    q: Math.floor(((date as Date).getMonth() + 3) / 3), // 季度
+    S: (date as Date).getMilliseconds() // 毫秒
   };
   if (/(y+)/.test(fmt)) {
     fmt = fmt
@@ -63,24 +90,18 @@ export function formatDateTime(
       .substr(4 - RegExp.$1.length);
   }
   for (const k in o) {
-    /* eslint-disable */
     if (new RegExp('(' + k + ')').test(fmt)) {
-      fmt = fmt
-        .replace(
-          RegExp.$1, (RegExp.$1.length == 1)
-          // @ts-ignore
-          ? o[k]
-          // @ts-ignore
-          : ('00' + o[k]).substr(('' + o[k]).length)
-        );
+      fmt = fmt.replace(
+        RegExp.$1,
+        RegExp.$1.length == 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
+      );
     }
-    /* eslint-enable */
   }
   return fmt;
 }
 
 /**
- * @desc 格式化日期字符串
+ * @desc 时间戳转日期字符串，主要用于评论时间
  * @param { Nubmer} - 时间戳
  * @returns { String } 格式化后的日期字符串
  */
@@ -147,8 +168,8 @@ export function formatDate(timestamp: number): string {
     new Date(new Date().toLocaleDateString()).getTime() - 2
   ).getTime();
   if (timestamp < threeDaysAgo) {
-    // eslint-disable-next-line
-    return `${date.getMonth() + 1}月${date.getDate()}日 ${date.getHours()}:${date.getMinutes()}`;
+    return `${date.getMonth() +
+      1}月${date.getDate()}日 ${date.getHours()}:${date.getMinutes()}`;
   }
 
   // 小于前天 23:59:59
@@ -178,13 +199,4 @@ export function formatDate(timestamp: number): string {
   }
 
   return '刚刚';
-}
-
-/**
- * @desc 日期字符串转时间戳
- * @param { String} - 日期字符串
- * @returns { Nubmer } 时间戳
- */
-export function datestrToTimestamp(datestr: string): number {
-  return new Date(Date.parse(datestr.replace(/-/g, '/'))).getTime();
 }
