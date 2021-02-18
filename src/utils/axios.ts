@@ -94,7 +94,7 @@ class HttpRequest {
 
 const Axios = new HttpRequest({
   baseURL: '/api'
-  // baseURL: 'https://wyy.wangpinpin.com/'
+  // baseURL: 'https://wyy.wangpinpin.com/' // 部署接口
 });
 
 export default Axios;

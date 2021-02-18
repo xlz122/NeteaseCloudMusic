@@ -4,9 +4,11 @@
 
 本项目后端部分使用 Binaryify 大神nodejs版的网易云API。
 
-网易云API项目github地址: [https://github.com/Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+本项目使用网易云API线上接口地址: [https://wyy.wangpinpin.com/](https://wyy.wangpinpin.com/)
 
-启动项目前，需将此项目下载，并安装依赖运行。
+如果线上地址不可用，需将网易云API项目下载到本地，并安装依赖运行，更改 vue.config.js 的代理地址更改为本地项目ip地址。
+
+网易云API项目github地址: [https://github.com/Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 
 如有问题，请联系QQ``122874722``。
 
