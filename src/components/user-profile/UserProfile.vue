@@ -15,7 +15,7 @@
             <i class="lv-icon-left">{{ userInfo?.level }}</i>
             <i class="lv-icon-right"></i>
           </p>
-          <button v-if="isSignIn" class="btnwarp" @click="signIn">
+          <button v-if="!isSignIn" class="btnwarp" @click="signIn">
             <i class="btnwarp-icon">签到</i>
           </button>
           <button v-else class="btnwarp disable-btnwarp">
