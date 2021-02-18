@@ -72,3 +72,59 @@ export const albumNewest = () => {
     params
   });
 };
+
+/**
+ * @desc 获取用户动态
+ * @param { Number } timestamp - 防止接口缓存
+ */
+export const userEvent = () => {
+  const params = { timestamp: new Date().getTime() };
+  return axios.request({
+    url: '/user/event',
+    method: 'get',
+    params
+  });
+};
+
+/**
+ * @desc 获取用户关注列表
+ * @param { Number } timestamp - 防止接口缓存
+ */
+export const userFollows = () => {
+  const params = { timestamp: new Date().getTime() };
+  return axios.request({
+    url: '/user/follows',
+    method: 'get',
+    params
+  });
+};
+
+/**
+ * @desc 获取用户粉丝列表
+ * @param { Number } timestamp - 防止接口缓存
+ */
+export const userFolloweds = () => {
+  const params = { timestamp: new Date().getTime() };
+  return axios.request({
+    url: '/user/followeds',
+    method: 'get',
+    params
+  });
+};
+
+/**
+ * @desc 获取用户粉丝列表
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } type - 签到类型 , 默认 0, 其中 0 为安卓端签到 ,1 为 web/PC 签到
+ */
+export const dailySignin = () => {
+  const params = {
+    timestamp: new Date().getTime(),
+    type: 1
+  };
+  return axios.request({
+    url: '/daily_signin',
+    method: 'get',
+    params
+  });
+};
