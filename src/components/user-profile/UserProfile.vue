@@ -15,12 +15,11 @@
             <i class="lv-icon-left">{{ userInfo?.level }}</i>
             <i class="lv-icon-right"></i>
           </p>
-          <button
-            class="btnwarp"
-            :class="{ 'disable-btnwarp': isSignIn }"
-            @click="signIn"
-          >
+          <button v-if="isSignIn" class="btnwarp" @click="signIn">
             <i class="btnwarp-icon">签到</i>
+          </button>
+          <button v-else class="btnwarp disable-btnwarp">
+            <i class="btnwarp-icon">已签到</i>
           </button>
         </div>
       </div>
@@ -71,11 +70,7 @@ export default defineComponent({
     const isSignIn = computed(() => $store.getters.userInfo.pcSign);
 
     // 签到
-    function signIn(): boolean | undefined {
-      // 防止重复签到
-      if (isSignIn.value) {
-        return false;
-      }
+    function signIn(): void {
       dailySignin().then((res: ResponseType) => {
         if (res.code === 200) {
           $store.commit('setSignIn', true);
