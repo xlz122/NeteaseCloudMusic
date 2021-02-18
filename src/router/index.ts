@@ -45,6 +45,25 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "download" */ '../views/download/Download.vue'
           )
       },
+      // 创作者中心
+      {
+        path: '/creator-center',
+        name: 'creator-center',
+        component: () =>
+          import(
+            /* webpackChunkName: "my-home-page" */ '../views/header/creator-center/CreatorCenter.vue'
+          )
+        // component: () => {
+        //   // 判断路由是否存在
+        //   if (location.href.includes(process.env.BASE_URL)) {
+        //     return window.open(
+        //       `${location.origin}${process.env.BASE_URL}/creator-center`,
+        //       '_blank'
+        //     );
+        //   }
+        //   return window.open(`${location.origin}/creator-center`, '_blank');
+        // }
+      },
       {
         path: '/my-home-page',
         name: 'my-home-page',
