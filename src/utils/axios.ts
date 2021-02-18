@@ -82,6 +82,10 @@ class HttpRequest {
         return Promise.resolve(data);
       },
       error => {
+        // cookie过期
+        if (error.status === 301) {
+          store.commit('setLogout');
+        }
         return Promise.reject(error);
       }
     );
@@ -90,6 +94,7 @@ class HttpRequest {
 
 const Axios = new HttpRequest({
   baseURL: '/api'
+  // baseURL: 'https://wyy.wangpinpin.com/'
 });
 
 export default Axios;

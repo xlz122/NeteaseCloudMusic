@@ -6,7 +6,6 @@
   <audio
     class="music-audio"
     ref="musicAudio"
-    :muted="audioData.muted"
     :autoplay="audioData.autoplay"
     :loop="audioData.loop"
     :volume="musicVolume"
@@ -69,33 +68,36 @@
         <div class="music-img">
           <img
             class="img"
-            v-if="playMusic?.al?.picUrl"
-            :src="playMusic?.al?.picUrl"
+            v-if="curPlayMusicData?.al?.picUrl"
+            :src="curPlayMusicData?.al?.picUrl"
           />
           <span class="default-img"></span>
         </div>
         <div class="play">
           <div class="play-info">
             <span class="music-name">
-              <span class="name">{{ playMusic?.name }}</span>
-              <span class="icon-mv" v-if="playMusic?.mv > 0"></span>
+              <span class="name">{{ curPlayMusicData?.name }}</span>
+              <span class="icon-mv" v-if="curPlayMusicData?.mv > 0"></span>
             </span>
             <span class="singer-name">
               <span
                 class="text"
-                v-for="(item, index) in playMusic?.ar"
+                v-for="(item, index) in curPlayMusicData?.ar"
                 :key="index"
               >
-                {{ item.name }}
-                <span class="line" v-if="index !== playMusic.ar.length - 1">
+                {{ item?.name }}
+                <span
+                  class="line"
+                  v-if="index !== curPlayMusicData.ar.length - 1"
+                >
                   /
                 </span>
               </span>
             </span>
-            <span class="link" v-if="playMusic.name"></span>
+            <span class="link" v-if="curPlayMusicData?.name"></span>
           </div>
           <div class="play-progress">
-            <play-progress-bar
+            <play-progress
               :loading="playMusicStatus.loading"
               :progressData="progressData"
               :stopProgress="stopProgress"
@@ -103,140 +105,70 @@
             />
           </div>
         </div>
-        <div class="oper">
-          <button class="btn collection-btn" title="收藏"></button>
-          <button class="btn share-btn" title="分享"></button>
-        </div>
-        <div class="other">
-          <button
-            class="btn volume-btn"
-            title="音量"
-            @click="volumeBar"
-          ></button>
-          <!-- 音量控制 -->
-          <volume-progress-bar v-if="volumeBarShow" />
-          <button
-            class="btn"
-            title="模式"
-            :class="[
-              { 'mode-single': modeType === 0 },
-              { 'mode-loop': modeType === 1 },
-              { 'mode-random': modeType === 2 }
-            ]"
-            @click="modeChange"
-          ></button>
-          <!-- 模式提示 -->
-          <div class="mode-tip" v-if="modeTipShow">
-            {{ modeType === 0 ? '单曲循环' : modeType === 1 ? '循环' : '随机' }}
-          </div>
-          <button
-            class="btn list-btn"
-            title="列表"
-            @click="setPlayListShow"
-          ></button>
-          <span class="list-text">{{ playMusicList?.length }}</span>
-        </div>
+        <other-tool />
       </div>
     </div>
-    <play-list
-      class="play-list"
-      :playListShow="playListShow"
-      :playMusicList="playMusicList"
-      :playMusicId="playMusicId"
-      :lyricString="lyricString"
-      :timeStamp="progressData.currentTime"
-      :playMusic="playMusic"
-      @playlistItem="playlistItem"
-      @closePlayList="closePlayList"
-      @mouseenter="mysicAudioEnter"
-    />
   </div>
 </template>
 
 <script lang="ts">
-  import {
-    defineComponent,
-    ref,
-    computed,
-    watch,
-    reactive,
-    onUnmounted, toRefs
-  } from 'vue';
+import {
+  defineComponent,
+  ref,
+  computed,
+  watch,
+  reactive,
+  onUnmounted,
+  onMounted
+} from 'vue';
 import { useStore } from 'vuex';
-import PlayList from './play-list/PlayList.vue';
+import { getPlayMusicUrl } from '@api/my-music';
 // 播放进度条
-import PlayProgressBar from './play-progress-bar/PlayProgressBar.vue';
-// 音量
-import VolumeProgressBar from './volume-progress-bar/VolumeProgressBar.vue';
-import {getLyric, getPlayMusicUrl} from '@api/my-music';
-import { ResponseType, LoopType } from '@/types/types';
+import PlayProgress from './play-progress/PlayProgress.vue';
+// 其他工具
+import OtherTool from './other-tool/OtherTool.vue';
+import { AudioData, ProgressData, ResponseType, LoopType } from '@/types/types';
 
-interface AudioData {
-  src: string;
-  muted: boolean;
-  autoplay: boolean;
-  loop: boolean;
-}
-
-interface ProgressData {
-  progress: number;
-  currentTime: number;
-  duration: number;
-  cacheProgress: number;
-}
-
-// 未完成功能：拖动比缓冲更快，需置为加载
 export default defineComponent({
   components: {
-    PlayList,
-    PlayProgressBar,
-    VolumeProgressBar
+    PlayProgress,
+    OtherTool
   },
   setup() {
     const $store = useStore();
 
     // 播放列表数据
-    const playMusicList = computed(() => $store.getters.playMusicList);
+    const playMusicList = computed(() => $store.getters['music/playMusicList']);
 
     // 当前播放音乐id
-    const playMusicId = computed(() => $store.getters.playMusicId);
+    const curPlayMusicId = computed<number>(
+      () => $store.getters['music/curPlayMusicId']
+    );
 
     // 当前播放数据
-    const playMusic = ref<unknown>({});
+    const curPlayMusicData = computed<unknown>(
+      () => $store.getters['music/curPlayMusicData']
+    );
 
-    const timeStamp=ref();
-
-    // 歌词
-    const lyricString=ref();
+    // 音量
+    const musicVolume = computed(() => $store.getters['music/musicVolume']);
 
     // 监听播放列表变化
     watch(
       () => playMusicList.value,
       () => {
-        playMusicSrc(playMusicId.value);
+        playMusicSrc(curPlayMusicId.value);
       },
       {
         deep: true
       }
     );
 
-    //歌词
-    function getLyricFun(){
-      lyricString.value='';
-      getLyric({
-        id:playMusicId.value,
-      }).then((res:any)=>{
-        lyricString.value=res;
-      })
-    }
-    // end
-
     // 播放器实例
     const musicAudio = ref<HTMLVideoElement>();
     // 播放地址
     const audioData = reactive<AudioData>({
       src: '', // 地址
-      muted: true, // 静音
       autoplay: true, // 自动播放
       loop: true // 循环播放
     });
@@ -257,6 +189,19 @@ export default defineComponent({
     // 播放进度更新
     const stopProgress = ref<boolean>(false);
 
+    // 初始化获取播放地址
+    onMounted(() => {
+      // 播放地址不存在，播放数据存在
+      const curMusicData = JSON.parse(JSON.stringify(curPlayMusicData.value));
+      if (!audioData.src && Object.keys(curMusicData).length > 0) {
+        getPlayMusicUrl({
+          id: curMusicData.id
+        }).then((res: ResponseType) => {
+          audioData.src = res?.data[0].url;
+        });
+      }
+    });
+
     // 获取播放地址
     function playMusicSrc(id: number): boolean | undefined {
       playMusicStatus.look = true;
@@ -276,14 +221,8 @@ export default defineComponent({
         // 播放地址
         audioData.src = res.data[0].url;
         startPlayMusic();
-        // 当前播放音乐数据
-        const musicData: unknown = playMusicList.value.find(
-          (item: LoopType) => item.id === playMusicId.value
-        );
-        playMusic.value = musicData;
         // 当前播放音乐id
-        $store.commit('setPlayMusicId', id);
-        getLyricFun();
+        $store.commit('music/setCurPlayMusicId', id);
       });
     }
 
@@ -294,7 +233,7 @@ export default defineComponent({
       }
       // 获取当前id索引
       const index: number = playMusicList.value.findIndex(
-        (item: LoopType) => item.id === playMusicId.value
+        (item: LoopType) => item.id === curPlayMusicId.value
       );
       let id = null;
       // 当前播放在列表存在，并且不是第一项
@@ -308,7 +247,7 @@ export default defineComponent({
         playMusicSrc(playMusicList.value[playMusicList.value.length - 1].id);
       }
       // 当前播放音乐id
-      $store.commit('setPlayMusicId', id);
+      $store.commit('music/setCurPlayMusicId', id);
     }
 
     // 下一首
@@ -318,7 +257,7 @@ export default defineComponent({
       }
       // 获取当前id索引
       const index: number = playMusicList.value.findIndex(
-        (item: LoopType) => item.id === playMusicId.value
+        (item: LoopType) => item.id === curPlayMusicId.value
       );
       let id = null;
       // 当前播放在列表存在，并且不是最后一项
@@ -332,12 +271,17 @@ export default defineComponent({
         playMusicSrc(playMusicList.value[0].id);
       }
       // 当前播放音乐id
-      $store.commit('setPlayMusicId', id);
+      $store.commit('music/setCurPlayMusicId', id);
     }
 
     // 播放/暂停切换
-    function lookPlayMusic(): void {
+    function lookPlayMusic(): boolean | undefined {
       playMusicStatus.look = !playMusicStatus.look;
+      // 播放数据不存在
+      const curMusicData = JSON.parse(JSON.stringify(curPlayMusicData.value));
+      if (Object.keys(curMusicData).length === 0) {
+        return false;
+      }
       if (playMusicStatus.look) {
         playMusicStatus.loading = true;
         startPlayMusic();
@@ -362,23 +306,39 @@ export default defineComponent({
       (musicAudio.value as HTMLVideoElement).pause();
     }
 
+    // 播放进度更新定时器
+    const playTimer = ref<number | null>(null);
+
     // 音频开始播放
     function musicPlaying(): void {
       // 关闭加载loading
       playMusicStatus.loading = false;
       // 计算播放进度
       const musicMp3 = musicAudio.value as HTMLVideoElement;
-      const timer = setInterval(() => {
+      // 清除已存在定时器
+      if (playTimer.value) {
+        clearInterval(playTimer.value as number);
+      }
+      playTimer.value = setInterval(() => {
         const progress = musicMp3.currentTime / musicMp3.duration;
         // 存储当前进度，当前播放时间，总进度
         progressData.progress = progress * 100;
         progressData.currentTime = musicMp3.currentTime || 0;
         progressData.duration = musicMp3.duration || 0;
+        // 音乐播放时间
+        $store.commit('music/setMusicPlayTime', progressData.currentTime);
         if (progressData.progress >= 100) {
-          clearInterval(timer);
+          clearInterval(playTimer.value as number);
         }
-      }, 1000);
+      }, 500);
     }
+
+    onUnmounted(() => {
+      // 清除已存在定时器
+      if (playTimer.value) {
+        clearInterval(playTimer.value as number);
+      }
+    });
 
     function handleProgressChange(value: number): boolean | undefined {
       // 播放器没有歌曲，没有播放歌曲，拖动会报错
@@ -415,43 +375,15 @@ export default defineComponent({
       nextPlayMusic();
     }
 
-    // 音量
-    const musicVolume = computed(() => $store.getters.musicVolume);
-    // 音量显隐
-    const volumeBarShow = ref<boolean>(false);
-    function volumeBar(): void {
-      volumeBarShow.value = !volumeBarShow.value;
-    }
-
-    // 模式切换
-    const modeType = ref<number>(0);
-    const modeTipShow = ref<boolean>(false);
-    function modeChange(): void {
-      modeTipShow.value = true;
-      if (modeType.value === 2) {
-        modeType.value = 0;
-      } else {
-        modeType.value++;
-      }
-      let timer = 0;
-      timer = setTimeout(() => {
-        modeTipShow.value = false;
-      }, 3000);
-      if (timer) {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          modeTipShow.value = false;
-        }, 3000);
-      }
-    }
-
     // 音乐播放器锁定在底部
-    const isMysicAudioLock = computed(() => $store.getters.isMysicAudioLock);
+    const isMysicAudioLock = computed(
+      () => $store.getters['music/isMysicAudioLock']
+    );
     function mysicAudioLock(): void {
       if (isMysicAudioLock.value) {
-        $store.commit('setIsMysicAudioLock', false);
+        $store.commit('music/setIsMysicAudioLock', false);
       } else {
-        $store.commit('setIsMysicAudioLock', true);
+        $store.commit('music/setIsMysicAudioLock', true);
       }
     }
     // 播放器鼠标移入事件
@@ -464,55 +396,19 @@ export default defineComponent({
       isMusicAudioEnter.value = true;
     }
 
-    // 显示播放列表
-    const playListShow = ref<boolean>(false);
-    function setPlayListShow(): void {
-      playListShow.value = !playListShow.value;
-    }
-
     // 播放器鼠标移出事件
     function mysicAudioLeave(): boolean | undefined {
       // 锁定之后不触发
       if (isMysicAudioLock.value) {
         return false;
       }
-      // 列表显示时不触发
-      if (playListShow.value) {
-        return false;
-      }
       isMusicAudioEnter.value = false;
     }
-
-    // 列表项播放
-    function playlistItem(id: number): void {
-      // 当前播放音乐id
-      $store.commit('setPlayMusicId', id);
-      playMusicSrc(id);
-    }
-
-    // 关闭播放列表
-    function closePlayList(): boolean | undefined {
-      playListShow.value = false;
-      // 锁定之后不触发
-      if (isMysicAudioLock.value) {
-        return false;
-      }
-      isMusicAudioEnter.value = false;
-    }
-
-    // 浏览器音频限制处理
-    function setAudioMuted(): void {
-      audioData.muted = false;
-    }
-    document.body.addEventListener('mousedown', setAudioMuted, false);
-
-    onUnmounted(() => {
-      document.body.removeEventListener('mousedown', setAudioMuted, false);
-    });
     return {
       playMusicList,
-      playMusicId,
-      playMusic,
+      curPlayMusicId,
+      curPlayMusicData,
+      musicVolume,
       musicAudio,
       audioData,
       playMusicStatus,
@@ -524,23 +420,12 @@ export default defineComponent({
       handleProgressChange,
       musicUpdateTime,
       musicPlayEnded,
-      volumeBar,
-      volumeBarShow,
-      musicVolume,
-      modeType,
-      modeTipShow,
-      modeChange,
       isMysicAudioLock,
       mysicAudioLock,
       isMusicAudioEnter,
       mysicAudioEnter,
       mysicAudioLeave,
-      musicPlaying,
-      setPlayListShow,
-      playListShow,
-      playlistItem,
-      closePlayList,
-      lyricString,
+      musicPlaying
     };
   }
 });

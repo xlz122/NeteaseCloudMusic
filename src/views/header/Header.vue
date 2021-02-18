@@ -31,7 +31,9 @@
             />
           </div>
           <div class="create">
-            <router-link class="link" to="">创作中心</router-link>
+            <router-link class="link" to="/creator-center" target="_blank">
+              创作中心
+            </router-link>
           </div>
           <div class="login" v-if="isLogin">
             <img class="user-img" :src="userInfo?.profile?.avatarUrl" />

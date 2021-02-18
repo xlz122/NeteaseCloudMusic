@@ -1,0 +1,271 @@
+.content {
+  padding: 20px 20px 40px;
+
+  .group {
+    .list-title {
+      position: relative;
+      height: 33px;
+      padding: 0 10px 0 34px;
+      background-position: -225px -156px;
+      border-bottom: 2px solid #c10d0c;
+      text-align: left;
+
+      .title {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 28px;
+        font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        font-weight: normal;
+        cursor: pointer;
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: -31px;
+          width: 34px;
+          height: 33px;
+          background: url('../../../assets/image/home/home-icon.png');
+          background-position: -225px -156px;
+        }
+      }
+
+      .tab {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0px 0 0 20px;
+
+        .item {
+          position: relative;
+          display: inline-block;
+          margin-left: 10px;
+          margin-right: 10px;
+          color: #666;
+          cursor: pointer;
+
+          &::after {
+            content: '|';
+            position: absolute;
+            top: 1px;
+            right: -10px;
+            width: 1px;
+            color: #666;
+          }
+        }
+
+        .first-item {
+          margin-left: 0;
+        }
+
+        .last-item {
+          &::after {
+            content: '';
+          }
+        }
+      }
+
+      .more {
+        position: absolute;
+        top: 50%;
+        right: 28px;
+        transform: translateY(-50%);
+        color: #666;
+        cursor: pointer;
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 2px;
+          right: -15px;
+          width: 12px;
+          height: 12px;
+          background: url('../../../assets/image/home/home-icon.png');
+          background-position: 0 -240px;
+        }
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .list-content {
+      margin-top: 20px;
+      text-align: left;
+
+      .item {
+        display: inline-block;
+        vertical-align: middle;
+        width: 140px;
+        height: 204px;
+        margin-right: 42px;
+        margin-bottom: 30px;
+
+        .item-top {
+          position: relative;
+          width: 140px;
+          height: 140px;
+          cursor: pointer;
+
+          .img {
+            width: 100%;
+            height: 100%;
+          }
+
+          .info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 27px;
+            background: url('../../../assets/image/home/coverall.png');
+            background-position: 0 -537px;
+            color: #ccc;
+
+            .info-icon {
+              position: absolute;
+              left: 0;
+              bottom: 8px;
+              width: 14px;
+              height: 11px;
+              background: url('../../../assets/image/music-audio/iconall.png');
+              background-position: 0 -24px;
+              margin: 0 5px 0 10px;
+            }
+
+            .num {
+              position: absolute;
+              left: 30px;
+              bottom: 6px;
+              display: inline-block;
+              vertical-align: middle;
+            }
+
+            .info-icon-right {
+              position: absolute;
+              right: 10px;
+              bottom: 5px;
+              width: 16px;
+              height: 17px;
+              background: url('../../../assets/image/music-audio/iconall.png');
+              background-position: 0 0;
+            }
+          }
+        }
+
+        .item-bottom {
+          margin: 8px 0 3px;
+          font-size: 14px;
+          color: #000;
+          text-align: left;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+
+          .radio-station {
+            float: left;
+            width: 35px;
+            height: 18px;
+            margin-right: 8px;
+            background: url('../../../assets/image/icon.png');
+            background-position: -31px -655px;
+          }
+
+          .text {
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: -1px;
+          }
+        }
+
+        .item-like {
+          width: 100%;
+          height: 30px;
+          color: #999;
+          margin-top: 3px;
+          font-style: normal;
+          text-align: left;
+          font-size: inherit;
+        }
+
+        .disable-like {
+          display: none;
+          width: 63px;
+          height: 26px;
+          margin-top: 0px;
+          text-align: center;
+          line-height: 26px;
+          background: url('../../../assets/image/home/home-icon.png');
+          background-position: 0 -130px;
+          color: #666;
+          border: none;
+          outline: none;
+          cursor: pointer;
+        }
+      }
+
+      .last-item {
+        margin-right: 0;
+      }
+
+      .individualization {
+        .item-top {
+          position: relative;
+
+          .img {
+            display: block;
+            background: url('../../../assets/image/home/date.png');
+            background-position: 0 0;
+            border: none;
+          }
+
+          .head {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            display: block;
+            height: 33px;
+            line-height: 33px;
+            color: #fed9d9;
+            font-size: 14px;
+            text-shadow: 0 -1px #962626;
+            text-align: center;
+          }
+
+          .head-text {
+            position: absolute;
+            top: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: block;
+            line-height: 102px;
+            text-align: center;
+            font-size: 94px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            color: #202020;
+          }
+
+          .mask {
+            position: absolute;
+            top: 33px;
+            left: 0;
+            width: 140px;
+            height: 107px;
+            background: url('../../../assets/image/home/date.png');
+            background-position: 0 -150px;
+          }
+        }
+        .item-bottom {
+          max-height: 36px;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}
