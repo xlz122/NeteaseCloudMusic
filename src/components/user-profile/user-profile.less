@@ -164,11 +164,13 @@
             cursor: pointer;
           }
         }
+
         .disable-btnwarp {
           margin-right: 43px;
           color: #bebebe;
           background-position: right -346px;
           cursor: default;
+
           .btnwarp-icon {
             width: 31px;
             color: #bebebe;
@@ -178,14 +180,27 @@
         }
       }
     }
+
     .list {
       margin-top: 22px;
       text-align: left;
+
       .item {
         display: inline-block;
         height: 40px;
         padding: 0 18px;
         border-right: 1px solid #e4e4e4;
+
+        &:hover {
+          .num {
+            color: #0c73c2;
+          }
+
+          .text {
+            color: #0c73c2;
+          }
+        }
+
         .num {
           display: block;
           font-size: 20px;
@@ -193,15 +208,18 @@
           color: #666;
           cursor: pointer;
         }
+
         .text {
           margin-left: 2px;
           color: #666;
           cursor: pointer;
         }
       }
+
       .first-item {
         margin-left: 8px;
       }
+
       .last-item {
         border: none;
       }
