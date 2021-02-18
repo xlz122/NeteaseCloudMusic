@@ -1,4 +1,5 @@
 <template>
+  <!-- 登录展示 -->
   <div class="my-music" v-if="isLogin">
     <div class="my-music-container">
       <div class="my-music-scroll">
@@ -10,6 +11,7 @@
       </div>
     </div>
   </div>
+  <!-- 未登录展示 -->
   <div class="my-music" v-else>
     <div class="my-music-login">
       <div class="login-content">
