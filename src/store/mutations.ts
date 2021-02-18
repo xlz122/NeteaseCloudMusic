@@ -28,6 +28,13 @@ const mutations: Mutations<State, unknown> = {
     state.isLogin = true;
     localStorage.setItem('isLogin', JSON.stringify(true));
   },
+  // 签到
+  setSignIn(state, signIn) {
+    const userInfo = JSON.parse(JSON.stringify(state.userInfo));
+    userInfo.signIn = signIn as boolean;
+    state.userInfo = userInfo as unknown;
+    localStorage.setItem('userInfo', JSON.stringify(userInfo));
+  },
   // 退出登录
   setLogout(state) {
     state.isLogin = false;

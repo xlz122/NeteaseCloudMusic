@@ -1,7 +1,9 @@
 <template>
+  <!-- 登录展示 -->
   <div class="friend" v-if="isLogin">
     朋友 - 登录后
   </div>
+  <!-- 未登录展示 -->
   <div class="friend" v-else>
     <div class="friend-login">
       <div class="login-content">
