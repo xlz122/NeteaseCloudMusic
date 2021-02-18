@@ -130,7 +130,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import {
   recommendSongList,
@@ -150,6 +150,17 @@ export default defineComponent({
 
     // 是否登录
     const isLogin = computed(() => $store.getters.isLogin);
+
+    // 监听登录，重新获取各项数据
+    watch(
+      () => isLogin.value,
+      (curVal: boolean) => {
+        if (curVal) {
+          getSongList();
+          getIndividualizat();
+        }
+      }
+    );
 
     // 获取热门推荐 - 推荐歌单数据(2项)
     const songListData = ref<unknown[]>([]);
