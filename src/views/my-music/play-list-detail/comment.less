@@ -456,3 +456,60 @@
     font-family: Arial, Helvetica, sans-serif;
   }
 }
+
+.auto-content{
+  position: relative;
+  background-color: #fff;
+  margin-left: 68px;
+  .e-emts{
+    position: absolute;
+    top: -20px;
+    left: -12px;
+    width: 260px;
+    height: 160px;
+    padding: 17px 17px 0 13px;
+    z-index: 100;
+    background: url(~@/assets/image/my-music/emtbg.png) no-repeat;
+    .emtwrap{
+      white-space: pre-wrap;
+      height: 130px;
+      span{
+        float: left;
+        width: 21px;
+        height: 21px;
+        margin: 1px 2px 2px 1px;
+        border: 1px solid #fff;
+        cursor: pointer;
+      }
+    }
+    .page{
+      margin-top: 2px;
+      text-align: center;
+      a{
+        width: 9px;
+        height: 9px;
+        position: relative;
+        top: 4px;
+        &.u-btn{
+          background: url(~@/assets/image/my-music/button.png) no-repeat 0 9999px;
+        }
+        &.u-btn-prv {
+          background-position: -110px 0;
+        }
+        &.u-btn-nxt {
+          background-position: -120px 0;
+        }
+      }
+      a,.text {
+        display: inline-block;
+        height: 15px;
+        margin: 0 16px;
+        vertical-align: middle;
+        line-height: 16px;
+      }
+      .s-fc3, a.s-fc3:hover {
+        color: #666;
+      }
+    }
+  }
+}
