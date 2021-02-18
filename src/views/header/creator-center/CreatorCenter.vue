@@ -1,5 +1,5 @@
 <template>
-  <div class="creator-center">
+  <div class="creator-center" v-if="isLogin">
     <div class="creator-container">
       <p class="title">创作者中心</p>
       <p class="desc">· 请选择身份进入管理平台 ·</p>
@@ -49,7 +49,66 @@
       </a>
     </div>
   </div>
+  <div class="creator-center" v-else>
+    <div class="creator-center-login">
+      <p class="login-title">请用你的云音乐帐号登录</p>
+      <div class="login-contet">
+        <div class="login">
+          <!-- 扫码登录 -->
+          <qrcode v-if="qrcodeLoginShow" @otherLogin="otherLogin" />
+          <!-- 其他登录方式 -->
+          <other v-else @qrcodeLogin="qrcodeLogin" />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
+
+<script lang="ts">
+import { defineComponent, ref, computed } from 'vue';
+import { useStore } from 'vuex';
+import Qrcode from '@views/login/Qrcode.vue';
+import Other from '@views/login/Other.vue';
+
+export default defineComponent({
+  components: {
+    Qrcode,
+    Other
+  },
+  setup() {
+    const $store = useStore();
+
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
+
+    // 扫码/其他登录方式切换
+    const qrcodeLoginShow = ref<boolean>(true);
+
+    // 切换扫码登录
+    function qrcodeLogin(): void {
+      qrcodeLoginShow.value = true;
+    }
+
+    // 切换其他方式登录
+    function otherLogin(): void {
+      qrcodeLoginShow.value = false;
+    }
+
+    // 关闭登录对话框
+    function dialogCancel(): void {
+      qrcodeLoginShow.value = true;
+      $store.commit('setLoginDialog', false);
+    }
+    return {
+      isLogin,
+      qrcodeLoginShow,
+      qrcodeLogin,
+      otherLogin,
+      dialogCancel
+    };
+  }
+});
+</script>
 
 <style lang="less" scoped>
 @import './creator-center.less';
