@@ -80,7 +80,7 @@ export default defineComponent({
         if (res.code === 200) {
           $store.commit('setSignIn', true);
         }
-      })
+      });
     }
 
     // 打开登录对话框
@@ -92,9 +92,9 @@ export default defineComponent({
       userInfo,
       isSignIn,
       signIn,
-      openLogin,
+      openLogin
     };
-  },
+  }
 });
 </script>
 
