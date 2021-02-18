@@ -27,7 +27,9 @@
             <input
               class="search-input"
               type="text"
-              placeholder="音乐/视频/电台/用户"
+              :placeholder="searchPlaceholder"
+              @focus="seachFocus"
+              @blur="seachBlur"
             />
           </div>
           <div class="create">
@@ -183,6 +185,18 @@ export default defineComponent({
       subNavActive.value = index;
     }
 
+    const searchPlaceholder = ref<string>('音乐/视频/电台/用户');
+
+    // 搜索框获取焦点
+    function seachFocus(): void {
+      searchPlaceholder.value = '';
+    }
+
+    // 搜索框失去焦点
+    function seachBlur(): void {
+      searchPlaceholder.value = '音乐/视频/电台/用户';
+    }
+
     // 登录弹框显隐
     const dialogvisible = ref<boolean>(false);
 
@@ -199,6 +213,9 @@ export default defineComponent({
       subNavList,
       subNavActive,
       subNavChange,
+      searchPlaceholder,
+      seachFocus,
+      seachBlur,
       dialogvisible,
       openLogin
     };
