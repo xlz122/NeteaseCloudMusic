@@ -51,7 +51,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'creator-center',
         component: () =>
           import(
-            /* webpackChunkName: "my-home-page" */ '../views/header/creator-center/CreatorCenter.vue'
+            /* webpackChunkName: "creator-center" */ '../views/header/creator-center/CreatorCenter.vue'
           )
         // component: () => {
         //   // 判断路由是否存在
