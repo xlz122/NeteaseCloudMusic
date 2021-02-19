@@ -84,8 +84,8 @@
         <li class="item individualization">
           <div class="item-top">
             <i class="img"></i>
-            <span class="head">星期日</span>
-            <span class="head-text">7</span>
+            <span class="head">{{ weekText }}</span>
+            <span class="head-text">{{ dateText }}</span>
             <span class="mask"></span>
           </div>
           <div class="item-bottom" title="每日歌曲推荐">每日歌曲推荐</div>
@@ -139,6 +139,7 @@ import {
 } from '@api/home';
 // 新碟上架
 import AlbumNewest from './album-newest/AlbumNewest.vue';
+import { getWeekDate, formatDateTime } from '@utils/utils';
 import { ResponseType } from '@/types/types';
 
 export default defineComponent({
@@ -162,7 +163,7 @@ export default defineComponent({
       }
     );
 
-    // 获取热门推荐 - 推荐歌单数据(2项)
+    // 获取热门推荐 - 推荐歌单数据
     const songListData = ref<unknown[]>([]);
     function getSongList() {
       // 登录只获取两条，未登录获取5条
@@ -206,11 +207,21 @@ export default defineComponent({
       });
     }
     getIndividualizat();
+
+    // 获取当前星期几
+    const weekText = ref<string>('');
+    weekText.value = getWeekDate();
+
+    // 获取当前日期
+    const dateText = ref<string>('');
+    dateText.value = formatDateTime(new Date().getTime() / 1000, 'd');
     return {
       isLogin,
       songListData,
       djprogramData,
-      individualizatData
+      individualizatData,
+      weekText,
+      dateText
     };
   }
 });
