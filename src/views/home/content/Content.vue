@@ -125,6 +125,7 @@
         <span class="title">榜单</span>
         <span class="more">更多</span>
       </div>
+      <song-list />
     </div>
   </div>
 </template>
@@ -139,12 +140,15 @@ import {
 } from '@api/home';
 // 新碟上架
 import AlbumNewest from './album-newest/AlbumNewest.vue';
+// 榜单
+import SongList from './song-list/SongList.vue';
 import { getWeekDate, formatDateTime } from '@utils/utils';
 import { ResponseType } from '@/types/types';
 
 export default defineComponent({
   components: {
-    AlbumNewest
+    AlbumNewest,
+    SongList
   },
   setup() {
     const $store = useStore();
