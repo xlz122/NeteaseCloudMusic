@@ -21,7 +21,11 @@
           </div>
         </li>
       </ul>
-      <a class="apply-link">
+      <a
+        class="apply-link"
+        href="https://music.163.com/st/musician"
+        target="_blank"
+      >
         <i class="apply-icon">申请成为网易音乐人</i>
       </a>
       <!-- 热门主播 -->
