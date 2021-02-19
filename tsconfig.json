@@ -8,6 +8,7 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "suppressImplicitAnyIndexErrors":true, // 关闭 key[value] 报错
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
