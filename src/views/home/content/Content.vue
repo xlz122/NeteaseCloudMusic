@@ -218,7 +218,7 @@ export default defineComponent({
 
     // 获取当前日期
     const dateText = ref<string>('');
-    dateText.value = formatDateTime(new Date().getTime() / 1000, 'd');
+    dateText.value = formatDateTime(new Date().getTime() / 1000, 'dd');
     return {
       isLogin,
       songListData,
