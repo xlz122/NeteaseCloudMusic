@@ -1,5 +1,3 @@
-/* eslint-disable */
-// @ts-nocheck
 /**
  * @desc 时间戳转视频时长
  */
@@ -17,7 +15,7 @@ export function timeStampToDuration(timeStamp: number): string {
     }
   }
   // 补零
-  const zero = function (v: number) {
+  const zero = function(v: number) {
     return v >> 0 < 10 ? '0' + v : v;
   };
   const h2 = zero(h);
@@ -38,7 +36,7 @@ export function timeStampToDuration(timeStamp: number): string {
  * @param { String } - fmt 格式化后的日期字符串格式
  */
 export function formatDateTime(
-  date: string | Date,
+  date: string | Date | number,
   fmt = 'yyyy-MM-dd hh:mm:ss'
 ) {
   if (!date) {
