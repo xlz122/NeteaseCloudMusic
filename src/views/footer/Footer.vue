@@ -142,7 +142,7 @@ export default defineComponent({
   setup() {
     // 意见反馈
     function feedback(): void {
-      alert('意见反馈');
+      console.log('意见反馈');
     }
     return {
       feedback

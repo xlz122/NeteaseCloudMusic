@@ -61,7 +61,7 @@ export function timeStampToDuration(timeStamp: number): string {
 }
 
 /**
- * @desc 日期字符串格式化
+ * @desc 日期字符串/时间戳，转格式化后的日期字符串
  * @param { String | Date } - date 日期或者时间戳
  * @param { String } - fmt 格式化后的日期字符串格式
  */
@@ -76,12 +76,12 @@ export function formatDateTime(
     date = new Date(date * 1000);
   }
   const o = {
-    M: (date as Date).getMonth() + 1, // 月份
-    d: (date as Date).getDate(), // 日
-    h: (date as Date).getHours(), // 小时
-    m: (date as Date).getMinutes(), // 分
-    s: (date as Date).getSeconds(), // 秒
-    q: Math.floor(((date as Date).getMonth() + 3) / 3), // 季度
+    'M+': (date as Date).getMonth() + 1, // 月份
+    'd+': (date as Date).getDate(), // 日
+    'h+': (date as Date).getHours(), // 小时
+    'm+': (date as Date).getMinutes(), // 分
+    's+': (date as Date).getSeconds(), // 秒
+    'q+': Math.floor(((date as Date).getMonth() + 3) / 3), // 季度
     S: (date as Date).getMilliseconds() // 毫秒
   };
   if (/(y+)/.test(fmt)) {

@@ -53,16 +53,16 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
-import { formatDateTime } from '@utils/utils';
 import { dailySignin } from '@api/home';
 import { ResponseType } from '@/types/types';
+import { formatDateTime } from '@utils/utils';
 
 export default defineComponent({
   setup() {
     const $store = useStore();
 
     // 是否登录
-    const isLogin = computed(() => $store.getters.isLogin);
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
@@ -88,7 +88,7 @@ export default defineComponent({
     resetSignIn();
 
     // 是否已签到
-    const isSignIn = computed(() => $store.getters.userInfo.pcSign);
+    const isSignIn = computed<boolean>(() => $store.getters.userInfo.pcSign);
 
     // 签到
     function signIn(): void {
