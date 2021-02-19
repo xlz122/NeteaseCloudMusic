@@ -1,0 +1,186 @@
+.song-list {
+  height: 472px;
+  margin-top: 20px;
+  background: url('../../../../assets/image/home/song-list-bg.png') no-repeat;
+  text-align: left;
+
+  .group {
+    display: inline-block;
+    vertical-align: top;
+    width: 230px;
+
+    .top {
+      height: 100px;
+      padding: 20px 0 0 19px;
+
+      .top-img {
+        display: inline-block;
+        vertical-align: top;
+        width: 80px;
+        height: 80px;
+
+        .img {
+          display: block;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .title {
+        display: inline-block;
+        vertical-align: top;
+        width: 116px;
+        margin: 6px 0 0 10px;
+
+        .t-text {
+          width: 100%;
+          color: #333;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .btns {
+          margin-top: 10px;
+
+          .btn-play {
+            display: block;
+            float: left;
+            width: 22px;
+            height: 22px;
+            margin-right: 10px;
+            background: url('../../../../assets/image/home/home-icon.png');
+            background-position: -267px -205px;
+            text-indent: -9999px;
+            cursor: pointer;
+          }
+
+          .btn-collection {
+            display: block;
+            float: left;
+            width: 22px;
+            height: 22px;
+            margin-right: 10px;
+            background: url('../../../../assets/image/home/home-icon.png');
+            background-position: -300px -205px;
+            text-indent: -9999px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+
+    .list {
+      height: 319px;
+      margin-left: 50px;
+      line-height: 32px;
+
+      .item {
+        height: 32px;
+
+        &:hover {
+          .text {
+            width: 96px;
+          }
+          .operate {
+            display: inline-block;
+          }
+        }
+
+        .num {
+          display: inline-block;
+          vertical-align: middle;
+          position: relative;
+          width: 35px;
+          height: 32px;
+          margin-left: -35px;
+          text-align: center;
+          color: #666;
+          font-size: 16px;
+        }
+
+        .topThree {
+          color: #c10d0c;
+        }
+
+        .text {
+          display: inline-block;
+          vertical-align: middle;
+          width: 170px;
+          height: 32px;
+          color: #000;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          cursor: pointer;
+        }
+
+        .operate {
+          display: none;
+          vertical-align: middle;
+          width: 82px;
+
+          .operate-play {
+            display: inline-block;
+            vertical-align: middle;
+            width: 17px;
+            height: 17px;
+            margin-right: 10px;
+            background: url('../../../../assets/image/home/home-icon.png');
+            background-position: -267px -268px;
+            cursor: pointer;
+
+            &:hover {
+              background-position: -267px -288px;
+            }
+          }
+
+          .operate-add {
+            display: inline-block;
+            vertical-align: middle;
+            width: 17px;
+            height: 17px;
+            margin: 2px 6px 0 0;
+            background: url('../../../../assets/image/icon.png');
+            background-position: 0 -700px;
+            cursor: pointer;
+
+            &:hover {
+              background-position: -22px -700px;
+            }
+          }
+
+          .operate-collection {
+            display: inline-block;
+            vertical-align: middle;
+            width: 17px;
+            height: 17px;
+            margin-right: 10px;
+            background: url('../../../../assets/image/home/home-icon.png');
+            background-position: -297px -268px;
+            cursor: pointer;
+
+            &:hover {
+              background-position: -297px -288px;
+            }
+          }
+        }
+      }
+    }
+
+    .more {
+      bottom: 10px;
+      height: 32px;
+      margin-right: 32px;
+      text-align: right;
+      line-height: 32px;
+      color: #000;
+      cursor: pointer;
+    }
+  }
+}
