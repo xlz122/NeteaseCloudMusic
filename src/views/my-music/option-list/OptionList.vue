@@ -141,7 +141,16 @@ export default defineComponent({
     }
 
     // 收藏歌单项点击
-    function collectionListClick(id: number): void {
+    function collectionListClick(id: number): boolean | undefined {
+      // 收藏的歌单被全部删除
+      if (id === 0) {
+        // 选中我喜欢的音乐
+        const createSongList = JSON.parse(JSON.stringify(songList.createSongList));
+        createListClick(createSongList[0].id);
+        // 隐藏收藏的歌单
+        optionsCount.collectionPlayCount = 0;
+        return false;
+      }
       const musicDetail = JSON.parse(JSON.stringify(musicDetailOptions.value));
       for (const value in musicDetail) {
         musicDetail[value] = false;

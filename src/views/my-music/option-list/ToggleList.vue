@@ -4,7 +4,7 @@
       <div class="title-left" @click="listToggle">
         <i class="icon-arrow" :class="{ 'icon-arrow-down': listShow }"></i>
         <h2 class="text">{{ title }}</h2>
-        <h2 class="text-num">({{ listCount }})</h2>
+        <h2 class="text-num">({{ propsListCount }})</h2>
       </div>
       <div
         class="title-right"
@@ -90,8 +90,9 @@ export default defineComponent({
     }
   } as unknown) as undefined,
   emits: ['listClick'],
-  setup(props: { listData: LoopType }, { emit }) {
+  setup(props: { listData: LoopType; listCount: number }, { emit }) {
     const propsListData = ref<LoopType>(props.listData);
+    const propsListCount = ref<number>(props.listCount);
 
     const $store = useStore();
 
@@ -154,6 +155,8 @@ export default defineComponent({
       if (params.type === 'delete') {
         deletePlayList({ id: dialogeData.id }).then((res: ResponseType) => {
           if (res.code === 200) {
+            // 总数减少
+            propsListCount.value--;
             // 获取上一项id
             const index = propsListData.value.findIndex(
               (item: LoopType) => item.id === dialogeData.id
@@ -161,7 +164,11 @@ export default defineComponent({
             // 删除列表项
             propsListData.value.splice(index, 1);
             // 获取歌单详情
-            const id = propsListData.value[index - 1].id;
+            let id = propsListData.value[index - 1]?.id || 0;
+            // 上一项id不存在，但是列表还存在数据
+            if (!id && propsListData.value.length !== 0) {
+              id = propsListData.value[0].id;
+            }
             emit('listClick', id);
           }
         });
@@ -174,6 +181,7 @@ export default defineComponent({
     }
     return {
       propsListData,
+      propsListCount,
       activeSongListId,
       listShow,
       listToggle,
