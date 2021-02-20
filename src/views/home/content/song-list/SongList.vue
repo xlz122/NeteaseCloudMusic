@@ -25,7 +25,7 @@
             :key="ind"
           >
             <span class="num" :class="{ topThree: ind < 3 }">
-              {{ ind }}
+              {{ ind + 1 }}
             </span>
             <p class="text">{{ i?.name }}</p>
             <div class="operate">
