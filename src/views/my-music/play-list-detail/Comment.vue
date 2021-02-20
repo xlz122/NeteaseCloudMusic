@@ -255,8 +255,8 @@ import {
   songSheetLike,
   replySongSheetComment
 } from '@api/my-music';
-import { formatDate } from '@utils/utils';
 import { ResponseType, LoopType } from '@/types/types';
+import { formatDate } from '@utils/utils';
 
 export default defineComponent({
   components: {

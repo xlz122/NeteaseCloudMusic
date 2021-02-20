@@ -1,7 +1,16 @@
 <template>
   <!-- 登录展示 -->
   <div class="friend" v-if="isLogin">
-    朋友 - 登录后
+    <div class="friend-container">
+      <!-- 主体内容 -->
+      <div class="container-content">
+        <friend-content />
+      </div>
+      <!-- 侧边栏 -->
+      <div class="container-side">
+        <side />
+      </div>
+    </div>
   </div>
   <!-- 未登录展示 -->
   <div class="friend" v-else>
@@ -16,8 +25,14 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
+import FriendContent from './content/Content.vue';
+import Side from './side/Side.vue';
 
 export default defineComponent({
+  components: {
+    FriendContent,
+    Side
+  },
   setup() {
     const $store = useStore();
 
