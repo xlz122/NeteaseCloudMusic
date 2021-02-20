@@ -18,6 +18,7 @@ export type LoopType = Record<string, any>;
 
 // 歌单选项列表统计数
 export interface OptionsCount {
+  subPlayListCount: number;
   myMvCount: number;
   createdPlayCount: number;
   collectionPlayCount: number;

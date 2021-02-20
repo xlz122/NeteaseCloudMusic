@@ -11,6 +11,7 @@ export interface State {
 }
 
 export interface MusicDetailOptions {
+  subPlayList: boolean;
   myMv: boolean;
   playListDetail: boolean;
 }
@@ -25,6 +26,7 @@ function faultTolerant(name: string) {
 const state: State = {
   activeSongListId: faultTolerant('activeSongListId') || 0, // 我的音乐 - 侧边歌单列表选中项id
   musicDetailOptions: {
+    subPlayList: false,
     myMv: false,
     playListDetail: false
   }, // 我的音乐 - 详情显示

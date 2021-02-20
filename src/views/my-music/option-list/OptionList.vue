@@ -1,4 +1,13 @@
 <template>
+  <!-- 我的歌手 -->
+  <h2
+    v-if="optionsCount.subPlayListCount > 0"
+    class="music-my-singer"
+    :class="{ 'music-my-singer-active': musicDetailOptions.subPlayList }"
+    @click="subPlayListClick"
+  >
+    我的歌手({{ optionsCount.subPlayListCount }})
+  </h2>
   <!-- 我的视频 -->
   <h2
     class="music-my-mv"
@@ -27,7 +36,7 @@
 
 <script lang="ts">
 /* eslint-disable */
-import { defineComponent, ref, reactive, computed } from 'vue';
+import { defineComponent, reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 import ToggleList from './ToggleList.vue';
 import { userSubcount, userPlayList, playListDetail } from '@api/my-music';
@@ -47,6 +56,7 @@ export default defineComponent({
     const activeSongListId = computed(() => $store.getters['music/activeSongListId']);
 
     const optionsCount = reactive<OptionsCount>({
+      subPlayListCount: 0, // 我的视频数量
       myMvCount: 0, // 我的视频数量
       createdPlayCount: 0, // 创建歌单数量
       collectionPlayCount: 0 // 创建歌单数量
@@ -55,6 +65,7 @@ export default defineComponent({
     // 获取歌单，收藏，mv, dj 数量
     function getUserSubcount(): void {
       userSubcount().then((res: ResponseType) => {
+        optionsCount.subPlayListCount = res.subPlaylistCount || 0;
         optionsCount.myMvCount = res.mvCount || 0;
         optionsCount.createdPlayCount = res.createdPlaylistCount || 0;
         optionsCount.collectionPlayCount = res.subPlaylistCount || 0;
@@ -103,11 +114,26 @@ export default defineComponent({
             getSongListDetail(activeSongListId.value);
           } else {
             getSongListDetail(res.playlist[0].id);
+            // 左侧选中
+            $store.commit('music/setActiveSongListId', res.playlist[0].id);
           }
         }
       });
     }
     getUserPlayList();
+
+    // 我的歌手点击
+    function subPlayListClick(): void {
+      const musicDetail = JSON.parse(JSON.stringify(musicDetailOptions.value));
+      for (const value in musicDetail) {
+        musicDetail[value] = false;
+      }
+      musicDetail.subPlayList = true;
+      $store.commit('music/setMusicDetailOptions', musicDetail);
+
+      // 取消其他项选中
+      $store.commit('music/setActiveSongListId', -1);
+    }
 
     // 我的视频点击
     function myMvClick(): void {
@@ -184,6 +210,7 @@ export default defineComponent({
       musicDetailOptions,
       optionsCount,
       songList,
+      subPlayListClick,
       myMvClick,
       createListClick,
       collectionListClick

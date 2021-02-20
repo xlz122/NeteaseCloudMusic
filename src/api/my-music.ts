@@ -16,6 +16,21 @@ export const userSubcount = () => {
 };
 
 /**
+ * @desc 获取我的歌手列表
+ * @param { Number } timestamp - 防止接口缓存
+ */
+export const subPlayList = () => {
+  const params = {
+    timestamp: new Date().getTime()
+  };
+  return axios.request({
+    url: '/artist/sublist',
+    method: 'get',
+    params
+  });
+};
+
+/**
  * @desc 获取我的视频列表
  * @param { Number } timestamp - 防止接口缓存
  */

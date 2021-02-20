@@ -6,6 +6,7 @@
         <option-list />
       </div>
       <div class="my-music-main">
+        <sub-play-list v-if="musicDetailOptions.subPlayList" />
         <my-mv v-if="musicDetailOptions.myMv" />
         <play-list-detail v-if="musicDetailOptions.playListDetail" />
       </div>
@@ -25,12 +26,14 @@
 import { defineComponent, computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import OptionList from '@views/my-music/option-list/OptionList.vue';
+import SubPlayList from '@views/my-music/sub-play-list/SubPlayList.vue';
 import MyMv from '@views/my-music/my-mv/MyMv.vue';
 import PlayListDetail from '@views/my-music/play-list-detail/PlayListDetail.vue';
 
 export default defineComponent({
   components: {
     OptionList,
+    SubPlayList,
     MyMv,
     PlayListDetail
   },

@@ -176,7 +176,6 @@ export default defineComponent({
 
     onUnmounted(() => {
       if (bannerTimer.value) {
-        console.log('清除定时器');
         // 清除定时器
         clearInterval(bannerTimer.value as number);
       }
