@@ -21,15 +21,15 @@
           :class="{ 'last-item': songListData.length > 2 && index === 3 }"
         >
           <div class="item-top">
-            <img class="img" :src="`${item.picUrl}?param=140y140`" alt="" />
+            <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
             <div class="info">
               <i class="info-icon"></i>
-              <span class="num">{{ item.playCount }}</span>
+              <span class="num">{{ item?.playCount }}</span>
               <i class="info-icon-right"></i>
             </div>
           </div>
-          <div class="item-bottom" :title="item.name">
-            {{ item.name }}
+          <div class="item-bottom" :title="item?.name">
+            {{ item?.name }}
           </div>
         </li>
         <!-- 登录后展示个性化推荐 -->
@@ -41,15 +41,15 @@
             :class="{ 'last-item': index === 1 }"
           >
             <div class="item-top">
-              <img class="img" :src="`${item.picUrl}?param=140y140`" alt="" />
+              <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
               <div class="info">
                 <i class="info-icon"></i>
-                <span class="num">{{ item.playcount }}</span>
+                <span class="num">{{ item?.playcount }}</span>
                 <i class="info-icon-right"></i>
               </div>
             </div>
-            <div class="item-bottom" :title="item.name">
-              {{ item.name }}
+            <div class="item-bottom" :title="item?.name">
+              {{ item?.name }}
             </div>
           </li>
         </template>
@@ -61,16 +61,16 @@
           :class="{ 'last-item': index === 2 }"
         >
           <div class="item-top">
-            <img class="img" :src="`${item.picUrl}?param=140y140`" alt="" />
+            <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
             <div class="info">
               <i class="info-icon"></i>
               <span class="num">{{ item?.program?.adjustedPlayCount }}</span>
               <i class="info-icon-right"></i>
             </div>
           </div>
-          <div class="item-bottom" :title="item.name">
+          <div class="item-bottom" :title="item?.name">
             <span class="radio-station"></span>
-            {{ item.name }}
+            {{ item?.name }}
           </div>
         </li>
       </ul>
@@ -98,17 +98,17 @@
           :class="{ 'last-item': index === individualizatData.length - 1 }"
         >
           <div class="item-top">
-            <img class="img" :src="`${item.picUrl}?param=140y140`" alt="" />
+            <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
             <div class="info">
               <i class="info-icon"></i>
-              <span class="num">{{ item.playcount }}</span>
+              <span class="num">{{ item?.playcount }}</span>
               <i class="info-icon-right"></i>
             </div>
           </div>
-          <div class="item-bottom" :title="item.name">
-            {{ item.name }}
+          <div class="item-bottom" :title="item?.name">
+            {{ item?.name }}
           </div>
-          <em class="item-like">{{ item.copywriter }}</em>
+          <em class="item-like">{{ item?.copywriter }}</em>
           <button class="disable-like">不感兴趣</button>
         </li>
       </ul>
@@ -133,17 +133,17 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
+// 新碟上架
+import AlbumNewest from './album-newest/AlbumNewest.vue';
+// 榜单
+import SongList from './song-list/SongList.vue';
 import {
   recommendSongList,
   recommendDjprogram,
   recommendResource
 } from '@api/home';
-// 新碟上架
-import AlbumNewest from './album-newest/AlbumNewest.vue';
-// 榜单
-import SongList from './song-list/SongList.vue';
-import { getWeekDate, formatDateTime } from '@utils/utils';
 import { ResponseType } from '@/types/types';
+import { getWeekDate, formatDateTime } from '@utils/utils';
 
 export default defineComponent({
   components: {
@@ -170,7 +170,7 @@ export default defineComponent({
     // 获取热门推荐 - 推荐歌单数据
     const songListData = ref<unknown[]>([]);
     function getSongList() {
-      // 登录只获取两条，未登录获取5条
+      // 已登录只获取两条，未登录获取5条
       let limit = 0;
       if (isLogin.value) {
         limit = 2;

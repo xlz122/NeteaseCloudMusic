@@ -2,7 +2,7 @@
 <!-- 热门主播接口未找到 -->
 <template>
   <div class="side">
-    <!-- 个人信息部分 -->
+    <!-- 个人信息 -->
     <user-profile />
     <div class="side-content">
       <!-- 入驻歌手 -->
@@ -13,7 +13,11 @@
       <ul class="list">
         <li class="item">
           <div class="item-img">
-            <img class="img" src="" alt="" />
+            <img
+              class="img"
+              src="http://p2.music.126.net/p9U80ex1B1ciPFa125xV5A==/5931865232210340.jpg?param=62y62"
+              alt=""
+            />
           </div>
           <div class="info">
             <h4 class="info-title">张惠妹aMEI</h4>
@@ -35,7 +39,11 @@
       <ul class="list anchor-list">
         <li class="item">
           <div class="item-img">
-            <img class="img" src="" alt="" />
+            <img
+              class="img"
+              src="http://p1.music.126.net/H3QxWdf0eUiwmhJvA4vrMQ==/1407374893913311.jpg?param=40y40"
+              alt=""
+            />
           </div>
           <div class="info">
             <h4 class="info-title">陈立</h4>

@@ -99,7 +99,7 @@ export default defineComponent({
           musicDetail.playListDetail = true;
           $store.commit('music/setMusicDetailOptions', musicDetail);
 
-          if (activeSongListId.value) {
+          if (activeSongListId.value >= 0) {
             getSongListDetail(activeSongListId.value);
           } else {
             getSongListDetail(res.playlist[0].id);

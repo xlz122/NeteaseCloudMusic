@@ -27,7 +27,7 @@
             <span class="num" :class="{ topThree: ind < 3 }">
               {{ ind }}
             </span>
-            <p class="text">{{ i.name }}</p>
+            <p class="text">{{ i?.name }}</p>
             <div class="operate">
               <i class="operate-play" title="播放"></i>
               <i class="operate-add" title="添加到播放列表"></i>

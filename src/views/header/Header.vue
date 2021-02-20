@@ -15,8 +15,8 @@
             ]"
             @click="navChange(index)"
           >
-            <router-link class="link" :to="item.link">
-              {{ item.title }}
+            <router-link class="link" :to="item?.link">
+              {{ item?.title }}
             </router-link>
             <i class="hot" v-if="index === navList.length - 1"></i>
           </li>
@@ -61,7 +61,7 @@
             ]"
             @click="subNavChange(index)"
           >
-            <router-link class="link" to="">{{ item.title }}</router-link>
+            <router-link class="link" to="">{{ item?.title }}</router-link>
             <i class="white-icon" v-if="index === 2"></i>
           </li>
         </ul>
@@ -129,7 +129,9 @@ export default defineComponent({
     ]);
 
     // 导航当前选中项
-    const heaerActiveIndex = computed(() => $store.getters.heaerActiveIndex);
+    const heaerActiveIndex = computed<number>(
+      () => $store.getters.heaerActiveIndex
+    );
 
     // 导航更改
     function navChange(index: number): void {
@@ -143,7 +145,11 @@ export default defineComponent({
         const index = navList.value.findIndex(
           (item: LoopType) => item.link === path
         );
-        $store.commit('setHeaderActiveIndex', index);
+        if (index !== -1) {
+          $store.commit('setHeaderActiveIndex', index);
+        } else {
+          $store.commit('setHeaderActiveIndex', 0);
+        }
       },
       {
         immediate: true
