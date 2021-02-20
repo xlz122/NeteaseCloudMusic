@@ -58,6 +58,8 @@ export default defineComponent({
     }
     return {
       timeStampToDuration,
+      myMvCount,
+      myMvList,
       myMvplay
     };
   }
