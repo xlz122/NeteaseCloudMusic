@@ -17,7 +17,7 @@
     </div>
     <div class="operate">
       <div class="operate-icon">
-        <i class="icon expression"></i>
+        <i @click="isEmoj=!isEmoj" class="icon expression"></i>
         <i class="icon att"></i>
       </div>
       <div class="operate-publish">
@@ -25,6 +25,21 @@
           {{ commentTextLength }}
         </span>
         <button class="publish" @click="commentSubmit">评论</button>
+      </div>
+    </div>
+    <!--表情-->
+    <div v-if="isEmoj" class="auto-content">
+      <div class="e-emts">
+        <div class="emtwrap">
+          <span v-for="(item,index) in emoList" :key="index">
+            <img :src="item" @click="chooseEmoj(item,index)" />
+          </span>
+        </div>
+        <div class="page">
+          <a @click="add(0)" href="#" hidefocus="true" class="j-flag u-btn u-btn-prv" id="auto-id-d414v9B35WEzCRTC"></a>
+            <span class="j-flag text s-fc3">{{current}}/{{total}}</span>
+          <a @click="add(1)" href="#" hidefocus="true" class="j-flag u-btn u-btn-nxt" id="auto-id-hDGi7NQeJN29A4Tg"></a>
+        </div>
       </div>
     </div>
     <!-- 精彩评论 -->
@@ -126,7 +141,8 @@
             <span class="name">
               {{ item?.user?.nickname }}
             </span>
-            <span class="text">: {{ item?.content }}</span>
+<!--            <span class="text">: {{ item?.content }}</span>-->
+            <div class="text" v-html="item.content"></div>
           </div>
           <!-- 他人回复部分 -->
           <template v-if="item?.beReplied.length > 0">
@@ -249,8 +265,41 @@ export default defineComponent({
       }
     );
 
+    //表情
+    const isEmoj=ref(false)
+    const emoList:any=ref([]);
+    const current=ref(1);
+    const total=ref(0)
+    const list = ['微笑', '撇嘴', '色', '发呆', '得意', '流泪', '害羞', '闭嘴', '睡', '大哭', '尴尬', '发怒', '调皮', '呲牙', '惊讶', '难过', '酷', '冷汗', '抓狂', '吐', '偷笑', '可爱', '白眼', '傲慢', '饥饿', '困', '惊恐', '流汗', '憨笑', '大兵', '奋斗', '咒骂', '疑问', '嘘', '晕', '折磨', '衰', '骷髅', '敲打', '再见', '擦汗', '抠鼻', '鼓掌', '糗大了', '坏笑', '左哼哼', '右哼哼', '哈欠', '鄙视', '委屈', '快哭了', '阴险', '亲亲', '吓', '可怜', '菜刀', '西瓜', '啤酒', '篮球', '乒乓', '咖啡', '饭', '猪头', '玫瑰', '凋谢', '示爱', '爱心', '心碎', '蛋糕', '闪电', '炸弹', '刀', '足球', '瓢虫', '便便', '月亮', '太阳', '礼物', '拥抱', '强', '弱', '握手', '胜利', '抱拳', '勾引', '拳头', '差劲', '爱你', 'NO', 'OK', '爱情', '飞吻', '跳跳', '发抖', '怄火', '转圈', '磕头', '回头', '跳绳', '挥手', '激动', '街舞', '献吻', '左太极', '右太极'];
+    total.value=Math.floor(list.length/50)
+    add();
+
+    function add(n:number=0):void{
+      emoList.value=[];
+      switch (n) {
+        case 0://减
+          current.value=current.value===1?1:current.value-1;
+          break;
+        case 1://加
+          current.value=current.value===total.value?total.value:current.value+1;
+          break;
+        default:
+          current.value=1;
+          break;
+      }
+      let i=current.value*50-50;
+      for(i;i<current.value*50;i++){
+        emoList.value.push("https://res.wx.qq.com/mpres/htmledition/images/icon/emotion/"+i+".gif")
+      }
+    }
+
+
     // 评论内容
     const commentText = ref<string>('');
+    //输入表情
+    function chooseEmoj(item:string,index:number) {
+      commentText.value+='['+list[(current.value-1)*50+index]+']';
+    }
 
     // 监听最大可以输入数量
     const commentTextLength = ref<number>(140);
@@ -271,6 +320,12 @@ export default defineComponent({
         alert('输入不能超过140个字符');
         return false;
       }
+      // let reg = /\[.+?\]/g;
+      // let text = commentText.value.replace(reg, function (a:any, b:any) {
+      //   let emo=(a.split('[')[1]).split(']')[0]
+      //   let index=list.findIndex(item=>item==emo)
+      //   return "<img src='https://res.wx.qq.com/mpres/htmledition/images/icon/emotion/"+index+".gif' />";
+      // });
       addSongSheetComment({
         id: props?.songListDetailData?.playlist?.id,
         content: commentText.value
@@ -301,6 +356,16 @@ export default defineComponent({
             item.replyShow = false;
           });
           commentList.value = res.comments;
+          commentList.value.map((item:any,index:number)=>{
+            let reg = /\[.+?\]/g;
+            let text = item?.content.replace(reg, function (a:any, b:any) {
+              let emo=(a.split('[')[1]).split(']')[0]
+              let index=list.findIndex(item=>item==emo)
+              return "<img src='https://res.wx.qq.com/mpres/htmledition/images/icon/emotion/"+index+".gif' />";
+            });
+            item.content=text;
+          })
+          console.log(commentList.value)
           // 最新评论 - 总数
           commentTotal.value = res.total;
         }
@@ -406,7 +471,13 @@ export default defineComponent({
       replyText,
       replyTextLength,
       replyComment,
-      replySubmit
+      replySubmit,
+      emoList,
+      current,
+      total,
+      add,
+      chooseEmoj,
+      isEmoj,
     };
   }
 });
