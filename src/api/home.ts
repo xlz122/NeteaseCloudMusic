@@ -128,3 +128,54 @@ export const dailySignin = () => {
     params
   });
 };
+
+/**
+ * @desc 获取飙升榜列表
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } id - 飙升榜id
+ */
+export const soaringList = () => {
+  const params = {
+    timestamp: new Date().getTime(),
+    id: 19723756
+  };
+  return axios.request({
+    url: '/playlist/detail',
+    method: 'get',
+    params
+  });
+};
+
+/**
+ * @desc 获取新歌榜列表
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } id - 新歌榜id
+ */
+export const newSongs = () => {
+  const params = {
+    timestamp: new Date().getTime(),
+    id: 3779629
+  };
+  return axios.request({
+    url: '/playlist/detail',
+    method: 'get',
+    params
+  });
+};
+
+/**
+ * @desc 获取原创榜列表
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } id - 飙升榜id
+ */
+export const originalList = () => {
+  const params = {
+    timestamp: new Date().getTime(),
+    id: 2884035
+  };
+  return axios.request({
+    url: '/playlist/detail',
+    method: 'get',
+    params
+  });
+};

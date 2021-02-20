@@ -5,7 +5,7 @@
         <ul class="list" ref="listRef" :style="listStyle">
           <li
             class="item"
-            v-for="(item, index) in albumNewestData"
+            v-for="(item, index) in listData"
             :key="index"
             ref="liRef"
           >
@@ -38,20 +38,19 @@ interface ListOffest {
 
 export default defineComponent({
   setup() {
-    const albumNewestData = ref<unknown[]>([]);
-    function getAlbumNewest() {
+    // 新碟上架数据
+    const listData = ref<unknown[]>([]);
+    function getListData() {
       albumNewest().then((res: ResponseType) => {
         if (res.code === 200) {
           // 截取前十项，并复制为二倍模板
-          albumNewestData.value = res?.albums.slice(0, 10);
-          albumNewestData.value.unshift(...albumNewestData.value);
+          listData.value = res?.albums.slice(0, 10);
+          listData.value.unshift(...listData.value);
         }
       });
     }
-    getAlbumNewest();
+    getListData();
 
-    const listRef = ref<HTMLElement>();
-    const liRef = ref<HTMLElement>();
     // 列表偏移样式
     const listOffest = reactive<ListOffest>({
       index: 0,
@@ -66,11 +65,15 @@ export default defineComponent({
       };
     });
 
+    const listRef = ref<HTMLElement>();
+    const liRef = ref<HTMLElement>();
+
     // 上一轮
     const albumPrev = throttle(
       function() {
         const li = liRef.value as HTMLElement;
         if (listOffest.index == 0) {
+          // 瞬间返回二倍模板，并在短暂延迟后执行动画
           listOffest.index = 2;
           listOffest.duration = 0;
           setTimeout(() => {
@@ -95,6 +98,7 @@ export default defineComponent({
     const albumNext = throttle(
       function() {
         const li = liRef.value as HTMLElement;
+        // 瞬间返回二倍模板，并在短暂延迟后执行动画
         if (listOffest.index == 2) {
           listOffest.index = 0;
           listOffest.duration = 0;
@@ -116,7 +120,7 @@ export default defineComponent({
       }
     );
     return {
-      albumNewestData,
+      listData,
       listRef,
       liRef,
       listStyle,
@@ -128,97 +132,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-.album-newest {
-  height: 186px;
-  margin: 20px 0 37px;
-  border: 1px solid #d3d3d3;
-  .warp {
-    position: relative;
-    width: 654px;
-    height: 184px;
-    padding-left: 16px;
-    padding-right: 16px;
-    background: #f5f5f5;
-    border: 1px solid #fff;
-    overflow: hidden;
-    .content {
-      width: 625px;
-      margin-left: 20px;
-      overflow: hidden;
-    }
-    .list {
-      width: 1000%;
-      height: 180px;
-      margin-top: 28px;
-      text-align: left;
-      overflow: hidden;
-      .item {
-        position: relative;
-        display: inline-block;
-        vertical-align: middle;
-        width: 118px;
-        height: 150px;
-        padding-right: 8px;
-        // background: url('../../../../assets/image/home/home-icon.png');
-        // background-position: -260px 100px;
-        .item-img {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 118px;
-          height: 100px;
-          background: url('../../../../assets/image/home/coverall.png');
-          background-position: 0 -570px;
-          cursor: pointer;
-          .img {
-            display: block;
-            width: 100px;
-            height: 100px;
-          }
-        }
-        .title,
-        .name {
-          margin-top: 106px;
-          color: #000;
-          text-align: left;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          cursor: pointer;
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-        .name {
-          margin-top: 3px;
-          color: #666;
-        }
-      }
-    }
-    .btn {
-      position: absolute;
-      top: 71px;
-      width: 17px;
-      height: 17px;
-      background: url('../../../../assets/image/home/home-icon.png');
-      border: none;
-      outline: none;
-      cursor: pointer;
-    }
-    .left-btn {
-      left: 4px;
-      background-position: -260px -75px;
-      &:hover {
-        background-position: -280px -75px;
-      }
-    }
-    .right-btn {
-      right: 4px;
-      background-position: -300px -75px;
-      &:hover {
-        background-position: -320px -75px;
-      }
-    }
-  }
-}
+@import './album-newest.less';
 </style>

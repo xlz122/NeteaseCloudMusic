@@ -1,12 +1,13 @@
 <template>
   <div class="home">
+    <!-- 轮播图 -->
     <banner />
     <div class="home-container">
-      <!-- 左侧列表 -->
+      <!-- 主体内容 -->
       <div class="container-content">
         <home-content />
       </div>
-      <!-- 右侧账号信息 -->
+      <!-- 侧边栏 -->
       <div class="container-side">
         <side />
       </div>
@@ -31,6 +32,8 @@ export default defineComponent({
 
 <style lang="less" scoped>
 .home {
+  background-color: #f5f5f5;
+
   .home-container {
     position: relative;
     width: 980px;
@@ -39,6 +42,8 @@ export default defineComponent({
     background-color: #fff;
     border: 1px solid #d3d3d3;
     border-width: 0 1px;
+    background: url('../../assets/image/home/wrap1.png') repeat-y 100% 100%;
+
     .container-content {
       display: inline-block;
       vertical-align: top;

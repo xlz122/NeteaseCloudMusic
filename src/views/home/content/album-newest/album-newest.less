@@ -1,0 +1,105 @@
+.album-newest {
+  height: 186px;
+  margin: 20px 0 37px;
+  border: 1px solid #d3d3d3;
+
+  .warp {
+    position: relative;
+    width: 654px;
+    height: 184px;
+    padding-left: 16px;
+    padding-right: 16px;
+    background: #f5f5f5;
+    border: 1px solid #fff;
+    overflow: hidden;
+
+    .content {
+      width: 625px;
+      margin-left: 20px;
+      overflow: hidden;
+    }
+
+    .list {
+      width: 1000%;
+      height: 180px;
+      margin-top: 28px;
+      text-align: left;
+      overflow: hidden;
+
+      .item {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        width: 118px;
+        height: 150px;
+        padding-right: 8px;
+
+        .item-img {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 118px;
+          height: 100px;
+          background: url('../../../../assets/image/home/coverall.png');
+          background-position: 0 -570px;
+          cursor: pointer;
+
+          .img {
+            display: block;
+            width: 100px;
+            height: 100px;
+          }
+        }
+
+        .title,
+        .name {
+          margin-top: 106px;
+          color: #000;
+          text-align: left;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .name {
+          margin-top: 3px;
+          color: #666;
+        }
+      }
+    }
+
+    .btn {
+      position: absolute;
+      top: 71px;
+      width: 17px;
+      height: 17px;
+      background: url('../../../../assets/image/home/home-icon.png');
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .left-btn {
+      left: 4px;
+      background-position: -260px -75px;
+
+      &:hover {
+        background-position: -280px -75px;
+      }
+    }
+
+    .right-btn {
+      right: 4px;
+      background-position: -300px -75px;
+
+      &:hover {
+        background-position: -320px -75px;
+      }
+    }
+  }
+}

@@ -55,22 +55,48 @@ import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
 import { dailySignin } from '@api/home';
 import { ResponseType } from '@/types/types';
+import { formatDateTime } from '@utils/utils';
 
 export default defineComponent({
   setup() {
     const $store = useStore();
 
     // 是否登录
-    const isLogin = computed(() => $store.getters.isLogin);
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
 
+    // 重置签到
+    function resetSignIn(): boolean | undefined {
+      // 获取本地签到日期
+      const signInTimestamp = localStorage.getItem('signInTimestamp') || 0;
+      if (Number(signInTimestamp) === 0) {
+        return false;
+      }
+      const signInDay = formatDateTime(
+        Number(signInTimestamp) / 1000,
+        'yyyyMMdd'
+      );
+      // 获取今天日期
+      const today = formatDateTime(new Date().getTime() / 1000, 'yyyyMMdd');
+      // 今天大于签到日期
+      if (Number(today) > Number(signInDay)) {
+        $store.commit('setSignIn', false);
+      }
+    }
+    resetSignIn();
+
     // 是否已签到
-    const isSignIn = computed(() => $store.getters.userInfo.pcSign);
+    const isSignIn = computed<boolean>(() => $store.getters.userInfo.pcSign);
 
     // 签到
     function signIn(): void {
+      // 存储签到时间戳，用于重置签到
+      localStorage.setItem(
+        'signInTimestamp',
+        JSON.stringify(new Date().getTime())
+      );
       dailySignin().then((res: ResponseType) => {
         if (res.code === 200) {
           $store.commit('setSignIn', true);
