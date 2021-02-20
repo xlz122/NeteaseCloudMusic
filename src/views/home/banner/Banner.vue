@@ -144,6 +144,10 @@ export default defineComponent({
       if (bannerData.value.length === 0) {
         return false;
       }
+      if (bannerTimer.value) {
+        // 清除定时器
+        clearInterval(bannerTimer.value as number);
+      }
       bannerTimer.value = setInterval(() => {
         // 图片切换增加动画，1s后清除动画并显示下一张图片
         bannerImgSwitching.value = true;
@@ -172,6 +176,7 @@ export default defineComponent({
 
     onUnmounted(() => {
       if (bannerTimer.value) {
+        console.log('清除定时器');
         // 清除定时器
         clearInterval(bannerTimer.value as number);
       }

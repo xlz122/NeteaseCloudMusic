@@ -61,7 +61,7 @@ export function timeStampToDuration(timeStamp: number): string {
 }
 
 /**
- * @desc 日期字符串格式化
+ * @desc 日期字符串/时间戳，转格式化后的日期字符串
  * @param { String | Date } - date 日期或者时间戳
  * @param { String } - fmt 格式化后的日期字符串格式
  */
