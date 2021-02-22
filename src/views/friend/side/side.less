@@ -1,0 +1,101 @@
+.user-profile {
+  height: 193px;
+  background: url('../../../assets/image/friend/frduser.png') repeat-x 0 0;
+
+  .user-profile-container {
+    padding-top: 40px;
+
+    .user-info {
+      .user-avatar {
+        display: inline-block;
+        vertical-align: top;
+        width: 62px;
+        height: 62px;
+        margin-left: 30px;
+        padding: 2px;
+        background: #fff;
+        border: 1px solid #dadada;
+
+        .user-avatar-img {
+          display: block;
+          width: 62px;
+          height: 62px;
+        }
+      }
+
+      .info {
+        display: inline-block;
+        vertical-align: top;
+        width: 115px;
+        margin-left: 18px;
+        padding-top: 3px;
+
+        .name {
+          overflow: hidden;
+          text-align: left;
+
+          .text {
+            display: inline-block;
+            vertical-align: middle;
+            color: #333;
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            cursor: pointer;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+
+    .list {
+      margin-top: 24px;
+      text-align: left;
+
+      .item {
+        display: inline-block;
+        height: 40px;
+        padding: 0 18px;
+        border-right: 1px solid #c2c2c2;
+
+        &:hover {
+          .num {
+            color: #0c73c2;
+          }
+
+          .text {
+            color: #0c73c2;
+          }
+        }
+
+        .num {
+          display: block;
+          font-size: 20px;
+          font-weight: normal;
+          color: #666;
+          cursor: pointer;
+        }
+
+        .text {
+          display: inline-block;
+          margin-top: 10px;
+          margin-left: 2px;
+          color: #666;
+          cursor: pointer;
+        }
+      }
+
+      .first-item {
+        margin-left: 18px;
+      }
+
+      .last-item {
+        border: none;
+      }
+    }
+  }
+}

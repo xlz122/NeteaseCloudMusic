@@ -115,7 +115,6 @@ export default defineComponent({
           res.event.forEach((item: LoopType) => {
             item.json = JSON.parse(item.json);
           });
-          console.log(res);
           eventList.value = res.event;
         }
       });
