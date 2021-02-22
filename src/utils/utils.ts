@@ -165,7 +165,9 @@ export function formatDate(timestamp: number): string {
 
   // 三天前 23:59:59
   const threeDaysAgo = new Date(
-    new Date(new Date().toLocaleDateString()).getTime() - 2
+    new Date(new Date().toLocaleDateString()).getTime() -
+      24 * 60 * 60 * 1000 * 2 -
+      1000
   ).getTime();
   if (timestamp < threeDaysAgo) {
     return `${date.getMonth() +
@@ -174,7 +176,9 @@ export function formatDate(timestamp: number): string {
 
   // 小于前天 23:59:59
   const dayBeforeYesterday = new Date(
-    new Date(new Date().toLocaleDateString()).getTime() - 1
+    new Date(new Date().toLocaleDateString()).getTime() -
+      24 * 60 * 60 * 1000 -
+      1000
   ).getTime();
   if (timestamp < dayBeforeYesterday) {
     return `前天 ${date.getHours()}:${date.getMinutes()}`;
