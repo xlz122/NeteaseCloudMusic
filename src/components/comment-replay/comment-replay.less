@@ -1,0 +1,182 @@
+.comment-replay {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 12px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #333;
+
+  .comment-content {
+
+    .user-avatar {
+      display: inline-block;
+      vertical-align: top;
+      width: 50px;
+      height: 50px;
+    }
+
+    // 输入框
+    .comment-textarea {
+      display: inline-block;
+      vertical-align: top;
+      width: 100%;
+      height: 100%;
+      padding: 5px 6px 6px;
+      border: 1px solid #cdcdcd;
+      outline: none;
+      border-radius: 2px;
+      line-height: 19px;
+      font-size: 12px;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #333;
+      box-sizing: content-box;
+      resize: none;
+      overflow: auto;
+    }
+  }
+
+  // 操作
+  .operate {
+    position: relative;
+    height: 24px;
+    padding-top: 10px;
+    margin: 0 auto;
+
+    .operate-icon {
+      position: absolute;
+      left: 0;
+      display: inline-block;
+      vertical-align: top;
+
+      .icon {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        background: url(~@assets/image/icon.png);
+        cursor: pointer;
+      }
+
+      .expression {
+        margin-right: 10px;
+        background-position: -40px -490px;
+      }
+
+      .att {
+        background-position: -60px -490px;
+      }
+    }
+
+    .operate-publish {
+      position: absolute;
+      right: 0;
+      display: inline-block;
+      vertical-align: top;
+
+      .text {
+        display: inline-block;
+        vertical-align: top;
+        margin-right: 10px;
+        color: #999;
+        font-size: 12px;
+        line-height: 25px;
+      }
+
+      .words-beyond {
+        color: #c20c0c;
+      }
+
+      .publish {
+        display: inline-block;
+        vertical-align: top;
+        width: 46px;
+        height: 25px;
+        background: url(~@/assets/image/my-music/icon-button.png);
+        background-position: -84px -64px;
+        color: #fff;
+        text-align: center;
+        line-height: 25px;
+        outline: none;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          background-position: -84px -94px;
+          color: #fff;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  // 表情
+  .auto-content {
+    position: relative;
+    background-color: #fff;
+
+    .e-emts {
+      position: absolute;
+      top: -5px;
+      left: -12px;
+      width: 260px;
+      height: 160px;
+      padding: 17px 17px 0 13px;
+      z-index: 100;
+      background: url(~@/assets/image/my-music/emtbg.png) no-repeat;
+
+      .emtwrap {
+        white-space: pre-wrap;
+        height: 130px;
+
+        .emtwrap-img {
+          float: left;
+          width: 21px;
+          height: 21px;
+          margin: 1px 2px 2px 1px;
+          border: 1px solid #fff;
+          cursor: pointer;
+
+          &:hover {
+            border-color: #3d91ec;
+          }
+        }
+      }
+
+      .page {
+        margin-top: 2px;
+        text-align: center;
+
+        a {
+          width: 9px;
+          height: 9px;
+          position: relative;
+          top: 4px;
+
+          &.u-btn {
+            background: url(~@/assets/image/my-music/button.png) no-repeat 0 9999px;
+          }
+
+          &.u-btn-prv {
+            background-position: -110px 0;
+          }
+
+          &.u-btn-nxt {
+            background-position: -120px 0;
+          }
+        }
+
+        a,
+        .text {
+          display: inline-block;
+          height: 15px;
+          margin: 0 16px;
+          vertical-align: middle;
+          line-height: 16px;
+        }
+
+        .s-fc3,
+        a.s-fc3:hover {
+          color: #666;
+        }
+      }
+    }
+  }
+}
