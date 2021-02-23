@@ -142,8 +142,8 @@ import {
   recommendDjprogram,
   recommendResource
 } from '@api/home';
-import { ResponseType } from '@/types/types';
-import { getWeekDate, formatDateTime } from '@utils/utils';
+import { LoopType, ResponseType } from '@/types/types';
+import { getWeekDate, formatDateTime, bigNumberTransform } from '@utils/utils';
 
 export default defineComponent({
   components: {
@@ -179,6 +179,9 @@ export default defineComponent({
       }
       recommendSongList({ limit }).then((res: ResponseType) => {
         if (res.code === 200) {
+          res?.result.forEach((item: LoopType) => {
+            item.playCount = bigNumberTransform(item?.playCount);
+          });
           songListData.value = res?.result;
         }
       });
@@ -190,6 +193,11 @@ export default defineComponent({
     function getDjprogram() {
       recommendDjprogram().then((res: ResponseType) => {
         if (res.code === 200) {
+          res?.result.forEach((item: LoopType) => {
+            item.program.adjustedPlayCount = bigNumberTransform(
+              item?.program?.adjustedPlayCount
+            );
+          });
           // 截取前三项
           djprogramData.value = res?.result.slice(0, 3);
         }
@@ -205,6 +213,9 @@ export default defineComponent({
       }
       recommendResource().then((res: ResponseType) => {
         if (res.code === 200) {
+          res?.recommend.forEach((item: LoopType) => {
+            item.playcount = bigNumberTransform(item.playcount);
+          });
           // 截取前三项
           individualizatData.value = res?.recommend.slice(0, 3);
         }
