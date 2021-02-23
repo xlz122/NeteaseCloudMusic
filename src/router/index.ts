@@ -64,6 +64,15 @@ const routes: Array<RouteRecordRaw> = [
         //   return window.open(`${location.origin}/creator-center`, '_blank');
         // }
       },
+      // 首页 - 排行榜
+      {
+        path: '/home-toplist',
+        name: 'home-toplist',
+        component: () =>
+          import(
+            /* webpackChunkName: "my-home-page" */ '../views/home-toplist/HomeToplist.vue'
+          )
+      },
       {
         path: '/my-home-page',
         name: 'my-home-page',
