@@ -335,6 +335,10 @@ export default defineComponent({
 
     // 精彩评论
     function setHotComments(index: number): void {
+      // 关闭最新评论
+      commentList.value.forEach((item: LoopType) => {
+        item.replyShow = false;
+      });
       hotCommentsList.value.forEach((item: LoopType) => {
         item.replyShow = false;
       });
@@ -343,6 +347,10 @@ export default defineComponent({
 
     // 最新评论
     function setNewestComment(index: number): void {
+      // 关闭精彩评论
+      hotCommentsList.value.forEach((item: LoopType) => {
+        item.replyShow = false;
+      });
       commentList.value.forEach((item: LoopType) => {
         item.replyShow = false;
       });
