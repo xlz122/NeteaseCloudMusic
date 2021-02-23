@@ -182,11 +182,24 @@
     >
       <p class="content">确定删除评论？</p>
     </my-dialog>
+    <!-- 评论回复提示 -->
+    <div class="music-sysmsg" v-if="commentMsg.show">
+      <div class="sysmsg">
+        <i
+          class="icon"
+          :class="[
+            { 'info-icon': commentMsg.type === 'info' },
+            { 'error-icon': commentMsg.type === 'error' }
+          ]"
+        ></i>
+        <span class="text">{{ commentMsg.title }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, computed, nextTick } from 'vue';
+import { defineComponent, ref, watch, computed, nextTick, reactive } from 'vue';
 import { useStore } from 'vuex';
 import MyDialog from '@/components/MyDialog.vue';
 import CommentReplay from '@/components/comment-replay/CommentReplay.vue';
@@ -200,6 +213,12 @@ import {
 } from '@api/my-music';
 import { ResponseType, LoopType } from '@/types/types';
 import { formatDate } from '@utils/utils';
+
+interface CommentMsg {
+  show: boolean;
+  type: string;
+  title: string;
+}
 
 export default defineComponent({
   components: {
@@ -234,6 +253,7 @@ export default defineComponent({
       commentPlayList({
         id: props?.songListDetailData?.playlist?.id
       }).then((res: ResponseType) => {
+        console.log(res);
         if (res.code === 200) {
           // 精彩评论
           res.hotComments.forEach((item: LoopType) => {
@@ -320,17 +340,34 @@ export default defineComponent({
       return result.join('');
     }
 
+    // 评论回复提示
+    const commentMsg = reactive<CommentMsg>({
+      show: false,
+      type: 'info',
+      title: ''
+    });
+
     // 是否清除回复内容
     const commentClearText = ref<boolean>(false);
 
     // 顶部评论提交
     function commentSubmit(replayText: string): boolean | undefined {
       if (replayText.length === 0) {
-        alert('输入点内容再提交吧');
+        commentMsg.show = true;
+        commentMsg.type = 'error';
+        commentMsg.title = '输入点内容再提交吧';
+        setTimeout(() => {
+          commentMsg.show = false;
+        }, 1000);
         return false;
       }
       if (replayText.length > 140) {
-        alert('输入不能超过140个字符');
+        commentMsg.show = true;
+        commentMsg.type = 'error';
+        commentMsg.title = '输入不能超过140个字符';
+        setTimeout(() => {
+          commentMsg.show = false;
+        }, 1000);
         return false;
       }
       addSongSheetComment({
@@ -338,6 +375,10 @@ export default defineComponent({
         content: replayText
       }).then((res: ResponseType) => {
         if (res.code === 200) {
+          // 评论成功提醒
+          commentMsg.show = true;
+          commentMsg.type = 'info';
+          commentMsg.title = '评论成功';
           // 清空回复内容
           commentClearText.value = true;
           getCommentPlayList();
@@ -345,7 +386,15 @@ export default defineComponent({
           nextTick(() => {
             commentClearText.value = false;
           });
+        } else {
+          // 评论失败提醒
+          commentMsg.show = true;
+          commentMsg.type = 'error';
+          commentMsg.title = '评论失败';
         }
+        setTimeout(() => {
+          commentMsg.show = false;
+        }, 1000);
       });
     }
 
@@ -428,14 +477,27 @@ export default defineComponent({
         commentId
       }).then((res: ResponseType) => {
         if (res.code === 200) {
+          // 评论成功提醒
+          commentMsg.show = true;
+          commentMsg.type = 'info';
+          commentMsg.title = '评论成功';
           getCommentPlayList();
+        } else {
+          // 评论失败提醒
+          commentMsg.show = true;
+          commentMsg.type = 'error';
+          commentMsg.title = '评论失败';
         }
+        setTimeout(() => {
+          commentMsg.show = false;
+        }, 1000);
       });
     }
     return {
       userInfo,
       formatDate,
       commentClearText,
+      commentMsg,
       commentSubmit,
       hotCommentsList,
       setHotComments,
