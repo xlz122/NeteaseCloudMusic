@@ -61,7 +61,9 @@
             ]"
             @click="subNavChange(index)"
           >
-            <router-link class="link" to="">{{ item?.title }}</router-link>
+            <router-link class="link" :to="item.link">
+              {{ item?.title }}
+            </router-link>
             <i class="white-icon" v-if="index === 2"></i>
           </li>
         </ul>
@@ -160,15 +162,15 @@ export default defineComponent({
     const subNavList = ref<NavList[]>([
       {
         title: '推荐',
-        link: ''
+        link: '/'
       },
       {
         title: '排行',
-        link: ''
+        link: '/home-toplist'
       },
       {
         title: '歌单',
-        link: ''
+        link: '/my-home-page'
       },
       {
         title: '主播电台',

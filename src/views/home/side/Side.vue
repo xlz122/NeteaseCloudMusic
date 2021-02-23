@@ -1,7 +1,7 @@
 <template>
   <div class="side">
     <!-- 个人信息 -->
-    <user-profile />
+    <side-user />
     <div class="side-content">
       <!-- 入驻歌手 -->
       <h3 class="side-title">
@@ -52,11 +52,11 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import UserProfile from '@/components/user-profile/UserProfile.vue';
+import SideUser from './side-user/SideUser.vue';
 
 export default defineComponent({
   components: {
-    UserProfile
+    SideUser
   },
   setup() {
     // 入驻歌手无接口

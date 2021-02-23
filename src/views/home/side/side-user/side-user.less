@@ -1,0 +1,229 @@
+.side-user {
+
+  // 未登录样式
+  .side-user-login {
+    height: 126px;
+    background: url(~@/assets/image/home/home-icon.png);
+    background-position: 0 0;
+
+    .login-title {
+      width: 205px;
+      margin: 0 auto;
+      padding: 16px 0;
+      line-height: 22px;
+      color: #666;
+    }
+
+    .login-btn {
+      display: block;
+      width: 100px;
+      height: 31px;
+      line-height: 31px;
+      margin: 0 auto;
+      background: url(~@/assets/image/home/home-icon.png);
+      background-position: 0 -195px;
+      text-align: center;
+      color: #fff;
+      text-shadow: 0 1px 0 #8a060b;
+      border: none;
+      outline: none;
+      cursor: pointer;
+    }
+  }
+
+  // 登录后样式
+  .side-user-container {
+    height: 165px;
+    padding-top: 20px;
+    background: url(~@/assets/image/home/home-icon.png);
+    background-position: 0 -270px;
+
+    .user-info {
+      .user-avatar {
+        display: inline-block;
+        vertical-align: top;
+        width: 80px;
+        height: 80px;
+        margin-left: 20px;
+        padding: 2px;
+        background: #fff;
+        border: 1px solid #dadada;
+
+        .user-avatar-img {
+          display: block;
+          width: 80px;
+          height: 80px;
+        }
+      }
+
+      .info {
+        display: inline-block;
+        vertical-align: top;
+        width: 115px;
+        margin-left: 18px;
+        padding-top: 3px;
+
+        .name {
+          overflow: hidden;
+          text-align: left;
+
+          .text {
+            display: inline-block;
+            vertical-align: middle;
+            color: #333;
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            cursor: pointer;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+
+          .icon-info {
+            display: inline-block;
+            vertical-align: middle;
+            width: 43px;
+            height: 16px;
+            margin-left: 5px;
+            background: url(~@/assets/image/home/user-grade-04.png);
+            background-size: 100% 15px;
+            background-repeat: no-repeat;
+            background-position: center;
+          }
+        }
+
+        .lv {
+          margin-top: 5px;
+          text-align: left;
+          cursor: pointer;
+
+          .lv-icon-left {
+            display: inline-block;
+            height: 17px;
+            overflow: hidden;
+            padding-left: 25px;
+            line-height: 18px;
+            color: #999;
+            font-weight: bold;
+            font-style: italic;
+            background: url(~@/assets/image/icon2.png);
+            background-position: -130px -64px;
+          }
+
+          .lv-icon-right {
+            display: inline-block;
+            width: 8px;
+            height: 17px;
+            background: url(~@/assets/image/icon2.png);
+            background-position: -192px -64px;
+          }
+
+          &:hover {
+            .lv-icon-left {
+              background-position: -130px -84px;
+              color: #777;
+              text-decoration: none;
+            }
+
+            .lv-icon-right {
+              background-position: -192px -84px;
+            }
+          }
+        }
+
+        .btnwarp {
+          display: inline-block;
+          height: 31px;
+          line-height: 31px;
+          padding: 0 5px 0 0;
+          margin-top: 15px;
+          margin-right: 14px;
+          color: #fff;
+          background: url(~@/assets/image/icon-button.png);
+          background-position: right -428px;
+          overflow: hidden;
+          vertical-align: top;
+          border: none;
+          outline: none;
+          cursor: pointer;
+
+          .btnwarp-icon {
+            display: inline-block;
+            width: 60px;
+            height: 31px;
+            line-height: 31px;
+            padding: 0 15px 0 20px;
+            background: url(~@/assets/image/icon-button.png);
+            background-position: 0 -387px;
+            overflow: hidden;
+            vertical-align: top;
+            text-align: center;
+            cursor: pointer;
+          }
+        }
+
+        .disable-btnwarp {
+          margin-right: 43px;
+          color: #bebebe;
+          background-position: right -346px;
+          cursor: default;
+
+          .btnwarp-icon {
+            width: 46px;
+            padding: 0 10px 0 15px;
+            color: #bebebe;
+            background-position: 0 -305px;
+            cursor: default;
+          }
+        }
+      }
+    }
+
+    .list {
+      margin-top: 22px;
+      text-align: left;
+
+      .item {
+        display: inline-block;
+        height: 40px;
+        padding: 0 18px;
+        border-right: 1px solid #e4e4e4;
+
+        &:hover {
+          .num {
+            color: #0c73c2;
+          }
+
+          .text {
+            color: #0c73c2;
+          }
+        }
+
+        .num {
+          display: block;
+          font-size: 20px;
+          font-weight: normal;
+          color: #666;
+          cursor: pointer;
+        }
+
+        .text {
+          margin-left: 2px;
+          color: #666;
+          cursor: pointer;
+        }
+      }
+
+      .first-item {
+        margin-left: 8px;
+      }
+
+      .last-item {
+        border: none;
+      }
+    }
+  }
+}
