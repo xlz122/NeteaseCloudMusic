@@ -71,9 +71,7 @@
                 ({{ item.likedCount }})
               </span>
               <span class="line">|</span>
-              <span class="reply" @click="setHotComments(index)">
-                回复
-              </span>
+              <span class="reply" @click="setHotComments(index)"> 回复 </span>
             </div>
           </div>
           <!-- 回复他人 -->
@@ -101,7 +99,7 @@
             <span class="name">
               {{ item?.user?.nickname }}
             </span>
-            <!--            <span class="text">: {{ item?.content }}</span>-->
+            <span class="colon">:</span>
             <div class="text" v-html="item.content"></div>
           </div>
           <!-- 他人回复部分 -->
@@ -115,7 +113,8 @@
                 <span class="name">
                   {{ i?.user?.nickname }}
                 </span>
-                <span class="text">: {{ i?.content }}</span>
+                <span class="colon">:</span>
+                <span class="text" v-html="item.content"></span>
               </template>
               <template v-if="i.status === -5">
                 <span class="text delete-text">该评论已删除</span>
@@ -144,9 +143,7 @@
                 ({{ item.likedCount }})
               </span>
               <span class="line">|</span>
-              <span class="reply" @click="setNewestComment(index)">
-                回复
-              </span>
+              <span class="reply" @click="setNewestComment(index)"> 回复 </span>
             </div>
           </div>
           <!-- 回复他人 -->
@@ -182,6 +179,7 @@
 import { defineComponent, nextTick, ref, watch } from 'vue';
 import MyDialog from '@/components/MyDialog.vue';
 import CommentReplay from '@/components/comment-replay/CommentReplay.vue';
+import { expressionList } from '@/components/comment-replay/comment-replay';
 import {
   commentPlayList,
   addSongSheetComment,
@@ -224,26 +222,71 @@ export default defineComponent({
           // 精彩评论
           res.hotComments.forEach((item: LoopType) => {
             item.replyShow = false;
+            item.content = formatReply(item.content);
           });
           hotCommentsList.value = res.hotComments;
           // 最新评论
           res.comments.forEach((item: LoopType) => {
             item.replyShow = false;
+            item.content = formatReply(item.content);
           });
           commentList.value = res.comments;
-          // commentList.value.map((item: any) => {
-          //   const reg = /\[.+?\]/g;
-          //   const text = item?.content.replace(reg, function(a: any) {
-          //     const emo = a.split('[')[1].split(']')[0];
-          //     const index = list.findIndex(item => item == emo);
-          //     return `<img src='https://res.wx.qq.com/mpres/htmledition/images/icon/emotion/${index}.gif'/>`;
-          //   });
-          //   item.content = text;
-          // });
           // 最新评论 - 总数
           commentTotal.value = res.total;
         }
       });
+    }
+
+    // 格式化回复内容
+    function formatReply(content: string): string {
+      let contentStr = JSON.parse(JSON.stringify(content));
+      const reg = /\[.+?\]/g;
+      content.replace(reg, function(item: string) {
+        // 去重 去除重复的[]符号
+        item = character(item);
+        // 表情文本
+        const expressionText = item.split('[')[1].split(']')[0];
+        // 匹配表情对应的数据项
+        const expressionItem = expressionList.find(
+          (item: LoopType) => item.title === expressionText
+        );
+        // 表情替换为img标签
+        if (expressionItem) {
+          contentStr = contentStr.replace(
+            item,
+            `<img 
+              src='http://s1.music.126.net/style/web2/emt/emoji_${expressionItem.num}.png'
+              style="display: inline-block; vertical-align: middle;"
+            />`
+          );
+        }
+        return item;
+      });
+      return contentStr;
+    }
+
+    // 去重 去除重复的[]符号
+    function character(array: string): string {
+      const result = [];
+      // 字符串转换成数组
+      const arr = array.split('');
+      // 去重
+      for (let j = 0; j < arr.length; j++) {
+        if (arr[j] === '[' && result.indexOf('[') < 0) {
+          result.push(arr[j]);
+        }
+        if (arr[j] === ']' && result.indexOf(']') < 0) {
+          result.push(arr[j]);
+        }
+        const rIndex = result.findIndex((item: string) => item === '[');
+        if (rIndex > -1) {
+          if (arr[j] !== '[' && arr[j] !== ']') {
+            result.push(arr[j]);
+          }
+        }
+      }
+      // 数组转换成字符串
+      return result.join('');
     }
 
     // 是否清除回复内容
@@ -264,8 +307,10 @@ export default defineComponent({
         content: replayText
       }).then((res: ResponseType) => {
         if (res.code === 200) {
+          // 清空回复内容
           commentClearText.value = true;
           getCommentPlayList();
+          // 延迟重置
           nextTick(() => {
             commentClearText.value = false;
           });
