@@ -470,7 +470,28 @@ export default defineComponent({
     }
 
     // 回复提交（精彩评论、最新回复）
-    function replySubmit(replayText: string, commentId: number): void {
+    function replySubmit(
+      replayText: string,
+      commentId: number
+    ): boolean | undefined {
+      if (replayText.length === 0) {
+        commentMsg.show = true;
+        commentMsg.type = 'error';
+        commentMsg.title = '输入点内容再提交吧';
+        setTimeout(() => {
+          commentMsg.show = false;
+        }, 1000);
+        return false;
+      }
+      if (replayText.length > 140) {
+        commentMsg.show = true;
+        commentMsg.type = 'error';
+        commentMsg.title = '输入不能超过140个字符';
+        setTimeout(() => {
+          commentMsg.show = false;
+        }, 1000);
+        return false;
+      }
       replySongSheetComment({
         id: props?.songListDetailData?.playlist?.id,
         content: replayText,
