@@ -61,23 +61,21 @@
             ]"
             @click="subNavChange(index)"
           >
-            <router-link class="link" to="">{{ item?.title }}</router-link>
+            <router-link class="link" :to="item.link">
+              {{ item?.title }}
+            </router-link>
             <i class="white-icon" v-if="index === 2"></i>
           </li>
         </ul>
       </div>
     </div>
   </div>
-  <teleport to="#modal">
-    <login />
-  </teleport>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import Login from '@views/login/Login.vue';
 import User from '@views/user/User.vue';
 import { LoopType } from '@/types/types';
 
@@ -88,7 +86,6 @@ interface NavList {
 
 export default defineComponent({
   components: {
-    Login,
     User
   },
   setup() {
@@ -160,15 +157,15 @@ export default defineComponent({
     const subNavList = ref<NavList[]>([
       {
         title: '推荐',
-        link: ''
+        link: '/'
       },
       {
         title: '排行',
-        link: ''
+        link: '/home-toplist'
       },
       {
         title: '歌单',
-        link: ''
+        link: '/my-home-page'
       },
       {
         title: '主播电台',

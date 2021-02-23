@@ -23,7 +23,7 @@
               <span class="t-desc">分享单曲</span>
             </div>
             <div class="time">{{ formatDate(item?.showTime) }}</div>
-            <div class="mood">{{ item?.json?.msg }}</div>
+            <div class="mood" v-html="item?.json?.msg"></div>
             <div class="music-info">
               <div class="music-cover">
                 <img
@@ -103,6 +103,7 @@ import { defineComponent, ref } from 'vue';
 import { friendEvent } from '@api/friend';
 import { LoopType, ResponseType } from '@/types/types';
 import { formatDate } from '@utils/utils';
+import { formatMixedText } from '@utils/formatMixedText';
 
 export default defineComponent({
   setup() {
@@ -114,12 +115,17 @@ export default defineComponent({
           // json字符串转为对象
           res.event.forEach((item: LoopType) => {
             item.json = JSON.parse(item.json);
+            // 单曲 电台，处理混合文本
+            if (item.type === 18) {
+              item.json.msg = formatMixedText(item.json.msg);
+            }
           });
           eventList.value = res.event;
         }
       });
     }
     getFriendEvent();
+
     return {
       formatDate,
       eventList
