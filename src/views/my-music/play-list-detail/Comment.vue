@@ -114,7 +114,7 @@
                   {{ i?.user?.nickname }}
                 </span>
                 <span class="colon">:</span>
-                <span class="text" v-html="item.content"></span>
+                <span class="text" v-html="item?.beReplied[0]?.content"></span>
               </template>
               <template v-if="i.status === -5">
                 <span class="text delete-text">该评论已删除</span>
@@ -223,12 +223,24 @@ export default defineComponent({
           res.hotComments.forEach((item: LoopType) => {
             item.replyShow = false;
             item.content = formatReply(item.content);
+            // 他人回复也进行转换
+            if (item.beReplied[0]) {
+              item.beReplied[0].content = formatReply(
+                item?.beReplied[0]?.content
+              );
+            }
           });
           hotCommentsList.value = res.hotComments;
           // 最新评论
           res.comments.forEach((item: LoopType) => {
             item.replyShow = false;
             item.content = formatReply(item.content);
+            // 他人回复也进行转换
+            if (item.beReplied[0]) {
+              item.beReplied[0].content = formatReply(
+                item?.beReplied[0]?.content
+              );
+            }
           });
           commentList.value = res.comments;
           // 最新评论 - 总数
@@ -238,7 +250,10 @@ export default defineComponent({
     }
 
     // 格式化回复内容
-    function formatReply(content: string): string {
+    function formatReply(content: string): boolean | string {
+      if (!content) {
+        return false;
+      }
       let contentStr = JSON.parse(JSON.stringify(content));
       const reg = /\[.+?\]/g;
       content.replace(reg, function(item: string) {
