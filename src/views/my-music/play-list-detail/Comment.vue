@@ -124,10 +124,20 @@
           <div class="item-operate">
             <span class="time">{{ formatDate(item?.time) }}</span>
             <div class="reply-operate">
-              <span class="delete" @click="deleteCommentList(item.commentId)">
+              <!-- 只能删除自己的评论 -->
+              <span
+                v-if="item?.user?.userId === userInfo?.profile?.userId"
+                class="delete"
+                @click="deleteCommentList(item.commentId)"
+              >
                 删除
               </span>
-              <span class="delete-line">|</span>
+              <span
+                v-if="item?.user?.userId === userInfo?.profile?.userId"
+                class="delete-line"
+              >
+                |
+              </span>
               <!-- 点赞 -->
               <i
                 class="like liked"
@@ -176,7 +186,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick, ref, watch } from 'vue';
+import { defineComponent, ref, watch, computed, nextTick } from 'vue';
+import { useStore } from 'vuex';
 import MyDialog from '@/components/MyDialog.vue';
 import CommentReplay from '@/components/comment-replay/CommentReplay.vue';
 import { expressionList } from '@/components/comment-replay/comment-replay';
@@ -202,6 +213,11 @@ export default defineComponent({
     }
   } as unknown) as undefined,
   setup(props: { songListDetailData: ResponseType }) {
+    const $store = useStore();
+
+    // 用户信息
+    const userInfo = computed(() => $store.getters.userInfo);
+
     // 播放列表更新，重新请求评论数据
     watch(
       () => props.songListDetailData,
@@ -250,9 +266,9 @@ export default defineComponent({
     }
 
     // 格式化回复内容
-    function formatReply(content: string): boolean | string {
+    function formatReply(content: string): string {
       if (!content) {
-        return false;
+        return '';
       }
       let contentStr = JSON.parse(JSON.stringify(content));
       const reg = /\[.+?\]/g;
@@ -417,6 +433,7 @@ export default defineComponent({
       });
     }
     return {
+      userInfo,
       formatDate,
       commentClearText,
       commentSubmit,
