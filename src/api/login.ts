@@ -56,6 +56,76 @@ export const qrcodeStatus = ({ key }: { key: string }) => {
 };
 
 /**
+ * @desc 手机号登录 - 获取国家编码列表
+ * @param { Number } timestamp - 防止接口缓存
+ */
+export const countryCode = () => {
+  const params = { timestamp: new Date().getTime() };
+  return axios.request({
+    url: '/countries/code/list',
+    method: 'get',
+    params
+  });
+};
+
+/**
+ * @desc 手机号登录 - 检测手机号码是否已注册
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { String } phone - 手机号码
+ * @param { String } [countrycode] - 国家码，用于国外手机号(可选)
+ */
+
+interface TestCellphone {
+  phone: string;
+  countrycode?: string;
+}
+
+export const testCellphone = ({ phone, countrycode }: TestCellphone) => {
+  const params = {
+    timestamp: new Date().getTime(),
+    phone,
+    countrycode
+  };
+  return axios.request({
+    url: '/cellphone/existence/check',
+    method: 'get',
+    params
+  });
+};
+
+/**
+ * @desc 手机号登录 - 登录
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { String } phone - 手机号码
+ * @param { String } password - 密码
+ * @param { String } [countrycode] - 国家码，用于国外手机号(可选)
+ */
+
+interface CellphoneLogin {
+  phone: string;
+  password: string;
+  countrycode?: string;
+}
+
+export const cellphoneLogin = ({
+  phone,
+  password,
+  countrycode
+}: CellphoneLogin) => {
+  const params = {
+    timestamp: new Date().getTime(),
+    phone,
+    password,
+    countrycode
+  };
+  return axios.request({
+    url: '/login/cellphone',
+    method: 'get',
+    params
+  });
+};
+
+/**
  * @desc 邮箱登录
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } email - 163 网易邮箱
@@ -74,7 +144,7 @@ export const mailboxLogin = ({
   password,
   md5Password
 }: MailboxLogin) => {
-  const data = {
+  const params = {
     timestamp: new Date().getTime(),
     email,
     password,
@@ -82,8 +152,8 @@ export const mailboxLogin = ({
   };
   return axios.request({
     url: '/login',
-    method: 'post',
-    data
+    method: 'get',
+    params
   });
 };
 

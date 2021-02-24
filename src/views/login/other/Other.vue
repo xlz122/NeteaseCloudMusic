@@ -70,7 +70,11 @@
     </div>
   </div>
   <!-- 右下角二维码  -->
-  <i class="icon-qrcode-login" v-if="allOtherLogin" @click="qrcodeLogin"></i>
+  <i
+    class="icon-qrcode-login"
+    v-if="loginMode.allOtherLogin"
+    @click="qrcodeLogin"
+  ></i>
   <!-- 手机登录 -->
   <div class="mobile-phone-form" v-if="loginMode.mobileLogin">
     <mobile-phone-login />
@@ -108,8 +112,6 @@ import { useStore } from 'vuex';
 import MobilePhoneLogin from './mobile-login/MobileLogin.vue';
 import MobilePhoneRegister from './mobile-register/MobileRegister.vue';
 import Mailbox from './mailbox/Mailbox.vue';
-// import { userInfo } from '@api/login';
-// import { ResponseDataType } from '@/types/types';
 
 export default defineComponent({
   components: {
@@ -172,22 +174,6 @@ export default defineComponent({
       loginMode.allOtherLogin = false;
       loginMode.mailboxLogin = true;
     }
-
-    // 获取用户详情
-    // function getUserInfo(uid: number): void {
-    //   // 使用测试uid
-    //   uid = 32953014;
-    //   userInfo({ uid }).then((res: ResponseDataType) => {
-    //     if (res.code === 200) {
-    //       // 存储用户信息
-    //       $store.commit('setUserInfo', res);
-    //       // 关闭登录对话框
-    //       $store.commit('setLoginDialog', false);
-    //     } else {
-    //       alert(res?.msg);
-    //     }
-    //   });
-    // }
 
     // 微信登录
     function weChatLogin() {

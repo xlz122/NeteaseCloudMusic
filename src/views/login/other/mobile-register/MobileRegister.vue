@@ -1,29 +1,47 @@
 <template>
   <div class="form-content">
     <div class="label">手机号：</div>
-    <input
-      class="input"
-      :class="{
-        'verify-error': mailboxVerify.show && mailboxVerify.type === 'mailbox'
-      }"
-      v-model="mailboxFormData.mailbox"
-      type="text"
-      placeholder="请输入账号"
-    />
+    <div class="mobmie-phone-input">
+      <div class="country-code" @click="toggleCountryCode">
+        <span class="country-code-text">+{{ mobileFormData.code }}</span>
+        <i class="country-code-icon"></i>
+      </div>
+      <input
+        class="input"
+        :class="{
+          'verify-error': mobileVerify.show && mobileVerify.type === 'phone'
+        }"
+        v-model="mobileFormData.phone"
+        @keyup="mobilePhoneChange"
+        type="text"
+        placeholder="请输入手机号"
+      />
+      <ul class="country-code-list" v-show="countryCodeShow">
+        <li
+          class="item"
+          v-for="(item, index) in countryCodeList"
+          :key="index"
+          @click="countryCodeChange(item.code)"
+        >
+          <span class="left-text">{{ item.zh }}</span>
+          <span class="right-text">+{{ item.code }}</span>
+        </li>
+      </ul>
+    </div>
     <div class="label">密码：</div>
     <input
       class="input input-password"
       :class="{
-        'verify-error': mailboxVerify.show && mailboxVerify.type === 'password'
+        'verify-error': mobileVerify.show && mobileVerify.type === 'password'
       }"
-      v-model="mailboxFormData.password"
+      v-model="mobileFormData.password"
       type="password"
       placeholder="设置登录密码，不少于8位"
     />
   </div>
-  <div class="verification" v-if="mailboxVerify.show">
+  <div class="verification" v-if="mobileVerify.show">
     <i class="icon-verification"></i>
-    <span class="text">{{ mailboxVerify.text }}</span>
+    <span class="text">{{ mobileVerify.text }}</span>
   </div>
   <!-- <div class="mobile-phone-checkbox">
     <label for="mobile-phone-checkbox">
@@ -38,23 +56,30 @@
       </a>
     </label>
   </div> -->
-  <div class="mobile-phone-submit" @click="mailboxSubmit">
+  <!-- @click="mobileSubmit" -->
+  <div class="mobile-phone-submit">
     <i class="icon-mobile-phone-submit">下一步</i>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onUnmounted, reactive } from 'vue';
+import { defineComponent, ref, reactive, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
-import { mailboxLogin, userInfo } from '@api/login';
-import { ResponseDataType } from '@/types/types';
+import {
+  countryCode,
+  testCellphone,
+  cellphoneLogin,
+  userInfo
+} from '@api/login';
+import { LoopType, ResponseDataType, ResponseType } from '@/types/types';
 
-interface MailboxFormData {
-  mailbox: string;
+interface MobileFormData {
+  code: string;
+  phone: string;
   password: string;
 }
 
-interface MailboxVerify {
+interface MobileVerify {
   show: boolean;
   type: string;
   text: string;
@@ -69,62 +94,113 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 邮箱表单数据
-    const mailboxFormData = reactive<MailboxFormData>({
-      mailbox: '',
+    // 表单数据
+    const mobileFormData = reactive<MobileFormData>({
+      code: '86',
+      phone: '',
       password: ''
     });
 
+    // 获取国家编码列表
+    const countryCodeList = ref<unknown[]>([]);
+    function getCountryCode(): void {
+      countryCode().then((res: ResponseType) => {
+        if (res.code === 200) {
+          res.data.forEach((item: LoopType) => {
+            item?.countryList.forEach((i: LoopType) => {
+              countryCodeList.value.push(i);
+            });
+          });
+        }
+      });
+    }
+    getCountryCode();
+
+    // 编码列表显隐
+    const countryCodeShow = ref<boolean>(false);
+    function toggleCountryCode(): void {
+      countryCodeShow.value = !countryCodeShow.value;
+    }
+
+    // 编码改变
+    function countryCodeChange(code: string): void {
+      mobileFormData.code = code;
+      countryCodeShow.value = false;
+    }
+
+    // 手机号正则验证
+    function mobilePhoneChange(): void {
+      mobileFormData.phone = mobileFormData.phone.replace(/[^\d]/g, '');
+    }
+
     // 邮箱登录验证信息
-    const mailboxVerify = reactive<MailboxVerify>({
+    const mobileVerify = reactive<MobileVerify>({
       show: false,
-      type: 'mailbox',
+      type: '',
       text: ''
     });
 
+    // 表单验证方法
     function verifyMethod({ type = '', text }: VerifyMethod) {
-      mailboxVerify.show = true;
-      mailboxVerify.type = type;
-      mailboxVerify.text = text;
+      mobileVerify.show = true;
+      mobileVerify.type = type;
+      mobileVerify.text = text;
     }
 
-    function mailboxSubmit(): boolean | undefined {
-      mailboxVerify.show = false;
-      if (!mailboxFormData.mailbox) {
-        verifyMethod({ type: 'mailbox', text: '请输入邮箱帐号' });
+    function mobileSubmit(): boolean | undefined {
+      mobileVerify.show = false;
+      if (!mobileFormData.phone) {
+        verifyMethod({ type: 'phone', text: '请输入手机号' });
         return false;
       }
-      if (!mailboxFormData.password) {
+      if (!mobileFormData.password) {
         verifyMethod({ type: 'password', text: '请输入登录密码' });
         return false;
       }
-      mailboxLogin({
-        email: mailboxFormData.mailbox,
-        password: mailboxFormData.password
-      })
-        .then((res: ResponseDataType) => {
-          console.log(res);
-          // 账号或密码错误
-          if (res.code === 502) {
-            verifyMethod({ text: '帐号或密码错误' });
-          }
-          // 邮箱未绑定手机号，需先绑定手机号
-          if (res.code === 200 && res.account.status === -10) {
-            // 需要跳转手机号登录
-            verifyMethod({ text: '需要跳转手机号登录' });
-          }
-          // 登录成功
-          if (res.code === 200 && res.account.status === 0) {
-            document.cookie = `${res.cookie}`;
-            // 存储账户信息
-            $store.commit('setAccountInfo', res?.account);
-            // 获取用户详情
-            getUserInfo(res?.account?.id);
-          }
+      // 检测手机号是否注册
+      getTestCellphone().then(() => {
+        cellphoneLogin({
+          countrycode: mobileFormData.code,
+          phone: mobileFormData.phone,
+          password: mobileFormData.password
         })
-        .catch(err => {
-          console.log(err);
+          .then((res: ResponseType) => {
+            // 账号或密码错误
+            if (res.code === 502) {
+              verifyMethod({ text: '帐号或密码错误' });
+            }
+            // 登录成功
+            if (res.code === 200 && res.account.status === 0) {
+              document.cookie = `${res.cookie}`;
+              // 存储账户信息
+              $store.commit('setAccountInfo', res?.account);
+              // 获取用户详情
+              getUserInfo(res?.account?.id);
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      });
+    }
+
+    // 检测手机号是否注册
+    function getTestCellphone(): Promise<void> {
+      return new Promise(resolve => {
+        testCellphone({
+          countrycode: mobileFormData.code,
+          phone: mobileFormData.phone
+        }).then((res: ResponseType) => {
+          // 手机号存在
+          if (res.code === 200 && res.exist === 1) {
+            resolve();
+          }
+          // 手机号不存在
+          if (res.code === 200 && res.exist === -1) {
+            verifyMethod({ text: '手机号未注册，点击右下角前往注册' });
+          }
         });
+      });
     }
 
     // 获取用户详情
@@ -139,17 +215,34 @@ export default defineComponent({
       });
     }
 
+    // 监听点击
+    onMounted(() => {
+      document.addEventListener('click', function(e: MouseEvent): void {
+        const target = e.target as HTMLElement;
+        if (
+          target.className !== 'country-code' &&
+          target.className !== 'country-code-text' &&
+          target.className !== 'country-code-icon'
+        ) {
+          countryCodeShow.value = false;
+        }
+      });
+    });
+
     onUnmounted(() => {
-      // 清空邮箱登录数据
-      mailboxFormData.mailbox = '';
-      mailboxFormData.password = '';
-      mailboxVerify.type = '';
-      mailboxVerify.text = '';
+      document.removeEventListener('click', function(): void {
+        console.log('download.vue 点击事件移除');
+      });
     });
     return {
-      mailboxFormData,
-      mailboxVerify,
-      mailboxSubmit
+      countryCodeList,
+      mobileFormData,
+      countryCodeShow,
+      toggleCountryCode,
+      countryCodeChange,
+      mobilePhoneChange,
+      mobileVerify,
+      mobileSubmit
     };
   }
 });

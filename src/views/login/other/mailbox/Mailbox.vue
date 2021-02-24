@@ -76,11 +76,12 @@ export default defineComponent({
     // 邮箱登录验证信息
     const mailboxVerify = reactive<MailboxVerify>({
       show: false,
-      type: 'mailbox',
+      type: '',
       text: ''
     });
 
-    function verifyMethod({ type = '', text }: VerifyMethod) {
+    // 邮箱验证方法
+    function verifyMethod({ type = '', text }: VerifyMethod): void {
       mailboxVerify.show = true;
       mailboxVerify.type = type;
       mailboxVerify.text = text;
@@ -101,7 +102,6 @@ export default defineComponent({
         password: mailboxFormData.password
       })
         .then((res: ResponseDataType) => {
-          console.log(res);
           // 账号或密码错误
           if (res.code === 502) {
             verifyMethod({ text: '帐号或密码错误' });
@@ -109,7 +109,7 @@ export default defineComponent({
           // 邮箱未绑定手机号，需先绑定手机号
           if (res.code === 200 && res.account.status === -10) {
             // 需要跳转手机号登录
-            verifyMethod({ text: '需要跳转手机号登录' });
+            verifyMethod({ text: '需要跳转手机号绑定，未完成' });
           }
           // 登录成功
           if (res.code === 200 && res.account.status === 0) {
