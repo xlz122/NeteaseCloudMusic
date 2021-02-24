@@ -70,7 +70,11 @@
     </div>
   </div>
   <!-- 右下角二维码  -->
-  <i class="icon-qrcode-login" v-if="allOtherLogin" @click="qrcodeLogin"></i>
+  <i
+    class="icon-qrcode-login"
+    v-if="loginMode.allOtherLogin"
+    @click="qrcodeLogin"
+  ></i>
   <!-- 手机登录 -->
   <div class="mobile-phone-form" v-if="loginMode.mobileLogin">
     <mobile-phone-login />
