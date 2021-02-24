@@ -1,6 +1,6 @@
 <template>
   <!-- 所有其他登录方式 -->
-  <div class="other" v-if="allOtherLogin">
+  <div class="other" v-if="loginMode.allOtherLogin">
     <div class="phone-login">
       <i class="icon-phone"></i>
       <div class="phone-login-btn">
@@ -71,28 +71,50 @@
   </div>
   <!-- 右下角二维码  -->
   <i class="icon-qrcode-login" v-if="allOtherLogin" @click="qrcodeLogin"></i>
+  <!-- 手机登录 -->
+  <div class="mobile-phone-form" v-if="loginMode.mobileLogin">
+    <mobile-phone-login />
+  </div>
+  <!-- 手机注册 -->
+  <div class="mobile-phone-form" v-if="loginMode.mobileRegister">
+    <mobile-phone-register />
+  </div>
   <!-- 邮箱登录 -->
-  <div class="mailbox-form" v-if="mailboxLoginShow">
+  <div class="mailbox-form" v-if="loginMode.mailboxLogin">
     <mailbox />
   </div>
-  <div
-    class="return-other-login"
-    v-if="!allOtherLogin"
-    @click="returnOtherLogin"
-  >
-    <span class="text">&LT; 返回其他登录</span>
+  <!-- 返回所有其他登录方式 -->
+  <div class="return-other-login" v-if="!loginMode.allOtherLogin">
+    <!-- 手机号注册 -->
+    <template v-if="loginMode.mobileRegister">
+      <span class="text" @click="returnOtherLogin"> &LT; 返回登录 </span>
+    </template>
+    <template v-else>
+      <span class="text" @click="returnOtherLogin">&LT; 返回其他登录</span>
+    </template>
+    <span
+      class="register"
+      v-if="loginMode.mobileLogin"
+      @click="mobileTypeSwitch"
+    >
+      没有帐号？免费注册 >
+    </span>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
 import { useStore } from 'vuex';
+import MobilePhoneLogin from './mobile-login/MobileLogin.vue';
+import MobilePhoneRegister from './mobile-register/MobileRegister.vue';
 import Mailbox from './mailbox/Mailbox.vue';
 // import { userInfo } from '@api/login';
 // import { ResponseDataType } from '@/types/types';
 
 export default defineComponent({
   components: {
+    MobilePhoneLogin,
+    MobilePhoneRegister,
     Mailbox
   },
   emits: ['qrcodeLogin'],
@@ -106,8 +128,13 @@ export default defineComponent({
 
     // 勾选协议
     const officialCheckbox = ref<boolean>(false);
-    // 所有其他登录方式
-    const allOtherLogin = ref<boolean>(true);
+    // 登录方式
+    const loginMode = reactive({
+      mobileLogin: false,
+      mobileRegister: false,
+      mailboxLogin: false,
+      allOtherLogin: true
+    });
 
     // 手机号登录
     function phoneLogin(): boolean | undefined {
@@ -115,6 +142,8 @@ export default defineComponent({
         alert('请先勾选同意《服务条款》、《隐私政策》、《儿童隐私政策》');
         return false;
       }
+      loginMode.allOtherLogin = false;
+      loginMode.mobileLogin = true;
     }
 
     // 注册
@@ -123,17 +152,25 @@ export default defineComponent({
         alert('请先勾选同意《服务条款》、《隐私政策》、《儿童隐私政策》');
         return false;
       }
+      loginMode.allOtherLogin = false;
+      loginMode.mobileRegister = true;
+    }
+
+    // 登录切换注册
+    function mobileTypeSwitch(): void {
+      loginMode.allOtherLogin = false;
+      loginMode.mobileLogin = false;
+      loginMode.mobileRegister = true;
     }
 
     // 邮箱登录部分
-    const mailboxLoginShow = ref<boolean>(false);
     function mailbox(): boolean | undefined {
       if (!officialCheckbox.value) {
         alert('请先勾选同意《服务条款》、《隐私政策》、《儿童隐私政策》');
         return false;
       }
-      allOtherLogin.value = false;
-      mailboxLoginShow.value = true;
+      loginMode.allOtherLogin = false;
+      loginMode.mailboxLogin = true;
     }
 
     // 获取用户详情
@@ -178,17 +215,19 @@ export default defineComponent({
 
     // 返回其他登录
     function returnOtherLogin(): void {
-      allOtherLogin.value = true;
-      mailboxLoginShow.value = false;
+      loginMode.mailboxLogin = false;
+      loginMode.mobileRegister = false;
+      loginMode.mobileLogin = false;
+      loginMode.allOtherLogin = true;
     }
     return {
       qrcodeLogin,
-      allOtherLogin,
       officialCheckbox,
+      loginMode,
+      mobileTypeSwitch,
       phoneLogin,
       register,
       mailbox,
-      mailboxLoginShow,
       weChatLogin,
       qqLogin,
       microBlogLogin,
