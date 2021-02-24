@@ -67,8 +67,8 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
-import Qrcode from '@views/login/Qrcode.vue';
-import Other from '@views/login/Other.vue';
+import Qrcode from '@views/login/qrcode/Qrcode.vue';
+import Other from '@views/login/other/Other.vue';
 
 export default defineComponent({
   components: {
