@@ -1,19 +1,25 @@
 import { State } from '@store/state';
 import { clearAllCookie } from '@utils/cookie';
 
-interface Mutations<T, U> {
+interface Mutations<T, U = any> {
   [key: string]: (state: T, payload: U) => void;
 }
 
-const mutations: Mutations<State, unknown> = {
+interface Message {
+  type: string;
+  title: string;
+  time?: number;
+}
+
+const mutations: Mutations<State> = {
   // 头部选中导航
-  setHeaderActiveIndex(state, index) {
-    state.heaerActiveIndex = index as number;
-    localStorage.setItem('heaerActiveIndex', (index as number).toString());
+  setHeaderActiveIndex(state, index: number) {
+    state.heaerActiveIndex = index;
+    localStorage.setItem('heaerActiveIndex', index.toString());
   },
   // 登录对话框
-  setLoginDialog(state, bool) {
-    state.loginDialog = bool as boolean;
+  setLoginDialog(state, bool: boolean) {
+    state.loginDialog = bool;
   },
   // 账户信息
   setAccountInfo(state, accountInfo) {
@@ -29,9 +35,9 @@ const mutations: Mutations<State, unknown> = {
     localStorage.setItem('isLogin', JSON.stringify(true));
   },
   // 签到
-  setSignIn(state, signIn) {
+  setSignIn(state, signIn: boolean) {
     const userInfo = JSON.parse(JSON.stringify(state.userInfo));
-    userInfo.pcSign = signIn as boolean;
+    userInfo.pcSign = signIn;
     state.userInfo = userInfo as unknown;
     localStorage.setItem('userInfo', JSON.stringify(userInfo));
   },
@@ -46,6 +52,15 @@ const mutations: Mutations<State, unknown> = {
     localStorage.clear();
     // 清除所有cookie
     clearAllCookie();
+  },
+  // 消息提示
+  setMessage(state, message: Message) {
+    return new Promise(resolve => {
+      const params = Object.assign({ time: 1000 }, message);
+      state.message = params;
+      localStorage.setItem('message', JSON.stringify(params));
+      resolve('');
+    });
   }
 };
 

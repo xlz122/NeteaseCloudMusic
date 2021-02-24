@@ -4,6 +4,7 @@ export interface State {
   accountInfo: unknown;
   userInfo: unknown;
   isLogin: boolean;
+  message: unknown;
 }
 
 // 本地存储容错处理
@@ -18,7 +19,8 @@ const state: State = {
   loginDialog: false, // 登录对话框显隐
   accountInfo: faultTolerant('accountInfo') || {}, // 账户信息
   userInfo: faultTolerant('userInfo') || {}, // 用户信息
-  isLogin: faultTolerant('isLogin') || false // 是否登录
+  isLogin: faultTolerant('isLogin') || false, // 是否登录
+  message: faultTolerant('message') || {} // 消息提示
 };
 
 export default state;
