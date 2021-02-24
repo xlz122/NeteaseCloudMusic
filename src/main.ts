@@ -5,6 +5,7 @@ import router from '@/router/index';
 import '@/router/route-intercept';
 import store from '@/store/index';
 import musicAudio from '@components/music-audio/index';
+import message from '@components/message/index';
 import '@/index.less';
 
 const app = createApp(App);
@@ -12,4 +13,5 @@ const app = createApp(App);
 app.use(store);
 app.use(router);
 app.use(musicAudio);
+app.use(message);
 app.mount('#app');

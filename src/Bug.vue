@@ -20,10 +20,9 @@ import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   setup() {
-    // 框架模块升级 vue-router vuex
     // 未完成功能：拖动比缓冲更快，需置为加载
     // bug
-    const bugList = ref<string[]>(['删除收藏的歌单，获取详情报错']);
+    const bugList = ref<string[]>(['']);
     // 未完成
     const incompleteFunction = ref<string[]>(['邮箱登录', '手机号登录']);
     return {

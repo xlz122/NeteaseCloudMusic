@@ -182,28 +182,14 @@
     >
       <p class="content">确定删除评论？</p>
     </my-dialog>
-    <!-- 评论回复提示 -->
-    <div class="music-sysmsg" v-if="commentMsg.show">
-      <div class="sysmsg">
-        <i
-          class="icon"
-          :class="[
-            { 'info-icon': commentMsg.type === 'info' },
-            { 'error-icon': commentMsg.type === 'error' }
-          ]"
-        ></i>
-        <span class="text">{{ commentMsg.title }}</span>
-      </div>
-    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, computed, nextTick, reactive } from 'vue';
+import { defineComponent, ref, watch, computed, nextTick } from 'vue';
 import { useStore } from 'vuex';
 import MyDialog from '@/components/MyDialog.vue';
 import CommentReplay from '@/components/comment-replay/CommentReplay.vue';
-import { expressionList } from '@/components/comment-replay/comment-replay';
 import {
   commentPlayList,
   addSongSheetComment,
@@ -213,12 +199,7 @@ import {
 } from '@api/my-music';
 import { ResponseType, LoopType } from '@/types/types';
 import { formatDate } from '@utils/utils';
-
-interface CommentMsg {
-  show: boolean;
-  type: string;
-  title: string;
-}
+import { formatMixedText } from '@utils/formatMixedText';
 
 export default defineComponent({
   components: {
@@ -253,15 +234,14 @@ export default defineComponent({
       commentPlayList({
         id: props?.songListDetailData?.playlist?.id
       }).then((res: ResponseType) => {
-        console.log(res);
         if (res.code === 200) {
           // 精彩评论
           res.hotComments.forEach((item: LoopType) => {
             item.replyShow = false;
-            item.content = formatReply(item.content);
+            item.content = formatMixedText(item.content);
             // 他人回复也进行转换
             if (item.beReplied[0]) {
-              item.beReplied[0].content = formatReply(
+              item.beReplied[0].content = formatMixedText(
                 item?.beReplied[0]?.content
               );
             }
@@ -270,10 +250,10 @@ export default defineComponent({
           // 最新评论
           res.comments.forEach((item: LoopType) => {
             item.replyShow = false;
-            item.content = formatReply(item.content);
+            item.content = formatMixedText(item.content);
             // 他人回复也进行转换
             if (item.beReplied[0]) {
-              item.beReplied[0].content = formatReply(
+              item.beReplied[0].content = formatMixedText(
                 item?.beReplied[0]?.content
               );
             }
@@ -285,89 +265,23 @@ export default defineComponent({
       });
     }
 
-    // 格式化回复内容
-    function formatReply(content: string): string {
-      if (!content) {
-        return '';
-      }
-      let contentStr = JSON.parse(JSON.stringify(content));
-      const reg = /\[.+?\]/g;
-      content.replace(reg, function(item: string) {
-        // 去重 去除重复的[]符号
-        item = character(item);
-        // 表情文本
-        const expressionText = item.split('[')[1].split(']')[0];
-        // 匹配表情对应的数据项
-        const expressionItem = expressionList.find(
-          (item: LoopType) => item.title === expressionText
-        );
-        // 表情替换为img标签
-        if (expressionItem) {
-          contentStr = contentStr.replace(
-            item,
-            `<img 
-              src='http://s1.music.126.net/style/web2/emt/emoji_${expressionItem.num}.png'
-              style="display: inline-block; vertical-align: middle;"
-            />`
-          );
-        }
-        return item;
-      });
-      return contentStr;
-    }
-
-    // 去重 去除重复的[]符号
-    function character(array: string): string {
-      const result = [];
-      // 字符串转换成数组
-      const arr = array.split('');
-      // 去重
-      for (let j = 0; j < arr.length; j++) {
-        if (arr[j] === '[' && result.indexOf('[') < 0) {
-          result.push(arr[j]);
-        }
-        if (arr[j] === ']' && result.indexOf(']') < 0) {
-          result.push(arr[j]);
-        }
-        const rIndex = result.findIndex((item: string) => item === '[');
-        if (rIndex > -1) {
-          if (arr[j] !== '[' && arr[j] !== ']') {
-            result.push(arr[j]);
-          }
-        }
-      }
-      // 数组转换成字符串
-      return result.join('');
-    }
-
-    // 评论回复提示
-    const commentMsg = reactive<CommentMsg>({
-      show: false,
-      type: 'info',
-      title: ''
-    });
-
     // 是否清除回复内容
     const commentClearText = ref<boolean>(false);
 
     // 顶部评论提交
     function commentSubmit(replayText: string): boolean | undefined {
       if (replayText.length === 0) {
-        commentMsg.show = true;
-        commentMsg.type = 'error';
-        commentMsg.title = '输入点内容再提交吧';
-        setTimeout(() => {
-          commentMsg.show = false;
-        }, 1000);
+        $store.commit('setMessage', {
+          type: 'error',
+          title: '输入点内容再提交吧'
+        });
         return false;
       }
       if (replayText.length > 140) {
-        commentMsg.show = true;
-        commentMsg.type = 'error';
-        commentMsg.title = '输入不能超过140个字符';
-        setTimeout(() => {
-          commentMsg.show = false;
-        }, 1000);
+        $store.commit('setMessage', {
+          type: 'error',
+          title: '输入不能超过140个字符'
+        });
         return false;
       }
       addSongSheetComment({
@@ -376,9 +290,7 @@ export default defineComponent({
       }).then((res: ResponseType) => {
         if (res.code === 200) {
           // 评论成功提醒
-          commentMsg.show = true;
-          commentMsg.type = 'info';
-          commentMsg.title = '评论成功';
+          $store.commit('setMessage', { type: 'info', title: '评论成功' });
           // 清空回复内容
           commentClearText.value = true;
           getCommentPlayList();
@@ -388,13 +300,8 @@ export default defineComponent({
           });
         } else {
           // 评论失败提醒
-          commentMsg.show = true;
-          commentMsg.type = 'error';
-          commentMsg.title = '评论失败';
+          $store.commit('setMessage', { type: 'error', title: '评论失败' });
         }
-        setTimeout(() => {
-          commentMsg.show = false;
-        }, 1000);
       });
     }
 
@@ -475,21 +382,17 @@ export default defineComponent({
       commentId: number
     ): boolean | undefined {
       if (replayText.length === 0) {
-        commentMsg.show = true;
-        commentMsg.type = 'error';
-        commentMsg.title = '输入点内容再提交吧';
-        setTimeout(() => {
-          commentMsg.show = false;
-        }, 1000);
+        $store.commit('setMessage', {
+          type: 'error',
+          title: '输入点内容再提交吧'
+        });
         return false;
       }
       if (replayText.length > 140) {
-        commentMsg.show = true;
-        commentMsg.type = 'error';
-        commentMsg.title = '输入不能超过140个字符';
-        setTimeout(() => {
-          commentMsg.show = false;
-        }, 1000);
+        $store.commit('setMessage', {
+          type: 'error',
+          title: '输入不能超过140个字符'
+        });
         return false;
       }
       replySongSheetComment({
@@ -499,26 +402,18 @@ export default defineComponent({
       }).then((res: ResponseType) => {
         if (res.code === 200) {
           // 评论成功提醒
-          commentMsg.show = true;
-          commentMsg.type = 'info';
-          commentMsg.title = '评论成功';
+          $store.commit('setMessage', { type: 'info', title: '评论成功' });
           getCommentPlayList();
         } else {
           // 评论失败提醒
-          commentMsg.show = true;
-          commentMsg.type = 'error';
-          commentMsg.title = '评论失败';
+          $store.commit('setMessage', { type: 'error', title: '评论失败' });
         }
-        setTimeout(() => {
-          commentMsg.show = false;
-        }, 1000);
       });
     }
     return {
       userInfo,
       formatDate,
       commentClearText,
-      commentMsg,
       commentSubmit,
       hotCommentsList,
       setHotComments,
