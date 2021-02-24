@@ -11,15 +11,15 @@
       </div>
     </div>
     <ul class="other-login">
-      <li class="item first-item">
+      <li class="item first-item" @click="weChatLogin">
         <i class="icon wechat"></i>
         <span class="text">微信登录</span>
       </li>
-      <li class="item">
+      <li class="item" @click="qqLogin">
         <i class="icon qq"></i>
         <span class="text">QQ登录</span>
       </li>
-      <li class="item">
+      <li class="item" @click="microBlogLogin">
         <i class="icon micro-blog"></i>
         <span class="text">微博登录</span>
       </li>
@@ -71,42 +71,9 @@
   </div>
   <!-- 右下角二维码  -->
   <i class="icon-qrcode-login" v-if="allOtherLogin" @click="qrcodeLogin"></i>
-  <!-- 邮箱表单 -->
+  <!-- 邮箱登录 -->
   <div class="mailbox-form" v-if="mailboxLoginShow">
-    <div class="form-content">
-      <input
-        class="input"
-        v-model="mailboxFormData.mailbox"
-        type="text"
-        placeholder="请输入账号"
-      />
-      <input
-        class="input input-password"
-        v-model="mailboxFormData.password"
-        type="password"
-        placeholder="请输入密码"
-      />
-    </div>
-    <div class="verification" v-if="mailboxVerify">
-      <i class="icon-verification"></i>
-      <span class="text">{{ mailboxVerify }}</span>
-    </div>
-    <div class="mailbox-checkbox">
-      <label for="mailbox-checkbox">
-        <input class="checkbox" id="mailbox-checkbox" type="checkbox" />
-        <span class="text">自动登录</span>
-        <a
-          class="forget-password"
-          href="https://reg.163.com/naq/findPassword#/verifyAccount"
-          target="_blank"
-        >
-          忘记密码？
-        </a>
-      </label>
-    </div>
-    <div class="mailbox-submit" @click="mailboxSubmit">
-      <i class="icon-mailbox-submit">登 录</i>
-    </div>
+    <mailbox />
   </div>
   <div
     class="return-other-login"
@@ -118,17 +85,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
-import { mailboxLogin, userInfo } from '@api/login';
-import { ResponseDataType } from '@/types/types';
-
-interface MailboxFormData {
-  mailbox: string;
-  password: string;
-}
+import Mailbox from './mailbox/Mailbox.vue';
+// import { userInfo } from '@api/login';
+// import { ResponseDataType } from '@/types/types';
 
 export default defineComponent({
+  components: {
+    Mailbox
+  },
   emits: ['qrcodeLogin'],
   setup(props, ctx) {
     const $store = useStore();
@@ -169,52 +135,44 @@ export default defineComponent({
       allOtherLogin.value = false;
       mailboxLoginShow.value = true;
     }
-    // 邮箱表单数据
-    const mailboxFormData = reactive<MailboxFormData>({
-      mailbox: '',
-      password: ''
-    });
-    // 邮箱登录验证信息
-    const mailboxVerify = ref<string>('');
-    function mailboxSubmit(): boolean | undefined {
-      if (!mailboxFormData.mailbox) {
-        mailboxVerify.value = '请输入邮箱帐号';
-        return false;
-      }
-      if (!mailboxFormData.password) {
-        mailboxVerify.value = '请输入登录密码';
-        return false;
-      }
-      mailboxLogin({
-        email: mailboxFormData.mailbox,
-        password: mailboxFormData.password
-      }).then((res: ResponseDataType) => {
-        if (res.code === 200) {
-          document.cookie = `${res.cookie}`;
-          // 存储账户信息
-          $store.commit('setAccountInfo', res?.account);
-          // 获取用户详情
-          getUserInfo(res?.account?.id);
-        } else {
-          alert(res?.msg);
-        }
+
+    // 获取用户详情
+    // function getUserInfo(uid: number): void {
+    //   // 使用测试uid
+    //   uid = 32953014;
+    //   userInfo({ uid }).then((res: ResponseDataType) => {
+    //     if (res.code === 200) {
+    //       // 存储用户信息
+    //       $store.commit('setUserInfo', res);
+    //       // 关闭登录对话框
+    //       $store.commit('setLoginDialog', false);
+    //     } else {
+    //       alert(res?.msg);
+    //     }
+    //   });
+    // }
+
+    // 微信登录
+    function weChatLogin() {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '暂不支持微信登录'
       });
     }
 
-    // 获取用户详情
-    // 未完成，用户邮箱未绑定手机号，需先绑定手机号
-    function getUserInfo(uid: number): void {
-      // 使用测试uid
-      uid = 32953014;
-      userInfo({ uid }).then((res: ResponseDataType) => {
-        if (res.code === 200) {
-          // 存储用户信息
-          $store.commit('setUserInfo', res);
-          // 关闭登录对话框
-          $store.commit('setLoginDialog', false);
-        } else {
-          alert(res?.msg);
-        }
+    // qq登录
+    function qqLogin() {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '暂不支持QQ登录'
+      });
+    }
+
+    // 微博登录
+    function microBlogLogin() {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '暂不支持微博登录'
       });
     }
 
@@ -222,10 +180,6 @@ export default defineComponent({
     function returnOtherLogin(): void {
       allOtherLogin.value = true;
       mailboxLoginShow.value = false;
-      // 清空邮箱登录数据
-      mailboxFormData.mailbox = '';
-      mailboxFormData.password = '';
-      mailboxVerify.value = '';
     }
     return {
       qrcodeLogin,
@@ -235,9 +189,9 @@ export default defineComponent({
       register,
       mailbox,
       mailboxLoginShow,
-      mailboxFormData,
-      mailboxVerify,
-      mailboxSubmit,
+      weChatLogin,
+      qqLogin,
+      microBlogLogin,
       returnOtherLogin
     };
   }
