@@ -70,16 +70,12 @@
       </div>
     </div>
   </div>
-  <teleport to="#modal">
-    <login />
-  </teleport>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import Login from '@views/login/Login.vue';
 import User from '@views/user/User.vue';
 import { LoopType } from '@/types/types';
 
@@ -90,7 +86,6 @@ interface NavList {
 
 export default defineComponent({
   components: {
-    Login,
     User
   },
   setup() {
