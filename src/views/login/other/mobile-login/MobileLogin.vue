@@ -1,14 +1,26 @@
 <template>
   <div class="form-content">
-    <input
-      class="input"
-      :class="{
-        'verify-error': mailboxVerify.show && mailboxVerify.type === 'mailbox'
-      }"
-      v-model="mailboxFormData.mailbox"
-      type="text"
-      placeholder="请输入账号"
-    />
+    <div class="mobmie-phone-input">
+      <div class="country-code">
+        <span class="text">+86</span>
+        <i class="icon"></i>
+      </div>
+      <input
+        class="input"
+        :class="{
+          'verify-error': mailboxVerify.show && mailboxVerify.type === 'mailbox'
+        }"
+        v-model="mailboxFormData.mailbox"
+        type="text"
+        placeholder="请输入账号"
+      />
+      <ul class="country-code-list">
+        <li class="item">
+          <span class="left-text">中国</span>
+          <span class="right-text">+86</span>
+        </li>
+      </ul>
+    </div>
     <input
       class="input input-password"
       :class="{

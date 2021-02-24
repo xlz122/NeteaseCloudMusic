@@ -1,4 +1,100 @@
 .form-content {
+  .mobmie-phone-input {
+    position: relative;
+    width: 200px;
+    height: 30px;
+    margin: 0;
+    border: 1px solid #cdcdcd;
+    padding-right: 12px;
+    border-radius: 2px;
+    line-height: 19px;
+    box-sizing: content-box;
+    font-size: 12px;
+    color: #333;
+    outline: none;
+
+    .country-code {
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+      max-width: 47px;
+      height: 100%;
+      line-height: 30px;
+      padding: 0 16px 0 5px;
+      border-right: 1px solid #cdcdcd;
+      text-align: center;
+      cursor: pointer;
+
+      .text {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .icon {
+        position: absolute;
+        top: 50%;
+        right: 5px;
+        transform: translateY(-50%);
+        display: inline-block;
+        vertical-align: middle;
+        width: 7px;
+        height: 4px;
+        background: url(../../../../assets/image/icon2.png) no-repeat 0 9999px;
+        background-position: -260px -450px;
+      }
+    }
+
+    .input {
+      display: inline-block;
+      vertical-align: middle;
+      max-width: calc(189px - 55px);
+      border: none;
+      padding: 5px 0 5px 6px;
+    }
+
+    .country-code-list {
+      display: none;
+      position: relative;
+      position: absolute;
+      top: 31px;
+      left: -1px;
+      z-index: 10;
+      width: 100%;
+      height: 128px;
+      border: 1px solid #cdcdcd;
+      border-top: none;
+      clear: both;
+      background-color: #fff;
+      overflow: auto;
+
+      .item {
+        position: relative;
+        height: 32px;
+        line-height: 32px;
+        color: #333;
+        cursor: pointer;
+        overflow: hidden;
+
+        &:hover {
+          background-color: #eaeaea;
+        }
+
+        .left-text {
+          padding-left: 7px;
+          color: #333;
+          cursor: pointer;
+        }
+
+        .right-text {
+          position: absolute;
+          right: 10px;
+          color: #333;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
   .input {
     width: 200px;
     height: 19px;
