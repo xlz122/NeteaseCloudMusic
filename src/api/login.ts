@@ -144,7 +144,7 @@ export const mailboxLogin = ({
   password,
   md5Password
 }: MailboxLogin) => {
-  const data = {
+  const params = {
     timestamp: new Date().getTime(),
     email,
     password,
@@ -152,8 +152,8 @@ export const mailboxLogin = ({
   };
   return axios.request({
     url: '/login',
-    method: 'post',
-    data
+    method: 'get',
+    params
   });
 };
 
