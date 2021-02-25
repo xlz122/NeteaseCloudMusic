@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 // 使用setup语法糖，没有export default爆红，不是语法问题
 import MyDialog from '@/components/MyDialog.vue';
@@ -50,6 +50,10 @@ export default defineComponent({
       qrcodeLoginShow.value = true;
       $store.commit('setLoginDialog', false);
     }
+
+    onUnmounted(() => {
+      qrcodeLoginShow.value = true;
+    });
     return {
       loginDialog,
       qrcodeLoginShow,
