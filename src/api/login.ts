@@ -126,6 +126,58 @@ export const cellphoneLogin = ({
 };
 
 /**
+ * @desc 手机号注册 - 发送验证码
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { String } phone - 手机号码
+ * @param { String } [ctcode] - 国家码，用于国外手机号(可选)
+ */
+
+interface CaptchaSent {
+  phone: string;
+  ctcode?: string;
+}
+
+export const captchaSent = ({ phone, ctcode }: CaptchaSent) => {
+  const params = {
+    timestamp: new Date().getTime(),
+    phone,
+    ctcode
+  };
+  return axios.request({
+    url: '/captcha/sent',
+    method: 'get',
+    params
+  });
+};
+
+/**
+ * @desc 手机号注册 - 验证验证码
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { String } captcha - 验证码
+ * @param { String } [ctcode] - 国家码，用于国外手机号(可选)
+ */
+
+interface CaptchaVerify {
+  captcha: string;
+  phone: string;
+  ctcode?: string;
+}
+
+export const captchaVerify = ({ captcha, phone, ctcode }: CaptchaVerify) => {
+  const params = {
+    timestamp: new Date().getTime(),
+    captcha,
+    phone,
+    ctcode
+  };
+  return axios.request({
+    url: '/captcha/verify',
+    method: 'get',
+    params
+  });
+};
+
+/**
  * @desc 邮箱登录
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } email - 163 网易邮箱

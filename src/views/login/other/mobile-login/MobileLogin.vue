@@ -130,7 +130,7 @@ export default defineComponent({
       mobileFormData.phone = mobileFormData.phone.replace(/[^\d]/g, '');
     }
 
-    // 邮箱登录验证信息
+    // 登录验证信息
     const mobileVerify = reactive<MobileVerify>({
       show: false,
       type: '',
