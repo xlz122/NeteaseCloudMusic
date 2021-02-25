@@ -110,7 +110,7 @@ export default defineComponent({
           // 邮箱未绑定手机号，需先绑定手机号
           if (res.code === 200 && res.account.status === -10) {
             // 需要跳转手机号登录
-            verifyMethod({ text: '需要跳转手机号登录' });
+            verifyMethod({ text: '需要跳转手机号绑定，未完成' });
           }
           // 登录成功
           if (res.code === 200 && res.account.status === 0) {
