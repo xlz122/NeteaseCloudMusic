@@ -1,77 +1,118 @@
 <template>
-  <div class="form-content">
-    <div class="label">手机号：</div>
-    <div class="mobmie-phone-input">
-      <div class="country-code" @click="toggleCountryCode">
-        <span class="country-code-text">+{{ mobileFormData.code }}</span>
-        <i class="country-code-icon"></i>
+  <template v-if="!nextLook">
+    <div class="form-content">
+      <div class="label">手机号：</div>
+      <div class="mobmie-phone-input">
+        <div class="country-code" @click="toggleCountryCode">
+          <span class="country-code-text">+{{ mobileFormData.code }}</span>
+          <i class="country-code-icon"></i>
+        </div>
+        <input
+          class="input"
+          :class="{
+            'verify-error': mobileVerify.show && mobileVerify.type === 'phone'
+          }"
+          v-model="mobileFormData.phone"
+          @keyup="mobilePhoneChange"
+          type="text"
+          placeholder="请输入手机号"
+        />
+        <ul class="country-code-list" v-show="countryCodeShow">
+          <li
+            class="item"
+            v-for="(item, index) in countryCodeList"
+            :key="index"
+            @click="countryCodeChange(item.code)"
+          >
+            <span class="left-text">{{ item.zh }}</span>
+            <span class="right-text">+{{ item.code }}</span>
+          </li>
+        </ul>
       </div>
+      <div class="label">密码：</div>
       <input
-        class="input"
+        class="input input-password"
         :class="{
-          'verify-error': mobileVerify.show && mobileVerify.type === 'phone'
+          'verify-error': mobileVerify.show && mobileVerify.type === 'password'
         }"
-        v-model="mobileFormData.phone"
-        @keyup="mobilePhoneChange"
-        type="text"
-        placeholder="请输入手机号"
+        v-model="mobileFormData.password"
+        type="password"
+        placeholder="设置登录密码，不少于8位"
+        @keyup="passwordChange"
+        @focus="passwordFocus"
       />
-      <ul class="country-code-list" v-show="countryCodeShow">
-        <li
-          class="item"
-          v-for="(item, index) in countryCodeList"
-          :key="index"
-          @click="countryCodeChange(item.code)"
-        >
-          <span class="left-text">{{ item.zh }}</span>
-          <span class="right-text">+{{ item.code }}</span>
-        </li>
-      </ul>
     </div>
-    <div class="label">密码：</div>
-    <input
-      class="input input-password"
-      :class="{
-        'verify-error': mobileVerify.show && mobileVerify.type === 'password'
-      }"
-      v-model="mobileFormData.password"
-      type="password"
-      placeholder="设置登录密码，不少于8位"
-    />
-  </div>
-  <div class="verification" v-if="mobileVerify.show">
-    <i class="icon-verification"></i>
-    <span class="text">{{ mobileVerify.text }}</span>
-  </div>
-  <!-- <div class="mobile-phone-checkbox">
-    <label for="mobile-phone-checkbox">
-      <input class="checkbox" id="mobile-phone-checkbox" type="checkbox" />
-      <span class="text">自动登录</span>
-      <a
-        class="forget-password"
-        href="https://reg.163.com/naq/findPassword#/verifyAccount"
-        target="_blank"
-      >
-        忘记密码？
-      </a>
-    </label>
-  </div> -->
-  <!-- @click="mobileSubmit" -->
-  <div class="mobile-phone-submit">
-    <i class="icon-mobile-phone-submit">下一步</i>
-  </div>
+    <div class="verification" v-if="mobileVerify.show">
+      <div class="verification-group">
+        <i
+          class="icon-verification"
+          :class="{ 'icon-adopt': mobileVerify.space }"
+        ></i>
+        <span class="text" :class="{ 'adopt-text': mobileVerify.space }">
+          密码不能包含空格
+        </span>
+      </div>
+      <div class="verification-group">
+        <i
+          class="icon-verification"
+          :class="{ 'icon-adopt': mobileVerify.contain }"
+        ></i>
+        <span class="text" :class="{ 'adopt-text': mobileVerify.contain }">
+          包含字母、数字、符号中至少两种
+        </span>
+      </div>
+      <div class="verification-group">
+        <i
+          class="icon-verification"
+          :class="{ 'icon-adopt': mobileVerify.length }"
+        ></i>
+        <span class="text" :class="{ 'adopt-text': mobileVerify.length }">
+          密码长度为8-20位
+        </span>
+      </div>
+    </div>
+    <div
+      class="mobile-phone-submit"
+      :class="{ 'disable-submit': !mobileVerify.allPassed }"
+      @click="nextStep"
+    >
+      <i class="icon-mobile-phone-submit">下一步</i>
+    </div>
+  </template>
+  <!-- 手机验证码 -->
+  <template v-else>
+    <div class="verification-code">
+      <div class="verification-code-title">
+        <p class="phone-text">你的手机号：</p>
+        <div class="phone-detail">
+          <strong>+{{ mobileFormData.code }}</strong>
+          <strong class="num">147****0339</strong>
+        </div>
+      </div>
+      <p class="verification-code-desc">为了安全，我们会给你发送短信验证码</p>
+      <input class="verification-code-text" v-model="verificationCodeText" />
+      <div class="send-out">
+        <div class="verification" v-if="verificationCodeVerify.show">
+          <i class="icon-verification"></i>
+          <span class="text">{{ verificationCodeVerify.text }}</span>
+        </div>
+        <span class="send-text" v-if="verificationCodeVerify.time > 0">
+          {{ `${verificationCodeVerify.time}s` }}
+        </span>
+        <span class="send-text" v-else @click="resend">重新发送</span>
+      </div>
+    </div>
+    <div class="mobile-phone-submit" @click="verifyNextStep">
+      <i class="icon-mobile-phone-submit">下一步</i>
+    </div>
+  </template>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
-import {
-  countryCode,
-  testCellphone,
-  cellphoneLogin,
-  userInfo
-} from '@api/login';
-import { LoopType, ResponseDataType, ResponseType } from '@/types/types';
+import { countryCode, captchaSent, captchaVerify } from '@api/login';
+import { LoopType, ResponseType } from '@/types/types';
 
 interface MobileFormData {
   code: string;
@@ -81,13 +122,21 @@ interface MobileFormData {
 
 interface MobileVerify {
   show: boolean;
-  type: string;
-  text: string;
+  space: boolean;
+  contain: boolean;
+  length: boolean;
+  allPassed: boolean;
 }
 
 interface VerifyMethod {
   type?: string;
   text: string;
+}
+
+interface VerificationCodeVerify {
+  show: boolean;
+  text: string;
+  time: number;
 }
 
 export default defineComponent({
@@ -133,85 +182,168 @@ export default defineComponent({
       mobileFormData.phone = mobileFormData.phone.replace(/[^\d]/g, '');
     }
 
-    // 邮箱登录验证信息
+    // 登录验证信息
     const mobileVerify = reactive<MobileVerify>({
       show: false,
-      type: '',
-      text: ''
+      space: false,
+      contain: false,
+      length: false,
+      allPassed: false // 验证全部通过
+    });
+
+    // 密码输入
+    function passwordChange(): void {
+      passwordVerify();
+    }
+
+    // 密码获得焦点
+    function passwordFocus(): void {
+      passwordVerify();
+    }
+
+    // 密码验证
+    function passwordVerify(): void {
+      mobileVerify.show = true;
+
+      // 是否包含空格
+      if (/\s/.test(mobileFormData.password)) {
+        mobileVerify.space = false;
+      } else {
+        mobileVerify.space = true;
+      }
+      // 包含字母、数字、符号中至少两种
+      if (
+        /(?!^(\d+|[a-zA-Z]+|[~!@#$%^&*?]+)$)^[\w~!@#$%^&*?]/.test(
+          mobileFormData.password
+        )
+      ) {
+        mobileVerify.contain = true;
+      } else {
+        mobileVerify.contain = false;
+      }
+      // 长度在8~20之间
+      if (
+        mobileFormData.password.length >= 8 &&
+        mobileFormData.password.length <= 20
+      ) {
+        mobileVerify.length = true;
+      } else {
+        mobileVerify.length = false;
+      }
+
+      // 全部通过
+      if (mobileVerify.space && mobileVerify.contain && mobileVerify.length) {
+        mobileVerify.show = false;
+        mobileVerify.allPassed = true;
+      }
+    }
+
+    // 下一步
+    const nextLook = ref<boolean>(false);
+    function nextStep(): void {
+      // 发送验证码
+      sendVerificationCode();
+    }
+
+    // 验证码
+    const verificationCodeText = ref<string>('');
+
+    // 验证码验证
+    const verificationCodeVerify = reactive<VerificationCodeVerify>({
+      show: false,
+      text: '',
+      time: 60 // 验证码定时器时间
     });
 
     // 表单验证方法
-    function verifyMethod({ type = '', text }: VerifyMethod) {
-      mobileVerify.show = true;
-      mobileVerify.type = type;
-      mobileVerify.text = text;
+    function verifyMethod({ text }: VerifyMethod) {
+      verificationCodeVerify.show = true;
+      verificationCodeVerify.text = text;
     }
 
-    function mobileSubmit(): boolean | undefined {
-      mobileVerify.show = false;
-      if (!mobileFormData.phone) {
-        verifyMethod({ type: 'phone', text: '请输入手机号' });
-        return false;
-      }
-      if (!mobileFormData.password) {
-        verifyMethod({ type: 'password', text: '请输入登录密码' });
-        return false;
-      }
-      // 检测手机号是否注册
-      getTestCellphone().then(() => {
-        cellphoneLogin({
-          countrycode: mobileFormData.code,
-          phone: mobileFormData.phone,
-          password: mobileFormData.password
+    // 发送验证码
+    function sendVerificationCode(): void {
+      captchaSent({
+        ctcode: mobileFormData.code,
+        phone: mobileFormData.phone
+      })
+        .then((res: ResponseType) => {
+          console.log(res);
+          if (res.code === 200) {
+            nextLook.value = true;
+            verificationCodeTiming();
+          }
         })
-          .then((res: ResponseType) => {
-            // 账号或密码错误
-            if (res.code === 502) {
-              verifyMethod({ text: '帐号或密码错误' });
-            }
-            // 登录成功
-            if (res.code === 200 && res.account.status === 0) {
-              document.cookie = `${res.cookie}`;
-              // 存储账户信息
-              $store.commit('setAccountInfo', res?.account);
-              // 获取用户详情
-              getUserInfo(res?.account?.id);
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      });
+        .catch(err => {
+          // 发送超过限制次数
+          if (err.response.status === 400) {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: err.response.data.message
+            });
+          }
+          // 发送时间间隔太短
+          if (err.response.status === 405) {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: err.response.data.message
+            });
+          }
+        });
     }
 
-    // 检测手机号是否注册
-    function getTestCellphone(): Promise<void> {
-      return new Promise(resolve => {
-        testCellphone({
-          countrycode: mobileFormData.code,
-          phone: mobileFormData.phone
-        }).then((res: ResponseType) => {
-          // 手机号存在
-          if (res.code === 200 && res.exist === 1) {
-            resolve();
-          }
-          // 手机号不存在
-          if (res.code === 200 && res.exist === -1) {
-            verifyMethod({ text: '手机号未注册，点击右下角前往注册' });
-          }
+    // 验证码定时器计时
+    const verificationCodeTimer = ref<number>(0);
+    function verificationCodeTiming(): void {
+      if (verificationCodeTimer.value) {
+        clearInterval(verificationCodeTimer.value);
+      }
+      verificationCodeTimer.value = setInterval(() => {
+        verificationCodeVerify.time--;
+        if (verificationCodeVerify.time <= 0) {
+          clearInterval(verificationCodeTimer.value);
+        }
+      }, 1000);
+    }
+
+    // 重新发送
+    function resend(): void {
+      sendVerificationCode();
+    }
+    // 验证码下一步
+    function verifyNextStep(): boolean | undefined {
+      // 验证
+      verificationCodeVerify.show = false;
+      if (!verificationCodeText.value) {
+        verifyMethod({ text: '请输入验证码' });
+        return false;
+      }
+      getCaptchaVerify().then(() => {
+        $store.commit('setMessage', {
+          type: 'error',
+          title: '很抱歉，余下功能未开发'
         });
       });
     }
 
-    // 获取用户详情
-    function getUserInfo(uid: number): void {
-      userInfo({ uid }).then((res: ResponseDataType) => {
-        if (res.code === 200) {
-          // 存储用户信息
-          $store.commit('setUserInfo', res);
-          // 关闭登录对话框
-          $store.commit('setLoginDialog', false);
-        }
+    // 验证验证码
+    function getCaptchaVerify(): Promise<void> {
+      return new Promise(resolve => {
+        captchaVerify({
+          captcha: verificationCodeText.value,
+          phone: mobileFormData.phone,
+          ctcode: mobileFormData.code
+        })
+          .then((res: ResponseType) => {
+            console.log(res);
+            resolve();
+          })
+          .catch(err => {
+            // 验证码错误
+            if (err.response.status === 503) {
+              verifyMethod({ text: err.response.data.message });
+            }
+          });
       });
     }
 
@@ -241,8 +373,15 @@ export default defineComponent({
       toggleCountryCode,
       countryCodeChange,
       mobilePhoneChange,
+      nextLook,
+      passwordChange,
+      passwordFocus,
       mobileVerify,
-      mobileSubmit
+      nextStep,
+      verificationCodeText,
+      verificationCodeVerify,
+      resend,
+      verifyNextStep
     };
   }
 });
