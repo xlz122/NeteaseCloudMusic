@@ -80,7 +80,8 @@ export default defineComponent({
       text: ''
     });
 
-    function verifyMethod({ type = '', text }: VerifyMethod) {
+    // 邮箱验证方法
+    function verifyMethod({ type = '', text }: VerifyMethod): void {
       mailboxVerify.show = true;
       mailboxVerify.type = type;
       mailboxVerify.text = text;
