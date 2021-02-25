@@ -8,11 +8,12 @@
       <input
         class="input"
         :class="{
-          'verify-error': mobileVerify.show && mobileVerify.type === 'mailbox'
+          'verify-error': mobileVerify.show && mobileVerify.type === 'phone'
         }"
         v-model="mobileFormData.phone"
+        @keyup="mobilePhoneChange"
         type="text"
-        placeholder="请输入账号"
+        placeholder="请输入手机号"
       />
       <ul class="country-code-list" v-show="countryCodeShow">
         <li
@@ -124,10 +125,15 @@ export default defineComponent({
       countryCodeShow.value = false;
     }
 
+    // 手机号正则验证
+    function mobilePhoneChange(): void {
+      mobileFormData.phone = mobileFormData.phone.replace(/[^\d]/g, '');
+    }
+
     // 邮箱登录验证信息
     const mobileVerify = reactive<MobileVerify>({
       show: false,
-      type: 'phone',
+      type: '',
       text: ''
     });
 
@@ -141,7 +147,7 @@ export default defineComponent({
     function mobileSubmit(): boolean | undefined {
       mobileVerify.show = false;
       if (!mobileFormData.phone) {
-        verifyMethod({ type: 'mailbox', text: '请输入手机号' });
+        verifyMethod({ type: 'phone', text: '请输入手机号' });
         return false;
       }
       if (!mobileFormData.password) {
@@ -231,6 +237,7 @@ export default defineComponent({
       countryCodeShow,
       toggleCountryCode,
       countryCodeChange,
+      mobilePhoneChange,
       mobileVerify,
       mobileSubmit
     };

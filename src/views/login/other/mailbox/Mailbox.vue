@@ -76,7 +76,7 @@ export default defineComponent({
     // 邮箱登录验证信息
     const mailboxVerify = reactive<MailboxVerify>({
       show: false,
-      type: 'mailbox',
+      type: '',
       text: ''
     });
 
@@ -102,7 +102,6 @@ export default defineComponent({
         password: mailboxFormData.password
       })
         .then((res: ResponseDataType) => {
-          console.log(res);
           // 账号或密码错误
           if (res.code === 502) {
             verifyMethod({ text: '帐号或密码错误' });
