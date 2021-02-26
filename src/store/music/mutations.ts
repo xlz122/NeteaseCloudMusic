@@ -34,6 +34,11 @@ const mutations: Mutations<State, unknown> = {
     localStorage.setItem('musicPlayTime', JSON.stringify(musicPlayTime));
   },
   // 我的音乐 - 音量控制
+  setMusicModeType(state, modeType) {
+    state.musicModeType = modeType as number;
+    localStorage.setItem('musicModeType', JSON.stringify(modeType));
+  },
+  // 我的音乐 - 音量控制
   setMusicVolume(state, musicVolume) {
     state.musicVolume = musicVolume as number;
     localStorage.setItem('musicVolume', JSON.stringify(musicVolume));

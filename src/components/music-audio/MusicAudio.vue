@@ -128,6 +128,7 @@ import PlayProgress from './play-progress/PlayProgress.vue';
 // 其他工具
 import OtherTool from './other-tool/OtherTool.vue';
 import { AudioData, ProgressData, ResponseType, LoopType } from '@/types/types';
+// import { getMusicUrl } from './common/common';
 
 export default defineComponent({
   components: {
@@ -170,7 +171,7 @@ export default defineComponent({
     const audioData = reactive<AudioData>({
       src: '', // 地址
       autoplay: true, // 自动播放
-      loop: true // 循环播放
+      loop: false // 循环播放
     });
     // 播放/暂停切换状态
     const playMusicStatus = reactive({
@@ -371,8 +372,23 @@ export default defineComponent({
     }
 
     // 播放完成
+    const musicModeType = computed(() => $store.getters['music/musicModeType']);
     function musicPlayEnded(): void {
-      nextPlayMusic();
+      // 单曲循环
+      if (musicModeType.value === 0) {
+        playMusicSrc(curPlayMusicId.value);
+      }
+      // 循环
+      if (musicModeType.value === 1) {
+        nextPlayMusic();
+      }
+      // 随机播放
+      if (musicModeType.value === 2) {
+        const musicItem = Math.floor(
+          Math.random() * playMusicList.value.length
+        );
+        playMusicSrc(playMusicList.value[musicItem].id);
+      }
     }
 
     // 音乐播放器锁定在底部

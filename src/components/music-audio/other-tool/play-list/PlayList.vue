@@ -252,7 +252,7 @@ export default defineComponent({
     // 匹配歌词
     function getWatch(): boolean | undefined {
       const contentRef = lyricContentRef.value as HTMLElement;
-      const ulRef = lyricUlRef.value as HTMLElement;
+      // const ulRef = lyricUlRef.value as HTMLElement;
       const liArrRef = liRef.value as HTMLElement[];
       // ul未加载
       if (!contentRef?.clientHeight) {
@@ -263,44 +263,44 @@ export default defineComponent({
         return false;
       }
 
-      // 动态设置ul高度
-      ulRef.style.height = ulRef.clientHeight + 'px';
+      // // 动态设置ul高度
+      // ulRef.style.height = ulRef.clientHeight + 'px';
 
-      // 获取容器一半高度
-      const contentHalfHeight = contentRef.clientHeight / 2;
-      // 单个li高度
-      let liClientHeight = 0;
-      // 获取当前选中li距离顶部高度
-      let liActiveHeight = 0;
-      liArrRef.forEach(item => {
-        liClientHeight = item.clientHeight;
-        if (item.className === 'item active') {
-          liActiveHeight = item.offsetTop;
-        }
-      });
+      // // 获取容器一半高度
+      // const contentHalfHeight = contentRef.clientHeight / 2;
+      // // 单个li高度
+      // let liClientHeight = 0;
+      // // 获取当前选中li距离顶部高度
+      // let liActiveHeight = 0;
+      // liArrRef.forEach(item => {
+      //   liClientHeight = item.clientHeight;
+      //   if (item.className === 'item active') {
+      //     liActiveHeight = item.offsetTop;
+      //   }
+      // });
 
-      // 当前选中即将超过一半少一行，开始滚动
-      if (liActiveHeight > contentHalfHeight - liClientHeight) {
-        for (let i = 0; i < state.lyricsObjArr.length; i++) {
-          if (musicPlayTime.value > parseInt(state.lyricsObjArr[i].time)) {
-            state.lyricIndex = i;
-          }
-        }
-        // 设置列表滚动
-        listOffest.transform = liActiveHeight - liClientHeight * 3;
-        // 设置滚动条
-        // // 获取对应比例
-        // const scale = (liActiveHeight - liClientHeight) / ulRef.clientHeight;
-        // console.log(scale);
-        // contentRef.scrollTop = contentRef.clientHeight * scale;
-        // console.log(contentRef.clientHeight * scale);
-      } else {
-        for (let i = 0; i < state.lyricsObjArr.length; i++) {
-          if (musicPlayTime.value > parseInt(state.lyricsObjArr[i].time)) {
-            state.lyricIndex = i;
-          }
-        }
-      }
+      // // 当前选中即将超过一半少一行，开始滚动
+      // if (liActiveHeight > contentHalfHeight - liClientHeight) {
+      //   for (let i = 0; i < state.lyricsObjArr.length; i++) {
+      //     if (musicPlayTime.value > parseInt(state.lyricsObjArr[i].time)) {
+      //       state.lyricIndex = i;
+      //     }
+      //   }
+      //   // 设置列表滚动
+      //   listOffest.transform = liActiveHeight - liClientHeight * 3;
+      //   // 设置滚动条
+      //   // // 获取对应比例
+      //   // const scale = (liActiveHeight - liClientHeight) / ulRef.clientHeight;
+      //   // console.log(scale);
+      //   // contentRef.scrollTop = contentRef.clientHeight * scale;
+      //   // console.log(contentRef.clientHeight * scale);
+      // } else {
+      //   for (let i = 0; i < state.lyricsObjArr.length; i++) {
+      //     if (musicPlayTime.value > parseInt(state.lyricsObjArr[i].time)) {
+      //       state.lyricIndex = i;
+      //     }
+      //   }
+      // }
     }
 
     // 清除列表
