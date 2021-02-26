@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, onUnmounted } from 'vue';
+import { defineComponent, ref, computed, watch, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 // 使用setup语法糖，没有export default爆红，不是语法问题
 import MyDialog from '@/components/MyDialog.vue';
@@ -30,6 +30,7 @@ export default defineComponent({
   },
   setup() {
     const $store = useStore();
+    const isLogin = computed(() => $store.getters.isLogin);
     const loginDialog = computed(() => $store.getters.loginDialog);
 
     // 扫码/其他登录方式切换
@@ -50,6 +51,14 @@ export default defineComponent({
       qrcodeLoginShow.value = true;
       $store.commit('setLoginDialog', false);
     }
+
+    // 监听登录重置
+    watch(
+      () => isLogin.value,
+      () => {
+        qrcodeLoginShow.value = true;
+      }
+    );
 
     onUnmounted(() => {
       qrcodeLoginShow.value = true;
