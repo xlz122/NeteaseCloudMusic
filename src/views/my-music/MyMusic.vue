@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, watch, onUnmounted } from 'vue';
+import { defineComponent, computed, watch, onUnmounted, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import OptionList from '@views/my-music/option-list/OptionList.vue';
 import SubPlayList from '@views/my-music/sub-play-list/SubPlayList.vue';
@@ -60,14 +60,21 @@ export default defineComponent({
         if (curVal) {
           const appDom = document.getElementById('app') as HTMLElement;
           const footerDom = document.querySelector('.footer') as HTMLElement;
-          appDom.style.height = '100vh';
-          footerDom.style.display = 'none';
+          if (appDom && footerDom) {
+            appDom.style.height = '100vh';
+            footerDom.style.display = 'none';
+          }
         }
-      },
-      {
-        immediate: true
       }
     );
+    onMounted(() => {
+      if (isLogin.value) {
+        const appDom = document.getElementById('app') as HTMLElement;
+        const footerDom = document.querySelector('.footer') as HTMLElement;
+        appDom.style.height = '100vh';
+        footerDom.style.display = 'none';
+      }
+    });
     onUnmounted(() => {
       if (isLogin.value) {
         const appDom = document.getElementById('app') as HTMLElement;

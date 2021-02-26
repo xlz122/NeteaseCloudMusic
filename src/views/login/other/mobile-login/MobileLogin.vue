@@ -55,7 +55,7 @@
     </label>
   </div>
   <div class="mobile-phone-submit" @click="mobileSubmit">
-    <i class="icon-mobile-phone-submit">登 录</i>
+    <i class="icon-mobile-phone-submit">{{ mobileSubmitText }}</i>
   </div>
 </template>
 
@@ -144,6 +144,8 @@ export default defineComponent({
       mobileVerify.text = text;
     }
 
+    // 登录按钮文本
+    const mobileSubmitText = ref<string>('登 录');
     function mobileSubmit(): boolean | undefined {
       mobileVerify.show = false;
       if (!mobileFormData.phone) {
@@ -154,6 +156,8 @@ export default defineComponent({
         verifyMethod({ type: 'password', text: '请输入登录密码' });
         return false;
       }
+
+      mobileSubmitText.value = '登录中...';
       // 检测手机号是否注册
       getTestCellphone().then(() => {
         cellphoneLogin({
@@ -165,6 +169,7 @@ export default defineComponent({
             // 账号或密码错误
             if (res.code === 502) {
               verifyMethod({ text: '帐号或密码错误' });
+              mobileSubmitText.value = '登 录';
             }
             // 登录成功
             if (res.code === 200 && res.account.status === 0) {
@@ -195,6 +200,7 @@ export default defineComponent({
           // 手机号不存在
           if (res.code === 200 && res.exist === -1) {
             verifyMethod({ text: '手机号未注册，点击右下角前往注册' });
+            mobileSubmitText.value = '登 录';
           }
         });
       });
@@ -208,6 +214,7 @@ export default defineComponent({
           $store.commit('setUserInfo', res);
           // 关闭登录对话框
           $store.commit('setLoginDialog', false);
+          mobileSubmitText.value = '登 录';
         }
       });
     }
@@ -226,9 +233,10 @@ export default defineComponent({
       });
     });
 
+    // 销毁点击监听
     onUnmounted(() => {
       document.removeEventListener('click', function(): void {
-        console.log('download.vue 点击事件移除');
+        console.log('MobileLogin.vue 点击事件移除');
       });
     });
     return {
@@ -239,7 +247,8 @@ export default defineComponent({
       countryCodeChange,
       mobilePhoneChange,
       mobileVerify,
-      mobileSubmit
+      mobileSubmit,
+      mobileSubmitText
     };
   }
 });

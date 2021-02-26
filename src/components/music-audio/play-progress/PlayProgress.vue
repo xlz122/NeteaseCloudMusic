@@ -2,16 +2,16 @@
   <div class="progress" ref="progressRef" @click="handleProgressClick">
     <div class="current-progress" ref="currentProgressRef">
       <i class="icon" ref="progressIconRef"></i>
-      <i class="icon-loading" v-if="loading"></i>
+      <i class="icon-loading" v-if="musicPlayProgress.loading"></i>
     </div>
     <div class="total-progress" ref="cacheProgressRef"></div>
   </div>
   <div class="time">
     <span class="duration">
-      {{ timeStampToDuration(progressData.currentTime) || '00:00' }}
+      {{ timeStampToDuration(musicPlayProgress.currentTime || 0) || '00:00' }}
     </span>
     <span class="total-duration">
-      / {{ timeStampToDuration(progressData.duration) || '00:00' }}
+      / {{ timeStampToDuration(musicPlayProgress.duration || 0) || '00:00' }}
     </span>
   </div>
 </template>
@@ -23,23 +23,13 @@ import { LoopType } from '@/types/types';
 
 export default defineComponent({
   props: ({
-    // 加载loading
-    loading: {
-      type: Boolean,
-      default: false
-    },
-    progressData: {
-      type: Object,
+    musicPlayProgress: {
+      typs: Object,
       default: {}
-    },
-    // 是否停止加载进度
-    stopProgress: {
-      type: Boolean,
-      default: false
     }
   } as unknown) as undefined,
-  emits: ['handleProgressChange'],
-  setup(props: { progressData: LoopType; stopProgress: boolean }, { emit }) {
+  emits: ['progressChange'],
+  setup(props: { musicPlayProgress: LoopType }, { emit }) {
     // 当前进度距离左边距离
     const currentLeft = ref<number>(0);
     // 总进度 当前进度 进度图标
@@ -50,23 +40,26 @@ export default defineComponent({
     // 鼠标是否按下
     const isMouseDown = ref<boolean>(false);
 
-    // 监听进度
-    watch(
-      () => props.progressData.progress,
-      (curVal: number) => {
-        // 是否停止加载进度
-        if (!props.stopProgress) {
-          (currentProgressRef.value as HTMLElement).style.width = curVal + '%';
-        }
-      }
-    );
+    // 是否拖动
+    const isDrag = ref<boolean>(false);
 
-    // 监听缓存进度
+    // 拖动时当前进度
+    const currentProgress = ref<number>(0);
+
+    // 监听进度数据
     watch(
-      () => props.progressData.cacheProgress,
-      (curVal: number) => {
-        // 是否停止加载进度
-        (cacheProgressRef.value as HTMLElement).style.width = curVal + '%';
+      () => props.musicPlayProgress,
+      curVal => {
+        // 拖动时停止更新进度条
+        if (isDrag.value) {
+          return false;
+        }
+        // 更新进度条
+        (currentProgressRef.value as HTMLElement).style.width =
+          curVal.progress + '%';
+        // 更新缓存进度
+        (cacheProgressRef.value as HTMLElement).style.width =
+          curVal.cacheProgress + '%';
       }
     );
 
@@ -80,8 +73,12 @@ export default defineComponent({
       const progressWidth = (progressRef.value as HTMLElement).offsetWidth;
       (currentProgressRef.value as HTMLElement).style.width =
         (e.offsetX / progressWidth) * 100 + '%';
-      // 进度更新
-      emit('handleProgressChange', e.offsetX / progressWidth);
+      // 拖动
+      isDrag.value = false;
+      // 点击进度更新
+      if (!isDrag.value) {
+        emit('progressChange', e.offsetX / progressWidth);
+      }
     }
 
     // 监听鼠标按下事件
@@ -108,14 +105,22 @@ export default defineComponent({
         }
         (currentProgressRef.value as HTMLElement).style.width =
           (moveX / progressWidth) * 100 + '%';
-        // 进度更新
-        emit('handleProgressChange', moveX / progressWidth);
+        // 拖动
+        isDrag.value = true;
+        // 当前进度存储
+        currentProgress.value = moveX / progressWidth;
       }
     }
 
     // 监听鼠标放开事件
     function mouseup(): void {
       isMouseDown.value = false;
+      // 拖动进度更新
+      if (isDrag.value) {
+        emit('progressChange', currentProgress.value);
+        // 拖动
+        isDrag.value = false;
+      }
     }
 
     onMounted(() => {

@@ -50,6 +50,7 @@
                 'disable-play-add':
                   songListDetailData?.playlist?.tracks.length === 0
               }"
+              @click="setAddPlayList"
             ></div>
             <div
               class="other collection"
@@ -185,7 +186,7 @@
                 {{ timeStampToDuration(item.dt / 1000) }}
               </span>
               <div class="operate-btn">
-                <i class="icon add"></i>
+                <i class="icon add" @click="setAddSinglePlayList(item.id)"></i>
                 <i class="icon collect"></i>
                 <i class="icon share"></i>
                 <i class="icon download"></i>
@@ -260,6 +261,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
+import { throttle } from 'lodash';
 import MyDialog from '@/components/MyDialog.vue';
 import Comment from '@views/my-music/play-list-detail/Comment.vue';
 import { timeStampToDuration, formatDateTime } from '@utils/utils.ts';
@@ -296,13 +298,47 @@ export default defineComponent({
     }
 
     // 头部播放 - 默认播放列表第一项
-    function playTitleMusic() {
+    const playTitleMusic = throttle(
+      function() {
+        if (songListDetailData.value?.playlist?.tracks.length > 0) {
+          const musicItem = songListDetailData.value?.playlist?.tracks[0];
+          // 当前播放音乐id
+          $store.commit('music/setPlayMusicId', musicItem.id);
+          // 当前播放音乐数据
+          $store.commit('music/setPlayMusicItem', musicItem);
+          // 开始播放
+          $store.commit('music/setMusicPlayStatus', {
+            look: true,
+            loading: true,
+            refresh: true
+          });
+        }
+      },
+      800,
+      {
+        leading: true, // 点击第一下是否执行
+        trailing: false // 节流时间内，多次点击，节流结束后，是否执行一次
+      }
+    );
+
+    // 全部音乐添加到播放列表
+    function setAddPlayList(): void {
       if (songListDetailData.value?.playlist?.tracks.length > 0) {
-        const musicId = songListDetailData.value?.playlist?.tracks[0].id;
-        // 当前播放音乐id
-        $store.commit('music/setCurPlayMusicId', musicId);
+        songListDetailData.value?.playlist?.tracks.forEach((item: LoopType) => {
+          // 播放音乐数据
+          $store.commit('music/setPlayMusicList', item);
+        });
+      }
+    }
+
+    // 单个音乐添加到播放列表
+    function setAddSinglePlayList(id: number): void {
+      if (songListDetailData.value?.playlist?.tracks.length > 0) {
+        const musicItem = songListDetailData.value?.playlist?.tracks.find(
+          (item: LoopType) => item.id === id
+        );
         // 播放音乐数据
-        $store.commit('music/setPlayMusicList', musicId);
+        $store.commit('music/setPlayMusicList', musicItem);
       }
     }
 
@@ -318,9 +354,17 @@ export default defineComponent({
         return false;
       }
       // 当前播放音乐id
-      $store.commit('music/setCurPlayMusicId', id);
+      $store.commit('music/setPlayMusicId', id);
+      // 当前播放音乐数据
+      $store.commit('music/setPlayMusicItem', item);
       // 播放音乐数据
       $store.commit('music/setPlayMusicList', item);
+      // 开始播放
+      $store.commit('music/setMusicPlayStatus', {
+        look: true,
+        loading: true,
+        refresh: true
+      });
     }
 
     // 无版权弹框 - 确定
@@ -363,6 +407,8 @@ export default defineComponent({
       curPlayMusicId,
       isCopyright,
       playTitleMusic,
+      setAddPlayList,
+      setAddSinglePlayList,
       noCopyrightDialog,
       noCopyrightConfirm,
       playListMusic,

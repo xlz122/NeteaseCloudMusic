@@ -86,7 +86,14 @@
         <p class="phone-text">你的手机号：</p>
         <div class="phone-detail">
           <strong>+{{ mobileFormData.code }}</strong>
-          <strong class="num">147****0339</strong>
+          <strong class="num">
+            {{
+              `${mobileFormData.phone.substr(
+                0,
+                3
+              )}****${mobileFormData.phone.substr(7)}`
+            }}
+          </strong>
         </div>
       </div>
       <p class="verification-code-desc">为了安全，我们会给你发送短信验证码</p>
@@ -268,7 +275,6 @@ export default defineComponent({
         phone: mobileFormData.phone
       })
         .then((res: ResponseType) => {
-          console.log(res);
           if (res.code === 200) {
             nextLook.value = true;
             verificationCodeTiming();
@@ -298,6 +304,7 @@ export default defineComponent({
       if (verificationCodeTimer.value) {
         clearInterval(verificationCodeTimer.value);
       }
+      verificationCodeVerify.time = 60;
       verificationCodeTimer.value = setInterval(() => {
         verificationCodeVerify.time--;
         if (verificationCodeVerify.time <= 0) {
@@ -334,8 +341,7 @@ export default defineComponent({
           phone: mobileFormData.phone,
           ctcode: mobileFormData.code
         })
-          .then((res: ResponseType) => {
-            console.log(res);
+          .then(() => {
             resolve();
           })
           .catch(err => {
@@ -361,9 +367,10 @@ export default defineComponent({
       });
     });
 
+    // 销毁点击监听
     onUnmounted(() => {
       document.removeEventListener('click', function(): void {
-        console.log('download.vue 点击事件移除');
+        console.log('MobileRegister.vue 点击事件移除');
       });
     });
     return {
