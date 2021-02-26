@@ -16,15 +16,17 @@
       class="btn"
       title="模式"
       :class="[
-        { 'mode-single': modeType === 0 },
-        { 'mode-loop': modeType === 1 },
-        { 'mode-random': modeType === 2 }
+        { 'mode-single': musicModeType === 0 },
+        { 'mode-loop': musicModeType === 1 },
+        { 'mode-random': musicModeType === 2 }
       ]"
       @click="modeChange"
     ></button>
     <!-- 模式提示 -->
     <div class="mode-tip" v-if="modeTipShow">
-      {{ modeType === 0 ? '单曲循环' : modeType === 1 ? '循环' : '随机' }}
+      {{
+        musicModeType === 0 ? '单曲循环' : musicModeType === 1 ? '循环' : '随机'
+      }}
     </div>
     <button class="btn list-btn" title="列表" @click="setPlayListShow"></button>
     <span class="list-text">{{ playMusicList?.length }}</span>
@@ -63,15 +65,19 @@ export default defineComponent({
     }
 
     // 模式切换
-    const modeType = ref<number>(0);
+    const musicModeType = computed(() => $store.getters['music/musicModeType']);
     const modeTipShow = ref<boolean>(false);
     function modeChange(): void {
       modeTipShow.value = true;
-      if (modeType.value === 2) {
-        modeType.value = 0;
+
+      let modeType = JSON.parse(JSON.stringify(musicModeType.value));
+      if (modeType === 2) {
+        modeType = 0;
       } else {
-        modeType.value++;
+        modeType++;
       }
+      // 存储音乐模式
+      $store.commit('music/setMusicModeType', modeType);
       // 提示在3秒后隐藏
       let timer = 0;
       timer = setTimeout(() => {
@@ -100,7 +106,7 @@ export default defineComponent({
       playMusicList,
       volumeProgressShow,
       setVolumeProgress,
-      modeType,
+      musicModeType,
       modeTipShow,
       modeChange,
       playListShow,

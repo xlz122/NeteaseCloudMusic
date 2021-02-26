@@ -85,7 +85,7 @@ module.exports = {
         // 配置gzip压缩
         plugins: [
           new CompressionWebpackPlugin({
-            // filename: '[path].gz[query]',
+            filename: '[path].gz[query]',
             algorithm: 'gzip',
             test: new RegExp(
               '\\.(' + productionGzipExtensions.join('|') + ')$'

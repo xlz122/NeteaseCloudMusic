@@ -18,6 +18,7 @@ const getters: Getters<State> = {
     );
   },
   musicPlayTime: state => state.musicPlayTime,
+  musicModeType: state => state.musicModeType,
   musicVolume: state => state.musicVolume,
   isMysicAudioLock: state => state.isMysicAudioLock,
   playMusicList: state => state.playMusicList,
