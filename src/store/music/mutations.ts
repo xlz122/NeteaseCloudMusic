@@ -33,7 +33,7 @@ const mutations: Mutations<State, unknown> = {
     state.musicPlayTime = musicPlayTime as number;
     localStorage.setItem('musicPlayTime', JSON.stringify(musicPlayTime));
   },
-  // 我的音乐 - 音量控制
+  // 我的音乐 - 播放类型
   setMusicModeType(state, modeType) {
     state.musicModeType = modeType as number;
     localStorage.setItem('musicModeType', JSON.stringify(modeType));

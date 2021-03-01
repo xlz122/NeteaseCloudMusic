@@ -50,6 +50,7 @@
                 'disable-play-add':
                   songListDetailData?.playlist?.tracks.length === 0
               }"
+              @click="setAddPlayList"
             ></div>
             <div
               class="other collection"
@@ -185,7 +186,7 @@
                 {{ timeStampToDuration(item.dt / 1000) }}
               </span>
               <div class="operate-btn">
-                <i class="icon add"></i>
+                <i class="icon add" @click="setAddSinglePlayList(item.id)"></i>
                 <i class="icon collect"></i>
                 <i class="icon share"></i>
                 <i class="icon download"></i>
@@ -298,11 +299,34 @@ export default defineComponent({
     // 头部播放 - 默认播放列表第一项
     function playTitleMusic() {
       if (songListDetailData.value?.playlist?.tracks.length > 0) {
-        const musicId = songListDetailData.value?.playlist?.tracks[0].id;
+        const musicItem = songListDetailData.value?.playlist?.tracks[0];
         // 当前播放音乐id
-        $store.commit('music/setCurPlayMusicId', musicId);
+        $store.commit('music/setCurPlayMusicId', musicItem.id);
         // 播放音乐数据
-        $store.commit('music/setPlayMusicList', musicId);
+        $store.commit('music/setPlayMusicList', musicItem);
+      }
+    }
+
+    // 全部音乐添加到播放列表
+    function setAddPlayList(): void {
+      if (songListDetailData.value?.playlist?.tracks.length > 0) {
+        songListDetailData.value?.playlist?.tracks.forEach((item: LoopType) => {
+          console.log(item);
+          // 播放音乐数据
+          $store.commit('music/setPlayMusicList', item);
+        });
+      }
+    }
+
+    // 单个音乐添加到播放列表
+    function setAddSinglePlayList(id: number): void {
+      if (songListDetailData.value?.playlist?.tracks.length > 0) {
+        const musicItem = songListDetailData.value?.playlist?.tracks.find(
+          (item: LoopType) => item.id === id
+        );
+        console.log(musicItem);
+        // 播放音乐数据
+        $store.commit('music/setPlayMusicList', musicItem);
       }
     }
 
@@ -363,6 +387,8 @@ export default defineComponent({
       curPlayMusicId,
       isCopyright,
       playTitleMusic,
+      setAddPlayList,
+      setAddSinglePlayList,
       noCopyrightDialog,
       noCopyrightConfirm,
       playListMusic,
