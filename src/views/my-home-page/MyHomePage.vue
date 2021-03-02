@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, onMounted } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({
@@ -52,9 +52,6 @@ export default defineComponent({
     const $store = useStore();
     // 用户信息
     const profileInfo = computed(() => $store.getters.userInfo.profile || {});
-    onMounted(() => {
-      console.log($store.getters.userInfo);
-    });
     return {
       profileInfo
     };

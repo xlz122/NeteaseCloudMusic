@@ -67,13 +67,13 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 邮箱表单数据
+    // 邮箱数据
     const mailboxFormData = reactive<MailboxFormData>({
       mailbox: '',
       password: ''
     });
 
-    // 邮箱登录验证信息
+    // 邮箱登录验证
     const mailboxVerify = reactive<MailboxVerify>({
       show: false,
       type: '',
@@ -137,8 +137,8 @@ export default defineComponent({
       });
     }
 
+    // 清空邮箱登录数据
     onUnmounted(() => {
-      // 清空邮箱登录数据
       mailboxFormData.mailbox = '';
       mailboxFormData.password = '';
       mailboxVerify.type = '';

@@ -128,7 +128,7 @@ export default defineComponent({
       ctx.emit('qrcodeLogin');
     }
 
-    // 勾选协议
+    // 协议勾选
     const officialCheckbox = ref<boolean>(false);
     // 登录方式
     const loginMode = reactive({

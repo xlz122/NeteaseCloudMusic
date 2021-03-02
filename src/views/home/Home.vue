@@ -9,7 +9,7 @@
       </div>
       <!-- 侧边栏 -->
       <div class="container-side">
-        <side />
+        <home-side />
       </div>
     </div>
   </div>
@@ -19,13 +19,13 @@
 import { defineComponent } from 'vue';
 import Banner from './banner/Banner.vue';
 import HomeContent from './content/Content.vue';
-import Side from './side/Side.vue';
+import HomeSide from './side/Side.vue';
 
 export default defineComponent({
   components: {
     Banner,
     HomeContent,
-    Side
+    HomeSide
   }
 });
 </script>

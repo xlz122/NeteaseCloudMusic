@@ -7,9 +7,9 @@
   >
     <div class="login">
       <!-- 扫码登录 -->
-      <qrcode v-if="qrcodeLoginShow" @otherLogin="otherLogin" />
+      <qrcode v-if="loginType === 'qrcode'" @otherLogin="otherLogin" />
       <!-- 其他登录方式 -->
-      <other v-else @qrcodeLogin="qrcodeLogin" />
+      <other v-if="loginType === 'other'" @qrcodeLogin="qrcodeLogin" />
     </div>
   </my-dialog>
 </template>
@@ -31,24 +31,25 @@ export default defineComponent({
   setup() {
     const $store = useStore();
     const isLogin = computed(() => $store.getters.isLogin);
+    // 登录框
     const loginDialog = computed(() => $store.getters.loginDialog);
 
     // 扫码/其他登录方式切换
-    const qrcodeLoginShow = ref<boolean>(true);
+    const loginType = ref<string>('qrcode');
 
-    // 切换扫码登录
+    // 扫码登录
     function qrcodeLogin(): void {
-      qrcodeLoginShow.value = true;
+      loginType.value = 'qrcode';
     }
 
-    // 切换其他方式登录
+    // 其他方式登录
     function otherLogin(): void {
-      qrcodeLoginShow.value = false;
+      loginType.value = 'other';
     }
 
     // 关闭登录对话框
     function dialogCancel(): void {
-      qrcodeLoginShow.value = true;
+      loginType.value = 'qrcode';
       $store.commit('setLoginDialog', false);
     }
 
@@ -56,16 +57,16 @@ export default defineComponent({
     watch(
       () => isLogin.value,
       () => {
-        qrcodeLoginShow.value = true;
+        loginType.value = 'qrcode';
       }
     );
 
     onUnmounted(() => {
-      qrcodeLoginShow.value = true;
+      loginType.value = 'qrcode';
     });
     return {
       loginDialog,
-      qrcodeLoginShow,
+      loginType,
       qrcodeLogin,
       otherLogin,
       dialogCancel

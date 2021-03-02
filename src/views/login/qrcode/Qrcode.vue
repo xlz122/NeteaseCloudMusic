@@ -79,35 +79,22 @@ export default defineComponent({
     const qrcodeInvalid = ref<boolean>(false);
     // 二维码待确认
     const qrcodeAuthorized = ref<boolean>(false);
-    // 定时器
-    const timer = ref<number>(0);
 
     function getQrcodeStatus() {
       qrcodeStatus({
         key: qrcodeImgKey.value
       }).then((res: ResponseDataType) => {
-        console.log(res);
         // 800失效，
         if (res.code === 800) {
           qrcodeInvalid.value = true;
         }
         // 801等待扫码，
         if (res.code === 801) {
-          if (timer.value) {
-            clearTimeout(timer.value);
-          }
-          timer.value = setTimeout(() => {
-            getQrcodeStatus();
-          }, 1000);
+          scanPolling(1000);
         }
         // 802待确认
         if (res.code === 802) {
-          if (timer.value) {
-            clearTimeout(timer.value);
-          }
-          timer.value = setTimeout(() => {
-            getQrcodeStatus();
-          }, 1000);
+          scanPolling(1000);
           qrcodeAuthorized.value = true;
         }
         // 803授权成功
@@ -116,6 +103,17 @@ export default defineComponent({
           getAccount();
         }
       });
+    }
+
+    // 轮询扫码状态
+    const timer = ref<number>(0);
+    function scanPolling(time: number): void {
+      if (timer.value) {
+        clearTimeout(timer.value);
+      }
+      timer.value = setTimeout(() => {
+        getQrcodeStatus();
+      }, time);
     }
 
     // 获取账号信息
@@ -139,7 +137,10 @@ export default defineComponent({
           // 关闭登录对话框
           $store.commit('setLoginDialog', false);
         } else {
-          alert(res?.msg);
+          $store.commit('setMessage', {
+            type: 'error',
+            title: res?.msg
+          });
         }
       });
     }
