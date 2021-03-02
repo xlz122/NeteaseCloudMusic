@@ -367,9 +367,10 @@ export default defineComponent({
       });
     });
 
+    // 销毁点击监听
     onUnmounted(() => {
       document.removeEventListener('click', function(): void {
-        console.log('download.vue 点击事件移除');
+        console.log('MobileRegister.vue 点击事件移除');
       });
     });
     return {

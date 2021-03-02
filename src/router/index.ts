@@ -35,7 +35,10 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/musician',
         name: 'musician',
-        component: () => import(/* webpackChunkName: "musician" */ '../Bug.vue')
+        component: () =>
+          import(
+            /* webpackChunkName: "musician" */ '../views/musician/Musician.vue'
+          )
       },
       {
         path: '/download',
@@ -70,7 +73,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'home-toplist',
         component: () =>
           import(
-            /* webpackChunkName: "my-home-page" */ '../views/home-toplist/HomeToplist.vue'
+            /* webpackChunkName: "home-toplist" */ '../views/home-toplist/HomeToplist.vue'
           )
       },
       {

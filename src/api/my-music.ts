@@ -96,7 +96,8 @@ export const deletePlayList = ({ id }: { id: number }) => {
   });
 };
 
-/* @desc 获取用户歌单详情
+/**
+ * @desc 获取用户歌单详情
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单id
  */
@@ -112,7 +113,8 @@ export const playListDetail = ({ id }: { id: number }) => {
   });
 };
 
-/* @desc 删除歌单歌曲
+/**
+ * @desc 删除歌单歌曲
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } op - 从歌单增加单曲为 add, 删除为 del
  * @param { Number } pid: 歌单 id
@@ -138,7 +140,8 @@ export const deleteMusic = ({ pid, tracks }: DeleteMusic) => {
   });
 };
 
-/* @desc 获取歌单评论列表
+/**
+ * @desc 获取歌单评论列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单id
  * @param { Number } [limit] - 每页评论条数，默认20
@@ -162,7 +165,8 @@ export const commentPlayList = ({ id, limit }: CommentPlayList) => {
   });
 };
 
-/* @desc 新增歌单评论
+/**
+ * @desc 新增歌单评论
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单id
  * @param { String } content - 评论内容
@@ -187,7 +191,8 @@ export const addSongSheetComment = ({ id, content }: AddComment) => {
   });
 };
 
-/* @desc 回复歌单评论
+/**
+ * @desc 回复歌单评论
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单id
  * @param { String } content - 评论内容
@@ -219,7 +224,8 @@ export const replySongSheetComment = ({
   });
 };
 
-/* @desc 删除歌单评论
+/**
+ * @desc 删除歌单评论
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单id
  * @param { Number } commentId - 内容id
@@ -244,7 +250,8 @@ export const deleteSongSheetComment = ({ id, commentId }: DeleteComment) => {
   });
 };
 
-/* @desc 歌单评论点赞
+/**
+ * @desc 歌单评论点赞
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单id
  * @param { Number } cid - 评论id
@@ -270,7 +277,8 @@ export const songSheetLike = ({ id, cid, t }: SongSheetLike) => {
   });
 };
 
-/* @desc 获取播放url
+/**
+ * @desc 获取播放url
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌曲id
  * @param { Number } [br] - 码率,默认设置了 999000 即最大码率,如果要 320k 则可设置为 320000,其他类推
