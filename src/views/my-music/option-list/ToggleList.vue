@@ -156,7 +156,11 @@ export default defineComponent({
         deletePlayList({ id: dialogeData.id }).then((res: ResponseType) => {
           if (res.code === 200) {
             // 总数减少
-            propsListCount.value--;
+            if (propsListCount.value <= 0) {
+              propsListCount.value = 0;
+            } else {
+              propsListCount.value--;
+            }
             // 获取上一项id
             const index = propsListData.value.findIndex(
               (item: LoopType) => item.id === dialogeData.id

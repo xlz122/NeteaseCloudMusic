@@ -2,44 +2,42 @@
   <div class="progress" ref="progressRef" @click="handleProgressClick">
     <div class="current-progress" ref="currentProgressRef">
       <i class="icon" ref="progressIconRef"></i>
-      <i class="icon-loading" v-if="loading"></i>
+      <i class="icon-loading" v-if="musicPlayProgress.loading"></i>
     </div>
     <div class="total-progress" ref="cacheProgressRef"></div>
   </div>
   <div class="time">
     <span class="duration">
-      {{ timeStampToDuration(progressData.currentTime) || '00:00' }}
+      {{ timeStampToDuration(musicPlayProgress.currentTime) || '00:00' }}
     </span>
     <span class="total-duration">
-      / {{ timeStampToDuration(progressData.duration) || '00:00' }}
+      / {{ timeStampToDuration(musicPlayProgress.duration) || '00:00' }}
     </span>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, onMounted, onUnmounted } from 'vue';
+import {
+  defineComponent,
+  ref,
+  computed,
+  watch,
+  onMounted,
+  onUnmounted
+} from 'vue';
+import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils';
-import { LoopType } from '@/types/types';
 
 export default defineComponent({
-  props: ({
-    // 加载loading
-    loading: {
-      type: Boolean,
-      default: false
-    },
-    progressData: {
-      type: Object,
-      default: {}
-    },
-    // 是否停止加载进度
-    stopProgress: {
-      type: Boolean,
-      default: false
-    }
-  } as unknown) as undefined,
   emits: ['handleProgressChange'],
-  setup(props: { progressData: LoopType; stopProgress: boolean }, { emit }) {
+  setup(props, { emit }) {
+    const $store = useStore();
+
+    // 播放进度数据
+    const musicPlayProgress = computed(
+      () => $store.getters['music/musicPlayProgress']
+    );
+
     // 当前进度距离左边距离
     const currentLeft = ref<number>(0);
     // 总进度 当前进度 进度图标
@@ -50,12 +48,15 @@ export default defineComponent({
     // 鼠标是否按下
     const isMouseDown = ref<boolean>(false);
 
+    // 当前进度
+    const currentProgress = ref<number>(0);
+
     // 监听进度
     watch(
-      () => props.progressData.progress,
+      () => musicPlayProgress.value.progress,
       (curVal: number) => {
         // 是否停止加载进度
-        if (!props.stopProgress) {
+        if (!musicPlayProgress.value.progressDrag) {
           (currentProgressRef.value as HTMLElement).style.width = curVal + '%';
         }
       }
@@ -63,7 +64,7 @@ export default defineComponent({
 
     // 监听缓存进度
     watch(
-      () => props.progressData.cacheProgress,
+      () => musicPlayProgress.value.cacheProgress,
       (curVal: number) => {
         // 是否停止加载进度
         (cacheProgressRef.value as HTMLElement).style.width = curVal + '%';
@@ -80,6 +81,13 @@ export default defineComponent({
       const progressWidth = (progressRef.value as HTMLElement).offsetWidth;
       (currentProgressRef.value as HTMLElement).style.width =
         (e.offsetX / progressWidth) * 100 + '%';
+
+      // 拖动
+      $store.commit('music/setMusicPlayProgress', {
+        progressDrag: true
+      });
+      // 当前进度
+      currentProgress.value = e.offsetX / progressWidth;
       // 进度更新
       emit('handleProgressChange', e.offsetX / progressWidth);
     }
@@ -108,6 +116,12 @@ export default defineComponent({
         }
         (currentProgressRef.value as HTMLElement).style.width =
           (moveX / progressWidth) * 100 + '%';
+        // 拖动
+        $store.commit('music/setMusicPlayProgress', {
+          progressDrag: true
+        });
+        // 当前进度
+        currentProgress.value = moveX / progressWidth;
         // 进度更新
         emit('handleProgressChange', moveX / progressWidth);
       }
@@ -116,6 +130,14 @@ export default defineComponent({
     // 监听鼠标放开事件
     function mouseup(): void {
       isMouseDown.value = false;
+
+      // 拖动结束，设置播放时间
+      const currentTime =
+        musicPlayProgress.value.duration * currentProgress.value;
+      $store.commit('music/setMusicPlayProgress', {
+        currentTime: currentTime || 0,
+        progressDrag: false
+      });
     }
 
     onMounted(() => {
@@ -136,6 +158,7 @@ export default defineComponent({
     });
     return {
       timeStampToDuration,
+      musicPlayProgress,
       progressRef,
       currentProgressRef,
       progressIconRef,
