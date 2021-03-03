@@ -23,32 +23,22 @@ const mutations: Mutations<State, unknown> = {
       JSON.stringify(songListDetailData)
     );
   },
-  // 我的音乐 - 当前播放音乐id
-  setCurPlayMusicId(state, curPlayMusicId) {
-    state.curPlayMusicId = curPlayMusicId as number;
-    localStorage.setItem('curPlayMusicId', JSON.stringify(curPlayMusicId));
+  // 播放器锁定在底部
+  setMsicAudioLock(state, musicAudioLock) {
+    state.musicAudioLock = musicAudioLock as boolean;
+    localStorage.setItem('musicAudioLock', JSON.stringify(musicAudioLock));
   },
-  // 我的音乐 - 当前播放音乐时间
-  setMusicPlayTime(state, musicPlayTime) {
-    state.musicPlayTime = musicPlayTime as number;
-    localStorage.setItem('musicPlayTime', JSON.stringify(musicPlayTime));
+  // 当前播放音乐id
+  setPlayMusicId(state, playMusicId) {
+    state.playMusicId = playMusicId as number;
+    localStorage.setItem('playMusicId', JSON.stringify(playMusicId));
   },
-  // 我的音乐 - 播放类型
-  setMusicModeType(state, modeType) {
-    state.musicModeType = modeType as number;
-    localStorage.setItem('musicModeType', JSON.stringify(modeType));
+  // 当前播放音乐数据
+  setPlayMusicItem(state, musicItem) {
+    state.playMusicItem = musicItem as unknown;
+    localStorage.setItem('playMusicItem', JSON.stringify(musicItem));
   },
-  // 我的音乐 - 音量控制
-  setMusicVolume(state, musicVolume) {
-    state.musicVolume = musicVolume as number;
-    localStorage.setItem('musicVolume', JSON.stringify(musicVolume));
-  },
-  // 我的音乐 - 音乐播放器锁定在底部
-  setIsMysicAudioLock(state, isMysicAudioLock) {
-    state.isMysicAudioLock = isMysicAudioLock as boolean;
-    localStorage.setItem('isMysicAudioLock', JSON.stringify(isMysicAudioLock));
-  },
-  // 我的音乐 - 播放列表数据
+  // 播放列表数据
   setPlayMusicList(state, playMusicData) {
     // 数据去重
     const list = JSON.parse(JSON.stringify(state.playMusicList));
@@ -65,7 +55,32 @@ const mutations: Mutations<State, unknown> = {
     }
     // 保存数据
     state.playMusicList = list as unknown[];
-    localStorage.setItem('playMusicData', JSON.stringify(list));
+    localStorage.setItem('playMusicList', JSON.stringify(list));
+  },
+  // 当前播放音乐进度数据
+  setMusicPlayProgress(state, playProgress) {
+    const musicPlayProgress = JSON.parse(
+      JSON.stringify(state.musicPlayProgress)
+    );
+    const progress = Object.assign(musicPlayProgress, playProgress);
+    state.musicPlayProgress = progress as unknown;
+    localStorage.setItem('musicPlayProgress', JSON.stringify(progress));
+  },
+  // 音乐播放状态
+  setMusicPlayStatus(state, playStatus) {
+    const musicPlayStatus = JSON.parse(JSON.stringify(state.musicPlayStatus));
+    const status = Object.assign(musicPlayStatus, playStatus);
+    state.musicPlayStatus = status as unknown;
+  },
+  // 播放类型
+  setMusicModeType(state, modeType) {
+    state.musicModeType = modeType as number;
+    localStorage.setItem('musicModeType', JSON.stringify(modeType));
+  },
+  // 音量控制
+  setMusicVolume(state, musicVolume) {
+    state.musicVolume = musicVolume as number;
+    localStorage.setItem('musicVolume', JSON.stringify(musicVolume));
   },
   // 播放器 - 歌词
   setLyrics(state, playLyrics) {
