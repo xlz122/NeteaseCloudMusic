@@ -79,7 +79,10 @@
             <span class="link" v-if="playMusicItem?.name"></span>
           </div>
           <div class="play-progress">
-            <play-progress />
+            <play-progress
+              :musicPlayProgress="musicPlayProgress"
+              @progressChange="progressChange"
+            />
           </div>
         </div>
         <other-tool />
@@ -205,6 +208,21 @@ export default defineComponent({
       }
     );
 
+    // 播放进度数据
+    const musicPlayProgress = computed(
+      () => $store.getters['music/musicPlayProgress']
+    );
+
+    // 音乐进度更改
+    function progressChange(value: number): void {
+      const currentTime = musicPlayProgress.value.duration * value;
+      $store.commit('music/setMusicPlayProgress', {
+        progress: value * 100,
+        currentTime,
+        timeChange: true
+      });
+    }
+
     return {
       musicAudioLock,
       audioLock,
@@ -215,7 +233,9 @@ export default defineComponent({
       lookPlayMusic,
       playMusicItem,
       prevPlayMusic,
-      nextPlayMusic
+      nextPlayMusic,
+      musicPlayProgress,
+      progressChange
     };
   }
 });

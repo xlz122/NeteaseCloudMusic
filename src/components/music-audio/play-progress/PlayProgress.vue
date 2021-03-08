@@ -8,36 +8,28 @@
   </div>
   <div class="time">
     <span class="duration">
-      {{ timeStampToDuration(musicPlayProgress.currentTime) || '00:00' }}
+      {{ timeStampToDuration(musicPlayProgress.currentTime || 0) || '00:00' }}
     </span>
     <span class="total-duration">
-      / {{ timeStampToDuration(musicPlayProgress.duration) || '00:00' }}
+      / {{ timeStampToDuration(musicPlayProgress.duration || 0) || '00:00' }}
     </span>
   </div>
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  computed,
-  watch,
-  onMounted,
-  onUnmounted
-} from 'vue';
-import { useStore } from 'vuex';
+import { defineComponent, ref, watch, onMounted, onUnmounted } from 'vue';
 import { timeStampToDuration } from '@utils/utils';
+import { LoopType } from '@/types/types';
 
 export default defineComponent({
-  emits: ['handleProgressChange'],
-  setup(props, { emit }) {
-    const $store = useStore();
-
-    // 播放进度数据
-    const musicPlayProgress = computed(
-      () => $store.getters['music/musicPlayProgress']
-    );
-
+  props: ({
+    musicPlayProgress: {
+      typs: Object,
+      default: {}
+    }
+  } as unknown) as undefined,
+  emits: ['progressChange'],
+  setup(props: { musicPlayProgress: LoopType }, { emit }) {
     // 当前进度距离左边距离
     const currentLeft = ref<number>(0);
     // 总进度 当前进度 进度图标
@@ -48,25 +40,29 @@ export default defineComponent({
     // 鼠标是否按下
     const isMouseDown = ref<boolean>(false);
 
-    // 当前进度
+    // 是否拖动
+    const isDrag = ref<boolean>(false);
+
+    // 拖动时当前进度
     const currentProgress = ref<number>(0);
 
     // 监听进度
     watch(
-      () => musicPlayProgress.value.progress,
+      () => props.musicPlayProgress.progress,
       (curVal: number) => {
-        // 是否停止加载进度
-        if (!musicPlayProgress.value.progressDrag) {
-          (currentProgressRef.value as HTMLElement).style.width = curVal + '%';
+        // 拖动时停止更新进度条
+        if (isDrag.value) {
+          return false;
         }
+        (currentProgressRef.value as HTMLElement).style.width = curVal + '%';
       }
     );
 
     // 监听缓存进度
     watch(
-      () => musicPlayProgress.value.cacheProgress,
+      () => props.musicPlayProgress.cacheProgress,
       (curVal: number) => {
-        // 是否停止加载进度
+        // 缓存进度
         (cacheProgressRef.value as HTMLElement).style.width = curVal + '%';
       }
     );
@@ -81,15 +77,12 @@ export default defineComponent({
       const progressWidth = (progressRef.value as HTMLElement).offsetWidth;
       (currentProgressRef.value as HTMLElement).style.width =
         (e.offsetX / progressWidth) * 100 + '%';
-
       // 拖动
-      $store.commit('music/setMusicPlayProgress', {
-        progressDrag: true
-      });
-      // 当前进度
-      currentProgress.value = e.offsetX / progressWidth;
-      // 进度更新
-      emit('handleProgressChange', e.offsetX / progressWidth);
+      isDrag.value = false;
+      // 点击进度更新
+      if (!isDrag.value) {
+        emit('progressChange', e.offsetX / progressWidth);
+      }
     }
 
     // 监听鼠标按下事件
@@ -117,27 +110,19 @@ export default defineComponent({
         (currentProgressRef.value as HTMLElement).style.width =
           (moveX / progressWidth) * 100 + '%';
         // 拖动
-        $store.commit('music/setMusicPlayProgress', {
-          progressDrag: true
-        });
-        // 当前进度
+        isDrag.value = true;
+        // 当前进度存储
         currentProgress.value = moveX / progressWidth;
-        // 进度更新
-        emit('handleProgressChange', moveX / progressWidth);
       }
     }
 
     // 监听鼠标放开事件
     function mouseup(): void {
       isMouseDown.value = false;
-
-      // 拖动结束，设置播放时间
-      const currentTime =
-        musicPlayProgress.value.duration * currentProgress.value;
-      $store.commit('music/setMusicPlayProgress', {
-        currentTime: currentTime || 0,
-        progressDrag: false
-      });
+      // 拖动进度更新
+      if (isDrag.value) {
+        emit('progressChange', currentProgress.value);
+      }
     }
 
     onMounted(() => {
@@ -158,7 +143,6 @@ export default defineComponent({
     });
     return {
       timeStampToDuration,
-      musicPlayProgress,
       progressRef,
       currentProgressRef,
       progressIconRef,

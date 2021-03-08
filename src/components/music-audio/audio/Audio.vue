@@ -117,16 +117,26 @@ export default defineComponent({
       () => $store.getters['music/musicPlayProgress']
     );
 
-    // 监听进度拖动
+    // 监听手动更新时间
     watch(
-      () => musicPlayProgress.value.progressDrag,
+      () => musicPlayProgress.value.timeChange,
       (curVal: boolean) => {
         if (curVal) {
-          return false;
+          // 设置播放时间
+          const musicMp3 = musicAudio.value as HTMLVideoElement;
+          // 当前时间是NaN,不进行更新
+          if (isNaN(musicPlayProgress.value.currentTime)) {
+            return false;
+          }
+          musicMp3.currentTime = musicPlayProgress.value.currentTime;
+          // 重置手动更新
+          $store.commit('music/setMusicPlayProgress', {
+            timeChange: false
+          });
         }
-        // 拖动结束后设置播放时间
-        const musicMp3 = musicAudio.value as HTMLVideoElement;
-        musicMp3.currentTime = musicPlayProgress.value.currentTime;
+      },
+      {
+        deep: true
       }
     );
 
