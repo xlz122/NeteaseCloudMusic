@@ -46,24 +46,20 @@ export default defineComponent({
     // 拖动时当前进度
     const currentProgress = ref<number>(0);
 
-    // 监听进度
+    // 监听进度数据
     watch(
-      () => props.musicPlayProgress.progress,
-      (curVal: number) => {
+      () => props.musicPlayProgress,
+      curVal => {
         // 拖动时停止更新进度条
         if (isDrag.value) {
           return false;
         }
-        (currentProgressRef.value as HTMLElement).style.width = curVal + '%';
-      }
-    );
-
-    // 监听缓存进度
-    watch(
-      () => props.musicPlayProgress.cacheProgress,
-      (curVal: number) => {
-        // 缓存进度
-        (cacheProgressRef.value as HTMLElement).style.width = curVal + '%';
+        // 更新进度条
+        (currentProgressRef.value as HTMLElement).style.width =
+          curVal.progress + '%';
+        // 更新缓存进度
+        (cacheProgressRef.value as HTMLElement).style.width =
+          curVal.cacheProgress + '%';
       }
     );
 
@@ -122,6 +118,8 @@ export default defineComponent({
       // 拖动进度更新
       if (isDrag.value) {
         emit('progressChange', currentProgress.value);
+        // 拖动
+        isDrag.value = false;
       }
     }
 

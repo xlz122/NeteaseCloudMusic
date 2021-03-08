@@ -69,6 +69,12 @@ export default defineComponent({
         if (curVal) {
           getMusicUrl(playMusicId.value).then((res: string) => {
             audioSrc.value = res;
+            // 重置播放进度
+            $store.commit('music/setMusicPlayProgress', {
+              progress: 0,
+              currentTime: 0,
+              duration: 0
+            });
             setAudioStatus();
           });
         }
@@ -101,6 +107,8 @@ export default defineComponent({
     // 播放器实例
     const musicAudio = ref<HTMLVideoElement>();
 
+    const playTimer = ref<number | null>(null);
+
     // 播放音乐
     function startPlayMusic(): void {
       (musicAudio.value as HTMLVideoElement).load();
@@ -110,6 +118,10 @@ export default defineComponent({
     // 停止播放
     function stopPlayMusic(): void {
       (musicAudio.value as HTMLVideoElement).pause();
+      // 清除已存在定时器
+      if (playTimer.value) {
+        clearInterval(playTimer.value as number);
+      }
     }
 
     // 播放进度数据
@@ -141,7 +153,6 @@ export default defineComponent({
     );
 
     // 播放触发
-    const playTimer = ref<number | null>(null);
     function musicPlaying(): void {
       // 关闭加载loading
       $store.commit('music/setMusicPlayStatus', {
@@ -152,6 +163,10 @@ export default defineComponent({
       // 清除已存在定时器
       if (playTimer.value) {
         clearInterval(playTimer.value as number);
+      }
+      // 继续播放
+      if (musicPlayProgress.value.currentTime > 0) {
+        musicMp3.currentTime = musicPlayProgress.value.currentTime;
       }
       playTimer.value = setInterval(() => {
         const progress = musicMp3.currentTime / musicMp3.duration;
