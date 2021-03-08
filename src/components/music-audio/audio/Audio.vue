@@ -75,6 +75,10 @@ export default defineComponent({
               currentTime: 0,
               duration: 0
             });
+            // 重置刷新
+            $store.commit('music/setMusicPlayStatus', {
+              refresh: false
+            });
             setAudioStatus();
           });
         }
@@ -85,9 +89,6 @@ export default defineComponent({
     function setAudioStatus(): boolean | undefined {
       // 刷新播放
       if (musicPlayStatus.value.look && musicPlayStatus.value.refresh) {
-        $store.commit('music/setMusicPlayStatus', {
-          refresh: false
-        });
         startPlayMusic();
         return false;
       }
