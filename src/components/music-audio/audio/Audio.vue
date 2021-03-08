@@ -205,10 +205,11 @@ export default defineComponent({
       }
       // 单曲循环
       if (musicModeType.value === 0) {
-        $store.commit('music/setMusicPlayStatus', {
-          look: true,
-          loading: true,
-          refresh: false
+        // 重置播放进度
+        $store.commit('music/setMusicPlayProgress', {
+          progress: 0,
+          currentTime: 0,
+          duration: 0
         });
         startPlayMusic();
       }
