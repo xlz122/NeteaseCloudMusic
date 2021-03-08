@@ -38,7 +38,7 @@ const state: State = {
   playMusicId: Number(localStorage.getItem('playMusicId')) || 0, // 当前播放音乐id
   playMusicItem: faultTolerant('playMusicItem') || {}, // 当前播放音乐数据
   playMusicList: faultTolerant('playMusicList') || [], // 播放列表数据
-  musicPlayProgress: faultTolerant('musicPlayProgress') || {}, // 当前播放音乐进度数据
+  musicPlayProgress: {}, // 当前播放音乐进度数据
   musicPlayStatus: {
     look: false,
     loading: false,

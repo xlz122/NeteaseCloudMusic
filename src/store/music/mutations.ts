@@ -64,7 +64,6 @@ const mutations: Mutations<State, unknown> = {
     );
     const progress = Object.assign(musicPlayProgress, playProgress);
     state.musicPlayProgress = progress as unknown;
-    localStorage.setItem('musicPlayProgress', JSON.stringify(progress));
   },
   // 音乐播放状态
   setMusicPlayStatus(state, playStatus) {
