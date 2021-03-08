@@ -69,6 +69,7 @@
                 class="text"
                 v-for="(item, index) in playMusicItem?.ar"
                 :key="index"
+                :title="item?.name"
               >
                 {{ item?.name }}
                 <span class="line" v-if="index !== playMusicItem.ar.length - 1">
