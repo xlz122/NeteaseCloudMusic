@@ -12,7 +12,7 @@
         <i class="icon"></i>
         <span>清除</span>
       </div>
-      <div class="song-title">{{ playMusicItem.name }}</div>
+      <div class="song-title">{{ musicName }}</div>
       <i class="clear-icon" @click="closePlayList"></i>
     </div>
     <!-- 内容部分 -->
@@ -57,9 +57,9 @@
           </div>
           <p class="desc">
             <span>去首页</span>
-            <span class="link">发现音乐</span>
+            <router-link class="link" to="/">发现音乐</router-link>
             <span>，或在</span>
-            <span class="link">我的音乐</span>
+            <router-link class="link" to="/my-music">我的音乐</router-link>
             <span>收听自己收藏得歌单</span>
           </p>
         </div>
@@ -73,11 +73,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 // 歌词组件
 import Lyric from '../lyric/Lyric.vue';
 import { timeStampToDuration } from '@utils/utils';
+import { LoopType } from '@/types/types';
 
 export default defineComponent({
   components: {
@@ -93,18 +94,27 @@ export default defineComponent({
     const $store = useStore();
 
     // 播放列表数据
-    const playMusicList = computed<unknown[]>(
-      () => $store.getters['music/playMusicList']
-    );
+    const playMusicList = computed(() => $store.getters['music/playMusicList']);
 
     // 当前播放音乐id
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );
 
-    // 当前播放音乐数据
-    const playMusicItem = computed<number>(
-      () => $store.getters['music/playMusicItem']
+    // 当前播放音乐名称
+    const musicName = ref<string>('');
+    watch(
+      () => playMusicId.value,
+      () => {
+        playMusicList.value.map((item: LoopType) => {
+          if (item.id === playMusicId.value) {
+            musicName.value = item.name;
+          }
+        });
+      },
+      {
+        immediate: true
+      }
     );
 
     // 清除列表
@@ -138,7 +148,7 @@ export default defineComponent({
     return {
       playMusicList,
       playMusicId,
-      playMusicItem,
+      musicName,
       timeStampToDuration,
       emptyMusicList,
       deleteMusicList,
