@@ -89,7 +89,7 @@ const mutations: Mutations<State, unknown> = {
   // 播放器 - 清空播放列表数据
   emptyPlayMusicList(state) {
     state.playMusicList = [] as unknown[];
-    localStorage.setItem('playMusicData', [] as never);
+    localStorage.setItem('playMusicList', [] as never);
     // 清除歌词
     state.playLyrics = [] as unknown[];
     localStorage.setItem('playLyrics', [] as never);

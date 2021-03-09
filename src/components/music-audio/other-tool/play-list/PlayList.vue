@@ -12,11 +12,17 @@
         <i class="icon"></i>
         <span>清除</span>
       </div>
-      <div class="song-title">{{ musicName }}</div>
+      <div class="song-title">{{ playMusicItem?.name || '' }}</div>
       <i class="clear-icon" @click="closePlayList"></i>
     </div>
     <!-- 内容部分 -->
     <div class="play-list-content">
+      <img
+        class="play-list-content-bg"
+        v-if="playMusicItem?.al?.picUrl"
+        :src="playMusicItem?.al?.picUrl"
+        alt=""
+      />
       <div class="left-content">
         <ul class="list" v-if="playMusicList.length > 0">
           <li
@@ -73,12 +79,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
 // 歌词组件
 import Lyric from '../lyric/Lyric.vue';
 import { timeStampToDuration } from '@utils/utils';
-import { LoopType } from '@/types/types';
 
 export default defineComponent({
   components: {
@@ -101,20 +106,9 @@ export default defineComponent({
       () => $store.getters['music/playMusicId']
     );
 
-    // 当前播放音乐名称
-    const musicName = ref<string>('');
-    watch(
-      () => playMusicId.value,
-      () => {
-        playMusicList.value.map((item: LoopType) => {
-          if (item.id === playMusicId.value) {
-            musicName.value = item.name;
-          }
-        });
-      },
-      {
-        immediate: true
-      }
+    // 当前播放音乐数据
+    const playMusicItem = computed<number>(
+      () => $store.getters['music/playMusicItem']
     );
 
     // 清除列表
@@ -148,7 +142,7 @@ export default defineComponent({
     return {
       playMusicList,
       playMusicId,
-      musicName,
+      playMusicItem,
       timeStampToDuration,
       emptyMusicList,
       deleteMusicList,
