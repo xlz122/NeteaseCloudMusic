@@ -85,6 +85,15 @@ const routes: Array<RouteRecordRaw> = [
           )
       }
     ]
+  },
+  // 未匹配的路径名称导航到该路径
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: () =>
+      import(
+        /* webpackChunkName: "not-found" */ '../views/not-found/NotFound.vue'
+      )
   }
 ];
 
