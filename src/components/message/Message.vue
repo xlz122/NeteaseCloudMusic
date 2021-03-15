@@ -34,12 +34,13 @@ export default defineComponent({
       () => {
         messageShow.value = true;
         // 提示在定时后隐藏
-        timer.value = setTimeout(() => {
-          messageShow.value = false;
-        }, message.value.time);
         // 有新的进来，清除定时器，重新设置
         if (timer.value) {
           clearTimeout(timer.value);
+          timer.value = setTimeout(() => {
+            messageShow.value = false;
+          }, message.value.time);
+        } else {
           timer.value = setTimeout(() => {
             messageShow.value = false;
           }, message.value.time);
