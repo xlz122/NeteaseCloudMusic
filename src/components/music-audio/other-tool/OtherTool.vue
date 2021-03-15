@@ -30,6 +30,10 @@
     </div>
     <button class="btn list-btn" title="列表" @click="setPlayListShow"></button>
     <span class="list-text">{{ playMusicList?.length }}</span>
+    <!-- 播放列表添加提示 -->
+    <div class="add-play-tip" v-if="addPlayTipShow">
+      <span>已添加到播放列表</span>
+    </div>
   </div>
   <!-- 播放列表组件 -->
   <play-list
@@ -40,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 // 音量
 import VolumeProgress from '../volume-progress/VolumeProgress.vue';
@@ -98,6 +102,29 @@ export default defineComponent({
       playListShow.value = !playListShow.value;
     }
 
+    // 添加播放列表提示
+    const addPlayTipShow = ref<boolean>(false);
+    watch(
+      () => playMusicList.value,
+      (curVal, oldVal) => {
+        if (curVal.length > oldVal.length) {
+          addPlayTipShow.value = true;
+          // 提示在3秒后隐藏
+          let timer = 0;
+          timer = setTimeout(() => {
+            addPlayTipShow.value = false;
+          }, 3000);
+          // 3秒内继续切换，清除定时器，重新设置
+          if (timer) {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+              addPlayTipShow.value = false;
+            }, 3000);
+          }
+        }
+      }
+    );
+
     // 关闭播放列表
     function closePlayList(): void {
       playListShow.value = false;
@@ -111,6 +138,7 @@ export default defineComponent({
       modeChange,
       playListShow,
       setPlayListShow,
+      addPlayTipShow,
       closePlayList
     };
   }
