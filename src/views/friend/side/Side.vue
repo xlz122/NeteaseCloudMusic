@@ -27,10 +27,28 @@
       </ul>
     </div>
   </div>
+  <div class="side-content">
+    <!-- 明星用户 -->
+    <h4 class="side-title">
+      <span>明星用户</span>
+      <router-link class="link" to="">换一批</router-link>
+    </h4>
+    <ul class="star-list">
+      <li class="item" v-for="(item, index) in starList" :key="index">
+        <div class="item-img">
+          <img class="img" :src="item.src" alt="" />
+        </div>
+        <div class="info">
+          <h4 class="info-title" :title="item.name">{{ item.name }}</h4>
+          <p class="info-desc" :title="item.desc">{{ item.desc }}</p>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { dailySignin } from '@api/home';
 import { ResponseType } from '@/types/types';
@@ -84,11 +102,22 @@ export default defineComponent({
     function openLogin(): void {
       $store.commit('setLoginDialog', true);
     }
+
+    // 明星列表
+    const starList = ref<unknown>([
+      {
+        src:
+          'http://p1.music.126.net/RQT6l2Vd9mQ9bSA_9MdWBw==/109951163720144425.jpg?param=45y45',
+        name: '品冠victor',
+        desc: '台湾流行歌手品冠'
+      }
+    ]);
     return {
       userInfo,
       isSignIn,
       signIn,
-      openLogin
+      openLogin,
+      starList
     };
   }
 });

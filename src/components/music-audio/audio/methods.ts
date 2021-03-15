@@ -71,7 +71,6 @@ export function getNextMusicId(): Promise<number> {
   return new Promise(resolve => {
     // 播放列表
     const playMusicList = store.getters['music/playMusicList'];
-    console.log(playMusicList);
 
     // 当前播放音乐id
     const playMusicId = store.getters['music/playMusicId'];
