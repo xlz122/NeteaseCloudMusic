@@ -54,7 +54,9 @@ yarn build
 ### 项目效果图
 
 ![](./src/assets/design-sketch/home.png)
-![](./src/assets/design-sketch/my-music.jpg)
+![](./src/assets/design-sketch/my-music.png)
+![](./src/assets/design-sketch/friend.png)
+![](./src/assets/design-sketch/download.png)
 ## 写在最后
 
 * 本项目仅用于学习使用，切勿用于商业用途，否则产生的法律后果与作者无关。
