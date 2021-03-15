@@ -1,10 +1,16 @@
-// @ts-nocheck
 import axios from 'axios';
+import {
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosError,
+  AxiosInstance,
+  CancelTokenStatic
+} from 'axios';
 
 // 标识请求
-const getRequestIdentify = (config, isReuest = false) => {
+const getRequestIdentify = (config: AxiosRequestConfig, isReuest = false) => {
   let url = config.url;
-  if (isReuest) {
+  if (isReuest && config.url) {
     url = config.baseURL + config.url.substring(1, config.url.length);
   }
   return config.method === 'get'
@@ -13,9 +19,13 @@ const getRequestIdentify = (config, isReuest = false) => {
 };
 
 // 取消重复请求
-const pending = {};
-const CancelToken = axios.CancelToken;
-const removePending = (key, isRequest = false) => {
+type Pending = {
+  [key: string]: (message: string) => void;
+};
+const pending: Pending = {};
+const CancelToken: CancelTokenStatic = axios.CancelToken;
+
+const removePending = (key: string, isRequest = false) => {
   if (pending[key] && isRequest) {
     pending[key]('取消重复请求');
   }
@@ -23,25 +33,22 @@ const removePending = (key, isRequest = false) => {
 };
 
 class HttpRequest {
-  constructor(externalConfig) {
-    // 外部配置
+  constructor(externalConfig: AxiosRequestConfig) {
     this.externalConfig = externalConfig;
   }
 
-  externalConfig;
+  externalConfig: AxiosRequestConfig = {};
 
-  // 内部配置
-  getInsideConfig() {
+  getInsideConfig(): AxiosRequestConfig {
     let config = {
       // 基础路径
       baseURL: '',
-      // 表示跨域请求时是否需要使用凭证
       // 允许跨域带token,cookie
       withCredentials: true,
       // 请求超时
       timeout: 60000,
       headers: {
-        contentType: 'application/json;charset=UTF-8'
+        'Content-Type': 'application/json;charset=UTF-8'
       }
     };
     config = Object.assign(config, this.externalConfig);
@@ -49,7 +56,7 @@ class HttpRequest {
   }
 
   // 调用方法
-  request(options) {
+  request(options: AxiosRequestConfig) {
     const instance = axios.create();
     options = Object.assign(this.getInsideConfig(), options);
     this.interceptors(instance);
@@ -57,35 +64,32 @@ class HttpRequest {
   }
 
   // 拦截器设置
-  interceptors(instance) {
+  interceptors(instance: AxiosInstance) {
     // 请求拦截
     instance.interceptors.request.use(
-      config => {
+      (config: AxiosRequestConfig) => {
         // 拦截重复请求(即当前正在进行的相同请求)
-        const requestData = getRequestIdentify(config, true); // 标识请求
-        removePending(requestData, true); // 取消重复请求
+        const requestData: string = getRequestIdentify(config, true); // 标识请求
+        // 取消重复请求
+        removePending(requestData, true);
         // 创建当前请求的取消方法
-        config.cancelToken = new CancelToken(c => {
-          pending[requestData] = c;
+        config.cancelToken = new CancelToken(cancel => {
+          pending[requestData] = cancel;
         });
 
         return Promise.resolve(config);
       },
-      error => {
+      (error: AxiosError) => {
         return Promise.reject(error);
       }
     );
     // 响应拦截
     instance.interceptors.response.use(
-      res => {
+      (res: AxiosResponse) => {
         const data = res.data;
         return Promise.resolve(data);
       },
-      error => {
-        // cookie过期
-        if (error.status === 301) {
-          store.commit('setLogout');
-        }
+      (error: AxiosError) => {
         return Promise.reject(error);
       }
     );
@@ -94,7 +98,6 @@ class HttpRequest {
 
 const Axios = new HttpRequest({
   baseURL: '/api'
-  // baseURL: 'https://wyy.wangpinpin.com/' // 部署接口
 });
 
 export default Axios;

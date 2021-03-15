@@ -41,8 +41,8 @@ module.exports = {
     proxy: {
       // 使用对象的方式设置多个代理
       api: {
-        // target: 'http://localhost:3000', // 替换成需要请求的接口地址
-        target: 'https://wyy.wangpinpin.com/', // 线上地址
+        // target: 'http://localhost:9002', // 替换成需要请求的接口地址
+        target: 'http://182.61.139.248:9002', // 线上地址
         ws: true, // 允许跨域
         changeOrigin: true,
         pathRewrite: {

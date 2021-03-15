@@ -32,17 +32,13 @@
         <span>热门主播</span>
       </h3>
       <ul class="list anchor-list">
-        <li class="item">
+        <li class="item" v-for="(item, index) in anchorList" :key="index">
           <div class="item-img">
-            <img
-              class="img"
-              src="http://p1.music.126.net/H3QxWdf0eUiwmhJvA4vrMQ==/1407374893913311.jpg?param=40y40"
-              alt=""
-            />
+            <img class="img" :src="item.src" alt="" />
           </div>
           <div class="info">
-            <h4 class="info-title">陈立</h4>
-            <p class="info-desc">心理学家、美食家陈立教授</p>
+            <h4 class="info-title">{{ item.name }}</h4>
+            <p class="info-desc">{{ item.desc }}</p>
           </div>
         </li>
       </ul>
@@ -59,7 +55,7 @@ export default defineComponent({
     SideUser
   },
   setup() {
-    // 入驻歌手无接口
+    // 入驻歌手无接口(服务器渲染)
     const singerList = ref<unknown[]>([
       {
         src:
@@ -92,8 +88,42 @@ export default defineComponent({
         desc: '音乐人'
       }
     ]);
+    // 热门主播无接口(服务器渲染)
+    const anchorList = ref<unknown[]>([
+      {
+        src:
+          'http://p1.music.126.net/H3QxWdf0eUiwmhJvA4vrMQ==/1407374893913311.jpg?param=40y40',
+        name: '陈立',
+        desc: '心理学家、美食家陈立教授'
+      },
+      {
+        src:
+          'http://p1.music.126.net/y5-sM7tjnxnu_V9LWKgZlw==/7942872001461517.jpg?param=40y40',
+        title: 'DJ艳秋',
+        desc: '著名音乐节目主持人'
+      },
+      {
+        src:
+          'http://p1.music.126.net/6cc6lgOfQTo6ovNnTHPyJg==/3427177769086282.jpg?param=40y40',
+        name: '国家大剧院古典音乐频道',
+        desc: '国家大剧院古典音乐官方'
+      },
+      {
+        src:
+          'http://p1.music.126.net/xa1Uxrrn4J0pm_PJwkGYvw==/3130309604335651.jpg?param=40y40',
+        name: '谢谢收听',
+        desc: '南京电台主持人王馨'
+      },
+      {
+        src:
+          'http://p1.music.126.net/slpd09Tf5Ju82Mv-h8MP4w==/3440371884651965.jpg?param=40y40',
+        name: 'DJ晓苏',
+        desc: '独立DJ，CRI环球旅游广播特邀DJ'
+      }
+    ]);
     return {
-      singerList
+      singerList,
+      anchorList
     };
   }
 });

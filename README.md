@@ -28,11 +28,15 @@
 * 目前完成：
 
 	* 基本页面结构搭建
-	* 扫码登录
-	* 下载页面
+	* 扫码登录完成
+	* 手机号登录完成
+	* 网易邮箱登录完成
+	* 首页完成50%
 	* 我的音乐完成70%
-	* 音乐播放器完成70%
-	* 首页完成70%
+	* 朋友页面60%
+	* 下载页面完成
+	* 创作中心页面完成
+	* 音乐播放器完成80%
 ### 项目说明
 
 启动项目
@@ -54,7 +58,9 @@ yarn build
 ### 项目效果图
 
 ![](./src/assets/design-sketch/home.png)
-![](./src/assets/design-sketch/my-music.jpg)
+![](./src/assets/design-sketch/my-music.png)
+![](./src/assets/design-sketch/friend.png)
+![](./src/assets/design-sketch/download.png)
 ## 写在最后
 
 * 本项目仅用于学习使用，切勿用于商业用途，否则产生的法律后果与作者无关。

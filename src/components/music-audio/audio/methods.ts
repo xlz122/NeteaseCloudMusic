@@ -36,17 +36,23 @@ export function getPrevMusicId(): Promise<number> {
     const index: number = playMusicList.findIndex(
       (item: LoopType) => item.id === playMusicId
     );
-    if (index === -1) {
-      return false;
-    }
+
     let id = 0;
-    // 不是第一项
-    if (index > 0) {
-      id = playMusicList[index - 1].id;
-    }
-    // 列表回到最后一项
-    if (index === 0) {
+    // 播放数据不在播放列表（清空播放列表后，重新添加出现这种情况）,播放最后一项
+    if (index === -1) {
       id = playMusicList[playMusicList.length - 1].id;
+    }
+
+    // 播放数据在播放列表
+    if (index !== -1) {
+      // 不是第一项
+      if (index > 0) {
+        id = playMusicList[index - 1].id;
+      }
+      // 列表回到最后一项
+      if (index === 0) {
+        id = playMusicList[playMusicList.length - 1].id;
+      }
     }
     // 当前播放音乐id
     store.commit('music/setPlayMusicId', id);
@@ -76,17 +82,23 @@ export function getNextMusicId(): Promise<number> {
     const index: number = playMusicList.findIndex(
       (item: LoopType) => item.id === playMusicId
     );
-    if (index === -1) {
-      return false;
-    }
+
     let id = 0;
-    // 不是最后一项
-    if (index < playMusicList.length - 1) {
-      id = playMusicList[index + 1].id;
-    }
-    // 列表回到第一项
-    if (index !== -1 && index === playMusicList.length - 1) {
+    // 播放数据不在播放列表（清空播放列表后，重新添加出现这种情况）,播放第一项
+    if (index === -1) {
       id = playMusicList[0].id;
+    }
+
+    // 播放数据在播放列表
+    if (index !== -1) {
+      // 不是最后一项
+      if (index < playMusicList.length - 1) {
+        id = playMusicList[index + 1].id;
+      }
+      // 列表回到第一项
+      if (index !== -1 && index === playMusicList.length - 1) {
+        id = playMusicList[0].id;
+      }
     }
     // 当前播放音乐id
     store.commit('music/setPlayMusicId', id);

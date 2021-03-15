@@ -20,6 +20,7 @@
           display: block;
           width: 62px;
           height: 62px;
+          cursor: pointer;
         }
       }
 
@@ -95,6 +96,249 @@
 
       .last-item {
         border: none;
+      }
+    }
+  }
+}
+
+.side-content {
+  width: 100%;
+  margin-top: 15px;
+
+  .side-title {
+    position: relative;
+    height: 23px;
+    line-height: 23px;
+    margin: 0 30px;
+    border-bottom: 1px solid #ccc;
+    color: #333;
+    text-align: left;
+
+    .link {
+      position: absolute;
+      top: 45%;
+      right: 0;
+      transform: translateY(-50%);
+      color: #666;
+      font-size: 12px;
+      font-weight: normal;
+      cursor: pointer;
+
+      &:hover {
+        color: #666;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  // 明星列表
+  .star-list {
+    margin: 5px 30px 15px;
+
+    .item {
+      position: relative;
+      height: 45px;
+      padding: 10px 0;
+
+      .item-img {
+        display: inline-block;
+        vertical-align: top;
+        width: 45px;
+        height: 45px;
+        margin-right: 10px;
+
+        .img {
+          width: 45px;
+          height: 45px;
+          cursor: pointer;
+        }
+      }
+
+      .info {
+        display: inline-block;
+        vertical-align: top;
+        width: 116px;
+
+        .info-title {
+          width: 100%;
+          padding: 3px 0 7px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          word-wrap: normal;
+
+          &:hover {
+            text-decoration: underline;
+            cursor: pointer;
+          }
+        }
+
+        .info-desc {
+          width: 100%;
+          padding: 0 0 7px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          word-wrap: normal;
+        }
+      }
+
+      .follow {
+        position: absolute;
+        top: 50%;
+        right: 0px;
+        width: 52px;
+        height: 22px;
+        margin-top: -11px;
+        background: url(../../../assets/image/my-music/button.png) no-repeat;
+        background-position: 0 -96px;
+        outline: none;
+        border: none;
+        cursor: pointer;
+
+        .follow-text {
+          display: inline-block;
+          line-height: 22px;
+          padding-left: 15px;
+          color: #515151;
+          font-size: 12px;
+          font-weight: normal;
+          overflow: hidden;
+        }
+      }
+
+      .follow-active-text {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        margin-top: -7px;
+        color: #999;
+
+        .active-icon {
+          display: inline-block;
+          vertical-align: middle;
+          width: 13px;
+          height: 10px;
+          margin-right: 3px;
+          background: url(../../../assets/image/icon.png) no-repeat;
+          background-position: -60px -470px;
+        }
+
+        .active-text {
+          display: inline-block;
+          vertical-align: middle;
+        }
+      }
+
+      .delete-icon {
+        display: none;
+        position: absolute;
+        top: 50%;
+        right: -14px;
+        width: 14px;
+        height: 14px;
+        margin-top: -7px;
+        background: url(../../../assets/image/icon.png) no-repeat;
+        background-position: 3px -636px;
+        outline: none;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          background-position: -11px -636px;
+        }
+      }
+    }
+
+    .item:hover {
+      .delete-icon {
+        display: block;
+      }
+    }
+  }
+
+  // 感兴趣列表
+  .interested-list {
+    margin: 5px 25px 15px;
+
+    .item {
+      height: 30px;
+      padding: 10px 0;
+
+      .item-img {
+        width: 30px;
+        height: 30px;
+
+        .img {
+          width: 30px;
+          height: 30px;
+        }
+      }
+
+      .info {
+        .info-title {
+          padding: 0px;
+          color: #333;
+
+          &:hover {
+            text-decoration: underline;
+            cursor: pointer;
+          }
+        }
+
+        .info-desc {
+          margin-top: 2px;
+          color: #9b9b9b;
+        }
+      }
+    }
+  }
+}
+
+.side-footer {
+  margin: 25px 30px 20px;
+  font-size: 12px;
+  color: #333;
+
+  .footer-micro-blog {
+    display: block;
+    width: 100%;
+    height: 31px;
+    line-height: 31px;
+    margin-top: 10px;
+    background: url(../../../assets/image/icon-button.png) no-repeat;
+    background-position: right -100px;
+    color: #333;
+
+    &:hover {
+      background-position: right -182px;
+    }
+
+    .micro-blog-icon {
+      display: block;
+      width: 236px;
+      height: 100%;
+      text-align: left;
+      background: url(../../../assets/image/icon-button.png) no-repeat;
+      background-position: 0 -59px;
+
+      &:hover {
+        background-position: 0 -141px;
+      }
+
+      .icon {
+        display: inline-block;
+        vertical-align: middle;
+        width: 20px;
+        height: 20px;
+        margin: 0 10px 0 63px;
+        background: url(../../../assets/image/icon-logo.png) no-repeat;
+        background-position: -172px 0;
+      }
+
+      .title {
+        display: inline-block;
+        vertical-align: middle;
       }
     }
   }

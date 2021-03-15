@@ -31,13 +31,13 @@
 
 <script lang="ts" setup>
 /* eslint-disable */
-import { useContext, defineProps, defineEmit } from 'vue';
+import { useContext, defineProps, defineEmit, watch } from 'vue';
 import { drag } from '@utils/drag.ts';
 
-defineProps({
+const props = defineProps({
   visible: {
     type: Boolean,
-    default: true
+    default: false
   },
   title: {
     type: String,

@@ -214,13 +214,13 @@ export const mailboxLogin = ({
  * @param { Number } timestamp - 防止接口缓存
  */
 export const accountInfo = () => {
-  const parsms = {
+  const params = {
     timestamp: new Date().getTime()
   };
   return axios.request({
     url: '/user/account',
     method: 'get',
-    parsms
+    params
   });
 };
 

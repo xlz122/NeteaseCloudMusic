@@ -3,7 +3,11 @@
     <div class="title">
       <span class="text">动态</span>
       <span class="title-btn dynamic" title="发动态"></span>
-      <span class="title-btn video" title="发布视频"></span>
+      <span
+        class="title-btn video"
+        title="发布视频"
+        @click="releaseVideo"
+      ></span>
     </div>
     <ul class="list">
       <li class="item" v-for="(item, index) in eventList" :key="index">
@@ -43,8 +47,168 @@
             <div class="operate">
               <span class="operate-btn">
                 <i
+                  class="operate-btn-icon operate-btn-active-icon"
+                  v-if="item?.info?.liked"
+                  @click="setDynamicLike(item.id, item.info.threadId, 0)"
+                ></i>
+                <i
                   class="operate-btn-icon"
-                  :class="{ 'operate-btn-active-icon': item?.info?.liked }"
+                  v-else
+                  @click="setDynamicLike(item.id, item.info.threadId, 1)"
+                ></i>
+                <span
+                  v-if="item?.info?.likedCount > 0"
+                  class="operate-btn-text"
+                >
+                  ({{ item?.info?.likedCount }})
+                </span>
+              </span>
+              <span class="operate-line">|</span>
+              <span class="operate-btn">
+                <span class="operate-btn-text">转发</span>
+                <span
+                  class="operate-btn-text"
+                  v-if="item?.insiteForwardCount > 0"
+                >
+                  ({{ item?.insiteForwardCount }})
+                </span>
+              </span>
+              <span class="operate-line">|</span>
+              <span class="operate-btn">
+                <span class="operate-btn-text">评论</span>
+                <span
+                  class="operate-btn-text"
+                  v-if="item?.info?.commentThread?.commentCount > 0"
+                >
+                  ({{ item?.info?.commentThread?.commentCount }})
+                </span>
+              </span>
+            </div>
+          </div>
+        </template>
+        <!-- 专辑 -->
+        <template v-if="item.type === 19">
+          <div class="cover">
+            <img
+              class="img"
+              :src="`${item?.user?.avatarUrl}?param=45y45`"
+              alt=""
+            />
+          </div>
+          <div class="info">
+            <div class="info-title">
+              <span class="t-text">{{ item?.user?.nickname }}</span>
+              <i class="t-icon"></i>
+              <span class="t-desc">分享专辑</span>
+            </div>
+            <div class="time">{{ formatDate(item?.showTime) }}</div>
+            <div class="mood" v-html="item?.json?.msg"></div>
+            <div class="music-info">
+              <div class="music-cover">
+                <img
+                  class="cover-img"
+                  :src="`${item?.json?.album?.picUrl}?param=40y40`"
+                  alt=""
+                />
+                <i class="play-icon"></i>
+              </div>
+              <div class="music-detail">
+                <h3 class="music-detail-title">
+                  {{ item?.json?.album?.name }}
+                </h3>
+                <h4 class="music-detail-name">
+                  {{ item?.json?.album?.artist?.name }}
+                </h4>
+              </div>
+            </div>
+            <div class="operate">
+              <span class="operate-btn">
+                <i
+                  class="operate-btn-icon operate-btn-active-icon"
+                  v-if="item?.info?.liked"
+                  @click="setDynamicLike(item.id, item.info.threadId, 0)"
+                ></i>
+                <i
+                  class="operate-btn-icon"
+                  v-else
+                  @click="setDynamicLike(item.id, item.info.threadId, 1)"
+                ></i>
+                <span
+                  v-if="item?.info?.likedCount > 0"
+                  class="operate-btn-text"
+                >
+                  ({{ item?.info?.likedCount }})
+                </span>
+              </span>
+              <span class="operate-line">|</span>
+              <span class="operate-btn">
+                <span class="operate-btn-text">转发</span>
+                <span
+                  class="operate-btn-text"
+                  v-if="item?.insiteForwardCount > 0"
+                >
+                  ({{ item?.insiteForwardCount }})
+                </span>
+              </span>
+              <span class="operate-line">|</span>
+              <span class="operate-btn">
+                <span class="operate-btn-text">评论</span>
+                <span
+                  class="operate-btn-text"
+                  v-if="item?.info?.commentThread?.commentCount > 0"
+                >
+                  ({{ item?.info?.commentThread?.commentCount }})
+                </span>
+              </span>
+            </div>
+          </div>
+        </template>
+        <!-- 歌单 -->
+        <template v-if="item.type === 13">
+          <div class="cover">
+            <img
+              class="img"
+              :src="`${item?.user?.avatarUrl}?param=45y45`"
+              alt=""
+            />
+          </div>
+          <div class="info">
+            <div class="info-title">
+              <span class="t-text">{{ item?.user?.nickname }}</span>
+              <i class=""></i>
+              <span class="t-desc">分享歌单</span>
+            </div>
+            <div class="time">{{ formatDate(item?.showTime) }}</div>
+            <div class="mood" v-html="item?.json?.msg"></div>
+            <div class="music-info">
+              <div class="music-cover">
+                <img
+                  class="cover-img"
+                  :src="`${item?.json?.playlist?.coverImgUrl}?param=40y40`"
+                  alt=""
+                />
+                <i class="play-icon"></i>
+              </div>
+              <div class="music-detail">
+                <h3 class="music-detail-title">
+                  {{ item?.json?.playlist?.name }}
+                </h3>
+                <h4 class="music-detail-name">
+                  by {{ item?.json?.playlist?.creator?.nickname }}
+                </h4>
+              </div>
+            </div>
+            <div class="operate">
+              <span class="operate-btn">
+                <i
+                  class="operate-btn-icon operate-btn-active-icon"
+                  v-if="item?.info?.liked"
+                  @click="setDynamicLike(item.id, item.info.threadId, 0)"
+                ></i>
+                <i
+                  class="operate-btn-icon"
+                  v-else
+                  @click="setDynamicLike(item.id, item.info.threadId, 1)"
                 ></i>
                 <span
                   v-if="item?.info?.likedCount > 0"
@@ -93,6 +257,65 @@
             <i class="topic-close"></i>
           </div>
         </template>
+        <!-- 文案 -->
+        <template v-if="item.type === 35">
+          <div class="cover">
+            <img
+              class="img"
+              :src="`${item?.user?.avatarUrl}?param=45y45`"
+              alt=""
+            />
+          </div>
+          <div class="info">
+            <div class="info-title">
+              <span class="t-text">{{ item?.user?.nickname }}</span>
+              <i class="t-icon copywriting"></i>
+              <span class="t-desc"></span>
+            </div>
+            <div class="time">{{ formatDate(item?.showTime) }}</div>
+            <div class="mood" v-html="item?.json?.msg"></div>
+            <div class="operate">
+              <span class="operate-btn">
+                <i
+                  class="operate-btn-icon operate-btn-active-icon"
+                  v-if="item?.info?.liked"
+                  @click="setDynamicLike(item.id, item.info.threadId, 0)"
+                ></i>
+                <i
+                  class="operate-btn-icon"
+                  v-else
+                  @click="setDynamicLike(item.id, item.info.threadId, 1)"
+                ></i>
+                <span
+                  v-if="item?.info?.likedCount > 0"
+                  class="operate-btn-text"
+                >
+                  ({{ item?.info?.likedCount }})
+                </span>
+              </span>
+              <span class="operate-line">|</span>
+              <span class="operate-btn">
+                <span class="operate-btn-text">转发</span>
+                <span
+                  class="operate-btn-text"
+                  v-if="item?.insiteForwardCount > 0"
+                >
+                  ({{ item?.insiteForwardCount }})
+                </span>
+              </span>
+              <span class="operate-line">|</span>
+              <span class="operate-btn">
+                <span class="operate-btn-text">评论</span>
+                <span
+                  class="operate-btn-text"
+                  v-if="item?.info?.commentThread?.commentCount > 0"
+                >
+                  ({{ item?.info?.commentThread?.commentCount }})
+                </span>
+              </span>
+            </div>
+          </div>
+        </template>
       </li>
     </ul>
   </div>
@@ -100,14 +323,22 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { friendEvent } from '@api/friend';
+import { friendEvent, dynamicLike } from '@api/friend';
 import { LoopType, ResponseType } from '@/types/types';
 import { formatDate } from '@utils/utils';
 import { formatMixedText } from '@utils/formatMixedText';
 
 export default defineComponent({
   setup() {
-    const eventList = ref<unknown[]>([]);
+    // 发布视频
+    function releaseVideo(): void {
+      window.open(
+        'https://music.163.com/st/creator/upload/video?from=%2Ffriend#/',
+        '_blank'
+      );
+    }
+    // 列表数据
+    const eventList = ref<LoopType[]>([]);
     // 获取动态列表数据
     function getFriendEvent(): void {
       friendEvent().then((res: ResponseType) => {
@@ -121,14 +352,38 @@ export default defineComponent({
             }
           });
           eventList.value = res.event;
+          console.log(eventList.value);
         }
       });
     }
     getFriendEvent();
 
+    // 动态点赞
+    function setDynamicLike(id: number, threadId: number, type: number): void {
+      // 页面静态修改
+      const likeIndex = eventList.value.findIndex(
+        (item: LoopType) => item.id === id
+      );
+      if (type === 0) {
+        eventList.value[likeIndex].info.liked = false;
+        eventList.value[likeIndex].info.likedCount--;
+      } else {
+        eventList.value[likeIndex].info.liked = true;
+        eventList.value[likeIndex].info.likedCount++;
+      }
+      // 接口修改
+      dynamicLike({
+        cid: id,
+        threadId,
+        t: type
+      });
+    }
+
     return {
       formatDate,
-      eventList
+      releaseVideo,
+      eventList,
+      setDynamicLike
     };
   }
 });
