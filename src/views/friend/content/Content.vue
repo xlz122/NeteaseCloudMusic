@@ -43,8 +43,14 @@
             <div class="operate">
               <span class="operate-btn">
                 <i
+                  class="operate-btn-icon operate-btn-active-icon"
+                  v-if="item?.info?.liked"
+                  @click="setDynamicLike(item.id, item.info.threadId, 0)"
+                ></i>
+                <i
                   class="operate-btn-icon"
-                  :class="{ 'operate-btn-active-icon': item?.info?.liked }"
+                  v-else
+                  @click="setDynamicLike(item.id, item.info.threadId, 1)"
                 ></i>
                 <span
                   v-if="item?.info?.likedCount > 0"
@@ -100,14 +106,14 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { friendEvent } from '@api/friend';
+import { friendEvent, dynamicLike } from '@api/friend';
 import { LoopType, ResponseType } from '@/types/types';
 import { formatDate } from '@utils/utils';
 import { formatMixedText } from '@utils/formatMixedText';
 
 export default defineComponent({
   setup() {
-    const eventList = ref<unknown[]>([]);
+    const eventList = ref<LoopType[]>([]);
     // 获取动态列表数据
     function getFriendEvent(): void {
       friendEvent().then((res: ResponseType) => {
@@ -121,14 +127,37 @@ export default defineComponent({
             }
           });
           eventList.value = res.event;
+          console.log(eventList.value);
         }
       });
     }
     getFriendEvent();
 
+    // 动态点赞
+    function setDynamicLike(id: number, threadId: number, type: number): void {
+      // 页面静态修改
+      const likeIndex = eventList.value.findIndex(
+        (item: LoopType) => item.id === id
+      );
+      if (type === 0) {
+        eventList.value[likeIndex].info.liked = false;
+        eventList.value[likeIndex].info.likedCount--;
+      } else {
+        eventList.value[likeIndex].info.liked = true;
+        eventList.value[likeIndex].info.likedCount++;
+      }
+      // 接口修改
+      dynamicLike({
+        cid: id,
+        threadId,
+        t: type
+      });
+    }
+
     return {
       formatDate,
-      eventList
+      eventList,
+      setDynamicLike
     };
   }
 });

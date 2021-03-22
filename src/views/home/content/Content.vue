@@ -4,13 +4,13 @@
       <div class="list-title">
         <span class="title">热门推荐</span>
         <ul class="tab">
-          <li class="item first-item">华语</li>
-          <li class="item">流行</li>
-          <li class="item">摇滚</li>
-          <li class="item">民谣</li>
-          <li class="item last-item">电子</li>
+          <li class="item first-item" @click="jumpSongSheet('华语')">华语</li>
+          <li class="item" @click="jumpSongSheet('流行')">流行</li>
+          <li class="item" @click="jumpSongSheet('摇滚')">摇滚</li>
+          <li class="item" @click="jumpSongSheet('民谣')">民谣</li>
+          <li class="item last-item" @click="jumpSongSheet('电子')">电子</li>
         </ul>
-        <span class="more">更多</span>
+        <span class="more" @click="songSheetMore">更多</span>
       </div>
       <ul class="list-content">
         <!-- 未登录展示5条推荐歌单，登录后，后3条替换未个性化推荐 -->
@@ -116,14 +116,14 @@
     <div class="group">
       <div class="list-title">
         <span class="title">新碟上架</span>
-        <span class="more">更多</span>
+        <span class="more" @click="albumNewestMore">更多</span>
       </div>
       <album-newest />
     </div>
     <div class="group">
       <div class="list-title">
         <span class="title">榜单</span>
-        <span class="more">更多</span>
+        <span class="more" @click="songListMore">更多</span>
       </div>
       <song-list />
     </div>
@@ -166,6 +166,22 @@ export default defineComponent({
         }
       }
     );
+
+    // 热门推荐 - 跳转歌单
+    function jumpSongSheet(type: string): void {
+      $store.commit('setMessage', {
+        type: 'info',
+        title: `跳转${type}歌单`
+      });
+    }
+
+    // 热门推荐 - 跳转更多歌单
+    function songSheetMore(): void {
+      $store.commit('setMessage', {
+        type: 'info',
+        title: '更多歌单'
+      });
+    }
 
     // 获取热门推荐 - 推荐歌单数据
     const songListData = ref<unknown[]>([]);
@@ -230,13 +246,33 @@ export default defineComponent({
     // 获取当前日期
     const dateText = ref<string>('');
     dateText.value = formatDateTime(new Date().getTime() / 1000, 'dd');
+
+    // 新碟上架 - 更多
+    function albumNewestMore(): void {
+      $store.commit('setMessage', {
+        type: 'info',
+        title: '更多新碟'
+      });
+    }
+
+    // 榜单 - 更多
+    function songListMore(): void {
+      $store.commit('setMessage', {
+        type: 'info',
+        title: '更多榜单'
+      });
+    }
     return {
       isLogin,
+      jumpSongSheet,
+      songSheetMore,
       songListData,
       djprogramData,
       individualizatData,
       weekText,
-      dateText
+      dateText,
+      albumNewestMore,
+      songListMore
     };
   }
 });
