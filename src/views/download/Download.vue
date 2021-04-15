@@ -14,7 +14,7 @@
         <div class="other-download" @click="otherDownload">
           <i class="other-icon"></i>
           <p class="other-text">其他操作系统客户端</p>
-          <ul class="other-download-modal" v-if="otherDownloadModal">
+          <ul class="other-download-modal" v-if="otherDownloadModal" @click.stop>
             <li class="item">
               <i class="icon android"></i>
               <span class="text">Android 版</span>
@@ -208,7 +208,7 @@ export default defineComponent({
     // 其他操作系统
     const otherDownloadModal = ref<boolean>(false);
     function otherDownload(): void {
-      otherDownloadModal.value = true;
+      otherDownloadModal.value = !otherDownloadModal.value;
     }
 
     // 下载电脑，手机端
@@ -227,17 +227,6 @@ export default defineComponent({
     onMounted(() => {
       document.addEventListener('click', function(e: MouseEvent): void {
         const target = e.target as HTMLElement;
-        // 其他操作系统下载
-        if (
-          target.className !== 'other-text' &&
-          target.className !== 'other-icon' &&
-          target.className !== 'other-download-modal' &&
-          target.className !== 'item' &&
-          target.className !== 'text'
-        ) {
-          otherDownloadModal.value = false;
-        }
-
         // pc mobile下载
         if (
           target.className !== 'download-qrcode' &&
