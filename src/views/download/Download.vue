@@ -14,7 +14,11 @@
         <div class="other-download" @click="otherDownload">
           <i class="other-icon"></i>
           <p class="other-text">其他操作系统客户端</p>
-          <ul class="other-download-modal" v-if="otherDownloadModal" @click.stop>
+          <ul
+            class="other-download-modal"
+            v-if="otherDownloadModal"
+            @click.stop
+          >
             <li class="item">
               <i class="icon android"></i>
               <span class="text">Android 版</span>
