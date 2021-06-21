@@ -9,7 +9,6 @@ import {
 
 // 标识请求
 const getRequestIdentify = (config: AxiosRequestConfig, isReuest = false) => {
-  console.log(config);
   let url = config.url;
   if (isReuest && config.url) {
     url = config.baseURL + config.url.substring(1, config.url.length);
