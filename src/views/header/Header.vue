@@ -15,9 +15,12 @@
             ]"
             @click="navChange(index)"
           >
-            <router-link class="link" :to="item?.link">
+            <router-link class="link" v-if="item.link" :to="item?.link">
               {{ item?.title }}
             </router-link>
+            <a class="link" target="_blank" v-else :href="item?.href">
+              {{ item?.title }}
+            </a>
             <i class="hot" v-if="index === navList.length - 1"></i>
           </li>
         </ul>
@@ -59,7 +62,7 @@
               { 'active-item': index === subNavActive },
               { 'song-sheet': index === 2 }
             ]"
-            @click="subNavChange(index)"
+            @click="subNavChange(item, index)"
           >
             <router-link class="link" :to="item.link">
               {{ item?.title }}
@@ -81,7 +84,8 @@ import { LoopType } from '@/types/types';
 
 interface NavList {
   title: string;
-  link: string;
+  link?: string;
+  href?: string;
 }
 
 export default defineComponent({
@@ -113,11 +117,11 @@ export default defineComponent({
       },
       {
         title: '商城',
-        link: '/shopping-mall'
+        href: 'https://music.163.com/store/product'
       },
       {
         title: '音乐人',
-        link: '/musician'
+        href: 'https://music.163.com/st/musician'
       },
       {
         title: '下载客户端',
@@ -131,7 +135,11 @@ export default defineComponent({
     );
 
     // 导航更改
-    function navChange(index: number): void {
+    function navChange(item: NavList, index: number): boolean | undefined {
+      // 外部链接不更改导航
+      if (!item.link) {
+        return false;
+      }
       $store.commit('setHeaderActiveIndex', index);
     }
 
