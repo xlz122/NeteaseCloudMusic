@@ -44,9 +44,9 @@
             <span class="line">|</span>
           </li>
           <li class="item">
-            <a class="link" href="#" target="_blank" @click="feedback">
+            <span class="link" @click="feedback">
               意见反馈
-            </a>
+            </span>
             <span class="line">|</span>
           </li>
         </ul>
@@ -137,12 +137,18 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   setup() {
+    const $store = useStore();
+
     // 意见反馈
     function feedback(): void {
-      console.log('意见反馈');
+      $store.commit('setMessage', {
+        type: 'info',
+        title: '意见反馈'
+      });
     }
     return {
       feedback

@@ -9,6 +9,7 @@
       />
       <p class="text">扫描二维码下载</p>
     </div>
+    <!-- 下载部分 -->
     <div class="content">
       <div class="main">
         <div class="other-download" @click="otherDownload">
@@ -223,6 +224,7 @@ export default defineComponent({
       downloadQrcode.value = true;
       isPcDownLoad.value = true;
     }
+
     function downloadMobile(): void {
       downloadQrcode.value = true;
       isPcDownLoad.value = false;
