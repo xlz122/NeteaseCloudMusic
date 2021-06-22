@@ -211,6 +211,9 @@ export default defineComponent({
         type: 'info',
         title: '反馈已提交'
       });
+      // 清空表单
+      feedbackData.value.content = '';
+      feedbackData.value.contact = '';
     }
     // 意见反馈 - 取消
     function feedbackCancel(): void {
