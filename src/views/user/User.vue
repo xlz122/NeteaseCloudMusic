@@ -1,49 +1,92 @@
 <template>
   <ul class="user-base">
-    <li class="item" @click="undeveloped">
-      <i class="icon homepage"></i>
-      <span class="text">我的主页</span>
-    </li>
-    <li class="item" @click="undeveloped">
-      <i class="icon message"></i>
-      <span class="text">我的消息</span>
-    </li>
-    <li class="item" @click="undeveloped">
-      <i class="icon grade"></i>
-      <span class="text">我的等级</span>
-    </li>
-    <li class="item" @click="undeveloped">
-      <i class="icon member"></i>
-      <span class="text">VIP会员</span>
-    </li>
-    <li class="item" @click="undeveloped">
-      <i class="icon setting"></i>
-      <span class="text">个人设置</span>
-    </li>
-    <li class="item" @click="undeveloped">
-      <i class="icon real-name"></i>
-      <span class="text">实名认证</span>
-    </li>
-    <li class="item" @click="signOut">
-      <i class="icon logout"></i>
-      <span class="text">退出</span>
+    <li
+      class="item"
+      v-for="(item, index) in list"
+      :key="index"
+      @click="jumpDetail(item)"
+    >
+      <i :class="`icon ${item.icon}`"></i>
+      <span class="text">{{ item.title }}</span>
     </li>
   </ul>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+
+type NavList = {
+  title: string;
+  link: string;
+  icon: string;
+};
 
 export default defineComponent({
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
-    function undeveloped(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+    const list = ref<NavList[]>([
+      {
+        title: '我的主页',
+        link: '/my-home-page',
+        icon: 'homepage'
+      },
+      {
+        title: '我的消息',
+        link: '',
+        icon: 'message'
+      },
+      {
+        title: '我的等级',
+        link: '',
+        icon: 'grade'
+      },
+      {
+        title: 'VIP会员',
+        link: '',
+        icon: 'member'
+      },
+      {
+        title: '个人设置',
+        link: '',
+        icon: 'setting'
+      },
+      {
+        title: '实名认证',
+        link: '',
+        icon: 'real-name'
+      },
+      {
+        title: '退出',
+        link: '/logout',
+        icon: 'logout'
+      }
+    ]);
+
+    // 详情跳转
+    function jumpDetail(item: NavList): boolean | undefined {
+      // 未开发
+      if (!item.link) {
+        $store.commit('setMessage', {
+          type: 'error',
+          title: '该功能暂未开发'
+        });
+        return false;
+      }
+
+      // 退出登录
+      if (item.link === '/logout') {
+        signOut();
+        return false;
+      }
+
+      $router.push({ path: item.link });
+
+      // 头部导航取消选中
+      $store.commit('setHeaderActiveIndex', -1);
     }
 
     // 退出登录
@@ -51,8 +94,8 @@ export default defineComponent({
       $store.dispatch('setLogout');
     }
     return {
-      undeveloped,
-      signOut
+      jumpDetail,
+      list
     };
   }
 });

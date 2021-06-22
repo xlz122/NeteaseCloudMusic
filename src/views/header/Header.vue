@@ -173,7 +173,7 @@ export default defineComponent({
       },
       {
         title: '歌单',
-        link: '/my-home-page'
+        link: ''
       },
       {
         title: '主播电台',

@@ -51,6 +51,15 @@ const routes: Array<RouteRecordRaw> = [
         //   return window.open(`${location.origin}/creator-center`, '_blank');
         // }
       },
+      // 个人中心 - 我的主页
+      {
+        path: '/my-home-page',
+        name: 'my-home-page',
+        component: () =>
+          import(
+            /* webpackChunkName: "my-home-page" */ '../views/my-home-page/MyHomePage.vue'
+          )
+      },
       // 首页 - 排行榜
       {
         path: '/home-toplist',
@@ -58,14 +67,6 @@ const routes: Array<RouteRecordRaw> = [
         component: () =>
           import(
             /* webpackChunkName: "home-toplist" */ '../views/home-toplist/HomeToplist.vue'
-          )
-      },
-      {
-        path: '/my-home-page',
-        name: 'my-home-page',
-        component: () =>
-          import(
-            /* webpackChunkName: "my-home-page" */ '../views/my-home-page/MyHomePage.vue'
           )
       }
     ]
