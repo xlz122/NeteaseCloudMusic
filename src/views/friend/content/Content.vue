@@ -109,9 +109,11 @@
                 <i class="play-icon"></i>
               </div>
               <div class="music-detail">
-                <h3 class="music-detail-title">{{ item?.json?.song?.name }}</h3>
+                <h3 class="music-detail-title">
+                  {{ item?.json?.album?.name }}
+                </h3>
                 <h4 class="music-detail-name">
-                  {{ item?.json?.song?.artists[0].name }}
+                  {{ item?.json?.album?.artist?.name }}
                 </h4>
               </div>
             </div>
@@ -169,7 +171,7 @@
           <div class="info">
             <div class="info-title">
               <span class="t-text">{{ item?.user?.nickname }}</span>
-              <i class="t-icon"></i>
+              <i class=""></i>
               <span class="t-desc">分享歌单</span>
             </div>
             <div class="time">{{ formatDate(item?.showTime) }}</div>
@@ -184,9 +186,11 @@
                 <i class="play-icon"></i>
               </div>
               <div class="music-detail">
-                <h3 class="music-detail-title">{{ item?.json?.song?.name }}</h3>
+                <h3 class="music-detail-title">
+                  {{ item?.json?.playlist?.name }}
+                </h3>
                 <h4 class="music-detail-name">
-                  {{ item?.json?.song?.artists[0].name }}
+                  by {{ item?.json?.playlist?.creator?.nickname }}
                 </h4>
               </div>
             </div>
@@ -261,7 +265,7 @@
           <div class="info">
             <div class="info-title">
               <span class="t-text">{{ item?.user?.nickname }}</span>
-              <i class="t-icon"></i>
+              <i class="t-icon copywriting"></i>
               <span class="t-desc"></span>
             </div>
             <div class="time">{{ formatDate(item?.showTime) }}</div>
@@ -336,6 +340,7 @@ export default defineComponent({
             }
           });
           eventList.value = res.event;
+          console.log(eventList.value);
         }
       });
     }
