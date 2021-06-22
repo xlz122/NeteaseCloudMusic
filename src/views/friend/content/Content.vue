@@ -3,7 +3,11 @@
     <div class="title">
       <span class="text">动态</span>
       <span class="title-btn dynamic" title="发动态"></span>
-      <span class="title-btn video" title="发布视频"></span>
+      <span
+        class="title-btn video"
+        title="发布视频"
+        @click="releaseVideo"
+      ></span>
     </div>
     <ul class="list">
       <li class="item" v-for="(item, index) in eventList" :key="index">
@@ -326,6 +330,14 @@ import { formatMixedText } from '@utils/formatMixedText';
 
 export default defineComponent({
   setup() {
+    // 发布视频
+    function releaseVideo(): void {
+      window.open(
+        'https://music.163.com/st/creator/upload/video?from=%2Ffriend#/',
+        '_blank'
+      );
+    }
+    // 列表数据
     const eventList = ref<LoopType[]>([]);
     // 获取动态列表数据
     function getFriendEvent(): void {
@@ -369,6 +381,7 @@ export default defineComponent({
 
     return {
       formatDate,
+      releaseVideo,
       eventList,
       setDynamicLike
     };
