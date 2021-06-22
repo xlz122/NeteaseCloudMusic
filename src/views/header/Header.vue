@@ -152,8 +152,6 @@ export default defineComponent({
         );
         if (index !== -1) {
           $store.commit('setHeaderActiveIndex', index);
-        } else {
-          $store.commit('setHeaderActiveIndex', 0);
         }
       },
       {
@@ -173,7 +171,7 @@ export default defineComponent({
       },
       {
         title: '歌单',
-        link: '/my-home-page'
+        link: ''
       },
       {
         title: '主播电台',
