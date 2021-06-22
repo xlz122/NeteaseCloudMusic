@@ -59,19 +59,19 @@ export default defineComponent({
     const singerList = ref<unknown[]>([
       {
         src:
-          'http://p2.music.126.net/p9U80ex1B1ciPFa125xV5A==/5931865232210340.jpg?param=62y62',
+          'http://p1.music.126.net/rCsLFXha6SLis0tV7yZ5fA==/109951165588539704.jpg?param=62y62',
         name: '张惠妹aMEI',
         desc: '台湾歌手张惠妹'
       },
       {
         src:
-          'http://p1.music.126.net/1EN_iqQWU_E3DafzEOh3cA==/3302932937408956.jpg?param=62y62',
-        title: 'Fine乐团',
+          'http://p1.music.126.net/wDxCsT3YEYdNg-UZU_ZKeg==/109951166047225823.jpg?param=62y62',
+        name: 'Fine乐团',
         desc: '独立音乐人'
       },
       {
         src:
-          'http://p1.music.126.net/ZuktZvjcxpYBjcWC3gmbPg==/19027048718765608.jpg?param=62y62',
+          'http://p1.music.126.net/w_UWOls2uCkFN_U62788Xg==/18806046882229308.jpg?param=62y62',
         name: '萬曉利',
         desc: '民谣歌手、中国现代民谣的代表人物之一'
       },
@@ -83,7 +83,7 @@ export default defineComponent({
       },
       {
         src:
-          'http://p1.music.126.net/6wPGl_ddgAbJTx5kOohcyw==/109951163892302996.jpg?param=62y62',
+          'http://p1.music.126.net/NDsX060FnCtiDMZN-c_9Gw==/3438172872737957.jpg?param=62y62',
         name: '王三溥',
         desc: '音乐人'
       }
@@ -99,7 +99,7 @@ export default defineComponent({
       {
         src:
           'http://p1.music.126.net/y5-sM7tjnxnu_V9LWKgZlw==/7942872001461517.jpg?param=40y40',
-        title: 'DJ艳秋',
+        name: 'DJ艳秋',
         desc: '著名音乐节目主持人'
       },
       {

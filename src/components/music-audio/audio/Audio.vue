@@ -200,6 +200,11 @@ export default defineComponent({
     function musicPlayEnded(): boolean | undefined {
       // 播放列表没有音乐，或只有一首音乐，直接循环
       if (playMusicList.value.length <= 1) {
+        $store.commit('music/setMusicPlayProgress', {
+          progress: 0,
+          currentTime: 0,
+          duration: 0
+        });
         startPlayMusic();
         return false;
       }
