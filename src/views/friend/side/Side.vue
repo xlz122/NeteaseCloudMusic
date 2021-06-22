@@ -28,7 +28,6 @@
     </div>
   </div>
   <div class="side-content">
-    <!-- 明星用户 -->
     <h4 class="side-title">
       <span>明星用户</span>
       <router-link class="link" to="">换一批</router-link>
@@ -44,6 +43,29 @@
         </div>
       </li>
     </ul>
+  </div>
+  <div class="side-content">
+    <h4 class="side-title">
+      <span>感兴趣的人</span>
+      <router-link class="link" to="">换一批</router-link>
+    </h4>
+  </div>
+  <div class="side-footer">
+    <p>添加微博好友，和他们分享音乐</p>
+    <a
+      class="footer-micro-blog"
+      href="`https://api.weibo.com/oauth2/authorize?client_id=301575942&
+      response_type=code&redirect_uri=http://music.163.com/back/weibo
+      &forcelogin=true&csrf_token=643fa51471e99a9de1952ffd30c0b0e1
+      &scope=friendships_groups_read,statuses_to_me_read,follow_app_official_microblog
+      &state=FQffzGAsJk###`"
+      target="_blank"
+    >
+      <i class="micro-blog-icon">
+        <i class="icon"></i>
+        <span class="title">绑定新浪微博</span>
+      </i>
+    </a>
   </div>
 </template>
 
@@ -110,6 +132,18 @@ export default defineComponent({
           'http://p1.music.126.net/RQT6l2Vd9mQ9bSA_9MdWBw==/109951163720144425.jpg?param=45y45',
         name: '品冠victor',
         desc: '台湾流行歌手品冠'
+      },
+      {
+        src:
+          'http://p1.music.126.net/fBd9G5UPnAkN5GJhD27f7w==/109951164233456965.jpg?param=45y45',
+        name: '池约翰CJohnny',
+        desc: 'MIC男团成员池约翰'
+      },
+      {
+        src:
+          'http://p1.music.126.net/HiaQmvjTbEXfo8bsiPv9rQ==/109951165312873539.jpg?param=45y45',
+        name: '朱云',
+        desc: '北京音乐台资深DJ'
       }
     ]);
     return {
