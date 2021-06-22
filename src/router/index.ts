@@ -25,22 +25,6 @@ const routes: Array<RouteRecordRaw> = [
           import(/* webpackChunkName: "friend" */ '../views/friend/Friend.vue')
       },
       {
-        path: '/shopping-mall',
-        name: 'shopping-mall',
-        component: () =>
-          import(
-            /* webpackChunkName: "shopping-mall" */ '../views/shopping-mall/ShoppingMall.vue'
-          )
-      },
-      {
-        path: '/musician',
-        name: 'musician',
-        component: () =>
-          import(
-            /* webpackChunkName: "musician" */ '../views/musician/Musician.vue'
-          )
-      },
-      {
         path: '/download',
         name: 'download',
         component: () =>
