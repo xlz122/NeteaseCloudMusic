@@ -152,8 +152,6 @@ export default defineComponent({
         );
         if (index !== -1) {
           $store.commit('setHeaderActiveIndex', index);
-        } else {
-          $store.commit('setHeaderActiveIndex', 0);
         }
       },
       {
