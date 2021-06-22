@@ -31,8 +31,7 @@
         </ul>
         <div class="introduce">个人介绍：{{ profileInfo.signature }}</div>
         <div class="info-3">
-          <span>所在地区：江西-赣州</span>
-          <span class="age">年龄：95后</span>
+          <span>所在地区：{{ provinceName }}-{{ cityName }}</span>
         </div>
         <div class="info-4">
           社交网络：
@@ -46,14 +45,23 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
+import findCityZipCode from './city';
 
 export default defineComponent({
   setup() {
     const $store = useStore();
     // 用户信息
     const profileInfo = computed(() => $store.getters.userInfo.profile || {});
+    // 省
+    const provinceName = findCityZipCode(profileInfo.value.province);
+    // 市
+    const cityName = findCityZipCode(profileInfo.value.city);
+    // $store.getters.userInfo.level 等级
+    // gender 性别
     return {
-      profileInfo
+      profileInfo,
+      provinceName,
+      cityName
     };
   }
 });
