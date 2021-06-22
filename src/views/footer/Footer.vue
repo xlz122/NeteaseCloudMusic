@@ -132,26 +132,98 @@
         </ul>
       </div>
     </div>
+    <!-- 意见反馈 -->
+    <my-dialog
+      class="feedback-dialog"
+      :visible="feedbackDialog"
+      :confirmtext="'发送意见'"
+      :canceltext="'取消'"
+      showConfirmButton
+      showCancelButton
+      @confirm="feedbackConfirm"
+      @cancel="feedbackCancel"
+    >
+      <div class="feedback-dialog-form">
+        <div class="form-content">
+          <div class="title">任何产品中的问题，欢迎反馈给我们</div>
+          <textarea
+            class="area"
+            v-model="feedbackData.content"
+            @blur="feedbackBlur"
+          ></textarea>
+          <textarea
+            class="area contact"
+            v-model="feedbackData.contact"
+          ></textarea>
+          <span class="verification" v-if="feedbackVerifiy">
+            反馈内容不能为空
+          </span>
+        </div>
+      </div>
+    </my-dialog>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
+import MyDialog from '@/components/MyDialog.vue';
 
 export default defineComponent({
+  components: {
+    MyDialog
+  },
   setup() {
     const $store = useStore();
 
+    const feedbackDialog = ref<boolean>(false);
+
+    // 反馈表单
+    const feedbackData = ref({
+      content: '',
+      contact: ''
+    });
+
+    const feedbackVerifiy = ref<boolean>(false);
+
+    // 反馈内容失去焦点
+    function feedbackBlur() {
+      if (!feedbackData.value.content) {
+        feedbackVerifiy.value = true;
+      } else {
+        feedbackVerifiy.value = false;
+      }
+    }
+
     // 意见反馈
     function feedback(): void {
+      feedbackDialog.value = true;
+    }
+
+    // 意见反馈 - 确定
+    function feedbackConfirm(): boolean | undefined {
+      if (!feedbackData.value.content) {
+        feedbackVerifiy.value = true;
+        return false;
+      }
+      feedbackDialog.value = false;
       $store.commit('setMessage', {
         type: 'info',
-        title: '意见反馈'
+        title: '反馈已提交'
       });
     }
+    // 意见反馈 - 取消
+    function feedbackCancel(): void {
+      feedbackDialog.value = false;
+    }
     return {
-      feedback
+      feedbackDialog,
+      feedbackData,
+      feedbackVerifiy,
+      feedback,
+      feedbackConfirm,
+      feedbackCancel,
+      feedbackBlur
     };
   }
 });
