@@ -9,7 +9,7 @@
       <!-- 进度 -->
       <div class="sub">
         <div class="subbg">
-          <div style="width:615.44px;">
+          <div :style="`width:${(25 + 81) * level * 0.835}px;`">
             <span></span>
           </div>
         </div>
@@ -97,7 +97,7 @@ import { useStore } from 'vuex';
 import { userLevel } from '@api/user';
 import { ResponseType } from '@/types/types';
 
-type NextLevel ={
+type NextLevel = {
   loginCount: number;
   playCount: number;
   loginProgress: number;
