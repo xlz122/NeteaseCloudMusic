@@ -71,10 +71,14 @@
 				margin-left: 9px;
 				position: relative;
 				top: 2px;
-				width: 20px;
+				width: 21px;
 				height: 20px;
 				background: url(../../assets/image/icon.png) no-repeat 0 9999px;
 				background-position: -41px -57px;
+			}
+
+			.female {
+				background-position: -41px -27px;
 			}
 
 			.edit-btn {
@@ -148,6 +152,116 @@
 				top: 5px;
 				background: url(../../assets/image/icon-logo.png) no-repeat 0 9999px;
 				background-position: 0 -25px;
+			}
+		}
+	}
+
+	// 歌单
+	.song-sheet {
+		box-sizing: border-box;
+		border: 1px solid #d3d3d3;
+		border-width: 0 1px;
+		margin: 0 auto;
+		background: #FFFFFF;
+		width: 980px;
+		text-align: left;
+		padding-bottom: 30px;
+
+		.title {
+			height: 40px;
+			margin: 0 40px;
+			border-bottom: 2px solid #c20c0c;
+			text-align: left;
+
+			.text {
+				font-size: 24px;
+				font-weight: normal;
+				font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
+			}
+		}
+
+		.song-sheet-list {
+			margin: 20px 20px 0 20px;
+
+			.list-item {
+				display: inline-block;
+				width: 140px;
+				height: 165px;
+				padding: 0 0 30px 50px;
+				line-height: 1.4;
+				overflow: hidden;
+
+				.item-cover {
+					position: relative;
+					display: block;
+					width: 140px;
+					height: 140px;
+
+					.cover-img {
+						display: block;
+						width: 100%;
+						height: 100%;
+					}
+
+					.cover-bottom {
+						position: absolute;
+						bottom: 0;
+						left: 0;
+						width: 100%;
+						height: 27px;
+						background: url(../../assets/image/my-music/coverall.png) no-repeat 0 9999px;
+						background-position: 0 -537px;
+						color: #ccc;
+
+						.info-icon {
+							position: absolute;
+							left: 0;
+							bottom: 8px;
+							width: 14px;
+							height: 11px;
+							background: url('../../assets/image/music-audio/iconall.png');
+							background-position: 0 -24px;
+							margin: 0 5px 0 10px;
+						}
+
+						.num {
+							position: absolute;
+							left: 30px;
+							bottom: 5px;
+							display: inline-block;
+							vertical-align: middle;
+						}
+
+						.info-icon-right {
+							position: absolute;
+							right: 10px;
+							bottom: 5px;
+							width: 16px;
+							height: 17px;
+							background: url('../../assets/image/music-audio/iconall.png');
+							background-position: 0 0;
+							cursor: pointer;
+						}
+					}
+				}
+
+				.item-desc {
+					margin: 8px 0 3px;
+					font-size: 14px;
+					cursor: pointer;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					word-wrap: normal;
+
+					&:hover {
+						text-decoration: underline;
+					}
+				}
+			}
+
+			.first-list-item {
+				padding-left: 20px;
 			}
 		}
 	}
