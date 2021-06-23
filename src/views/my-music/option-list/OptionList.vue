@@ -84,7 +84,7 @@ export default defineComponent({
       userPlayList({
         uid: accountInfo.value.id
       }).then((res: ResponseType) => {
-        if (res.code == 200) {
+        if (res.code === 200) {
           // 列表数据
           res.playlist.forEach((item: LoopType) => {
             // 喜欢的音乐处理
