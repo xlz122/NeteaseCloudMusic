@@ -31,7 +31,7 @@ export default defineComponent({
     const list = ref<NavList[]>([
       {
         title: '我的主页',
-        link: '/my-home-page',
+        link: '/user/my-home-page',
         icon: 'homepage'
       },
       {
@@ -41,7 +41,7 @@ export default defineComponent({
       },
       {
         title: '我的等级',
-        link: '',
+        link: '/user/level',
         icon: 'grade'
       },
       {

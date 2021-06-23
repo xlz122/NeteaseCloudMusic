@@ -1,0 +1,173 @@
+.level {
+  background-color: #f2f2f2;
+}
+
+.level-container {
+  width: 842px;
+  padding: 70px 68px;
+  margin: 0 auto;
+  background-color: #fff;
+  border: 1px solid #d3d3d3;
+  border-width: 0 1px;
+
+  // 当前等级
+  .level-title {
+    position: relative;
+    z-index: 1;
+    zoom: 1;
+    height: 32px;
+    line-height: 32px;
+    color: #333;
+    font-size: 22px;
+    margin-bottom: 34px;
+    font-family: 'Microsoft YaHei';
+    text-align: left;
+
+    .level-icon {
+      display: inline-block;
+      vertical-align: middle;
+      width: 30px;
+      height: 30px;
+      margin-left: 6px;
+      background: url(../../../assets/image/mylevel.png) no-repeat 0 9999px;
+      background-position: left 5px;
+    }
+
+    .num {
+      display: inline-block;
+      vertical-align: middle;
+      font-family: Arial;
+      font-size: 24px;
+      font-weight: 700;
+      color: #e03a24;
+    }
+  }
+
+  // 等级特权
+  .level-privilege-title {
+    position: relative;
+    z-index: 1;
+    zoom: 1;
+    line-height: 32px;
+    padding-bottom: 10px;
+    color: #333;
+    font-size: 22px;
+    margin-bottom: 4px;
+    font-family: 'Microsoft YaHei';
+    text-align: left;
+
+    .privilege-list {
+      .privilege-list-item {
+        height: 30px;
+        line-height: 30px;
+        color: #666;
+        padding-left: 13px;
+        background: url(../../../assets/image/mylevel.png) no-repeat 0 9999px;
+        background-position: -17px -82px;
+        font-size: 14px;
+      }
+    }
+  }
+
+  // 了解更多
+  .aboutmore {
+    color: #0e73ba;
+    margin-top: 28px;
+    padding-left: 4px;
+    border-bottom: solid 1px #ddd;
+    padding-bottom: 26px;
+    height: 20px;
+    line-height: 20px;
+    text-align: left;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  // 距离下个等级
+  .next-level-title {
+    position: relative;
+    z-index: 1;
+    zoom: 1;
+    line-height: 32px;
+    font-size: 14px;
+    color: #333;
+    margin-top: 36px;
+    margin-bottom: 20px;
+    font-family: 'Microsoft YaHei';
+    text-align: left;
+
+    .level-icon {
+      display: inline-block;
+      vertical-align: middle;
+      width: 30px;
+      height: 30px;
+      margin-left: 6px;
+      background: url(../../../assets/image/mylevel.png) no-repeat 0 9999px;
+      background-position: left 5px;
+    }
+
+    .num {
+      display: inline-block;
+      vertical-align: middle;
+      margin-top: 2px;
+      font-family: Arial;
+      font-size: 20px;
+      font-weight: 700;
+      color: #e03a24;
+    }
+
+    .n-iconpoint {
+      display: inline-block;
+      vertical-align: middle;
+      width: 18px;
+      height: 18px;
+      margin-left: 5px;
+      background: url(../../../assets/image/icon2.png) no-repeat 0 9999px;
+      background-position: 0 -50px;
+    }
+
+    .uitl {
+      font-size: 12px;
+      color: #999;
+      height: 32px;
+      line-height: 32px;
+
+      .text {
+        line-height: 32px;
+        color: #666;
+      }
+
+      // 进度条
+      .bar {
+        position: relative;
+        display: inline-block;
+        width: 160px;
+        height: 12px;
+        margin-right: 6px;
+        zoom: 1;
+
+        .barbox {
+          position: absolute;
+          top: 7px;
+          left: 0;
+          z-index: 1;
+          width: 160px;
+          height: 4px;
+          line-height: 0;
+          background: #dcdfe6;
+          border-radius: 4px;
+
+          .current {
+            height: 100%;
+            background: #f75757;
+            border-radius: 4px;
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}

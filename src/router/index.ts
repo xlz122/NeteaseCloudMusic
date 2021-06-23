@@ -53,11 +53,20 @@ const routes: Array<RouteRecordRaw> = [
       },
       // 个人中心 - 我的主页
       {
-        path: '/my-home-page',
-        name: 'my-home-page',
+        path: '/user/my-home-page',
+        name: 'user-my-home-page',
         component: () =>
           import(
-            /* webpackChunkName: "my-home-page" */ '../views/my-home-page/MyHomePage.vue'
+            /* webpackChunkName: "my-home-page" */ '../views//user/my-home-page/MyHomePage.vue'
+          )
+      },
+      // 个人中心 - 我的等级
+      {
+        path: '/user/level',
+        name: 'user-level',
+        component: () =>
+          import(
+            /* webpackChunkName: "my-home-page" */ '../views//user/level/Level.vue'
           )
       },
       // 首页 - 排行榜
