@@ -64,7 +64,7 @@
             ]"
             @click="subNavChange(item, index)"
           >
-            <router-link class="link" :to="item.link">
+            <router-link class="link" :to="item?.link">
               {{ item?.title }}
             </router-link>
             <i class="white-icon" v-if="index === 2"></i>
@@ -167,7 +167,7 @@ export default defineComponent({
       },
       {
         title: '排行',
-        link: '/home-toplist'
+        link: ''
       },
       {
         title: '歌单',
@@ -183,14 +183,21 @@ export default defineComponent({
       },
       {
         title: '新碟上架',
-        link: ''
+        link: '/home-newDisc'
       }
     ]);
 
     // 子导航当前选中项
     const subNavActive = ref<number>(0);
     // 导航更改
-    function subNavChange(index: number): void {
+    function subNavChange(item: NavList, index: number): boolean | undefined {
+      if (!item.link) {
+        $store.commit('setMessage', {
+          type: 'error',
+          title: '该功能暂未开发'
+        });
+        return false;
+      }
       subNavActive.value = index;
     }
 
