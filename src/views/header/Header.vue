@@ -3,7 +3,7 @@
     <!-- 头部导航及其他 -->
     <div class="h-top">
       <div class="h-warp">
-        <div class="logo"></div>
+        <div class="logo" @click="logoJump"></div>
         <ul class="nav">
           <li
             class="item"
@@ -64,7 +64,7 @@
             ]"
             @click="subNavChange(item, index)"
           >
-            <router-link class="link" :to="item.link">
+            <router-link class="link" :to="item?.link">
               {{ item?.title }}
             </router-link>
             <i class="white-icon" v-if="index === 2"></i>
@@ -77,7 +77,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import User from '@views/user/User.vue';
 import { LoopType } from '@/types/types';
@@ -94,7 +94,15 @@ export default defineComponent({
   },
   setup() {
     const $route = useRoute();
+    const $router = useRouter();
     const $store = useStore();
+
+    // logo点击跳转
+    function logoJump(): void {
+      if ($route.path !== '/') {
+        $router.push({ name: 'home' });
+      }
+    }
 
     // 是否登录
     const isLogin = computed(() => $store.getters.isLogin);
@@ -143,22 +151,6 @@ export default defineComponent({
       $store.commit('setHeaderActiveIndex', index);
     }
 
-    // 监听导航变化
-    watch(
-      () => $route.path,
-      (path: string) => {
-        const index = navList.value.findIndex(
-          (item: LoopType) => item.link === path
-        );
-        if (index !== -1) {
-          $store.commit('setHeaderActiveIndex', index);
-        }
-      },
-      {
-        immediate: true
-      }
-    );
-
     // 子导航数据
     const subNavList = ref<NavList[]>([
       {
@@ -167,7 +159,7 @@ export default defineComponent({
       },
       {
         title: '排行',
-        link: '/home-toplist'
+        link: ''
       },
       {
         title: '歌单',
@@ -183,16 +175,47 @@ export default defineComponent({
       },
       {
         title: '新碟上架',
-        link: ''
+        link: '/home-newDisc'
       }
     ]);
 
     // 子导航当前选中项
     const subNavActive = ref<number>(0);
     // 导航更改
-    function subNavChange(index: number): void {
+    function subNavChange(item: NavList, index: number): boolean | undefined {
+      if (!item.link) {
+        $store.commit('setMessage', {
+          type: 'error',
+          title: '该功能暂未开发'
+        });
+        return false;
+      }
       subNavActive.value = index;
     }
+
+    // 监听导航变化
+    watch(
+      () => $route.path,
+      (path: string) => {
+        // 一级导航
+        const index = navList.value.findIndex(
+          (item: LoopType) => item.link === path
+        );
+        if (index !== -1) {
+          $store.commit('setHeaderActiveIndex', index);
+        }
+        // 二级导航
+        const subIndex = subNavList.value.findIndex(
+          (item: LoopType) => item.link === path
+        );
+        if (subIndex !== -1) {
+          subNavChange(subNavList.value[subIndex], subIndex);
+        }
+      },
+      {
+        immediate: true
+      }
+    );
 
     const searchPlaceholder = ref<string>('音乐/视频/电台/用户');
 
@@ -214,6 +237,7 @@ export default defineComponent({
       $store.commit('setLoginDialog', true);
     }
     return {
+      logoJump,
       isLogin,
       userInfo,
       navList,

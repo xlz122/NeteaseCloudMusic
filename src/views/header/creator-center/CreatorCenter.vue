@@ -65,7 +65,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import Qrcode from '@views/login/qrcode/Qrcode.vue';
 import Other from '@views/login/other/Other.vue';
@@ -99,6 +99,11 @@ export default defineComponent({
       qrcodeLoginShow.value = true;
       $store.commit('setLoginDialog', false);
     }
+
+    onMounted(() => {
+      // 头部导航取消选中
+      $store.commit('setHeaderActiveIndex', -1);
+    });
     return {
       isLogin,
       qrcodeLoginShow,

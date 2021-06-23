@@ -4,7 +4,7 @@
     <my-dialog
       class="my-dialog"
       :class="{ 'my-dialog-add': dialogeData.type === 'add' }"
-      :visible="dialogeData.visible"
+      :visible="songDialogeShow"
       :title="dialogeData.title"
       :confirmtext="dialogeData.confirmtext"
       showCancelButton
@@ -15,7 +15,7 @@
       <div class="content" v-if="dialogeData.type === 'add'">
         <div class="form">
           <span class="name">歌单名：</span>
-          <input class="input" v-model="dialogeData.name" type="text" />
+          <input class="input" v-model="songName" type="text" />
         </div>
         <p class="desc">可通过“收藏”将音乐添加到新歌单中</p>
       </div>
@@ -24,42 +24,117 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-/* eslint-disable */
-import { useContext, defineProps, defineEmit } from 'vue';
+<script lang="ts">
+import { defineComponent, ref, toRefs, watch } from 'vue';
 import MyDialog from '@/components/MyDialog.vue';
 
-const { dialogeData } = defineProps({
-  dialogeData: {
-    type: Object,
-    default: {}
+export default defineComponent({
+  components: {
+    MyDialog
   },
-});
+  props: {
+    dialogeData: {
+      type: Object,
+      default: () => ({
+        visible: false,
+        type: 'add',
+        title: '提示',
+        confirmtext: '确定',
+        name: '', // 歌单名称
+        id: 0 // 歌单id
+      })
+    }
+  },
+  emits: ['dialogConfirm', 'dialogCancel'],
+  setup(props, { emit }) {
+    const { dialogeData } = toRefs(props);
 
-defineEmit(['dialogConfirm']);
+    // 歌单名称
+    const songName = ref<string>('');
+    // 弹框
+    const songDialogeShow = ref<boolean>(false);
 
-const { emit } = useContext();
+    // 监听弹框打开/关闭
+    watch(
+      () => dialogeData.value.visible,
+      (curVal: boolean) => {
+        songDialogeShow.value = curVal;
+      }
+    );
 
-// 对话框 - 确定
-function dialogConfirm(): void {
-  const params: { type: string; name: string } = {
-    type: 'add',
-    name: dialogeData.name
-  };
-  if (dialogeData.type === 'add') {
-    params.type = 'add';
-  } else {
-    params.type = 'delete';
+    // 对话框 - 确定
+    function dialogConfirm(): void {
+      const params: { type: string; name: string } = {
+        type: 'add',
+        name: songName.value
+      };
+      if (dialogeData.value.type === 'add') {
+        params.type = 'add';
+      } else {
+        params.type = 'delete';
+      }
+      emit('dialogConfirm', params);
+    }
+
+    // 对话框 - 取消
+    function dialogCancel(): void {
+      emit('dialogCancel', false);
+    }
+
+    return {
+      songDialogeShow,
+      songName,
+      dialogConfirm,
+      dialogCancel
+    };
   }
-  emit('dialogConfirm', params);
-  dialogeData.visible = false;
-}
-
-// 对话框 - 取消
-function dialogCancel(): void {
-  dialogeData.visible = false;
-}
+});
 </script>
+
+<!-- // /* eslint-disable */
+// import { useContext, defineProps, defineEmit, watch } from 'vue';
+// import MyDialog from '@/components/MyDialog.vue';
+
+// const props = defineProps({
+//   dialogeData: {
+//     type: Object,
+//     default: {
+//       visible: false,
+//       type: 'add',
+//       title: '提示',
+//       confirmtext: '确定',
+//       name: '', // 歌单名称
+//       id: 0 // 歌单id
+//     }
+//   },
+// });
+
+// const { dialogeData } = props;
+
+// defineEmit(['dialogConfirm']);
+
+// const { emit } = useContext();
+
+// // 对话框 - 确定
+// function dialogConfirm(): void {
+//   const params: { type: string; name: string } = {
+//     type: 'add',
+//     name: dialogeData.name
+//   };
+//   if (dialogeData.type === 'add') {
+//     params.type = 'add';
+//   } else {
+//     params.type = 'delete';
+//   }
+//   emit('dialogConfirm', params);
+//   dialogeData.visible = false;
+// }
+
+// // 对话框 - 取消
+// function dialogCancel(): void {
+//   dialogeData.visible = false;
+// }
+// </script>-->
 
 <style lang="less" scoped>
 ::v-deep(.my-dialog) {
