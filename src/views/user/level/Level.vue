@@ -6,6 +6,42 @@
         <i class="level-icon"></i>
         <p class="num">{{ level || 0 }}</p>
       </div>
+      <!-- 进度 -->
+      <div class="sub">
+        <div class="subbg">
+          <div :style="`width:${(25 + 81) * level * 0.835}px;`">
+            <span></span>
+          </div>
+        </div>
+        <div class="subnum">
+          <div class="divison">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="divnum">
+            <ul>
+              <li
+                v-for="(item, index) in levelArr"
+                :key="index"
+                :class="[
+                  { 'z-ov': index < level },
+                  { 'z-on': index === level }
+                ]"
+              >
+                {{ item }}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <span class="level-desc">等级数据每天下午2点更新</span>
+      </div>
       <div class="level-privilege-title">
         当前等级特权:
         <div class="telist">
@@ -20,7 +56,7 @@
           </ul>
         </div>
       </div>
-      <div class="aboutmore">了解等级特权></div>
+      <div class="aboutmore" @click="understand">了解等级特权></div>
       <div class="next-level-title">
         距离下一个等级:
         <i class="level-icon"></i>
@@ -61,15 +97,24 @@ import { useStore } from 'vuex';
 import { userLevel } from '@api/user';
 import { ResponseType } from '@/types/types';
 
+type NextLevel = {
+  loginCount: number;
+  playCount: number;
+  loginProgress: number;
+  playProgress: number;
+};
+
 export default defineComponent({
   setup() {
     const $store = useStore();
+    // level
+    const levelArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     // 用户等级
     const level = ref<number>(0);
     // 特权
     const privilegeList = ref<string[]>([]);
     // 下一级数据
-    const nextLevel = reactive({
+    const nextLevel = reactive<NextLevel>({
       loginCount: 0,
       playCount: 0,
       loginProgress: 0,
@@ -77,7 +122,7 @@ export default defineComponent({
     });
 
     // 获取等级数据
-    function getUserLevel() {
+    function getUserLevel(): void {
       userLevel()
         .then((res: ResponseType) => {
           if (res.code === 200) {
@@ -106,10 +151,20 @@ export default defineComponent({
     }
     getUserLevel();
 
+    // 了解等级特权
+    function understand(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
     return {
-      privilegeList,
+      levelArr,
       level,
-      nextLevel
+      privilegeList,
+      nextLevel,
+      understand
     };
   }
 });
