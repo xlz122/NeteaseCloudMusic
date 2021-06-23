@@ -7,7 +7,10 @@
       @click="jumpDetail(item)"
     >
       <i :class="`icon ${item.icon}`"></i>
-      <span class="text">{{ item.title }}</span>
+      <span class="text" v-if="item.link">{{ item.title }}</span>
+      <a class="text" target="_blank" v-else :href="item?.href">
+        {{ item?.title }}
+      </a>
     </li>
   </ul>
 </template>
@@ -19,7 +22,8 @@ import { useStore } from 'vuex';
 
 type NavList = {
   title: string;
-  link: string;
+  link?: string;
+  href?: string;
   icon: string;
 };
 
@@ -56,7 +60,8 @@ export default defineComponent({
       },
       {
         title: '实名认证',
-        link: '',
+        href:
+          'https://music.163.com/st/userbasic/?module=st%2Fuserbasic%2F#/nameverify',
         icon: 'real-name'
       },
       {
@@ -68,6 +73,10 @@ export default defineComponent({
 
     // 详情跳转
     function jumpDetail(item: NavList): boolean | undefined {
+      // 外部链接
+      if (!item.link && item.href) {
+        return false;
+      }
       // 未开发
       if (!item.link) {
         $store.commit('setMessage', {
