@@ -1,3 +1,4 @@
+import store from '@store/index';
 import axios from 'axios';
 import {
   AxiosRequestConfig,
@@ -6,6 +7,10 @@ import {
   AxiosInstance,
   CancelTokenStatic
 } from 'axios';
+
+type IAxiosError = AxiosError & {
+  status: number;
+};
 
 // 标识请求
 const getRequestIdentify = (config: AxiosRequestConfig, isReuest = false) => {
@@ -89,7 +94,11 @@ class HttpRequest {
         const data = res.data;
         return Promise.resolve(data);
       },
-      (error: AxiosError) => {
+      (error: IAxiosError) => {
+        // cookie过期
+        if (error.status === 301) {
+          store.commit('setLogout');
+        }
         return Promise.reject(error);
       }
     );
