@@ -19,7 +19,7 @@
     line-height: 32px;
     color: #333;
     font-size: 22px;
-    margin-bottom: 34px;
+    margin-bottom: 4px;
     font-family: 'Microsoft YaHei';
     text-align: left;
 
@@ -29,7 +29,7 @@
       width: 30px;
       height: 30px;
       margin-left: 6px;
-      background: url(../../../assets/image/mylevel.png) no-repeat 0 9999px;
+      background: url(../../../assets/image/user/mylevel.png) no-repeat 0 9999px;
       background-position: left 5px;
     }
 
@@ -41,6 +41,143 @@
       font-weight: 700;
       color: #e03a24;
     }
+  }
+
+  // 等级进度条
+  .sub {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    padding-top: 31px;
+    height: 34px;
+    margin-bottom: 52px;
+
+    .subbg {
+      width: 835px;
+      height: 10px;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      z-index: 2;
+      border-radius: 10px;
+      background: #dcdfe6;
+
+      span {
+        background: url(../../../assets/image/user/mylevelbar.png) 0 0 repeat-y;
+        width: 100%;
+        height: 10px;
+        display: block;
+        border-radius: 10px;
+        -webkit-animation: subbar 2s;
+        animation: subbar 2s;
+      }
+
+      @keyframes subbar {
+        0% {
+          width: 0;
+        }
+
+        100% {
+          width: 100%;
+        }
+      }
+    }
+
+    .subnum {
+      width: 100%;
+      height: 40px;
+      left: 0;
+      bottom: 0;
+      position: absolute;
+      z-index: 2;
+
+      .divison {
+        position: absolute;
+        left: 13px;
+        bottom: 0;
+        width: 100%;
+        height: 10px;
+
+        span {
+          float: left;
+          display: inline;
+          width: 1px;
+          background: #fff;
+          height: 10px;
+          margin-left: 80px;
+        }
+      }
+
+      .divnum {
+        position: absolute;
+        left: 0;
+        top: 0;
+        font-family: 'Microsoft YaHei';
+        font-size: 18px;
+        color: #c4c6cc;
+        width: 980px;
+
+        li {
+          float: left;
+          width: 25px;
+          height: 28px;
+          line-height: 24px;
+          display: inline;
+          margin-right: 56px;
+          text-align: center;
+        }
+
+        .z-ov {
+          color: #ed5757;
+          -webkit-animation: show 3s;
+          animation: show 3s;
+        }
+
+        @keyframes show {
+          0% {
+            color: #c4c6cc;
+          }
+
+          100% {
+            color: #ed5757;
+          }
+        }
+
+        .z-on {
+          color: #fff;
+          background: url(../../../assets/image/user/mylevel.png) no-repeat 0 9999px;
+          background-position: 0 -50px;
+          -webkit-animation: show1 2s;
+          animation: show1 2s;
+        }
+
+        @keyframes show1 {
+          0% {
+            color: #c4c6cc;
+            background-position: 9999px 9999px;
+          }
+  
+          50% {
+            color: #c4c6cc;
+            background-position: 0 -50px;
+          }
+
+          100% {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+
+  .level-desc {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 71px;
+    font-size: 12px;
+    color: #999;
+    font-family: Arial, Helvetica, sans-serif;
   }
 
   // 等级特权
@@ -62,7 +199,7 @@
         line-height: 30px;
         color: #666;
         padding-left: 13px;
-        background: url(../../../assets/image/mylevel.png) no-repeat 0 9999px;
+        background: url(../../../assets/image/user/mylevel.png) no-repeat 0 9999px;
         background-position: -17px -82px;
         font-size: 14px;
       }
@@ -105,7 +242,7 @@
       width: 30px;
       height: 30px;
       margin-left: 6px;
-      background: url(../../../assets/image/mylevel.png) no-repeat 0 9999px;
+      background: url(../../../assets/image/user/mylevel.png) no-repeat 0 9999px;
       background-position: left 5px;
     }
 
