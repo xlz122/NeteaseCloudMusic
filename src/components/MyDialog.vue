@@ -29,12 +29,65 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-/* eslint-disable */
+<script lang="ts">
+import { defineComponent } from 'vue';
+import { drag } from '@utils/drag.ts';
+
+export default defineComponent({
+  directives: {
+    drag
+  },
+  props: {
+    visible: {
+      type: Boolean,
+      default: false
+    },
+    title: {
+      type: String,
+      default: '提示'
+    },
+    confirmtext: {
+      type: String,
+      default: '确定'
+    },
+    canceltext: {
+      type: String,
+      default: '取消'
+    },
+    showConfirmButton: {
+      type: Boolean,
+      default: false
+    },
+    showCancelButton: {
+      type: Boolean,
+      default: false
+    }
+  },
+  emits: ['cancel', 'confirm'],
+  setup(props, { emit }) {
+    // 关闭
+    function cancel(): void {
+      emit('cancel');
+    }
+
+    // 确认
+    function confirm(): void {
+      emit('confirm');
+    }
+
+    return {
+      cancel,
+      confirm
+    };
+  }
+});
+</script>
+
+<!--/* eslint-disable */
 import { useContext, defineProps, defineEmit, watch } from 'vue';
 import { drag } from '@utils/drag.ts';
 
-const props = defineProps({
+defineProps({
   visible: {
     type: Boolean,
     default: false
@@ -75,6 +128,7 @@ function confirm(): void {
   emit('confirm');
 }
 </script>
+-->
 
 <style lang="less" scoped>
 .my_dialog {
@@ -105,7 +159,7 @@ function confirm(): void {
   transform: translate(-50%, -50%);
   border: none;
   border-radius: 4px;
-  box-shadow: 0 5px 16px rgba(0,0,0,0.8);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.8);
 }
 .my_dialog_content {
   min-height: 100px;
