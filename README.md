@@ -2,13 +2,13 @@
 
 本项目是一个仿写网易云PC端网站项目。
 
-本项目后端部分使用 Binaryify 大神nodejs版的网易云API。
-
-本项目使用网易云API线上接口地址: [https://wyy.wangpinpin.com/](https://wyy.wangpinpin.com/)
+本项目后端部分使用 Binaryify 的nodejs版的网易云API。
 
 如果线上地址不可用，需将网易云API项目下载到本地，并安装依赖运行，更改 vue.config.js 的代理地址更改为本地项目ip地址。
 
 网易云API项目github地址: [https://github.com/Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+
+网易云线上API接口文档地址: [https://wyy.wangpinpin.com/](https://wyy.wangpinpin.com/)
 
 如有问题，请联系QQ``122874722``。
 
@@ -33,10 +33,10 @@
 	* 网易邮箱登录完成
 	* 首页完成50%
 	* 我的音乐完成70%
-	* 朋友页面60%
+	* 音乐播放器完成80%
+	* 朋友页面70%
 	* 下载页面完成
 	* 创作中心页面完成
-	* 音乐播放器完成80%
 ### 项目说明
 
 启动项目

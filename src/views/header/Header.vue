@@ -25,16 +25,8 @@
           </li>
         </ul>
         <div class="other">
-          <div class="search">
-            <span class="icon"></span>
-            <input
-              class="search-input"
-              type="text"
-              :placeholder="searchPlaceholder"
-              @focus="seachFocus"
-              @blur="seachBlur"
-            />
-          </div>
+          <!-- 搜索 -->
+          <Search />
           <div class="create">
             <router-link class="link" to="/creator-center" target="_blank">
               创作中心
@@ -44,9 +36,7 @@
             <img class="user-img" :src="userInfo?.profile?.avatarUrl" />
             <user class="user-list" />
           </div>
-          <div v-else class="login" @click="openLogin">
-            登录
-          </div>
+          <div v-else class="login" @click="openLogin">登录</div>
         </div>
       </div>
     </div>
@@ -79,6 +69,7 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import Search from '@views/header/search/Search.vue';
 import User from '@views/user/User.vue';
 import { LoopType } from '@/types/types';
 
@@ -90,7 +81,8 @@ interface NavList {
 
 export default defineComponent({
   components: {
-    User
+    User,
+    Search
   },
   setup() {
     const $route = useRoute();
@@ -217,18 +209,6 @@ export default defineComponent({
       }
     );
 
-    const searchPlaceholder = ref<string>('音乐/视频/电台/用户');
-
-    // 搜索框获取焦点
-    function seachFocus(): void {
-      searchPlaceholder.value = '';
-    }
-
-    // 搜索框失去焦点
-    function seachBlur(): void {
-      searchPlaceholder.value = '音乐/视频/电台/用户';
-    }
-
     // 登录弹框显隐
     const dialogvisible = ref<boolean>(false);
 
@@ -246,9 +226,6 @@ export default defineComponent({
       subNavList,
       subNavActive,
       subNavChange,
-      searchPlaceholder,
-      seachFocus,
-      seachBlur,
       dialogvisible,
       openLogin
     };
