@@ -143,22 +143,6 @@ export default defineComponent({
       $store.commit('setHeaderActiveIndex', index);
     }
 
-    // 监听导航变化
-    watch(
-      () => $route.path,
-      (path: string) => {
-        const index = navList.value.findIndex(
-          (item: LoopType) => item.link === path
-        );
-        if (index !== -1) {
-          $store.commit('setHeaderActiveIndex', index);
-        }
-      },
-      {
-        immediate: true
-      }
-    );
-
     // 子导航数据
     const subNavList = ref<NavList[]>([
       {
@@ -200,6 +184,30 @@ export default defineComponent({
       }
       subNavActive.value = index;
     }
+
+    // 监听导航变化
+    watch(
+      () => $route.path,
+      (path: string) => {
+        // 一级导航
+        const index = navList.value.findIndex(
+          (item: LoopType) => item.link === path
+        );
+        if (index !== -1) {
+          $store.commit('setHeaderActiveIndex', index);
+        }
+        // 二级导航
+        const subIndex = subNavList.value.findIndex(
+          (item: LoopType) => item.link === path
+        );
+        if (subIndex !== -1) {
+          subNavChange(subNavList.value[subIndex], subIndex);
+        }
+      },
+      {
+        immediate: true
+      }
+    );
 
     const searchPlaceholder = ref<string>('音乐/视频/电台/用户');
 
