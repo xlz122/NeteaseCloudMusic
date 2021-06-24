@@ -3,7 +3,7 @@
     <!-- 头部导航及其他 -->
     <div class="h-top">
       <div class="h-warp">
-        <div class="logo"></div>
+        <div class="logo" @click="logoJump"></div>
         <ul class="nav">
           <li
             class="item"
@@ -77,7 +77,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import User from '@views/user/User.vue';
 import { LoopType } from '@/types/types';
@@ -94,7 +94,15 @@ export default defineComponent({
   },
   setup() {
     const $route = useRoute();
+    const $router = useRouter();
     const $store = useStore();
+
+    // logo点击跳转
+    function logoJump(): void {
+      if ($route.path !== '/') {
+        $router.push({ name: 'home' });
+      }
+    }
 
     // 是否登录
     const isLogin = computed(() => $store.getters.isLogin);
@@ -229,6 +237,7 @@ export default defineComponent({
       $store.commit('setLoginDialog', true);
     }
     return {
+      logoJump,
       isLogin,
       userInfo,
       navList,
