@@ -178,8 +178,8 @@ export default defineComponent({
     // 热门推荐 - 跳转更多歌单
     function songSheetMore(): void {
       $store.commit('setMessage', {
-        type: 'info',
-        title: '更多歌单'
+        type: 'error',
+        title: '该功能暂未开发'
       });
     }
 
@@ -250,16 +250,16 @@ export default defineComponent({
     // 新碟上架 - 更多
     function albumNewestMore(): void {
       $store.commit('setMessage', {
-        type: 'info',
-        title: '更多新碟'
+        type: 'error',
+        title: '该功能暂未开发'
       });
     }
 
     // 榜单 - 更多
     function songListMore(): void {
       $store.commit('setMessage', {
-        type: 'info',
-        title: '更多榜单'
+        type: 'error',
+        title: '该功能暂未开发'
       });
     }
     return {
