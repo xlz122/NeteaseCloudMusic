@@ -43,7 +43,11 @@
     </ul>
   </div>
   <teleport to="#modal">
-    <song-dialog :dialogeData="dialogeData" @dialogConfirm="dialogConfirm" />
+    <song-dialog
+      :dialogeData="dialogeData"
+      @dialogConfirm="dialogConfirm"
+      @dialogCancel="dialogCancel"
+    />
   </teleport>
 </template>
 
@@ -177,6 +181,14 @@ export default defineComponent({
           }
         });
       }
+      // 关闭弹框
+      dialogeData.visible = false;
+    }
+
+    // 歌单 - 对话框取消/关闭
+    function dialogCancel(): void {
+      // 关闭弹框
+      dialogeData.visible = false;
     }
 
     // 列表点击
@@ -193,6 +205,7 @@ export default defineComponent({
       listAdd,
       listDelete,
       dialogConfirm,
+      dialogCancel,
       listClick
     };
   }
