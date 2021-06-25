@@ -50,6 +50,7 @@
               class="f-cb-i"
               v-for="(item, index) in searchPropos.artists"
               :key="index"
+              @click="artistDetail(item)"
             >
               <span class="f-cb-text">{{ item.name }}</span>
             </li>
@@ -66,6 +67,7 @@
               class="f-cb-i"
               v-for="(item, index) in searchPropos.albums"
               :key="index"
+              @click="albumDetail(item)"
             >
               <span class="f-cb-text">
                 {{ item.name.slice(0, searchValue.length) }}
@@ -89,6 +91,7 @@
               class="f-cb-i"
               v-for="(item, index) in searchPropos.playlists"
               :key="index"
+              @click="playlistDetail(item)"
             >
               <span class="f-cb-text">
                 {{ item.name.slice(0, searchValue.length) }}
@@ -183,8 +186,35 @@ export default defineComponent({
     }
 
     // 单曲详情
-    function songDetail(item: unknown): void {
-      console.log(item);
+    function songDetail(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 歌手详情
+    function artistDetail(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 专辑详情
+    function albumDetail(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 歌单详情
+    function playlistDetail(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
     }
     return {
       searchPlaceholder,
@@ -194,7 +224,10 @@ export default defineComponent({
       searchFocus,
       searchBlur,
       searchEnter,
-      songDetail
+      songDetail,
+      artistDetail,
+      albumDetail,
+      playlistDetail
     };
   }
 });
