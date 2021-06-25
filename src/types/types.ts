@@ -8,6 +8,7 @@ export interface ResponseDataType<T = any> {
   cookie?: string;
   token?: string;
   account?: T;
+  result?: T;
 }
 
 // 不固定接口返回值类型
