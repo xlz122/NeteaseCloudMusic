@@ -186,7 +186,10 @@ export const addSongSheetComment = ({ id, content }: AddComment) => {
     content
   };
   return axios.request({
-    url: `/comment?timestamp=${params.timestamp}&t=${params.t}&type=${params.tpye}&id=${params.id}&content=${params.content}`,
+    url: `/comment?
+      timestamp=${params.timestamp}&t=${params.t}
+      &type=${params.tpye}&id=${params.id}&content=${params.content}
+    `,
     method: 'get'
   });
 };
@@ -219,7 +222,10 @@ export const replySongSheetComment = ({
     commentId
   };
   return axios.request({
-    url: `/comment?timestamp=${params.timestamp}&t=${params.t}&type=${params.tpye}&id=${params.id}&content=${params.content}&commentId=${params.commentId}`,
+    url: `/comment?
+      timestamp=${params.timestamp}&t=${params.t}&type=${params.tpye}&id=${params.id}
+      &content=${params.content}&commentId=${params.commentId}
+    `,
     method: 'get'
   });
 };
@@ -245,7 +251,10 @@ export const deleteSongSheetComment = ({ id, commentId }: DeleteComment) => {
     commentId
   };
   return axios.request({
-    url: `/comment?timestamp=${params.timestamp}&t=${params.t}&type=${params.tpye}&id=${params.id}&commentId=${params.commentId}`,
+    url: `/comment?
+      timestamp=${params.timestamp}&t=${params.t}&type=${params.tpye}
+      &id=${params.id}&commentId=${params.commentId}
+    `,
     method: 'get'
   });
 };
@@ -272,7 +281,10 @@ export const songSheetLike = ({ id, cid, t }: SongSheetLike) => {
     t
   };
   return axios.request({
-    url: `/comment/like?timestamp=${params.timestamp}&type=${params.tpye}&id=${params.id}&cid=${params.cid}&t=${params.t}`,
+    url: `/comment/like?
+      timestamp=${params.timestamp}&type=${params.tpye}
+      &id=${params.id}&cid=${params.cid}&t=${params.t}
+    `,
     method: 'get'
   });
 };
