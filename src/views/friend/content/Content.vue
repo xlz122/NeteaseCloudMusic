@@ -2,7 +2,11 @@
   <div class="content">
     <div class="title">
       <span class="text">动态</span>
-      <span class="title-btn dynamic" title="发动态"></span>
+      <span
+        class="title-btn dynamic"
+        title="发动态"
+        @click="releaseDynamic"
+      ></span>
       <span
         class="title-btn video"
         title="发布视频"
@@ -323,6 +327,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useStore } from 'vuex';
 import { friendEvent, dynamicLike } from '@api/friend';
 import { LoopType, ResponseType } from '@/types/types';
 import { formatDate } from '@utils/utils';
@@ -330,6 +335,16 @@ import { formatMixedText } from '@utils/formatMixedText';
 
 export default defineComponent({
   setup() {
+    const $store = useStore();
+
+    // 发动态
+    function releaseDynamic(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
     // 发布视频
     function releaseVideo(): void {
       window.open(
@@ -337,6 +352,7 @@ export default defineComponent({
         '_blank'
       );
     }
+
     // 列表数据
     const eventList = ref<LoopType[]>([]);
     // 获取动态列表数据
@@ -352,7 +368,6 @@ export default defineComponent({
             }
           });
           eventList.value = res.event;
-          console.log(eventList.value);
         }
       });
     }
@@ -381,6 +396,7 @@ export default defineComponent({
 
     return {
       formatDate,
+      releaseDynamic,
       releaseVideo,
       eventList,
       setDynamicLike

@@ -73,11 +73,11 @@ import Search from '@views/header/search/Search.vue';
 import User from '@views/user/User.vue';
 import { LoopType } from '@/types/types';
 
-interface NavList {
+type NavList = {
   title: string;
   link?: string;
   href?: string;
-}
+};
 
 export default defineComponent({
   components: {

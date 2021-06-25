@@ -1,10 +1,11 @@
 import axios from '@utils/axios';
+import { AxiosRequest } from '@/types/types';
 
 /**
  * @desc 获取用户歌单，收藏，mv, dj 数量
  * @param { Number } timestamp - 防止接口缓存
  */
-export const userSubcount = () => {
+export const userSubcount = (): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime()
   };
@@ -19,7 +20,7 @@ export const userSubcount = () => {
  * @desc 获取我的歌手列表
  * @param { Number } timestamp - 防止接口缓存
  */
-export const subPlayList = () => {
+export const subPlayList = (): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime()
   };
@@ -34,7 +35,7 @@ export const subPlayList = () => {
  * @desc 获取我的视频列表
  * @param { Number } timestamp - 防止接口缓存
  */
-export const myMvSbulist = () => {
+export const myMvSbulist = (): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime()
   };
@@ -50,7 +51,7 @@ export const myMvSbulist = () => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } uid - 账号id
  */
-export const userPlayList = ({ uid }: { uid: number }) => {
+export const userPlayList = ({ uid }: { uid: number }): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     uid
@@ -67,7 +68,7 @@ export const userPlayList = ({ uid }: { uid: number }) => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } name - 歌单名称
  */
-export const addPlayList = ({ name }: { name: string }) => {
+export const addPlayList = ({ name }: { name: string }): AxiosRequest => {
   const data = {
     timestamp: new Date().getTime(),
     name
@@ -84,7 +85,7 @@ export const addPlayList = ({ name }: { name: string }) => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单id
  */
-export const deletePlayList = ({ id }: { id: number }) => {
+export const deletePlayList = ({ id }: { id: number }): AxiosRequest => {
   const data = {
     timestamp: new Date().getTime(),
     id
@@ -101,7 +102,7 @@ export const deletePlayList = ({ id }: { id: number }) => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单id
  */
-export const playListDetail = ({ id }: { id: number }) => {
+export const playListDetail = ({ id }: { id: number }): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     id
@@ -121,12 +122,12 @@ export const playListDetail = ({ id }: { id: number }) => {
  * @param { Number } id - 歌曲id
  */
 
-interface DeleteMusic {
+type DeleteMusic = {
   pid: number | string;
   tracks: number | string;
-}
+};
 
-export const deleteMusic = ({ pid, tracks }: DeleteMusic) => {
+export const deleteMusic = ({ pid, tracks }: DeleteMusic): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     op: 'del',
@@ -147,12 +148,15 @@ export const deleteMusic = ({ pid, tracks }: DeleteMusic) => {
  * @param { Number } [limit] - 每页评论条数，默认20
  */
 
-interface CommentPlayList {
+type CommentPlayList = {
   id: number;
   limit?: number;
-}
+};
 
-export const commentPlayList = ({ id, limit }: CommentPlayList) => {
+export const commentPlayList = ({
+  id,
+  limit
+}: CommentPlayList): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -172,12 +176,15 @@ export const commentPlayList = ({ id, limit }: CommentPlayList) => {
  * @param { String } content - 评论内容
  */
 
-interface AddComment {
+type AddComment = {
   id: number;
   content: string;
-}
+};
 
-export const addSongSheetComment = ({ id, content }: AddComment) => {
+export const addSongSheetComment = ({
+  id,
+  content
+}: AddComment): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     t: 1, // t 1为新增评论
@@ -186,7 +193,10 @@ export const addSongSheetComment = ({ id, content }: AddComment) => {
     content
   };
   return axios.request({
-    url: `/comment?timestamp=${params.timestamp}&t=${params.t}&type=${params.tpye}&id=${params.id}&content=${params.content}`,
+    url: `/comment?
+      timestamp=${params.timestamp}&t=${params.t}
+      &type=${params.tpye}&id=${params.id}&content=${params.content}
+    `,
     method: 'get'
   });
 };
@@ -199,17 +209,17 @@ export const addSongSheetComment = ({ id, content }: AddComment) => {
  * @param { Number } commentId - 内容id
  */
 
-interface ReplyComment {
+type ReplyComment = {
   id: number;
   content: string;
   commentId: number;
-}
+};
 
 export const replySongSheetComment = ({
   id,
   content,
   commentId
-}: ReplyComment) => {
+}: ReplyComment): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     t: 2, // t 1为回复评论
@@ -219,7 +229,10 @@ export const replySongSheetComment = ({
     commentId
   };
   return axios.request({
-    url: `/comment?timestamp=${params.timestamp}&t=${params.t}&type=${params.tpye}&id=${params.id}&content=${params.content}&commentId=${params.commentId}`,
+    url: `/comment?
+      timestamp=${params.timestamp}&t=${params.t}&type=${params.tpye}&id=${params.id}
+      &content=${params.content}&commentId=${params.commentId}
+    `,
     method: 'get'
   });
 };
@@ -231,12 +244,15 @@ export const replySongSheetComment = ({
  * @param { Number } commentId - 内容id
  */
 
-interface DeleteComment {
+type DeleteComment = {
   id: number;
   commentId: number;
-}
+};
 
-export const deleteSongSheetComment = ({ id, commentId }: DeleteComment) => {
+export const deleteSongSheetComment = ({
+  id,
+  commentId
+}: DeleteComment): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     t: 0, // t 0为删除
@@ -245,7 +261,10 @@ export const deleteSongSheetComment = ({ id, commentId }: DeleteComment) => {
     commentId
   };
   return axios.request({
-    url: `/comment?timestamp=${params.timestamp}&t=${params.t}&type=${params.tpye}&id=${params.id}&commentId=${params.commentId}`,
+    url: `/comment?
+      timestamp=${params.timestamp}&t=${params.t}&type=${params.tpye}
+      &id=${params.id}&commentId=${params.commentId}
+    `,
     method: 'get'
   });
 };
@@ -257,13 +276,14 @@ export const deleteSongSheetComment = ({ id, commentId }: DeleteComment) => {
  * @param { Number } cid - 评论id
  * @param { Number } t - 是否点赞 ,1 为点赞 ,0 为取消点赞
  */
-interface SongSheetLike {
+
+type SongSheetLike = {
   id: number;
   cid: number;
   t: number;
-}
+};
 
-export const songSheetLike = ({ id, cid, t }: SongSheetLike) => {
+export const songSheetLike = ({ id, cid, t }: SongSheetLike): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     tpye: 2, // type 2为歌单
@@ -272,7 +292,10 @@ export const songSheetLike = ({ id, cid, t }: SongSheetLike) => {
     t
   };
   return axios.request({
-    url: `/comment/like?timestamp=${params.timestamp}&type=${params.tpye}&id=${params.id}&cid=${params.cid}&t=${params.t}`,
+    url: `/comment/like?
+      timestamp=${params.timestamp}&type=${params.tpye}
+      &id=${params.id}&cid=${params.cid}&t=${params.t}
+    `,
     method: 'get'
   });
 };
@@ -284,12 +307,12 @@ export const songSheetLike = ({ id, cid, t }: SongSheetLike) => {
  * @param { Number } [br] - 码率,默认设置了 999000 即最大码率,如果要 320k 则可设置为 320000,其他类推
  */
 
-interface GetPlayMusicUrl {
+type GetPlayMusicUrl = {
   id: number | string;
   br?: number | string;
-}
+};
 
-export const getPlayMusicUrl = ({ id, br }: GetPlayMusicUrl) => {
+export const getPlayMusicUrl = ({ id, br }: GetPlayMusicUrl): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -302,11 +325,12 @@ export const getPlayMusicUrl = ({ id, br }: GetPlayMusicUrl) => {
   });
 };
 
-interface GetLyric {
+type GetLyric = {
   id: number | string;
-}
+};
+
 // 获取歌词
-export const getLyric = ({ id }: GetLyric) => {
+export const getLyric = ({ id }: GetLyric): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     id

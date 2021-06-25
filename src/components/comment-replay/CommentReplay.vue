@@ -33,9 +33,7 @@
           >
             <img
               class="emtwrap-expression"
-              :src="
-                `http://s1.music.126.net/style/web2/emt/emoji_${item.num}.png`
-              "
+              :src="`http://s1.music.126.net/style/web2/emt/emoji_${item.num}.png`"
               @click="chooseEmoj(index)"
             />
           </span>
@@ -67,19 +65,19 @@ import { defineComponent, ref, reactive, watch, computed } from 'vue';
 import { onMounted, onUnmounted } from 'vue';
 import { expressionList } from './comment-replay';
 
-interface Replay {
+type Replay = {
   text: string;
   length: number;
-}
+};
 
-interface ExproessionPage {
+type ExproessionPage = {
   list: unknown;
   current: number;
   total: number;
-}
+};
 
 export default defineComponent({
-  props: ({
+  props: {
     clearText: {
       type: Boolean,
       default: false
@@ -96,12 +94,11 @@ export default defineComponent({
       type: String,
       default: ''
     }
-  } as unknown) as undefined,
+  },
   setup(
     props: {
       clearText: boolean;
       width: number | string;
-      height: number | string;
     },
     { emit }
   ) {
@@ -189,7 +186,7 @@ export default defineComponent({
 
     // 监听点击
     onMounted(() => {
-      document.addEventListener('click', function(e: MouseEvent): void {
+      document.addEventListener('click', function (e: MouseEvent): void {
         const target = e.target as HTMLElement;
         // 点击表情以外得地方，关闭表情弹框
         if (
@@ -205,7 +202,7 @@ export default defineComponent({
     });
 
     onUnmounted(() => {
-      document.removeEventListener('click', function(): void {
+      document.removeEventListener('click', function (): void {
         console.log('download.vue 点击事件移除');
       });
     });

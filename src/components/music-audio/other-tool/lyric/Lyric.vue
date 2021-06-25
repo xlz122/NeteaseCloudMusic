@@ -31,21 +31,21 @@ import { getLyric } from '@api/my-music';
 import { ResponseType } from '@/types/types';
 import { timeStampToDuration } from '@utils/utils';
 
-interface ListOffest {
+type ListOffest = {
   transform: number;
   duration: number;
-}
+};
 
 // 歌词动画需优化
 // 歌词容器高度需调整
 // 歌曲播放完，滚动条bug
 export default defineComponent({
-  props: ({
+  props: {
     playListShow: {
       type: Boolean,
       default: false
     }
-  } as unknown) as undefined,
+  },
   setup() {
     const $store = useStore();
 
@@ -121,9 +121,7 @@ export default defineComponent({
         obj.time = time
           ? formatLyricTime(time[0].slice(1, time[0].length - 1))
           : 0;
-        obj.uid = Math.random()
-          .toString()
-          .slice(-6);
+        obj.uid = Math.random().toString().slice(-6);
         state.lyricsArr.push(obj);
       });
       // 歌词存储

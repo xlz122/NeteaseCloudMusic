@@ -1,15 +1,15 @@
 import { State } from '@store/state';
 import { clearAllCookie } from '@utils/cookie';
 
-interface Mutations<T, U = any> {
+type Mutations<T, U = any> = {
   [key: string]: (state: T, payload: U) => void;
-}
+};
 
-interface Message {
+type Message = {
   type: string;
   title: string;
   time?: number;
-}
+};
 
 const mutations: Mutations<State> = {
   // 头部选中导航
@@ -40,6 +40,13 @@ const mutations: Mutations<State> = {
     userInfo.pcSign = signIn;
     state.userInfo = userInfo as unknown;
     localStorage.setItem('userInfo', JSON.stringify(userInfo));
+  },
+  setSearchKeywordText(state, searchKeywordText: string) {
+    state.searchKeywordText = searchKeywordText;
+    localStorage.setItem(
+      'searchKeywordText',
+      JSON.stringify(searchKeywordText)
+    );
   },
   // 退出登录
   setLogout(state) {

@@ -84,23 +84,30 @@
 			.edit-btn {
 				float: right;
 				color: #333;
-				padding: 0 15px 0 15px;
+				padding: 0 5px 0 0;
 				height: 31px;
 				line-height: 31px;
 				text-align: center;
 				cursor: pointer;
 				background: url(../../../assets/image/icon-button.png) no-repeat 0 9999px;
-				background-position: 0 -59px;
+				background-position: right -100px;
 				position: relative;
 
 				.wei {
-					position: absolute;
-					top: 0;
-					right: 0;
-					width: 9px;
+					display: inline-block;
 					height: 30px;
+					padding: 0 15px 0 20px;
 					background: url(../../../assets/image/icon-button.png) no-repeat 0 9999px;
-					background-position: right -100px;
+					background-position: 0 -59px;
+					text-align: center;
+				}
+			}
+
+			&:hover {
+				background-position: right -182px;
+
+				.edit {
+					background-position: 0 -141px;
 				}
 			}
 		}

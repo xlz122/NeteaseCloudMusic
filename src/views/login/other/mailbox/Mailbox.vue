@@ -47,21 +47,21 @@ import { useStore } from 'vuex';
 import { mailboxLogin, userInfo } from '@api/login';
 import { ResponseDataType } from '@/types/types';
 
-interface MailboxFormData {
+type MailboxFormData = {
   mailbox: string;
   password: string;
-}
+};
 
-interface MailboxVerify {
+type MailboxVerify = {
   show: boolean;
   type: string;
   text: string;
-}
+};
 
-interface VerifyMethod {
+type VerifyMethod = {
   type?: string;
   text: string;
-}
+};
 
 export default defineComponent({
   setup() {

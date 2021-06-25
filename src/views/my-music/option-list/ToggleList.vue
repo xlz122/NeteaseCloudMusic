@@ -58,20 +58,20 @@ import SongDialog from './SongDialog.vue';
 import { addPlayList, deletePlayList } from '@api/my-music';
 import { ResponseType, LoopType } from '@/types/types';
 
-interface DialogData {
+type DialogData = {
   visible: boolean;
   type: string;
   title: string;
   confirmtext: string;
   name: string;
   id: number;
-}
+};
 
 export default defineComponent({
   components: {
     SongDialog
   },
-  props: ({
+  props: {
     // 标题
     title: {
       type: String,
@@ -85,14 +85,14 @@ export default defineComponent({
     // 列表数据
     listData: {
       type: Array,
-      default: []
+      default: () => []
     },
     // 新建按钮
     addBtnShow: {
       type: Boolean,
       default: false
     }
-  } as unknown) as undefined,
+  },
   emits: ['listClick'],
   setup(props: { listData: LoopType; listCount: number }, { emit }) {
     const propsListData = ref<LoopType>(props.listData);

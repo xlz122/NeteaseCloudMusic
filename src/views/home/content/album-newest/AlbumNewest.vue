@@ -30,11 +30,11 @@ import { throttle } from 'lodash';
 import { albumNewest } from '@api/home';
 import { ResponseType } from '@/types/types';
 
-interface ListOffest {
+type ListOffest = {
   index: number;
   transform: number;
   duration: number;
-}
+};
 
 export default defineComponent({
   setup() {
@@ -70,9 +70,9 @@ export default defineComponent({
 
     // 上一轮
     const albumPrev = throttle(
-      function() {
+      function () {
         const li = liRef.value as HTMLElement;
-        if (listOffest.index == 0) {
+        if (listOffest.index === 0) {
           // 瞬间返回二倍模板，并在短暂延迟后执行动画
           listOffest.index = 2;
           listOffest.duration = 0;
@@ -96,10 +96,10 @@ export default defineComponent({
 
     // 下一轮
     const albumNext = throttle(
-      function() {
+      function () {
         const li = liRef.value as HTMLElement;
         // 瞬间返回二倍模板，并在短暂延迟后执行动画
-        if (listOffest.index == 2) {
+        if (listOffest.index === 2) {
           listOffest.index = 0;
           listOffest.duration = 0;
           setTimeout(() => {

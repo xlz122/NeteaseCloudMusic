@@ -109,14 +109,14 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
-// import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { searchKeywords } from '@api/search';
+import { searchPropose } from '@api/search';
 import { ResponseType } from '@/types/types';
 
 export default defineComponent({
   setup() {
-    // const $router = useRouter();
+    const $router = useRouter();
     const $store = useStore();
 
     // 搜索框背景文本
@@ -146,28 +146,46 @@ export default defineComponent({
     }
 
     // 搜索框内容改变
+    const oldSearchValue = ref<string>('');
     watch(
       () => searchValue.value,
-      (curVal: string) => {
+      (curVal: string, oldVal: string) => {
         if (curVal) {
           getSearchPropos();
         } else {
           searchProposShow.value = false;
         }
+        // 存储旧搜索内容
+        if (oldVal) {
+          oldSearchValue.value = oldVal;
+        }
       }
     );
 
     // 搜索框监听回车键
-    function searchEnter(): void {
-      if (searchValue.value) {
-        getSearchPropos();
+    function searchEnter(): boolean | undefined {
+      searchProposShow.value = false;
+      if (!searchValue.value) {
+        return false;
+      }
+      // 搜索内容变化
+      if (searchValue.value !== oldSearchValue.value) {
+        // 存储关键字
+        $store.commit('setSearchKeywordText', searchValue.value);
+        // 头部导航取消选中
+        $store.commit('setHeaderActiveIndex', -1);
+        // 跳转搜索详情页
+        $router.push({
+          name: 'search-details',
+          query: { searchKeywordText: searchValue.value }
+        });
       }
     }
 
     // 获取搜索框建议
     function getSearchPropos(): void {
       searchProposShow.value = true;
-      searchKeywords({
+      searchPropose({
         keywords: searchValue.value
       })
         .then((res: ResponseType) => {

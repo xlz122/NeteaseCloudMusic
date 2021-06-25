@@ -22,12 +22,12 @@ import { timeStampToDuration } from '@utils/utils';
 import { LoopType } from '@/types/types';
 
 export default defineComponent({
-  props: ({
+  props: {
     musicPlayProgress: {
       typs: Object,
       default: {}
     }
-  } as unknown) as undefined,
+  },
   emits: ['progressChange'],
   setup(props: { musicPlayProgress: LoopType }, { emit }) {
     // 当前进度距离左边距离

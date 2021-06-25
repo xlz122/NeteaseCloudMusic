@@ -2,7 +2,7 @@ import { createVNode, render } from 'vue';
 import MusicAudioComponent from './MusicAudio.vue';
 
 const MusicAudio = {
-  install: (app: Record<string, any>) => {
+  install: (app: Record<string, any>): void => {
     // 创建虚拟dom
     const vm = createVNode(MusicAudioComponent, {});
 

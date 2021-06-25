@@ -1,0 +1,140 @@
+.search-header {
+  position: relative;
+  display: inline-block;
+  text-align: left;
+
+  .serch-header-input {
+    position: relative;
+    width: 420px;
+    height: 40px;
+    margin: 0 auto;
+    background: url('../../../assets/image/search/sprite.png');
+    background-position: 0 0;
+    z-index: 10;
+
+    .search-input {
+      width: 350px;
+      height: 17px;
+      padding: 0;
+      margin: 12px 0 0 20px;
+      background: #fff;
+      outline: none;
+      border: none;
+    }
+
+    .search-icon {
+      position: absolute;
+      display: inline-block;
+      width: 50px;
+      height: 40px;
+      cursor: pointer;
+    }
+  }
+
+  .search-list {
+    position: absolute;
+    z-index: 120;
+    top: 43px;
+    left: 0;
+    width: 420px;
+    border: 1px solid #bebebe;
+    border-radius: 4px;
+    background: #fff;
+    box-sizing: border-box;
+    box-shadow: 0 4px 7px #555;
+    text-shadow: 0 1px 0 rgb(255 255 255 / 90%);
+    line-height: normal;
+
+    .item-note {
+      height: 17px;
+      padding: 11px 10px;
+      border-bottom: 1px solid #e2e2e2;
+      color: #666;
+      cursor: pointer;
+    }
+
+    .item-note:hover {
+      text-decoration: underline;
+    }
+
+    .item {
+      display: block;
+
+      .title {
+        display: inline-block;
+        vertical-align: top;
+        width: 52px;
+        padding: 10px 0 0 10px;
+        line-height: 17px;
+        font-weight: normal;
+
+        .title-icon {
+          display: inline-block;
+          vertical-align: middle;
+          width: 14px;
+          height: 15px;
+          margin-right: 3px;
+          background: url(../../../assets/image/icon.png) no-repeat 0 9999px;
+          overflow: hidden;
+        }
+
+        .songs-icon {
+          background-position: -35px -300px;
+        }
+
+        .artists-icon {
+          background-position: -50px -300px;
+        }
+
+        .albums-icon {
+          background-position: -35px -320px;
+        }
+
+        .playlists-icon {
+          background-position: -50px -320px;
+        }
+
+        .title-text {
+          font-style: normal;
+          text-align: left;
+          font-size: inherit;
+        }
+      }
+
+      .f-cb {
+        display: inline-block;
+        vertical-align: top;
+        width: calc(100% - 63px);
+        padding: 6px 0 5px;
+        border-left: 1px solid #e2e2e2;
+        border-bottom: 1px solid #e2e2e2;
+
+
+        .f-cb-i {
+          display: block;
+          width: 100%;
+          color: #000;
+          text-indent: 12px;
+          line-height: 24px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          word-wrap: normal;
+          cursor: pointer;
+
+          .f-cb-text {
+            color: #0c73c2;
+          }
+        }
+
+        .f-cb-i:hover {
+          background-color: #ddd;
+        }
+      }
+
+      .f-cb-odd {
+        background: #f9f8f8;
+      }
+    }
+  }
+}

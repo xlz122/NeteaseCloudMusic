@@ -1,10 +1,11 @@
 import axios from '@utils/axios';
+import { AxiosRequest } from '@/types/types';
 
 /**
  * @desc 获取朋友动态
  * @param { Number } timestamp - 防止接口缓存
  */
-export const friendEvent = () => {
+export const friendEvent = (): AxiosRequest => {
   const params = { timestamp: new Date().getTime() };
   return axios.request({
     url: '/event',
@@ -20,13 +21,17 @@ export const friendEvent = () => {
  * @param { Number } threadId - 动态的 threadId
  * @param { Number } t - 是否点赞 ,1 为点赞 ,0 为取消点赞
  */
-interface DynamicLike {
+type DynamicLike = {
   cid: number;
   threadId: number;
   t: number;
-}
+};
 
-export const dynamicLike = ({ cid, threadId, t }: DynamicLike) => {
+export const dynamicLike = ({
+  cid,
+  threadId,
+  t
+}: DynamicLike): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     tpye: 6, // type 6为动态
@@ -35,7 +40,10 @@ export const dynamicLike = ({ cid, threadId, t }: DynamicLike) => {
     t
   };
   return axios.request({
-    url: `/comment/like?timestamp=${params.timestamp}&type=${params.tpye}&cid=${params.cid}&threadId=${params.threadId}&t=${params.t}`,
+    url: `/comment/like?
+      timestamp=${params.timestamp}&type=${params.tpye}
+      &cid=${params.cid}&threadId=${params.threadId}&t=${params.t}
+    `,
     method: 'get'
   });
 };

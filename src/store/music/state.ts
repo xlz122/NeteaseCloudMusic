@@ -1,4 +1,4 @@
-export interface State {
+export type State = {
   activeSongListId: number;
   musicDetailOptions: MusicDetailOptions;
   songListDetailData: unknown;
@@ -11,13 +11,13 @@ export interface State {
   musicModeType: number;
   musicVolume: number;
   playLyrics: unknown;
-}
+};
 
-export interface MusicDetailOptions {
+export type MusicDetailOptions = {
   subPlayList: boolean;
   myMv: boolean;
   playListDetail: boolean;
-}
+};
 
 // 本地存储容错处理
 function faultTolerant(name: string) {

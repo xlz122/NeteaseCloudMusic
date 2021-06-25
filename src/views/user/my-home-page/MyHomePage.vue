@@ -3,35 +3,34 @@
     <!-- 个人信息部分 -->
     <div class="content">
       <div class="top-info">
-        <img class="avatarUrl" :src="profileInfo.avatarUrl" />
+        <img class="avatarUrl" :src="profileInfo?.avatarUrl" />
         <div class="info-1">
-          <span class="title">{{ profileInfo.nickname }}</span>
+          <span class="title">{{ profileInfo?.nickname }}</span>
           <span class="level display-overflow">
             {{ level || 0 }}
             <i class="wei display-overflow"></i>
           </span>
-          <i class="sex display-overflow" v-if="profileInfo.gender === 1"></i>
+          <i class="sex display-overflow" v-if="profileInfo?.gender === 1"></i>
           <i class="sex female display-overflow" v-else></i>
           <div class="edit-btn display-overflow">
-            编辑个人资料
-            <i class="wei display-overflow"></i>
+            <i class="wei display-overflow edit">编辑个人资料</i>
           </div>
         </div>
         <ul class="info-2">
           <li>
-            <div class="val">{{ profileInfo.eventCount }}</div>
+            <div class="val">{{ profileInfo?.eventCount }}</div>
             <div class="dec">动态</div>
           </li>
           <li>
-            <div class="val">{{ profileInfo.follows }}</div>
+            <div class="val">{{ profileInfo?.follows }}</div>
             <div class="dec">关注</div>
           </li>
           <li>
-            <div class="val">{{ profileInfo.followeds }}</div>
+            <div class="val">{{ profileInfo?.followeds }}</div>
             <div class="dec">粉丝</div>
           </li>
         </ul>
-        <div class="introduce">个人介绍：{{ profileInfo.signature }}</div>
+        <div class="introduce">个人介绍：{{ profileInfo?.signature }}</div>
         <div class="info-3">
           <span>所在地区：{{ provinceName }}-{{ cityName }}</span>
         </div>
@@ -54,7 +53,7 @@
           class="list-item"
           v-for="(item, index) in songList.createSongList"
           :key="index"
-          :class="{ 'first-list-item': index === 0 }"
+          :class="{ 'first-list-item': !(index % 5) }"
         >
           <div class="item-cover" :title="item.title">
             <img
@@ -116,13 +115,13 @@ export default defineComponent({
   setup() {
     const $store = useStore();
     // 用户信息
-    const profileInfo = computed(() => $store.getters.userInfo.profile || {});
+    const profileInfo = computed(() => $store.getters.userInfo?.profile || {});
     // 用户等级
-    const level = computed(() => $store.getters.userInfo.level || 0);
+    const level = computed(() => $store.getters.userInfo?.level || 0);
     // 省
-    const provinceName = findCityZipCode(profileInfo.value.province);
+    const provinceName = findCityZipCode(profileInfo.value?.province || 0);
     // 市
-    const cityName = findCityZipCode(profileInfo.value.city);
+    const cityName = findCityZipCode(profileInfo.value?.city || 0);
 
     // 获取歌单列表
     const songList = reactive<SongList>({

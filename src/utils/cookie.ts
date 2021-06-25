@@ -23,13 +23,13 @@ export function setCookie(
  * @desc 获取cookie
  * @param { String } key - key
  */
-export function getCookie(key: string) {
+export function getCookie(key: string): string {
   key = key + '=';
   const ca = document.cookie.split(';');
   for (let i = 0; i < ca.length; i++) {
     let c = ca[i];
-    while (c.charAt(0) == ' ') c = c.substring(1);
-    if (c.indexOf(key) != -1) return c.substring(key.length, c.length);
+    while (c.charAt(0) === ' ') c = c.substring(1);
+    if (c.indexOf(key) !== -1) return c.substring(key.length, c.length);
   }
   return '';
 }
@@ -45,7 +45,7 @@ export function removeCookie(key: string): void {
 /**
  * @desc 清除所有cookie
  */
-export function clearAllCookie() {
+export function clearAllCookie(): void {
   const date = new Date();
   date.setTime(date.getTime() - 10000);
   // eslint-disable-next-line

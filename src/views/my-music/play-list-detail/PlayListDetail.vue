@@ -297,7 +297,7 @@ export default defineComponent({
 
     // 头部播放 - 默认播放列表第一项
     const playTitleMusic = throttle(
-      function() {
+      function () {
         if (songListDetailData.value?.playlist?.tracks.length > 0) {
           const musicItem = songListDetailData.value?.playlist?.tracks[0];
           // 当前播放音乐id
@@ -323,6 +323,10 @@ export default defineComponent({
     function setAddPlayList(): void {
       if (songListDetailData.value?.playlist?.tracks.length > 0) {
         songListDetailData.value?.playlist?.tracks.forEach((item: LoopType) => {
+          // 无版权歌曲不添加到播放列表
+          if (isCopyright(item.id)) {
+            return false;
+          }
           // 播放音乐数据
           $store.commit('music/setPlayMusicList', item);
         });

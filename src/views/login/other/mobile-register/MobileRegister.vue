@@ -121,30 +121,30 @@ import { useStore } from 'vuex';
 import { countryCode, captchaSent, captchaVerify } from '@api/login';
 import { LoopType, ResponseType } from '@/types/types';
 
-interface MobileFormData {
+type MobileFormData = {
   code: string;
   phone: string;
   password: string;
-}
+};
 
-interface MobileVerify {
+type MobileVerify = {
   show: boolean;
   space: boolean;
   contain: boolean;
   length: boolean;
   allPassed: boolean;
-}
+};
 
-interface VerifyMethod {
+type VerifyMethod = {
   type?: string;
   text: string;
-}
+};
 
-interface VerificationCodeVerify {
+type VerificationCodeVerify = {
   show: boolean;
   text: string;
   time: number;
-}
+};
 
 export default defineComponent({
   setup() {
@@ -355,7 +355,7 @@ export default defineComponent({
 
     // 监听点击
     onMounted(() => {
-      document.addEventListener('click', function(e: MouseEvent): void {
+      document.addEventListener('click', function (e: MouseEvent): void {
         const target = e.target as HTMLElement;
         if (
           target.className !== 'country-code' &&
@@ -369,7 +369,7 @@ export default defineComponent({
 
     // 销毁点击监听
     onUnmounted(() => {
-      document.removeEventListener('click', function(): void {
+      document.removeEventListener('click', function (): void {
         console.log('MobileRegister.vue 点击事件移除');
       });
     });

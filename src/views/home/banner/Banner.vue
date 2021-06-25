@@ -55,11 +55,11 @@ import { defineComponent, ref, reactive, watch, onUnmounted } from 'vue';
 import { bannerImgUrl } from '@api/home';
 import { ResponseType } from '@/types/types';
 
-interface Banner {
+type Banner = {
   list: unknown[];
   currentUrl: string;
   index: number;
-}
+};
 
 export default defineComponent({
   setup() {
@@ -94,9 +94,11 @@ export default defineComponent({
       } else {
         banner.index--;
       }
-      banner.currentUrl = (banner.list[banner.index] as {
-        imageUrl: string;
-      }).imageUrl;
+      banner.currentUrl = (
+        banner.list[banner.index] as {
+          imageUrl: string;
+        }
+      ).imageUrl;
     }
 
     // 下一张
@@ -109,9 +111,11 @@ export default defineComponent({
       } else {
         banner.index++;
       }
-      banner.currentUrl = (banner.list[banner.index] as {
-        imageUrl: string;
-      }).imageUrl;
+      banner.currentUrl = (
+        banner.list[banner.index] as {
+          imageUrl: string;
+        }
+      ).imageUrl;
     }
 
     // 小圆点切换
@@ -121,9 +125,11 @@ export default defineComponent({
       }
       // 图片切换
       banner.index = index;
-      banner.currentUrl = (banner.list[banner.index] as {
-        imageUrl: string;
-      }).imageUrl;
+      banner.currentUrl = (
+        banner.list[banner.index] as {
+          imageUrl: string;
+        }
+      ).imageUrl;
     }
 
     // 监听轮播图片切换
@@ -134,7 +140,7 @@ export default defineComponent({
         // 修复切换背景图时出现的“白色闪屏”现象
         const img = new Image();
         img.src = `${banner.currentUrl}?imageView&blur=40x20`;
-        img.onload = function() {
+        img.onload = function () {
           const bannerDom = bannerRef.value as HTMLElement;
           if (bannerDom) {
             bannerDom.style.backgroundImage = `url(${banner.currentUrl}?imageView&blur=40x20)`;
@@ -168,9 +174,11 @@ export default defineComponent({
         }
         setTimeout(() => {
           bannerImgSwitching.value = false;
-          banner.currentUrl = (banner.list[banner.index] as {
-            imageUrl: string;
-          }).imageUrl;
+          banner.currentUrl = (
+            banner.list[banner.index] as {
+              imageUrl: string;
+            }
+          ).imageUrl;
         }, 1000);
       }, 4000);
     }
