@@ -26,108 +26,7 @@
         </ul>
         <div class="other">
           <!-- 搜索 -->
-          <div class="search">
-            <span class="icon"></span>
-            <input
-              class="search-input"
-              type="text"
-              v-model="searchValue"
-              :placeholder="searchPlaceholder"
-              @focus="searchFocus"
-              @blur="searchBlur"
-              @keyup.enter="searchEnter"
-            />
-            <!-- 搜索建议 -->
-            <template v-if="Object.keys(searchPropos).length">
-              <ul class="search-list" v-show="searchProposShow">
-                <li class="item-note">搜“{{ searchValue }}”相关用户 ></li>
-                <!-- 单曲 -->
-                <li class="item" v-if="searchPropos?.songs">
-                  <div class="title">
-                    <i class="title-icon songs-icon"></i>
-                    <span class="title-text">单曲</span>
-                  </div>
-                  <ul class="f-cb">
-                    <li
-                      class="f-cb-i"
-                      v-for="(item, index) in searchPropos.songs"
-                      :key="index"
-                      @click="songDetail(item)"
-                    >
-                      <span class="f-cb-text">
-                        {{ item.name.slice(0, searchValue.length) }}
-                      </span>
-                      <span>
-                        {{ item.name.slice(searchValue.length) }}-{{
-                          item?.artists[0]?.name
-                        }}
-                      </span>
-                    </li>
-                  </ul>
-                </li>
-                <!-- 歌手 -->
-                <li class="item" v-if="searchPropos?.artists">
-                  <div class="title">
-                    <i class="title-icon artists-icon"></i>
-                    <span class="title-text">歌手</span>
-                  </div>
-                  <ul class="f-cb f-cb-odd">
-                    <li
-                      class="f-cb-i"
-                      v-for="(item, index) in searchPropos.artists"
-                      :key="index"
-                    >
-                      <span class="f-cb-text">{{ item.name }}</span>
-                    </li>
-                  </ul>
-                </li>
-                <!-- 专辑 -->
-                <li class="item" v-if="searchPropos?.albums">
-                  <div class="title">
-                    <i class="title-icon albums-icon"></i>
-                    <span class="title-text">专辑</span>
-                  </div>
-                  <ul class="f-cb">
-                    <li
-                      class="f-cb-i"
-                      v-for="(item, index) in searchPropos.albums"
-                      :key="index"
-                    >
-                      <span class="f-cb-text">
-                        {{ item.name.slice(0, searchValue.length) }}
-                      </span>
-                      <span>
-                        {{ item.name.slice(searchValue.length) }}-{{
-                          item?.artist?.name
-                        }}
-                      </span>
-                    </li>
-                  </ul>
-                </li>
-                <!-- 歌单 -->
-                <li class="item" v-if="searchPropos?.playlists">
-                  <div class="title">
-                    <i class="title-icon playlists-icon"></i>
-                    <span class="title-text">歌单</span>
-                  </div>
-                  <ul class="f-cb f-cb-odd">
-                    <li
-                      class="f-cb-i"
-                      v-for="(item, index) in searchPropos.playlists"
-                      :key="index"
-                    >
-                      <span class="f-cb-text">
-                        {{ item.name.slice(0, searchValue.length) }}
-                      </span>
-                      <span>
-                        {{ item.name.slice(searchValue.length) }}
-                      </span>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </template>
-          </div>
+          <Search />
           <div class="create">
             <router-link class="link" to="/creator-center" target="_blank">
               创作中心
@@ -170,9 +69,9 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { searchKeywords } from '@api/search';
+import Search from '@views/header/search/Search.vue';
 import User from '@views/user/User.vue';
-import { LoopType, ResponseType } from '@/types/types';
+import { LoopType } from '@/types/types';
 
 interface NavList {
   title: string;
@@ -182,7 +81,8 @@ interface NavList {
 
 export default defineComponent({
   components: {
-    User
+    User,
+    Search
   },
   setup() {
     const $route = useRoute();
@@ -309,77 +209,6 @@ export default defineComponent({
       }
     );
 
-    const searchPlaceholder = ref<string>('音乐/视频/电台/用户');
-    // 搜索内容
-    const searchValue = ref<string>('');
-    // 搜索建议显隐
-    const searchProposShow = ref<boolean>(false);
-    // 搜索建议数据
-    const searchPropos = ref<unknown>({});
-
-    // 搜索框获取焦点
-    function searchFocus(): void {
-      searchPlaceholder.value = '';
-      if (searchValue.value) {
-        searchProposShow.value = true;
-      }
-    }
-
-    // 搜索框失去焦点
-    function searchBlur(): void {
-      searchPlaceholder.value = '音乐/视频/电台/用户';
-      // 延迟关闭，用于响应点击事件
-      setTimeout(() => {
-        searchProposShow.value = false;
-      }, 150);
-    }
-
-    // 搜索框内容改变
-    watch(
-      () => searchValue.value,
-      (curVal: string) => {
-        if (curVal) {
-          getSearchPropos();
-        } else {
-          searchProposShow.value = false;
-        }
-      }
-    );
-
-    // 搜索框监听回车键
-    function searchEnter(): void {
-      if (searchValue.value) {
-        getSearchPropos();
-      }
-    }
-
-    // 获取搜索框建议
-    function getSearchPropos(): void {
-      searchProposShow.value = true;
-      searchKeywords({
-        keywords: searchValue.value
-      })
-        .then((res: ResponseType) => {
-          console.log(res);
-          if (res.code === 200) {
-            searchPropos.value = res.result;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
-
-    // 单曲详情
-    function songDetail(item: unknown): void {
-      console.log(item);
-    }
-
     // 登录弹框显隐
     const dialogvisible = ref<boolean>(false);
 
@@ -397,14 +226,6 @@ export default defineComponent({
       subNavList,
       subNavActive,
       subNavChange,
-      searchPlaceholder,
-      searchProposShow,
-      searchFocus,
-      searchBlur,
-      searchValue,
-      searchPropos,
-      searchEnter,
-      songDetail,
       dialogvisible,
       openLogin
     };
