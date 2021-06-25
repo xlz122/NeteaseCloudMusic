@@ -1,16 +1,18 @@
 <template>
-  <!-- 搜索 -->
-  <div class="search">
-    <span class="icon"></span>
-    <input
-      class="search-input"
-      type="text"
-      v-model="searchValue"
-      :placeholder="searchPlaceholder"
-      @focus="searchFocus"
-      @blur="searchBlur"
-      @keyup.enter="searchEnter"
-    />
+  <div class="search-header">
+    <!-- 搜索框 -->
+    <div class="serch-header-input">
+      <input
+        class="search-input"
+        type="text"
+        autocomplete="off"
+        v-model="searchValue"
+        @focus="searchFocus"
+        @blur="searchBlur"
+        @keyup.enter="searchEnter"
+      />
+      <span class="search-icon" @click="searchEnter"></span>
+    </div>
     <!-- 搜索建议 -->
     <template v-if="Object.keys(searchPropos).length">
       <ul class="search-list" v-show="searchProposShow">
@@ -108,21 +110,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { searchPropose } from '@api/search';
 import { ResponseType } from '@/types/types';
 
 export default defineComponent({
-  setup() {
-    const $router = useRouter();
+  emits: ['searchEnter'],
+  setup(props, { emit }) {
     const $store = useStore();
 
-    // 搜索框背景文本
-    const searchPlaceholder = ref<string>('音乐/视频/电台/用户');
+    const searchKeywordText = computed(() => $store.getters.searchKeywordText);
+
     // 搜索内容
-    const searchValue = ref<string>('');
+    const searchValue = ref<string>(searchKeywordText.value);
     // 搜索建议显隐
     const searchProposShow = ref<boolean>(false);
     // 搜索建议数据
@@ -130,7 +131,6 @@ export default defineComponent({
 
     // 搜索框获取焦点
     function searchFocus(): void {
-      searchPlaceholder.value = '';
       if (searchValue.value) {
         searchProposShow.value = true;
       }
@@ -138,7 +138,6 @@ export default defineComponent({
 
     // 搜索框失去焦点
     function searchBlur(): void {
-      searchPlaceholder.value = '音乐/视频/电台/用户';
       // 延迟关闭，用于响应点击事件
       setTimeout(() => {
         searchProposShow.value = false;
@@ -170,15 +169,7 @@ export default defineComponent({
       }
       // 搜索内容变化
       if (searchValue.value !== oldSearchValue.value) {
-        // 存储关键字
-        $store.commit('setSearchKeywordText', searchValue.value);
-        // 头部导航取消选中
-        $store.commit('setHeaderActiveIndex', -1);
-        // 跳转搜索详情页
-        $router.push({
-          name: 'search-details',
-          query: { searchKeywordText: searchValue.value }
-        });
+        emit('searchEnter', searchValue.value);
       }
     }
 
@@ -235,7 +226,6 @@ export default defineComponent({
       });
     }
     return {
-      searchPlaceholder,
       searchValue,
       searchProposShow,
       searchPropos,
@@ -252,5 +242,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './search.less';
+@import './search-header.less';
 </style>

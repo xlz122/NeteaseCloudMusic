@@ -9,6 +9,7 @@ const getters: Getters<State> = {
   loginDialog: state => state.loginDialog,
   accountInfo: state => state.accountInfo,
   userInfo: state => state.userInfo,
+  searchKeywordText: state => state.searchKeywordText,
   isLogin: state => state.isLogin,
   message: state => state.message
 };

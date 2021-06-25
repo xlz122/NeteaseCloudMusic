@@ -32,6 +32,15 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "download" */ '../views/download/Download.vue'
           )
       },
+      // 搜索
+      {
+        path: '/search-details',
+        name: 'search-details',
+        component: () =>
+          import(
+            /* webpackChunkName: "search-details" */ '../views/search-details/SearchDetails.vue'
+          )
+      },
       // 创作者中心
       {
         path: '/creator-center',
@@ -40,16 +49,6 @@ const routes: Array<RouteRecordRaw> = [
           import(
             /* webpackChunkName: "creator-center" */ '../views/header/creator-center/CreatorCenter.vue'
           )
-        // component: () => {
-        //   // 判断路由是否存在
-        //   if (location.href.includes(process.env.BASE_URL)) {
-        //     return window.open(
-        //       `${location.origin}${process.env.BASE_URL}/creator-center`,
-        //       '_blank'
-        //     );
-        //   }
-        //   return window.open(`${location.origin}/creator-center`, '_blank');
-        // }
       },
       // 个人中心 - 我的主页
       {
@@ -66,7 +65,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'user-level',
         component: () =>
           import(
-            /* webpackChunkName: "my-home-page" */ '../views//user/level/Level.vue'
+            /* webpackChunkName: "user-level" */ '../views//user/level/Level.vue'
           )
       },
       // 首页 - 排行榜
