@@ -1,0 +1,38 @@
+.search-tabs {
+  height: 39px;
+  border: 1px solid #ccc;
+  margin-bottom: auto;
+  border-width: 0 1px;
+  background: url('../../../assets/image/search/tab.png');
+  background-position: 0 0;
+  background-repeat: repeat-x;
+  text-align: left;
+
+  .item-tab {
+    position: relative;
+    display: inline-block;
+    width: 110px;
+    height: 39px;
+    padding: 2px 2px 0 0;
+    background: url('../../../assets/image/search/tab.png');
+    line-height: 37px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .item-active-tab {
+    background-position: left -90px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: -1px;
+      width: 2px;
+      height: 100%;
+      background: url('../../../assets/image/search/tab.png');
+      background-position: left -90px;
+    }
+  }
+}

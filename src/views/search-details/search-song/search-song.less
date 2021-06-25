@@ -1,0 +1,85 @@
+.search-song {
+  margin-top: 20px;
+  text-align: left;
+
+  .item {
+    padding: 10px 10px 8px 18px;
+    border: 1px solid #fff;
+
+    .td {
+      display: inline-block;
+      vertical-align: top;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      .text {
+        position: relative;
+        display: inline-block;
+        padding-right: 25px;
+        width: auto;
+        max-width: 100%;
+        height: 20px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+        .name {
+          cursor: pointer;
+          color: #333;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .desc {
+          color: #aeaeae;
+        }
+      }
+    }
+
+    .play-icon {
+      width: 17px;
+      height: 17px;
+      margin-right: 15px;
+      background: url('../../../assets/image/search/table.png');
+      background-position: 0 -103px;
+      cursor: pointer;
+
+      &:hover {
+        background-position: 0 -128px;
+      }
+    }
+
+    .td1 {
+      width: 370px;
+    }
+
+    .td2 {
+      width: 91px;
+      margin-right: 5px;
+    }
+
+    .td3 {
+      width: 15%;
+      margin-right: 12px;
+    }
+
+    .td4 {
+      width: 18%;
+      min-height: 16px;
+      margin-right: 12px;
+    }
+  }
+
+  .item:hover {
+    border: 1px solid #e1e1e1;
+    background: #f2f2f2;
+  }
+
+  .even-item {
+    background: #f7f7f7;
+    border-color: #f7f7f7;
+  }
+}

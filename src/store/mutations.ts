@@ -41,6 +41,13 @@ const mutations: Mutations<State> = {
     state.userInfo = userInfo as unknown;
     localStorage.setItem('userInfo', JSON.stringify(userInfo));
   },
+  setSearchKeywordText(state, searchKeywordText: string) {
+    state.searchKeywordText = searchKeywordText;
+    localStorage.setItem(
+      'searchKeywordText',
+      JSON.stringify(searchKeywordText)
+    );
+  },
   // 退出登录
   setLogout(state) {
     state.isLogin = false;
