@@ -6,7 +6,7 @@
       :key="index"
       :class="{ 'even-item': index % 2 }"
     >
-      <div class="td play-icon"></div>
+      <div class="td play-icon" @click="playListMusic(item.id, item)"></div>
       <div class="td td1">
         <div class="text">
           <span class="name">{{ item?.name }}</span>
@@ -32,6 +32,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils.ts';
 
 export default defineComponent({
@@ -42,8 +43,26 @@ export default defineComponent({
     }
   },
   setup() {
+    const $store = useStore();
+
+    // 播放列表音乐
+    function playListMusic(id: number, item: Record<string, any>): void {
+      // 当前播放音乐id
+      $store.commit('music/setPlayMusicId', id);
+      // 当前播放音乐数据
+      $store.commit('music/setPlayMusicItem', item);
+      // 播放音乐数据
+      $store.commit('music/setPlayMusicList', item);
+      // 开始播放
+      $store.commit('music/setMusicPlayStatus', {
+        look: true,
+        loading: true,
+        refresh: true
+      });
+    }
     return {
-      timeStampToDuration
+      timeStampToDuration,
+      playListMusic
     };
   }
 });

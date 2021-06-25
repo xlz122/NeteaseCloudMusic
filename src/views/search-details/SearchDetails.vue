@@ -78,7 +78,6 @@ export default defineComponent({
         type: 1
       })
         .then((res: ResponseType) => {
-          console.log(res);
           if (res.code === 200) {
             songData.count = res?.result?.songCount;
             songData.list = res?.result?.songs;
