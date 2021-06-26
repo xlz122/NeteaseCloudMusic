@@ -1,15 +1,15 @@
 import { State } from '@store/state';
 import { clearAllCookie } from '@utils/cookie';
 
-interface Mutations<T, U = any> {
+type Mutations<T, U = any> = {
   [key: string]: (state: T, payload: U) => void;
-}
+};
 
-interface Message {
+type Message = {
   type: string;
   title: string;
   time?: number;
-}
+};
 
 const mutations: Mutations<State> = {
   // 头部选中导航

@@ -70,22 +70,22 @@ import {
 } from '@api/login';
 import { LoopType, ResponseDataType, ResponseType } from '@/types/types';
 
-interface MobileFormData {
+type MobileFormData = {
   code: string;
   phone: string;
   password: string;
-}
+};
 
-interface MobileVerify {
+type MobileVerify = {
   show: boolean;
   type: string;
   text: string;
-}
+};
 
-interface VerifyMethod {
+type VerifyMethod = {
   type?: string;
   text: string;
-}
+};
 
 export default defineComponent({
   setup() {

@@ -20,11 +20,11 @@ export const friendEvent = () => {
  * @param { Number } threadId - 动态的 threadId
  * @param { Number } t - 是否点赞 ,1 为点赞 ,0 为取消点赞
  */
-interface DynamicLike {
+type DynamicLike = {
   cid: number;
   threadId: number;
   t: number;
-}
+};
 
 export const dynamicLike = ({ cid, threadId, t }: DynamicLike) => {
   const params = {

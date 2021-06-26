@@ -55,11 +55,11 @@ import { defineComponent, ref, reactive, watch, onUnmounted } from 'vue';
 import { bannerImgUrl } from '@api/home';
 import { ResponseType } from '@/types/types';
 
-interface Banner {
+type Banner = {
   list: unknown[];
   currentUrl: string;
   index: number;
-}
+};
 
 export default defineComponent({
   setup() {

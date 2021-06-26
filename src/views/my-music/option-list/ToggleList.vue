@@ -58,14 +58,14 @@ import SongDialog from './SongDialog.vue';
 import { addPlayList, deletePlayList } from '@api/my-music';
 import { ResponseType, LoopType } from '@/types/types';
 
-interface DialogData {
+type DialogData = {
   visible: boolean;
   type: string;
   title: string;
   confirmtext: string;
   name: string;
   id: number;
-}
+};
 
 export default defineComponent({
   components: {

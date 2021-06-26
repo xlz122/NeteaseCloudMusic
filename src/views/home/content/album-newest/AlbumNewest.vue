@@ -30,11 +30,11 @@ import { throttle } from 'lodash';
 import { albumNewest } from '@api/home';
 import { ResponseType } from '@/types/types';
 
-interface ListOffest {
+type ListOffest = {
   index: number;
   transform: number;
   duration: number;
-}
+};
 
 export default defineComponent({
   setup() {

@@ -121,30 +121,30 @@ import { useStore } from 'vuex';
 import { countryCode, captchaSent, captchaVerify } from '@api/login';
 import { LoopType, ResponseType } from '@/types/types';
 
-interface MobileFormData {
+type MobileFormData = {
   code: string;
   phone: string;
   password: string;
-}
+};
 
-interface MobileVerify {
+type MobileVerify = {
   show: boolean;
   space: boolean;
   contain: boolean;
   length: boolean;
   allPassed: boolean;
-}
+};
 
-interface VerifyMethod {
+type VerifyMethod = {
   type?: string;
   text: string;
-}
+};
 
-interface VerificationCodeVerify {
+type VerificationCodeVerify = {
   show: boolean;
   text: string;
   time: number;
-}
+};
 
 export default defineComponent({
   setup() {

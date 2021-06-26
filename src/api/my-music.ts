@@ -121,10 +121,10 @@ export const playListDetail = ({ id }: { id: number }) => {
  * @param { Number } id - 歌曲id
  */
 
-interface DeleteMusic {
+type DeleteMusic = {
   pid: number | string;
   tracks: number | string;
-}
+};
 
 export const deleteMusic = ({ pid, tracks }: DeleteMusic) => {
   const params = {
@@ -147,10 +147,10 @@ export const deleteMusic = ({ pid, tracks }: DeleteMusic) => {
  * @param { Number } [limit] - 每页评论条数，默认20
  */
 
-interface CommentPlayList {
+type CommentPlayList = {
   id: number;
   limit?: number;
-}
+};
 
 export const commentPlayList = ({ id, limit }: CommentPlayList) => {
   const params = {
@@ -172,10 +172,10 @@ export const commentPlayList = ({ id, limit }: CommentPlayList) => {
  * @param { String } content - 评论内容
  */
 
-interface AddComment {
+type AddComment = {
   id: number;
   content: string;
-}
+};
 
 export const addSongSheetComment = ({ id, content }: AddComment) => {
   const params = {
@@ -202,11 +202,11 @@ export const addSongSheetComment = ({ id, content }: AddComment) => {
  * @param { Number } commentId - 内容id
  */
 
-interface ReplyComment {
+type ReplyComment = {
   id: number;
   content: string;
   commentId: number;
-}
+};
 
 export const replySongSheetComment = ({
   id,
@@ -237,10 +237,10 @@ export const replySongSheetComment = ({
  * @param { Number } commentId - 内容id
  */
 
-interface DeleteComment {
+type DeleteComment = {
   id: number;
   commentId: number;
-}
+};
 
 export const deleteSongSheetComment = ({ id, commentId }: DeleteComment) => {
   const params = {
@@ -266,11 +266,12 @@ export const deleteSongSheetComment = ({ id, commentId }: DeleteComment) => {
  * @param { Number } cid - 评论id
  * @param { Number } t - 是否点赞 ,1 为点赞 ,0 为取消点赞
  */
-interface SongSheetLike {
+
+type SongSheetLike = {
   id: number;
   cid: number;
   t: number;
-}
+};
 
 export const songSheetLike = ({ id, cid, t }: SongSheetLike) => {
   const params = {
@@ -296,10 +297,10 @@ export const songSheetLike = ({ id, cid, t }: SongSheetLike) => {
  * @param { Number } [br] - 码率,默认设置了 999000 即最大码率,如果要 320k 则可设置为 320000,其他类推
  */
 
-interface GetPlayMusicUrl {
+type GetPlayMusicUrl = {
   id: number | string;
   br?: number | string;
-}
+};
 
 export const getPlayMusicUrl = ({ id, br }: GetPlayMusicUrl) => {
   const params = {
@@ -314,9 +315,10 @@ export const getPlayMusicUrl = ({ id, br }: GetPlayMusicUrl) => {
   });
 };
 
-interface GetLyric {
+type GetLyric = {
   id: number | string;
-}
+};
+
 // 获取歌词
 export const getLyric = ({ id }: GetLyric) => {
   const params = {
