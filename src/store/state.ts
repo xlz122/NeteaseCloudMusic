@@ -1,4 +1,4 @@
-export interface State {
+export type State = {
   heaerActiveIndex: number;
   loginDialog: boolean;
   accountInfo: unknown;
@@ -6,7 +6,7 @@ export interface State {
   searchKeywordText: string;
   isLogin: boolean;
   message: unknown;
-}
+};
 
 // 本地存储容错处理
 function faultTolerant(name: string) {

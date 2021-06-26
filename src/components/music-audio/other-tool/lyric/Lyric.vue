@@ -31,10 +31,10 @@ import { getLyric } from '@api/my-music';
 import { ResponseType } from '@/types/types';
 import { timeStampToDuration } from '@utils/utils';
 
-interface ListOffest {
+type ListOffest = {
   transform: number;
   duration: number;
-}
+};
 
 // 歌词动画需优化
 // 歌词容器高度需调整

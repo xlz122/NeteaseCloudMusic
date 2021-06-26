@@ -1,8 +1,8 @@
 import { State } from '@store/music/state';
 
-export interface Getters<T> {
+export type Getters<T> = {
   [key: string]: (state: T) => void;
-}
+};
 
 const getters: Getters<State> = {
   activeSongListId: state => state.activeSongListId,
