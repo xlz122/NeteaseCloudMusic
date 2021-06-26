@@ -35,7 +35,10 @@ export const dynamicLike = ({ cid, threadId, t }: DynamicLike) => {
     t
   };
   return axios.request({
-    url: `/comment/like?timestamp=${params.timestamp}&type=${params.tpye}&cid=${params.cid}&threadId=${params.threadId}&t=${params.t}`,
+    url: `/comment/like?
+      timestamp=${params.timestamp}&type=${params.tpye}
+      &cid=${params.cid}&threadId=${params.threadId}&t=${params.t}
+    `,
     method: 'get'
   });
 };

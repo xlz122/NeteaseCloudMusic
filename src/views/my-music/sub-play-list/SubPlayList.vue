@@ -36,7 +36,7 @@ export default defineComponent({
     const subPlayListList = ref<unknown[]>([]);
     function getMyMvSbulist(): void {
       subPlayList().then((res: ResponseType) => {
-        if (res.code == 200) {
+        if (res.code === 200) {
           subPlayListCount.value = res.count || 0;
           subPlayListList.value = res.data;
         }

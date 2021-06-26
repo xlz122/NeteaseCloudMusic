@@ -28,8 +28,8 @@ export function getCookie(key: string) {
   const ca = document.cookie.split(';');
   for (let i = 0; i < ca.length; i++) {
     let c = ca[i];
-    while (c.charAt(0) == ' ') c = c.substring(1);
-    if (c.indexOf(key) != -1) return c.substring(key.length, c.length);
+    while (c.charAt(0) === ' ') c = c.substring(1);
+    if (c.indexOf(key) !== -1) return c.substring(key.length, c.length);
   }
   return '';
 }
