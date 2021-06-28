@@ -54,7 +54,7 @@
           class="list-item"
           v-for="(item, index) in songList.createSongList"
           :key="index"
-          :class="{ 'first-list-item': index === 0 }"
+          :class="{ 'first-list-item': !(index % 5) }"
         >
           <div class="item-cover" :title="item.title">
             <img
@@ -144,6 +144,7 @@ export default defineComponent({
             }
             // 收藏列表判断
             if (!item.subscribed) {
+              songList.createSongList.push(item);
               songList.createSongList.push(item);
             } else {
               songList.collectionSongList.push(item);
