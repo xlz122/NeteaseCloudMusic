@@ -28,21 +28,45 @@
       <div class="td">{{ timeStampToDuration(item.dt / 1000) }}</div>
     </li>
   </ul>
+  <Page
+    v-if="total > pageSize"
+    :page="page"
+    :pageSize="pageSize"
+    :total="total"
+    @changPage="changPage"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils.ts';
+import Page from '@components/page/Page.vue';
 
 export default defineComponent({
+  components: {
+    Page
+  },
   props: {
+    page: {
+      type: Number,
+      default: 1
+    },
+    pageSize: {
+      type: Number,
+      default: 10
+    },
+    total: {
+      type: Number,
+      default: 10
+    },
     list: {
       type: Array,
       default: () => []
     }
   },
-  setup() {
+  emits: ['changPage'],
+  setup(props, { emit }) {
     const $store = useStore();
 
     // 播放列表音乐
@@ -60,9 +84,15 @@ export default defineComponent({
         refresh: true
       });
     }
+
+    // 分页
+    function changPage(current: number): void {
+      emit('changPage', current);
+    }
     return {
       timeStampToDuration,
-      playListMusic
+      playListMusic,
+      changPage
     };
   }
 });
