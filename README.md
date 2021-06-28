@@ -1,3 +1,7 @@
+### NeteaseCloudMusic
+
+线上地址：[http://n.xlz122.cn](http://n.xlz122.cn)
+
 ### 简介
 
 本项目是一个仿写网易云PC端网站项目。
