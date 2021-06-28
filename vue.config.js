@@ -41,7 +41,7 @@ module.exports = {
     proxy: {
       // 使用对象的方式设置多个代理
       api: {
-        target: 'http://n.xlz122.cn:9002', // 线上地址
+        target: 'http://n.xlz122.cn/api', // 线上地址
         ws: true, // 允许跨域
         changeOrigin: true,
         pathRewrite: {
