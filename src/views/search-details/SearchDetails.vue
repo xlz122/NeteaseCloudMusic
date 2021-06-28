@@ -9,7 +9,13 @@
       </div>
       <SearchTabs @changeTab="changeTab" />
       <template v-if="tabIndex === 0">
-        <SearchSong :list="songData.list" />
+        <SearchSong
+          :page="pageParams.page"
+          :pageSize="pageParams.pageSize"
+          :total="songData.count"
+          :list="songData.list"
+          @changPage="changPage"
+        />
       </template>
     </div>
   </div>
@@ -42,12 +48,18 @@ export default defineComponent({
     // 标题
     const searchTitleText = ref<string>('');
 
+    // 分页参数
+    const pageParams = reactive({
+      page: 1,
+      pageSize: 30
+    });
+
     // 导航搜索回车
     watch(
       () => searchKeywordText.value,
       () => {
         searchTitleText.value = searchKeywordText.value;
-        getSearchSong(searchKeywordText.value);
+        getSearchSong();
       },
       {
         immediate: true
@@ -57,7 +69,7 @@ export default defineComponent({
     // 详情搜索回车
     function searchEnter(searchValue: string): void {
       searchTitleText.value = searchValue;
-      getSearchSong(searchValue);
+      getSearchSong();
     }
 
     // tab切换
@@ -71,10 +83,11 @@ export default defineComponent({
       count: 0,
       list: []
     });
-    function getSearchSong(searchValue: string): void {
+    function getSearchSong(): void {
       searchKeywords({
-        keywords: searchValue,
-        limit: 30,
+        keywords: searchTitleText.value,
+        offset: pageParams.page - 1,
+        limit: pageParams.pageSize,
         type: 1
       })
         .then((res: ResponseType) => {
@@ -93,12 +106,28 @@ export default defineComponent({
         });
     }
 
+    // 监听总数，重置分页
+    watch(
+      () => songData.count,
+      () => {
+        pageParams.page = 1;
+      }
+    );
+
+    // 分页
+    function changPage(current: number): void {
+      pageParams.page = current;
+      getSearchSong();
+    }
+
     return {
       searchTitleText,
       searchEnter,
       changeTab,
       tabIndex,
-      songData
+      songData,
+      pageParams,
+      changPage
     };
   }
 });

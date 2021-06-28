@@ -54,6 +54,13 @@
           <p class="name">{{ item.artist.name }}</p>
         </li>
       </ul>
+      <!-- 参数从0开始，分页需从1开始 -->
+      <Page
+        :page="newDiscFormData.offset + 1"
+        :pageSize="newDiscFormData.limit"
+        :total="pageTotal"
+        @changPage="changPage"
+      />
     </div>
   </div>
 </template>
@@ -63,8 +70,12 @@ import { defineComponent, ref, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { hotNewDisc, nweDiscAlbum, NweDiscAlbum } from '@api/home-new-disc';
 import { ResponseType } from '@/types/types';
+import Page from '@components/page/Page.vue';
 
 export default defineComponent({
+  components: {
+    Page
+  },
   setup() {
     const $store = useStore();
 
@@ -96,6 +107,7 @@ export default defineComponent({
       });
     }
 
+    const pageTotal = ref<number>(0);
     const newDiscFormData = reactive<NweDiscAlbum>({
       offset: 0, // 页数
       limit: 35, // 条数
@@ -107,6 +119,7 @@ export default defineComponent({
       nweDiscAlbum({ ...newDiscFormData })
         .then((res: ResponseType) => {
           if (res.code === 200) {
+            pageTotal.value = res.total;
             newDiscAlbumList.value = res.albums;
           } else {
             $store.commit('setMessage', {
@@ -135,12 +148,21 @@ export default defineComponent({
       });
     }
 
+    // 分页
+    function changPage(current: number): void {
+      newDiscFormData.offset = current - 1;
+      getNweDiscAlbum();
+    }
+
     return {
       hotNewDiscList,
       hotNewDiscDetail,
       newDiscAlbumList,
+      pageTotal,
+      newDiscFormData,
       newDiscType,
-      newDiscAlbumDetail
+      newDiscAlbumDetail,
+      changPage
     };
   }
 });
