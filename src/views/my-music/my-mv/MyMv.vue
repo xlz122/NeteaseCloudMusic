@@ -44,7 +44,7 @@ export default defineComponent({
     const myMvList = ref<unknown[]>([]);
     function getMyMvSbulist(): void {
       myMvSbulist().then((res: ResponseType) => {
-        if (res.code == 200) {
+        if (res.code === 200) {
           myMvCount.value = res.count || 0;
           myMvList.value = res.data;
         }

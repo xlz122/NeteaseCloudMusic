@@ -1,9 +1,9 @@
 import { State, MusicDetailOptions } from '@store/music/state';
 import { LoopType } from '@/types/types';
 
-interface Mutations<T, U> {
+type Mutations<T, U> = {
   [key: string]: (state: T, payload: U) => void;
-}
+};
 
 const mutations: Mutations<State, unknown> = {
   // 我的音乐 - 侧边歌单列表选中项id

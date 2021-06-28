@@ -67,16 +67,16 @@ import { defineComponent, ref, reactive, watch, computed } from 'vue';
 import { onMounted, onUnmounted } from 'vue';
 import { expressionList } from './comment-replay';
 
-interface Replay {
+type Replay = {
   text: string;
   length: number;
-}
+};
 
-interface ExproessionPage {
+type ExproessionPage = {
   list: unknown;
   current: number;
   total: number;
-}
+};
 
 export default defineComponent({
   props: ({
