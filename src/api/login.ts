@@ -20,10 +20,10 @@ export const qrcodeKey = () => {
  * @param { Boolean } [qrimg] - 是否生成二维码base64链接，可选
  */
 
-interface GetQrcodeImg {
+type GetQrcodeImg = {
   key: string;
   qrimg?: boolean;
-}
+};
 
 export const qrcodeImg = ({ key, qrimg }: GetQrcodeImg) => {
   const params = {
@@ -75,10 +75,10 @@ export const countryCode = () => {
  * @param { String } [countrycode] - 国家码，用于国外手机号(可选)
  */
 
-interface TestCellphone {
+type TestCellphone = {
   phone: string;
   countrycode?: string;
-}
+};
 
 export const testCellphone = ({ phone, countrycode }: TestCellphone) => {
   const params = {
@@ -101,11 +101,11 @@ export const testCellphone = ({ phone, countrycode }: TestCellphone) => {
  * @param { String } [countrycode] - 国家码，用于国外手机号(可选)
  */
 
-interface CellphoneLogin {
+type CellphoneLogin = {
   phone: string;
   password: string;
   countrycode?: string;
-}
+};
 
 export const cellphoneLogin = ({
   phone,
@@ -132,10 +132,10 @@ export const cellphoneLogin = ({
  * @param { String } [ctcode] - 国家码，用于国外手机号(可选)
  */
 
-interface CaptchaSent {
+type CaptchaSent = {
   phone: string;
   ctcode?: string;
-}
+};
 
 export const captchaSent = ({ phone, ctcode }: CaptchaSent) => {
   const params = {
@@ -157,11 +157,11 @@ export const captchaSent = ({ phone, ctcode }: CaptchaSent) => {
  * @param { String } [ctcode] - 国家码，用于国外手机号(可选)
  */
 
-interface CaptchaVerify {
+type CaptchaVerify = {
   captcha: string;
   phone: string;
   ctcode?: string;
-}
+};
 
 export const captchaVerify = ({ captcha, phone, ctcode }: CaptchaVerify) => {
   const params = {
@@ -185,11 +185,11 @@ export const captchaVerify = ({ captcha, phone, ctcode }: CaptchaVerify) => {
  * @param { String } [md5_password] - md5加密后的密码,传入后 password 将失效
  */
 
-interface MailboxLogin {
+type MailboxLogin = {
   email: string;
   password?: string;
   md5Password?: string;
-}
+};
 
 export const mailboxLogin = ({
   email,

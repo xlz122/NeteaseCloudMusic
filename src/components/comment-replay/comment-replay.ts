@@ -1,7 +1,7 @@
-export interface ExpressionList {
+export type ExpressionList = {
   title: string;
   num: number;
-}
+};
 
 export const expressionList: ExpressionList[] = [
   {
