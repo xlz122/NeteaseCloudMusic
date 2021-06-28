@@ -229,7 +229,7 @@
               padding-left: 30px;
               background: url(../../../assets/image/icon-button.png) no-repeat;
               background-position: 0 -1149px;
-              font-family: simsun,\5b8b\4f53;
+              font-family: simsun, \5b8b\4f53;
             }
           }
 
@@ -259,6 +259,7 @@
 
           .collection:hover {
             background-position: right -1106px;
+
             .icon {
               background-position: 0 -1063px;
             }
@@ -460,7 +461,8 @@
     }
 
     td {
-      padding: 6px 10px;
+      padding-top: 5px;
+      padding-bottom: 8px;
       line-height: 18px;
       text-align: left;
       background-color: #fff;
@@ -471,6 +473,9 @@
     }
 
     .tbody-left {
+      padding-top: 5px;
+      padding-bottom: 8px;
+
       .hd {
         height: 18px;
 
@@ -613,8 +618,15 @@
 
     .tbody tr:hover {
       td {
-        padding: 6px 10px;
+        padding-top: 5px;
+        padding-bottom: 6px;
+        padding-right: 0;
         line-height: 18px;
+      }
+
+      .tbody-left {
+        padding-top: 5px;
+        padding-bottom: 8px;
       }
 
       .tbody-td {
@@ -627,9 +639,10 @@
 
           .operate-btn {
             visibility: visible;
-            width: 85px;
+            width: 100%;
             height: auto;
             line-height: 18px;
+            text-align: left;
 
             .icon {
               margin-right: 4px;
