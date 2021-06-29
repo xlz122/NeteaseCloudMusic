@@ -9,7 +9,7 @@
       <!-- 进度 -->
       <div class="sub">
         <div class="subbg">
-          <div :style="`width:${(25 + 81) * level * 0.835}px;`">
+          <div :style="`width:${(25 + 81) * level || 0 * 0.835}px;`">
             <span></span>
           </div>
         </div>

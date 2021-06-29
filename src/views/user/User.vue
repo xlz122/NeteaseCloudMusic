@@ -35,7 +35,7 @@ export default defineComponent({
     const list = ref<NavList[]>([
       {
         title: '我的主页',
-        link: '/user/my-home-page',
+        link: '/my-home-page',
         icon: 'homepage'
       },
       {
@@ -45,7 +45,7 @@ export default defineComponent({
       },
       {
         title: '我的等级',
-        link: '/user/level',
+        link: '/level',
         icon: 'grade'
       },
       {
@@ -73,11 +73,11 @@ export default defineComponent({
     // 详情跳转
     function jumpDetail(item: NavList): boolean | undefined {
       // 外部链接
-      if (!item.link && item.href) {
+      if (!item?.link && item?.href) {
         return false;
       }
       // 未开发
-      if (!item.link) {
+      if (!item?.link) {
         $store.commit('setMessage', {
           type: 'error',
           title: '该功能暂未开发'
@@ -86,12 +86,12 @@ export default defineComponent({
       }
 
       // 退出登录
-      if (item.link === '/logout') {
+      if (item?.link === '/logout') {
         signOut();
         return false;
       }
 
-      $router.push({ path: item.link });
+      $router.push({ path: item?.link || '/' });
 
       // 头部导航取消选中
       $store.commit('setHeaderActiveIndex', -1);
