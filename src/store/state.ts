@@ -20,7 +20,7 @@ const state: State = {
   loginDialog: false, // 登录对话框显隐
   accountInfo: faultTolerant('accountInfo') || {}, // 账户信息
   userInfo: faultTolerant('userInfo') || {}, // 用户信息
-  searchKeywordText: faultTolerant('searchKeywordText') || '', // 搜索关键字
+  searchKeywordText: localStorage.getItem('searchKeywordText') || '', // 搜索关键字
   isLogin: faultTolerant('isLogin') || false, // 是否登录
   message: faultTolerant('message') || {} // 消息提示
 };
