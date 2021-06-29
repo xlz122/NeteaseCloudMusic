@@ -2,7 +2,7 @@ import { createVNode, render } from 'vue';
 import MessageComponent from './Message.vue';
 
 const Message = {
-  install: (app: Record<string, any>) => {
+  install: (app: Record<string, any>): void => {
     // 创建虚拟dom
     const vm = createVNode(MessageComponent, {});
 

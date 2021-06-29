@@ -12,7 +12,7 @@ export function formatMixedText(content: string): string {
   }
   let contentStr = JSON.parse(JSON.stringify(content));
   const reg = /\[.+?\]/g;
-  content.replace(reg, function(item: string) {
+  content.replace(reg, function (item: string) {
     // 去重 去除重复的[]符号
     item = character(item);
     // 表情文本

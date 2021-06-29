@@ -89,12 +89,12 @@ export default defineComponent({
   components: {
     Lyric
   },
-  props: ({
+  props: {
     playListShow: {
       type: Boolean,
       default: false
     }
-  } as unknown) as undefined,
+  },
   setup(props, { emit }) {
     const $store = useStore();
 

@@ -1,10 +1,11 @@
 import axios from '@utils/axios';
+import { AxiosRequest } from '@/types/types';
 
 /**
  * @desc 获取账号信息(需登录)
  * @param { Number } timestamp - 防止接口缓存
  */
-export const userAccount = () => {
+export const userAccount = (): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime()
   };
@@ -19,7 +20,7 @@ export const userAccount = () => {
  * @desc 获取用户等级信息
  * @param { Number } timestamp - 防止接口缓存
  */
-export const userLevel = () => {
+export const userLevel = (): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime()
   };

@@ -1,11 +1,16 @@
 import axios from '@utils/axios';
+import { AxiosRequest } from '@/types/types';
 
 /**
  * @desc 获取搜索建议
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } keywords - 关键词
  */
-export const searchPropose = ({ keywords }: { keywords: string }) => {
+export const searchPropose = ({
+  keywords
+}: {
+  keywords: string;
+}): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     keywords
@@ -38,7 +43,7 @@ export const searchKeywords = ({
   offset,
   limit,
   type
-}: SearchKeywords) => {
+}: SearchKeywords): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     keywords,

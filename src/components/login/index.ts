@@ -2,7 +2,7 @@ import { createVNode, render } from 'vue';
 import LoginComponent from '@views/login/Login.vue';
 
 const Login = {
-  install: (app: Record<string, any>) => {
+  install: (app: Record<string, any>): void => {
     // 创建虚拟dom
     const vm = createVNode(LoginComponent, {});
 

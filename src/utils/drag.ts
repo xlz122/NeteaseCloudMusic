@@ -1,12 +1,16 @@
-// @ts-nocheck
 // 自定义指令 - 弹框拖拽
 export const drag = {
-  beforeMount: (el, binding, vnode) => {
+  beforeMount: (
+    el: Record<string, any>,
+    binding: Record<string, any>,
+    vnode: Record<string, any>
+  ): void => {
     vnode = vnode.el;
 
-    el.onmousedown = event => {
+    el.onmousedown = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
       // 是否顶部title部分移动
-      if (event.target.className === 'my_dialog_title') {
+      if (target.className === 'my_dialog_title') {
         // (clientX, clientY)点击位置距离当前可视区域的坐标(x，y)
         // offsetLeft, offsetTop 距离上层或父级的左边距和上边距
 

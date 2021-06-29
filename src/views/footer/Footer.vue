@@ -44,9 +44,7 @@
             <span class="line">|</span>
           </li>
           <li class="item">
-            <span class="link" @click="feedback">
-              意见反馈
-            </span>
+            <span class="link" @click="feedback"> 意见反馈 </span>
             <span class="line">|</span>
           </li>
         </ul>

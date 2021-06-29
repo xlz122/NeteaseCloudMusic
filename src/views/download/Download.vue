@@ -231,7 +231,7 @@ export default defineComponent({
     }
     // 监听点击
     onMounted(() => {
-      document.addEventListener('click', function(e: MouseEvent): void {
+      document.addEventListener('click', function (e: MouseEvent): void {
         const target = e.target as HTMLElement;
         // pc mobile下载
         if (
@@ -246,7 +246,7 @@ export default defineComponent({
     });
 
     onUnmounted(() => {
-      document.removeEventListener('click', function(): void {
+      document.removeEventListener('click', function (): void {
         console.log('download.vue 点击事件移除');
       });
     });
