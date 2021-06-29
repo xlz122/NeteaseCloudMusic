@@ -326,9 +326,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, onMounted, onUnmounted, reactive } from 'vue';
 import { useStore } from 'vuex';
-import { friendEvent, dynamicLike } from '@api/friend';
+import { friendEvent, dynamicLike, FirendEvent } from '@api/friend';
 import { LoopType, ResponseType } from '@/types/types';
 import { formatDate } from '@utils/utils';
 import { formatMixedText } from '@utils/formatMixedText';
@@ -353,23 +353,44 @@ export default defineComponent({
       );
     }
 
+    // 是否继续加载
+    const lock = ref<boolean>(true);
+    // 动态列表参数
+    const firendEventParams = reactive<FirendEvent>({
+      pagesize: 20,
+      lasttime: -1
+    });
+
     // 列表数据
     const eventList = ref<LoopType[]>([]);
     // 获取动态列表数据
     function getFriendEvent(): void {
-      friendEvent().then((res: ResponseType) => {
-        if (res.code === 200) {
-          // json字符串转为对象
-          res.event.forEach((item: LoopType) => {
-            item.json = JSON.parse(item.json);
-            // 单曲 电台，处理混合文本
-            if (item.type === 18) {
-              item.json.msg = formatMixedText(item.json.msg);
+      friendEvent({ ...firendEventParams })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            // json字符串转为对象
+            res.event.forEach((item: LoopType) => {
+              item.json = JSON.parse(item.json);
+              // 单曲 电台，处理混合文本
+              if (item.type === 18) {
+                item.json.msg = formatMixedText(item.json.msg);
+              }
+            });
+            eventList.value = eventList.value.concat(res.event);
+            // 返回条数少于每页条数，不再加载
+            if (res.event.length < firendEventParams.pagesize) {
+              lock.value = false;
+            } else {
+              // 继续加载
+              lock.value = true;
             }
-          });
-          eventList.value = res.event;
-        }
-      });
+            // 下一页所需参数
+            firendEventParams.lasttime = res.lasttime;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
     getFriendEvent();
 
@@ -394,6 +415,37 @@ export default defineComponent({
       });
     }
 
+    // 监听滚动
+    onMounted(() => {
+      document.addEventListener('scroll', function (e: Event): void {
+        const target = e.target as Record<string, any>;
+        // 总的滚动的高度
+        let scrollHeight =
+          (target ? target.documentElement.scrollHeight : false) ||
+          (target ? target.body.scrollHeight : 0);
+        // 视口高度
+        let clientHeight =
+          (target ? target.documentElement.clientHeight : false) ||
+          (target ? target.body.clientHeight : 0);
+        // 当前滚动的高度
+        let scrollTop =
+          (target ? target.documentElement.scrollTop : false) ||
+          (target ? target.body.scrollTop : 0);
+        // 距离底部高度(总的高度 - 视口高度 - 滚动高度)
+        const bottomHeight = scrollHeight - clientHeight - scrollTop;
+        // 并非第一次加载 距离底部高度 是否可请求
+        if (eventList.value.length > 0 && bottomHeight <= 400 && lock.value) {
+          lock.value = false;
+          getFriendEvent();
+        }
+      });
+    });
+
+    onUnmounted(() => {
+      document.removeEventListener('scroll', function (): void {
+        console.log('friend/Content.vue 滚动事件移除');
+      });
+    });
     return {
       formatDate,
       releaseDynamic,
