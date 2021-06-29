@@ -13,7 +13,7 @@
           <i class="sex display-overflow" v-if="profileInfo.gender === 1"></i>
           <i class="sex female display-overflow" v-else></i>
           <div class="edit-btn display-overflow">
-            <i class="wei display-overflow">编辑个人资料</i>
+            <i class="wei display-overflow edit">编辑个人资料</i>
           </div>
         </div>
         <ul class="info-2">
