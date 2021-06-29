@@ -144,7 +144,6 @@ export default defineComponent({
             // 收藏列表判断
             if (!item.subscribed) {
               songList.createSongList.push(item);
-              songList.createSongList.push(item);
             } else {
               songList.collectionSongList.push(item);
             }
