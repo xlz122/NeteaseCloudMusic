@@ -170,22 +170,19 @@ export default defineComponent({
     // 明星列表
     const starList = ref<List[]>([
       {
-        src:
-          'http://p1.music.126.net/RQT6l2Vd9mQ9bSA_9MdWBw==/109951163720144425.jpg?param=45y45',
+        src: 'http://p1.music.126.net/RQT6l2Vd9mQ9bSA_9MdWBw==/109951163720144425.jpg?param=45y45',
         name: '品冠victor',
         desc: '台湾流行歌手品冠',
         follow: false
       },
       {
-        src:
-          'http://p1.music.126.net/fBd9G5UPnAkN5GJhD27f7w==/109951164233456965.jpg?param=45y45',
+        src: 'http://p1.music.126.net/fBd9G5UPnAkN5GJhD27f7w==/109951164233456965.jpg?param=45y45',
         name: '池约翰CJohnny',
         desc: 'MIC男团成员池约翰',
         follow: false
       },
       {
-        src:
-          'http://p1.music.126.net/HiaQmvjTbEXfo8bsiPv9rQ==/109951165312873539.jpg?param=45y45',
+        src: 'http://p1.music.126.net/HiaQmvjTbEXfo8bsiPv9rQ==/109951165312873539.jpg?param=45y45',
         name: '朱云',
         desc: '北京音乐台资深DJ',
         follow: false
@@ -195,36 +192,31 @@ export default defineComponent({
     // 感兴趣的人
     const interestedList = ref<List[]>([
       {
-        src:
-          'http://p1.music.126.net/cX7kFto1nsneNwo6jA9LfQ==/18531168976478340.jpg?param=30y30',
+        src: 'http://p1.music.126.net/cX7kFto1nsneNwo6jA9LfQ==/18531168976478340.jpg?param=30y30',
         name: '倒影着稚嫩的少年QAQ',
         desc: '手机联系人：好巧',
         follow: false
       },
       {
-        src:
-          'http://p1.music.126.net/5SbSJXBSKFf7L_Etq0uNfA==/109951164928424086.jpg?param=30y30',
+        src: 'http://p1.music.126.net/5SbSJXBSKFf7L_Etq0uNfA==/109951164928424086.jpg?param=30y30',
         name: '谈情了解一下啊',
         desc: '手机联系人：好巧',
         follow: false
       },
       {
-        src:
-          'http://p1.music.126.net/KMqDxNvSaFIiZzE-crDTaA==/109951163209469519.jpg?param=30y30',
+        src: 'http://p1.music.126.net/KMqDxNvSaFIiZzE-crDTaA==/109951163209469519.jpg?param=30y30',
         name: 'Decennium青春世界',
         desc: '手机联系人：好巧',
         follow: false
       },
       {
-        src:
-          'http://p1.music.126.net/464PBoavkf5z7a5hIwvhWw==/18738976673835955.jpg?param=30y30',
+        src: 'http://p1.music.126.net/464PBoavkf5z7a5hIwvhWw==/18738976673835955.jpg?param=30y30',
         name: 'Dreads丶流年',
         desc: '手机联系人：好巧',
         follow: false
       },
       {
-        src:
-          'http://p1.music.126.net/SUeqMM8HOIpHv9Nhl9qt9w==/109951165647004069.jpg?param=30y30',
+        src: 'http://p1.music.126.net/SUeqMM8HOIpHv9Nhl9qt9w==/109951165647004069.jpg?param=30y30',
         name: 'E晓fire',
         desc: '手机联系人：好巧',
         follow: false

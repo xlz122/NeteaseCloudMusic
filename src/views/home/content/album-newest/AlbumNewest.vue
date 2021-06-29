@@ -70,7 +70,7 @@ export default defineComponent({
 
     // 上一轮
     const albumPrev = throttle(
-      function() {
+      function () {
         const li = liRef.value as HTMLElement;
         if (listOffest.index === 0) {
           // 瞬间返回二倍模板，并在短暂延迟后执行动画
@@ -96,7 +96,7 @@ export default defineComponent({
 
     // 下一轮
     const albumNext = throttle(
-      function() {
+      function () {
         const li = liRef.value as HTMLElement;
         // 瞬间返回二倍模板，并在短暂延迟后执行动画
         if (listOffest.index === 2) {

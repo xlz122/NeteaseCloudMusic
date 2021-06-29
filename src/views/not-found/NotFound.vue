@@ -1,7 +1,5 @@
 <template>
-  <div class="not-found">
-    未找到该页面，将在3秒后返回首页...
-  </div>
+  <div class="not-found">未找到该页面，将在3秒后返回首页...</div>
 </template>
 
 <script lang="ts">

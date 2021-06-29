@@ -60,8 +60,7 @@ export default defineComponent({
       },
       {
         title: '实名认证',
-        href:
-          'https://music.163.com/st/userbasic/?module=st%2Fuserbasic%2F#/nameverify',
+        href: 'https://music.163.com/st/userbasic/?module=st%2Fuserbasic%2F#/nameverify',
         icon: 'real-name'
       },
       {

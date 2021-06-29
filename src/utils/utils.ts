@@ -11,7 +11,7 @@ export function datestrToTimestamp(datestr: string): number {
  * @desc 获取当前星期几
  * @return { String } 星期几
  */
-export function getWeekDate() {
+export function getWeekDate(): string {
   const now = new Date();
   const day = now.getDay();
   const weeks = [
@@ -45,7 +45,7 @@ export function timeStampToDuration(timeStamp: number): string {
     }
   }
   // 补零
-  const zero = function(v: number) {
+  const zero = function (v: number) {
     return v >> 0 < 10 ? '0' + v : v;
   };
   const h2 = zero(h);
@@ -68,7 +68,7 @@ export function timeStampToDuration(timeStamp: number): string {
 export function formatDateTime(
   date: string | Date | number,
   fmt = 'yyyy-MM-dd hh:mm:ss'
-) {
+): string {
   if (!date) {
     return '';
   }
@@ -170,8 +170,9 @@ export function formatDate(timestamp: number): string {
       1000
   ).getTime();
   if (timestamp < threeDaysAgo) {
-    return `${date.getMonth() +
-      1}月${date.getDate()}日 ${date.getHours()}:${date.getMinutes()}`;
+    return `${
+      date.getMonth() + 1
+    }月${date.getDate()}日 ${date.getHours()}:${date.getMinutes()}`;
   }
 
   // 小于前天 23:59:59

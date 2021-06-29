@@ -297,7 +297,7 @@ export default defineComponent({
 
     // 头部播放 - 默认播放列表第一项
     const playTitleMusic = throttle(
-      function() {
+      function () {
         if (songListDetailData.value?.playlist?.tracks.length > 0) {
           const musicItem = songListDetailData.value?.playlist?.tracks[0];
           // 当前播放音乐id

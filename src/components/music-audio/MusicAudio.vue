@@ -173,7 +173,7 @@ export default defineComponent({
 
     // 上一首
     const prevPlayMusic = throttle(
-      function() {
+      function () {
         getPrevMusicId().then(() => {
           // 开始播放
           $store.commit('music/setMusicPlayStatus', {
@@ -192,7 +192,7 @@ export default defineComponent({
 
     // 下一首
     const nextPlayMusic = throttle(
-      function() {
+      function () {
         getNextMusicId().then(() => {
           // 开始播放
           $store.commit('music/setMusicPlayStatus', {

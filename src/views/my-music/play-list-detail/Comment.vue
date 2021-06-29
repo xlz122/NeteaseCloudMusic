@@ -206,12 +206,12 @@ export default defineComponent({
     MyDialog,
     CommentReplay
   },
-  props: ({
+  props: {
     songListDetailData: {
       type: Object,
-      default: {}
+      default: () => ({})
     }
-  } as unknown) as undefined,
+  },
   setup(props: { songListDetailData: ResponseType }) {
     const $store = useStore();
 
