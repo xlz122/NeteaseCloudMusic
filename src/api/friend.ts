@@ -4,9 +4,24 @@ import { AxiosRequest } from '@/types/types';
 /**
  * @desc 获取朋友动态
  * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } pagesize - 每页数据,默认20
+ * @param { Number } lasttime - 返回数据的 lasttime ,默认-1,传入上一次返回结果的 lasttime,将会返回下一页的数据
  */
-export const friendEvent = (): AxiosRequest => {
-  const params = { timestamp: new Date().getTime() };
+
+export type FirendEvent = {
+  pagesize: number;
+  lasttime: number;
+};
+
+export const friendEvent = ({
+  pagesize,
+  lasttime
+}: FirendEvent): AxiosRequest => {
+  const params = {
+    timestamp: new Date().getTime(),
+    pagesize,
+    lasttime
+  };
   return axios.request({
     url: '/event',
     method: 'get',

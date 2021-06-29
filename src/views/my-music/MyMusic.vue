@@ -31,6 +31,7 @@ import MyMv from '@views/my-music/my-mv/MyMv.vue';
 import PlayListDetail from '@views/my-music/play-list-detail/PlayListDetail.vue';
 
 export default defineComponent({
+  name: 'my-music',
   components: {
     OptionList,
     SubPlayList,

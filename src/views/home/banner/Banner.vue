@@ -9,12 +9,15 @@
       <!-- 两侧按钮及图片 -->
       <div class="banner-content">
         <div class="banner-img">
-          <img
-            class="img"
-            :class="{ 'switching-img': bannerImgSwitching }"
-            :src="banner.currentUrl"
-            alt=""
-          />
+          <template v-for="(item, index) in banner.list" :key="index">
+            <img
+              class="img"
+              :class="{ 'switching-img': bannerImgSwitching }"
+              v-show="item.imageUrl === banner.currentUrl"
+              :src="item.imageUrl"
+              alt=""
+            />
+          </template>
         </div>
         <button
           class="banner-btn banner-left-btn"

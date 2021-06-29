@@ -209,6 +209,7 @@
 import { defineComponent, ref, onMounted, onUnmounted } from 'vue';
 
 export default defineComponent({
+  name: 'download',
   setup() {
     // 其他操作系统
     const otherDownloadModal = ref<boolean>(false);

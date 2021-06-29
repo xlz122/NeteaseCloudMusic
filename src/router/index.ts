@@ -8,6 +8,9 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/',
         name: 'home',
+        meta: {
+          keepAlive: true
+        },
         component: () => import('../views/home/Home.vue')
       },
       {
@@ -27,6 +30,9 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/download',
         name: 'download',
+        meta: {
+          keepAlive: true
+        },
         component: () =>
           import(
             /* webpackChunkName: "download" */ '../views/download/Download.vue'

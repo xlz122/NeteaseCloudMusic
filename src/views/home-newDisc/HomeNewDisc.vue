@@ -56,7 +56,8 @@
       </ul>
       <!-- 参数从0开始，分页需从1开始 -->
       <Page
-        :page="newDiscFormData.offset + 1"
+        v-if="pageTotal > newDiscFormData.limit"
+        :page="newDiscFormData.offset"
         :pageSize="newDiscFormData.limit"
         :total="pageTotal"
         @changPage="changPage"
@@ -109,14 +110,18 @@ export default defineComponent({
 
     const pageTotal = ref<number>(0);
     const newDiscFormData = reactive<NweDiscAlbum>({
-      offset: 0, // 页数
+      offset: 1, // 页数
       limit: 35, // 条数
       area: 'ALL' // 类型
     });
     const newDiscAlbumList = ref<unknown[]>([]);
     // 全部新碟
     function getNweDiscAlbum(): void {
-      nweDiscAlbum({ ...newDiscFormData })
+      nweDiscAlbum({
+        offset: newDiscFormData.offset - 1,
+        limit: newDiscFormData.limit,
+        area: newDiscFormData.area
+      })
         .then((res: ResponseType) => {
           if (res.code === 200) {
             pageTotal.value = res.total;

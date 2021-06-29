@@ -76,13 +76,20 @@ export function formatDateTime(
     date = new Date(date * 1000);
   }
   const o = {
-    'M+': (date as Date).getMonth() + 1, // 月份
-    'd+': (date as Date).getDate(), // 日
-    'h+': (date as Date).getHours(), // 小时
-    'm+': (date as Date).getMinutes(), // 分
-    's+': (date as Date).getSeconds(), // 秒
-    'q+': Math.floor(((date as Date).getMonth() + 3) / 3), // 季度
-    S: (date as Date).getMilliseconds() // 毫秒
+    // 月份
+    'M+': (date as Date).getMonth() + 1,
+    // 日
+    'd+': (date as Date).getDate(),
+    // 小时
+    'h+': (date as Date).getHours(),
+    // 分
+    'm+': (date as Date).getMinutes(),
+    // 秒
+    's+': (date as Date).getSeconds(),
+    // 季度
+    'q+': Math.floor(((date as Date).getMonth() + 3) / 3),
+    // 毫秒
+    S: (date as Date).getMilliseconds()
   };
   if (/(y+)/.test(fmt)) {
     fmt = fmt
@@ -232,4 +239,28 @@ export function bigNumberTransform(value: number): number | string {
     return (newValue / 10000).toFixed(0) + '万';
   }
   return newValue;
+}
+
+/**
+ * @description 获取滚动条距离页面底部的高度
+ * @param { MouseEvent } event 滚动条事件对象
+ */
+export function getPageBottomHeight(e: Event): number {
+  const target = e.target as Record<string, any>;
+  // 总的滚动的高度
+  const scrollHeight =
+    (target ? target.documentElement.scrollHeight : false) ||
+    (target ? target.body.scrollHeight : 0);
+  // 视口高度
+  const clientHeight =
+    (target ? target.documentElement.clientHeight : false) ||
+    (target ? target.body.clientHeight : 0);
+  // 当前滚动的高度
+  const scrollTop =
+    (target ? target.documentElement.scrollTop : false) ||
+    (target ? target.body.scrollTop : 0);
+  // 距离底部高度(总的高度 - 视口高度 - 滚动高度)
+  const bottomHeight = scrollHeight - clientHeight - scrollTop;
+
+  return bottomHeight;
 }

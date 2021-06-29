@@ -9,8 +9,6 @@ module.exports = {
   trailingComma: 'none',
   // 箭头函数参数括号
   arrowParens: 'avoid',
-  // 在jsx中把'>' 是否单独放一行
-  jsxBracketSameLine: false,
   // 使用默认的折行标准
   proseWrap: 'preserve',
   // 根据显示样式决定 html 要不要折行
