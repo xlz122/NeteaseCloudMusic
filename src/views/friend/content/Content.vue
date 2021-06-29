@@ -368,7 +368,6 @@ export default defineComponent({
             }
           });
           eventList.value = res.event;
-          console.log(eventList.value);
         }
       });
     }

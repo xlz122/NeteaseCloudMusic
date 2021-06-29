@@ -1,10 +1,11 @@
 import axios from '@utils/axios';
+import { AxiosRequest } from '@/types/types';
 
 /**
  * @desc 获取用户歌单，收藏，mv, dj 数量
  * @param { Number } timestamp - 防止接口缓存
  */
-export const userSubcount = () => {
+export const userSubcount = (): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime()
   };
@@ -19,7 +20,7 @@ export const userSubcount = () => {
  * @desc 获取我的歌手列表
  * @param { Number } timestamp - 防止接口缓存
  */
-export const subPlayList = () => {
+export const subPlayList = (): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime()
   };
@@ -34,7 +35,7 @@ export const subPlayList = () => {
  * @desc 获取我的视频列表
  * @param { Number } timestamp - 防止接口缓存
  */
-export const myMvSbulist = () => {
+export const myMvSbulist = (): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime()
   };
@@ -50,7 +51,7 @@ export const myMvSbulist = () => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } uid - 账号id
  */
-export const userPlayList = ({ uid }: { uid: number }) => {
+export const userPlayList = ({ uid }: { uid: number }): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     uid
@@ -67,7 +68,7 @@ export const userPlayList = ({ uid }: { uid: number }) => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } name - 歌单名称
  */
-export const addPlayList = ({ name }: { name: string }) => {
+export const addPlayList = ({ name }: { name: string }): AxiosRequest => {
   const data = {
     timestamp: new Date().getTime(),
     name
@@ -84,7 +85,7 @@ export const addPlayList = ({ name }: { name: string }) => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单id
  */
-export const deletePlayList = ({ id }: { id: number }) => {
+export const deletePlayList = ({ id }: { id: number }): AxiosRequest => {
   const data = {
     timestamp: new Date().getTime(),
     id
@@ -101,7 +102,7 @@ export const deletePlayList = ({ id }: { id: number }) => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单id
  */
-export const playListDetail = ({ id }: { id: number }) => {
+export const playListDetail = ({ id }: { id: number }): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     id
@@ -126,7 +127,7 @@ type DeleteMusic = {
   tracks: number | string;
 };
 
-export const deleteMusic = ({ pid, tracks }: DeleteMusic) => {
+export const deleteMusic = ({ pid, tracks }: DeleteMusic): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     op: 'del',
@@ -152,7 +153,10 @@ type CommentPlayList = {
   limit?: number;
 };
 
-export const commentPlayList = ({ id, limit }: CommentPlayList) => {
+export const commentPlayList = ({
+  id,
+  limit
+}: CommentPlayList): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -177,7 +181,10 @@ type AddComment = {
   content: string;
 };
 
-export const addSongSheetComment = ({ id, content }: AddComment) => {
+export const addSongSheetComment = ({
+  id,
+  content
+}: AddComment): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     t: 1, // t 1为新增评论
@@ -212,7 +219,7 @@ export const replySongSheetComment = ({
   id,
   content,
   commentId
-}: ReplyComment) => {
+}: ReplyComment): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     t: 2, // t 1为回复评论
@@ -242,7 +249,10 @@ type DeleteComment = {
   commentId: number;
 };
 
-export const deleteSongSheetComment = ({ id, commentId }: DeleteComment) => {
+export const deleteSongSheetComment = ({
+  id,
+  commentId
+}: DeleteComment): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     t: 0, // t 0为删除
@@ -273,7 +283,7 @@ type SongSheetLike = {
   t: number;
 };
 
-export const songSheetLike = ({ id, cid, t }: SongSheetLike) => {
+export const songSheetLike = ({ id, cid, t }: SongSheetLike): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     tpye: 2, // type 2为歌单
@@ -302,7 +312,7 @@ type GetPlayMusicUrl = {
   br?: number | string;
 };
 
-export const getPlayMusicUrl = ({ id, br }: GetPlayMusicUrl) => {
+export const getPlayMusicUrl = ({ id, br }: GetPlayMusicUrl): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -320,7 +330,7 @@ type GetLyric = {
 };
 
 // 获取歌词
-export const getLyric = ({ id }: GetLyric) => {
+export const getLyric = ({ id }: GetLyric): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     id

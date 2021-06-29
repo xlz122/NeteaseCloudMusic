@@ -1,11 +1,12 @@
 import axios from '@utils/axios';
+import { AxiosRequest } from '@/types/types';
 
 /**
  * @desc 获取 banner( 轮播图 )
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type - 资源类型，0为pc
  */
-export const bannerImgUrl = () => {
+export const bannerImgUrl = (): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     type: 0
@@ -22,7 +23,11 @@ export const bannerImgUrl = () => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } limit - 条数，可选
  */
-export const recommendSongList = ({ limit }: { limit?: number }) => {
+export const recommendSongList = ({
+  limit
+}: {
+  limit?: number;
+}): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     limit
@@ -38,7 +43,7 @@ export const recommendSongList = ({ limit }: { limit?: number }) => {
  * @desc 获取热门推荐 - 推荐电台
  * @param { Number } timestamp - 防止接口缓存
  */
-export const recommendDjprogram = () => {
+export const recommendDjprogram = (): AxiosRequest => {
   const params = { timestamp: new Date().getTime() };
   return axios.request({
     url: '/personalized/djprogram',
@@ -51,7 +56,7 @@ export const recommendDjprogram = () => {
  * @desc 获取个性化推荐
  * @param { Number } timestamp - 防止接口缓存
  */
-export const recommendResource = () => {
+export const recommendResource = (): AxiosRequest => {
   const params = { timestamp: new Date().getTime() };
   return axios.request({
     url: '/recommend/resource',
@@ -64,7 +69,7 @@ export const recommendResource = () => {
  * @desc 获取新碟上架
  * @param { Number } timestamp - 防止接口缓存
  */
-export const albumNewest = () => {
+export const albumNewest = (): AxiosRequest => {
   const params = { timestamp: new Date().getTime() };
   return axios.request({
     url: '/album/newest',
@@ -77,7 +82,7 @@ export const albumNewest = () => {
  * @desc 获取用户动态
  * @param { Number } timestamp - 防止接口缓存
  */
-export const userEvent = () => {
+export const userEvent = (): AxiosRequest => {
   const params = { timestamp: new Date().getTime() };
   return axios.request({
     url: '/user/event',
@@ -90,7 +95,7 @@ export const userEvent = () => {
  * @desc 获取用户关注列表
  * @param { Number } timestamp - 防止接口缓存
  */
-export const userFollows = () => {
+export const userFollows = (): AxiosRequest => {
   const params = { timestamp: new Date().getTime() };
   return axios.request({
     url: '/user/follows',
@@ -103,7 +108,7 @@ export const userFollows = () => {
  * @desc 获取用户粉丝列表
  * @param { Number } timestamp - 防止接口缓存
  */
-export const userFolloweds = () => {
+export const userFolloweds = (): AxiosRequest => {
   const params = { timestamp: new Date().getTime() };
   return axios.request({
     url: '/user/followeds',
@@ -117,7 +122,7 @@ export const userFolloweds = () => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type - 签到类型 , 默认 0, 其中 0 为安卓端签到 ,1 为 web/PC 签到
  */
-export const dailySignin = () => {
+export const dailySignin = (): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     type: 1
@@ -134,7 +139,7 @@ export const dailySignin = () => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 飙升榜id
  */
-export const soaringList = () => {
+export const soaringList = (): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     id: 19723756
@@ -151,7 +156,7 @@ export const soaringList = () => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 新歌榜id
  */
-export const newSongs = () => {
+export const newSongs = (): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     id: 3779629
@@ -168,7 +173,7 @@ export const newSongs = () => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 飙升榜id
  */
-export const originalList = () => {
+export const originalList = (): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     id: 2884035
