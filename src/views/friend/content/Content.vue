@@ -377,15 +377,15 @@ export default defineComponent({
               }
             });
             eventList.value = eventList.value.concat(res.event);
+            // 下一页所需参数
+            firendEventParams.lasttime = res.lasttime;
             // 返回条数少于每页条数，不再加载
             if (res.event.length < firendEventParams.pagesize) {
               lock.value = false;
-            } else {
-              // 继续加载
-              lock.value = true;
+              return false;
             }
-            // 下一页所需参数
-            firendEventParams.lasttime = res.lasttime;
+            // 继续加载
+            lock.value = true;
           }
         })
         .catch(err => {
