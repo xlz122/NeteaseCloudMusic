@@ -1,10 +1,11 @@
 import axios from '@utils/axios';
+import { AxiosRequest } from '@/types/types';
 
 /**
  * @desc 获取朋友动态
  * @param { Number } timestamp - 防止接口缓存
  */
-export const friendEvent = () => {
+export const friendEvent = (): AxiosRequest => {
   const params = { timestamp: new Date().getTime() };
   return axios.request({
     url: '/event',
@@ -26,7 +27,11 @@ type DynamicLike = {
   t: number;
 };
 
-export const dynamicLike = ({ cid, threadId, t }: DynamicLike) => {
+export const dynamicLike = ({
+  cid,
+  threadId,
+  t
+}: DynamicLike): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     tpye: 6, // type 6为动态
