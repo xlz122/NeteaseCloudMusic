@@ -16,12 +16,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineAsyncComponent, defineComponent } from 'vue';
 import Banner from './banner/Banner.vue';
-import HomeContent from './content/Content.vue';
-import HomeSide from './side/Side.vue';
+const HomeContent = defineAsyncComponent(() => import('./content/Content.vue'));
+const HomeSide = defineAsyncComponent(() => import('./side/Side.vue'));
 
 export default defineComponent({
+  name: 'home',
   components: {
     Banner,
     HomeContent,
