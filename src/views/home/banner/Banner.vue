@@ -76,14 +76,11 @@ export default defineComponent({
       bannerImgUrl().then((res: ResponseType) => {
         if (res.code === 200) {
           if (res.banners.length > 0) {
-            banner.list.push(res.banners[0]);
-            console.log(res.banners[0]);
+            banner.list = res.banners;
+            console.log(banner);
             banner.currentUrl = res.banners[0].imageUrl;
             // 自动轮播
             // autoBanner();
-            setTimeout(() => {
-              banner.list = res.banners;
-            }, 3000);
           }
         }
       });
