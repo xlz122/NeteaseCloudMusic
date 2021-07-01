@@ -29,6 +29,7 @@ import FriendContent from './content/Content.vue';
 import Side from './side/Side.vue';
 
 export default defineComponent({
+  name: 'firend',
   components: {
     FriendContent,
     Side

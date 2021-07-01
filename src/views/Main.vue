@@ -2,7 +2,7 @@
   <div class="home">
     <Header />
     <router-view v-slot="{ Component }">
-      <keep-alive :include="['home']">
+      <keep-alive :include="['download']">
         <component :is="Component" v-if="$route.meta.keepAlive" />
       </keep-alive>
     </router-view>
