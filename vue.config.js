@@ -159,12 +159,13 @@ module.exports = {
       }
       return args;
     });
-    // 图片打包成base64配置,limit为8k
+    // 图片打包成base64配置,limit: 10240为10k
     config.module
       .rule('images')
+      .test(/\.(jpg|png|gif|svg)$/)
       .use('url-loader')
       .loader('url-loader')
-      .tap(options => Object.assign(options, { limit: 8000 }));
+      .tap(options => Object.assign(options, { limit: 10240 }));
     // 移除 prefetch 插件
     config.plugins.delete('prefetch');
     // 移除 preload 插件
