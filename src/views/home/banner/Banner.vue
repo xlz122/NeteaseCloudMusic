@@ -9,12 +9,15 @@
       <!-- 两侧按钮及图片 -->
       <div class="banner-content">
         <div class="banner-img">
-          <img
-            class="img"
-            :class="{ 'switching-img': bannerImgSwitching }"
-            :src="banner.currentUrl"
-            alt=""
-          />
+          <template v-for="(item, index) in banner.list" :key="index">
+            <img
+              class="img"
+              :class="{ 'switching-img': bannerImgSwitching }"
+              v-show="item.imageUrl === banner.currentUrl"
+              :src="item.imageUrl"
+              alt=""
+            />
+          </template>
         </div>
         <button
           class="banner-btn banner-left-btn"
@@ -73,10 +76,14 @@ export default defineComponent({
       bannerImgUrl().then((res: ResponseType) => {
         if (res.code === 200) {
           if (res.banners.length > 0) {
-            banner.list = res.banners;
+            banner.list.push(res.banners[0]);
+            console.log(res.banners[0]);
             banner.currentUrl = res.banners[0].imageUrl;
             // 自动轮播
-            autoBanner();
+            // autoBanner();
+            setTimeout(() => {
+              banner.list = res.banners;
+            }, 3000);
           }
         }
       });
@@ -160,27 +167,27 @@ export default defineComponent({
       if (banner.list.length === 0) {
         return false;
       }
-      if (bannerTimer.value) {
-        // 清除定时器
-        clearInterval(bannerTimer.value as number);
-      }
-      bannerTimer.value = setInterval(() => {
-        // 图片切换增加动画，1s后清除动画并显示下一张图片
-        bannerImgSwitching.value = true;
-        if (banner.index === banner.list.length - 1) {
-          banner.index = 0;
-        } else {
-          banner.index++;
-        }
-        setTimeout(() => {
-          bannerImgSwitching.value = false;
-          banner.currentUrl = (
-            banner.list[banner.index] as {
-              imageUrl: string;
-            }
-          ).imageUrl;
-        }, 1000);
-      }, 4000);
+      // if (bannerTimer.value) {
+      //   // 清除定时器
+      //   clearInterval(bannerTimer.value as number);
+      // }
+      // bannerTimer.value = setInterval(() => {
+      //   // 图片切换增加动画，1s后清除动画并显示下一张图片
+      //   bannerImgSwitching.value = true;
+      //   if (banner.index === banner.list.length - 1) {
+      //     banner.index = 0;
+      //   } else {
+      //     banner.index++;
+      //   }
+      //   setTimeout(() => {
+      //     bannerImgSwitching.value = false;
+      //     banner.currentUrl = (
+      //       banner.list[banner.index] as {
+      //         imageUrl: string;
+      //       }
+      //     ).imageUrl;
+      //   }, 1000);
+      // }, 4000);
     }
 
     // 轮播区域鼠标移入
