@@ -1,7 +1,7 @@
 const path = require('path');
 
+// 设置文件路径别名
 function resolve(dir) {
-  // 设置文件路径别名方法
   return path.join(__dirname, dir);
 }
 
@@ -11,10 +11,9 @@ const externals = {
   'vue-router': 'VueRouter',
   'vuex': 'Vuex',
   'axios': 'axios',
-  'lodash': '_',
-  // 'echarts': 'echarts'
+  'lodash': '_'
 };
-// 使用cdn引入
+// 使用cdn引入的文件
 const cdn = {
   css: [],
   js: [
@@ -22,29 +21,32 @@ const cdn = {
     'https://lib.baomitu.com/vue-router/4.0.10/vue-router.global.min.js',
     'https://lib.baomitu.com/vuex/4.0.2/vuex.global.min.js',
     'https://lib.baomitu.com/axios/0.21.1/axios.min.js',
-    'https://lib.baomitu.com/lodash.js/4.17.21/lodash.min.js',
+    'https://lib.baomitu.com/lodash.js/4.17.21/lodash.min.js'
   ],
 };
 
-// gzip压缩（需要安装插件）
-// npm install compression-webpack-plugin --save-dev
-// yarn add compression-webpack-plugin --save-dev
+// gzip压缩
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
-// 可加入需要的其他文件类型，比如json
 // 图片一般不要压缩，体积会比原来还大
 const productionGzipExtensions = ['js', 'css', 'json'];
 
 module.exports = {
-  //如果使用了history.pushState pages的路由时； 选项构建多页面应用时；
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
-  outputDir: 'dist', // 打包(build)生成文件目录 默认dist
-  assetsDir: '', // 默认不写或空，css js img文件夹都将放置在根目录下，所有的静态文件放置路径
-  indexPath: 'index.html', // 指定打包生成的index.html放置的路径 例：xlz/index.html，index.html将被放置在dist/xlz/index.html
-  lintOnSave: true, // 是否开启eslint保存检测，有效值：ture | false | 'error'
-  productionSourceMap: false, // 设置为true的时候,打包完成后生成一些js.map文件,如果有报错,可以精确的输出哪一个文件、哪一行报错
+  // 打包生成文件目录，默认dist
+  outputDir: 'dist',
+  // 静态资源放置路径，默认为空，css/js/img文件夹都将放置在根目录下
+  assetsDir: '',
+  // 打包生成的index.html放置的路径 例：xlz/index.html，index.html将被放置在dist/xlz/index.html
+  indexPath: 'index.html',
+  // 是否开启eslint检测，有效值：ture | false | 'error'
+  lintOnSave: true,
+  // 设置为true的时候,打包完成后生成一些js.map文件,如果有报错,可以精确的输出哪一个文件、哪一行报错
+  productionSourceMap: false,
   css: {
-    sourceMap: false, // 设置为true的时候 打包完成后会生成一些css.map文件,如果有报错,可以精确的输出哪一个文件、哪一行报错
-    requireModuleExtension: false, // 是否开启样式模块 <style module></style>
+    // 设置为true的时候 打包完成后会生成一些css.map文件,如果有报错,可以精确的输出哪一个文件、哪一行报错
+    sourceMap: false,
+    // 是否开启样式模块 <style module></style>
+    requireModuleExtension: false,
     // 共享的全局变量
     loaderOptions: {
       // 给 less-loader 传递选项
@@ -61,17 +63,20 @@ module.exports = {
     },
   },
   devServer: {
-    open: false, // 启动后是否自动打开浏览器
-    port: 8018, // 启动服务端口号
-    // index: '',   //启动项目后，默认进入的页面地址
+    // 启动后是否自动打开浏览器
+    open: false,
+    // 启动服务端口号
+    port: 8018,
+    //启动项目后，默认进入的页面地址
+    // index: '',
     proxy: {
-      // 使用对象的方式设置多个代理
       api: {
-        target: 'http://n.xlz122.cn/api', // 线上地址
-        ws: true, // 允许跨域
+        target: 'http://n.xlz122.cn/api',
+        // 允许跨域
+        ws: true,
         changeOrigin: true,
         pathRewrite: {
-          '^/api': '/' // 替换target中的请求地址 请求地址直接使用 /api/login 的形式
+          '^/api': '/'
         }
       }
     }
@@ -95,8 +100,10 @@ module.exports = {
             test: new RegExp(
               '\\.(' + productionGzipExtensions.join('|') + ')$'
             ),
-            threshold: 10240, //对超过10k的数据进行压缩
-            minRatio: 0.6 // 压缩比例，值为0 ~ 1
+            //对超过10k的数据进行压缩
+            threshold: 10240,
+            // 压缩比例，值为0 ~ 1
+            minRatio: 0.6
           })
         ]
       };
@@ -114,19 +121,9 @@ module.exports = {
     //         test: /[\\/]node_modules[\\/]vue[\\/]/,
     //         priority: -10
     //       },
-    //       vuex: {
-    //         name: 'vuex',
-    //         test: /[\\/]node_modules[\\/]vuex[\\/]/,
-    //         priority: -10
-    //       },
     //       'vue-router': {
     //         name: 'vue-router',
     //         test: /[\\/]node_modules[\\/]vue-router[\\/]/,
-    //         priority: -10
-    //       },
-    //       'element-ui': {
-    //         name: 'element-ui',
-    //         test: /[\\/]node_modules[\\/]element-ui[\\/]/,
     //         priority: -10
     //       },
     //       'vendors': {

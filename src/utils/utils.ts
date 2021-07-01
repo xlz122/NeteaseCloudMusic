@@ -76,13 +76,20 @@ export function formatDateTime(
     date = new Date(date * 1000);
   }
   const o = {
-    'M+': (date as Date).getMonth() + 1, // 月份
-    'd+': (date as Date).getDate(), // 日
-    'h+': (date as Date).getHours(), // 小时
-    'm+': (date as Date).getMinutes(), // 分
-    's+': (date as Date).getSeconds(), // 秒
-    'q+': Math.floor(((date as Date).getMonth() + 3) / 3), // 季度
-    S: (date as Date).getMilliseconds() // 毫秒
+    // 月份
+    'M+': (date as Date).getMonth() + 1,
+    // 日
+    'd+': (date as Date).getDate(),
+    // 小时
+    'h+': (date as Date).getHours(),
+    // 分
+    'm+': (date as Date).getMinutes(),
+    // 秒
+    's+': (date as Date).getSeconds(),
+    // 季度
+    'q+': Math.floor(((date as Date).getMonth() + 3) / 3),
+    // 毫秒
+    S: (date as Date).getMilliseconds()
   };
   if (/(y+)/.test(fmt)) {
     fmt = fmt

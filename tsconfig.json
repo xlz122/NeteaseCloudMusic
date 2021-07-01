@@ -8,13 +8,15 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "suppressImplicitAnyIndexErrors":true, // 关闭 key[value] 报错
+    // 关闭 key[value] 报错
+    "suppressImplicitAnyIndexErrors":true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
     "types": [
       "webpack-env"
     ],
+    // 别名检测
     "paths": {
       "@/*": ["src/*"],
       "@api/*": ["src/api/*"],
