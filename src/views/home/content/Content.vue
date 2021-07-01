@@ -131,12 +131,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
+import {
+  defineAsyncComponent,
+  defineComponent,
+  ref,
+  computed,
+  watch
+} from 'vue';
 import { useStore } from 'vuex';
 // 新碟上架
-import AlbumNewest from './album-newest/AlbumNewest.vue';
+const AlbumNewest = defineAsyncComponent(
+  () => import('./album-newest/AlbumNewest.vue')
+);
 // 榜单
-import SongList from './song-list/SongList.vue';
+const SongList = defineAsyncComponent(() => import('./song-list/SongList.vue'));
 import {
   recommendSongList,
   recommendDjprogram,
