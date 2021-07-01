@@ -8,6 +8,9 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/',
         name: 'home',
+        meta: {
+          keepAlive: true
+        },
         component: () => import('../views/home/Home.vue')
       },
       {
