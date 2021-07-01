@@ -11,7 +11,7 @@ const externals = {
   'vue-router': 'VueRouter',
   'vuex': 'Vuex',
   'axios': 'axios',
-  'lodash':'_',
+  'lodash': '_',
   // 'echarts': 'echarts'
 };
 // 使用cdn引入
@@ -150,17 +150,21 @@ module.exports = {
       .set('@types', resolve('src/types'))
       .set('@utils', resolve('src/utils'))
       .set('@views', resolve('src/views'));
-    // 配置cdn引入
+    // 配置index.html title 、cdn引入
     config.plugin('html').tap(args => {
-      // 配置index.html title
       args[0].title = '网易云音乐';
 
-      // 配置cdn
       if (process.env.NODE_ENV === 'production') {
         args[0].cdn = cdn;
       }
       return args;
     });
+    // 图片打包成base64配置,limit为8k
+    config.module
+      .rule('images')
+      .use('url-loader')
+      .loader('url-loader')
+      .tap(options => Object.assign(options, { limit: 8000 }));
     // 移除 prefetch 插件
     config.plugins.delete('prefetch');
     // 移除 preload 插件
