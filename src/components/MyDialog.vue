@@ -83,53 +83,6 @@ export default defineComponent({
 });
 </script>
 
-<!--/* eslint-disable */
-import { useContext, defineProps, defineEmit, watch } from 'vue';
-import { drag } from '@utils/drag.ts';
-
-defineProps({
-  visible: {
-    type: Boolean,
-    default: false
-  },
-  title: {
-    type: String,
-    default: '提示'
-  },
-  confirmtext: {
-    type: String,
-    default: '确定'
-  },
-  canceltext: {
-    type: String,
-    default: '取消'
-  },
-  showConfirmButton: {
-    type: Boolean,
-    default: false
-  },
-  showCancelButton: {
-    type: Boolean,
-    default: false
-  } 
-});
-
-defineEmit(['cancel', 'confirm']);
-
-const { emit } = useContext();
-
-// 关闭
-function cancel(): void {
-  emit('cancel');
-}
-
-// 确认
-function confirm(): void {
-  emit('confirm');
-}
-</script>
--->
-
 <style lang="less" scoped>
 .my_dialog {
   position: fixed;

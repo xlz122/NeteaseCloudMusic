@@ -91,51 +91,6 @@ export default defineComponent({
 });
 </script>
 
-<!-- // /* eslint-disable */
-// import { useContext, defineProps, defineEmit, watch } from 'vue';
-// import MyDialog from '@/components/MyDialog.vue';
-
-// const props = defineProps({
-//   dialogeData: {
-//     type: Object,
-//     default: {
-//       visible: false,
-//       type: 'add',
-//       title: '提示',
-//       confirmtext: '确定',
-//       name: '', // 歌单名称
-//       id: 0 // 歌单id
-//     }
-//   },
-// });
-
-// const { dialogeData } = props;
-
-// defineEmit(['dialogConfirm']);
-
-// const { emit } = useContext();
-
-// // 对话框 - 确定
-// function dialogConfirm(): void {
-//   const params: { type: string; name: string } = {
-//     type: 'add',
-//     name: dialogeData.name
-//   };
-//   if (dialogeData.type === 'add') {
-//     params.type = 'add';
-//   } else {
-//     params.type = 'delete';
-//   }
-//   emit('dialogConfirm', params);
-//   dialogeData.visible = false;
-// }
-
-// // 对话框 - 取消
-// function dialogCancel(): void {
-//   dialogeData.visible = false;
-// }
-// </script>-->
-
 <style lang="less" scoped>
 ::v-deep(.my-dialog) {
   .my_dialog_box {

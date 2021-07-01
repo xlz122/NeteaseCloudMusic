@@ -35,7 +35,6 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable */
 import { defineComponent, reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 import ToggleList from './ToggleList.vue';
@@ -48,12 +47,16 @@ export default defineComponent({
   },
   setup() {
     const $store = useStore();
-    
+
     // 详情页面显示
-    const musicDetailOptions = computed(() => $store.getters['music/musicDetailOptions']);
+    const musicDetailOptions = computed(
+      () => $store.getters['music/musicDetailOptions']
+    );
 
     // 侧边歌单列表选中项id
-    const activeSongListId = computed(() => $store.getters['music/activeSongListId']);
+    const activeSongListId = computed(
+      () => $store.getters['music/activeSongListId']
+    );
 
     const optionsCount = reactive<OptionsCount>({
       subPlayListCount: 0, // 我的视频数量
@@ -103,7 +106,9 @@ export default defineComponent({
           });
 
           // 初始化获取详情，列表id获取对应详情，不存在获取我喜欢的音乐详情
-          const musicDetail = JSON.parse(JSON.stringify(musicDetailOptions.value));
+          const musicDetail = JSON.parse(
+            JSON.stringify(musicDetailOptions.value)
+          );
           for (const value in musicDetail) {
             musicDetail[value] = false;
           }
@@ -156,7 +161,7 @@ export default defineComponent({
       }
       musicDetail.playListDetail = true;
       $store.commit('music/setMusicDetailOptions', musicDetail);
-      
+
       // 获取歌单详情
       if (id !== activeSongListId.value) {
         getSongListDetail(id);
@@ -171,7 +176,9 @@ export default defineComponent({
       // 收藏的歌单被全部删除
       if (id === 0) {
         // 选中我喜欢的音乐
-        const createSongList = JSON.parse(JSON.stringify(songList.createSongList));
+        const createSongList = JSON.parse(
+          JSON.stringify(songList.createSongList)
+        );
         createListClick(createSongList[0].id);
         // 隐藏收藏的歌单
         optionsCount.collectionPlayCount = 0;
@@ -183,7 +190,7 @@ export default defineComponent({
       }
       musicDetail.playListDetail = true;
       $store.commit('music/setMusicDetailOptions', musicDetail);
-      
+
       // 获取歌单详情
       if (id !== activeSongListId.value) {
         getSongListDetail(id);

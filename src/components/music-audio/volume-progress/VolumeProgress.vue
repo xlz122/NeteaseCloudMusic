@@ -11,7 +11,6 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable */
 import {
   defineComponent,
   ref,
@@ -44,7 +43,9 @@ export default defineComponent({
       // 设置滑块的top
       const progressHeight = (progressRef.value as HTMLElement).offsetHeight;
       const progressIcon = progressIconRef.value as HTMLElement;
-      let iconTop = ((1 - musicVolume.value) * progressHeight) - (progressIcon.offsetHeight / 2);
+      let iconTop =
+        (1 - musicVolume.value) * progressHeight -
+        progressIcon.offsetHeight / 2;
       // 底部
       if (iconTop >= progressHeight - progressIcon.offsetHeight) {
         iconTop = progressHeight - progressIcon.offsetHeight;
@@ -63,7 +64,10 @@ export default defineComponent({
     watch(
       () => volumePer.value,
       (curVal: number) => {
-        $store.commit('music/setMusicVolume', Number((curVal / 100).toFixed(2)));
+        $store.commit(
+          'music/setMusicVolume',
+          Number((curVal / 100).toFixed(2))
+        );
       }
     );
 
@@ -75,8 +79,8 @@ export default defineComponent({
         return false;
       }
       const progressHeight = (progressRef.value as HTMLElement).offsetHeight;
-      const iconOffsetHeight =
-        (progressIconRef.value as HTMLElement).offsetHeight;
+      const iconOffsetHeight = (progressIconRef.value as HTMLElement)
+        .offsetHeight;
       // 设置当前高度
       const currentProgress = currentProgressRef.value as HTMLElement;
       currentProgress.style.height =
@@ -105,7 +109,8 @@ export default defineComponent({
         // 获取移动的距离
         let moveY = e.clientY - currentTop.value;
         const progressHeight = (progressRef.value as HTMLElement).offsetHeight;
-        const iconOffsetHeight = (progressIconRef.value as HTMLElement).offsetHeight;
+        const iconOffsetHeight = (progressIconRef.value as HTMLElement)
+          .offsetHeight;
         // 滑到底部
         if (moveY >= progressHeight - iconOffsetHeight) {
           moveY = progressHeight - iconOffsetHeight;
@@ -117,15 +122,18 @@ export default defineComponent({
         // 设置当前高度
         const currentProgress = currentProgressRef.value as HTMLElement;
         currentProgress.style.height =
-          (progressHeight - iconOffsetHeight - moveY) /
-            (progressHeight - iconOffsetHeight) * 100 + '%';
+          ((progressHeight - iconOffsetHeight - moveY) /
+            (progressHeight - iconOffsetHeight)) *
+            100 +
+          '%';
         // 设置滑块的top
         const progressIcon = progressIconRef.value as HTMLElement;
         progressIcon.style.top = moveY + 'px';
         // 存储音量百分比
         volumePer.value =
-          (progressHeight - iconOffsetHeight - moveY) /
-            (progressHeight - iconOffsetHeight) * 100;
+          ((progressHeight - iconOffsetHeight - moveY) /
+            (progressHeight - iconOffsetHeight)) *
+          100;
       }
     }
 
