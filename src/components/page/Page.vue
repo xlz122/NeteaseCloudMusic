@@ -73,7 +73,7 @@ export default defineComponent({
   },
   emits: ['changPage'],
   setup(props, { emit }) {
-    const { page, pageSize, total, displayPage } = toRefs(props);
+    const { page, pageSize, total: pageTotal, displayPage } = toRefs(props);
 
     // 总页数
     const totalPage = ref<number>(0);
@@ -91,7 +91,7 @@ export default defineComponent({
       // 重置page数组
       pageList.value = [];
       // 总页数
-      totalPage.value = Math.ceil(total.value / pageSize.value);
+      totalPage.value = Math.ceil(pageTotal.value / pageSize.value);
       // 总页数 = 显示页数
       if (totalPage.value === displayPage.value) {
         for (let i = 1; i <= totalPage.value; i++) {
@@ -121,7 +121,7 @@ export default defineComponent({
 
     // 监听总页数更改
     watch(
-      () => total.value,
+      () => pageTotal.value,
       () => {
         init();
       },
