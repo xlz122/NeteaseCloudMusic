@@ -163,7 +163,7 @@ export default defineComponent({
       },
       {
         title: '歌手',
-        link: ''
+        link: '/home-singer'
       },
       {
         title: '新碟上架',
