@@ -322,6 +322,11 @@
         </template>
       </li>
     </ul>
+    <!-- loading -->
+    <div class="loading" v-if="!lock">
+      <i class="loading-icon"></i>
+      加载中...
+    </div>
   </div>
 </template>
 
@@ -330,7 +335,7 @@ import { defineComponent, ref, onMounted, onUnmounted, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { friendEvent, dynamicLike, FirendEvent } from '@api/friend';
 import { LoopType, ResponseType } from '@/types/types';
-import { formatDate } from '@utils/utils';
+import { formatDate, getPageBottomHeight } from '@utils/utils';
 import { formatMixedText } from '@utils/formatMixedText';
 
 export default defineComponent({
@@ -418,21 +423,7 @@ export default defineComponent({
     // 监听滚动
     onMounted(() => {
       document.addEventListener('scroll', function (e: Event): void {
-        const target = e.target as Record<string, any>;
-        // 总的滚动的高度
-        let scrollHeight =
-          (target ? target.documentElement.scrollHeight : false) ||
-          (target ? target.body.scrollHeight : 0);
-        // 视口高度
-        let clientHeight =
-          (target ? target.documentElement.clientHeight : false) ||
-          (target ? target.body.clientHeight : 0);
-        // 当前滚动的高度
-        let scrollTop =
-          (target ? target.documentElement.scrollTop : false) ||
-          (target ? target.body.scrollTop : 0);
-        // 距离底部高度(总的高度 - 视口高度 - 滚动高度)
-        const bottomHeight = scrollHeight - clientHeight - scrollTop;
+        const bottomHeight = getPageBottomHeight(e);
         // 并非第一次加载 距离底部高度 是否可请求
         if (eventList.value.length > 0 && bottomHeight <= 400 && lock.value) {
           lock.value = false;
@@ -451,6 +442,7 @@ export default defineComponent({
       releaseDynamic,
       releaseVideo,
       eventList,
+      lock,
       setDynamicLike
     };
   }
