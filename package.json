@@ -11,6 +11,7 @@
     "@types/lodash": "^4.14.170",
     "@types/vue": "^2.0.0",
     "axios": "^0.21.1",
+    "babel-plugin-dynamic-import-node": "^2.3.3",
     "compression-webpack-plugin": "^5.0.1",
     "core-js": "^3.15.1",
     "lyric-parser": "^1.0.1",
