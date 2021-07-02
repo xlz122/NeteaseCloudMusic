@@ -83,13 +83,22 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "home-toplist" */ '../views/home-toplist/HomeToplist.vue'
           )
       },
+      // 首页 - 歌手
+      {
+        path: '/home-singer',
+        name: 'home-singer',
+        component: () =>
+          import(
+            /* webpackChunkName: "home-singer" */ '../views/home-singer/HomeSinger.vue'
+          )
+      },
       // 首页 - 新碟上架
       {
         path: '/home-newDisc',
         name: 'home-newDisc',
         component: () =>
           import(
-            /* webpackChunkName: "home-toplist" */ '../views/home-newDisc/HomeNewDisc.vue'
+            /* webpackChunkName: "home-newDisc" */ '../views/home-newDisc/HomeNewDisc.vue'
           )
       }
     ]
