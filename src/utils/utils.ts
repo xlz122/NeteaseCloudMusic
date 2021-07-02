@@ -240,3 +240,27 @@ export function bigNumberTransform(value: number): number | string {
   }
   return newValue;
 }
+
+/**
+ * @description 获取滚动条距离页面底部的高度
+ * @param { MouseEvent } event 滚动条事件对象
+ */
+export function getPageBottomHeight(e: Event): number {
+  const target = e.target as Record<string, any>;
+  // 总的滚动的高度
+  const scrollHeight =
+    (target ? target.documentElement.scrollHeight : false) ||
+    (target ? target.body.scrollHeight : 0);
+  // 视口高度
+  const clientHeight =
+    (target ? target.documentElement.clientHeight : false) ||
+    (target ? target.body.clientHeight : 0);
+  // 当前滚动的高度
+  const scrollTop =
+    (target ? target.documentElement.scrollTop : false) ||
+    (target ? target.body.scrollTop : 0);
+  // 距离底部高度(总的高度 - 视口高度 - 滚动高度)
+  const bottomHeight = scrollHeight - clientHeight - scrollTop;
+
+  return bottomHeight;
+}
