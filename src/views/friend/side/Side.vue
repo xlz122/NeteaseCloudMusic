@@ -32,7 +32,9 @@
   <div class="side-content">
     <h4 class="side-title">
       <span>明星用户</span>
-      <router-link class="link" to="">换一批</router-link>
+      <router-link class="link" to="" @click="changeABatch">
+        换一批
+      </router-link>
     </h4>
     <ul class="star-list">
       <li class="item" v-for="(item, index) in starList" :key="index">
@@ -58,7 +60,7 @@
   <div class="side-content">
     <h4 class="side-title">
       <span>感兴趣的人</span>
-      <router-link class="link" to="">换一批</router-link>
+      <router-link class="link" to="" @click="changeABatch">换一批</router-link>
     </h4>
     <ul class="star-list interested-list">
       <li class="item" v-for="(item, index) in interestedList" :key="index">
@@ -107,9 +109,6 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
-import { dailySignin } from '@api/home';
-import { ResponseType } from '@/types/types';
-import { formatDateTime } from '@utils/utils';
 
 type List = {
   src: string;
@@ -124,48 +123,6 @@ export default defineComponent({
 
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
-
-    // 重置签到
-    function resetSignIn(): boolean | undefined {
-      // 获取本地签到日期
-      const signInTimestamp = localStorage.getItem('signInTimestamp') || 0;
-      if (Number(signInTimestamp) === 0) {
-        return false;
-      }
-      const signInDay = formatDateTime(
-        Number(signInTimestamp) / 1000,
-        'yyyyMMdd'
-      );
-      // 获取今天日期
-      const today = formatDateTime(new Date().getTime() / 1000, 'yyyyMMdd');
-      // 今天大于签到日期
-      if (Number(today) > Number(signInDay)) {
-        $store.commit('setSignIn', false);
-      }
-    }
-    resetSignIn();
-
-    // 是否已签到
-    const isSignIn = computed<boolean>(() => $store.getters.userInfo.pcSign);
-
-    // 签到
-    function signIn(): void {
-      // 存储签到时间戳，用于重置签到
-      localStorage.setItem(
-        'signInTimestamp',
-        JSON.stringify(new Date().getTime())
-      );
-      dailySignin().then((res: ResponseType) => {
-        if (res.code === 200) {
-          $store.commit('setSignIn', true);
-        }
-      });
-    }
-
-    // 打开登录对话框
-    function openLogin(): void {
-      $store.commit('setLoginDialog', true);
-    }
 
     // 明星列表
     const starList = ref<List[]>([
@@ -223,6 +180,14 @@ export default defineComponent({
       }
     ]);
 
+    // 换一批
+    function changeABatch(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
     // 明显列表 - 关注
     function starFollow(index: number): void {
       starList.value.forEach((item, ind) => {
@@ -260,11 +225,9 @@ export default defineComponent({
     }
     return {
       userInfo,
-      isSignIn,
-      signIn,
-      openLogin,
       starList,
       interestedList,
+      changeABatch,
       starFollow,
       deleteStar,
       interestedFollow,

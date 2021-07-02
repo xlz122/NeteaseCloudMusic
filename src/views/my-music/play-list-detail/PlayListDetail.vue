@@ -58,6 +58,7 @@
                 'disable-collection':
                   songListDetailData?.playlist?.subscribedCount > 0
               }"
+              @click="collectionClick"
             >
               <span
                 class="icon"
@@ -73,6 +74,7 @@
                 'disable-share':
                   songListDetailData?.playlist?.tracks.length === 0
               }"
+              @click="shareClick"
             >
               <span
                 class="icon"
@@ -88,6 +90,7 @@
                 'disable-download':
                   songListDetailData?.playlist?.tracks.length === 0
               }"
+              @click="downloadClick"
             >
               <span class="icon">下载</span>
             </div>
@@ -97,6 +100,7 @@
                 'disable-comment':
                   songListDetailData?.playlist?.tracks.length === 0
               }"
+              @click="commentClick"
             >
               <span
                 class="icon"
@@ -333,6 +337,38 @@ export default defineComponent({
       }
     }
 
+    // 收藏
+    function collectionClick(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 分享
+    function shareClick(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 下载
+    function downloadClick(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 评论
+    function commentClick(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
     // 单个音乐添加到播放列表
     function setAddSinglePlayList(id: number): void {
       if (songListDetailData.value?.playlist?.tracks.length > 0) {
@@ -410,6 +446,10 @@ export default defineComponent({
       isCopyright,
       playTitleMusic,
       setAddPlayList,
+      collectionClick,
+      shareClick,
+      downloadClick,
+      commentClick,
       setAddSinglePlayList,
       noCopyrightDialog,
       noCopyrightConfirm,

@@ -31,7 +31,11 @@
         </div>
         <div class="item-operate">
           <!-- 是否无法编辑 -->
-          <i class="operate-icon operate-edit" v-if="!item.cannotEdit"></i>
+          <i
+            class="operate-icon operate-edit"
+            v-if="!item.cannotEdit"
+            @click="listEdit"
+          ></i>
           <!-- 是否无法删除 -->
           <i
             class="operate-icon operate-delete"
@@ -130,6 +134,14 @@ export default defineComponent({
       dialogeData.name = '';
     }
 
+    // 列表编辑
+    function listEdit(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
     // 列表删除
     function listDelete(id: number, event: MouseEvent): void {
       event.stopPropagation();
@@ -203,6 +215,7 @@ export default defineComponent({
       listToggle,
       dialogeData,
       listAdd,
+      listEdit,
       listDelete,
       dialogConfirm,
       dialogCancel,
