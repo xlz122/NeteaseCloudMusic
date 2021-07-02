@@ -11,7 +11,6 @@
     <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="external nofollow" rel="external nofollow" rel="preload" as="style">
     <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="external nofollow" rel="external nofollow" rel="stylesheet">
     <% } %>
-    <!-- 这里的使用link标签引入js，body里边的是使用script标签引入js -->
     <!-- 使用CDN的JS文件 -->
     <!-- <% for (var i in htmlWebpackPlugin.options.cdn && htmlWebpackPlugin.options.cdn.js) { %>
     <link href="<%= htmlWebpackPlugin.options.cdn.js[i] %>" rel="external nofollow" rel="preload" as="script">
@@ -27,6 +26,7 @@
     <div id="modal"></div>
     <div id="message"></div>
     <!-- built files will be auto injected -->
+    <!-- 使用CDN的JS文件 -->
     <% for (var i in htmlWebpackPlugin.options.cdn && htmlWebpackPlugin.options.cdn.js) { %>
       <script src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
     <% } %>
