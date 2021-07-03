@@ -2,159 +2,93 @@
   <div class="singer-content">
     <div class="title">
       <span class="text">
-        热门歌手
+        {{ title }}
         <i class="icon-r"></i>
       </span>
     </div>
-    <ul class="list-screen">
-      <li class="item hot active-item">
-        <span class="item-text">热门</span>
-      </li>
-      <li class="item active-item">
-        <span class="item-text">A</span>
-      </li>
-      <li class="item">
-        <span class="item-text">B</span>
-      </li>
-      <li class="item">
-        <span class="item-text">C</span>
-      </li>
-      <li class="item">
-        <span class="item-text">D</span>
-      </li>
-      <li class="item">
-        <span class="item-text">E</span>
+    <ul class="list-screen" v-if="sort">
+      <li
+        class="item"
+        v-for="(item, index) in sortList"
+        :key="index"
+        :class="[
+          { hot: index === 0 },
+          { hot: index === sortList.length > 2 && sortList.length - 1 },
+          { 'active-item': index === 0 }
+        ]"
+      >
+        <span class="item-text">{{ item.large }}</span>
       </li>
     </ul>
     <ul class="list">
-      <li class="item">
+      <li class="item" v-for="(item, index) in main" :key="index">
         <div class="item-cover">
-          <img
-            class="item-cover-img"
-            src="http://p2.music.126.net/1tSJODTpcbZvNTCdsn4RYA==/109951165034950656.jpg?param=130y130"
-            alt=""
-          />
+          <img class="item-cover-img" :src="item.picUrl" alt="" />
         </div>
         <div class="item-desc">
-          <span class="item-desc-text">薛之谦</span>
-          <span class="item-desc-icon"></span>
-        </div>
-      </li>
-      <li class="item">
-        <div class="item-cover">
-          <img
-            class="item-cover-img"
-            src="http://p2.music.126.net/1tSJODTpcbZvNTCdsn4RYA==/109951165034950656.jpg?param=130y130"
-            alt=""
-          />
-        </div>
-        <div class="item-desc">
-          <span class="item-desc-text">薛之谦</span>
-          <span class="item-desc-icon"></span>
-        </div>
-      </li>
-      <li class="item">
-        <div class="item-cover">
-          <img
-            class="item-cover-img"
-            src="http://p2.music.126.net/1tSJODTpcbZvNTCdsn4RYA==/109951165034950656.jpg?param=130y130"
-            alt=""
-          />
-        </div>
-        <div class="item-desc">
-          <span class="item-desc-text">薛之谦</span>
-          <span class="item-desc-icon"></span>
-        </div>
-      </li>
-      <li class="item">
-        <div class="item-cover">
-          <img
-            class="item-cover-img"
-            src="http://p2.music.126.net/1tSJODTpcbZvNTCdsn4RYA==/109951165034950656.jpg?param=130y130"
-            alt=""
-          />
-        </div>
-        <div class="item-desc">
-          <span class="item-desc-text">薛之谦</span>
-          <span class="item-desc-icon"></span>
-        </div>
-      </li>
-      <li class="item">
-        <div class="item-cover">
-          <img
-            class="item-cover-img"
-            src="http://p2.music.126.net/1tSJODTpcbZvNTCdsn4RYA==/109951165034950656.jpg?param=130y130"
-            alt=""
-          />
-        </div>
-        <div class="item-desc">
-          <span class="item-desc-text">薛之谦</span>
-          <span class="item-desc-icon"></span>
-        </div>
-      </li>
-      <li class="item">
-        <div class="item-cover">
-          <img
-            class="item-cover-img"
-            src="http://p2.music.126.net/1tSJODTpcbZvNTCdsn4RYA==/109951165034950656.jpg?param=130y130"
-            alt=""
-          />
-        </div>
-        <div class="item-desc">
-          <span class="item-desc-text">薛之谦</span>
-          <span class="item-desc-icon"></span>
+          <span class="item-desc-text">{{ item.name }}</span>
+          <span class="item-desc-icon" v-if="item.albumSize < 50"></span>
         </div>
       </li>
     </ul>
-    <div class="line"></div>
+    <div class="line" v-if="second.length > 0"></div>
     <ul class="list-small">
-      <li class="item">
-        <span class="item-text">要留意</span>
-        <span class="item-icon"></span>
-      </li>
-      <li class="item">
-        <span class="item-text">要留意</span>
-        <span class="item-icon"></span>
-      </li>
-      <li class="item">
-        <span class="item-text">要留意</span>
-        <span class="item-icon"></span>
-      </li>
-      <li class="item">
-        <span class="item-text">要留意</span>
-        <span class="item-icon"></span>
-      </li>
-      <li class="item">
-        <span class="item-text">要留意</span>
-        <span class="item-icon"></span>
-      </li>
-      <li class="item">
-        <span class="item-text">要留意</span>
-        <span class="item-icon"></span>
-      </li>
-      <li class="item">
-        <span class="item-text">要留意</span>
-        <span class="item-icon"></span>
-      </li>
-      <li class="item">
-        <span class="item-text">要留意</span>
-        <span class="item-icon"></span>
-      </li>
-      <li class="item">
-        <span class="item-text">要留意</span>
-        <span class="item-icon"></span>
-      </li>
-      <li class="item">
-        <span class="item-text">要留意</span>
-        <span class="item-icon"></span>
-      </li>
-      <li class="item">
-        <span class="item-text">要留意</span>
-        <span class="item-icon"></span>
+      <li class="item" v-for="(item, index) in second" :key="index">
+        <span class="item-text">{{ item.name }}</span>
+        <span class="item-icon" v-if="item.albumSize < 50"></span>
       </li>
     </ul>
   </div>
 </template>
+
+<script lang="ts">
+import { defineComponent, reactive } from 'vue';
+
+export default defineComponent({
+  props: {
+    title: {
+      type: String,
+      default: ''
+    },
+    sort: {
+      type: Boolean,
+      default: false
+    },
+    main: {
+      type: Array,
+      default: () => []
+    },
+    second: {
+      type: Array,
+      default: () => []
+    }
+  },
+  setup() {
+    const sortList = reactive([
+      {
+        large: '热门',
+        small: -1
+      },
+      {
+        large: 'A',
+        small: 'a'
+      },
+      {
+        large: 'B',
+        small: 'b'
+      },
+      {
+        large: 'C',
+        small: 'c'
+      }
+    ]);
+    // 'D'、'E'、'F'、'G'、'H'、'I'、'J'、'K'、'L'、'M'、'N'、'O'、'P'、'Q'、'R'、'S'、'T'、'U'、'V'、'W'、'X'、'Y'、'Z'
+    return {
+      sortList
+    };
+  }
+});
+</script>
 
 <style lang="less">
 @import './singer-content.less';

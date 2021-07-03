@@ -5,7 +5,12 @@
         <SingerMenu @menuSelete="menuSelete" />
       </div>
       <div class="home-singer-content">
-        <SingerContent />
+        <SingerContent
+          :title="singerList.title"
+          :sort="singerList.sort"
+          :main="singerList.main"
+          :second="singerList.second"
+        />
       </div>
     </div>
   </div>
@@ -15,7 +20,7 @@
 import { defineComponent, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { topArtists } from '@api/home-singer';
-import { ResponseType } from '@/type/type';
+import { ResponseType } from '@/types/types';
 import SingerMenu from './singer-menu/SingerMenu.vue';
 import SingerContent from './singer-content/SingerContent.vue';
 
@@ -29,6 +34,8 @@ export default defineComponent({
 
     // 歌手数据
     const singerList = reactive({
+      title: '热门歌手',
+      sort: false,
       main: [],
       second: []
     });
@@ -52,14 +59,22 @@ export default defineComponent({
         type: 'info',
         title: `菜单选择：type:${type}, area:${area}`
       });
+      singerList.main = [];
+      singerList.second = [];
     }
 
     // 获取热门歌手数据
     function getTopArtists(): void {
-      topArtists()
+      topArtists({
+        offset: 0,
+        limit: 100
+      })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            
+            singerList.main = res.artists.slice(0, 10);
+            if (res.artists.length > 10) {
+              singerList.second = res.artists.slice(10);
+            }
           } else {
             $store.commit('setMessage', {
               type: 'error',
@@ -72,7 +87,10 @@ export default defineComponent({
         });
     }
 
+    getTopArtists();
+
     return {
+      singerList,
       menuSelete
     };
   }
