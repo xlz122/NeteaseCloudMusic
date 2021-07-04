@@ -12,7 +12,7 @@
           class="item"
           v-for="(i, ind) in item?.list"
           :key="ind"
-          @click="menuSelete(item, i.type)"
+          @click="menuSelete(i.title, item, i.type)"
         >
           <span
             class="item-text"
@@ -168,7 +168,7 @@ export default defineComponent({
       }
     ]);
 
-    function menuSelete(item: Menu, type: number): void {
+    function menuSelete(title: string, item: Menu, type: number): void {
       menu.value.forEach((m: Menu) => {
         m.list.forEach((l: List) => {
           if (item.type === m.type && type === l.type) {
@@ -178,7 +178,7 @@ export default defineComponent({
           }
         });
       });
-      emit('menuSelete', item.type, type);
+      emit('menuSelete', title, item.type, type);
     }
 
     return {

@@ -1,6 +1,6 @@
 <template>
   <div class="singer-content">
-    <div class="title">
+    <div class="title" v-if="title">
       <span class="text">
         {{ title }}
         <i class="icon-r"></i>
@@ -13,9 +13,10 @@
         :key="index"
         :class="[
           { hot: index === 0 },
-          { hot: index === sortList.length > 2 && sortList.length - 1 },
-          { 'active-item': index === 0 }
+          { hot: index === sortList.length - 1 },
+          { 'active-item': index === activeScreen }
         ]"
+        @click="screenChange(index, item.small)"
       >
         <span class="item-text">{{ item.large }}</span>
       </li>
@@ -42,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, ref, reactive, toRefs, watch } from 'vue';
 
 export default defineComponent({
   props: {
@@ -63,7 +64,10 @@ export default defineComponent({
       default: () => []
     }
   },
-  setup() {
+  emits: ['screenChange'],
+  setup(props, { emit }) {
+    const { title } = toRefs(props);
+
     const sortList = reactive([
       {
         large: '热门',
@@ -80,11 +84,123 @@ export default defineComponent({
       {
         large: 'C',
         small: 'c'
+      },
+      {
+        large: 'D',
+        small: 'd'
+      },
+      {
+        large: 'E',
+        small: 'e'
+      },
+      {
+        large: 'F',
+        small: 'f'
+      },
+      {
+        large: 'G',
+        small: 'g'
+      },
+      {
+        large: 'H',
+        small: 'h'
+      },
+      {
+        large: 'I',
+        small: 'i'
+      },
+      {
+        large: 'J',
+        small: 'j'
+      },
+      {
+        large: 'K',
+        small: 'k'
+      },
+      {
+        large: 'L',
+        small: 'l'
+      },
+      {
+        large: 'M',
+        small: 'm'
+      },
+      {
+        large: 'N',
+        small: 'n'
+      },
+      {
+        large: 'O',
+        small: 'o'
+      },
+      {
+        large: 'P',
+        small: 'p'
+      },
+      {
+        large: 'Q',
+        small: 'q'
+      },
+      {
+        large: 'R',
+        small: 'r'
+      },
+      {
+        large: 'S',
+        small: 's'
+      },
+      {
+        large: 'T',
+        small: 't'
+      },
+      {
+        large: 'U',
+        small: 'u'
+      },
+      {
+        large: 'V',
+        small: 'v'
+      },
+      {
+        large: 'W',
+        small: 'w'
+      },
+      {
+        large: 'X',
+        small: 'x'
+      },
+      {
+        large: 'Y',
+        small: 'y'
+      },
+      {
+        large: 'Z',
+        small: 'z'
+      },
+      {
+        large: '其他',
+        small: 0
       }
     ]);
-    // 'D'、'E'、'F'、'G'、'H'、'I'、'J'、'K'、'L'、'M'、'N'、'O'、'P'、'Q'、'R'、'S'、'T'、'U'、'V'、'W'、'X'、'Y'、'Z'
+
+    // 监听标题修改,重置字母选中
+    watch(
+      () => title.value,
+      () => {
+        screenChange(0, 'a');
+      }
+    );
+
+    // 字母选中
+    const activeScreen = ref<number>(0);
+    function screenChange(index: number, small: number | string): void {
+      activeScreen.value = index;
+      emit('screenChange', small);
+    }
     return {
-      sortList
+      sortList,
+      activeScreen,
+      screenChange
     };
   }
 });
