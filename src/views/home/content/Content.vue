@@ -138,6 +138,7 @@ import {
   computed,
   watch
 } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 // 新碟上架
 const AlbumNewest = defineAsyncComponent(
@@ -159,6 +160,7 @@ export default defineComponent({
     SongList
   },
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     // 是否登录
@@ -257,10 +259,7 @@ export default defineComponent({
 
     // 新碟上架 - 更多
     function albumNewestMore(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      $router.push({ name: 'home-newDisc' });
     }
 
     // 榜单 - 更多
