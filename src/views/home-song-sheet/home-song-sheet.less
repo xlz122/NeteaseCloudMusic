@@ -16,9 +16,63 @@
       text-align: left;
 
       .text {
+        display: inline-block;
+        vertical-align: middle;
         font-size: 24px;
         font-weight: normal;
         font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
+      }
+
+      .classify-btn {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        height: 31px;
+        line-height: 31px;
+        padding: 0 5px 0 0;
+        margin: 2px 0 0 12px;
+        background: url('../../assets/image/icon-button.png') no-repeat 0 9999px;
+        background-position: right -100px;
+        font-size: 12px;
+        font-weight: normal;
+        color: #333;
+        overflow: hidden;
+        white-space: nowrap;
+        vertical-align: top;
+        text-align: center;
+        cursor: pointer;
+
+        &:hover {
+          background-position: right -182px;
+        }
+
+        .icon {
+          display: inline-block;
+          padding: 0 9px 0 15px;
+          background: url('../../assets/image/icon-button.png') no-repeat 0 9999px;
+          background-position: 0 -59px;
+          color: #0c73c2;
+
+          &:hover {
+            background-position: 0 -141px;
+          }
+
+          .text {
+            display: inline-block;
+            vertical-align: middle;
+            font-size: 12px;
+          }
+
+          .arrow {
+            display: inline-block;
+            vertical-align: middle;
+            width: 8px;
+            height: 5px;
+            margin-left: 5px;
+            background: url('../../assets/image/icon.png') no-repeat 0 9999px;
+            background-position: -70px -543px;
+          }
+        }
       }
 
       .hot-btn {

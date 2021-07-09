@@ -3,6 +3,13 @@
     <div class="home-song-sheet-container">
       <div class="title">
         <span class="text">{{ songTitle }}</span>
+        <div class="classify-btn" @click="classifyModal">
+          <i class="icon">
+            <span class="text">选择分类</span>
+            <span class="arrow"></span>
+          </i>
+        </div>
+        <ClassifyModal v-if="classifyShow" />
         <div class="hot-btn">
           <span class="text">热门</span>
         </div>
@@ -66,6 +73,7 @@ import { useStore } from 'vuex';
 import { topPlaylist } from '@api/home-song-sheet';
 import { ResponseType, LoopType } from '@/types/types';
 import { bigNumberTransform } from '@utils/utils';
+import ClassifyModal from './classify-modal/ClassifyModal.vue';
 import Page from '@components/page/Page.vue';
 
 type SongParams = {
@@ -78,6 +86,7 @@ type SongParams = {
 
 export default defineComponent({
   components: {
+    ClassifyModal,
     Page
   },
   setup() {
@@ -121,6 +130,12 @@ export default defineComponent({
     }
     getTopPlaylist();
 
+    // 分类弹框
+    const classifyShow = ref<boolean>(false);
+    function classifyModal(): void {
+      classifyShow.value = !classifyShow.value;
+    }
+
     // 分页
     function changPage(current: number): void {
       songParams.page = current;
@@ -131,6 +146,8 @@ export default defineComponent({
       songTitle,
       songList,
       songParams,
+      classifyShow,
+      classifyModal,
       changPage
     };
   }
