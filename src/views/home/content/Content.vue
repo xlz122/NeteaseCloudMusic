@@ -187,10 +187,7 @@ export default defineComponent({
 
     // 热门推荐 - 跳转更多歌单
     function songSheetMore(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      $router.push({ name: 'home-song-sheet' });
     }
 
     // 获取热门推荐 - 推荐歌单数据
@@ -259,7 +256,7 @@ export default defineComponent({
 
     // 新碟上架 - 更多
     function albumNewestMore(): void {
-      $router.push({ name: 'home-newDisc' });
+      $router.push({ name: 'home-new-disc' });
     }
 
     // 榜单 - 更多
