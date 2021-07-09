@@ -29,8 +29,9 @@ export const topArtists = ({ offset, limit }: TopArtists): AxiosRequest => {
 /**
  * @desc 获取热门歌手
  * @param { Number } timestamp - 防止接口缓存
- * @param { Number } offset - 页数，默认为 0
- * @param { Number } limit - 取出数量，默认为 50
+ * @param { Number } area - 语言
+ * @param { Number } type - 歌手
+ * @param { Number | String } initial - 排列,热门传-1,其他传0
  */
 
 export type ArtistList = {

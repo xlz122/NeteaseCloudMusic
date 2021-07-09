@@ -119,6 +119,14 @@ export default defineComponent({
       }
     }
 
+    // 监听页数
+    watch(
+      () => props.page,
+      () => {
+        current.value = props.page;
+      }
+    );
+
     // 监听总页数更改
     watch(
       () => pageTotal.value,

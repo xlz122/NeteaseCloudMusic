@@ -1,0 +1,139 @@
+.classify-modal {
+  position: absolute;
+  top: 35px;
+  left: -40px;
+  z-index: 5;
+  width: 720px;
+
+  .hd {
+    height: 32px;
+    background: url('../../../assets/image/home/home-song-sheet-modal-hd.png') no-repeat;
+
+    .icon {
+      position: absolute;
+      top: 2px;
+      left: 132px;
+      display: inline-block;
+      width: 24px;
+      height: 11px;
+      background: url('../../../assets/image/music-audio/iconall.png');
+      background-position: -48px 0;
+      vertical-align: middle;
+    }
+  }
+
+  .bd {
+    width: 700px;
+    padding: 0 10px;
+    background: url('../../../assets/image/home/home-song-sheet-modal-hd.png');
+    background-position: -720px 0;
+    background-repeat: repeat-y;
+
+    .hot {
+      padding-bottom: 11px;
+      border-bottom: 1px solid #e6e6e6;
+
+      .hot-btn {
+        display: inline-block;
+        width: 75px;
+        height: 26px;
+        margin-left: 26px;
+        background: url('../../../assets/image/my-music/button.png') no-repeat 0 9999px;
+        background-position: 0 -64px;
+        text-align: center;
+        line-height: 26px;
+        color: #333;
+        cursor: pointer;
+
+        .text {
+          color: #333;
+          font-weight: normal;
+        }
+
+        .text:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .list {
+      padding-bottom: 15px;
+      .item {
+        .title {
+          display: inline-block;
+          vertical-align: top;
+          width: 70px;
+          margin: 0 -100px 0 26px;
+          padding-top: 15px;
+          font-weight: bold;
+
+          .icon {
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: middle;
+            width: 23px;
+            height: 23px;
+            margin-right: 8px;
+            margin-bottom: 4px;
+            background: url('../../../assets/image/icon.png') no-repeat 0 9999px;
+            background-position: -20px -735px;
+          }
+
+          .style {
+            background-position: 0 -60px;
+          }
+
+          .scene {
+            background-position: 0 -88px;
+          }
+
+          .emotion {
+            background-position: 0 -117px;
+          }
+
+          .theme {
+            background-position: 0 -141px;
+          }
+
+          .text {
+            display: inline-block;
+            vertical-align: middle;
+          }
+        }
+
+        .sub-list {
+          display: inline-block;
+          vertical-align: top;
+          padding: 16px 15px 0 15px;
+          border-left: 1px solid #e6e6e6;
+          margin-left: 96px;
+          line-height: 24px;
+
+          .sub-list-item {
+            display: inline-block;
+            color: #333;
+            white-space: nowrap;
+            cursor: pointer;
+
+            .text {
+              display: inline-block;
+              vertical-align: middle;
+            }
+            .line {
+              display: inline-block;
+              vertical-align: middle;
+              margin: 0 8px 0 10px;
+              color: #d8d8d8;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .ft {
+    height: 20px;
+    background: url('../../../assets/image/home/home-song-sheet-modal-hd.png');
+    background-position: -1440px -12px;
+  }
+}
