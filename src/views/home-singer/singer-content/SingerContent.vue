@@ -187,7 +187,7 @@ export default defineComponent({
     watch(
       () => title.value,
       () => {
-        screenChange(0, 'a');
+        activeScreen.value = 0;
       }
     );
 
