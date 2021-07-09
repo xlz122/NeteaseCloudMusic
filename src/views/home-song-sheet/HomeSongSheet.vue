@@ -2,16 +2,60 @@
   <div class="home-song-sheet">
     <div class="home-song-sheet-container">
       <div class="title">
-        <span class="text">全部</span>
+        <span class="text">{{ songTitle }}</span>
+        <div class="hot-btn">
+          <span class="text">热门</span>
+        </div>
       </div>
+      <ul class="list-content">
+        <li
+          class="item"
+          v-for="(item, index) in songList"
+          :key="index"
+          :class="{ 'last-item': songList.length > 2 && !(index % 5) }"
+        >
+          <div class="item-top">
+            <img
+              class="img"
+              :src="`${item?.coverImgUrl}?param=140y140`"
+              alt=""
+            />
+            <div class="info">
+              <i class="info-icon"></i>
+              <span class="num">{{ item?.playCount }}</span>
+              <i class="info-icon-right"></i>
+            </div>
+          </div>
+          <div class="item-bottom">
+            <span class="text" :title="item?.name">{{ item?.name }}</span>
+            <div class="desc">
+              <span class="by">by</span>
+              <span class="text" :title="item?.name">
+                {{ item?.creator?.nickname }}
+              </span>
+              <!-- 小图标 -->
+              <!-- <img
+                class="desc-img"
+                src=""
+                alt=""
+              /> -->
+              <!-- <img
+                class="desc-img"
+                src=""
+                alt=""
+              /> -->
+            </div>
+          </div>
+        </li>
+      </ul>
       <!-- 参数从0开始，分页需从1开始 -->
-      <!-- <Page
-        v-if="pageTotal > newDiscFormData.limit"
-        :page="newDiscFormData.offset"
-        :pageSize="newDiscFormData.limit"
-        :total="pageTotal"
+      <Page
+        v-if="songParams.total > songParams.pageSize"
+        :page="songParams.page"
+        :pageSize="songParams.pageSize"
+        :total="songParams.total"
         @changPage="changPage"
-      /> -->
+      />
     </div>
   </div>
 </template>
@@ -19,16 +63,76 @@
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue';
 import { useStore } from 'vuex';
-import { hotNewDisc, nweDiscAlbum, NweDiscAlbum } from '@api/home-new-disc';
-import { ResponseType } from '@/types/types';
+import { topPlaylist } from '@api/home-song-sheet';
+import { ResponseType, LoopType } from '@/types/types';
+import { bigNumberTransform } from '@utils/utils';
 import Page from '@components/page/Page.vue';
+
+type SongParams = {
+  order: string;
+  cat: string;
+  page: number;
+  pageSize: number;
+  total: number;
+};
 
 export default defineComponent({
   components: {
     Page
   },
   setup() {
-    return {};
+    const $store = useStore();
+
+    const songTitle = ref<string>('全部');
+    const songList = ref([]);
+    const songParams = reactive<SongParams>({
+      order: 'hot',
+      cat: '全部',
+      page: 1,
+      pageSize: 50,
+      total: 0
+    });
+    // 获取热门歌手数据
+    function getTopPlaylist(): void {
+      topPlaylist({
+        order: songParams.order,
+        cat: songParams.cat,
+        offset: songParams.page - 1,
+        limit: songParams.pageSize
+      })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            songTitle.value = res.cat;
+            res?.playlists.forEach((item: LoopType) => {
+              item.playCount = bigNumberTransform(item.playCount);
+            });
+            songList.value = res.playlists;
+            songParams.total = res.total;
+          } else {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: res?.msg
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+    getTopPlaylist();
+
+    // 分页
+    function changPage(current: number): void {
+      songParams.page = current;
+      getTopPlaylist();
+    }
+
+    return {
+      songTitle,
+      songList,
+      songParams,
+      changPage
+    };
   }
 });
 </script>
