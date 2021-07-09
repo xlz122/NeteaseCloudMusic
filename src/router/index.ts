@@ -83,6 +83,15 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "home-toplist" */ '../views/home-toplist/HomeToplist.vue'
           )
       },
+      // 首页 - 歌单
+      {
+        path: '/home-song-sheet',
+        name: 'home-song-sheet',
+        component: () =>
+          import(
+            /* webpackChunkName: "home-song-sheet" */ '../views/home-song-sheet/HomeSongSheet.vue'
+          )
+      },
       // 首页 - 歌手
       {
         path: '/home-singer',
@@ -94,11 +103,11 @@ const routes: Array<RouteRecordRaw> = [
       },
       // 首页 - 新碟上架
       {
-        path: '/home-newDisc',
-        name: 'home-newDisc',
+        path: '/home-new-disc',
+        name: 'home-new-disc',
         component: () =>
           import(
-            /* webpackChunkName: "home-newDisc" */ '../views/home-newDisc/HomeNewDisc.vue'
+            /* webpackChunkName: "home-newDisc" */ '../views/home-new-disc/HomeNewDisc.vue'
           )
       }
     ]

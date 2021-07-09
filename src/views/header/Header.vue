@@ -155,7 +155,7 @@ export default defineComponent({
       },
       {
         title: '歌单',
-        link: ''
+        link: '/home-song-sheet'
       },
       {
         title: '主播电台',
@@ -167,7 +167,7 @@ export default defineComponent({
       },
       {
         title: '新碟上架',
-        link: '/home-newDisc'
+        link: '/home-new-disc'
       }
     ]);
 
