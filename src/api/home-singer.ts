@@ -7,7 +7,13 @@ import { AxiosRequest } from '@/types/types';
  * @param { Number } offset - 页数，默认为 0
  * @param { Number } limit - 取出数量，默认为 50
  */
-export const topArtists = ({ offset, limit }: { offset: number; limit: number; }): AxiosRequest => {
+
+type TopArtists = {
+  offset: number;
+  limit: number;
+};
+
+export const topArtists = ({ offset, limit }: TopArtists): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     offset,
@@ -33,7 +39,11 @@ export type ArtistList = {
   initial: number | string;
 };
 
-export const artistList = ({ area, type, initial }: ArtistList): AxiosRequest => {
+export const artistList = ({
+  area,
+  type,
+  initial
+}: ArtistList): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     area,

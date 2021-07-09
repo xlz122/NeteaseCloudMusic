@@ -4,7 +4,7 @@
       class="group"
       v-for="(item, index) in menu"
       :key="index"
-      :class="{ 'language': index !== 0 }"
+      :class="{ language: index !== 0 }"
     >
       <h2 class="group-title">{{ item.title }}</h2>
       <ul class="group-list">
@@ -14,10 +14,7 @@
           :key="ind"
           @click="menuSelete(i.title, item, i.type)"
         >
-          <span
-            class="item-text"
-            :class="{ 'item-active-text': i.selected }"
-          >
+          <span class="item-text" :class="{ 'item-active-text': i.selected }">
             {{ i.title }}
           </span>
         </li>
@@ -30,9 +27,9 @@
 import { defineComponent, ref } from 'vue';
 
 type Menu = {
-  type: number,
+  type: number;
   title: string;
-  list: List[]
+  list: List[];
 };
 
 type List = {

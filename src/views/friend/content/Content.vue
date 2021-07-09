@@ -93,7 +93,7 @@ export default defineComponent({
             lock.value = true;
           }
         })
-        .catch(err => {
+        .catch(() => {
           loading.value = false;
         });
     }

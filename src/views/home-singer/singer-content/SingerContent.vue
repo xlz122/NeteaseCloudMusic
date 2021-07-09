@@ -183,6 +183,13 @@ export default defineComponent({
       }
     ]);
 
+    // 字母选中
+    const activeScreen = ref<number>(0);
+    function screenChange(index: number, small: number | string): void {
+      activeScreen.value = index;
+      emit('screenChange', small);
+    }
+
     // 监听标题修改,重置字母选中
     watch(
       () => title.value,
@@ -190,13 +197,6 @@ export default defineComponent({
         activeScreen.value = 0;
       }
     );
-
-    // 字母选中
-    const activeScreen = ref<number>(0);
-    function screenChange(index: number, small: number | string): void {
-      activeScreen.value = index;
-      emit('screenChange', small);
-    }
     return {
       sortList,
       activeScreen,
