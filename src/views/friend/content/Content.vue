@@ -82,7 +82,6 @@ export default defineComponent({
               item.json.msg = formatMixedText(item.json.msg);
             });
             eventList.value = eventList.value.concat(res.event);
-            console.log(eventList.value);
             // 下一页所需参数
             firendEventParams.lasttime = res.lasttime;
             // 返回条数少于每页条数，不再加载
@@ -96,7 +95,6 @@ export default defineComponent({
         })
         .catch(err => {
           loading.value = false;
-          console.log(err);
         });
     }
     getFriendEvent();
