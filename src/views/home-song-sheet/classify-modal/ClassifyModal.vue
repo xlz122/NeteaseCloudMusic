@@ -3,51 +3,133 @@
     <div class="hd">
       <i class="icon"></i>
     </div>
-    <div class="bd"></div>
+    <div class="bd">
+      <div class="hot">
+        <div class="hot-btn" @click="catChange('全部')">
+          <span class="text">全部风格</span>
+        </div>
+      </div>
+      <ul class="list">
+        <li class="item" v-for="(item, index) in catlist" :key="index">
+          <div class="title">
+            <i
+              class="icon"
+              :class="[
+                { style: index === 1 },
+                { scene: index === 2 },
+                { emotion: index === 3 },
+                { theme: index === 4 }
+              ]"
+            ></i>
+            <span class="text">{{ item.title }}</span>
+          </div>
+          <ul class="sub-list">
+            <li
+              class="sub-list-item"
+              v-for="(i, ind) in item.list"
+              :key="ind"
+              @click="catChange(i.name)"
+            >
+              <span class="text">{{ i.name }}</span>
+              <span class="line">|</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
     <div class="ft"></div>
   </div>
 </template>
 
-<style lang="less" scoped>
-.classify-modal {
-  position: absolute;
-  top: 35px;
-  left: -40px;
-  z-index: 5;
-  width: 720px;
+<script lang="ts">
+import { defineComponent, reactive } from 'vue';
+import { useStore } from 'vuex';
+import { playlistCatlist } from '@api/home-song-sheet';
+import { ResponseType } from '@/types/types';
 
-  .hd {
-    height: 32px;
-    background: url('../../../assets/image/home/home-song-sheet-modal-hd.png')
-      no-repeat;
+type CatList = {
+  title: string;
+  list: unknown[];
+};
 
-    .icon {
-      position: absolute;
-      top: 2px;
-      left: 132px;
-      display: inline-block;
-      width: 24px;
-      height: 11px;
-      background: url('../../../assets/image/music-audio/iconall.png');
-      background-position: -48px 0;
-      vertical-align: middle;
+export default defineComponent({
+  emits: ['catChange'],
+  setup(props, { emit }) {
+    const $store = useStore();
+
+    const catlist = reactive<CatList[]>([
+      {
+        title: '',
+        list: []
+      },
+      {
+        title: '',
+        list: []
+      },
+      {
+        title: '',
+        list: []
+      },
+      {
+        title: '',
+        list: []
+      },
+      {
+        title: '',
+        list: []
+      }
+    ]);
+
+    function getCatlist(): void {
+      playlistCatlist()
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            for (let value in res.categories) {
+              catlist[value].title = res.categories[value];
+            }
+            res?.sub.forEach(item => {
+              if (item.category === 0) {
+                catlist[0].list.push(item);
+              }
+              if (item.category === 1) {
+                catlist[1].list.push(item);
+              }
+              if (item.category === 2) {
+                catlist[2].list.push(item);
+              }
+              if (item.category === 3) {
+                catlist[3].list.push(item);
+              }
+              if (item.category === 4) {
+                catlist[4].list.push(item);
+              }
+            });
+          } else {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: res?.msg
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
-  }
+    getCatlist();
 
-  .bd {
-    width: 700px;
-    height: 100px;
-    padding: 0 10px;
-    background: url('../../../assets/image/home/home-song-sheet-modal-hd.png');
-    background-position: -720px 0;
-    background-repeat: repeat-y;
-  }
+    // 标签点击
+    function catChange(name: string): void {
+      emit('catChange', name);
+    }
 
-  .ft {
-    height: 20px;
-
-    background: url('../../../assets/image/home/home-song-sheet-modal-hd.png');
-    background-position: -1440px -12px;
+    return {
+      catlist,
+      catChange
+    };
   }
-}
+});
+</script>
+
+<style lang="less" scoped>
+@import './classify-modal.less';
 </style>

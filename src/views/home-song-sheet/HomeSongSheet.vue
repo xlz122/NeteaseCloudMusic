@@ -9,8 +9,8 @@
             <span class="arrow"></span>
           </i>
         </div>
-        <ClassifyModal v-if="classifyShow" />
-        <div class="hot-btn">
+        <ClassifyModal v-show="classifyShow" @catChange="catChange" />
+        <div class="hot-btn" @click="hotSong">
           <span class="text">热门</span>
         </div>
       </div>
@@ -130,10 +130,29 @@ export default defineComponent({
     }
     getTopPlaylist();
 
+    // 热门
+    function hotSong(): boolean | undefined {
+      if (songParams.cat === '全部') {
+        return false;
+      }
+      songParams.cat = '全部';
+      getTopPlaylist();
+    }
+
     // 分类弹框
     const classifyShow = ref<boolean>(false);
     function classifyModal(): void {
       classifyShow.value = !classifyShow.value;
+    }
+
+    // 分类点击
+    function catChange(name: string): boolean | undefined {
+      if (songParams.cat === '全部' && name === '全部') {
+        return false;
+      }
+      songParams.cat = name;
+      getTopPlaylist();
+      classifyShow.value = false;
     }
 
     // 分页
@@ -146,8 +165,10 @@ export default defineComponent({
       songTitle,
       songList,
       songParams,
+      hotSong,
       classifyShow,
       classifyModal,
+      catChange,
       changPage
     };
   }
