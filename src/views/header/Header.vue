@@ -159,7 +159,7 @@ export default defineComponent({
       },
       {
         title: '主播电台',
-        link: ''
+        link: '/home-djprogram'
       },
       {
         title: '歌手',
