@@ -92,6 +92,15 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "home-song-sheet" */ '../views/home-song-sheet/HomeSongSheet.vue'
           )
       },
+      // 首页 - 主播电台
+      {
+        path: '/home-djprogram',
+        name: 'home-djprogram',
+        component: () =>
+          import(
+            /* webpackChunkName: "home-djprogram" */ '../views/home-djprogram/HomeDjprogram.vue'
+          )
+      },
       // 首页 - 歌手
       {
         path: '/home-singer',
@@ -107,7 +116,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'home-new-disc',
         component: () =>
           import(
-            /* webpackChunkName: "home-newDisc" */ '../views/home-new-disc/HomeNewDisc.vue'
+            /* webpackChunkName: "home-new-disc" */ '../views/home-new-disc/HomeNewDisc.vue'
           )
       }
     ]
