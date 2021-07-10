@@ -136,7 +136,7 @@ export default defineComponent({
         return false;
       }
       songParams.cat = '全部';
-      getTopPlaylist();
+      songParams.page = 1;
     }
 
     // 分类弹框
@@ -151,7 +151,7 @@ export default defineComponent({
         return false;
       }
       songParams.cat = name;
-      getTopPlaylist();
+      songParams.page = 1;
       classifyShow.value = false;
     }
 
