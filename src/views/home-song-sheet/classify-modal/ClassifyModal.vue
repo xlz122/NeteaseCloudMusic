@@ -87,7 +87,7 @@ export default defineComponent({
             for (let value in res.categories) {
               catlist[value].title = res.categories[value];
             }
-            res?.sub.forEach(item => {
+            res?.sub.forEach((item: LoopType) => {
               if (item.category === 0) {
                 catlist[0].list.push(item);
               }
