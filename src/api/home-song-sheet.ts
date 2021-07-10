@@ -37,5 +37,17 @@ export const topPlaylist = ({
   });
 };
 
-// 歌单分类： /playlist/catlist
-// 热门歌单分类： /playlist/hot
+/**
+ * @desc 获取歌单列表
+ * @param { Number } timestamp - 防止接口缓存
+ */
+export const playlistCatlist = (): AxiosRequest => {
+  const params = {
+    timestamp: new Date().getTime()
+  };
+  return axios.request({
+    url: '/playlist/catlist',
+    method: 'get',
+    params
+  });
+};
