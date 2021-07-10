@@ -68,7 +68,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, ref, reactive, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { topPlaylist } from '@api/home-song-sheet';
 import { ResponseType, LoopType } from '@/types/types';
@@ -90,6 +91,7 @@ export default defineComponent({
     Page
   },
   setup() {
+    const $route = useRoute();
     const $store = useStore();
 
     const songTitle = ref<string>('全部');
@@ -128,7 +130,21 @@ export default defineComponent({
           console.log(err);
         });
     }
-    getTopPlaylist();
+
+    // 监听路由传参
+    watch(
+      () => $route.params,
+      (curVal: { name: string }) => {
+        songParams.cat = '全部';
+        if (curVal) {
+          songParams.cat = curVal.name;
+        }
+        getTopPlaylist();
+      },
+      {
+        immediate: true
+      }
+    );
 
     // 热门
     function hotSong(): boolean | undefined {

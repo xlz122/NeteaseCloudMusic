@@ -19,6 +19,7 @@
           v-for="(item, index) in songListData"
           :key="index"
           :class="{ 'last-item': songListData.length > 2 && index === 3 }"
+          @click="jumpSongSheetDetail"
         >
           <div class="item-top">
             <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
@@ -39,6 +40,7 @@
             v-for="(item, index) in individualizatData"
             :key="index"
             :class="{ 'last-item': index === 1 }"
+            @click="jumpSongSheetDetail"
           >
             <div class="item-top">
               <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
@@ -96,6 +98,7 @@
           v-for="(item, index) in individualizatData"
           :key="index"
           :class="{ 'last-item': index === individualizatData.length - 1 }"
+          @click="jumpSongSheetDetail"
         >
           <div class="item-top">
             <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
@@ -178,16 +181,21 @@ export default defineComponent({
     );
 
     // 热门推荐 - 跳转歌单
-    function jumpSongSheet(type: string): void {
-      $store.commit('setMessage', {
-        type: 'info',
-        title: `跳转${type}歌单`
-      });
+    function jumpSongSheet(name: string): void {
+      $router.push({ name: 'home-song-sheet', params: { name } });
     }
 
     // 热门推荐 - 跳转更多歌单
     function songSheetMore(): void {
       $router.push({ name: 'home-song-sheet' });
+    }
+
+    // 跳转歌单详情
+    function jumpSongSheetDetail(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
     }
 
     // 获取热门推荐 - 推荐歌单数据
@@ -270,6 +278,7 @@ export default defineComponent({
       isLogin,
       jumpSongSheet,
       songSheetMore,
+      jumpSongSheetDetail,
       songListData,
       djprogramData,
       individualizatData,

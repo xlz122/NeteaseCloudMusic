@@ -45,7 +45,7 @@
 import { defineComponent, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { playlistCatlist } from '@api/home-song-sheet';
-import { ResponseType } from '@/types/types';
+import { ResponseType, LoopType } from '@/types/types';
 
 type CatList = {
   title: string;
