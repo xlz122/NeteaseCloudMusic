@@ -202,6 +202,7 @@ export default defineComponent({
 
     // 获取歌单详情
     function getSongListDetail(id: number): void {
+      $store.commit('music/setSongListDetailData', {});
       playListDetail({ id }).then((res: ResponseType) => {
         if (res.code === 200) {
           // 单独处理我喜欢的音乐

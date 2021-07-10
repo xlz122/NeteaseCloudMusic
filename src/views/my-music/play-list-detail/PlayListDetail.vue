@@ -130,6 +130,10 @@
         次
       </div>
     </div>
+    <div class="loading" v-if="loading">
+      <i class="loading-icon"></i>
+      加载中...
+    </div>
     <!-- 歌曲列表部分 -->
     <table
       class="play-list-table"
@@ -263,7 +267,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import MyDialog from '@/components/MyDialog.vue';
@@ -286,6 +290,18 @@ export default defineComponent({
     );
     // 当前播放音乐id
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
+
+    const loading = ref<boolean>(false);
+    watch(
+      () => songListDetailData.value,
+      () => {
+        if (songListDetailData.value?.code) {
+          loading.value = false;
+        } else {
+          loading.value = true;
+        }
+      }
+    );
 
     // 计算歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
@@ -443,6 +459,7 @@ export default defineComponent({
       formatDateTime,
       songListDetailData,
       playMusicId,
+      loading,
       isCopyright,
       playTitleMusic,
       setAddPlayList,
