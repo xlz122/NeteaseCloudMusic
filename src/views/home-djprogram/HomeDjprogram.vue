@@ -1,25 +1,20 @@
 <template>
   <div class="home-djprogram">
     <div class="home-djprogram-container">
-      <div class="category-box">
-        <ul class="category-list"></ul>
-        <span class="btn prev-btn"></span>
-        <span class="btn next-btn"></span>
-      </div>
+      <Category />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-// import { useStore } from 'vuex';
-// import { topPlaylist } from '@api/home-song-sheet';
-// import { ResponseType, LoopType } from '@/types/types';
+import Category from './category/Category.vue';
 
 export default defineComponent({
+  components: {
+    Category
+  },
   setup() {
-    // const $route = useRoute();
-
     return {};
   }
 });
