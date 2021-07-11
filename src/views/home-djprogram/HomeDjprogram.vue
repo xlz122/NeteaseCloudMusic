@@ -1,13 +1,14 @@
 <template>
   <div class="home-djprogram">
     <div class="home-djprogram-container">
-      <Category />
+      <Category @djCategorChange="djCategorChange" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useStore } from 'vuex';
 import Category from './category/Category.vue';
 
 export default defineComponent({
@@ -15,7 +16,18 @@ export default defineComponent({
     Category
   },
   setup() {
-    return {};
+    const $store = useStore();
+
+    // 分类点击
+    function djCategorChange(id: number): void {
+      $store.commit('setMessage', {
+        type: 'info',
+        title: `分类id:${id}`
+      });
+    }
+    return {
+      djCategorChange
+    };
   }
 });
 </script>
