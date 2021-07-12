@@ -120,9 +120,7 @@ export default defineComponent({
             getUserInfo(res?.account?.id);
           }
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(() => ({}));
     }
 
     // 获取用户详情

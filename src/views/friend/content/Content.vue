@@ -133,9 +133,7 @@ export default defineComponent({
     });
 
     onUnmounted(() => {
-      document.removeEventListener('scroll', function (): void {
-        console.log('friend/Content.vue 滚动事件移除');
-      });
+      document.removeEventListener('scroll', () => ({}));
     });
     return {
       releaseDynamic,

@@ -24,12 +24,15 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useStore } from 'vuex';
 import { subPlayList } from '@api/my-music';
 import { ResponseType } from '@/types/types';
 import { timeStampToDuration } from '@utils/utils.ts';
 
 export default defineComponent({
   setup() {
+    const $store = useStore();
+
     // 我的视频数量
     const subPlayListCount = ref<number>(0);
     // 获取我的视频列表
@@ -46,7 +49,10 @@ export default defineComponent({
 
     // 列表点击
     function subPlayListClick(): void {
-      console.log('点击');
+      $store.commit('setMessage', {
+        type: 'info',
+        title: '点击'
+      });
     }
     return {
       timeStampToDuration,

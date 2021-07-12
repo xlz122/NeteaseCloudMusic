@@ -89,6 +89,19 @@ module.exports = {
       // 去掉所有console.log()
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
 
+      // 打包文件大小配置
+      config.performance = {
+        hints: 'warning',
+        //入口起点的最大体积 整数类型（以字节为单位）
+        maxEntrypointSize: 50000000,
+        //生成文件的最大体积 整数类型（以字节为单位 300k）
+        maxAssetSize: 30000000,
+        //只给出 js 文件的性能提示
+        assetFilter: function (assetFilename) {
+          return assetFilename.endsWith('.js');
+        }
+      }
+
       return {
         // 配置不进行webpack打包的文件
         externals: externals,

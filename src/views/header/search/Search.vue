@@ -198,9 +198,7 @@ export default defineComponent({
             });
           }
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(() => ({}));
     }
 
     // 单曲详情

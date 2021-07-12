@@ -94,9 +94,7 @@ export default defineComponent({
             });
           }
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(() => ({}));
     }
     getTopArtists();
 
@@ -122,9 +120,7 @@ export default defineComponent({
             });
           }
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(() => ({}));
     }
 
     return {
