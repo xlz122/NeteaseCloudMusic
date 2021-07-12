@@ -114,15 +114,11 @@ export default defineComponent({
           // 登录成功
           if (res.code === 200 && res.account.status === 0) {
             document.cookie = `${res.cookie}`;
-            // 存储账户信息
-            $store.commit('setAccountInfo', res?.account);
             // 获取用户详情
             getUserInfo(res?.account?.id);
           }
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(() => ({}));
     }
 
     // 获取用户详情

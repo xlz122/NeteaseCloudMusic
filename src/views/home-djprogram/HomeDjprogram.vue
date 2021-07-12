@@ -12,6 +12,7 @@ import { useStore } from 'vuex';
 import Category from './category/Category.vue';
 
 export default defineComponent({
+  name: 'home-djprogram',
   components: {
     Category
   },

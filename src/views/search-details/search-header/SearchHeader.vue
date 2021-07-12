@@ -120,10 +120,10 @@ export default defineComponent({
   setup(props, { emit }) {
     const $store = useStore();
 
-    const searchKeywordText = computed(() => $store.getters.searchKeywordText);
+    const searchText = computed(() => $store.getters.searchText);
 
     // 搜索内容
-    const searchValue = ref<string>(searchKeywordText.value);
+    const searchValue = ref<string>(searchText.value);
     // 搜索建议显隐
     const searchProposShow = ref<boolean>(false);
     // 搜索建议数据
@@ -189,9 +189,7 @@ export default defineComponent({
             });
           }
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(() => ({}));
     }
 
     // 单曲详情

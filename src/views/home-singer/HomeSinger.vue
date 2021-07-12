@@ -26,6 +26,7 @@ import SingerMenu from './singer-menu/SingerMenu.vue';
 import SingerContent from './singer-content/SingerContent.vue';
 
 export default defineComponent({
+  name: 'home-singer',
   components: {
     SingerMenu,
     SingerContent
@@ -94,9 +95,7 @@ export default defineComponent({
             });
           }
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(() => ({}));
     }
     getTopArtists();
 
@@ -122,9 +121,7 @@ export default defineComponent({
             });
           }
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(() => ({}));
     }
 
     return {

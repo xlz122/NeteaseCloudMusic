@@ -6,12 +6,13 @@ export type Getters<T> = {
 
 const getters: Getters<State> = {
   heaerActiveIndex: state => state.heaerActiveIndex,
+  subActiveIndex: state => state.subActiveIndex,
   loginDialog: state => state.loginDialog,
-  accountInfo: state => state.accountInfo,
   userInfo: state => state.userInfo,
-  searchKeywordText: state => state.searchKeywordText,
   isLogin: state => state.isLogin,
-  message: state => state.message
+  message: state => state.message,
+  searchText: state => state.searchText,
+  userId: state => state.userId
 };
 
 export default getters;

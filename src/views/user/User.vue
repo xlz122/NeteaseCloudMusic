@@ -1,14 +1,14 @@
 <template>
-  <ul class="user-base">
+  <ul class="user-nav-list">
     <li
       class="item"
-      v-for="(item, index) in list"
+      v-for="(item, index) in navList"
       :key="index"
       @click="jumpDetail(item)"
     >
       <i :class="`icon ${item.icon}`"></i>
-      <span class="text" v-if="item.link">{{ item.title }}</span>
-      <a class="text" target="_blank" v-else :href="item?.href">
+      <span class="title" v-if="item.link">{{ item.title }}</span>
+      <a class="link" target="_blank" v-else :href="item?.href">
         {{ item?.title }}
       </a>
     </li>
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -32,10 +32,13 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    const list = ref<NavList[]>([
+    // 用户信息
+    const userInfo = computed(() => $store.getters.userInfo || {});
+
+    const navList = ref<NavList[]>([
       {
         title: '我的主页',
-        link: '/my-home-page',
+        link: '/user-profile',
         icon: 'homepage'
       },
       {
@@ -91,10 +94,19 @@ export default defineComponent({
         return false;
       }
 
-      $router.push({ path: item?.link || '/' });
-
       // 头部导航取消选中
       $store.commit('setHeaderActiveIndex', -1);
+
+      // 我的主页
+      if (item?.link === '/user-profile') {
+        $router.push({
+          name: 'user-profile',
+          params: { id: userInfo?.value.profile?.userId }
+        });
+        return false;
+      }
+
+      $router.push({ path: item?.link || '/' });
     }
 
     // 退出登录
@@ -102,8 +114,8 @@ export default defineComponent({
       $store.dispatch('setLogout');
     }
     return {
-      jumpDetail,
-      list
+      navList,
+      jumpDetail
     };
   }
 });

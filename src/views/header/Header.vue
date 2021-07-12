@@ -49,7 +49,7 @@
             v-for="(item, index) in subNavList"
             :key="index"
             :class="[
-              { 'active-item': index === subNavActive },
+              { 'active-item': index === subActiveIndex },
               { 'song-sheet': index === 2 }
             ]"
             @click="subNavChange(item, index)"
@@ -129,7 +129,7 @@ export default defineComponent({
       }
     ]);
 
-    // 导航当前选中项
+    // 头部导航当前选中项
     const heaerActiveIndex = computed<number>(
       () => $store.getters.heaerActiveIndex
     );
@@ -151,7 +151,7 @@ export default defineComponent({
       },
       {
         title: '排行',
-        link: ''
+        link: '/home-toplist'
       },
       {
         title: '歌单',
@@ -171,8 +171,11 @@ export default defineComponent({
       }
     ]);
 
-    // 子导航当前选中项
-    const subNavActive = ref<number>(0);
+    // 二级导航当前选中项
+    const subActiveIndex = computed<number>(
+      () => $store.getters.subActiveIndex
+    );
+
     // 导航更改
     function subNavChange(item: NavList, index: number): boolean | undefined {
       if (!item.link) {
@@ -182,7 +185,7 @@ export default defineComponent({
         });
         return false;
       }
-      subNavActive.value = index;
+      $store.commit('setSubActiveIndex', index);
     }
 
     // 监听导航变化
@@ -209,9 +212,6 @@ export default defineComponent({
       }
     );
 
-    // 登录弹框显隐
-    const dialogvisible = ref<boolean>(false);
-
     // 打开登录对话框
     function openLogin(): void {
       $store.commit('setLoginDialog', true);
@@ -224,9 +224,8 @@ export default defineComponent({
       heaerActiveIndex,
       navChange,
       subNavList,
-      subNavActive,
+      subActiveIndex,
       subNavChange,
-      dialogvisible,
       openLogin
     };
   }

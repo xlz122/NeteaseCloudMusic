@@ -45,6 +45,11 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, toRefs, watch } from 'vue';
 
+type SortList = {
+  large: string;
+  small: string | number;
+};
+
 export default defineComponent({
   props: {
     title: {
@@ -68,7 +73,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const { title } = toRefs(props);
 
-    const sortList = reactive([
+    const sortList = reactive<SortList[]>([
       {
         large: '热门',
         small: -1

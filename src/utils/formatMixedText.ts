@@ -1,5 +1,5 @@
 import { LoopType } from '@/types/types';
-import { expressionList } from '@/components/comment-replay/comment-replay';
+import { expressionList } from '@/components/comment/comment-replay/comment-replay';
 
 /**
  * @desc 混合文本格式化

@@ -174,15 +174,11 @@ export default defineComponent({
             // 登录成功
             if (res.code === 200 && res.account.status === 0) {
               document.cookie = `${res.cookie}`;
-              // 存储账户信息
-              $store.commit('setAccountInfo', res?.account);
               // 获取用户详情
               getUserInfo(res?.account?.id);
             }
           })
-          .catch(err => {
-            console.log(err);
-          });
+          .catch(() => ({}));
       });
     }
 
@@ -235,9 +231,7 @@ export default defineComponent({
 
     // 销毁点击监听
     onUnmounted(() => {
-      document.removeEventListener('click', function (): void {
-        console.log('MobileLogin.vue 点击事件移除');
-      });
+      document.removeEventListener('click', () => ({}));
     });
     return {
       countryCodeList,

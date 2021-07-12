@@ -9,7 +9,7 @@
       <!-- 进度 -->
       <div class="sub">
         <div class="subbg">
-          <div :style="`width:${(25 + 81) * level || 0 * 0.835}px;`">
+          <div :style="`width:${(25 + 81) * level * 0.835 || 0}px;`">
             <span></span>
           </div>
         </div>
@@ -105,6 +105,7 @@ type NextLevel = {
 };
 
 export default defineComponent({
+  name: 'level',
   setup() {
     const $store = useStore();
     // level
@@ -145,9 +146,7 @@ export default defineComponent({
             });
           }
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(() => ({}));
     }
     getUserLevel();
 

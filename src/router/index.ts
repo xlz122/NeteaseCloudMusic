@@ -56,15 +56,6 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "creator-center" */ '../views/header/creator-center/CreatorCenter.vue'
           )
       },
-      // 个人中心 - 我的主页
-      {
-        path: '/my-home-page',
-        name: 'user-my-home-page',
-        component: () =>
-          import(
-            /* webpackChunkName: "my-home-page" */ '../views/user/my-home-page/MyHomePage.vue'
-          )
-      },
       // 个人中心 - 我的等级
       {
         path: '/level',
@@ -117,6 +108,24 @@ const routes: Array<RouteRecordRaw> = [
         component: () =>
           import(
             /* webpackChunkName: "home-new-disc" */ '../views/home-new-disc/HomeNewDisc.vue'
+          )
+      },
+      // 歌单详情
+      {
+        path: '/song-sheet-detail',
+        name: 'song-sheet-detail',
+        component: () =>
+          import(
+            /* webpackChunkName: "song-sheet-detail" */ '../views/song-sheet-detail/SongSheetDetail.vue'
+          )
+      },
+      // 用户资料
+      {
+        path: '/user-profile',
+        name: 'user-profile',
+        component: () =>
+          import(
+            /* webpackChunkName: "song-sheet-detail" */ '../components/user-profile/UserProfile.vue'
           )
       }
     ]

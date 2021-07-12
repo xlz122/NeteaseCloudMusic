@@ -19,7 +19,7 @@
           v-for="(item, index) in songListData"
           :key="index"
           :class="{ 'last-item': songListData.length > 2 && index === 3 }"
-          @click="jumpSongSheetDetail"
+          @click="jumpSongSheetDetail(item.id)"
         >
           <div class="item-top">
             <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
@@ -40,7 +40,7 @@
             v-for="(item, index) in individualizatData"
             :key="index"
             :class="{ 'last-item': index === 1 }"
-            @click="jumpSongSheetDetail"
+            @click="jumpSongSheetDetail(item.id)"
           >
             <div class="item-top">
               <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
@@ -98,7 +98,7 @@
           v-for="(item, index) in individualizatData"
           :key="index"
           :class="{ 'last-item': index === individualizatData.length - 1 }"
-          @click="jumpSongSheetDetail"
+          @click="jumpSongSheetDetail(item.id)"
         >
           <div class="item-top">
             <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
@@ -191,11 +191,8 @@ export default defineComponent({
     }
 
     // 跳转歌单详情
-    function jumpSongSheetDetail(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+    function jumpSongSheetDetail(id: number): void {
+      $router.push({ name: 'song-sheet-detail', params: { id } });
     }
 
     // 获取热门推荐 - 推荐歌单数据

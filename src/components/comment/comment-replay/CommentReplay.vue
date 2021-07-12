@@ -6,7 +6,6 @@
         class="comment-textarea"
         v-model="replay.text"
         :rows="rows"
-        :style="commentReplayStyle"
       ></textarea>
     </div>
     <div class="operate">
@@ -61,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, watch, computed } from 'vue';
+import { defineComponent, ref, reactive, watch } from 'vue';
 import { onMounted, onUnmounted } from 'vue';
 import { expressionList } from './comment-replay';
 
@@ -86,10 +85,6 @@ export default defineComponent({
       type: [Number, String],
       default: 1
     },
-    width: {
-      type: [Number, String],
-      default: 300
-    },
     nickname: {
       type: String,
       default: ''
@@ -98,16 +93,9 @@ export default defineComponent({
   setup(
     props: {
       clearText: boolean;
-      width: number | string;
     },
     { emit }
   ) {
-    // 样式设置
-    const commentReplayStyle = computed(() => {
-      return {
-        width: `${props.width}px`
-      };
-    });
     // 回复数据
     const replay = reactive<Replay>({
       text: '',
@@ -202,14 +190,11 @@ export default defineComponent({
     });
 
     onUnmounted(() => {
-      document.removeEventListener('click', function (): void {
-        console.log('download.vue 点击事件移除');
-      });
+      document.removeEventListener('click', () => ({}));
     });
 
     return {
       expressionList,
-      commentReplayStyle,
       replay,
       expressionShow,
       isEmoj,

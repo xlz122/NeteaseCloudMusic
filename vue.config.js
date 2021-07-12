@@ -82,12 +82,25 @@ module.exports = {
     }
   },
   configureWebpack: config => {
-    // 必须添加环境判断代码
+    // 环境判断
     // development(开发)环境下config.optimization是undefined
     if (process.env.NODE_ENV === 'production') {
       // 为生产环境修改配置...
       // 去掉所有console.log()
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
+
+      // 打包文件大小配置
+      config.performance = {
+        hints: 'warning',
+        //入口起点的最大体积 整数类型（以字节为单位）
+        maxEntrypointSize: 50000000,
+        //生成文件的最大体积 整数类型（以字节为单位 300k）
+        maxAssetSize: 30000000,
+        //只给出 js 文件的性能提示
+        assetFilter: function (assetFilename) {
+          return assetFilename.endsWith('.js');
+        }
+      }
 
       return {
         // 配置不进行webpack打包的文件
@@ -147,7 +160,7 @@ module.exports = {
       .set('@types', resolve('src/types'))
       .set('@utils', resolve('src/utils'))
       .set('@views', resolve('src/views'));
-    // 配置index.html title 、cdn引入
+    // 配置index.html title、cdn引入
     config.plugin('html').tap(args => {
       args[0].title = '网易云音乐';
 
@@ -156,7 +169,7 @@ module.exports = {
       }
       return args;
     });
-    // 图片打包成base64配置,limit: 10240为10k
+    // 图片打包成base64配置，limit: 10240为10k
     config.module
       .rule('images')
       .test(/\.(jpg|png|gif|svg)$/)

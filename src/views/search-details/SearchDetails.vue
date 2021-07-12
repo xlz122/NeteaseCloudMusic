@@ -44,7 +44,7 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    const searchKeywordText = computed(() => $store.getters.searchKeywordText);
+    const searchText = computed(() => $store.getters.searchText);
     // 标题
     const searchTitleText = ref<string>('');
 
@@ -56,9 +56,9 @@ export default defineComponent({
 
     // 导航搜索回车
     watch(
-      () => searchKeywordText.value,
+      () => searchText.value,
       () => {
-        searchTitleText.value = searchKeywordText.value;
+        searchTitleText.value = searchText.value;
         getSearchSong();
       },
       {
@@ -101,9 +101,7 @@ export default defineComponent({
             });
           }
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(() => ({}));
     }
 
     // 监听总数，重置分页
