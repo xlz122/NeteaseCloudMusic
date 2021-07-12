@@ -97,7 +97,6 @@ export default defineComponent({
       getLyric({
         id: playMusicId.value
       }).then((res: ResponseType) => {
-        console.log(res);
         setLyricFun(res.lrc.lyric);
       });
     }
@@ -228,12 +227,8 @@ export default defineComponent({
         listOffest.transform = liActiveHeight - liClientHeight * 3;
         // 设置滚动条
         // 获取对应比例
-        const scale =
-          musicPlayProgress.value.progress / contentRef.clientHeight;
-        console.log(musicPlayProgress.value.progress);
-        console.log(contentRef.clientHeight);
-        console.log(scale);
-        console.dir(contentRef);
+        // const scale =
+        //   musicPlayProgress.value.progress / contentRef.clientHeight;
         // contentRef.scrollTop = scale * 1000;
       } else {
         for (let i = 0; i < state.lyricsArr.length; i++) {

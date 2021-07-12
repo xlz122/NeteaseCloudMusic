@@ -180,9 +180,7 @@ export default defineComponent({
               getUserInfo(res?.account?.id);
             }
           })
-          .catch(err => {
-            console.log(err);
-          });
+          .catch(() => ({}));
       });
     }
 
@@ -235,9 +233,7 @@ export default defineComponent({
 
     // 销毁点击监听
     onUnmounted(() => {
-      document.removeEventListener('click', function (): void {
-        console.log('MobileLogin.vue 点击事件移除');
-      });
+      document.removeEventListener('click', () => ({}));
     });
     return {
       countryCodeList,

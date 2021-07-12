@@ -247,9 +247,7 @@ export default defineComponent({
     });
 
     onUnmounted(() => {
-      document.removeEventListener('click', function (): void {
-        console.log('download.vue 点击事件移除');
-      });
+      document.removeEventListener('click', () => ({}));
     });
     return {
       otherDownload,
