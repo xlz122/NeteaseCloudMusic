@@ -3,6 +3,46 @@
     <div class="song-sheet-detail-container">
       <div class="song-sheet-content">
         <UserInfo class="user-info" />
+        <div class="list-title">
+          <h3 class="title-text">歌曲列表</h3>
+          <span class="title-text-num">
+            {{ songListDetailData?.playlist?.trackCount }}首歌
+          </span>
+          <div class="title-right">
+            <div class="out">
+              <i class="icon"></i>
+              <a
+                class="link"
+                href="https://music.163.com/#/outchain/0/2507890500/"
+              >
+                生成外链播放器
+              </a>
+            </div>
+            <div
+              class="title-play-num"
+              v-if="songListDetailData?.playlist?.tracks.length > 0"
+            >
+              播放:
+              <span class="eye-catching">{{
+                songListDetailData?.playlist?.playCount
+              }}</span>
+              次
+            </div>
+          </div>
+        </div>
+        <!-- 不是自己的歌单，没有删除选项，待完善 -->
+        <MusicTable class="music-table" />
+        <div class="playlist-see-more">
+          <div class="text">查看更多内容，请下载客户端</div>
+          <router-link class="link" to="/download">立即下载</router-link>
+        </div>
+        <!-- 评论 -->
+        <div class="comment">
+          <comment
+            v-if="songListDetailData?.playlist?.tracks.length > 0"
+            :songListDetailData="songListDetailData"
+          />
+        </div>
       </div>
       <div class="song-sheet-side"></div>
     </div>
@@ -10,16 +50,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { playlistDetail } from '@api/song-sheet-detail';
 import { ResponseType } from '@/types/types';
 import UserInfo from '@components/song-sheet/user-info/UserInfo.vue';
+import MusicTable from '@components/song-sheet/music-table/MusicTable.vue';
+import Comment from '@views/my-music/play-list-detail/Comment.vue';
 
 export default defineComponent({
   components: {
-    UserInfo
+    UserInfo,
+    MusicTable,
+    Comment
   },
   setup() {
     const $route = useRoute();
@@ -40,6 +84,11 @@ export default defineComponent({
       }
     );
 
+    // 详情数据
+    const songListDetailData = computed(
+      () => $store.getters['music/songListDetailData']
+    );
+
     // 获取歌单详情
     function getSongDetail(): void {
       playlistDetail({
@@ -58,7 +107,9 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
-    return {};
+    return {
+      songListDetailData
+    };
   }
 });
 </script>
