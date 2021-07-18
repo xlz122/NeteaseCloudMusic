@@ -24,7 +24,6 @@ export default defineComponent({
   setup() {
     const $route = useRoute();
     const $store = useStore();
-    console.log('d');
 
     const songSheetId = ref<number>(-1);
     // 监听路由传参
@@ -32,7 +31,6 @@ export default defineComponent({
       () => $route.params,
       curVal => {
         if (curVal.id) {
-          console.log(1);
           songSheetId.value = Number(curVal.id);
           getSongDetail();
         }
