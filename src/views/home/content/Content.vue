@@ -192,8 +192,6 @@ export default defineComponent({
 
     // 跳转歌单详情
     function jumpSongSheetDetail(id: number): void {
-      // 头部导航取消选中
-      $store.commit('setHeaderActiveIndex', -1);
       $router.push({ name: 'song-sheet-detail', params: { id } });
     }
 

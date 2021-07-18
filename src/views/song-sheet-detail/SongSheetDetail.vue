@@ -13,7 +13,7 @@
               <i class="icon"></i>
               <a
                 class="link"
-                href="https://music.163.com/#/outchain/0/2507890500/"
+                :href="`https://music.163.com/#/outchain/0/${songSheetId}`"
               >
                 生成外链播放器
               </a>
@@ -108,7 +108,8 @@ export default defineComponent({
     }
 
     return {
-      songListDetailData
+      songListDetailData,
+      songSheetId
     };
   }
 });
