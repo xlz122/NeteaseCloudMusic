@@ -118,6 +118,15 @@ const routes: Array<RouteRecordRaw> = [
           import(
             /* webpackChunkName: "home-new-disc" */ '../views/home-new-disc/HomeNewDisc.vue'
           )
+      },
+      // 歌单详情
+      {
+        path: '/song-sheet-detail',
+        name: 'song-sheet-detail',
+        component: () =>
+          import(
+            /* webpackChunkName: "song-sheet-detail" */ '../views/song-sheet-detail/SongSheetDetail.vue'
+          )
       }
     ]
   },
