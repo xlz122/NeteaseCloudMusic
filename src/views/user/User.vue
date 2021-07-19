@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -32,10 +32,13 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
+    // 用户信息
+    const userInfo = computed(() => $store.getters.userInfo || {});
+
     const list = ref<NavList[]>([
       {
         title: '我的主页',
-        link: '/my-home-page',
+        link: '/user-profile',
         icon: 'homepage'
       },
       {
@@ -93,6 +96,16 @@ export default defineComponent({
 
       // 头部导航取消选中
       $store.commit('setHeaderActiveIndex', -1);
+
+      // 我的主页
+      if (item?.link === '/user-profile') {
+        $router.push({
+          name: 'user-profile',
+          params: { id: userInfo?.value.profile?.userId }
+        });
+        return false;
+      }
+
       $router.push({ path: item?.link || '/' });
     }
 

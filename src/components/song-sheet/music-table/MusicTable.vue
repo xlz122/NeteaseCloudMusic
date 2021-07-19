@@ -157,7 +157,6 @@ export default defineComponent({
 
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
-    console.log(userInfo);
 
     // 详情数据
     const songListDetailData = computed(
