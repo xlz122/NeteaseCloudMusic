@@ -36,14 +36,16 @@
           <router-link class="link" to="/download">立即下载</router-link>
         </div>
         <!-- 评论 -->
-        <div class="comment">
-          <comment
-            v-if="songListDetailData?.playlist?.tracks.length > 0"
-            :songListDetailData="songListDetailData"
-          />
+        <div
+          class="comment"
+          v-if="songListDetailData?.playlist?.tracks.length > 0"
+        >
+          <comment :songListDetailData="songListDetailData" />
         </div>
       </div>
-      <div class="song-sheet-side"></div>
+      <div class="song-sheet-side">
+        <SongSheetSide :likePeople="songListDetailData.playlist?.subscribers" />
+      </div>
     </div>
   </div>
 </template>
@@ -57,12 +59,14 @@ import { ResponseType } from '@/types/types';
 import UserInfo from '@components/song-sheet/user-info/UserInfo.vue';
 import MusicTable from '@components/song-sheet/music-table/MusicTable.vue';
 import Comment from '@views/my-music/play-list-detail/Comment.vue';
+import SongSheetSide from './song-sheet-side/SongSheetSide.vue';
 
 export default defineComponent({
   components: {
     UserInfo,
     MusicTable,
-    Comment
+    Comment,
+    SongSheetSide
   },
   setup() {
     const $route = useRoute();

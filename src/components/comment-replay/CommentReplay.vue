@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, watch, computed } from 'vue';
+import { defineComponent, ref, reactive, watch } from 'vue';
 import { onMounted, onUnmounted } from 'vue';
 import { expressionList } from './comment-replay';
 
