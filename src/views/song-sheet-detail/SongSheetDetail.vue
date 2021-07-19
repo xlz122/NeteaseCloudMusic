@@ -69,7 +69,7 @@ export default defineComponent({
     const $store = useStore();
 
     const songSheetId = ref<number>(-1);
-    // 监听路由传参
+    // 监听路由传参，获取歌单详情
     watch(
       () => $route.params,
       curVal => {
@@ -83,7 +83,7 @@ export default defineComponent({
       }
     );
 
-    // 详情数据
+    // 歌单详情数据
     const songListDetailData = computed(
       () => $store.getters['music/songListDetailData']
     );

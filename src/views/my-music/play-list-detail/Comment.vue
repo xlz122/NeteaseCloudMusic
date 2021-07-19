@@ -13,7 +13,6 @@
         class="comment-content-replay"
         :clearText="commentClearText"
         :rows="3"
-        :width="590"
         @submit="commentSubmit"
       />
     </div>

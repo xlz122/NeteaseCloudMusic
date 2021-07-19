@@ -42,6 +42,7 @@
 
   .comment-content {
     margin: 20px auto 0;
+    text-align: left;
 
     .user-avatar {
       display: inline-block;
@@ -50,9 +51,17 @@
       height: 50px;
     }
 
-    .comment-content-replay {
+    ::v-deep(.comment-content-replay) {
       margin-left: 15px;
       margin-bottom: 12px;
+
+      .list-title {
+        padding-left: 0;
+      }
+
+      .comment-textarea {
+        width: 590px;
+      }
     }
   }
 
