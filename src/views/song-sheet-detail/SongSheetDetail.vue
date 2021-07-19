@@ -30,7 +30,6 @@
             </div>
           </div>
         </div>
-        <!-- 不是自己的歌单，没有删除选项，待完善 -->
         <MusicTable class="music-table" />
         <div class="playlist-see-more">
           <div class="text">查看更多内容，请下载客户端</div>
@@ -91,6 +90,8 @@ export default defineComponent({
 
     // 获取歌单详情
     function getSongDetail(): void {
+      // 清空歌单详情数据
+      $store.commit('music/setSongListDetailData', {});
       playlistDetail({
         id: songSheetId.value
       })
