@@ -30,3 +30,20 @@ export const userLevel = (): AxiosRequest => {
     params
   });
 };
+
+/**
+ * @desc 获取用户详情
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } uid - 用户id
+ */
+export const userDetail = ({ uid }: { uid: number }): AxiosRequest => {
+  const params = {
+    timestamp: new Date().getTime(),
+    uid
+  };
+  return axios.request({
+    url: '/user/detail',
+    method: 'get',
+    params
+  });
+};

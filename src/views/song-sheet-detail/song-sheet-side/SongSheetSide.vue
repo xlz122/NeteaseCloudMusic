@@ -1,44 +1,54 @@
 <template>
   <div class="song-sheet-side-container">
-    <h3 class="title">喜欢这个歌单的人</h3>
-    <ul class="like-list">
-      <li
-        class="item"
-        v-for="(item, index) in songListDetailData.playlist?.subscribers"
-        :key="index"
-        :class="{ 'first-item': !(index % 4) }"
-      >
-        <router-link class="item-link" to="" :title="item.nickname">
-          <img class="item-img" :src="`${item.avatarUrl}?param=40y40`" />
-        </router-link>
-      </li>
-    </ul>
-    <h3 class="title">热门歌单</h3>
-    <ul class="song-sheet-list">
-      <li
-        class="item"
-        v-for="(item, index) in songSheetList"
-        :key="index"
-        @click="jumpSongSheetDetail(item.id)"
-      >
-        <div class="item-cover">
-          <img
-            class="cover-img"
-            :src="`${item.coverImgUrl}?param=50y50`"
-            alt=""
-          />
-        </div>
-        <div class="item-info">
-          <p class="info-title" :title="item.name">{{ item?.name }}</p>
-          <div class="info-desc">
-            <span class="by">by</span>
-            <span class="text" :title="item?.creator?.nickname">{{
-              item?.creator?.nickname
-            }}</span>
+    <template v-if="songListDetailData.playlist?.subscribers.length > 0">
+      <h3 class="title">喜欢这个歌单的人</h3>
+      <ul class="like-list">
+        <li
+          class="item"
+          v-for="(item, index) in songListDetailData.playlist?.subscribers"
+          :key="index"
+          :class="{ 'first-item': !(index % 4) }"
+          @click="jumpUserProfile(item.userId)"
+        >
+          <router-link class="item-link" to="" :title="item.nickname">
+            <img class="item-img" :src="`${item.avatarUrl}?param=40y40`" />
+          </router-link>
+        </li>
+      </ul>
+    </template>
+    <template v-if="songSheetList.length > 0">
+      <h3 class="title">热门歌单</h3>
+      <ul class="song-sheet-list">
+        <li class="item" v-for="(item, index) in songSheetList" :key="index">
+          <div class="item-cover" @click="jumpSongSheetDetail(item.id)">
+            <img
+              class="cover-img"
+              :src="`${item.coverImgUrl}?param=50y50`"
+              alt=""
+            />
           </div>
-        </div>
-      </li>
-    </ul>
+          <div class="item-info">
+            <p
+              class="info-title"
+              :title="item.name"
+              @click="jumpSongSheetDetail(item.id)"
+            >
+              {{ item?.name }}
+            </p>
+            <div class="info-desc">
+              <span class="by">by</span>
+              <span
+                class="text"
+                :title="item?.creator?.nickname"
+                @click="jumpUserProfile(item?.creator?.userId)"
+              >
+                {{ item?.creator?.nickname }}
+              </span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </template>
     <h3 class="title">网易云音乐多端下载</h3>
     <SideDownload />
   </div>
@@ -107,6 +117,13 @@ export default defineComponent({
     }
     getTopPlaylist();
 
+    // 跳转用户资料
+    function jumpUserProfile(userId: number) {
+      // 头部导航取消选中
+      $store.commit('setHeaderActiveIndex', -1);
+      $router.push({ name: 'user-profile', params: { id: userId } });
+    }
+
     // 跳转歌单详情
     function jumpSongSheetDetail(id: number): void {
       $router.push({ name: 'song-sheet-detail', params: { id } });
@@ -117,6 +134,7 @@ export default defineComponent({
     return {
       songListDetailData,
       songSheetList,
+      jumpUserProfile,
       jumpSongSheetDetail
     };
   }
