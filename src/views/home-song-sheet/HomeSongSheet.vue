@@ -21,7 +21,7 @@
           :key="index"
           :class="{ 'last-item': songSheetList.length > 2 && !(index % 5) }"
         >
-          <div class="item-top">
+          <div class="item-top" @click="jumpSongSheetDetail(item.id)">
             <img
               class="img"
               :src="`${item?.coverImgUrl}?param=140y140`"
@@ -34,10 +34,20 @@
             </div>
           </div>
           <div class="item-bottom">
-            <span class="text" :title="item?.name">{{ item?.name }}</span>
+            <span
+              class="text"
+              :title="item?.name"
+              @click="jumpSongSheetDetail(item.id)"
+            >
+              {{ item?.name }}
+            </span>
             <div class="desc">
               <span class="by">by</span>
-              <span class="text" :title="item?.name">
+              <span
+                class="text"
+                :title="item?.name"
+                @click="jumpUserProfile(item?.creator?.userId)"
+              >
                 {{ item?.creator?.nickname }}
               </span>
               <!-- 小图标 -->
@@ -69,7 +79,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { topPlaylist } from '@api/home-song-sheet';
 import { ResponseType, LoopType } from '@/types/types';
@@ -92,6 +102,7 @@ export default defineComponent({
   },
   setup() {
     const $route = useRoute();
+    const $router = useRouter();
     const $store = useStore();
 
     const songTitle = ref<string>('全部');
@@ -170,6 +181,18 @@ export default defineComponent({
       classifyShow.value = false;
     }
 
+    // 跳转歌单详情
+    function jumpSongSheetDetail(id: number): void {
+      $router.push({ name: 'song-sheet-detail', params: { id } });
+    }
+
+    // 跳转用户资料
+    function jumpUserProfile(userId: number) {
+      // 头部导航取消选中
+      $store.commit('setHeaderActiveIndex', -1);
+      $router.push({ name: 'user-profile', params: { id: userId } });
+    }
+
     // 分页
     function changPage(current: number): void {
       songParams.page = current;
@@ -184,6 +207,8 @@ export default defineComponent({
       classifyShow,
       classifyModal,
       catChange,
+      jumpSongSheetDetail,
+      jumpUserProfile,
       changPage
     };
   }
