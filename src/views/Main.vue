@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <Header />
-    <!-- 主体内容 -->
     <router-view v-slot="{ Component }">
       <keep-alive :include="['download']">
         <component :is="Component" v-if="$route.meta.keepAlive" />
