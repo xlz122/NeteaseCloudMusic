@@ -44,7 +44,7 @@
         </div>
       </div>
       <div class="song-sheet-side">
-        <SongSheetSide :likePeople="songListDetailData.playlist?.subscribers" />
+        <SongSheetSide />
       </div>
     </div>
   </div>

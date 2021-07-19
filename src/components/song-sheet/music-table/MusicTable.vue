@@ -1,5 +1,6 @@
 <template>
   <div class="music-table-container">
+    <!-- loading -->
     <div class="loading" v-if="loading">
       <i class="loading-icon"></i>
       加载中...
