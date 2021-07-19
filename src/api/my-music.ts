@@ -150,16 +150,19 @@ export const deleteMusic = ({ pid, tracks }: DeleteMusic): AxiosRequest => {
 
 type CommentPlayList = {
   id: number;
+  offset?: number;
   limit?: number;
 };
 
 export const commentPlayList = ({
   id,
+  offset,
   limit
 }: CommentPlayList): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
     id,
+    offset,
     limit
   };
   return axios.request({
