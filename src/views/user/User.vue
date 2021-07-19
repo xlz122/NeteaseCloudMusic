@@ -7,8 +7,8 @@
       @click="jumpDetail(item)"
     >
       <i :class="`icon ${item.icon}`"></i>
-      <span class="text" v-if="item.link">{{ item.title }}</span>
-      <a class="text" target="_blank" v-else :href="item?.href">
+      <span class="title" v-if="item.link">{{ item.title }}</span>
+      <a class="link" target="_blank" v-else :href="item?.href">
         {{ item?.title }}
       </a>
     </li>
@@ -91,10 +91,9 @@ export default defineComponent({
         return false;
       }
 
-      $router.push({ path: item?.link || '/' });
-
       // 头部导航取消选中
       $store.commit('setHeaderActiveIndex', -1);
+      $router.push({ path: item?.link || '/' });
     }
 
     // 退出登录
