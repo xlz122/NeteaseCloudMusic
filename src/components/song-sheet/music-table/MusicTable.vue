@@ -68,7 +68,15 @@
                 <i class="icon collect"></i>
                 <i class="icon share"></i>
                 <i class="icon download"></i>
-                <i class="icon delete" @click="deleteMusicShow(item.id)"></i>
+                <!-- 用户自己才有删除按钮 -->
+                <i
+                  class="icon delete"
+                  v-if="
+                    songListDetailData?.playlist?.creator?.userId ===
+                    userInfo?.profile?.userId
+                  "
+                  @click="deleteMusicShow(item.id)"
+                ></i>
               </div>
             </div>
           </td>
@@ -145,6 +153,10 @@ export default defineComponent({
   },
   setup() {
     const $store = useStore();
+
+    // 用户信息
+    const userInfo = computed(() => $store.getters.userInfo);
+    console.log(userInfo);
 
     // 详情数据
     const songListDetailData = computed(
@@ -248,6 +260,7 @@ export default defineComponent({
     }
     return {
       timeStampToDuration,
+      userInfo,
       songListDetailData,
       playMusicId,
       loading,
