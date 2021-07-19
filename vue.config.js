@@ -82,7 +82,7 @@ module.exports = {
     }
   },
   configureWebpack: config => {
-    // 必须添加环境判断代码
+    // 环境判断
     // development(开发)环境下config.optimization是undefined
     if (process.env.NODE_ENV === 'production') {
       // 为生产环境修改配置...
