@@ -117,7 +117,7 @@ export default defineComponent({
     // 用户信息
     const profileInfo = computed(() => $store.getters.userInfo?.profile || {});
     // 用户等级
-    const level = computed(() => $store.getters.userInfo?.level || 0);
+    const level = computed<number>(() => $store.getters.userInfo?.level || 0);
     // 省
     const provinceName = findCityZipCode(profileInfo.value?.province || 0);
     // 市
