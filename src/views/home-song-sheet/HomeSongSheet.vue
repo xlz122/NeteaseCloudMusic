@@ -17,9 +17,9 @@
       <ul class="list-content">
         <li
           class="item"
-          v-for="(item, index) in songList"
+          v-for="(item, index) in songSheetList"
           :key="index"
-          :class="{ 'last-item': songList.length > 2 && !(index % 5) }"
+          :class="{ 'last-item': songSheetList.length > 2 && !(index % 5) }"
         >
           <div class="item-top">
             <img
@@ -95,7 +95,7 @@ export default defineComponent({
     const $store = useStore();
 
     const songTitle = ref<string>('全部');
-    const songList = ref([]);
+    const songSheetList = ref<unknown[]>([]);
     const songParams = reactive<SongParams>({
       order: 'hot',
       cat: '全部',
@@ -103,7 +103,7 @@ export default defineComponent({
       pageSize: 50,
       total: 0
     });
-    // 获取热门歌手数据
+    // 获取热门歌单数据
     function getTopPlaylist(): void {
       topPlaylist({
         order: songParams.order,
@@ -114,10 +114,11 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res.code === 200) {
             songTitle.value = res.cat;
+            // 统计数格式化
             res?.playlists.forEach((item: LoopType) => {
               item.playCount = bigNumberTransform(item.playCount);
             });
-            songList.value = res.playlists;
+            songSheetList.value = res.playlists;
             songParams.total = res.total;
           } else {
             $store.commit('setMessage', {
@@ -177,7 +178,7 @@ export default defineComponent({
 
     return {
       songTitle,
-      songList,
+      songSheetList,
       songParams,
       hotSong,
       classifyShow,

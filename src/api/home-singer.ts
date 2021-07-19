@@ -2,7 +2,7 @@ import axios from '@utils/axios';
 import { AxiosRequest } from '@/types/types';
 
 /**
- * @desc 获取热门歌手
+ * @desc 获取热门歌手列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } offset - 页数，默认为 0
  * @param { Number } limit - 取出数量，默认为 50
@@ -27,7 +27,7 @@ export const topArtists = ({ offset, limit }: TopArtists): AxiosRequest => {
 };
 
 /**
- * @desc 获取热门歌手
+ * @desc 获取歌手分类列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } area - 语言
  * @param { Number } type - 歌手

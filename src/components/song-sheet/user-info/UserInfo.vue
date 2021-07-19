@@ -140,7 +140,7 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 详情数据
+    // 歌单详情数据
     const songListDetailData = computed(
       () => $store.getters['music/songListDetailData']
     );

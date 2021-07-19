@@ -2,6 +2,21 @@ import axios from '@utils/axios';
 import { AxiosRequest } from '@/types/types';
 
 /**
+ * @desc 获取歌单分类
+ * @param { Number } timestamp - 防止接口缓存
+ */
+export const playlistCatlist = (): AxiosRequest => {
+  const params = {
+    timestamp: new Date().getTime()
+  };
+  return axios.request({
+    url: '/playlist/catlist',
+    method: 'get',
+    params
+  });
+};
+
+/**
  * @desc 获取歌单列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } order - 可选值为 'new' 和 'hot', 分别对应最新和最热 , 默认为 'hot'
@@ -32,21 +47,6 @@ export const topPlaylist = ({
   };
   return axios.request({
     url: '/top/playlist',
-    method: 'get',
-    params
-  });
-};
-
-/**
- * @desc 获取歌单列表
- * @param { Number } timestamp - 防止接口缓存
- */
-export const playlistCatlist = (): AxiosRequest => {
-  const params = {
-    timestamp: new Date().getTime()
-  };
-  return axios.request({
-    url: '/playlist/catlist',
     method: 'get',
     params
   });
