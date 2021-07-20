@@ -8,7 +8,7 @@
     <!-- 歌曲列表部分 -->
     <table
       class="play-list-table"
-      v-if="songListDetailData?.playlist?.tracks.length > 0"
+      v-if="songSheetDetail?.playlist?.tracks.length > 0"
     >
       <thead>
         <tr>
@@ -31,7 +31,7 @@
       </thead>
       <tbody class="tbody">
         <tr
-          v-for="(item, index) in songListDetailData?.playlist?.tracks"
+          v-for="(item, index) in songSheetDetail?.playlist?.tracks"
           :key="index"
           :class="[
             { 'even-tr': (index + 1) % 2 },
@@ -73,7 +73,7 @@
                 <i
                   class="icon delete"
                   v-if="
-                    songListDetailData?.playlist?.creator?.userId ===
+                    songSheetDetail?.playlist?.creator?.userId ===
                     userInfo?.profile?.userId
                   "
                   @click="deleteMusicShow(item.id)"
@@ -100,7 +100,7 @@
     <!-- 音乐列表空时展示 -->
     <div
       class="no-list-data"
-      v-if="songListDetailData?.playlist?.tracks.length === 0"
+      v-if="songSheetDetail?.playlist?.tracks.length === 0"
     >
       <div class="title">
         <i class="icon"></i>
@@ -158,18 +158,18 @@ export default defineComponent({
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
 
-    // 详情数据
-    const songListDetailData = computed(
-      () => $store.getters['music/songListDetailData']
+    // 歌单详情数据
+    const songSheetDetail = computed(
+      () => $store.getters['music/songSheetDetail']
     );
     // 当前播放音乐id
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
 
     const loading = ref<boolean>(false);
     watch(
-      () => songListDetailData.value,
+      () => songSheetDetail.value,
       () => {
-        if (songListDetailData.value?.code) {
+        if (songSheetDetail.value?.code) {
           loading.value = false;
         } else {
           loading.value = true;
@@ -179,7 +179,7 @@ export default defineComponent({
 
     // 计算歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
-      const privilege = songListDetailData.value?.privileges.find(
+      const privilege = songSheetDetail.value?.privileges.find(
         (item: LoopType) => item.id === id
       );
       if (privilege?.cp === 0) {
@@ -191,8 +191,8 @@ export default defineComponent({
 
     // 单个音乐添加到播放列表
     function setAddSinglePlayList(id: number): void {
-      if (songListDetailData.value?.playlist?.tracks.length > 0) {
-        const musicItem = songListDetailData.value?.playlist?.tracks.find(
+      if (songSheetDetail.value?.playlist?.tracks.length > 0) {
+        const musicItem = songSheetDetail.value?.playlist?.tracks.find(
           (item: LoopType) => item.id === id
         );
         // 播放音乐数据
@@ -244,13 +244,13 @@ export default defineComponent({
     function deleteMusicConfirm(): void {
       deleteMusicDialog.value = false;
       deleteMusic({
-        pid: songListDetailData.value.playlist.id,
+        pid: songSheetDetail.value.playlist.id,
         tracks: deleteMuiscId.value
       }).then(() => {
-        const index = songListDetailData.value?.playlist?.tracks?.findIndex(
+        const index = songSheetDetail.value?.playlist?.tracks?.findIndex(
           (item: LoopType) => item.id === deleteMuiscId.value
         );
-        songListDetailData.value?.playlist?.tracks?.splice(index, 1);
+        songSheetDetail.value?.playlist?.tracks?.splice(index, 1);
       });
     }
 
@@ -261,7 +261,7 @@ export default defineComponent({
     return {
       timeStampToDuration,
       userInfo,
-      songListDetailData,
+      songSheetDetail,
       playMusicId,
       loading,
       isCopyright,

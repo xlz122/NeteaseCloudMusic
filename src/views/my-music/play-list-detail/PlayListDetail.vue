@@ -5,15 +5,15 @@
     <div class="list-title">
       <h3 class="title-text">歌曲列表</h3>
       <span class="title-text-num">
-        {{ songListDetailData?.playlist?.trackCount }}首歌
+        {{ songSheetDetail?.playlist?.trackCount }}首歌
       </span>
       <div
         class="title-play-num"
-        v-if="songListDetailData?.playlist?.tracks.length > 0"
+        v-if="songSheetDetail?.playlist?.tracks.length > 0"
       >
         播放:
         <span class="eye-catching">{{
-          songListDetailData?.playlist?.playCount
+          songSheetDetail?.playlist?.playCount
         }}</span>
         次
       </div>
@@ -22,8 +22,8 @@
     <MusicTable class="music-table" />
     <!-- 评论 -->
     <comment
-      v-if="songListDetailData?.playlist?.tracks.length > 0"
-      :songListDetailData="songListDetailData"
+      v-if="songSheetDetail?.playlist?.tracks.length > 0"
+      :songSheetDetail="songSheetDetail"
     />
   </div>
 </template>
@@ -45,11 +45,11 @@ export default defineComponent({
     const $store = useStore();
 
     // 详情数据
-    const songListDetailData = computed(
-      () => $store.getters['music/songListDetailData']
+    const songSheetDetail = computed(
+      () => $store.getters['music/songSheetDetail']
     );
     return {
-      songListDetailData
+      songSheetDetail
     };
   }
 });

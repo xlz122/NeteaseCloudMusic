@@ -6,27 +6,19 @@ type Mutations<T, U> = {
 };
 
 const mutations: Mutations<State, unknown> = {
-  // 我的音乐 - 侧边歌单列表选中项id
-  setActiveSongListId(state, activeSongListId) {
-    state.activeSongListId = activeSongListId as number;
-    localStorage.setItem('activeSongListId', JSON.stringify(activeSongListId));
-  },
   // 我的音乐显示详情
   setMusicDetailOptions(state, musicDetailOptions) {
     state.musicDetailOptions = musicDetailOptions as MusicDetailOptions;
   },
-  // 我的音乐 - 歌单详情数据
-  setSongListDetailData(state, songListDetailData) {
-    state.songListDetailData = songListDetailData as unknown;
-    localStorage.setItem(
-      'songListDetailData',
-      JSON.stringify(songListDetailData)
-    );
+  // 歌单id
+  setSongSheetId(state, songSheetId) {
+    state.songSheetId = songSheetId as number;
+    localStorage.setItem('songSheetId', JSON.stringify(songSheetId));
   },
-  // 播放器锁定在底部
-  setMsicAudioLock(state, musicAudioLock) {
-    state.musicAudioLock = musicAudioLock as boolean;
-    localStorage.setItem('musicAudioLock', JSON.stringify(musicAudioLock));
+  // 歌单详情数据
+  setSongSheetDetail(state, songSheetDetail) {
+    state.songSheetDetail = songSheetDetail as unknown;
+    localStorage.setItem('songSheetDetail', JSON.stringify(songSheetDetail));
   },
   // 当前播放音乐id
   setPlayMusicId(state, playMusicId) {
@@ -70,6 +62,11 @@ const mutations: Mutations<State, unknown> = {
     const musicPlayStatus = JSON.parse(JSON.stringify(state.musicPlayStatus));
     const status = Object.assign(musicPlayStatus, playStatus);
     state.musicPlayStatus = status as unknown;
+  },
+  // 播放器锁定在底部
+  setMsicAudioLock(state, musicAudioLock) {
+    state.musicAudioLock = musicAudioLock as boolean;
+    localStorage.setItem('musicAudioLock', JSON.stringify(musicAudioLock));
   },
   // 播放类型
   setMusicModeType(state, modeType) {

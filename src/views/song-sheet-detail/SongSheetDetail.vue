@@ -6,7 +6,7 @@
         <div class="list-title">
           <h3 class="title-text">歌曲列表</h3>
           <span class="title-text-num">
-            {{ songListDetailData?.playlist?.trackCount }}首歌
+            {{ songSheetDetail?.playlist?.trackCount }}首歌
           </span>
           <div class="title-right">
             <div class="out">
@@ -20,11 +20,11 @@
             </div>
             <div
               class="title-play-num"
-              v-if="songListDetailData?.playlist?.tracks.length > 0"
+              v-if="songSheetDetail?.playlist?.tracks.length > 0"
             >
               播放:
               <span class="eye-catching">{{
-                songListDetailData?.playlist?.playCount
+                songSheetDetail?.playlist?.playCount
               }}</span>
               次
             </div>
@@ -38,9 +38,9 @@
         <!-- 评论 -->
         <div
           class="comment"
-          v-if="songListDetailData?.playlist?.tracks.length > 0"
+          v-if="songSheetDetail?.playlist?.tracks.length > 0"
         >
-          <comment :songListDetailData="songListDetailData" />
+          <comment :songSheetDetail="songSheetDetail" />
         </div>
       </div>
       <div class="song-sheet-side">
@@ -88,20 +88,20 @@ export default defineComponent({
     );
 
     // 歌单详情数据
-    const songListDetailData = computed(
-      () => $store.getters['music/songListDetailData']
+    const songSheetDetail = computed(
+      () => $store.getters['music/songSheetDetail']
     );
 
     // 获取歌单详情
     function getSongDetail(): void {
       // 清空歌单详情数据
-      $store.commit('music/setSongListDetailData', {});
+      $store.commit('music/setSongSheetDetail', {});
       playlistDetail({
         id: songSheetId.value
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            $store.commit('music/setSongListDetailData', res);
+            $store.commit('music/setSongSheetDetail', res);
           } else {
             $store.commit('setMessage', {
               type: 'error',
@@ -120,7 +120,7 @@ export default defineComponent({
     });
 
     return {
-      songListDetailData,
+      songSheetDetail,
       songSheetId
     };
   }

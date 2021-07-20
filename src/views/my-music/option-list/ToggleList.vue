@@ -17,7 +17,7 @@
     <ul class="list" v-if="listShow">
       <li
         class="item"
-        :class="{ 'active-item': item.id === activeSongListId }"
+        :class="{ 'active-item': item.id === songSheetId }"
         v-for="(item, index) in propsListData"
         :key="index"
         @click="listClick(item.id)"
@@ -105,9 +105,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 侧边歌单列表选中项id
-    const activeSongListId = computed(
-      () => $store.getters['music/activeSongListId']
-    );
+    const songSheetId = computed(() => $store.getters['music/songSheetId']);
 
     // 列表显隐切换
     const listShow = ref<boolean>(true);
@@ -210,7 +208,7 @@ export default defineComponent({
     return {
       propsListData,
       propsListCount,
-      activeSongListId,
+      songSheetId,
       listShow,
       listToggle,
       dialogeData,
