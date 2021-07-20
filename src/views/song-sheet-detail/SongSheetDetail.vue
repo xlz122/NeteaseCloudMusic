@@ -2,7 +2,7 @@
   <div class="song-sheet-detail">
     <div class="song-sheet-detail-container">
       <div class="song-sheet-content">
-        <UserInfo class="user-info" />
+        <UserInfo class="user-info" @commentClick="commentClick" />
         <div class="list-title">
           <h3 class="title-text">歌曲列表</h3>
           <span class="title-text-num">
@@ -37,7 +37,7 @@
         </div>
         <!-- 评论 -->
         <div
-          class="comment"
+          class="comment-component"
           v-if="songSheetDetail?.playlist?.tracks.length > 0"
         >
           <comment :songSheetDetail="songSheetDetail" />
@@ -112,6 +112,16 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
+    // 评论
+    function commentClick(): void {
+      const commentDom = document.querySelector(
+        '.comment-component'
+      ) as HTMLElement;
+      const myMusicDom = document.querySelector('.my-music') as HTMLElement;
+      // 标题高度
+      myMusicDom.scrollTo(0, Number(commentDom.offsetTop) - 36);
+    }
+
     onMounted(() => {
       // 头部导航选中
       $store.commit('setHeaderActiveIndex', 0);
@@ -121,7 +131,8 @@ export default defineComponent({
 
     return {
       songSheetDetail,
-      songSheetId
+      songSheetId,
+      commentClick
     };
   }
 });
