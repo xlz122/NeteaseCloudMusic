@@ -396,6 +396,12 @@ export default defineComponent({
         if (res.code === 200) {
           deleteCommentDialog.value = false;
           getCommentPlayList();
+        } else {
+          deleteCommentDialog.value = false;
+          $store.commit('setMessage', {
+            type: 'error',
+            title: '删除失败'
+          });
         }
       });
     }
