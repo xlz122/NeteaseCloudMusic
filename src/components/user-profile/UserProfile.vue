@@ -124,7 +124,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed, watch } from 'vue';
+import {
+  defineComponent,
+  ref,
+  reactive,
+  computed,
+  watch,
+  onMounted
+} from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { userDetail } from '@api/user';
@@ -235,6 +242,13 @@ export default defineComponent({
     function jumpSongSheetDetail(id: number): void {
       $router.push({ name: 'song-sheet-detail', params: { id } });
     }
+
+    onMounted(() => {
+      // 取消头部导航选中
+      $store.commit('setHeaderActiveIndex', -1);
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+    });
 
     return {
       isLogOnUser,
