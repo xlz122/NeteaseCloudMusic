@@ -18,7 +18,10 @@
             class="user-avatar"
             :src="songSheetDetail?.playlist?.creator?.avatarUrl"
           />
-          <span class="user-name">
+          <span
+            class="user-name"
+            @click="jumpUserProfile(songSheetDetail?.playlist?.creator?.userId)"
+          >
             {{ songSheetDetail?.playlist?.creator?.nickname }}
           </span>
           <span class="user-time">
@@ -274,6 +277,13 @@ export default defineComponent({
       emit('commentClick');
     }
 
+    // 跳转用户资料
+    function jumpUserProfile(userId: number) {
+      // 头部导航取消选中
+      $store.commit('setHeaderActiveIndex', -1);
+      $router.push({ name: 'user-profile', params: { id: userId } });
+    }
+
     // 跳转歌单
     function jumpSongSheet(name: string): void {
       $router.push({ name: 'home-song-sheet', params: { name } });
@@ -291,6 +301,7 @@ export default defineComponent({
       shareClick,
       downloadClick,
       commentClick,
+      jumpUserProfile,
       jumpSongSheet
     };
   }
