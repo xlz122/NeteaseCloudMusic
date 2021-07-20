@@ -50,6 +50,14 @@ const mutations: Mutations<State> = {
       JSON.stringify(searchText)
     );
   },
+  // 用户uid(自己或其他人)
+  setUserId(state, userId: number) {
+    state.userId = userId;
+    localStorage.setItem(
+      'userId',
+      JSON.stringify(userId)
+    );
+  },
   // 签到
   setSignIn(state, signIn: boolean) {
     const userInfo = JSON.parse(JSON.stringify(state.userInfo));

@@ -139,13 +139,20 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    const uid = ref<number>(-1);
+    // 用户uid
+    const uid = computed(() => $store.getters.userId);
     // 监听路由传参，获取用户详情、歌单列表
     watch(
       () => $route.params,
       curVal => {
+        // 传入
         if (curVal.id) {
-          uid.value = Number(curVal.id);
+          $store.commit('setUserId', Number(curVal.id));
+          getUserDetail();
+          getUserPlayList();
+        }
+        // 刷新
+        if (uid.value) {
           getUserDetail();
           getUserPlayList();
         }
@@ -156,8 +163,9 @@ export default defineComponent({
     );
 
     // 传入的uid是否是当前登录用户
-    const profileInfo = computed(() => $store.getters.userInfo?.profile || {});
-    const isLogOnUser = computed(() => profileInfo.value.userId === uid.value);
+    const isLogOnUser = computed(
+      () => $store.getters.userInfo?.profile.userId === uid.value
+    );
 
     // 用户详情
     const userInfo = ref({});
@@ -195,7 +203,10 @@ export default defineComponent({
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            // 列表数据
+            // 清空歌单列表
+            songSheetList.createSongList = [];
+            songSheetList.collectionSongList = [];
+            // 处理列表数据
             res.playlist.forEach((item: LoopType) => {
               // 喜欢的音乐处理
               if (isLogOnUser.value && item.name.includes('喜欢的音乐')) {
