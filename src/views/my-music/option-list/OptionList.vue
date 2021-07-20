@@ -20,7 +20,7 @@
   <toggle-list
     :title="'创建的歌单'"
     :listCount="optionsCount.createdPlayCount"
-    :listData="songList.createSongList"
+    :listData="songSheetList.createSongList"
     addBtnShow
     @listClick="createListClick"
   />
@@ -29,7 +29,7 @@
     v-if="optionsCount.collectionPlayCount > 0"
     :title="'收藏的歌单'"
     :listCount="optionsCount.collectionPlayCount"
-    :listData="songList.collectionSongList"
+    :listData="songSheetList.collectionSongList"
     @listClick="collectionListClick"
   />
 </template>
@@ -77,7 +77,7 @@ export default defineComponent({
     getUserSubcount();
 
     // 获取歌单列表
-    const songList = reactive<SongList>({
+    const songSheetList = reactive<SongList>({
       createSongList: [], // 创建的歌单
       collectionSongList: [] // 收藏的歌单
     });
@@ -88,7 +88,7 @@ export default defineComponent({
         uid: userInfo.value.profile.userId
       }).then((res: ResponseType) => {
         if (res.code === 200) {
-          // 列表数据
+          // 处理列表数据
           res.playlist.forEach((item: LoopType) => {
             // 喜欢的音乐处理
             if (item.name.includes('喜欢的音乐')) {
@@ -98,10 +98,10 @@ export default defineComponent({
             }
             // 收藏列表判断
             if (!item.subscribed) {
-              songList.createSongList.push(item);
+              songSheetList.createSongList.push(item);
             } else {
               item.cannotEdit = true;
-              songList.collectionSongList.push(item);
+              songSheetList.collectionSongList.push(item);
             }
           });
 
@@ -177,7 +177,7 @@ export default defineComponent({
       if (id === 0) {
         // 选中我喜欢的音乐
         const createSongList = JSON.parse(
-          JSON.stringify(songList.createSongList)
+          JSON.stringify(songSheetList.createSongList)
         );
         createListClick(createSongList[0].id);
         // 隐藏收藏的歌单
@@ -217,7 +217,7 @@ export default defineComponent({
     return {
       musicDetailOptions,
       optionsCount,
-      songList,
+      songSheetList,
       subPlayListClick,
       myMvClick,
       createListClick,
