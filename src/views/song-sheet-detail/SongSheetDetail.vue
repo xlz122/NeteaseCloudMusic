@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
+import { defineComponent, ref, computed, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { playlistDetail } from '@api/song-sheet-detail';
@@ -111,6 +111,13 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
+
+    onMounted(() => {
+      // 头部导航选中
+      $store.commit('setHeaderActiveIndex', 0);
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+    });
 
     return {
       songListDetailData,
