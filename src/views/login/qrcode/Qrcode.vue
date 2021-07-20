@@ -120,8 +120,6 @@ export default defineComponent({
     function getAccount(): void {
       accountInfo().then((res: ResponseDataType) => {
         if (res.code === 200) {
-          // 存储账户信息
-          $store.commit('setAccountInfo', res?.account);
           // 获取用户详情
           getUserInfo(res?.account?.id);
         }
