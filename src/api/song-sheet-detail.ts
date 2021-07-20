@@ -25,3 +25,28 @@ export const playlistDetail = ({
     params
   });
 };
+
+/**
+ * @desc 歌单收藏
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } id - 歌单 id
+ * @param { Number } t - 类型,1:收藏,2:取消收藏
+ */
+export const playlistSubscribe = ({
+  id,
+  t
+}: {
+  id: number;
+  t: number;
+}): AxiosRequest => {
+  const params = {
+    timestamp: new Date().getTime(),
+    id,
+    t
+  };
+  return axios.request({
+    url: '/playlist/subscribe',
+    method: 'get',
+    params
+  });
+};

@@ -18,7 +18,10 @@
             class="user-avatar"
             :src="songSheetDetail?.playlist?.creator?.avatarUrl"
           />
-          <span class="user-name">
+          <span
+            class="user-name"
+            @click="jumpUserProfile(songSheetDetail?.playlist?.creator?.userId)"
+          >
             {{ songSheetDetail?.playlist?.creator?.nickname }}
           </span>
           <span class="user-time">
@@ -49,22 +52,40 @@
             }"
             @click="setAddPlayList"
           ></div>
-          <div
-            class="other collection"
-            :class="{
-              'disable-collection':
-                songSheetDetail?.playlist?.subscribedCount > 0
-            }"
-            @click="collectionClick"
+          <!-- 自己的歌单，不可收藏/取消收藏 -->
+          <template
+            v-if="
+              songSheetDetail?.playlist?.userId === userInfo?.profile?.userId
+            "
           >
-            <span
-              class="icon"
-              v-if="songSheetDetail?.playlist?.subscribedCount > 0"
+            <div class="other collection disable-collection">
+              <span
+                class="icon"
+                v-if="songSheetDetail?.playlist?.subscribedCount > 0"
+              >
+                ({{ songSheetDetail?.playlist?.subscribedCount }})
+              </span>
+              <span class="icon" v-else>收藏</span>
+            </div>
+          </template>
+          <!-- 其他人歌单，可收藏/取消收藏 -->
+          <template v-else>
+            <div
+              class="other collection"
+              :class="{
+                'disable-collection': songSheetDetail?.playlist?.subscribed
+              }"
+              @click="collectionClick(songSheetDetail?.playlist?.subscribed)"
             >
-              ({{ songSheetDetail?.playlist?.subscribedCount }})
-            </span>
-            <span class="icon" v-else>收藏</span>
-          </div>
+              <span
+                class="icon"
+                v-if="songSheetDetail?.playlist?.subscribedCount > 0"
+              >
+                ({{ songSheetDetail?.playlist?.subscribedCount }})
+              </span>
+              <span class="icon" v-else>收藏</span>
+            </div>
+          </template>
           <div
             class="other share"
             :class="{
@@ -129,13 +150,18 @@ import { defineComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
+import { playlistSubscribe } from '@api/song-sheet-detail';
 import { formatDateTime } from '@utils/utils.ts';
-import { LoopType } from '@/types/types';
+import { ResponseType, LoopType } from '@/types/types';
 
 export default defineComponent({
-  setup() {
+  emit: ['commentClick'],
+  setup(props, { emit }) {
     const $router = useRouter();
     const $store = useStore();
+
+    // 用户信息
+    const userInfo = computed(() => $store.getters.userInfo);
 
     // 歌单详情数据
     const songSheetDetail = computed(
@@ -194,11 +220,40 @@ export default defineComponent({
     }
 
     // 收藏
-    function collectionClick(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+    function collectionClick(subscribed: boolean): void {
+      // 1:收藏 2:取消收藏
+      const t = subscribed ? 2 : 1;
+      playlistSubscribe({
+        id: songSheetDetail.value?.playlist?.id,
+        t
+      })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            if (t === 1) {
+              $store.commit('setMessage', {
+                type: 'info',
+                title: '收藏成功'
+              });
+              songSheetDetail.value.playlist.subscribed = true;
+            }
+            if (t === 2) {
+              $store.commit('setMessage', {
+                type: 'info',
+                title: '取消收藏'
+              });
+              songSheetDetail.value.playlist.subscribed = false;
+            }
+
+            // 更新歌单详情
+            $store.commit('music/setSongSheetDetail', songSheetDetail.value);
+          } else {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: res?.msg
+            });
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 分享
@@ -219,10 +274,14 @@ export default defineComponent({
 
     // 评论
     function commentClick(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      emit('commentClick');
+    }
+
+    // 跳转用户资料
+    function jumpUserProfile(userId: number) {
+      // 头部导航取消选中
+      $store.commit('setHeaderActiveIndex', -1);
+      $router.push({ name: 'user-profile', params: { id: userId } });
     }
 
     // 跳转歌单
@@ -232,6 +291,7 @@ export default defineComponent({
 
     return {
       formatDateTime,
+      userInfo,
       songSheetDetail,
       playMusicId,
       isCopyright,
@@ -241,6 +301,7 @@ export default defineComponent({
       shareClick,
       downloadClick,
       commentClick,
+      jumpUserProfile,
       jumpSongSheet
     };
   }

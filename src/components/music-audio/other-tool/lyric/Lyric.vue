@@ -1,14 +1,12 @@
 <template>
   <i class="icon-doubt"></i>
-  <div class="content" ref="lyricContentRef">
-    <ul class="list" :style="listStyle" ref="lyricUlRef">
+  <div class="lyric">
+    <ul class="lyric-list">
       <li
         class="item"
-        :ref="getlyricLiRef"
-        :class="{ active: lyricIndex === index }"
-        v-for="(item, index) in lyricsArr"
-        :data-time="item.time"
-        :key="item.uid"
+        v-for="(item, index) in lyric.list"
+        :key="index"
+        :class="{ 'active-item': index === lyric.index }"
       >
         {{ item.lyric }}
       </li>
@@ -17,70 +15,52 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  reactive,
-  ref,
-  toRefs,
-  watch,
-  computed,
-  onMounted
-} from 'vue';
+import { defineComponent, reactive, watch, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { getLyric } from '@api/my-music';
 import { ResponseType } from '@/types/types';
-import { timeStampToDuration } from '@utils/utils';
 
-type ListOffest = {
-  transform: number;
-  duration: number;
+type Lyric = {
+  list: List[];
+  index: number;
 };
 
-// 歌词动画需优化
-// 歌词容器高度需调整
-// 歌曲播放完，滚动条bug
+type List = {
+  lyric: string;
+  time: number;
+};
+
 export default defineComponent({
-  props: {
-    playListShow: {
-      type: Boolean,
-      default: false
-    }
-  },
   setup() {
     const $store = useStore();
-
-    // 播放列表数据
-    const playMusicList = computed<unknown[]>(
-      () => $store.getters['music/playMusicList']
-    );
 
     // 当前播放音乐id
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );
 
-    // 当前播放音乐数据
-    const playMusicItem = computed(() => $store.getters['music/playMusicItem']);
-
-    const state: any = reactive({
-      lyricsArr: [], // 歌词数组
-      lyricIndex: 0
+    // 歌词数据
+    const lyric = reactive<Lyric>({
+      list: [], // 列表
+      index: 0 // 当前播放索引
     });
 
     // 初始化获取歌词
     const playLyrics = computed(() => $store.getters['music/playLyrics']);
     onMounted(() => {
-      // 播放列表没有歌曲
-      if (playMusicList.value.length === 0) {
+      // 当前播放id不存在
+      if (!playMusicId.value) {
         return false;
       }
+      // 重置播放索引
+      lyric.index = 0;
       // 本地歌词存在
       if (Object.keys(playLyrics.value).length > 0) {
-        state.lyricsArr = playLyrics.value;
+        lyric.list = playLyrics.value;
       }
       // 本地歌词不存在，获取歌词
       if (Object.keys(playLyrics.value).length <= 0) {
-        getLyricFun();
+        getLyricData();
       }
     });
 
@@ -88,31 +68,35 @@ export default defineComponent({
     watch(
       () => playMusicId.value,
       () => {
-        getLyricFun();
+        // 重置播放索引
+        lyric.index = 0;
+        getLyricData();
       }
     );
 
     // 获取歌词
-    function getLyricFun() {
+    function getLyricData() {
       getLyric({
         id: playMusicId.value
       }).then((res: ResponseType) => {
-        setLyricFun(res.lrc.lyric);
+        handlerLyric(res.lrc.lyric);
       });
     }
 
-    // 格式化歌词
-    function setLyricFun(lyric: string): void {
-      state.lyricsArr = [];
+    // 处理歌词数据
+    function handlerLyric(lyricStr: string): void {
+      // 清空歌词
+      lyric.list = [];
+
       const regNewLine = /\n/;
-      const lineArr = lyric.split(regNewLine); // 每行歌词的数组
+      // 每行歌词的数组
+      const lineArr = lyricStr.split(regNewLine);
       const regTime = /\[\d{2}:\d{2}.\d{2,3}\]/;
       lineArr.forEach((item: any) => {
         if (item === '') return;
         const obj = {
           lyric: '',
-          time: 0,
-          uid: ''
+          time: -1
         };
         const time = item.match(regTime);
         obj.lyric =
@@ -120,11 +104,10 @@ export default defineComponent({
         obj.time = time
           ? formatLyricTime(time[0].slice(1, time[0].length - 1))
           : 0;
-        obj.uid = Math.random().toString().slice(-6);
-        state.lyricsArr.push(obj);
+        lyric.list.push(obj);
       });
       // 歌词存储
-      $store.commit('music/setLyrics', state.lyricsArr);
+      $store.commit('music/setLyrics', lyric.list);
     }
 
     // 格式化歌词的时间 转换成 sss:ms
@@ -153,102 +136,77 @@ export default defineComponent({
     watch(
       () => musicPlayProgress.value.currentTime,
       () => {
-        getWatch();
+        // 歌词未加载
+        if (lyric.list.length === 0) {
+          return false;
+        }
+        // 当前播放时间
+        const currentTime = musicPlayProgress.value.currentTime;
+        // 获取当前播放索引
+        lyric.list.forEach((item, index) => {
+          // 大于最后一项
+          if (index + 1 > lyric.list.length - 1) {
+            return false;
+          }
+          // 大于当前时间，小于下一项时间
+          const itemTime = Math.floor(item.time);
+          // -1用于动画过渡
+          if (
+            itemTime <= currentTime &&
+            currentTime < lyric.list[index + 1].time
+          ) {
+            lyric.index = index;
+          }
+        });
       }
     );
 
-    // 列表偏移样式
-    const listOffest = reactive<ListOffest>({
-      transform: 0,
-      duration: 0.7
-    });
-
-    const listStyle = computed(() => {
-      return {
-        transform: `translate3d(0, -${listOffest.transform}px, 0)`,
-        transition: `all ${listOffest.duration}s linear`
-      };
-    });
-
-    // 歌词容器
-    const lyricContentRef = ref<HTMLElement>();
-    // 歌词列表容器
-    const lyricUlRef = ref<HTMLElement>();
-    // 歌词列表li
-    const lyricLiRef = ref<HTMLElement[]>([]);
-    const getlyricLiRef = (el: HTMLElement) => {
-      if (state?.lyricsArr.length !== lyricLiRef.value.length) {
-        lyricLiRef.value.push(el);
+    // 监听播放索引更新
+    watch(
+      () => lyric.index,
+      () => {
+        // 歌词滚动
+        roll();
       }
-    };
+    );
 
-    // 匹配歌词
-    function getWatch(): boolean | undefined {
-      const contentRef = lyricContentRef.value as HTMLElement;
-      const ulRef = lyricUlRef.value as HTMLElement;
-      const liRef = lyricLiRef.value as HTMLElement[];
-      // 歌词容器未加载
-      if (!contentRef?.clientHeight) {
+    // 滚动函数
+    function roll(): boolean | undefined {
+      // 歌词未加载
+      if (lyric.list.length === 0) {
         return false;
       }
-      // 歌词列表容器未加载
-      if (!ulRef?.clientHeight) {
+      // 第五行歌词开始滚动
+      if (lyric.index < 3) {
         return false;
       }
-      // 歌词列表li未加载完成
-      if (liRef.length !== state?.lyricsArr.length) {
-        return false;
-      }
-      // 动态设置ul高度
-      ulRef.style.height = ulRef.clientHeight + 'px';
-      // 获取容器一半高度
-      const contentHalfHeight = contentRef.clientHeight / 2;
-      // 单个li高度
-      let liClientHeight = 0;
-      // 获取当前选中li距离顶部高度
-      let liActiveHeight = 0;
-      liRef.forEach(item => {
-        liClientHeight = item.clientHeight;
-        if (item.className === 'item active') {
-          liActiveHeight = item.offsetTop;
-        }
-      });
+      scrollAnimation();
+    }
 
-      // 当前播放时间
-      const currentTime = musicPlayProgress.value.currentTime;
-      // 当前选中即将超过一半少一行，开始滚动
-      if (liActiveHeight > contentHalfHeight - liClientHeight) {
-        for (let i = 0; i < state.lyricsArr.length; i++) {
-          if (currentTime > parseInt(state.lyricsArr[i].time)) {
-            state.lyricIndex = i;
-          }
-        }
-        // 设置列表滚动
-        listOffest.transform = liActiveHeight - liClientHeight * 3;
-        // 设置滚动条
-        // 获取对应比例
-        // const scale =
-        //   musicPlayProgress.value.progress / contentRef.clientHeight;
-        // contentRef.scrollTop = scale * 1000;
-      } else {
-        for (let i = 0; i < state.lyricsArr.length; i++) {
-          if (currentTime > parseInt(state.lyricsArr[i].time)) {
-            state.lyricIndex = i;
-          }
-        }
+    // 过渡动画函数
+    function scrollAnimation(): void {
+      const lyricDom = document.querySelector('.lyric') as HTMLElement;
+      let timer = 0;
+      // 定时器存在，清空定时器
+      if (timer) {
+        clearInterval(timer);
       }
+      // 一行高度32，定时器执行70次(对应歌词颜色过渡时间0.7s)
+      const once = 32 / 70;
+      // 累计高度
+      let total = 0;
+      timer = setInterval(() => {
+        if (total >= 32) {
+          clearInterval(timer);
+          return false;
+        }
+        total += once;
+        lyricDom.scrollTo(0, Number(32 * (lyric.index - 4)) + total);
+      }, 10);
     }
 
     return {
-      playMusicList,
-      playMusicId,
-      playMusicItem,
-      timeStampToDuration,
-      ...toRefs(state),
-      lyricContentRef,
-      lyricUlRef,
-      getlyricLiRef,
-      listStyle
+      lyric
     };
   }
 });
