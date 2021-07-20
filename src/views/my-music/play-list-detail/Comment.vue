@@ -222,6 +222,9 @@ export default defineComponent({
       () => props.songListDetailData,
       () => {
         getCommentPlayList();
+      },
+      {
+        immediate: true
       }
     );
 
