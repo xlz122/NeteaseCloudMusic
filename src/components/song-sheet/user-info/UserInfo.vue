@@ -113,10 +113,11 @@
           <ul class="list">
             <li
               class="item"
-              v-for="(t, tind) in songListDetailData?.playlist?.tags"
-              :key="tind"
+              v-for="(item, index) in songListDetailData?.playlist?.tags"
+              :key="index"
+              @click="jumpSongSheet(item)"
             >
-              <span class="text">{{ t }}</span>
+              <span class="text">{{ item }}</span>
             </li>
           </ul>
         </div>
@@ -131,6 +132,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { formatDateTime } from '@utils/utils.ts';
@@ -138,6 +140,7 @@ import { LoopType } from '@/types/types';
 
 export default defineComponent({
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     // 歌单详情数据
@@ -228,6 +231,11 @@ export default defineComponent({
       });
     }
 
+    // 跳转歌单
+    function jumpSongSheet(name: string): void {
+      $router.push({ name: 'home-song-sheet', params: { name } });
+    }
+
     return {
       formatDateTime,
       songListDetailData,
@@ -238,7 +246,8 @@ export default defineComponent({
       collectionClick,
       shareClick,
       downloadClick,
-      commentClick
+      commentClick,
+      jumpSongSheet
     };
   }
 });
