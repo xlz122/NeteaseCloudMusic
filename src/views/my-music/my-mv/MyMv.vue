@@ -23,7 +23,9 @@
         <div class="item-title">{{ item?.title }}</div>
         <div class="item-name">
           <span class="text">by</span>
-          <span class="name">{{ item?.creator[0]?.userName }}</span>
+          <span class="name" @click="jumpUserProfile(item?.creator[0]?.userId)">
+            {{ item?.creator[0]?.userName }}
+          </span>
         </div>
       </li>
     </ul>
@@ -32,6 +34,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { myMvSbulist } from '@api/my-music';
 import { ResponseType } from '@/types/types';
@@ -39,6 +42,7 @@ import { timeStampToDuration } from '@utils/utils.ts';
 
 export default defineComponent({
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     // 我的视频数量
@@ -62,11 +66,19 @@ export default defineComponent({
         title: '点击mv播放'
       });
     }
+
+    // 跳转用户资料
+    function jumpUserProfile(userId: number) {
+      // 头部导航取消选中
+      $store.commit('setHeaderActiveIndex', -1);
+      $router.push({ name: 'user-profile', params: { id: userId } });
+    }
     return {
       timeStampToDuration,
       myMvCount,
       myMvList,
-      myMvplay
+      myMvplay,
+      jumpUserProfile
     };
   }
 });
