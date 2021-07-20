@@ -152,7 +152,8 @@ import { formatDateTime } from '@utils/utils.ts';
 import { ResponseType, LoopType } from '@/types/types';
 
 export default defineComponent({
-  setup() {
+  emit: ['commentClick'],
+  setup(props, { emit }) {
     const $router = useRouter();
     const $store = useStore();
 
@@ -270,10 +271,7 @@ export default defineComponent({
 
     // 评论
     function commentClick(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      emit('commentClick');
     }
 
     // 跳转歌单

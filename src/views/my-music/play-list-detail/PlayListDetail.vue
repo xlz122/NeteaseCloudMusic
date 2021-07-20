@@ -1,7 +1,7 @@
 <template>
   <div class="play-list-main">
     <!-- 个人信息部分 -->
-    <UserInfo class="user-info" />
+    <UserInfo class="user-info" @commentClick="commentClick" />
     <div class="list-title">
       <h3 class="title-text">歌曲列表</h3>
       <span class="title-text-num">
@@ -21,10 +21,12 @@
     <!-- 音乐列表 -->
     <MusicTable class="music-table" />
     <!-- 评论 -->
-    <comment
-      v-if="songSheetDetail?.playlist?.tracks.length > 0"
-      :songSheetDetail="songSheetDetail"
-    />
+    <div class="comment-component">
+      <comment
+        v-if="songSheetDetail?.playlist?.tracks.length > 0"
+        :songSheetDetail="songSheetDetail"
+      />
+    </div>
   </div>
 </template>
 
@@ -48,8 +50,20 @@ export default defineComponent({
     const songSheetDetail = computed(
       () => $store.getters['music/songSheetDetail']
     );
+
+    // 评论
+    function commentClick(): void {
+      const commentDom = document.querySelector(
+        '.comment-component'
+      ) as HTMLElement;
+      const myMusicDom = document.querySelector('.my-music') as HTMLElement;
+      // 标题高度
+      myMusicDom.scrollTo(0, Number(commentDom.offsetTop) - 36);
+    }
+
     return {
-      songSheetDetail
+      songSheetDetail,
+      commentClick
     };
   }
 });
