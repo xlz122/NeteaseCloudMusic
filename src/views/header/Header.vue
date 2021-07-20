@@ -151,7 +151,7 @@ export default defineComponent({
       },
       {
         title: '排行',
-        link: ''
+        link: '/home-toplist'
       },
       {
         title: '歌单',

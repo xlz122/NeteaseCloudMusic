@@ -1,8 +1,8 @@
 <template>
-  <ul class="user-base">
+  <ul class="user-nav-list">
     <li
       class="item"
-      v-for="(item, index) in list"
+      v-for="(item, index) in navList"
       :key="index"
       @click="jumpDetail(item)"
     >
@@ -35,7 +35,7 @@ export default defineComponent({
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo || {});
 
-    const list = ref<NavList[]>([
+    const navList = ref<NavList[]>([
       {
         title: '我的主页',
         link: '/user-profile',
@@ -114,8 +114,8 @@ export default defineComponent({
       $store.dispatch('setLogout');
     }
     return {
-      jumpDetail,
-      list
+      navList,
+      jumpDetail
     };
   }
 });

@@ -96,6 +96,7 @@ type SongParams = {
 };
 
 export default defineComponent({
+  name: 'home-song-sheet',
   components: {
     ClassifyModal,
     Page

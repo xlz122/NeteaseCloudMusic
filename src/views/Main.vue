@@ -1,9 +1,9 @@
 <template>
   <div class="home">
     <Header />
-    <router-view v-slot="{ Component }">
+    <router-view v-slot="{ Component }" v-if="$route.meta.keepAlive">
       <keep-alive :include="['download']">
-        <component :is="Component" v-if="$route.meta.keepAlive" />
+        <component :is="Component" />
       </keep-alive>
     </router-view>
     <router-view v-if="!$route.meta.keepAlive"></router-view>

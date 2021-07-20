@@ -26,6 +26,7 @@ import SingerMenu from './singer-menu/SingerMenu.vue';
 import SingerContent from './singer-content/SingerContent.vue';
 
 export default defineComponent({
+  name: 'home-singer',
   components: {
     SingerMenu,
     SingerContent

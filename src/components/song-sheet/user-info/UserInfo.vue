@@ -13,7 +13,7 @@
           <i class="icon-title"></i>
           <h2 class="title-text">{{ songListDetailData?.playlist?.name }}</h2>
         </div>
-        <div class="user-info">
+        <div class="info">
           <img
             class="user-avatar"
             :src="songListDetailData?.playlist?.creator?.avatarUrl"
