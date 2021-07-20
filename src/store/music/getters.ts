@@ -5,15 +5,15 @@ export type Getters<T> = {
 };
 
 const getters: Getters<State> = {
-  activeSongListId: state => state.activeSongListId,
   musicDetailOptions: state => state.musicDetailOptions,
-  songListDetailData: state => state.songListDetailData,
-  musicAudioLock: state => state.musicAudioLock,
+  songSheetId: state => state.songSheetId,
+  songSheetDetail: state => state.songSheetDetail,
   playMusicId: state => state.playMusicId,
   playMusicItem: state => state.playMusicItem,
   playMusicList: state => state.playMusicList,
   musicPlayProgress: state => state.musicPlayProgress,
   musicPlayStatus: state => state.musicPlayStatus,
+  musicAudioLock: state => state.musicAudioLock,
   musicModeType: state => state.musicModeType,
   musicVolume: state => state.musicVolume,
   playLyrics: state => state.playLyrics

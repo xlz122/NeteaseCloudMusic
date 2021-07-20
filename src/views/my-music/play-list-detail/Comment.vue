@@ -7,7 +7,7 @@
     <div class="comment-content">
       <img
         class="user-avatar"
-        :src="songListDetailData?.playlist?.creator?.avatarUrl"
+        :src="songSheetDetail?.playlist?.creator?.avatarUrl"
       />
       <comment-replay
         class="comment-content-replay"
@@ -206,12 +206,12 @@ export default defineComponent({
     CommentReplay
   },
   props: {
-    songListDetailData: {
+    songSheetDetail: {
       type: Object,
       default: () => ({})
     }
   },
-  setup(props: { songListDetailData: ResponseType }) {
+  setup(props: { songSheetDetail: ResponseType }) {
     const $store = useStore();
 
     // 用户信息
@@ -219,7 +219,7 @@ export default defineComponent({
 
     // 播放列表更新，重新请求评论数据
     watch(
-      () => props.songListDetailData,
+      () => props.songSheetDetail,
       () => {
         getCommentPlayList();
       },
@@ -234,7 +234,7 @@ export default defineComponent({
     const commentTotal = ref<number>(0);
     function getCommentPlayList(): void {
       commentPlayList({
-        id: props?.songListDetailData?.playlist?.id
+        id: props?.songSheetDetail?.playlist?.id
       }).then((res: ResponseType) => {
         if (res.code === 200) {
           // 精彩评论
@@ -287,7 +287,7 @@ export default defineComponent({
         return false;
       }
       addSongSheetComment({
-        id: props?.songListDetailData?.playlist?.id,
+        id: props?.songSheetDetail?.playlist?.id,
         content: replayText
       }).then((res: ResponseType) => {
         if (res.code === 200) {
@@ -342,7 +342,7 @@ export default defineComponent({
     // 删除评论 - 确定
     function deleteCommentConfirm() {
       deleteSongSheetComment({
-        id: props?.songListDetailData?.playlist?.id,
+        id: props?.songSheetDetail?.playlist?.id,
         commentId: deleteCommentId.value
       }).then((res: ResponseType) => {
         if (res.code === 200) {
@@ -372,7 +372,7 @@ export default defineComponent({
       }
       // 接口修改
       songSheetLike({
-        id: props?.songListDetailData?.playlist?.id,
+        id: props?.songSheetDetail?.playlist?.id,
         cid: commentId,
         t: type
       });
@@ -398,7 +398,7 @@ export default defineComponent({
         return false;
       }
       replySongSheetComment({
-        id: props?.songListDetailData?.playlist?.id,
+        id: props?.songSheetDetail?.playlist?.id,
         content: replayText,
         commentId
       }).then((res: ResponseType) => {

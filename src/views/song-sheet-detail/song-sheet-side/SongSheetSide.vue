@@ -1,11 +1,11 @@
 <template>
   <div class="song-sheet-side-container">
-    <template v-if="songListDetailData.playlist?.subscribers.length > 0">
+    <template v-if="songSheetDetail.playlist?.subscribers.length > 0">
       <h3 class="title">喜欢这个歌单的人</h3>
       <ul class="like-list">
         <li
           class="item"
-          v-for="(item, index) in songListDetailData.playlist?.subscribers"
+          v-for="(item, index) in songSheetDetail.playlist?.subscribers"
           :key="index"
           :class="{ 'first-item': !(index % 4) }"
           @click="jumpUserProfile(item.userId)"
@@ -84,8 +84,8 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌单详情数据
-    const songListDetailData = computed(
-      () => $store.getters['music/songListDetailData']
+    const songSheetDetail = computed(
+      () => $store.getters['music/songSheetDetail']
     );
 
     const songSheetList = ref<unknown[]>([]);
@@ -132,7 +132,7 @@ export default defineComponent({
     }
 
     return {
-      songListDetailData,
+      songSheetDetail,
       songSheetList,
       jumpUserProfile,
       jumpSongSheetDetail

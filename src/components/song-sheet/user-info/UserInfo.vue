@@ -4,27 +4,27 @@
       <div class="info-img">
         <img
           class="img"
-          :src="`${songListDetailData?.playlist?.coverImgUrl}?param=200y200`"
+          :src="`${songSheetDetail?.playlist?.coverImgUrl}?param=200y200`"
         />
         <i class="icon"></i>
       </div>
       <div class="info-right">
         <div class="title">
           <i class="icon-title"></i>
-          <h2 class="title-text">{{ songListDetailData?.playlist?.name }}</h2>
+          <h2 class="title-text">{{ songSheetDetail?.playlist?.name }}</h2>
         </div>
         <div class="info">
           <img
             class="user-avatar"
-            :src="songListDetailData?.playlist?.creator?.avatarUrl"
+            :src="songSheetDetail?.playlist?.creator?.avatarUrl"
           />
           <span class="user-name">
-            {{ songListDetailData?.playlist?.creator?.nickname }}
+            {{ songSheetDetail?.playlist?.creator?.nickname }}
           </span>
           <span class="user-time">
             {{
               formatDateTime(
-                songListDetailData?.playlist?.createTime / 1000,
+                songSheetDetail?.playlist?.createTime / 1000,
                 'yyyy-MM-dd'
               )
             }}
@@ -36,7 +36,7 @@
           <div
             class="play"
             :class="{
-              'disable-play': songListDetailData?.playlist?.tracks.length === 0
+              'disable-play': songSheetDetail?.playlist?.tracks.length === 0
             }"
             @click="playTitleMusic"
           >
@@ -45,8 +45,7 @@
           <div
             class="play-add"
             :class="{
-              'disable-play-add':
-                songListDetailData?.playlist?.tracks.length === 0
+              'disable-play-add': songSheetDetail?.playlist?.tracks.length === 0
             }"
             @click="setAddPlayList"
           ></div>
@@ -54,38 +53,34 @@
             class="other collection"
             :class="{
               'disable-collection':
-                songListDetailData?.playlist?.subscribedCount > 0
+                songSheetDetail?.playlist?.subscribedCount > 0
             }"
             @click="collectionClick"
           >
             <span
               class="icon"
-              v-if="songListDetailData?.playlist?.subscribedCount > 0"
+              v-if="songSheetDetail?.playlist?.subscribedCount > 0"
             >
-              ({{ songListDetailData?.playlist?.subscribedCount }})
+              ({{ songSheetDetail?.playlist?.subscribedCount }})
             </span>
             <span class="icon" v-else>收藏</span>
           </div>
           <div
             class="other share"
             :class="{
-              'disable-share': songListDetailData?.playlist?.tracks.length === 0
+              'disable-share': songSheetDetail?.playlist?.tracks.length === 0
             }"
             @click="shareClick"
           >
-            <span
-              class="icon"
-              v-if="songListDetailData?.playlist?.shareCount > 0"
-            >
-              ({{ songListDetailData?.playlist?.shareCount }})
+            <span class="icon" v-if="songSheetDetail?.playlist?.shareCount > 0">
+              ({{ songSheetDetail?.playlist?.shareCount }})
             </span>
             <span class="icon" v-else>分享</span>
           </div>
           <div
             class="other download"
             :class="{
-              'disable-download':
-                songListDetailData?.playlist?.tracks.length === 0
+              'disable-download': songSheetDetail?.playlist?.tracks.length === 0
             }"
             @click="downloadClick"
           >
@@ -94,26 +89,25 @@
           <div
             class="other comment"
             :class="{
-              'disable-comment':
-                songListDetailData?.playlist?.tracks.length === 0
+              'disable-comment': songSheetDetail?.playlist?.tracks.length === 0
             }"
             @click="commentClick"
           >
             <span
               class="icon"
-              v-if="songListDetailData?.playlist?.commentCount > 0"
+              v-if="songSheetDetail?.playlist?.commentCount > 0"
             >
-              ({{ songListDetailData?.playlist?.commentCount }})
+              ({{ songSheetDetail?.playlist?.commentCount }})
             </span>
             <span class="icon" v-else>评论</span>
           </div>
         </div>
-        <div class="tags" v-if="songListDetailData?.playlist?.tags.length > 0">
+        <div class="tags" v-if="songSheetDetail?.playlist?.tags.length > 0">
           <b class="title">标签：</b>
           <ul class="list">
             <li
               class="item"
-              v-for="(item, index) in songListDetailData?.playlist?.tags"
+              v-for="(item, index) in songSheetDetail?.playlist?.tags"
               :key="index"
               @click="jumpSongSheet(item)"
             >
@@ -121,9 +115,9 @@
             </li>
           </ul>
         </div>
-        <div class="desc" v-if="songListDetailData?.playlist?.description">
+        <div class="desc" v-if="songSheetDetail?.playlist?.description">
           <b class="title">介绍：</b>
-          <p class="content">{{ songListDetailData?.playlist?.description }}</p>
+          <p class="content">{{ songSheetDetail?.playlist?.description }}</p>
         </div>
       </div>
     </div>
@@ -144,15 +138,15 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌单详情数据
-    const songListDetailData = computed(
-      () => $store.getters['music/songListDetailData']
+    const songSheetDetail = computed(
+      () => $store.getters['music/songSheetDetail']
     );
     // 当前播放音乐id
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
 
     // 计算歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
-      const privilege = songListDetailData.value?.privileges.find(
+      const privilege = songSheetDetail.value?.privileges.find(
         (item: LoopType) => item.id === id
       );
       if (privilege?.cp === 0) {
@@ -165,8 +159,8 @@ export default defineComponent({
     // 头部播放 - 默认播放列表第一项
     const playTitleMusic = throttle(
       function () {
-        if (songListDetailData.value?.playlist?.tracks.length > 0) {
-          const musicItem = songListDetailData.value?.playlist?.tracks[0];
+        if (songSheetDetail.value?.playlist?.tracks.length > 0) {
+          const musicItem = songSheetDetail.value?.playlist?.tracks[0];
           // 当前播放音乐id
           $store.commit('music/setPlayMusicId', musicItem.id);
           // 当前播放音乐数据
@@ -187,8 +181,8 @@ export default defineComponent({
 
     // 全部音乐添加到播放列表
     function setAddPlayList(): void {
-      if (songListDetailData.value?.playlist?.tracks.length > 0) {
-        songListDetailData.value?.playlist?.tracks.forEach((item: LoopType) => {
+      if (songSheetDetail.value?.playlist?.tracks.length > 0) {
+        songSheetDetail.value?.playlist?.tracks.forEach((item: LoopType) => {
           // 无版权歌曲不添加到播放列表
           if (isCopyright(item.id)) {
             return false;
@@ -238,7 +232,7 @@ export default defineComponent({
 
     return {
       formatDateTime,
-      songListDetailData,
+      songSheetDetail,
       playMusicId,
       isCopyright,
       playTitleMusic,
