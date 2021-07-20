@@ -1,119 +1,7 @@
 <template>
   <div class="play-list-main">
     <!-- 个人信息部分 -->
-    <div class="main-header">
-      <div class="header-info">
-        <div class="info-img">
-          <img
-            class="img"
-            :src="`${songListDetailData?.playlist?.coverImgUrl}?param=200y200`"
-          />
-          <i class="icon"></i>
-        </div>
-        <div class="info-right">
-          <div class="title">
-            <i class="icon-title"></i>
-            <h2 class="title-text">{{ songListDetailData?.playlist?.name }}</h2>
-          </div>
-          <div class="user-info">
-            <img
-              class="user-avatar"
-              :src="songListDetailData?.playlist?.creator?.avatarUrl"
-            />
-            <span class="user-name">
-              {{ songListDetailData?.playlist?.creator?.nickname }}
-            </span>
-            <span class="user-time">
-              {{
-                formatDateTime(
-                  songListDetailData?.playlist?.createTime / 1000,
-                  'yyyy-MM-dd'
-                )
-              }}
-              创建
-            </span>
-          </div>
-          <div class="operate-btn">
-            <div
-              class="play"
-              :class="{
-                'disable-play':
-                  songListDetailData?.playlist?.tracks.length === 0
-              }"
-              @click="playTitleMusic"
-            >
-              <span class="icon-play">播放</span>
-            </div>
-            <div
-              class="play-add"
-              :class="{
-                'disable-play-add':
-                  songListDetailData?.playlist?.tracks.length === 0
-              }"
-              @click="setAddPlayList"
-            ></div>
-            <div
-              class="other collection"
-              :class="{
-                'disable-collection':
-                  songListDetailData?.playlist?.subscribedCount > 0
-              }"
-              @click="collectionClick"
-            >
-              <span
-                class="icon"
-                v-if="songListDetailData?.playlist?.subscribedCount > 0"
-              >
-                ({{ songListDetailData?.playlist?.subscribedCount }})
-              </span>
-              <span class="icon" v-else>收藏</span>
-            </div>
-            <div
-              class="other share"
-              :class="{
-                'disable-share':
-                  songListDetailData?.playlist?.tracks.length === 0
-              }"
-              @click="shareClick"
-            >
-              <span
-                class="icon"
-                v-if="songListDetailData?.playlist?.shareCount > 0"
-              >
-                ({{ songListDetailData?.playlist?.shareCount }})
-              </span>
-              <span class="icon" v-else>分享</span>
-            </div>
-            <div
-              class="other download"
-              :class="{
-                'disable-download':
-                  songListDetailData?.playlist?.tracks.length === 0
-              }"
-              @click="downloadClick"
-            >
-              <span class="icon">下载</span>
-            </div>
-            <div
-              class="other comment"
-              :class="{
-                'disable-comment':
-                  songListDetailData?.playlist?.tracks.length === 0
-              }"
-              @click="commentClick"
-            >
-              <span
-                class="icon"
-                v-if="songListDetailData?.playlist?.commentCount > 0"
-              >
-                ({{ songListDetailData?.playlist?.commentCount }})
-              </span>
-              <span class="icon" v-else>评论</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <UserInfo class="user-info" />
     <div class="list-title">
       <h3 class="title-text">歌曲列表</h3>
       <span class="title-text-num">
@@ -130,111 +18,8 @@
         次
       </div>
     </div>
-    <div class="loading" v-if="loading">
-      <i class="loading-icon"></i>
-      加载中...
-    </div>
-    <!-- 歌曲列表部分 -->
-    <table
-      class="play-list-table"
-      v-if="songListDetailData?.playlist?.tracks.length > 0"
-    >
-      <thead>
-        <tr>
-          <th class="th first-th">
-            <i class="icon"></i>
-          </th>
-          <th class="th two-th">
-            <i class="icon"></i>
-          </th>
-          <th class="th three-th">
-            <i class="icon"></i>
-          </th>
-          <th class="th four-th">
-            <i class="icon"></i>
-          </th>
-          <th class="th five-th">
-            <i class="icon"></i>
-          </th>
-        </tr>
-      </thead>
-      <tbody class="tbody">
-        <tr
-          v-for="(item, index) in songListDetailData?.playlist?.tracks"
-          :key="index"
-          :class="[
-            { 'even-tr': (index + 1) % 2 },
-            { 'no-copyright': isCopyright(item.id) }
-          ]"
-        >
-          <td class="tbody-left">
-            <div class="hd">
-              <span class="text">{{ index + 1 }}</span>
-              <i
-                class="icon-play"
-                :class="{ 'active-play': item.id === playMusicId }"
-                @click="playListMusic(item.id, item)"
-              ></i>
-            </div>
-          </td>
-          <td class="tbody-td">
-            <div class="hd">
-              <span class="text">
-                <span class="title">{{ item.name }}</span>
-                <span class="no-click" v-if="item.alia[0]">
-                  - {{ item.alia[0] }}
-                </span>
-              </span>
-              <i class="icon-play" v-if="item.mv > 0"></i>
-            </div>
-          </td>
-          <td class="tbody-td">
-            <div class="hd">
-              <span class="text time">
-                {{ timeStampToDuration(item.dt / 1000) }}
-              </span>
-              <div class="operate-btn">
-                <i class="icon add" @click="setAddSinglePlayList(item.id)"></i>
-                <i class="icon collect"></i>
-                <i class="icon share"></i>
-                <i class="icon download"></i>
-                <i class="icon delete" @click="deleteMusicShow(item.id)"></i>
-              </div>
-            </div>
-          </td>
-          <td class="tbody-td singer">
-            <div class="hd">
-              <span class="text" v-for="(i, ind) in item.ar" :key="ind">
-                {{ i.name }}
-                <span class="line" v-if="ind !== item.ar.length - 1">/</span>
-              </span>
-            </div>
-          </td>
-          <td class="tbody-td">
-            <div class="hd">
-              <span class="text">{{ item.al.name }}</span>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- 音乐列表空时展示 -->
-    <div
-      class="no-list-data"
-      v-if="songListDetailData?.playlist?.tracks.length === 0"
-    >
-      <div class="title">
-        <i class="icon"></i>
-        <h3 class="text">暂无音乐！</h3>
-      </div>
-      <p class="desc">
-        <span class="text">点击</span>
-        <span class="icon"></span>
-        <span class="text">即可将你喜欢的音乐收藏到“我的音乐”</span>
-        <span class="text go">马上去</span>
-        <span class="link">发现音乐</span>
-      </p>
-    </div>
+    <!-- 音乐列表 -->
+    <MusicTable class="music-table" />
     <!-- 评论 -->
     <comment
       v-if="songListDetailData?.playlist?.tracks.length > 0"
@@ -270,14 +55,18 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
-import MyDialog from '@/components/MyDialog.vue';
-import Comment from '@views/my-music/play-list-detail/Comment.vue';
 import { timeStampToDuration, formatDateTime } from '@utils/utils.ts';
 import { deleteMusic } from '@api/my-music';
 import { LoopType } from '@/types/types';
+import UserInfo from '@components/song-sheet/user-info/UserInfo.vue';
+import MusicTable from '@components/song-sheet/music-table/MusicTable.vue';
+import Comment from '@views/my-music/play-list-detail/Comment.vue';
+import MyDialog from '@/components/MyDialog.vue';
 
 export default defineComponent({
   components: {
+    UserInfo,
+    MusicTable,
     Comment,
     MyDialog
   },

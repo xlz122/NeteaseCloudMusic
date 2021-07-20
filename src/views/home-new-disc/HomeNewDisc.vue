@@ -74,6 +74,7 @@ import { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
 
 export default defineComponent({
+  name: 'home-new-disc',
   components: {
     Page
   },

@@ -160,7 +160,7 @@ module.exports = {
       .set('@types', resolve('src/types'))
       .set('@utils', resolve('src/utils'))
       .set('@views', resolve('src/views'));
-    // 配置index.html title 、cdn引入
+    // 配置index.html title、cdn引入
     config.plugin('html').tap(args => {
       args[0].title = '网易云音乐';
 
@@ -169,7 +169,7 @@ module.exports = {
       }
       return args;
     });
-    // 图片打包成base64配置,limit: 10240为10k
+    // 图片打包成base64配置，limit: 10240为10k
     config.module
       .rule('images')
       .test(/\.(jpg|png|gif|svg)$/)
