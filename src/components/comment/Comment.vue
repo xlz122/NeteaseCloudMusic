@@ -214,7 +214,7 @@ import {
 import { ResponseType, LoopType } from '@/types/types';
 import { formatDate } from '@utils/utils';
 import { formatMixedText } from '@utils/formatMixedText';
-import CommentReplay from '@/components/comment-replay/CommentReplay.vue';
+import CommentReplay from '@/components/comment/comment-replay/CommentReplay.vue';
 import Page from '@components/page/Page.vue';
 import MyDialog from '@/components/MyDialog.vue';
 

@@ -33,7 +33,7 @@ import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
 import UserInfo from '@components/song-sheet/user-info/UserInfo.vue';
 import MusicTable from '@components/song-sheet/music-table/MusicTable.vue';
-import Comment from '@views/my-music/play-list-detail/Comment.vue';
+import Comment from '@components/comment/Comment.vue';
 
 export default defineComponent({
   components: {
