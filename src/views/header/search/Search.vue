@@ -91,7 +91,7 @@
               class="f-cb-i"
               v-for="(item, index) in searchPropos.playlists"
               :key="index"
-              @click="playlistDetail(item)"
+              @click="playlistDetail(item.id)"
             >
               <span class="f-cb-text">
                 {{ item.name.slice(0, searchValue.length) }}
@@ -171,13 +171,13 @@ export default defineComponent({
       // 搜索内容变化
       if (searchValue.value !== oldSearchValue.value) {
         // 存储关键字
-        $store.commit('setSearchKeywordText', searchValue.value);
+        $store.commit('setSearchText', searchValue.value);
         // 头部导航取消选中
         $store.commit('setHeaderActiveIndex', -1);
         // 跳转搜索详情页
         $router.push({
           name: 'search-details',
-          query: { searchKeywordText: searchValue.value }
+          query: { searchText: searchValue.value }
         });
       }
     }
@@ -226,11 +226,8 @@ export default defineComponent({
     }
 
     // 歌单详情
-    function playlistDetail(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+    function playlistDetail(id: number): void {
+      $router.push({ name: 'song-sheet-detail', params: { id } });
     }
     return {
       searchPlaceholder,

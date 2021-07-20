@@ -82,10 +82,10 @@ export default defineComponent({
       collectionSongList: [] // 收藏的歌单
     });
     function getUserPlayList(): void {
-      // 账户数据
-      const accountInfo = computed(() => $store.getters.accountInfo);
+      // 用户信息
+      const userInfo = computed(() => $store.getters.userInfo);
       userPlayList({
-        uid: accountInfo.value.id
+        uid: userInfo.value.profile.userId
       }).then((res: ResponseType) => {
         if (res.code === 200) {
           // 列表数据
