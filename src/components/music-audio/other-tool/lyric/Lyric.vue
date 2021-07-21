@@ -141,7 +141,7 @@ export default defineComponent({
           return false;
         }
         // 当前播放时间
-        const currentTime = Math.floor(musicPlayProgress.value.currentTime);
+        const currentTime = musicPlayProgress.value.currentTime;
         // 获取当前播放索引
         lyric.list.forEach((item, index) => {
           // 大于最后一项
@@ -152,8 +152,8 @@ export default defineComponent({
           const itemTime = Math.floor(item.time);
           // -1用于动画过渡
           if (
-            itemTime - 1 <= currentTime &&
-            currentTime < Math.floor(lyric.list[index + 1].time)
+            itemTime <= currentTime &&
+            currentTime < lyric.list[index + 1].time
           ) {
             lyric.index = index;
           }
@@ -183,6 +183,7 @@ export default defineComponent({
       scrollAnimation();
     }
 
+    // 过渡动画函数
     function scrollAnimation(): void {
       const lyricDom = document.querySelector('.lyric') as HTMLElement;
       let timer = 0;
