@@ -150,8 +150,9 @@ export default defineComponent({
           }
           // 大于当前时间，小于下一项时间
           const itemTime = Math.floor(item.time);
+          // -1用于动画过渡
           if (
-            itemTime <= currentTime &&
+            itemTime - 1 <= currentTime &&
             currentTime < Math.floor(lyric.list[index + 1].time)
           ) {
             lyric.index = index;
@@ -170,7 +171,7 @@ export default defineComponent({
     );
 
     // 滚动函数
-    function roll() {
+    function roll(): boolean | undefined {
       // 歌词未加载
       if (lyric.list.length === 0) {
         return false;
@@ -179,33 +180,29 @@ export default defineComponent({
       if (lyric.index < 3) {
         return false;
       }
-
-      const lyricDom = document.querySelector('.lyric') as HTMLElement;
-      lyricDom.scrollTo(0, Number(32 * (lyric.index - 3)));
-      // scrollAnimation(Number(32 * lyric.index - 5), currentY);
+      scrollAnimation();
     }
 
-    // function scrollAnimation(currentY: any, targetY: any) {
-    // console.log(currentY);
-    // console.log(targetY);
-    // const lyricDom = document.querySelector('.lyric') as HTMLElement;
-    // // 获取当前位置方法
-    // // 计算需要移动的距离
-    // let needScrollTop = targetY - currentY;
-    // let _currentY = currentY;
-    // setTimeout(() => {
-    //   // 一次调用滑动帧数，每次调用会不一样
-    //   const dist = Math.ceil(needScrollTop / 10);
-    //   _currentY += dist;
-    //   lyricDom.scrollTo(_currentY, currentY);
-    //   // 如果移动幅度小于十个像素，直接移动，否则递归调用，实现动画效果
-    //   if (needScrollTop > 10 || needScrollTop < -10) {
-    //     scrollAnimation(_currentY, targetY);
-    //   } else {
-    //     lyricDom.scrollTo(_currentY, targetY);
-    //   }
-    // }, 1);
-    // }
+    function scrollAnimation(): void {
+      const lyricDom = document.querySelector('.lyric') as HTMLElement;
+      let timer = 0;
+      // 定时器存在，清空定时器
+      if (timer) {
+        clearInterval(timer);
+      }
+      // 一行高度32，定时器执行70次(对应歌词颜色过渡时间0.7s)
+      const once = 32 / 70;
+      // 累计高度
+      let total = 0;
+      timer = setInterval(() => {
+        if (total >= 32) {
+          clearInterval(timer);
+          return false;
+        }
+        total += once;
+        lyricDom.scrollTo(0, Number(32 * (lyric.index - 4)) + total);
+      }, 10);
+    }
 
     return {
       lyric
