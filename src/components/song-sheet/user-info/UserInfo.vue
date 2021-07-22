@@ -185,18 +185,30 @@ export default defineComponent({
     // 头部播放 - 默认播放列表第一项
     const playTitleMusic = throttle(
       function () {
-        if (songSheetDetail.value?.playlist?.tracks.length > 0) {
-          const musicItem = songSheetDetail.value?.playlist?.tracks[0];
-          // 当前播放音乐id
-          $store.commit('music/setPlayMusicId', musicItem.id);
-          // 当前播放音乐数据
-          $store.commit('music/setPlayMusicItem', musicItem);
-          // 开始播放
-          $store.commit('music/setMusicPlayStatus', {
-            look: true,
-            refresh: true
-          });
+        if (songSheetDetail.value?.playlist?.tracks.length === 0) {
+          return false;
         }
+        // 播放第一项
+        const musicItem = songSheetDetail.value?.playlist?.tracks[0];
+        // 当前播放音乐id
+        $store.commit('music/setPlayMusicId', musicItem.id);
+        // 当前播放音乐数据
+        $store.commit('music/setPlayMusicItem', musicItem);
+        // 开始播放
+        $store.commit('music/setMusicPlayStatus', {
+          look: true,
+          refresh: true
+        });
+
+        // 添加播放列表
+        songSheetDetail.value?.playlist?.tracks.forEach((item: LoopType) => {
+          // 无版权歌曲不添加到播放列表
+          if (isCopyright(item.id)) {
+            return false;
+          }
+          // 播放音乐数据
+          $store.commit('music/setPlayMusicList', item);
+        });
       },
       800,
       {
@@ -206,17 +218,18 @@ export default defineComponent({
     );
 
     // 全部音乐添加到播放列表
-    function setAddPlayList(): void {
-      if (songSheetDetail.value?.playlist?.tracks.length > 0) {
-        songSheetDetail.value?.playlist?.tracks.forEach((item: LoopType) => {
-          // 无版权歌曲不添加到播放列表
-          if (isCopyright(item.id)) {
-            return false;
-          }
-          // 播放音乐数据
-          $store.commit('music/setPlayMusicList', item);
-        });
+    function setAddPlayList(): boolean | undefined {
+      if (songSheetDetail.value?.playlist?.tracks.length === 0) {
+        return false;
       }
+      songSheetDetail.value?.playlist?.tracks.forEach((item: LoopType) => {
+        // 无版权歌曲不添加到播放列表
+        if (isCopyright(item.id)) {
+          return false;
+        }
+        // 播放音乐数据
+        $store.commit('music/setPlayMusicList', item);
+      });
     }
 
     // 收藏
