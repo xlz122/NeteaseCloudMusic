@@ -15,7 +15,7 @@
     </div>
     <ul class="list">
       <li class="item" v-for="(item, index) in eventList" :key="index">
-        <Item :item="item" />
+        <Item :item="item" @jumpUserProfile="jumpUserProfile" />
       </li>
     </ul>
     <!-- loading -->
@@ -28,6 +28,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { friendEvent, dynamicLike, FirendEvent } from '@api/friend';
 import { LoopType, ResponseType } from '@/types/types';
@@ -40,6 +41,7 @@ export default defineComponent({
     Item
   },
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     // 发动态
@@ -85,7 +87,7 @@ export default defineComponent({
             // 下一页所需参数
             firendEventParams.lasttime = res.lasttime;
             // 返回条数少于每页条数，不再加载
-            if (res.event.length < firendEventParams.pagesize) {
+            if (res.event.length === 0) {
               lock.value = false;
               return false;
             }
@@ -98,6 +100,13 @@ export default defineComponent({
         });
     }
     getFriendEvent();
+
+    // 跳转用户资料
+    function jumpUserProfile(userId: number) {
+      // 头部导航取消选中
+      $store.commit('setHeaderActiveIndex', -1);
+      $router.push({ name: 'user-profile', params: { id: userId } });
+    }
 
     // 动态点赞
     function setDynamicLike(id: number, threadId: number, type: number): void {
@@ -140,6 +149,7 @@ export default defineComponent({
       releaseVideo,
       eventList,
       loading,
+      jumpUserProfile,
       setDynamicLike
     };
   }

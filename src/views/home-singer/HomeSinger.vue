@@ -11,6 +11,7 @@
           :main="singerList.main"
           :second="singerList.second"
           @screenChange="screenChange"
+          @jumpSingerDetail="jumpSingerDetail"
         />
       </div>
     </div>
@@ -19,6 +20,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { topArtists, artistList, ArtistList } from '@api/home-singer';
 import { ResponseType } from '@/types/types';
@@ -32,6 +34,7 @@ export default defineComponent({
     SingerContent
   },
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     // 歌手数据
@@ -124,10 +127,20 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
+    // jumpSingerDetail
+    function jumpSingerDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌手id
+      $store.commit('setSingerId', id);
+      $router.push({ name: 'singer-detail', params: { id } });
+    }
+
     return {
       singerList,
       menuSelete,
-      screenChange
+      screenChange,
+      jumpSingerDetail
     };
   }
 });
