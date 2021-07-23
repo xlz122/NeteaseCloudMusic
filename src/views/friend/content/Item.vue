@@ -1,12 +1,14 @@
 <template>
   <!-- 单曲 电台 -->
   <template v-if="item.type === 18">
-    <div class="cover">
+    <div class="cover" @click="jumpUserProfile(item?.user?.userId)">
       <img class="img" :src="`${item?.user?.avatarUrl}?param=45y45`" alt="" />
     </div>
     <div class="info">
       <div class="info-title">
-        <span class="t-text">{{ item?.user?.nickname }}</span>
+        <span class="t-text" @click="jumpUserProfile(item?.user?.userId)">
+          {{ item?.user?.nickname }}
+        </span>
         <i class="t-icon"></i>
         <span class="t-desc">分享单曲</span>
       </div>
@@ -66,12 +68,14 @@
   </template>
   <!-- 节目 -->
   <template v-if="item.type === 17">
-    <div class="cover">
+    <div class="cover" @click="jumpUserProfile(item?.user?.userId)">
       <img class="img" :src="`${item?.user?.avatarUrl}?param=45y45`" alt="" />
     </div>
     <div class="info">
       <div class="info-title">
-        <span class="t-text">{{ item?.user?.nickname }}</span>
+        <span class="t-text" @click="jumpUserProfile(item?.user?.userId)">
+          {{ item?.user?.nickname }}
+        </span>
         <i class="t-icon program"></i>
         <span class="t-desc">分享节目</span>
       </div>
@@ -135,12 +139,14 @@
   </template>
   <!-- 专辑 -->
   <template v-if="item.type === 19">
-    <div class="cover">
+    <div class="cover" @click="jumpUserProfile(item?.user?.userId)">
       <img class="img" :src="`${item?.user?.avatarUrl}?param=45y45`" alt="" />
     </div>
     <div class="info">
       <div class="info-title">
-        <span class="t-text">{{ item?.user?.nickname }}</span>
+        <span class="t-text" @click="jumpUserProfile(item?.user?.userId)">
+          {{ item?.user?.nickname }}
+        </span>
         <i class="t-icon"></i>
         <span class="t-desc">分享专辑</span>
       </div>
@@ -202,12 +208,14 @@
   </template>
   <!-- 歌单 -->
   <template v-if="item.type === 13">
-    <div class="cover">
+    <div class="cover" @click="jumpUserProfile(item?.user?.userId)">
       <img class="img" :src="`${item?.user?.avatarUrl}?param=45y45`" alt="" />
     </div>
     <div class="info">
       <div class="info-title">
-        <span class="t-text">{{ item?.user?.nickname }}</span>
+        <span class="t-text" @click="jumpUserProfile(item?.user?.userId)">
+          {{ item?.user?.nickname }}
+        </span>
         <i class=""></i>
         <span class="t-desc">分享歌单</span>
       </div>
@@ -286,12 +294,14 @@
   </template>
   <!-- 文案 -->
   <template v-if="item.type === 35">
-    <div class="cover">
+    <div class="cover" @click="jumpUserProfile(item?.user?.userId)">
       <img class="img" :src="`${item?.user?.avatarUrl}?param=45y45`" alt="" />
     </div>
     <div class="info">
       <div class="info-title">
-        <span class="t-text">{{ item?.user?.nickname }}</span>
+        <span class="t-text" @click="jumpUserProfile(item?.user?.userId)">
+          {{ item?.user?.nickname }}
+        </span>
         <i class="t-icon copywriting"></i>
         <span class="t-desc"></span>
       </div>
@@ -346,9 +356,14 @@ export default defineComponent({
       default: () => ({})
     }
   },
-  setup() {
+  emits: ['jumpUserProfile'],
+  setup(props, { emit }) {
+    function jumpUserProfile(userId: number): void {
+      emit('jumpUserProfile', userId);
+    }
     return {
-      formatDate
+      formatDate,
+      jumpUserProfile
     };
   }
 });
