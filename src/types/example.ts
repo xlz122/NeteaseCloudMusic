@@ -1,15 +1,65 @@
-// 泛型约束
-// 如果觉得 extends 不太好理解，可以暂时简单的理解为U中的属性在T中都有
-// T 包含 U 的所有属性
-function findKey<T extends object, U extends keyof T>(obj: T, key: U): T[U] {
-  return obj[key];
+// 内置类型（Partial）
+/*
+type Partial<T> = {
+  [k in keyof T]?: T[k];
+};
+
+// 实现一个和Person字段一样，类型一样的接口
+type Person = {
+  name: string;
+  age: number;
+  sex: string;
+};
+
+type P<T> = {
+  [k in keyof T]: T[k];
+}
+*/
+
+// 获取函数返回值的工具类型 ReturnType示例
+/*
+function foo(): string {
+  return '';
 }
 
-// 联合类型缩小范围（使用is关键字）
-// 例如：age: string | number，精确到 number 或 string
-export const isString = (arg: unknown): arg is string => typeof arg === 'string';
-export const isNumber = (arg: unknown): arg is number => typeof arg === 'number';
-// 使用示例
+// string
+type FooReturnType = ReturnType<typeof foo>;
+*/
+
+// 获取promise的返回类型示例
+/*
+type User = {
+  name: string;
+  age: number;
+  sex: string;
+};
+
+function foo(): Promise<User> {
+  return new Promise(resolve => {
+    resolve({
+      name: '',
+      age: 26,
+      sex: ''
+    });
+  });
+}
+
+type FooReturnType = ReturnType<typeof foo>;
+
+// infer 类似loading占位符
+// 当传递类型进来的时候，类型系统在获得 足够的信息后，就能将 infer 后跟随的类型参数推导出来
+type PromiseType<T extends Promise<any>> = T extends Promise<infer U>
+  ? U
+  : never;
+
+type FooPromiseType = PromiseType<FooReturnType>;
+*/
+
+// 联合类型缩小范围示例
+/*
+const isString = (arg: unknown): arg is string => typeof arg === 'string';
+const isNumber = (arg: unknown): arg is number => typeof arg === 'number';
+
 function getAge(age: number | string): void {
   if (isNumber(age)) {
     console.log('age是数字类型');
@@ -19,26 +69,10 @@ function getAge(age: number | string): void {
   }
 }
 getAge(26);
+*/
 
-// 获取函数返回值的工具类型 ReturnType
-function getReturn(): string {
-  return '';
-}
-// string
-type GetReturnType = ReturnType<typeof getReturn>;
-
-type Person = {
-  name: string;
-  age: number;
-  sex: string;
-};
-
-// 实现一个和Person字段一样，类型一样的接口
-type P<T> = {
-  [k in keyof T]: T[k];
-}
-
-// 登录与未登录下的用户信息是完全不同的接口，其实也可以使用in关键字解决
+// 登录与未登录下的用户信息是完全不同的接口，in关键字示例
+/*
 interface ILogInUserProps {
   isLogin: boolean;
   name: string;
@@ -52,3 +86,4 @@ interface IUnLoginUserProps {
 function getUserInfo(user: ILogInUserProps | IUnLoginUserProps): string {
   return 'name' in user ? user.name : user.from;
 }
+*/
