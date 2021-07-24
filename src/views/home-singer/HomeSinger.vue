@@ -129,6 +129,8 @@ export default defineComponent({
 
     // jumpSingerDetail
     function jumpSingerDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
       // 存储歌手id
       $store.commit('setSingerId', id);
       $router.push({ name: 'singer-detail', params: { id } });
