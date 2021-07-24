@@ -1,7 +1,36 @@
 <template>
   <div class="singer-detail">
     <div class="singer-detail-container">
-      <div class="singer-content"></div>
+      <div class="singer-content">
+        <div class="singer-info">
+          <h2 class="singer-username">{{ singerDetail?.user?.nickname }}</h2>
+          <h3 class="singer-english-name">Aska</h3>
+          <img
+            class="singer-avatar"
+            :src="`${singerDetail?.user?.backgroundUrl}?param=640y300`"
+            alt=""
+          />
+          <i
+            class="artist-home"
+            @click="jumpUserProfile(singerDetail?.user?.userId)"
+          ></i>
+          <i class="artist-sub"></i>
+        </div>
+        <ul class="singer-tabs">
+          <li
+            class="item"
+            v-for="(item, index) in singerTabs"
+            :key="index"
+            :class="[
+              { 'first-item': index === 0 },
+              { 'active-item': index === tabActiveIndex }
+            ]"
+            @click="tabChange(index)"
+          >
+            <span class="text">{{ item.title }}</span>
+          </li>
+        </ul>
+      </div>
       <div class="singer-side">
         <SingerDetailSide />
       </div>
@@ -10,7 +39,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import { defineComponent, ref, computed, reactive } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { artistDetail } from '@api/singer-detail';
 import { ResponseType } from '@/types/types';
@@ -21,6 +51,7 @@ export default defineComponent({
     SingerDetailSide
   },
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     // 歌手id
@@ -32,6 +63,8 @@ export default defineComponent({
       artistDetail({ id: singerId.value })
         .then((res: ResponseType) => {
           if (res.code === 200) {
+            // 处理英文名
+            // res.data.user.englishName = res.data.artist.
             singerDetail.value = res.data;
           } else {
             $store.commit('setMessage', {
@@ -44,7 +77,41 @@ export default defineComponent({
     }
     getArtistDetail();
 
-    return {};
+    // 跳转用户资料
+    function jumpUserProfile(userId: number): void {
+      // 头部导航取消选中
+      $store.commit('setHeaderActiveIndex', -1);
+      $router.push({ name: 'user-profile', params: { id: userId } });
+    }
+
+    // tab部分
+    const singerTabs = reactive([
+      {
+        title: '热门作品'
+      },
+      {
+        title: '所有专辑'
+      },
+      {
+        title: '相似MV'
+      },
+      {
+        title: '艺人介绍'
+      }
+    ]);
+
+    const tabActiveIndex = ref<number>(0);
+    function tabChange(index: number): void {
+      tabActiveIndex.value = index;
+    }
+
+    return {
+      singerDetail,
+      jumpUserProfile,
+      singerTabs,
+      tabActiveIndex,
+      tabChange
+    };
   }
 });
 </script>
