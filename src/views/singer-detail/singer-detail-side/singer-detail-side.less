@@ -1,0 +1,69 @@
+.singer-side-container {
+  padding: 20px 40px 40px 30px;
+
+  .title {
+    height: 23px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    color: #333;
+    font-size: 12px;
+    text-align: left;
+  }
+
+  .like-list {
+    padding-bottom: 25px;
+    text-align: left;
+
+    .item {
+      display: inline-block;
+      vertical-align: top;
+      width: 50px;
+      height: 92px;
+      padding-left: 25px;
+      cursor: pointer;
+
+      .item-link {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+
+        .item-img {
+          display: inline-block;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .desc {
+        margin-top: 7px;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+
+        &:hover {
+          text-decoration: underline;
+          color: #333;
+        }
+      }
+    }
+
+    .first-item {
+      padding-left: 0;
+    }
+  }
+
+  .supplement {
+    display: block;
+    text-decoration: none;
+    color: #333;
+    text-align: left;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+      color: #333;
+    }
+  }
+}

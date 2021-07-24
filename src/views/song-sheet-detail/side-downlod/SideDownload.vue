@@ -29,6 +29,8 @@
 
 <style lang="less" scoped>
 .side-download {
+  padding-bottom: 40px;
+
   .download-list {
     height: 65px;
     margin-bottom: 10px;
@@ -80,6 +82,7 @@
 
   .desc {
     color: #999;
+    text-align: left;
   }
 }
 </style>
