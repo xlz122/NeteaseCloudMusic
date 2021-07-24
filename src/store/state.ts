@@ -7,6 +7,7 @@ export type State = {
   message: unknown;
   searchText: string;
   userId: number;
+  singerId: number;
 };
 
 // 本地存储容错处理
@@ -24,7 +25,8 @@ const state: State = {
   isLogin: faultTolerant('isLogin') || false, // 是否登录
   message: {}, // 消息提示
   searchText: localStorage.getItem('searchText') || '', // 搜索关键字
-  userId: Number(localStorage.getItem('userId')) || 0 // 用户uid(自己或其他人)
+  userId: Number(localStorage.getItem('userId')) || 0, // 用户uid(自己或其他人)
+  singerId: Number(localStorage.getItem('singerId')) || 0 // 歌手id
 };
 
 export default state;

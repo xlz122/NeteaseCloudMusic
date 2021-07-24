@@ -12,7 +12,8 @@ const getters: Getters<State> = {
   isLogin: state => state.isLogin,
   message: state => state.message,
   searchText: state => state.searchText,
-  userId: state => state.userId
+  userId: state => state.userId,
+  singerId: state => state.singerId
 };
 
 export default getters;

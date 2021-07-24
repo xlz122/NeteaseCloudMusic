@@ -22,7 +22,12 @@
       </li>
     </ul>
     <ul class="list">
-      <li class="item" v-for="(item, index) in main" :key="index">
+      <li
+        class="item"
+        v-for="(item, index) in main"
+        :key="index"
+        @click="jumpSingerDetail(item.id)"
+      >
         <div class="item-cover">
           <img class="item-cover-img" :src="item.picUrl" alt="" />
         </div>
@@ -34,7 +39,12 @@
     </ul>
     <div class="line" v-if="second.length > 0"></div>
     <ul class="list-small">
-      <li class="item" v-for="(item, index) in second" :key="index">
+      <li
+        class="item"
+        v-for="(item, index) in second"
+        :key="index"
+        @click="jumpSingerDetail(item.id)"
+      >
         <span class="item-text">{{ item.name }}</span>
         <span class="item-icon" v-if="item.albumSize < 50"></span>
       </li>
@@ -69,7 +79,7 @@ export default defineComponent({
       default: () => []
     }
   },
-  emits: ['screenChange'],
+  emits: ['screenChange', 'jumpSingerDetail'],
   setup(props, { emit }) {
     const { title } = toRefs(props);
 
@@ -202,10 +212,16 @@ export default defineComponent({
         activeScreen.value = 0;
       }
     );
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      emit('jumpSingerDetail', id);
+    }
     return {
       sortList,
       activeScreen,
-      screenChange
+      screenChange,
+      jumpSingerDetail
     };
   }
 });

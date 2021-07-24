@@ -2,23 +2,48 @@
   <div class="singer-detail">
     <div class="singer-detail-container">
       <div class="singer-content"></div>
-      <div class="singer-side"></div>
+      <div class="singer-side">
+        <SingerDetailSide />
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-// import { useRoute } from 'vue-router';
-// import { useStore } from 'vuex';
-// import { playlistDetail } from '@api/song-sheet-detail';
-// import { ResponseType } from '@/types/types';
+import { defineComponent, ref, computed } from 'vue';
+import { useStore } from 'vuex';
+import { artistDetail } from '@api/singer-detail';
+import { ResponseType } from '@/types/types';
+import SingerDetailSide from './singer-detail-side/SingerDetailSide.vue';
 
 export default defineComponent({
-  components: {},
+  components: {
+    SingerDetailSide
+  },
   setup() {
-    // const $route = useRoute();
-    // const $store = useStore();
+    const $store = useStore();
+
+    // 歌手id
+    const singerId = computed(() => $store.getters.singerId);
+    const singerDetail = ref<unknown[]>([]);
+
+    // 获取歌手详情
+    function getArtistDetail(): void {
+      artistDetail({ id: singerId.value })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            singerDetail.value = res.data;
+          } else {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: res?.msg
+            });
+          }
+        })
+        .catch(() => ({}));
+    }
+    getArtistDetail();
+
     return {};
   }
 });
