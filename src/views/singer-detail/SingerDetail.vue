@@ -4,7 +4,9 @@
       <div class="singer-content">
         <div class="singer-info">
           <h2 class="singer-username">{{ singerDetail?.user?.nickname }}</h2>
-          <h3 class="singer-english-name">Aska</h3>
+          <h3 class="singer-english-name">
+            {{ singerDetail?.user?.englishName }}
+          </h3>
           <img
             class="singer-avatar"
             :src="`${singerDetail?.user?.backgroundUrl}?param=640y300`"
@@ -30,6 +32,8 @@
             <span class="text">{{ item.title }}</span>
           </li>
         </ul>
+        <SingerSong v-if="tabActiveIndex === 0" />
+        <SingerIntroduce v-if="tabActiveIndex === 3" />
       </div>
       <div class="singer-side">
         <SingerDetailSide />
@@ -39,15 +43,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, reactive } from 'vue';
+import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { artistDetail } from '@api/singer-detail';
 import { ResponseType } from '@/types/types';
 import SingerDetailSide from './singer-detail-side/SingerDetailSide.vue';
+import SingerSong from './singer-song/SingerSong.vue';
+import SingerIntroduce from './singer-introduce/SingerIntroduce.vue';
 
 export default defineComponent({
   components: {
+    SingerSong,
+    SingerIntroduce,
     SingerDetailSide
   },
   setup() {
@@ -56,6 +64,17 @@ export default defineComponent({
 
     // 歌手id
     const singerId = computed(() => $store.getters.singerId);
+
+    // 监听歌手id改变
+    watch(
+      () => singerId.value,
+      curVal => {
+        if (curVal) {
+          getArtistDetail();
+        }
+      }
+    );
+
     const singerDetail = ref<unknown[]>([]);
 
     // 获取歌手详情
@@ -64,7 +83,13 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res.code === 200) {
             // 处理英文名
-            // res.data.user.englishName = res.data.artist.
+            const briefDesc = res.data.artist.briefDesc;
+            if (briefDesc.indexOf('（') && briefDesc.indexOf('）')) {
+              res.data.user.englishName = briefDesc.substring(
+                briefDesc.indexOf('（') + 1,
+                briefDesc.indexOf('）')
+              );
+            }
             singerDetail.value = res.data;
           } else {
             $store.commit('setMessage', {
