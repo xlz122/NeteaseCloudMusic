@@ -2,7 +2,7 @@
   <div class="singer-introduce">
     <h2 class="desc-title">
       <i class="desc-line"></i>
-      <span>薛之谦简介</span>
+      <span>{{ nickname }}简介</span>
     </h2>
     <p class="desc-content">{{ singerDesc?.briefDesc }}</p>
     <ul class="introduce-list">
@@ -25,6 +25,12 @@ import { artistDesc } from '@api/singer-detail';
 import { ResponseType } from '@/types/types';
 
 export default defineComponent({
+  props: {
+    nickname: {
+      type: String,
+      default: ''
+    }
+  },
   setup() {
     const $store = useStore();
 
