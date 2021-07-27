@@ -127,7 +127,7 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
-    // jumpSingerDetail
+    // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       // 取消二级导航选中
       $store.commit('setSubActiveIndex', -1);

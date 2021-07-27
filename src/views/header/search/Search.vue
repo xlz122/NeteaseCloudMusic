@@ -50,7 +50,7 @@
               class="f-cb-i"
               v-for="(item, index) in searchPropos.artists"
               :key="index"
-              @click="artistDetail(item)"
+              @click="artistDetail(item.id)"
             >
               <span class="f-cb-text">{{ item.name }}</span>
             </li>
@@ -210,11 +210,12 @@ export default defineComponent({
     }
 
     // 歌手详情
-    function artistDetail(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+    function artistDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌手id
+      $store.commit('setSingerId', id);
+      $router.push({ name: 'singer-detail', params: { id } });
     }
 
     // 专辑详情
