@@ -33,7 +33,10 @@
           </li>
         </ul>
         <SingerSong v-if="tabActiveIndex === 0" />
-        <SingerIntroduce v-if="tabActiveIndex === 3" />
+        <SingerIntroduce
+          v-if="tabActiveIndex === 3"
+          :nickname="singerDetail?.user?.nickname"
+        />
       </div>
       <div class="singer-side">
         <SingerDetailSide />
