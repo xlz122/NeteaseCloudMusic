@@ -34,6 +34,7 @@
           </li>
         </ul>
         <SingerSong v-if="tabActiveIndex === 0" />
+        <SingerAlbum v-if="tabActiveIndex === 1" />
         <SingerIntroduce
           v-if="tabActiveIndex === 3"
           :nickname="singerDetail?.artist?.name"
@@ -54,11 +55,13 @@ import { artistDetail } from '@api/singer-detail';
 import { ResponseType } from '@/types/types';
 import SingerDetailSide from './singer-detail-side/SingerDetailSide.vue';
 import SingerSong from './singer-song/SingerSong.vue';
+import SingerAlbum from './singer-album/SingerAlbum.vue';
 import SingerIntroduce from './singer-introduce/SingerIntroduce.vue';
 
 export default defineComponent({
   components: {
     SingerSong,
+    SingerAlbum,
     SingerIntroduce,
     SingerDetailSide
   },
