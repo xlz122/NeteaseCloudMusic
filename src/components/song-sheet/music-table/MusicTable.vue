@@ -83,7 +83,12 @@
           </td>
           <td class="tbody-td singer">
             <div class="hd">
-              <span class="text" v-for="(i, ind) in item.ar" :key="ind">
+              <span
+                class="text"
+                v-for="(i, ind) in item.ar"
+                :key="ind"
+                @click="jumpSingerDetail(i.id)"
+              >
                 {{ i.name }}
                 <span class="line" v-if="ind !== item.ar.length - 1">/</span>
               </span>
@@ -142,6 +147,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import MyDialog from '@/components/MyDialog.vue';
 import { timeStampToDuration } from '@utils/utils.ts';
@@ -153,6 +159,7 @@ export default defineComponent({
     MyDialog
   },
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     // 用户信息
@@ -198,6 +205,15 @@ export default defineComponent({
         // 播放音乐数据
         $store.commit('music/setPlayMusicList', musicItem);
       }
+    }
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌手id
+      $store.commit('setSingerId', id);
+      $router.push({ name: 'singer-detail', params: { id } });
     }
 
     // 播放列表音乐
@@ -265,6 +281,7 @@ export default defineComponent({
       playMusicId,
       loading,
       isCopyright,
+      jumpSingerDetail,
       setAddSinglePlayList,
       noCopyrightDialog,
       noCopyrightConfirm,
