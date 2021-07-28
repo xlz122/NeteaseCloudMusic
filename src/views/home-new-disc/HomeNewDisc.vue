@@ -18,7 +18,7 @@
             <i class="item-cover-bg"></i>
             <i class="item-cover-play"></i>
           </div>
-          <p class="desc">{{ item?.name }}</p>
+          <p class="desc" @click="jumpAlbumDetail">{{ item?.name }}</p>
           <p class="name" @click="jumpSingerDetail(item?.artist?.id)">
             {{ item?.artist?.name }}
           </p>
@@ -103,6 +103,14 @@ export default defineComponent({
     }
     getHotNewDisc();
 
+    // 跳转专辑
+    function jumpAlbumDetail(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       // 取消二级导航选中
@@ -155,6 +163,7 @@ export default defineComponent({
 
     return {
       hotNewDiscList,
+      jumpAlbumDetail,
       jumpSingerDetail,
       newDiscAlbumList,
       pageTotal,

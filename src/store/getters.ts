@@ -13,7 +13,8 @@ const getters: Getters<State> = {
   message: state => state.message,
   searchText: state => state.searchText,
   userId: state => state.userId,
-  singerId: state => state.singerId
+  singerId: state => state.singerId,
+  singerTabIndex: state => state.singerTabIndex
 };
 
 export default getters;
