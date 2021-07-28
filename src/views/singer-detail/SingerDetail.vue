@@ -3,17 +3,18 @@
     <div class="singer-detail-container">
       <div class="singer-content">
         <div class="singer-info">
-          <h2 class="singer-username">{{ singerDetail?.user?.nickname }}</h2>
+          <h2 class="singer-username">{{ singerDetail?.artist?.name }}</h2>
           <h3 class="singer-english-name">
-            {{ singerDetail?.user?.englishName }}
+            {{ singerDetail?.artist?.englishName }}
           </h3>
           <img
             class="singer-avatar"
-            :src="`${singerDetail?.user?.backgroundUrl}?param=640y300`"
+            :src="`${singerDetail?.artist?.cover}?param=640y300`"
             alt=""
           />
           <i
             class="artist-home"
+            v-if="singerDetail?.user"
             @click="jumpUserProfile(singerDetail?.user?.userId)"
           ></i>
           <i class="artist-sub"></i>
@@ -35,7 +36,7 @@
         <SingerSong v-if="tabActiveIndex === 0" />
         <SingerIntroduce
           v-if="tabActiveIndex === 3"
-          :nickname="singerDetail?.user?.nickname"
+          :nickname="singerDetail?.artist?.name"
         />
       </div>
       <div class="singer-side">
@@ -88,7 +89,7 @@ export default defineComponent({
             // 处理英文名
             const briefDesc = res.data.artist.briefDesc;
             if (briefDesc.indexOf('（') && briefDesc.indexOf('）')) {
-              res.data.user.englishName = briefDesc.substring(
+              res.data.artist.englishName = briefDesc.substring(
                 briefDesc.indexOf('（') + 1,
                 briefDesc.indexOf('）')
               );
