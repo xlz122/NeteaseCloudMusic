@@ -1,0 +1,93 @@
+.singer-album {
+  padding-left: 12px;
+
+  .singer-album-container {
+    margin: 0 auto;
+    background-color: #fff;
+
+    .new-disc-list {
+      margin: 20px 0 0 -33px;
+      text-align: left;
+
+      .new-disc-item {
+        display: inline-block;
+        vertical-align: top;
+        width: 145px;
+        height: 175px;
+        padding: 0 0 30px 18px;
+        cursor: pointer;
+
+        .item-cover {
+          position: relative;
+          display: block;
+          width: 120px;
+          height: 120px;
+
+          .item-cover-img {
+            display: block;
+            width: 100%;
+            height: 100%;
+          }
+
+          .item-cover-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 145px;
+            height: 120px;
+            background: url('../../../assets/image/my-music/coverall.png') no-repeat;
+            background-position: -170px -850px;
+          }
+
+          .item-cover-play {
+            display: none;
+            position: absolute;
+            right: 10px;
+            bottom: 5px;
+            left: 94px;
+            width: 28px;
+            height: 28px;
+            background: url('../../../assets/image/home/iconall.png') no-repeat;
+            background-position: 0 -140px;
+          }
+        }
+
+        .desc {
+          margin: 8px 0 3px;
+          font-size: 14px;
+          color: #000;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          word-wrap: normal;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .name {
+          display: inline-block;
+          max-width: 85%;
+          vertical-align: middle;
+          font-size: 12px;
+          color: #666;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          word-wrap: normal;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+
+      .new-disc-item:hover {
+        .item-cover-play {
+          display: block;
+        }
+      }
+    }
+  }
+}
