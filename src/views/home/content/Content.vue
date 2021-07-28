@@ -121,7 +121,10 @@
         <span class="title">新碟上架</span>
         <span class="more" @click="albumNewestMore">更多</span>
       </div>
-      <album-newest />
+      <album-newest
+        @jumpAlbumDetail="jumpAlbumDetail"
+        @jumpSingerDetail="jumpSingerDetail"
+      />
     </div>
     <div class="group">
       <div class="list-title">
@@ -259,6 +262,23 @@ export default defineComponent({
     const dateText = ref<string>('');
     dateText.value = formatDateTime(new Date().getTime() / 1000, 'dd');
 
+    // 新碟上架 - 跳转专辑
+    function jumpAlbumDetail(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 新碟上架 - 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌手id
+      $store.commit('setSingerId', id);
+      $router.push({ name: 'singer-detail', params: { id } });
+    }
+
     // 新碟上架 - 更多
     function albumNewestMore(): void {
       $router.push({ name: 'home-new-disc' });
@@ -281,6 +301,8 @@ export default defineComponent({
       individualizatData,
       weekText,
       dateText,
+      jumpAlbumDetail,
+      jumpSingerDetail,
       albumNewestMore,
       songListMore
     };
