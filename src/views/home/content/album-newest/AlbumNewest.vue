@@ -10,11 +10,20 @@
             ref="liRef"
           >
             <div class="item-img">
-              <img class="img" :src="`${item.picUrl}?param=100y100`" alt="" />
+              <img
+                class="img"
+                :src="`${item.picUrl}?param=100y100`"
+                @click="jumpAlbumDetail"
+                alt=""
+              />
               <i class="icon"></i>
             </div>
-            <div class="title" :title="item?.name">{{ item?.name }}</div>
-            <div class="name">{{ item?.artist?.name }}</div>
+            <div class="title" :title="item?.name" @click="jumpAlbumDetail">
+              {{ item?.name }}
+            </div>
+            <div class="name" @click="jumpSingerDetail(item?.artist?.id)">
+              {{ item?.artist?.name }}
+            </div>
           </li>
         </ul>
       </div>
@@ -37,7 +46,8 @@ type ListOffest = {
 };
 
 export default defineComponent({
-  setup() {
+  emits: ['jumpAlbumDetail', 'jumpSingerDetail'],
+  setup(props, { emit }) {
     // 新碟上架数据
     const listData = ref<unknown[]>([]);
     function getListData() {
@@ -119,13 +129,25 @@ export default defineComponent({
         trailing: false // 节流时间内，多次点击，节流结束后，是否执行一次
       }
     );
+
+    // 跳转专辑
+    function jumpAlbumDetail(): void {
+      emit('jumpAlbumDetail');
+    }
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      emit('jumpSingerDetail', id);
+    }
     return {
       listData,
       listRef,
       liRef,
       listStyle,
       albumPrev,
-      albumNext
+      albumNext,
+      jumpAlbumDetail,
+      jumpSingerDetail
     };
   }
 });

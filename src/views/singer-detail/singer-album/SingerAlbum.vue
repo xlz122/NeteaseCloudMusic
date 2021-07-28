@@ -11,6 +11,7 @@
             <img
               class="item-cover-img"
               :src="`${item.picUrl}?param=120y120`"
+              @click="jumpAlbumDetail"
               alt=""
             />
             <i class="item-cover-bg"></i>
