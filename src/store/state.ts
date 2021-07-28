@@ -8,6 +8,7 @@ export type State = {
   searchText: string;
   userId: number;
   singerId: number;
+  singerTabIndex: number;
 };
 
 // 本地存储容错处理
@@ -26,7 +27,8 @@ const state: State = {
   message: {}, // 消息提示
   searchText: localStorage.getItem('searchText') || '', // 搜索关键字
   userId: Number(localStorage.getItem('userId')) || 0, // 用户uid(自己或其他人)
-  singerId: Number(localStorage.getItem('singerId')) || 0 // 歌手id
+  singerId: Number(localStorage.getItem('singerId')) || 0, // 歌手id
+  singerTabIndex: Number(localStorage.getItem('singerTabIndex')) || 0 // 歌手详情导航
 };
 
 export default state;
