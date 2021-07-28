@@ -8,19 +8,20 @@
           class="new-disc-item"
           v-for="(item, index) in hotNewDiscList"
           :key="index"
-          @click="hotNewDiscDetail(index)"
         >
           <div class="item-cover">
             <img
               class="item-cover-img"
-              :src="`${item.picUrl}?param=130y130`"
+              :src="`${item?.picUrl}?param=130y130`"
               alt=""
             />
             <i class="item-cover-bg"></i>
             <i class="item-cover-play"></i>
           </div>
-          <p class="desc">{{ item.name }}</p>
-          <p class="name">{{ item.artist.name }}</p>
+          <p class="desc" @click="jumpAlbumDetail">{{ item?.name }}</p>
+          <p class="name" @click="jumpSingerDetail(item?.artist?.id)">
+            {{ item?.artist?.name }}
+          </p>
         </li>
       </ul>
       <!-- 全部新碟 -->
@@ -39,19 +40,20 @@
           class="new-disc-item"
           v-for="(item, index) in newDiscAlbumList"
           :key="index"
-          @click="newDiscAlbumDetail(index)"
         >
           <div class="item-cover">
             <img
               class="item-cover-img"
-              :src="`${item.picUrl}?param=130y130`"
+              :src="`${item?.picUrl}?param=130y130`"
               alt=""
             />
             <i class="item-cover-bg"></i>
             <i class="item-cover-play"></i>
           </div>
-          <p class="desc">{{ item.name }}</p>
-          <p class="name">{{ item.artist.name }}</p>
+          <p class="desc">{{ item?.name }}</p>
+          <p class="name" @click="jumpSingerDetail(item?.artist?.id)">
+            {{ item?.artist?.name }}
+          </p>
         </li>
       </ul>
       <!-- 参数从0开始，分页需从1开始 -->
@@ -68,6 +70,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { hotNewDisc, nweDiscAlbum, NweDiscAlbum } from '@api/home-new-disc';
 import { ResponseType } from '@/types/types';
@@ -79,6 +82,7 @@ export default defineComponent({
     Page
   },
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     const hotNewDiscList = ref<unknown[]>([]);
@@ -99,12 +103,21 @@ export default defineComponent({
     }
     getHotNewDisc();
 
-    // 新碟跳转
-    function hotNewDiscDetail(): void {
+    // 跳转专辑
+    function jumpAlbumDetail(): void {
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
       });
+    }
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌手id
+      $store.commit('setSingerId', id);
+      $router.push({ name: 'singer-detail', params: { id } });
     }
 
     const pageTotal = ref<number>(0);
@@ -142,14 +155,6 @@ export default defineComponent({
       getNweDiscAlbum();
     }
 
-    // 全部新碟详情跳转
-    function newDiscAlbumDetail(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
-    }
-
     // 分页
     function changPage(current: number): void {
       newDiscFormData.offset = current - 1;
@@ -158,12 +163,12 @@ export default defineComponent({
 
     return {
       hotNewDiscList,
-      hotNewDiscDetail,
+      jumpAlbumDetail,
+      jumpSingerDetail,
       newDiscAlbumList,
       pageTotal,
       newDiscFormData,
       newDiscType,
-      newDiscAlbumDetail,
       changPage
     };
   }

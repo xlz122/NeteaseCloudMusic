@@ -26,18 +26,18 @@
             :key="index"
             :class="[
               { 'first-item': index === 0 },
-              { 'active-item': index === tabActiveIndex }
+              { 'active-item': index === singerTabIndex }
             ]"
             @click="tabChange(index)"
           >
             <span class="text">{{ item.title }}</span>
           </li>
         </ul>
-        <SingerSong v-if="tabActiveIndex === 0" />
-        <SingerIntroduce
-          v-if="tabActiveIndex === 3"
+        <!-- 根据选中，渲染对应组件 -->
+        <component
+          :is="`${singerTabs[singerTabIndex].component}`"
           :nickname="singerDetail?.artist?.name"
-        />
+        ></component>
       </div>
       <div class="singer-side">
         <SingerDetailSide />
@@ -54,11 +54,15 @@ import { artistDetail } from '@api/singer-detail';
 import { ResponseType } from '@/types/types';
 import SingerDetailSide from './singer-detail-side/SingerDetailSide.vue';
 import SingerSong from './singer-song/SingerSong.vue';
+import SingerAlbum from './singer-album/SingerAlbum.vue';
+import SingerMv from './singer-mv/SingerMv.vue';
 import SingerIntroduce from './singer-introduce/SingerIntroduce.vue';
 
 export default defineComponent({
   components: {
     SingerSong,
+    SingerAlbum,
+    SingerMv,
     SingerIntroduce,
     SingerDetailSide
   },
@@ -114,29 +118,33 @@ export default defineComponent({
     // tab部分
     const singerTabs = reactive([
       {
-        title: '热门作品'
+        title: '热门作品',
+        component: 'SingerSong'
       },
       {
-        title: '所有专辑'
+        title: '所有专辑',
+        component: 'SingerAlbum'
       },
       {
-        title: '相似MV'
+        title: '相似MV',
+        component: 'SingerMv'
       },
       {
-        title: '艺人介绍'
+        title: '艺人介绍',
+        component: 'SingerIntroduce'
       }
     ]);
 
-    const tabActiveIndex = ref<number>(0);
+    const singerTabIndex = computed(() => $store.getters.singerTabIndex);
     function tabChange(index: number): void {
-      tabActiveIndex.value = index;
+      $store.commit('setSingerTabIndex', index);
     }
 
     return {
       singerDetail,
       jumpUserProfile,
       singerTabs,
-      tabActiveIndex,
+      singerTabIndex,
       tabChange
     };
   }
