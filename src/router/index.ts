@@ -110,6 +110,15 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "home-new-disc" */ '../views/home-new-disc/HomeNewDisc.vue'
           )
       },
+      // 歌曲详情
+      {
+        path: '/song-detail',
+        name: 'song-detail',
+        component: () =>
+          import(
+            /* webpackChunkName: "song-detail" */ '../views/song-detail/SongSheetDetail.vue'
+          )
+      },
       // 歌单详情
       {
         path: '/song-sheet-detail',
@@ -119,7 +128,7 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "song-sheet-detail" */ '../views/song-sheet-detail/SongSheetDetail.vue'
           )
       },
-      // 歌单详情
+      // 歌手详情
       {
         path: '/singer-detail',
         name: 'singer-detail',

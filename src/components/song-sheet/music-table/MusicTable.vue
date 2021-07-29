@@ -50,7 +50,7 @@
           </td>
           <td class="tbody-td">
             <div class="hd">
-              <span class="text">
+              <span class="text" @click="jumpSongDetail(item.id)">
                 <span class="title">{{ item.name }}</span>
                 <span class="no-click" v-if="item.alia[0]">
                   - {{ item.alia[0] }}
@@ -184,6 +184,15 @@ export default defineComponent({
       }
     );
 
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌曲id
+      $store.commit('setSongId', id);
+      $router.push({ name: 'song-detail', params: { id } });
+    }
+
     // 计算歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
       const privilege = songSheetDetail.value?.privileges.find(
@@ -280,6 +289,7 @@ export default defineComponent({
       songSheetDetail,
       playMusicId,
       loading,
+      jumpSongDetail,
       isCopyright,
       jumpSingerDetail,
       setAddSinglePlayList,

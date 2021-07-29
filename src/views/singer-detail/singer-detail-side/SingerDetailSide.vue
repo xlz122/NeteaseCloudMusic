@@ -1,5 +1,22 @@
 <template>
   <div class="singer-side-container">
+    <template v-if="hotSingerList?.length > 0">
+      <h3 class="title">热门歌手</h3>
+      <ul class="like-list">
+        <li
+          class="item"
+          v-for="(item, index) in hotSingerList"
+          :key="index"
+          :class="{ 'first-item': !(index % 3) }"
+          @click="jumpSingerDetail(item.id)"
+        >
+          <router-link class="item-link" to="" :title="item.name">
+            <img class="item-img" :src="`${item.picUrl}?param=50y50`" />
+          </router-link>
+          <p class="desc">{{ item.name }}</p>
+        </li>
+      </ul>
+    </template>
     <template v-if="singerList?.length > 0">
       <h3 class="title">相似歌手</h3>
       <ul class="like-list">
@@ -32,7 +49,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
-import { simiArtist } from '@api/singer-detail';
+import { topArtists, simiArtist } from '@api/singer-detail';
 import { ResponseType } from '@/types/types';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
 
@@ -49,6 +66,26 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
+    const hotSingerList = ref<unknown[]>([]);
+    // 获取热门歌手
+    function getTopArtists(): void {
+      topArtists({
+        offset: 0,
+        limit: 6
+      })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            hotSingerList.value = res.artists.slice(0, 6);
+          } else {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: res?.msg
+            });
+          }
+        })
+        .catch(() => ({}));
+    }
+
     // 歌手id
     const singerId = computed(() => $store.getters.singerId);
     const singerList = ref<unknown[]>([]);
@@ -58,6 +95,10 @@ export default defineComponent({
       simiArtist({ id: singerId.value })
         .then((res: ResponseType) => {
           if (res.code === 200) {
+            // 相似歌手为空时，获取热门歌手
+            if (res.artists.length === 0) {
+              getTopArtists();
+            }
             singerList.value = res.artists.slice(0, 6);
           } else {
             $store.commit('setMessage', {
@@ -78,6 +119,7 @@ export default defineComponent({
     }
 
     return {
+      hotSingerList,
       singerList,
       jumpSingerDetail
     };

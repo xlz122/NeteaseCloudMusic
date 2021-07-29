@@ -1,0 +1,46 @@
+.song-sheet-detail {
+  background-color: #f2f2f2;
+
+  .song-sheet-detail-container {
+    width: 980px;
+    margin: 0 auto;
+    background-color: #fff;
+    background: url(~@/assets/image/song-sheet/song-sheet-detail-bg.png) repeat-y center 0;
+    border: 1px solid #d3d3d3;
+    border-width: 0 1px;
+
+    .song-sheet-content {
+      display: inline-block;
+      vertical-align: top;
+      width: calc(100% - 274px);
+      padding-bottom: 40px;
+
+      .user-info {
+        padding: 47px 0 40px 39px;
+      }
+      
+      ::v-deep(.comment-component) {
+        margin-left: 39px;
+        margin-right: 30px;
+
+        .detail-comment {
+          width: 637px;
+        }
+
+        .list-title {
+          padding-left: 0;
+        }
+
+        .comment-textarea {
+          width: 558px;
+        }
+      }
+    }
+
+    .song-sheet-side {
+      display: inline-block;
+      vertical-align: top;
+      width: 270px;
+    }
+  }
+}

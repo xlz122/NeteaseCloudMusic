@@ -7,6 +7,7 @@ export type State = {
   message: unknown;
   searchText: string;
   userId: number;
+  songId: number;
   singerId: number;
   singerTabIndex: number;
 };
@@ -27,6 +28,7 @@ const state: State = {
   message: {}, // 消息提示
   searchText: localStorage.getItem('searchText') || '', // 搜索关键字
   userId: Number(localStorage.getItem('userId')) || 0, // 用户uid(自己或其他人)
+  songId: Number(localStorage.getItem('songId')) || 0, // 歌曲id
   singerId: Number(localStorage.getItem('singerId')) || 0, // 歌手id
   singerTabIndex: Number(localStorage.getItem('singerTabIndex')) || 0 // 歌手详情导航
 };

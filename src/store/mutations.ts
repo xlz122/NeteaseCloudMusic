@@ -52,6 +52,11 @@ const mutations: Mutations<State> = {
     state.userId = userId;
     localStorage.setItem('userId', JSON.stringify(userId));
   },
+  // 歌曲id
+  setSongId(state, songId: number) {
+    state.songId = songId;
+    localStorage.setItem('songId', JSON.stringify(songId));
+  },
   // 歌手id
   setSingerId(state, singerId: number) {
     state.singerId = singerId;
