@@ -17,7 +17,7 @@
             v-if="singerDetail?.user"
             @click="jumpUserProfile(singerDetail?.user?.userId)"
           ></i>
-          <i class="artist-sub"></i>
+          <i class="artist-sub" @click="setArtistSub"></i>
         </div>
         <ul class="singer-tabs">
           <li
@@ -36,7 +36,7 @@
         <!-- 根据选中，渲染对应组件 -->
         <component
           :is="`${singerTabs[singerTabIndex].component}`"
-          :nickname="singerDetail?.artist?.name"
+          :singerDetail="singerDetail"
         ></component>
       </div>
       <div class="singer-side">
@@ -83,7 +83,8 @@ export default defineComponent({
       }
     );
 
-    const singerDetail = ref<unknown[]>([]);
+    // 歌手详情
+    const singerDetail = ref<never[]>([]);
 
     // 获取歌手详情
     function getArtistDetail(): void {
@@ -115,6 +116,16 @@ export default defineComponent({
       $router.push({ name: 'user-profile', params: { id: userId } });
     }
 
+    // 收藏/取消收藏歌手
+    function setArtistSub(): void {
+      // 歌手详情里未找到是否收藏参数
+      // 可使用，先请求收藏的歌手列表接口，然后对比当前歌手id，来判断是否被收藏
+      $store.commit('setMessage', {
+        type: 'info',
+        title: '收藏成功'
+      });
+    }
+
     // tab部分
     const singerTabs = reactive([
       {
@@ -143,6 +154,7 @@ export default defineComponent({
     return {
       singerDetail,
       jumpUserProfile,
+      setArtistSub,
       singerTabs,
       singerTabIndex,
       tabChange
