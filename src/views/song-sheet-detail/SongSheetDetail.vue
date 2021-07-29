@@ -117,9 +117,8 @@ export default defineComponent({
       const commentDom = document.querySelector(
         '.comment-component'
       ) as HTMLElement;
-      const myMusicDom = document.querySelector('.my-music') as HTMLElement;
       // 标题高度
-      myMusicDom.scrollTo(0, Number(commentDom.offsetTop) - 36);
+      window.scrollTo(0, Number(commentDom.offsetTop) + 20);
     }
 
     onMounted(() => {
