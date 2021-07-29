@@ -2,7 +2,7 @@
   <div class="singer-introduce">
     <h2 class="desc-title">
       <i class="desc-line"></i>
-      <span>{{ nickname }}简介</span>
+      <span>{{ singerDetail?.artist?.name }}简介</span>
     </h2>
     <p class="desc-content">{{ singerDesc?.briefDesc }}</p>
     <ul class="introduce-list">
@@ -26,9 +26,9 @@ import { ResponseType } from '@/types/types';
 
 export default defineComponent({
   props: {
-    nickname: {
-      type: String,
-      default: ''
+    singerDetail: {
+      type: Object,
+      default: () => ({})
     }
   },
   setup() {
