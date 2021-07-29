@@ -185,12 +185,12 @@ export default defineComponent({
 .confirmBtn {
   padding: 0 5px 0 0;
   color: #fff;
-  background: url(../assets/image/icon-button.png) no-repeat;
+  background: url(~@/assets/image/icon-button.png) no-repeat;
   background-position: right -428px;
   .icon {
     display: inline-block;
     padding: 0 23px 0 28px;
-    background: url(../assets/image/icon-button.png) no-repeat;
+    background: url(~@/assets/image/icon-button.png) no-repeat;
     background-position: 0 -387px;
   }
 }
@@ -203,12 +203,12 @@ export default defineComponent({
 .cancelBtn {
   padding: 0 5px 0 0;
   color: #333;
-  background: url(../assets/image/icon-button.png) no-repeat;
+  background: url(~@/assets/image/icon-button.png) no-repeat;
   background-position: right -100px;
   .icon {
     display: inline-block;
     padding: 0 23px 0 28px;
-    background: url(../assets/image/icon-button.png) no-repeat;
+    background: url(~@/assets/image/icon-button.png) no-repeat;
     background-position: 0 -59px;
   }
 }

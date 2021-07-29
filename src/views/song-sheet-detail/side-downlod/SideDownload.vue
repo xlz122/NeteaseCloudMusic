@@ -34,7 +34,7 @@
   .download-list {
     height: 65px;
     margin-bottom: 10px;
-    background: url('../../../assets/image/home/song-sheet-detail-download.png');
+    background: url(~@/assets/image/song-sheet/song-sheet-detail-download.png);
     background-position: 0 -392px;
 
     .item {
@@ -46,7 +46,7 @@
         text-indent: -9999px;
 
         &:hover {
-          background: url('../../../assets/image/home/song-sheet-detail-download.png');
+          background: url(~@/assets/image/song-sheet//song-sheet-detail-download.png);
         }
       }
 
