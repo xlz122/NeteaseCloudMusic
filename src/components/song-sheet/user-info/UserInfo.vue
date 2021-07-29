@@ -1,5 +1,5 @@
 <template>
-  <div class="user-info-container">
+  <div class="song-sheet-user-info">
     <div class="header-info">
       <div class="info-img">
         <img
@@ -17,6 +17,8 @@
           <img
             class="user-avatar"
             :src="songSheetDetail?.playlist?.creator?.avatarUrl"
+            @click="jumpUserProfile(songSheetDetail?.playlist?.creator?.userId)"
+            alt=""
           />
           <span
             class="user-name"
@@ -294,7 +296,7 @@ export default defineComponent({
     function jumpUserProfile(userId: number) {
       // 头部导航取消选中
       $store.commit('setHeaderActiveIndex', -1);
-      $router.push({ name: 'user-profile', params: { id: userId } });
+      $router.push({ name: 'user-profile', params: { userId } });
     }
 
     // 跳转歌单

@@ -9,7 +9,9 @@
       <div class="td play-icon" @click="playListMusic(item.id, item)"></div>
       <div class="td td1">
         <div class="text">
-          <span class="name">{{ item?.name }}</span>
+          <span class="name" @click="jumpSongDetail(item.id)">{{
+            item?.name
+          }}</span>
           <span class="desc"></span>
         </div>
       </div>
@@ -39,6 +41,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils.ts';
 import Page from '@components/page/Page.vue';
@@ -67,7 +70,17 @@ export default defineComponent({
   },
   emits: ['changPage'],
   setup(props, { emit }) {
+    const $router = useRouter();
     const $store = useStore();
+
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌曲id
+      $store.commit('setSongId', id);
+      $router.push({ name: 'song-detail', params: { songId: id } });
+    }
 
     // 播放列表音乐
     function playListMusic(id: number, item: Record<string, any>): void {
@@ -91,6 +104,7 @@ export default defineComponent({
     }
     return {
       timeStampToDuration,
+      jumpSongDetail,
       playListMusic,
       changPage
     };

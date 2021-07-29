@@ -50,7 +50,7 @@
           </td>
           <td class="tbody-td">
             <div class="hd">
-              <span class="text">
+              <span class="text" @click="jumpSongDetail(item.id)">
                 <span class="title">{{ item.name }}</span>
                 <span class="no-click" v-if="item.alia[0]">
                   - {{ item.alia[0] }}
@@ -83,15 +83,12 @@
           </td>
           <td class="tbody-td singer">
             <div class="hd">
-              <span
-                class="text"
-                v-for="(i, ind) in item.ar"
-                :key="ind"
-                @click="jumpSingerDetail(i.id)"
-              >
-                {{ i.name }}
+              <template class="text" v-for="(i, ind) in item.ar" :key="ind">
+                <span class="name" @click="jumpSingerDetail(i.id)">
+                  {{ i.name }}
+                </span>
                 <span class="line" v-if="ind !== item.ar.length - 1">/</span>
-              </span>
+              </template>
             </div>
           </td>
           <td class="tbody-td">
@@ -184,6 +181,15 @@ export default defineComponent({
       }
     );
 
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌曲id
+      $store.commit('setSongId', id);
+      $router.push({ name: 'song-detail', params: { songId: id } });
+    }
+
     // 计算歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
       const privilege = songSheetDetail.value?.privileges.find(
@@ -213,7 +219,7 @@ export default defineComponent({
       $store.commit('setSubActiveIndex', -1);
       // 存储歌手id
       $store.commit('setSingerId', id);
-      $router.push({ name: 'singer-detail', params: { id } });
+      $router.push({ name: 'singer-detail', params: { singerId: id } });
     }
 
     // 播放列表音乐
@@ -280,6 +286,7 @@ export default defineComponent({
       songSheetDetail,
       playMusicId,
       loading,
+      jumpSongDetail,
       isCopyright,
       jumpSingerDetail,
       setAddSinglePlayList,

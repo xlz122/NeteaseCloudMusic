@@ -113,8 +113,16 @@ export default defineComponent({
           musicDetail.playListDetail = true;
           $store.commit('music/setMusicDetailOptions', musicDetail);
 
-          if (songSheetId.value > 0) {
+          // id存在，属于左侧列表，使用缓存id
+          const playListId: number[] = [];
+          res.playlist.forEach((item: LoopType) => {
+            playListId.push(item.id);
+          });
+
+          if (songSheetId.value > 0 && playListId.includes(songSheetId.value)) {
             getSongListDetail(songSheetId.value);
+            // 左侧选中
+            $store.commit('music/setSongSheetId', songSheetId.value);
           } else {
             getSongListDetail(res.playlist[0].id);
             // 左侧选中
@@ -207,7 +215,6 @@ export default defineComponent({
           if (res?.playlist?.name.includes('喜欢的音乐')) {
             res.playlist.name = '我喜欢的音乐';
           }
-
           $store.commit('music/setSongSheetDetail', res);
         }
       });

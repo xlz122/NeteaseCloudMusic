@@ -2,38 +2,8 @@
   <div class="song-sheet-detail">
     <div class="song-sheet-detail-container">
       <div class="song-sheet-content">
-        <UserInfo class="user-info" @commentClick="commentClick" />
-        <div class="list-title">
-          <h3 class="title-text">歌曲列表</h3>
-          <span class="title-text-num">
-            {{ songSheetDetail?.playlist?.trackCount }}首歌
-          </span>
-          <div class="title-right">
-            <div class="out">
-              <i class="icon"></i>
-              <a
-                class="link"
-                :href="`https://music.163.com/#/outchain/0/${songSheetId}`"
-              >
-                生成外链播放器
-              </a>
-            </div>
-            <div
-              class="title-play-num"
-              v-if="songSheetDetail?.playlist?.tracks.length > 0"
-            >
-              播放:
-              <span class="eye-catching">{{
-                songSheetDetail?.playlist?.playCount
-              }}</span>
-              次
-            </div>
-          </div>
-        </div>
-        <MusicTable class="music-table" />
-        <div class="playlist-see-more">
-          <div class="text">查看更多内容，请下载客户端</div>
-          <router-link class="link" to="/download">立即下载</router-link>
+        <div class="song-user-info">
+          <SongInfo :songDetailData="songDetailData" />
         </div>
         <!-- 评论 -->
         <div class="comment-component">
@@ -49,47 +19,56 @@
         />
       </div>
       <div class="song-sheet-side">
-        <SongSheetSide />
+        <SongDateilSide />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, watch, onMounted } from 'vue';
+import {
+  defineComponent,
+  ref,
+  reactive,
+  computed,
+  watch,
+  onMounted,
+  nextTick
+} from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import { playlistDetail } from '@api/song-sheet-detail';
-import { commentPlayList } from '@api/my-music';
+import { songDetail } from '@api/song-detail';
+import { commentMusic } from '@api/comment';
 import { ResponseType, CommentParams } from '@/types/types';
 import { handleCommentData } from '@components/comment/handleCommentData';
-import UserInfo from '@components/song-sheet/user-info/UserInfo.vue';
-import MusicTable from '@components/song-sheet/music-table/MusicTable.vue';
 import Comment from '@components/comment/Comment.vue';
-import SongSheetSide from './song-sheet-side/SongSheetSide.vue';
+import SongInfo from './song-info/SongInfo.vue';
+import SongDateilSide from './song-detail-side/SonDetailSide.vue';
 import Page from '@components/page/Page.vue';
 
 export default defineComponent({
   components: {
-    UserInfo,
-    MusicTable,
+    SongInfo,
     Comment,
-    SongSheetSide,
+    SongDateilSide,
     Page
   },
   setup() {
     const $route = useRoute();
     const $store = useStore();
 
-    // 歌单id
-    const songSheetId = computed(() => $store.getters['music/songSheetId']);
-
+    // 歌曲id
+    const songId = computed(() => $store.getters.songId);
+    // 监听路由传参，获取歌曲详情
     watch(
       () => $route.params,
       curVal => {
-        if (curVal.songSheetId) {
-          $store.commit('music/setSongSheetId', Number(curVal.songSheetId));
-          getSongDetail();
+        if (curVal.songId) {
+          nextTick(() => {
+            $store.commit('setSongId', Number(curVal.songId));
+            getSongDetail();
+            getCommentData();
+          });
         }
       },
       {
@@ -97,21 +76,15 @@ export default defineComponent({
       }
     );
 
-    // 歌单详情数据
-    const songSheetDetail = computed(
-      () => $store.getters['music/songSheetDetail']
-    );
-
-    // 获取歌单详情
+    const songDetailData = ref({});
+    // 获取歌曲详情
     function getSongDetail(): void {
-      // 清空歌单详情数据
-      $store.commit('music/setSongSheetDetail', {});
-      playlistDetail({
-        id: songSheetId.value
+      songDetail({
+        ids: songId.value
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            $store.commit('music/setSongSheetDetail', res);
+            songDetailData.value = res;
           } else {
             $store.commit('setMessage', {
               type: 'error',
@@ -121,19 +94,11 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-
-    // 评论
-    function commentClick(): void {
-      const commentDom = document.querySelector(
-        '.comment-component'
-      ) as HTMLElement;
-      // 标题高度
-      window.scrollTo(0, Number(commentDom.offsetTop) + 20);
-    }
+    getSongDetail();
 
     // 获取评论数据
     const commentParams = reactive<CommentParams>({
-      id: songSheetId.value,
+      id: songId.value,
       offset: 1,
       limit: 20,
       total: 0,
@@ -142,14 +107,14 @@ export default defineComponent({
     });
     function getCommentData(): void {
       const params = {
-        id: songSheetId.value,
+        id: songId.value,
         limit: commentParams.limit
       };
       // 精彩评论不加offset
       if (commentParams.offset > 1) {
         params['offset'] = commentParams.offset;
       }
-      commentPlayList({ ...params })
+      commentMusic({ ...params })
         .then((res: ResponseType) => {
           if (res.code === 200) {
             const result = handleCommentData(res);
@@ -179,9 +144,7 @@ export default defineComponent({
     });
 
     return {
-      songSheetDetail,
-      songSheetId,
-      commentClick,
+      songDetailData,
       commentParams,
       changPage
     };
@@ -190,5 +153,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './song-sheet-detail.less';
+@import './song-detail.less';
 </style>

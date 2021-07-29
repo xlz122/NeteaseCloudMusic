@@ -104,7 +104,7 @@ export default defineComponent({
 
     const $store = useStore();
 
-    // 侧边歌单列表选中项id
+    // 歌单id
     const songSheetId = computed(() => $store.getters['music/songSheetId']);
 
     // 列表显隐切换

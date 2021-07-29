@@ -113,7 +113,7 @@ export default defineComponent({
 
     // 跳转用户资料
     function jumpUserProfile(userId: number): void {
-      $router.push({ name: 'user-profile', params: { id: userId } });
+      $router.push({ name: 'user-profile', params: { userId } });
     }
 
     // 收藏/取消收藏歌手

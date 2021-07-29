@@ -51,7 +51,7 @@
           </td>
           <td class="tbody-td">
             <div class="hd">
-              <span class="text">
+              <span class="text" @click="jumpSongDetail(item.id)">
                 <span class="name">{{ item.name }}</span>
                 <span class="no-click" v-if="item.alia[0]">
                   - {{ item.alia[0] }}
@@ -100,6 +100,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { artistSong } from '@api/singer-detail';
 import { timeStampToDuration } from '@utils/utils.ts';
@@ -108,6 +109,7 @@ import { throttle } from 'lodash';
 
 export default defineComponent({
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     // 当前播放音乐id
@@ -217,6 +219,15 @@ export default defineComponent({
       });
     }
 
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌曲id
+      $store.commit('setSongId', id);
+      $router.push({ name: 'song-detail', params: { songId: id } });
+    }
+
     return {
       timeStampToDuration,
       singerSong,
@@ -225,7 +236,8 @@ export default defineComponent({
       playTitleMusic,
       setAddPlayList,
       setAddSinglePlayList,
-      playListMusic
+      playListMusic,
+      jumpSongDetail
     };
   }
 });
