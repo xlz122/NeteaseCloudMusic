@@ -179,6 +179,7 @@ export default defineComponent({
       }
       songParams.cat = name;
       songParams.page = 1;
+      getTopPlaylist();
       classifyShow.value = false;
     }
 
