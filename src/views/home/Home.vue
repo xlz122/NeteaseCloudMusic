@@ -43,7 +43,7 @@ export default defineComponent({
     background-color: #fff;
     border: 1px solid #d3d3d3;
     border-width: 0 1px;
-    background: url('../../assets/image/home/wrap1.png') repeat-y 100% 100%;
+    background: url(~@/assets/image/home/wrap1.png) repeat-y 100% 100%;
 
     .container-content {
       display: inline-block;

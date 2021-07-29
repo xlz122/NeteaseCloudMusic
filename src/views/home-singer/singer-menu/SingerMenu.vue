@@ -214,7 +214,7 @@ export default defineComponent({
       display: inline-block;
       width: 133px;
       padding-left: 27px;
-      background: url(~@/assets/image/home/singer.png) no-repeat 0 9999px;
+      background: url(~@/assets/image/singer/singer.png) no-repeat 0 9999px;
       background-position: 0 -30px;
       color: #333;
       cursor: pointer;
