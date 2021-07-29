@@ -52,7 +52,7 @@
           <td class="tbody-td">
             <div class="hd">
               <span class="text">
-                <span class="title">{{ item.name }}</span>
+                <span class="name">{{ item.name }}</span>
                 <span class="no-click" v-if="item.alia[0]">
                   - {{ item.alia[0] }}
                 </span>
