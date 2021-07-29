@@ -13,7 +13,7 @@
 import { defineComponent, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import UserInfo from '@components/user-profile/user-info/User-info.vue';
-import SongSheetList from '@components/user-profile/song-sheet-list/SongSheet-list.vue';
+import SongSheetList from '@/components/user-profile/song-sheet-list/SongSheetList.vue';
 
 export default defineComponent({
   components: {

@@ -138,6 +138,31 @@ export const artistDesc = ({ id }: { id: number }): AxiosRequest => {
 };
 
 /**
+ * @desc 获取热门歌手
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } [offset] - 页数
+ * @param { Number } [limit] - 每页评论条数，默认20
+ */
+
+type TopArtists = {
+  offset?: number;
+  limit?: number;
+};
+
+export const topArtists = ({ offset, limit }: TopArtists): AxiosRequest => {
+  const params = {
+    timestamp: new Date().getTime(),
+    offset,
+    limit
+  };
+  return axios.request({
+    url: '/top/artists',
+    method: 'get',
+    params
+  });
+};
+
+/**
  * @desc 获取相似歌手
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌手 id
