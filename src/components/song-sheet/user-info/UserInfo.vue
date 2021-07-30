@@ -1,5 +1,5 @@
 <template>
-  <div class="user-info-container">
+  <div class="song-sheet-user-info">
     <div class="header-info">
       <div class="info-img">
         <img
