@@ -2,6 +2,9 @@
   <div class="song-sheet-detail">
     <div class="song-sheet-detail-container">
       <div class="song-sheet-content">
+        <div class="song-user-info">
+          <SongInfo />
+        </div>
         <!-- 评论 -->
         <div class="comment-component">
           <comment :commentParams="commentParams" />
@@ -16,7 +19,7 @@
         />
       </div>
       <div class="song-sheet-side">
-        <SongSheetSide />
+        <SongDateilSide />
       </div>
     </div>
   </div>
@@ -38,13 +41,15 @@ import { commentMusic } from '@api/comment';
 import { ResponseType, CommentParams } from '@/types/types';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import Comment from '@components/comment/Comment.vue';
-import SongSheetSide from './song-detail-side/SonDetailSide.vue';
+import SongInfo from './song-info/SongInfo.vue';
+import SongDateilSide from './song-detail-side/SonDetailSide.vue';
 import Page from '@components/page/Page.vue';
 
 export default defineComponent({
   components: {
+    SongInfo,
     Comment,
-    SongSheetSide,
+    SongDateilSide,
     Page
   },
   setup() {
