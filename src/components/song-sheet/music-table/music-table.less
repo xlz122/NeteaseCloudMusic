@@ -244,30 +244,20 @@
     }
 
     .singer {
-      width: 100%;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      .hd {
+        max-width: 87%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        .name {
+          cursor: pointer;
+        }
+      }
     }
 
     .tbody tr:hover {
-      td {
-        padding-top: 5px;
-        padding-bottom: 6px;
-        padding-right: 0;
-        line-height: 18px;
-      }
-
-      .tbody-left {
-        padding-top: 5px;
-        padding-left: 10px;
-        padding-bottom: 8px;
-      }
-
       .tbody-td {
         .hd {
-          height: auto;
-
           .time {
             display: none;
           }
