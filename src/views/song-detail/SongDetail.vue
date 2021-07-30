@@ -3,7 +3,7 @@
     <div class="song-sheet-detail-container">
       <div class="song-sheet-content">
         <div class="song-user-info">
-          <SongInfo />
+          <SongInfo :songDetailData="songDetailData" />
         </div>
         <!-- 评论 -->
         <div class="comment-component">
@@ -28,6 +28,7 @@
 <script lang="ts">
 import {
   defineComponent,
+  ref,
   reactive,
   computed,
   watch,
@@ -56,6 +57,7 @@ export default defineComponent({
     const $route = useRoute();
     const $store = useStore();
 
+    // 歌曲id
     const songId = computed(() => $store.getters.songId);
     // 监听路由传参，获取歌曲详情
     watch(
@@ -74,6 +76,7 @@ export default defineComponent({
       }
     );
 
+    const songDetailData = ref({});
     // 获取歌曲详情
     function getSongDetail(): void {
       songDetail({
@@ -81,7 +84,7 @@ export default defineComponent({
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            console.log(res);
+            songDetailData.value = res;
           } else {
             $store.commit('setMessage', {
               type: 'error',
@@ -141,6 +144,7 @@ export default defineComponent({
     });
 
     return {
+      songDetailData,
       commentParams,
       changPage
     };

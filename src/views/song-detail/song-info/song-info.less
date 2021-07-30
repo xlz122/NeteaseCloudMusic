@@ -1,3 +1,281 @@
 .song-user-info-container {
-  padding: 47px 30px 40px 39px;
+  padding: 37px 30px 40px 39px;
+  text-align: left;
+
+  .cover-warp {
+    display: inline-block;
+    vertical-align: top;
+    width: 206px;
+
+    .cover {
+      position: relative;
+      width: 198px;
+      height: 198px;
+
+      .cover-img {
+        width: 130px;
+        height: 130px;
+        margin: 34px;
+      }
+
+      .cover-img-bg {
+        position: absolute;
+        z-index: 10;
+        width: 206px;
+        height: 205px;
+        top: -4px;
+        left: -4px;
+        background: url(~@/assets/image/my-music/coverall.png);
+        background-position: -140px -580px;
+      }
+    }
+
+    .out {
+      display: inline-block;
+      vertical-align: middle;
+      width: 100%;
+      margin-top: 20px;
+      text-align: center;
+
+      .icon {
+        display: inline-block;
+        vertical-align: middle;
+        width: 16px;
+        height: 16px;
+        background: url(~@/assets/image/icon.png) repeat-y center 0;
+        background-position: -34px -863px;
+      }
+
+      .link {
+        color: #4996d1;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .info-right {
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 221px);
+    margin-left: 15px;
+
+    .title {
+      display: block;
+
+      .icon-title {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        width: 54px;
+        height: 24px;
+        margin-right: 8px;
+        background: url(~@/assets/image/icon.png) no-repeat;
+        background-position: 0 -463px;
+      }
+
+      .icon-title::after {
+        content: '';
+        position: absolute;
+        top: 1px;
+        right: 12px;
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background: url(~@/assets/image/my-music/icon-my-music-r2@3x.png) no-repeat;
+        background-size: cover;
+      }
+
+      .title-text {
+        width: 348px;
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 20px;
+        font-weight: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
+      }
+    }
+
+    .info {
+      color: #999;
+      margin: 10px 0;
+
+      .text {
+        color: #0c73c2;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .operate-btn {
+      width: 435px;
+      margin-top: 5px;
+
+      .play {
+        display: inline-block;
+        vertical-align: top;
+        width: 59px;
+        height: 31px;
+        line-height: 31px;
+        padding-right: 5px;
+        background: url(~@/assets/image/icon-button.png) no-repeat;
+        background-position: right -428px;
+
+        .icon-play {
+          display: inline-block;
+          vertical-align: middle;
+          width: 100%;
+          height: 31px;
+          line-height: 31px;
+          margin-top: -1px;
+          background: url(~@/assets/image/icon-button.png) no-repeat;
+          background-position: 0 -387px;
+          color: #fff;
+          text-align: center;
+          cursor: pointer;
+        }
+
+        .icon-play::before {
+          content: '';
+          display: inline-block;
+          vertical-align: middle;
+          width: 20px;
+          height: 18px;
+          margin: 0px 2px 2px 0;
+          background: url(~@/assets/image/icon-button.png) no-repeat;
+          background-position: 0 -1622px;
+        }
+      }
+
+      .play:hover {
+        background-position: right -510px;
+
+        .icon-play {
+          background-position: 0 -469px;
+        }
+
+        .icon-play::before {
+          background-position: -28px -1622px;
+        }
+      }
+
+      .play-add {
+        display: inline-block;
+        vertical-align: top;
+        width: 31px;
+        height: 31px;
+        line-height: 30px;
+        margin-left: -3px;
+        margin-right: 8px;
+        padding-right: 0;
+        background: url(~@/assets/image/icon-button.png) no-repeat;
+        background-position: 0 -1588px;
+        cursor: pointer;
+      }
+
+      .play-add:hover {
+        background-position: -40px -1588px;
+      }
+
+      .other {
+        display: inline-block;
+        vertical-align: middle;
+        height: 32px;
+        line-height: 30px;
+        margin-left: -3px;
+        margin-right: 8px;
+        padding-right: 0;
+        background: url(~@/assets/image/icon-button.png) no-repeat;
+        background-position: right -1192px;
+        color: #333;
+        font-style: normal;
+        text-align: left;
+        font-size: inherit;
+        font-family: simsun, \5b8b\4f53;
+        cursor: pointer;
+
+        .icon {
+          display: inline-block;
+          vertical-align: middle;
+          height: 32px;
+          padding-left: 30px;
+          margin-right: 4px;
+          background: url(~@/assets/image/icon-button.png) no-repeat;
+          background-position: 0 -1149px;
+          font-family: simsun, \5b8b\4f53;
+        }
+      }
+
+      .collection {
+        background-position: right -1020px;
+
+        .icon {
+          background-position: 0 -977px;
+        }
+      }
+
+      .share {
+        background-position: right -1020px;
+
+        .icon {
+          background-position: 0 -1225px;
+        }
+      }
+
+      .download {
+        background-position: right -1020px;
+
+        .icon {
+          background-position: 0 -2761px;
+        }
+      }
+
+      .comment {
+        margin-right: 0;
+        background-position: right -1020px;
+
+        .icon {
+          background-position: 0 -1465px;
+        }
+      }
+
+      .collection:hover {
+        background-position: right -1106px;
+
+        .icon {
+          background-position: 0 -1063px;
+        }
+      }
+
+      .share:hover {
+        background-position: right -1106px;
+
+        .icon {
+          background-position: 0 -1268px;
+        }
+      }
+
+      .download:hover {
+        background-position: right -1106px;
+
+        .icon {
+          background-position: 0 -2805px;
+        }
+      }
+
+      .comment:hover {
+        background-position: right -1106px;
+
+        .icon {
+          background-position: 0 -1508px;
+        }
+      }
+    }
+  }
 }
