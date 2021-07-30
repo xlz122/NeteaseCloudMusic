@@ -110,14 +110,14 @@ export default defineComponent({
 
     // 跳转歌单详情
     function jumpSongSheetDetail(id: number): void {
-      $router.push({ name: 'song-sheet-detail', params: { id } });
+      $router.push({ name: 'song-sheet-detail', params: { songSheetId: id } });
     }
 
     // 跳转用户资料
     function jumpUserProfile(userId: number): void {
       // 头部导航取消选中
       $store.commit('setHeaderActiveIndex', -1);
-      $router.push({ name: 'user-profile', params: { id: userId } });
+      $router.push({ name: 'user-profile', params: { userId } });
     }
 
     // 相似歌曲
@@ -153,7 +153,7 @@ export default defineComponent({
       $store.commit('setSubActiveIndex', -1);
       // 存储歌手id
       $store.commit('setSingerId', id);
-      $router.push({ name: 'singer-detail', params: { id } });
+      $router.push({ name: 'singer-detail', params: { singerId: id } });
     }
 
     // 播放列表音乐(有bug)

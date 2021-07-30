@@ -77,8 +77,8 @@ export default defineComponent({
     watch(
       () => $route.params,
       curVal => {
-        if (curVal.id) {
-          songSheetId.value = Number(curVal.id);
+        if (curVal.songSheetId) {
+          songSheetId.value = Number(curVal.songSheetId);
           getSongDetail();
         }
       },

@@ -96,9 +96,10 @@ export default defineComponent({
       () => $route.params,
       curVal => {
         // 传入
-        if (curVal.id) {
-          $store.commit('setUserId', Number(curVal.id));
+        if (curVal.userId) {
+          $store.commit('setUserId', Number(curVal.userId));
           getUserPlayList();
+          return false;
         }
         // 刷新
         if (uid.value) {
@@ -156,7 +157,7 @@ export default defineComponent({
 
     // 跳转歌单详情
     function jumpSongSheetDetail(id: number): void {
-      $router.push({ name: 'song-sheet-detail', params: { id } });
+      $router.push({ name: 'song-sheet-detail', params: { songSheetId: id } });
     }
 
     return {

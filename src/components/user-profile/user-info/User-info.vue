@@ -63,9 +63,10 @@ export default defineComponent({
       () => $route.params,
       curVal => {
         // 传入
-        if (curVal.id) {
-          $store.commit('setUserId', Number(curVal.id));
+        if (curVal.userId) {
+          $store.commit('setUserId', Number(curVal.userId));
           getUserDetail();
+          return false;
         }
         // 刷新
         if (uid.value) {
