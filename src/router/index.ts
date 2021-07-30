@@ -116,7 +116,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'song-detail',
         component: () =>
           import(
-            /* webpackChunkName: "song-detail" */ '../views/song-detail/SongSheetDetail.vue'
+            /* webpackChunkName: "song-detail" */ '../views/song-detail/SongDetail.vue'
           )
       },
       // 歌单详情
