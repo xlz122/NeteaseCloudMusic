@@ -158,30 +158,37 @@ export default defineComponent({
 
     // 播放列表音乐(有bug)
     function playListMusic(id: number, item: Record<string, any>): void {
-      // 当前播放音乐id
-      $store.commit('music/setPlayMusicId', id);
-      // 当前播放音乐数据
-      $store.commit('music/setPlayMusicItem', item);
-      // 播放音乐数据
-      $store.commit('music/setPlayMusicList', item);
-      // 开始播放
-      $store.commit('music/setMusicPlayStatus', {
-        look: true,
-        loading: true,
-        refresh: true
+      $store.commit('setMessage', {
+        type: 'error',
+        title: `该功能需重构播放数据，待更新，id:${id}，item:${item}`
       });
+      // // 当前播放音乐id
+      // $store.commit('music/setPlayMusicId', id);
+      // // 当前播放音乐数据
+      // $store.commit('music/setPlayMusicItem', item);
+      // // 播放音乐数据
+      // $store.commit('music/setPlayMusicList', item);
+      // // 开始播放
+      // $store.commit('music/setMusicPlayStatus', {
+      //   look: true,
+      //   loading: true,
+      //   refresh: true
+      // });
     }
 
     // 单个音乐添加到播放列表
     function setAddSinglePlayList(id: number): void {
-      if (simiSongList.value?.length > 0) {
-        const musicItem = simiSongList.value?.find(
-          (item: LoopType) => item.id === id
-        );
-        console.log(musicItem);
-        // 播放音乐数据
-        // $store.commit('music/setPlayMusicList', musicItem);
-      }
+      $store.commit('setMessage', {
+        type: 'error',
+        title: `该功能需重构播放数据，待更新，id:${id}`
+      });
+      // if (simiSongList.value?.length > 0) {
+      //   const musicItem = simiSongList.value?.find(
+      //     (item: LoopType) => item.id === id
+      //   );
+      //   // 播放音乐数据
+      //   $store.commit('music/setPlayMusicList', musicItem);
+      // }
     }
 
     return {
