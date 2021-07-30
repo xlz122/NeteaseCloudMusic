@@ -36,12 +36,17 @@
           <router-link class="link" to="/download">立即下载</router-link>
         </div>
         <!-- 评论 -->
-        <div
-          class="comment-component"
-          v-if="songSheetDetail?.playlist?.tracks.length > 0"
-        >
-          <comment :songSheetDetail="songSheetDetail" />
+        <div class="comment-component">
+          <comment :commentParams="commentParams" />
         </div>
+        <!-- 参数从0开始，分页需从1开始 -->
+        <Page
+          v-if="commentParams.total > commentParams.limit"
+          :page="commentParams.offset"
+          :pageSize="commentParams.limit"
+          :total="commentParams.total"
+          @changPage="changPage"
+        />
       </div>
       <div class="song-sheet-side">
         <SongSheetSide />
@@ -51,34 +56,39 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch, onMounted } from 'vue';
+import { defineComponent, reactive, computed, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { playlistDetail } from '@api/song-sheet-detail';
-import { ResponseType } from '@/types/types';
+import { commentPlayList } from '@api/my-music';
+import { ResponseType, CommentParams } from '@/types/types';
+import { handleCommentData } from '@components/comment/handleCommentData';
 import UserInfo from '@components/song-sheet/user-info/UserInfo.vue';
 import MusicTable from '@components/song-sheet/music-table/MusicTable.vue';
 import Comment from '@components/comment/Comment.vue';
 import SongSheetSide from './song-sheet-side/SongSheetSide.vue';
+import Page from '@components/page/Page.vue';
 
 export default defineComponent({
   components: {
     UserInfo,
     MusicTable,
     Comment,
-    SongSheetSide
+    SongSheetSide,
+    Page
   },
   setup() {
     const $route = useRoute();
     const $store = useStore();
 
-    const songSheetId = ref<number>(-1);
-    // 监听路由传参，获取歌单详情
+    // 歌单id
+    const songSheetId = computed(() => $store.getters['music/songSheetId']);
+
     watch(
       () => $route.params,
       curVal => {
         if (curVal.songSheetId) {
-          songSheetId.value = Number(curVal.songSheetId);
+          $store.commit('music/setSongSheetId', Number(curVal.songSheetId));
           getSongDetail();
         }
       },
@@ -121,6 +131,46 @@ export default defineComponent({
       window.scrollTo(0, Number(commentDom.offsetTop) + 20);
     }
 
+    // 获取评论数据
+    const commentParams = reactive<CommentParams>({
+      id: songSheetId.value,
+      offset: 1,
+      limit: 20,
+      total: 0,
+      hotList: [],
+      list: []
+    });
+    function getCommentData(): void {
+      const params = {
+        id: songSheetId.value,
+        limit: commentParams.limit
+      };
+      // 精彩评论不加offset
+      if (commentParams.offset > 1) {
+        params['offset'] = commentParams.offset;
+      }
+      commentPlayList({ ...params })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            const result = handleCommentData(res);
+            // 精彩评论
+            commentParams.hotList = result.hotList;
+            // 最新评论
+            commentParams.list = result.list;
+            // 最新评论 - 总数
+            commentParams.total = res.total;
+          }
+        })
+        .catch(() => ({}));
+    }
+    getCommentData();
+
+    // 分页
+    function changPage(current: number): void {
+      commentParams.offset = current;
+      getCommentData();
+    }
+
     onMounted(() => {
       // 头部导航选中
       $store.commit('setHeaderActiveIndex', 0);
@@ -131,7 +181,9 @@ export default defineComponent({
     return {
       songSheetDetail,
       songSheetId,
-      commentClick
+      commentClick,
+      commentParams,
+      changPage
     };
   }
 });

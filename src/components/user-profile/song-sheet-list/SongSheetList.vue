@@ -5,7 +5,8 @@
       <div class="title">
         <span class="text">
           <span v-if="isLogOnUser">我创建的歌单</span>
-          <span v-else>{{ userInfo?.profile?.nickname }}创建的歌单</span>
+          <!-- {{ userInfo?.profile?.nickname }} -->
+          <span v-else>创建的歌单</span>
           <i class="icon-r"></i>
         </span>
         <span class="text-length">
@@ -41,7 +42,8 @@
       <div class="title">
         <span class="text">
           <span v-if="isLogOnUser">我收藏的歌单</span>
-          <span v-else>{{ userInfo?.profile?.nickname }}收藏的歌单</span>
+          <!-- {{ userInfo?.profile?.nickname }} -->
+          <span v-else>收藏的歌单</span>
           <i class="icon-r"></i>
         </span>
         <span class="text-length">
