@@ -27,7 +27,7 @@
             <span class="num" :class="{ topThree: ind < 3 }">
               {{ ind + 1 }}
             </span>
-            <p class="text">{{ i?.name }}</p>
+            <p class="text" @click="jumpSongDetail(i.id)">{{ i?.name }}</p>
             <div class="operate">
               <i class="operate-play" title="播放"></i>
               <i class="operate-add" title="添加到播放列表"></i>
@@ -43,11 +43,16 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import { soaringList, newSongs, originalList } from '@api/home';
 import { ResponseType } from '@/types/types';
 
 export default defineComponent({
   setup() {
+    const $router = useRouter();
+    const $store = useStore();
+
     const listData = reactive<unknown[]>([]);
     // 获取飙升榜数据
     function getSoaringList(): void {
@@ -78,8 +83,19 @@ export default defineComponent({
       });
     }
     getOriginalList();
+
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌曲id
+      $store.commit('setSongId', id);
+      $router.push({ name: 'song-detail', params: { songId: id } });
+    }
+    
     return {
-      listData
+      listData,
+      jumpSongDetail
     };
   }
 });

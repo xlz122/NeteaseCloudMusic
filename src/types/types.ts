@@ -50,3 +50,19 @@ export type ProgressData = {
   duration: number;
   cacheProgress: number;
 };
+
+// 评论
+export type CommentParams = {
+  id: number;
+  offset: number;
+  limit: number;
+  total: number;
+  hotList: List[];
+  list: List[];
+};
+
+type List = {
+  replyShow: boolean;
+  liked: boolean;
+  likedCount: number;
+};
