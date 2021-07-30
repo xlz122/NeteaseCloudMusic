@@ -43,8 +43,8 @@ export default defineComponent({
     watch(
       () => $route.params,
       curVal => {
-        if (curVal.id) {
-          // $store.commit('setSongId', Number(curVal.id));
+        if (curVal.songId) {
+          $store.commit('setSongId', Number(curVal.songId));
           getSongDetail();
         }
       },

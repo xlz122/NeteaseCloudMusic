@@ -215,7 +215,7 @@ export default defineComponent({
       $store.commit('setSubActiveIndex', -1);
       // 存储歌手id
       $store.commit('setSingerId', id);
-      $router.push({ name: 'singer-detail', params: { id } });
+      $router.push({ name: 'singer-detail', params: { singerId: id } });
     }
 
     // 专辑详情
@@ -228,7 +228,7 @@ export default defineComponent({
 
     // 歌单详情
     function playlistDetail(id: number): void {
-      $router.push({ name: 'song-sheet-detail', params: { id } });
+      $router.push({ name: 'song-sheet-detail', params: { songSheetId: id } });
     }
     return {
       searchPlaceholder,

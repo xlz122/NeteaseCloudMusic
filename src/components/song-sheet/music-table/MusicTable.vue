@@ -190,7 +190,7 @@ export default defineComponent({
       $store.commit('setSubActiveIndex', -1);
       // 存储歌曲id
       $store.commit('setSongId', id);
-      $router.push({ name: 'song-detail', params: { id } });
+      $router.push({ name: 'song-detail', params: { songId: id } });
     }
 
     // 计算歌曲是否有版权
@@ -222,7 +222,7 @@ export default defineComponent({
       $store.commit('setSubActiveIndex', -1);
       // 存储歌手id
       $store.commit('setSingerId', id);
-      $router.push({ name: 'singer-detail', params: { id } });
+      $router.push({ name: 'singer-detail', params: { singerId: id } });
     }
 
     // 播放列表音乐
