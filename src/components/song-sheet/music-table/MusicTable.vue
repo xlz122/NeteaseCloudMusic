@@ -83,15 +83,12 @@
           </td>
           <td class="tbody-td singer">
             <div class="hd">
-              <span
-                class="text"
-                v-for="(i, ind) in item.ar"
-                :key="ind"
-                @click="jumpSingerDetail(i.id)"
-              >
-                {{ i.name }}
+              <template class="text" v-for="(i, ind) in item.ar" :key="ind">
+                <span class="name" @click="jumpSingerDetail(i.id)">
+                  {{ i.name }}
+                </span>
                 <span class="line" v-if="ind !== item.ar.length - 1">/</span>
-              </span>
+              </template>
             </div>
           </td>
           <td class="tbody-td">

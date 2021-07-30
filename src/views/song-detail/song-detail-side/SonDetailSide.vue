@@ -76,7 +76,7 @@ import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { simiPlaylist, simiSong } from '@api/song-detail';
-import { ResponseType, LoopType } from '@/types/types';
+import { ResponseType } from '@/types/types';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 export default defineComponent({
