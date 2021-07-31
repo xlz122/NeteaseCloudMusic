@@ -43,14 +43,18 @@
                 @click="deleteMusicList(item.id, $event)"
               ></i>
             </div>
-            <span class="text name">
-              <span v-for="(i, ind) in item?.ar" :key="ind">
-                {{ i.name }}
-                <span v-if="ind !== item.ar.length - 1"> / </span>
+            <span class="text name" @click.stop>
+              <span
+                v-for="(i, ind) in item?.singerList"
+                :key="ind"
+                @click="jumpSingerDetail(i.id)"
+              >
+                <span class="name-text">{{ i.name }}</span>
+                <span v-if="ind !== item.singerList.length - 1"> / </span>
               </span>
             </span>
             <span class="text time">
-              {{ timeStampToDuration(item.dt / 1000) }}
+              {{ timeStampToDuration(item.time / 1000) }}
             </span>
             <i class="share"></i>
           </li>
@@ -80,6 +84,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 // 歌词组件
 import Lyric from '../lyric/Lyric.vue';
@@ -96,6 +101,7 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
+    const $router = useRouter();
     const $store = useStore();
 
     // 播放列表数据
@@ -135,6 +141,17 @@ export default defineComponent({
         refresh: true
       });
     }
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌手id
+      $store.commit('setSingerId', id);
+      $router.push({ name: 'singer-detail', params: { singerId: id } });
+      closePlayList();
+    }
+
     // 关闭列表
     function closePlayList(): void {
       emit('closePlayList');
@@ -147,6 +164,7 @@ export default defineComponent({
       emptyMusicList,
       deleteMusicList,
       playlistItem,
+      jumpSingerDetail,
       closePlayList
     };
   }

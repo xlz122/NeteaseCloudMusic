@@ -51,8 +51,7 @@
           }
         }
 
-        .title,
-        .name {
+        .title {
           margin-top: 106px;
           color: #000;
           text-align: left;
@@ -65,10 +64,36 @@
             text-decoration: underline;
           }
         }
+        
 
-        .name {
-          margin-top: 3px;
-          color: #666;
+        .name-list {
+          max-width: 96%;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+
+          .name {
+            margin-top: 106px;
+            color: #000;
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            cursor: pointer;
+  
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+  
+          .name {
+            margin-top: 3px;
+            color: #666;
+          }
+  
+          .line {
+            margin: 0 1px;
+          }
         }
       }
     }

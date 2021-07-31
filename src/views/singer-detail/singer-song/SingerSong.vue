@@ -45,7 +45,7 @@
               <i
                 class="icon-play"
                 :class="{ 'active-play': item.id === playMusicId }"
-                @click="playListMusic(item.id, item)"
+                @click="playListMusic(item)"
               ></i>
             </div>
           </td>
@@ -66,7 +66,7 @@
                 {{ timeStampToDuration(item.dt / 1000) }}
               </span>
               <div class="operate-btn">
-                <i class="icon add" @click="setAddSinglePlayList(item.id)"></i>
+                <i class="icon add" @click="setAddSinglePlayList(item)"></i>
                 <i class="icon collect"></i>
                 <i class="icon share"></i>
                 <i class="icon download"></i>
@@ -105,6 +105,7 @@ import { useStore } from 'vuex';
 import { artistSong } from '@api/singer-detail';
 import { timeStampToDuration } from '@utils/utils.ts';
 import { ResponseType, LoopType } from '@/types/types';
+import { PlayMusicItem } from '@store/music/state';
 import { throttle } from 'lodash';
 
 export default defineComponent({
@@ -157,7 +158,25 @@ export default defineComponent({
           return false;
         }
         // 播放第一项
-        const musicItem = singerSong.value?.hotSongs[0];
+        const item = singerSong.value?.hotSongs[0];
+
+        // 处理播放器所需数据
+        const musicItem: PlayMusicItem = {
+          id: item.id,
+          name: item.name,
+          picUrl: item.al.picUrl,
+          time: item.dt,
+          mv: item.mv,
+          singerList: []
+        };
+
+        item?.ar?.forEach((item: LoopType) => {
+          musicItem.singerList.push({
+            id: item.id,
+            name: item.name
+          });
+        });
+
         // 当前播放音乐id
         $store.commit('music/setPlayMusicId', musicItem.id);
         // 当前播放音乐数据
@@ -187,36 +206,82 @@ export default defineComponent({
         return false;
       }
       singerSong.value?.hotSongs?.forEach((item: LoopType) => {
+        // 处理播放器所需数据
+        const musicItem: PlayMusicItem = {
+          id: item.id,
+          name: item.name,
+          picUrl: item.al.picUrl,
+          time: item.dt,
+          mv: item.mv,
+          singerList: []
+        };
+
+        item?.ar?.forEach((item: LoopType) => {
+          musicItem.singerList.push({
+            id: item.id,
+            name: item.name
+          });
+        });
+
         // 播放音乐数据
-        $store.commit('music/setPlayMusicList', item);
+        $store.commit('music/setPlayMusicList', musicItem);
       });
     }
 
-    // 单个音乐添加到播放列表
-    function setAddSinglePlayList(id: number): void {
-      if (singerSong.value?.hotSongs?.length > 0) {
-        const musicItem = singerSong.value?.hotSongs?.find(
-          (item: LoopType) => item.id === id
-        );
-        // 播放音乐数据
-        $store.commit('music/setPlayMusicList', musicItem);
-      }
-    }
-
     // 播放列表音乐
-    function playListMusic(id: number, item: Record<string, any>): void {
+    function playListMusic(item: Record<string, any>): void {
+      // 处理播放器所需数据
+      const musicItem: PlayMusicItem = {
+        id: item.id,
+        name: item.name,
+        picUrl: item.al.picUrl,
+        time: item.dt,
+        mv: item.mv,
+        singerList: []
+      };
+
+      item?.ar?.forEach((item: LoopType) => {
+        musicItem.singerList.push({
+          id: item.id,
+          name: item.name
+        });
+      });
+
       // 当前播放音乐id
-      $store.commit('music/setPlayMusicId', id);
+      $store.commit('music/setPlayMusicId', musicItem.id);
       // 当前播放音乐数据
-      $store.commit('music/setPlayMusicItem', item);
+      $store.commit('music/setPlayMusicItem', musicItem);
       // 播放音乐数据
-      $store.commit('music/setPlayMusicList', item);
+      $store.commit('music/setPlayMusicList', musicItem);
       // 开始播放
       $store.commit('music/setMusicPlayStatus', {
         look: true,
         loading: true,
         refresh: true
       });
+    }
+
+    // 单个音乐添加到播放列表
+    function setAddSinglePlayList(item: Record<string, any>): void {
+      // 处理播放器所需数据
+      const musicItem: PlayMusicItem = {
+        id: item.id,
+        name: item.name,
+        picUrl: item.al.picUrl,
+        time: item.dt,
+        mv: item.mv,
+        singerList: []
+      };
+
+      item?.ar?.forEach((item: LoopType) => {
+        musicItem.singerList.push({
+          id: item.id,
+          name: item.name
+        });
+      });
+
+      // 播放音乐数据
+      $store.commit('music/setPlayMusicList', musicItem);
     }
 
     // 跳转歌曲详情

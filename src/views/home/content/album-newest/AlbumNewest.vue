@@ -21,8 +21,15 @@
             <div class="title" :title="item?.name" @click="jumpAlbumDetail">
               {{ item?.name }}
             </div>
-            <div class="name" @click="jumpSingerDetail(item?.artist?.id)">
-              {{ item?.artist?.name }}
+            <div class="name-list">
+              <template v-for="(i, ind) in item?.artists" :key="ind">
+                <span class="name" @click="jumpSingerDetail(i.id)">
+                  {{ i.name }}
+                </span>
+                <span class="line" v-if="ind !== item.artists.length - 1">
+                  /
+                </span>
+              </template>
             </div>
           </li>
         </ul>
@@ -53,8 +60,11 @@ export default defineComponent({
     function getListData() {
       albumNewest().then((res: ResponseType) => {
         if (res.code === 200) {
-          // 截取前十项，并复制为二倍模板
-          listData.value = res?.albums.slice(0, 10);
+          // 前五项和后五项位置替换
+          const first = res?.albums.slice(0, 5);
+          const last = res?.albums.slice(5, 10);
+          // 存储前十项，并复制为二倍模板
+          listData.value = [...last, ...first];
           listData.value.unshift(...listData.value);
         }
       });

@@ -6,20 +6,38 @@
       :key="index"
       :class="{ 'even-item': index % 2 }"
     >
-      <div class="td play-icon" @click="playListMusic(item.id, item)"></div>
+      <div class="td play-icon" @click="playListMusic(item)"></div>
       <div class="td td1">
         <div class="text">
-          <span class="name" @click="jumpSongDetail(item.id)">{{
-            item?.name
-          }}</span>
-          <span class="desc"></span>
+          <span class="name" @click="jumpSongDetail(item.id)">
+            {{ item?.name }}
+          </span>
+          <span class="desc" v-if="item?.tns?.length">
+            - ({{ item.tns[0] }})
+          </span>
+          <i class="icon-play" v-if="item.mv > 0"></i>
         </div>
       </div>
-      <div class="td td2"></div>
       <!-- 操作项 -->
+      <div class="td td2">
+        <div class="operate-btn">
+          <i class="icon add" @click="setAddSinglePlayList(item)"></i>
+          <i class="icon collect"></i>
+          <i class="icon share"></i>
+          <i class="icon download"></i>
+          <!-- 用户自己才有删除按钮 -->
+          <i
+            class="icon delete"
+            v-if="item?.ar[0]?.id === userInfo?.profile?.userId"
+            @click="deleteMusicShow(item.id)"
+          ></i>
+        </div>
+      </div>
       <div class="td td3">
         <div class="text">
-          <span class="name">{{ item?.ar[0]?.name }}</span>
+          <span class="name" @click="jumpSingerDetail(item?.ar[0]?.id)">
+            {{ item?.ar[0]?.name }}
+          </span>
         </div>
       </div>
       <div class="td td4">
@@ -40,11 +58,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils.ts';
 import Page from '@components/page/Page.vue';
+import { LoopType } from '@/types/types';
+import { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({
   components: {
@@ -73,6 +93,9 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
+    // 用户信息
+    const userInfo = computed(() => $store.getters.userInfo);
+
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
       // 取消二级导航选中
@@ -82,14 +105,63 @@ export default defineComponent({
       $router.push({ name: 'song-detail', params: { songId: id } });
     }
 
-    // 播放列表音乐
-    function playListMusic(id: number, item: Record<string, any>): void {
-      // 当前播放音乐id
-      $store.commit('music/setPlayMusicId', id);
-      // 当前播放音乐数据
-      $store.commit('music/setPlayMusicItem', item);
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌手id
+      $store.commit('setSingerId', id);
+      $router.push({ name: 'singer-detail', params: { singerId: id } });
+    }
+
+    // 单个音乐添加到播放列表
+    function setAddSinglePlayList(item: Record<string, any>): void {
+      // 处理播放器所需数据
+      const musicItem: PlayMusicItem = {
+        id: item.id,
+        name: item.name,
+        picUrl: item.al.picUrl,
+        time: item.dt,
+        mv: item.mv,
+        singerList: []
+      };
+
+      item?.ar?.forEach((item: LoopType) => {
+        musicItem.singerList.push({
+          id: item.id,
+          name: item.name
+        });
+      });
+
       // 播放音乐数据
-      $store.commit('music/setPlayMusicList', item);
+      $store.commit('music/setPlayMusicList', musicItem);
+    }
+
+    // 播放列表音乐
+    function playListMusic(item: Record<string, any>): void {
+      // 处理播放器所需数据
+      const musicItem: PlayMusicItem = {
+        id: item.id,
+        name: item.name,
+        picUrl: item.al.picUrl,
+        time: item.dt,
+        mv: item.mv,
+        singerList: []
+      };
+
+      item?.ar?.forEach((item: LoopType) => {
+        musicItem.singerList.push({
+          id: item.id,
+          name: item.name
+        });
+      });
+
+      // 当前播放音乐id
+      $store.commit('music/setPlayMusicId', musicItem.id);
+      // 当前播放音乐数据
+      $store.commit('music/setPlayMusicItem', musicItem);
+      // 播放音乐数据
+      $store.commit('music/setPlayMusicList', musicItem);
       // 开始播放
       $store.commit('music/setMusicPlayStatus', {
         look: true,
@@ -104,7 +176,10 @@ export default defineComponent({
     }
     return {
       timeStampToDuration,
+      userInfo,
       jumpSongDetail,
+      jumpSingerDetail,
+      setAddSinglePlayList,
       playListMusic,
       changPage
     };
