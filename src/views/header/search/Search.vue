@@ -26,7 +26,7 @@
               class="f-cb-i"
               v-for="(item, index) in searchPropos.songs"
               :key="index"
-              @click="songDetail(item)"
+              @click="jumpSongDetail(item.id)"
             >
               <span class="f-cb-text">
                 {{ item.name.slice(0, searchValue.length) }}
@@ -201,12 +201,13 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
-    // 单曲详情
-    function songDetail(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌曲id
+      $store.commit('setSongId', id);
+      $router.push({ name: 'song-detail', params: { songId: id } });
     }
 
     // 歌手详情
@@ -238,7 +239,7 @@ export default defineComponent({
       searchFocus,
       searchBlur,
       searchEnter,
-      songDetail,
+      jumpSongDetail,
       artistDetail,
       albumDetail,
       playlistDetail
