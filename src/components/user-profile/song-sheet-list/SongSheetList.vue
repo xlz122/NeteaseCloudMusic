@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, watch } from 'vue';
+import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { userPlayList } from '@api/my-music';
@@ -114,9 +114,19 @@ export default defineComponent({
     );
 
     // 传入的uid是否是当前登录用户
-    const isLogOnUser = computed(
-      () => $store.getters.userInfo?.profile.userId === uid.value
-    );
+    const isLogOnUser = ref<boolean>(false);
+    const isLogin = computed(() => $store.getters.isLogin);
+    function getIsLoginUser(): boolean | undefined {
+      if (!isLogin.value) {
+        return false;
+      }
+      if ($store.getters.userInfo?.profile.userId === uid.value) {
+        isLogOnUser.value = true;
+        return false;
+      }
+      isLogOnUser.value = false;
+    }
+    getIsLoginUser();
 
     // 获取歌单列表
     const songSheetList = reactive<SongList>({
