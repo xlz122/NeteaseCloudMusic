@@ -46,7 +46,7 @@
                 :key="ind"
               >
                 <template v-if="i.status === 0">
-                  <span class="name">
+                  <span class="name" @click="jumpUserProfile(i?.user?.userId)">
                     {{ i?.user?.nickname }}
                   </span>
                   <span class="text">: {{ i?.content }}</span>
