@@ -2,11 +2,24 @@
   <div class="comment-replay">
     <div class="comment-content">
       <!-- :placeholder="`回复${nickname}:`" -->
-      <textarea
-        class="comment-textarea"
-        v-model="replay.text"
-        :rows="rows"
-      ></textarea>
+      <template v-if="isLogin">
+        <textarea
+          class="comment-textarea"
+          v-model="replay.text"
+          :rows="rows"
+          placeholder="评论"
+        ></textarea>
+      </template>
+      <template v-if="!isLogin">
+        <textarea
+          class="comment-textarea"
+          v-model="replay.text"
+          :rows="rows"
+          readonly
+          @click="commentClick"
+          placeholder="评论"
+        ></textarea>
+      </template>
     </div>
     <div class="operate">
       <div class="operate-icon">
@@ -60,8 +73,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, watch } from 'vue';
+import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { onMounted, onUnmounted } from 'vue';
+import { useStore } from 'vuex';
 import { expressionList } from './comment-replay';
 
 type Replay = {
@@ -96,6 +110,8 @@ export default defineComponent({
     },
     { emit }
   ) {
+    const $store = useStore();
+
     // 回复数据
     const replay = reactive<Replay>({
       text: '',
@@ -119,6 +135,14 @@ export default defineComponent({
         }
       }
     );
+
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
+
+    // 未登录，输入框点击弹出登录框
+    function commentClick() {
+      $store.commit('setLoginDialog', true);
+    }
 
     // 表情显隐
     const expressionShow = ref<boolean>(false);
@@ -196,6 +220,8 @@ export default defineComponent({
     return {
       expressionList,
       replay,
+      isLogin,
+      commentClick,
       expressionShow,
       isEmoj,
       exproessionPage,

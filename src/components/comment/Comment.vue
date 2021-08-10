@@ -5,7 +5,11 @@
   </div>
   <div class="detail-comment">
     <div class="comment-content">
-      <img class="user-avatar" :src="userInfo?.profile?.avatarUrl" />
+      <img
+        class="user-avatar"
+        :src="userInfo?.profile?.avatarUrl || defaultAvatarImg"
+        alt=""
+      />
       <comment-replay
         class="comment-content-replay"
         :clearText="commentClearText"
@@ -212,6 +216,7 @@ import { ResponseType } from '@/types/types';
 import { formatDate } from '@utils/utils';
 import CommentReplay from '@/components/comment/comment-replay/CommentReplay.vue';
 import MyDialog from '@/components/MyDialog.vue';
+import defaultAvatarImg from '@assets/image/user/default_avatar.jpg';
 
 export default defineComponent({
   components: {
@@ -389,6 +394,7 @@ export default defineComponent({
 
     return {
       formatDate,
+      defaultAvatarImg,
       jumpUserProfile,
       userInfo,
       commentClearText,
