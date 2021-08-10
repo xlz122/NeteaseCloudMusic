@@ -233,6 +233,9 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
+
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
 
@@ -248,6 +251,10 @@ export default defineComponent({
 
     // 顶部评论提交
     function commentSubmit(replayText: string): boolean | undefined {
+      // 未登录不触发操作
+      if (!isLogin) {
+        return false;
+      }
       if (replayText.length === 0) {
         $store.commit('setMessage', {
           type: 'error',
