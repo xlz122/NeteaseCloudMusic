@@ -8,7 +8,7 @@
 
     .td {
       display: inline-block;
-      vertical-align: top;
+      vertical-align: middle;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -16,10 +16,11 @@
       .text {
         position: relative;
         display: inline-block;
+        vertical-align: middle;
         padding-right: 25px;
         width: auto;
         max-width: 100%;
-        height: 20px;
+        height: 100%;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -40,6 +41,8 @@
     }
 
     .play-icon {
+      display: inline-block;
+      vertical-align: middle;
       width: 17px;
       height: 17px;
       margin-right: 15px;
@@ -59,14 +62,83 @@
     .td2 {
       width: 91px;
       margin-right: 5px;
+
+      .operate-btn {
+        visibility: hidden;
+        display: inline-block;
+        vertical-align: middle;
+        width: 98px;
+        height: 28px;
+        line-height: 28px;
+
+        .icon {
+          display: inline-block;
+          vertical-align: top;
+          width: 16px;
+          height: 16px;
+          margin-left: 0px;
+          margin-right: 10px;
+          background: url(~@/assets/image/my-music/my-music-table.png);
+          cursor: pointer;
+        }
+
+        .add {
+          width: 16px;
+          height: 16px;
+          background: url(~@/assets/image/icon.png);
+          background-position: 0 -700px;
+
+          &:hover {
+            background-position: -22px -700px;
+          }
+        }
+
+        .collect {
+          width: 18px;
+          background-position: 0 -174px;
+
+          &:hover {
+            background-position: -20px -174px;
+          }
+        }
+
+        .share {
+          background-position: 0 -195px;
+
+          &:hover {
+            background-position: -20px -195px;
+          }
+        }
+
+        .download {
+          background-position: -81px -174px;
+
+          &:hover {
+            background-position: -104px -174px;
+          }
+        }
+
+        .delete {
+          margin-right: 0px;
+          background-position: 0 -217px;
+
+          &:hover {
+            background-position: -20px -217px;
+          }
+        }
+      }
     }
 
     .td3 {
+      display: inline-block;
+      vertical-align: middle;
       width: 15%;
       margin-right: 12px;
     }
 
     .td4 {
+      display: inline-block;
+      vertical-align: middle;
       width: 18%;
       min-height: 16px;
       margin-right: 12px;
@@ -76,6 +148,19 @@
   .item:hover {
     border: 1px solid #e1e1e1;
     background: #f2f2f2;
+
+    .operate-btn {
+      visibility: visible;
+      display: inline-block;
+      vertical-align: middle;
+      width: 100%;
+
+      .icon {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 4px;
+      }
+    }
   }
 
   .even-item {

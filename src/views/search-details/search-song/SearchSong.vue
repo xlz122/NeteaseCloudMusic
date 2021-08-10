@@ -15,11 +15,26 @@
           <span class="desc"></span>
         </div>
       </div>
-      <div class="td td2"></div>
       <!-- 操作项 -->
+      <div class="td td2">
+        <div class="operate-btn">
+          <i class="icon add" @click="setAddSinglePlayList(item.id)"></i>
+          <i class="icon collect"></i>
+          <i class="icon share"></i>
+          <i class="icon download"></i>
+          <!-- 用户自己才有删除按钮 -->
+          <i
+            class="icon delete"
+            v-if="item?.ar[0]?.id === userInfo?.profile?.userId"
+            @click="deleteMusicShow(item.id)"
+          ></i>
+        </div>
+      </div>
       <div class="td td3">
         <div class="text">
-          <span class="name">{{ item?.ar[0]?.name }}</span>
+          <span class="name" @click="jumpSingerDetail(item?.ar[0]?.id)">
+            {{ item?.ar[0]?.name }}
+          </span>
         </div>
       </div>
       <div class="td td4">
@@ -40,7 +55,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils.ts';
@@ -73,6 +88,9 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
+    // 用户信息
+    const userInfo = computed(() => $store.getters.userInfo);
+
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
       // 取消二级导航选中
@@ -80,6 +98,24 @@ export default defineComponent({
       // 存储歌曲id
       $store.commit('setSongId', id);
       $router.push({ name: 'song-detail', params: { songId: id } });
+    }
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌手id
+      $store.commit('setSingerId', id);
+      $router.push({ name: 'singer-detail', params: { singerId: id } });
+    }
+
+    // 单个音乐添加到播放列表
+    function setAddSinglePlayList(id: number): void {
+      if (props.list.length > 0) {
+        const musicItem = props.list.find((item: any) => item.id === id);
+        // 播放音乐数据
+        $store.commit('music/setPlayMusicList', musicItem);
+      }
     }
 
     // 播放列表音乐
@@ -104,7 +140,10 @@ export default defineComponent({
     }
     return {
       timeStampToDuration,
+      userInfo,
       jumpSongDetail,
+      jumpSingerDetail,
+      setAddSinglePlayList,
       playListMusic,
       changPage
     };

@@ -252,7 +252,7 @@ export default defineComponent({
     // 顶部评论提交
     function commentSubmit(replayText: string): boolean | undefined {
       // 未登录不触发操作
-      if (!isLogin) {
+      if (!isLogin.value) {
         return false;
       }
       if (replayText.length === 0) {
