@@ -21,8 +21,15 @@
             <div class="title" :title="item?.name" @click="jumpAlbumDetail">
               {{ item?.name }}
             </div>
-            <div class="name" @click="jumpSingerDetail(item?.artist?.id)">
-              {{ item?.artist?.name }}
+            <div class="name-list">
+              <template v-for="(i, ind) in item?.artists" :key="ind">
+                <span class="name" @click="jumpSingerDetail(i.id)">
+                  {{ i.name }}
+                </span>
+                <span class="line" v-if="ind !== item.artists.length - 1">
+                  /
+                </span>
+              </template>
             </div>
           </li>
         </ul>
