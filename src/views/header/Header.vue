@@ -54,9 +54,9 @@
             ]"
             @click="subNavChange(item, index)"
           >
-            <router-link class="link" :to="item?.link">
+            <span class="link">
               {{ item?.title }}
-            </router-link>
+            </span>
             <i class="white-icon" v-if="index === 2"></i>
           </li>
         </ul>
@@ -185,6 +185,7 @@ export default defineComponent({
         });
         return false;
       }
+      $router.push({ path: item.link });
       $store.commit('setSubActiveIndex', index);
     }
 
