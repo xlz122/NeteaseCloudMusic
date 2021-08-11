@@ -4,11 +4,21 @@
     <div class="user-profile-container">
       <div class="user-info">
         <div class="user-avatar">
-          <img class="user-avatar-img" :src="userInfo?.profile?.avatarUrl" />
+          <img
+            class="user-avatar-img"
+            :src="userInfo?.profile?.avatarUrl"
+            @click="jumpUserProfile(userInfo?.profile?.userId)"
+            alt=""
+          />
         </div>
         <div class="info">
           <h4 class="name">
-            <span class="text">{{ userInfo?.profile?.nickname }}</span>
+            <span
+              class="text"
+              @click="jumpUserProfile(userInfo?.profile?.userId)"
+            >
+              {{ userInfo?.profile?.nickname }}
+            </span>
           </h4>
         </div>
       </div>
@@ -68,7 +78,13 @@
           <img class="img" :src="item.src" alt="" />
         </div>
         <div class="info">
-          <div class="info-title" :title="item.name">{{ item.name }}</div>
+          <div
+            class="info-title"
+            :title="item.name"
+            @click="jumpUserProfile(userInfo?.profile?.userId)"
+          >
+            {{ item.name }}
+          </div>
           <p class="info-desc" :title="item.desc">{{ item.desc }}</p>
         </div>
         <button
@@ -108,6 +124,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 type List = {
@@ -119,10 +136,18 @@ type List = {
 
 export default defineComponent({
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
+
+    // 跳转用户资料
+    function jumpUserProfile(userId: number) {
+      // 头部导航取消选中
+      $store.commit('setHeaderActiveIndex', -1);
+      $router.push({ name: 'user-profile', params: { userId } });
+    }
 
     // 明星列表
     const starList = ref<List[]>([
@@ -225,6 +250,7 @@ export default defineComponent({
     }
     return {
       userInfo,
+      jumpUserProfile,
       starList,
       interestedList,
       changeABatch,
