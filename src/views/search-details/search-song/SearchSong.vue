@@ -9,10 +9,13 @@
       <div class="td play-icon" @click="playListMusic(item.id, item)"></div>
       <div class="td td1">
         <div class="text">
-          <span class="name" @click="jumpSongDetail(item.id)">{{
-            item?.name
-          }}</span>
-          <span class="desc"></span>
+          <span class="name" @click="jumpSongDetail(item.id)">
+            {{ item?.name }}
+          </span>
+          <span class="desc" v-if="item?.tns?.length">
+            - ({{ item.tns[0] }})
+          </span>
+          <i class="icon-play" v-if="item.mv > 0"></i>
         </div>
       </div>
       <!-- 操作项 -->
