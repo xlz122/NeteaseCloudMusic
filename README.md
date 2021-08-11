@@ -1,6 +1,6 @@
 ### NeteaseCloudMusic
 
-线上地址：[http://n.xlz122.cn](http://n.xlz122.cn){:target="_blank"}
+线上地址：[http://n.xlz122.cn](http://n.xlz122.cn)
 
 ### 简介
 
@@ -11,9 +11,9 @@
 项目使用线上地址，如果线上地址不可用，需将网易云API项目下载到本地，并安装依赖运行，
 更改 vue.config.js 的代理地址，更改为网易云API项目ip地址。
 
-网易云API项目github地址: [https://github.com/Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi){:target="_blank"}
+网易云API项目github地址: [https://github.com/Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 
-网易云线上API接口文档地址: [https://wyy.wangpinpin.com/](https://wyy.wangpinpin.com/){:target="_blank"}
+网易云线上API接口文档地址: [https://wyy.wangpinpin.com/](https://wyy.wangpinpin.com/)
 
 如有问题，请联系QQ``122874722``。
 
