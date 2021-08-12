@@ -32,12 +32,12 @@
               <i
                 class="operate-play"
                 title="播放"
-                @click="playListMusic(i.id, i)"
+                @click="playListMusic(i)"
               ></i>
               <i
                 class="operate-add"
                 title="添加到播放列表"
-                @click="setAddSinglePlayList(i.id)"
+                @click="setAddSinglePlayList(i)"
               ></i>
               <i class="operate-collection" title="收藏"></i>
             </div>
@@ -54,14 +54,15 @@ import { defineComponent, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { soaringList, newSongs, originalList } from '@api/home';
-import { ResponseType } from '@/types/types';
+import { ResponseType, LoopType } from '@/types/types';
+import { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({
   setup() {
     const $router = useRouter();
     const $store = useStore();
 
-    const listData = reactive<unknown[]>([]);
+    const listData = reactive<Record<string, any>>([]);
     // 获取飙升榜数据
     function getSoaringList(): void {
       soaringList().then((res: ResponseType) => {
@@ -102,38 +103,59 @@ export default defineComponent({
     }
 
     // 播放列表音乐
-    function playListMusic(id: number, item: Record<string, any>): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: `该功能需重构播放数据，待更新，id:${id}，item:${item}`
+    function playListMusic(item: Record<string, any>): void {
+      // 处理播放器所需数据
+      const musicItem: PlayMusicItem = {
+        id: item.id,
+        name: item.name,
+        picUrl: item.al.picUrl,
+        time: item.dt,
+        mv: item.mv,
+        singerList: []
+      };
+
+      item?.ar?.forEach((item: LoopType) => {
+        musicItem.singerList.push({
+          id: item.id,
+          name: item.name
+        });
       });
-      // // 当前播放音乐id
-      // $store.commit('music/setPlayMusicId', id);
-      // // 当前播放音乐数据
-      // $store.commit('music/setPlayMusicItem', item);
-      // // 播放音乐数据
-      // $store.commit('music/setPlayMusicList', item);
-      // // 开始播放
-      // $store.commit('music/setMusicPlayStatus', {
-      //   look: true,
-      //   loading: true,
-      //   refresh: true
-      // });
+
+      // 当前播放音乐id
+      $store.commit('music/setPlayMusicId', musicItem.id);
+      // 当前播放音乐数据
+      $store.commit('music/setPlayMusicItem', musicItem);
+      // 播放音乐数据
+      $store.commit('music/setPlayMusicList', musicItem);
+      // 开始播放
+      $store.commit('music/setMusicPlayStatus', {
+        look: true,
+        loading: true,
+        refresh: true
+      });
     }
 
     // 单个音乐添加到播放列表
-    function setAddSinglePlayList(id: number): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: `该功能需重构播放数据，待更新，id:${id}`
+    function setAddSinglePlayList(item: Record<string, any>): void {
+      // 处理播放器所需数据
+      const musicItem: PlayMusicItem = {
+        id: item.id,
+        name: item.name,
+        picUrl: item.al.picUrl,
+        time: item.dt,
+        mv: item.mv,
+        singerList: []
+      };
+
+      item?.ar?.forEach((item: LoopType) => {
+        musicItem.singerList.push({
+          id: item.id,
+          name: item.name
+        });
       });
-      // if (singerSong.value?.hotSongs?.length > 0) {
-      //   const musicItem = singerSong.value?.hotSongs?.find(
-      //     (item: LoopType) => item.id === id
-      //   );
-      //   // 播放音乐数据
-      //   $store.commit('music/setPlayMusicList', musicItem);
-      // }
+
+      // 播放音乐数据
+      $store.commit('music/setPlayMusicList', musicItem);
     }
 
     return {

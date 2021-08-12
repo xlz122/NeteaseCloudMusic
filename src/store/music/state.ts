@@ -4,7 +4,7 @@ export type State = {
   songSheetDetail: unknown;
   playMusicId: number;
   playMusicList: unknown;
-  playMusicItem: unknown;
+  playMusicItem: PlayMusicItem;
   musicPlayProgress: unknown;
   musicPlayStatus: unknown;
   musicAudioLock: boolean;
@@ -17,6 +17,18 @@ export type MusicDetailOptions = {
   subPlayList: boolean;
   myMv: boolean;
   playListDetail: boolean;
+};
+
+export type PlayMusicItem = {
+  id: number;
+  name: string;
+  picUrl: string;
+  time: number;
+  mv: number;
+  singerList: {
+    id: string;
+    name: string;
+  }[];
 };
 
 // 本地存储容错处理

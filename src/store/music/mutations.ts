@@ -1,4 +1,4 @@
-import { State, MusicDetailOptions } from '@store/music/state';
+import { State, MusicDetailOptions, PlayMusicItem } from '@store/music/state';
 import { LoopType } from '@/types/types';
 
 type Mutations<T, U> = {
@@ -27,23 +27,23 @@ const mutations: Mutations<State, unknown> = {
   },
   // 当前播放音乐数据
   setPlayMusicItem(state, musicItem) {
-    state.playMusicItem = musicItem as unknown;
+    state.playMusicItem = musicItem as PlayMusicItem;
     localStorage.setItem('playMusicItem', JSON.stringify(musicItem));
   },
   // 播放列表数据
-  setPlayMusicList(state, playMusicData) {
+  setPlayMusicList(state, musicItem) {
     // 数据去重
     const list = JSON.parse(JSON.stringify(state.playMusicList));
     const index = list.findIndex(
-      (item: LoopType) => item.id === (playMusicData as LoopType).id
+      (item: PlayMusicItem) => item.id === (musicItem as PlayMusicItem).id
     );
     // 数据替换
     if (index !== -1) {
-      list.splice(index, 1, playMusicData);
+      list.splice(index, 1, musicItem);
     }
     // 新数据添加
     if (index === -1) {
-      list.push(playMusicData);
+      list.push(musicItem);
     }
     // 保存数据
     state.playMusicList = list as unknown[];

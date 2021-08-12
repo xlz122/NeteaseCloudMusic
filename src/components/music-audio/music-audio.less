@@ -233,12 +233,14 @@
             white-space: nowrap;
             cursor: pointer;
 
-            &:hover {
-              text-decoration: underline;
-            }
-
             .text {
               margin-left: 3px;
+
+              .name {
+                &:hover {
+                  text-decoration: underline;
+                }
+              }
             }
           }
 
