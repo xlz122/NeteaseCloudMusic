@@ -286,10 +286,7 @@ export default defineComponent({
 
     // 榜单 - 更多
     function songListMore(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      $router.push({ name: 'home-toplist' });
     }
     return {
       isLogin,
