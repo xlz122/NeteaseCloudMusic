@@ -12,7 +12,7 @@
         <div class="title">
           <h3 class="t-text">{{ item?.playlist?.name }}</h3>
           <div class="btns">
-            <i class="btn-play" title="播放"  @click="playTitleMusic(index)"></i>
+            <i class="btn-play" title="播放" @click="playTitleMusic(index)"></i>
             <i class="btn-collection" title="收藏"></i>
           </div>
         </div>
