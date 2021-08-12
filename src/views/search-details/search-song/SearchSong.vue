@@ -6,7 +6,7 @@
       :key="index"
       :class="{ 'even-item': index % 2 }"
     >
-      <div class="td play-icon" @click="playListMusic(item.id, item)"></div>
+      <div class="td play-icon" @click="playListMusic(item)"></div>
       <div class="td td1">
         <div class="text">
           <span class="name" @click="jumpSongDetail(item.id)">
@@ -21,7 +21,7 @@
       <!-- 操作项 -->
       <div class="td td2">
         <div class="operate-btn">
-          <i class="icon add" @click="setAddSinglePlayList(item.id)"></i>
+          <i class="icon add" @click="setAddSinglePlayList(item)"></i>
           <i class="icon collect"></i>
           <i class="icon share"></i>
           <i class="icon download"></i>
@@ -63,6 +63,8 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils.ts';
 import Page from '@components/page/Page.vue';
+import { LoopType } from '@/types/types';
+import { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({
   components: {
@@ -113,22 +115,53 @@ export default defineComponent({
     }
 
     // 单个音乐添加到播放列表
-    function setAddSinglePlayList(id: number): void {
-      if (props.list.length > 0) {
-        const musicItem = props.list.find((item: any) => item.id === id);
-        // 播放音乐数据
-        $store.commit('music/setPlayMusicList', musicItem);
-      }
+    function setAddSinglePlayList(item: Record<string, any>): void {
+      // 处理播放器所需数据
+      const musicItem: PlayMusicItem = {
+        id: item.id,
+        name: item.name,
+        picUrl: item.al.picUrl,
+        time: item.dt,
+        mv: item.mv,
+        singerList: []
+      };
+
+      item?.ar?.forEach((item: LoopType) => {
+        musicItem.singerList.push({
+          id: item.id,
+          name: item.name
+        });
+      });
+
+      // 播放音乐数据
+      $store.commit('music/setPlayMusicList', musicItem);
     }
 
     // 播放列表音乐
-    function playListMusic(id: number, item: Record<string, any>): void {
+    function playListMusic(item: Record<string, any>): void {
+      // 处理播放器所需数据
+      const musicItem: PlayMusicItem = {
+        id: item.id,
+        name: item.name,
+        picUrl: item.al.picUrl,
+        time: item.dt,
+        mv: item.mv,
+        singerList: []
+      };
+
+      item?.ar?.forEach((item: LoopType) => {
+        musicItem.singerList.push({
+          id: item.id,
+          name: item.name
+        });
+      });
+
       // 当前播放音乐id
-      $store.commit('music/setPlayMusicId', id);
+      $store.commit('music/setPlayMusicId', musicItem.id);
       // 当前播放音乐数据
-      $store.commit('music/setPlayMusicItem', item);
+      $store.commit('music/setPlayMusicItem', musicItem);
       // 播放音乐数据
-      $store.commit('music/setPlayMusicList', item);
+      $store.commit('music/setPlayMusicList', musicItem);
       // 开始播放
       $store.commit('music/setMusicPlayStatus', {
         look: true,

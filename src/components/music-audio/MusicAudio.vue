@@ -53,8 +53,8 @@
         <div class="music-img">
           <img
             class="img"
-            v-if="playMusicItem?.al?.picUrl"
-            :src="playMusicItem?.al?.picUrl"
+            v-if="playMusicItem?.picUrl"
+            :src="playMusicItem?.picUrl"
           />
           <span class="default-img"></span>
         </div>
@@ -67,13 +67,16 @@
             <span class="singer-name">
               <span
                 class="text"
-                v-for="(item, index) in playMusicItem?.ar"
+                v-for="(item, index) in playMusicItem?.singerList"
                 :key="index"
                 :title="item?.name"
                 @click="jumpSingerDetail(item.id)"
               >
-                {{ item?.name }}
-                <span class="line" v-if="index !== playMusicItem.ar.length - 1">
+                <span class="name">{{ item?.name }}</span>
+                <span
+                  class="line"
+                  v-if="index !== playMusicItem.singerList.length - 1"
+                >
                   /
                 </span>
               </span>

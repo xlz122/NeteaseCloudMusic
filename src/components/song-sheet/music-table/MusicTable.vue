@@ -44,7 +44,7 @@
               <i
                 class="icon-play"
                 :class="{ 'active-play': item.id === playMusicId }"
-                @click="playListMusic(item.id, item)"
+                @click="playListMusic(item)"
               ></i>
             </div>
           </td>
@@ -65,7 +65,7 @@
                 {{ timeStampToDuration(item.dt / 1000) }}
               </span>
               <div class="operate-btn">
-                <i class="icon add" @click="setAddSinglePlayList(item.id)"></i>
+                <i class="icon add" @click="setAddSinglePlayList(item)"></i>
                 <i class="icon collect"></i>
                 <i class="icon share"></i>
                 <i class="icon download"></i>
@@ -150,6 +150,7 @@ import MyDialog from '@/components/MyDialog.vue';
 import { timeStampToDuration } from '@utils/utils.ts';
 import { deleteMusic } from '@api/my-music';
 import { LoopType } from '@/types/types';
+import { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({
   components: {
@@ -203,14 +204,26 @@ export default defineComponent({
     }
 
     // 单个音乐添加到播放列表
-    function setAddSinglePlayList(id: number): void {
-      if (songSheetDetail.value?.playlist?.tracks.length > 0) {
-        const musicItem = songSheetDetail.value?.playlist?.tracks.find(
-          (item: LoopType) => item.id === id
-        );
-        // 播放音乐数据
-        $store.commit('music/setPlayMusicList', musicItem);
-      }
+    function setAddSinglePlayList(item: Record<string, any>): void {
+      // 处理播放器所需数据
+      const musicItem: PlayMusicItem = {
+        id: item.id,
+        name: item.name,
+        picUrl: item.al.picUrl,
+        time: item.dt,
+        mv: item.mv,
+        singerList: []
+      };
+
+      item?.ar?.forEach((item: LoopType) => {
+        musicItem.singerList.push({
+          id: item.id,
+          name: item.name
+        });
+      });
+
+      // 播放音乐数据
+      $store.commit('music/setPlayMusicList', musicItem);
     }
 
     // 跳转歌手详情
@@ -224,21 +237,36 @@ export default defineComponent({
 
     // 播放列表音乐
     const noCopyrightDialog = ref<boolean>(false);
-    function playListMusic(
-      id: number,
-      item: Record<string, any>
-    ): boolean | undefined {
+    function playListMusic(item: Record<string, any>): boolean | undefined {
       // 无版权处理
-      if (isCopyright(id)) {
+      if (isCopyright(item.id)) {
         noCopyrightDialog.value = true;
         return false;
       }
+
+      // 处理播放器所需数据
+      const musicItem: PlayMusicItem = {
+        id: item.id,
+        name: item.name,
+        picUrl: item.al.picUrl,
+        time: item.dt,
+        mv: item.mv,
+        singerList: []
+      };
+
+      item?.ar?.forEach((item: LoopType) => {
+        musicItem.singerList.push({
+          id: item.id,
+          name: item.name
+        });
+      });
+
       // 当前播放音乐id
-      $store.commit('music/setPlayMusicId', id);
+      $store.commit('music/setPlayMusicId', musicItem.id);
       // 当前播放音乐数据
-      $store.commit('music/setPlayMusicItem', item);
+      $store.commit('music/setPlayMusicItem', musicItem);
       // 播放音乐数据
-      $store.commit('music/setPlayMusicList', item);
+      $store.commit('music/setPlayMusicList', musicItem);
       // 开始播放
       $store.commit('music/setMusicPlayStatus', {
         look: true,

@@ -43,7 +43,7 @@ import { ResponseType, CommentParams } from '@/types/types';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import Comment from '@components/comment/Comment.vue';
 import SongInfo from './song-info/SongInfo.vue';
-import SongDateilSide from './song-detail-side/SonDetailSide.vue';
+import SongDateilSide from './song-detail-side/SongDetailSide.vue';
 import Page from '@components/page/Page.vue';
 
 export default defineComponent({

@@ -44,13 +44,13 @@
               ></i>
             </div>
             <span class="text name">
-              <span v-for="(i, ind) in item?.ar" :key="ind">
+              <span v-for="(i, ind) in item?.singerList" :key="ind">
                 {{ i.name }}
-                <span v-if="ind !== item.ar.length - 1"> / </span>
+                <span v-if="ind !== item.singerList.length - 1"> / </span>
               </span>
             </span>
             <span class="text time">
-              {{ timeStampToDuration(item.dt / 1000) }}
+              {{ timeStampToDuration(item.time / 1000) }}
             </span>
             <i class="share"></i>
           </li>
