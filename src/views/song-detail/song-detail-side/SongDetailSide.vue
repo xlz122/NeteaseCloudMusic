@@ -153,12 +153,13 @@ export default defineComponent({
 
     // 播放列表音乐
     function playListMusic(item: Record<string, any>): void {
+      console.log(item);
       // 处理播放器所需数据
       const musicItem: PlayMusicItem = {
         id: item.id,
         name: item.name,
         picUrl: item.album.picUrl,
-        time: item.dt,
+        time: item.duration,
         mv: item.mv,
         singerList: []
       };
@@ -191,7 +192,7 @@ export default defineComponent({
         id: item.id,
         name: item.name,
         picUrl: item.album.picUrl,
-        time: item.dt,
+        time: item.duration,
         mv: item.mv,
         singerList: []
       };
