@@ -227,8 +227,24 @@ export default defineComponent({
           if (isCopyright(item.id)) {
             return false;
           }
+          // 处理播放器所需数据
+          const musicItem: PlayMusicItem = {
+            id: item.id,
+            name: item.name,
+            picUrl: item.al.picUrl,
+            time: item.dt,
+            mv: item.mv,
+            singerList: []
+          };
+
+          item?.ar?.forEach((item: LoopType) => {
+            musicItem.singerList.push({
+              id: item.id,
+              name: item.name
+            });
+          });
           // 播放音乐数据
-          $store.commit('music/setPlayMusicList', item);
+          $store.commit('music/setPlayMusicList', musicItem);
         });
       },
       800,
