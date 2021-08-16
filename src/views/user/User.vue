@@ -101,7 +101,7 @@ export default defineComponent({
       if (item?.link === '/user-profile') {
         $router.push({
           name: 'user-profile',
-          params: { id: userInfo?.value.profile?.userId }
+          params: { userId: userInfo?.value.profile?.userId }
         });
         return false;
       }
