@@ -111,7 +111,7 @@
         <img class="user-avatar" :src="item?.user?.avatarUrl" />
         <div class="item-right">
           <div class="detail-text">
-            <span class="name">
+            <span class="name" @click="jumpUserProfile(item?.user?.userId)">
               {{ item?.user?.nickname }}
             </span>
             <span class="colon">:</span>
