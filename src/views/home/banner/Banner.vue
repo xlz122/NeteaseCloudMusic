@@ -15,6 +15,7 @@
               :class="{ 'switching-img': bannerImgSwitching }"
               v-show="item.imageUrl === banner.currentUrl"
               :src="item.imageUrl"
+              @click="jumpDetail(item)"
               alt=""
             />
           </template>
@@ -55,6 +56,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, watch, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import { bannerImgUrl } from '@api/home';
 import { ResponseType } from '@/types/types';
 
@@ -66,6 +69,9 @@ type Banner = {
 
 export default defineComponent({
   setup() {
+    const $router = useRouter();
+    const $store = useStore();
+
     const banner = reactive<Banner>({
       list: [],
       currentUrl: '', // 当前图片url
@@ -197,6 +203,34 @@ export default defineComponent({
       autoBanner();
     }
 
+    // 跳转详情
+    function jumpDetail(item: unknown): void {
+      const targetType = (item as { targetType: number }).targetType;
+      const targetId = (item as { targetId: number }).targetId;
+
+      // 跳转单曲
+      if (targetType === 1) {
+        jumpSongDetail(targetId);
+      }
+
+      // 跳转专辑
+      if (targetType === 10) {
+        $store.commit('setMessage', {
+          type: 'error',
+          title: '跳转专辑暂未开发'
+        });
+      }
+    }
+
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌曲id
+      $store.commit('setSongId', id);
+      $router.push({ name: 'song-detail', params: { songId: id } });
+    }
+
     onUnmounted(() => {
       if (bannerTimer.value) {
         // 清除定时器
@@ -211,7 +245,8 @@ export default defineComponent({
       bannerNext,
       dotChange,
       bannerEnter,
-      bannerLeave
+      bannerLeave,
+      jumpDetail
     };
   }
 });
