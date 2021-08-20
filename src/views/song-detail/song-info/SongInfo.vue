@@ -67,6 +67,16 @@
             <!-- <span class="icon">评论</span> -->
           </div>
         </div>
+        <!-- 歌词列表 -->
+        <ul class="lyric-list">
+          <li
+            class="lyric-list-item"
+            v-for="(item, index) in lyric.list"
+            :key="index"
+          >
+            {{ item.lyric }}
+          </li>
+        </ul>
       </div>
     </template>
   </div>
@@ -81,6 +91,10 @@ export default defineComponent({
   props: {
     songDetailData: {
       type: Object,
+      default: () => ({})
+    },
+    lyric: {
+      typs: Object,
       default: () => ({})
     }
   },
