@@ -43,7 +43,7 @@
             </div>
           </li>
         </ul>
-        <div class="more">查看全部></div>
+        <div class="more" @click="songListMore">查看全部></div>
       </dd>
     </dl>
   </div>
@@ -224,12 +224,18 @@ export default defineComponent({
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
+    // 查看全部
+    function songListMore(): void {
+      $router.push({ name: 'home-toplist' });
+    }
+
     return {
       listData,
       playTitleMusic,
       jumpSongDetail,
       playListMusic,
-      setAddSinglePlayList
+      setAddSinglePlayList,
+      songListMore
     };
   }
 });
