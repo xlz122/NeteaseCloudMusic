@@ -160,10 +160,17 @@
         }
 
         .item-bottom {
+          height: 56px;
           margin: 8px 0 3px;
           font-size: 14px;
           color: #000;
           text-align: left;
+          cursor: pointer;
+          overflow : hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
           cursor: pointer;
 
           &:hover {

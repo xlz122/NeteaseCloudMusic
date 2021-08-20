@@ -27,9 +27,19 @@
         </div>
         <div class="info">
           <span>歌手：</span>
-          <span class="text" title="真瑞">
-            {{ songDetailData?.songs[0]?.ar[0]?.name }}
-          </span>
+          <template
+            v-for="(item, index) in songDetailData?.songs[0]?.ar"
+            :key="index"
+          >
+            <span class="text" @click="jumpSingerDetail(item.id)">
+              {{ item.name }}
+            </span>
+            <span
+              class="line"
+              v-if="index !== songDetailData?.songs[0]?.ar.length - 1"
+              >/</span
+            >
+          </template>
         </div>
         <div class="info">
           <span>所属专辑：</span>
@@ -64,6 +74,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 export default defineComponent({
@@ -74,13 +85,24 @@ export default defineComponent({
     }
   },
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     // 歌曲id
     const songId = computed(() => $store.getters.songId);
 
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌手id
+      $store.commit('setSingerId', id);
+      $router.push({ name: 'singer-detail', params: { singerId: id } });
+    }
+
     return {
-      songId
+      songId,
+      jumpSingerDetail
     };
   }
 });
