@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, watch } from 'vue';
+import { defineComponent, ref, reactive, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { topPlaylist } from '@api/home-song-sheet';
@@ -200,6 +200,11 @@ export default defineComponent({
       songParams.page = current;
       getTopPlaylist();
     }
+
+    onMounted(() => {
+      // 头部导航选中
+      $store.commit('setHeaderActiveIndex', 0);
+    });
 
     return {
       songTitle,
