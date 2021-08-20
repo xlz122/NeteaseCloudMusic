@@ -92,7 +92,7 @@ export default defineComponent({
       // 每行歌词的数组
       const lineArr = lyricStr.split(regNewLine);
       const regTime = /\[\d{2}:\d{2}.\d{2,3}\]/;
-      lineArr.forEach((item: any) => {
+      lineArr.forEach((item: string) => {
         if (item === '') return;
         const obj = {
           lyric: '',
