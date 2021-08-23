@@ -50,7 +50,7 @@
               class="f-cb-i"
               v-for="(item, index) in searchPropos.artists"
               :key="index"
-              @click="artistDetail(item.id)"
+              @click="jumpSingerDetail(item.id)"
             >
               <span class="f-cb-text">{{ item.name }}</span>
             </li>
@@ -91,7 +91,7 @@
               class="f-cb-i"
               v-for="(item, index) in searchPropos.playlists"
               :key="index"
-              @click="playlistDetail(item.id)"
+              @click="jumpSongSheet(item.id)"
             >
               <span class="f-cb-text">
                 {{ item.name.slice(0, searchValue.length) }}
@@ -211,7 +211,7 @@ export default defineComponent({
     }
 
     // 歌手详情
-    function artistDetail(id: number): void {
+    function jumpSingerDetail(id: number): void {
       // 取消二级导航选中
       $store.commit('setSubActiveIndex', -1);
       // 存储歌手id
@@ -228,7 +228,7 @@ export default defineComponent({
     }
 
     // 歌单详情
-    function playlistDetail(id: number): void {
+    function jumpSongSheet(id: number): void {
       $router.push({ name: 'song-sheet-detail', params: { songSheetId: id } });
     }
     return {
@@ -240,9 +240,9 @@ export default defineComponent({
       searchBlur,
       searchEnter,
       jumpSongDetail,
-      artistDetail,
+      jumpSingerDetail,
       albumDetail,
-      playlistDetail
+      jumpSongSheet
     };
   }
 });
