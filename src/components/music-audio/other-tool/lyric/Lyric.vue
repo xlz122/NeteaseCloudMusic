@@ -1,15 +1,34 @@
 <template>
   <i class="icon-doubt"></i>
   <div class="lyric">
+    <!-- 没有歌词 -->
+    <div class="not-lyric" v-if="lyric.noData">
+      <span>暂时没有歌词</span>
+      <span class="feed-lyric">求歌词</span>
+    </div>
+    <!-- 歌词列表 -->
     <ul class="lyric-list">
-      <li
-        class="item"
-        v-for="(item, index) in lyric.list"
-        :key="index"
-        :class="{ 'active-item': index === lyric.index }"
-      >
-        {{ item.lyric }}
-      </li>
+      <!-- 可滚动 -->
+      <template v-if="lyric.isScroll">
+        <li
+          class="item"
+          v-for="(item, index) in lyric.list"
+          :key="index"
+          :class="{ 'active-item': index === lyric.index }"
+        >
+          {{ item.lyric }}
+        </li>
+      </template>
+      <!-- 不可滚动 -->
+      <template v-else>
+        <li class="item">
+          *该歌词不支持自动滚动*
+          <span class="text">求滚动歌词</span>
+        </li>
+        <li class="item" v-for="(item, index) in lyric.list" :key="index">
+          {{ item.lyric }}
+        </li>
+      </template>
     </ul>
   </div>
 </template>
@@ -21,6 +40,8 @@ import { getLyric } from '@api/my-music';
 import { ResponseType } from '@/types/types';
 
 type Lyric = {
+  noData: boolean;
+  isScroll: boolean;
   list: List[];
   index: number;
 };
@@ -41,6 +62,8 @@ export default defineComponent({
 
     // 歌词数据
     const lyric = reactive<Lyric>({
+      noData: false, // 无歌词
+      isScroll: true, // 是否支持滚动
       list: [], // 列表
       index: 0 // 当前播放索引
     });
@@ -79,6 +102,13 @@ export default defineComponent({
       getLyric({
         id: playMusicId.value
       }).then((res: ResponseType) => {
+        // 无歌词
+        if (res.uncollected) {
+          lyric.noData = true;
+          return false;
+        } else {
+          lyric.noData = false;
+        }
         handlerLyric(res.lrc.lyric);
       });
     }
@@ -87,11 +117,14 @@ export default defineComponent({
     function handlerLyric(lyricStr: string): void {
       // 清空歌词
       lyric.list = [];
+      // 重置滚动
+      lyric.isScroll = true;
 
       const regNewLine = /\n/;
       // 每行歌词的数组
       const lineArr = lyricStr.split(regNewLine);
       const regTime = /\[\d{2}:\d{2}.\d{2,3}\]/;
+
       lineArr.forEach((item: string) => {
         if (item === '') return;
         const obj = {
@@ -99,6 +132,17 @@ export default defineComponent({
           time: -1
         };
         const time = item.match(regTime);
+
+        // 歌词不支持滚动
+        if (!time) {
+          lyric.isScroll = false;
+
+          obj.lyric = item;
+          obj.time = -1;
+          lyric.list.push(obj);
+          return false;
+        }
+
         obj.lyric =
           item.split(']')[1].trim() === '' ? '' : item.split(']')[1].trim();
         obj.time = time
@@ -140,6 +184,12 @@ export default defineComponent({
         if (lyric.list.length === 0) {
           return false;
         }
+
+        // 歌词不支持滚动
+        if (!lyric.isScroll) {
+          return false;
+        }
+
         // 当前播放时间
         const currentTime = musicPlayProgress.value.currentTime;
         // 获取当前播放索引
