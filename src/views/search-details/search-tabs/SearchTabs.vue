@@ -4,8 +4,8 @@
       class="item-tab"
       v-for="(item, index) in tabList"
       :key="index"
-      :class="{ 'item-active-tab': activeIndex === index }"
-      @click="changeActiveIndex(index)"
+      :class="{ 'item-active-tab': searchIndex === index }"
+      @click="changeActiveIndex(item, index)"
     >
       {{ item }}
     </li>
@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({
@@ -33,21 +33,15 @@ export default defineComponent({
     ]);
 
     // 选中
-    const activeIndex = ref<number>(0);
-    function changeActiveIndex(index: number): void {
-      if (index !== 0) {
-        $store.commit('setMessage', {
-          type: 'error',
-          title: '该功能暂未开发'
-        });
-      }
-      activeIndex.value = index;
-      emit('changeTab', index);
+    const searchIndex = computed(() => $store.getters.searchIndex);
+    function changeActiveIndex(item: string, index: number): void {
+      $store.commit('setSearchIndex', index);
+      emit('changeTab', item, index);
     }
 
     return {
       tabList,
-      activeIndex,
+      searchIndex,
       changeActiveIndex
     };
   }

@@ -122,7 +122,9 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    const searchText = computed(() => $store.getters.searchText);
+    const searchText = computed(() =>
+      $store.getters.searchText.replace(/"/g, '')
+    );
 
     // 搜索内容
     const searchValue = ref<string>(searchText.value);

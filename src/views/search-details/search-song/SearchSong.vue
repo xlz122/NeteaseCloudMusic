@@ -2,7 +2,7 @@
   <ul class="search-song">
     <li
       class="item"
-      v-for="(item, index) in list"
+      v-for="(item, index) in songData.list"
       :key="index"
       :class="{ 'even-item': index % 2 }"
     >
@@ -49,52 +49,87 @@
     </li>
   </ul>
   <Page
-    v-if="total > pageSize"
-    :page="page"
-    :pageSize="pageSize"
-    :total="total"
+    v-if="songData.total"
+    :page="songData.page"
+    :pageSize="songData.pageSize"
+    :total="songData.total"
     @changPage="changPage"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, reactive, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { searchKeywords } from '@api/search';
 import { timeStampToDuration } from '@utils/utils.ts';
 import Page from '@components/page/Page.vue';
 import { LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
+import { ResponseType } from '@/types/types';
+
+type SongData = {
+  page: number;
+  pageSize: number;
+  total: number;
+  list: unknown[];
+};
 
 export default defineComponent({
   components: {
     Page
   },
-  props: {
-    page: {
-      type: Number,
-      default: 1
-    },
-    pageSize: {
-      type: Number,
-      default: 10
-    },
-    total: {
-      type: Number,
-      default: 10
-    },
-    list: {
-      type: Array,
-      default: () => []
-    }
-  },
-  emits: ['changPage'],
-  setup(props, { emit }) {
+  setup() {
     const $router = useRouter();
     const $store = useStore();
 
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
+
+    // 搜索关键词
+    const searchText = computed(() =>
+      $store.getters.searchText.replace(/"/g, '')
+    );
+
+    const songData = reactive<SongData>({
+      page: 1,
+      pageSize: 30,
+      total: 0,
+      list: []
+    });
+
+    // 导航搜索回车
+    watch(
+      () => searchText.value,
+      () => {
+        getSearchSong();
+      },
+      {
+        immediate: true
+      }
+    );
+
+    // 获取单曲列表
+    function getSearchSong(): void {
+      searchKeywords({
+        keywords: searchText.value,
+        offset: songData.page - 1,
+        limit: songData.pageSize,
+        type: 1
+      })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            songData.total = res?.result?.songCount;
+            songData.list = res?.result?.songs;
+          } else {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: res?.msg
+            });
+          }
+        })
+        .catch(() => ({}));
+    }
 
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
@@ -172,11 +207,14 @@ export default defineComponent({
 
     // 分页
     function changPage(current: number): void {
-      emit('changPage', current);
+      songData.page = current;
+      getSearchSong();
     }
+
     return {
       timeStampToDuration,
       userInfo,
+      songData,
       jumpSongDetail,
       jumpSingerDetail,
       setAddSinglePlayList,

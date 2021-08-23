@@ -33,7 +33,7 @@
         </div>
         <div class="item-desc">
           <span class="item-desc-text">{{ item.name }}</span>
-          <span class="item-desc-icon" v-if="item.albumSize < 50"></span>
+          <span class="item-desc-icon" v-if="item.accountId"></span>
         </div>
       </li>
     </ul>
@@ -46,7 +46,7 @@
         @click="jumpSingerDetail(item.id)"
       >
         <span class="item-text">{{ item.name }}</span>
-        <span class="item-icon" v-if="item.albumSize < 50"></span>
+        <span class="item-icon" v-if="item.accountId"></span>
       </li>
     </ul>
   </div>

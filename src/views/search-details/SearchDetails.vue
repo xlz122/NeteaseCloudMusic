@@ -4,62 +4,55 @@
       <SearchHeader @searchEnter="searchEnter" />
       <div class="search-desc">
         搜索“{{ searchTitleText }}”，找到
-        <span class="search-desc-num">{{ songData.count }}</span>
-        首单曲
+        <!-- songData.count -->
+        <span class="search-desc-num">{{ 0 }}</span>
+        {{ handleTitle }}
       </div>
       <SearchTabs @changeTab="changeTab" />
-      <template v-if="tabIndex === 0">
-        <SearchSong
-          :page="pageParams.page"
-          :pageSize="pageParams.pageSize"
-          :total="songData.count"
-          :list="songData.list"
-          @changPage="changPage"
-        />
+      <!-- 单曲 -->
+      <template v-if="searchIndex === 0">
+        <SearchSong />
+      </template>
+      <!-- 歌手 -->
+      <template v-if="searchIndex === 1">
+        <SearchSinger />
       </template>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, reactive, watch } from 'vue';
+import { computed, defineComponent, ref, watch } from 'vue';
 import { useStore } from 'vuex';
-import { searchKeywords } from '@api/search';
 import SearchHeader from './search-header/SearchHeader.vue';
 import SearchTabs from './search-tabs/SearchTabs.vue';
 import SearchSong from './search-song/SearchSong.vue';
-import { ResponseType } from '@/types/types';
-
-type SongData = {
-  count: number;
-  list: unknown[];
-};
+import SearchSinger from './search-singer/SearchSinger.vue';
 
 export default defineComponent({
   components: {
     SearchHeader,
     SearchTabs,
-    SearchSong
+    SearchSong,
+    SearchSinger
   },
   setup() {
     const $store = useStore();
 
-    const searchText = computed(() => $store.getters.searchText);
+    // 搜索关键词
+    const searchText = computed(() =>
+      $store.getters.searchText.replace(/"/g, '')
+    );
+    // tab选中
+    const searchIndex = computed(() => $store.getters.searchIndex);
     // 标题
     const searchTitleText = ref<string>('');
-
-    // 分页参数
-    const pageParams = reactive({
-      page: 1,
-      pageSize: 30
-    });
 
     // 导航搜索回车
     watch(
       () => searchText.value,
       () => {
         searchTitleText.value = searchText.value;
-        getSearchSong();
       },
       {
         immediate: true
@@ -69,63 +62,44 @@ export default defineComponent({
     // 详情搜索回车
     function searchEnter(searchValue: string): void {
       searchTitleText.value = searchValue;
-      getSearchSong();
     }
 
     // tab切换
-    const tabIndex = ref<number>(0);
-    function changeTab(index: number): void {
-      tabIndex.value = index;
+    const tabTitle = ref<string>('单曲');
+    function changeTab(item: string): void {
+      tabTitle.value = item;
     }
 
-    // 获取单曲列表
-    const songData = reactive<SongData>({
-      count: 0,
-      list: []
-    });
-    function getSearchSong(): void {
-      searchKeywords({
-        keywords: searchTitleText.value,
-        offset: pageParams.page - 1,
-        limit: pageParams.pageSize,
-        type: 1
-      })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            songData.count = res?.result?.songCount;
-            songData.list = res?.result?.songs;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 监听总数，重置分页
+    // 处理标题
+    const handleTitle = ref<string>('');
     watch(
-      () => songData.count,
+      () => tabTitle.value,
       () => {
-        pageParams.page = 1;
+        if (tabTitle.value === '单曲') {
+          handleTitle.value = `首${tabTitle.value}`;
+          return false;
+        }
+        if (tabTitle.value === '专辑') {
+          handleTitle.value = `张${tabTitle.value}`;
+          return false;
+        }
+        if (tabTitle.value === '声音主播') {
+          handleTitle.value = '个节目';
+          return false;
+        }
+        handleTitle.value = `个${tabTitle.value}`;
+      },
+      {
+        immediate: true
       }
     );
 
-    // 分页
-    function changPage(current: number): void {
-      pageParams.page = current;
-      getSearchSong();
-    }
-
     return {
+      searchIndex,
       searchTitleText,
       searchEnter,
       changeTab,
-      tabIndex,
-      songData,
-      pageParams,
-      changPage
+      handleTitle
     };
   }
 });
