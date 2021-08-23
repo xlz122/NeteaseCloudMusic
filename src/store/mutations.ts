@@ -70,6 +70,11 @@ const mutations: Mutations<State> = {
     state.singerTabIndex = singerTabIndex;
     localStorage.setItem('singerTabIndex', JSON.stringify(singerTabIndex));
   },
+  // 搜索详情tab
+  setSearchIndex(state, searchIndex: number) {
+    state.searchIndex = searchIndex;
+    localStorage.setItem('searchIndex', JSON.stringify(searchIndex));
+  },
   // 签到
   setSignIn(state, signIn: boolean) {
     const userInfo = JSON.parse(JSON.stringify(state.userInfo));
