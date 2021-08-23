@@ -116,7 +116,6 @@ export default defineComponent({
     const playMusicItem = computed<number>(
       () => $store.getters['music/playMusicItem']
     );
-    console.log(playMusicItem);
 
     // 清除列表
     function emptyMusicList(): void {

@@ -24,6 +24,19 @@
   width: 354px;
   overflow-y: auto;
 
+  .not-lyric {
+    padding-top: 90px;
+    color: #aaa;
+    text-align: center;
+
+    .feed-lyric {
+      margin-left: 12px;
+      color: #c2c2c2;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+
   .lyric-list {
 
     .item {
@@ -37,6 +50,15 @@
       -moz-transition: color 0.7s linear;
       -o-transition: color 0.7s linear;
       transition: color 0.7s linear;
+
+      .text {
+        color: #c2c2c2;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
     }
 
     .active-item {
