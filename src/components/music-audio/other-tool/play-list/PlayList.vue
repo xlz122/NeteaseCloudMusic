@@ -19,8 +19,8 @@
     <div class="play-list-content">
       <img
         class="play-list-content-bg"
-        v-if="playMusicItem?.al?.picUrl"
-        :src="playMusicItem?.al?.picUrl"
+        v-if="playMusicItem?.picUrl"
+        :src="playMusicItem?.picUrl"
         alt=""
       />
       <div class="left-content">
@@ -116,6 +116,7 @@ export default defineComponent({
     const playMusicItem = computed<number>(
       () => $store.getters['music/playMusicItem']
     );
+    console.log(playMusicItem);
 
     // 清除列表
     function emptyMusicList(): void {
