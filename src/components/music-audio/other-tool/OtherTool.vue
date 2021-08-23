@@ -45,6 +45,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 // 音量
 import VolumeProgress from '../volume-progress/VolumeProgress.vue';
@@ -57,6 +58,7 @@ export default defineComponent({
     PlayList
   },
   setup() {
+    const $route = useRoute();
     const $store = useStore();
 
     // 播放列表数据
@@ -122,6 +124,14 @@ export default defineComponent({
             }, 3000);
           }
         }
+      }
+    );
+
+    // 监听路由切换，关闭播放列表
+    watch(
+      () => $route.params,
+      () => {
+        playListShow.value = false;
       }
     );
 
