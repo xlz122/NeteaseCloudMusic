@@ -6,7 +6,7 @@ const Message = {
     // 创建虚拟dom
     const vm = createVNode(MessageComponent, {});
 
-    // 这句很关键，关联数据
+    // 关联数据
     vm.appContext = app._context;
 
     const message = document.getElementById('message') as HTMLElement;

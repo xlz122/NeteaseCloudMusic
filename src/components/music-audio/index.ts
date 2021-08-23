@@ -6,7 +6,7 @@ const MusicAudio = {
     // 创建虚拟dom
     const vm = createVNode(MusicAudioComponent, {});
 
-    // 这句很关键，关联数据
+    // 关联数据
     vm.appContext = app._context;
 
     const musicAudio = document.getElementById('musicAudio') as HTMLElement;
