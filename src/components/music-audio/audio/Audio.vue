@@ -113,7 +113,6 @@ export default defineComponent({
     // 播放音乐
     function startPlayMusic(): void {
       (musicAudio.value as HTMLVideoElement).load();
-      (musicAudio.value as HTMLVideoElement).play();
     }
 
     // 停止播放
