@@ -28,7 +28,7 @@
               class="f-cb-i"
               v-for="(item, index) in searchPropos.songs"
               :key="index"
-              @click="songDetail(item)"
+              @click="jumpSongDetail(item.id)"
             >
               <span class="f-cb-text">
                 {{ item.name.slice(0, searchValue.length) }}
@@ -52,7 +52,7 @@
               class="f-cb-i"
               v-for="(item, index) in searchPropos.artists"
               :key="index"
-              @click="artistDetail(item)"
+              @click="jumpSingerDetail(item.id)"
             >
               <span class="f-cb-text">{{ item.name }}</span>
             </li>
@@ -93,7 +93,7 @@
               class="f-cb-i"
               v-for="(item, index) in searchPropos.playlists"
               :key="index"
-              @click="playlistDetail(item)"
+              @click="jumpSongSheet(item.id)"
             >
               <span class="f-cb-text">
                 {{ item.name.slice(0, searchValue.length) }}
@@ -111,6 +111,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { searchPropose } from '@api/search';
 import { ResponseType } from '@/types/types';
@@ -118,6 +119,7 @@ import { ResponseType } from '@/types/types';
 export default defineComponent({
   emits: ['searchEnter'],
   setup(props, { emit }) {
+    const $router = useRouter();
     const $store = useStore();
 
     const searchText = computed(() => $store.getters.searchText);
@@ -192,20 +194,22 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
-    // 单曲详情
-    function songDetail(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌曲id
+      $store.commit('setSongId', id);
+      $router.push({ name: 'song-detail', params: { songId: id } });
     }
 
     // 歌手详情
-    function artistDetail(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+    function jumpSingerDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌手id
+      $store.commit('setSingerId', id);
+      $router.push({ name: 'singer-detail', params: { singerId: id } });
     }
 
     // 专辑详情
@@ -217,11 +221,8 @@ export default defineComponent({
     }
 
     // 歌单详情
-    function playlistDetail(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+    function jumpSongSheet(id: number): void {
+      $router.push({ name: 'song-sheet-detail', params: { songSheetId: id } });
     }
     return {
       searchValue,
@@ -230,10 +231,10 @@ export default defineComponent({
       searchFocus,
       searchBlur,
       searchEnter,
-      songDetail,
-      artistDetail,
+      jumpSongDetail,
+      jumpSingerDetail,
       albumDetail,
-      playlistDetail
+      jumpSongSheet
     };
   }
 });
