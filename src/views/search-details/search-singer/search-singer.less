@@ -1,0 +1,66 @@
+.search-singer {
+  margin-top: 20px;
+  
+  .search-singer-list {
+    text-align: left;
+
+    .search-singer-item {
+      display: inline-block;
+      vertical-align: top;
+      width: 130px;
+      height: 154px;
+      padding-bottom: 30px;
+      margin-left: 0;
+      text-align: left;
+
+      .item-cover {
+        width: 130px;
+        height: 130px;
+        cursor: pointer;
+
+        .item-cover-img {
+          display: block;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .item-info {
+        position: relative;
+        margin-top: 8px;
+
+        .item-info-text {
+          display: inline-block;
+          max-width: 85%;
+          vertical-align: middle;
+          color: #000;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          word-wrap: normal;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .item-info-icon {
+          position: absolute;
+          right: 0;
+          display: inline-block;
+          overflow: hidden;
+          vertical-align: middle;
+          width: 17px;
+          height: 18px;
+          background: url(~@/assets/image/icon.png) no-repeat 0 9999px;
+          background-position: 0 -740px;
+        }
+      }
+    }
+
+    .first-item {
+      margin-left: 23px;
+    }
+  }
+}
