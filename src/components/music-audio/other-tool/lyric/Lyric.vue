@@ -102,14 +102,12 @@ export default defineComponent({
       getLyric({
         id: playMusicId.value
       }).then((res: ResponseType) => {
-        // 无歌词
-        if (res.uncollected) {
+        lyric.noData = false;
+        try {
+          handlerLyric(res.lrc.lyric);
+        } catch {
           lyric.noData = true;
-          return false;
-        } else {
-          lyric.noData = false;
         }
-        handlerLyric(res.lrc.lyric);
       });
     }
 
