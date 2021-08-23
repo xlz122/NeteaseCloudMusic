@@ -2,7 +2,7 @@
   <div class="progress" ref="progressRef" @click="handleProgressClick">
     <div class="current-progress" ref="currentProgressRef">
       <i class="icon" ref="progressIconRef"></i>
-      <i class="icon-loading" v-if="musicPlayProgress.loading"></i>
+      <i class="icon-loading" v-if="musicPlayStatus.loading"></i>
     </div>
     <div class="total-progress" ref="cacheProgressRef"></div>
   </div>
@@ -23,6 +23,10 @@ import { LoopType } from '@/types/types';
 
 export default defineComponent({
   props: {
+    musicPlayStatus: {
+      typs: Object,
+      default: {}
+    },
     musicPlayProgress: {
       typs: Object,
       default: {}
