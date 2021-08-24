@@ -215,10 +215,7 @@ export default defineComponent({
 
       // 跳转专辑
       if (targetType === 10) {
-        $store.commit('setMessage', {
-          type: 'error',
-          title: '跳转专辑暂未开发'
-        });
+        $router.push({ name: 'album-detail', params: { albumId: targetId } });
       }
     }
 

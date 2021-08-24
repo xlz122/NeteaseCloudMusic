@@ -18,7 +18,11 @@
               />
               <i class="icon"></i>
             </div>
-            <div class="title" :title="item?.name" @click="jumpAlbumDetail">
+            <div
+              class="title"
+              :title="item?.name"
+              @click="jumpAlbumDetail(item.id)"
+            >
               {{ item?.name }}
             </div>
             <div class="name-list">
@@ -141,8 +145,8 @@ export default defineComponent({
     );
 
     // 跳转专辑
-    function jumpAlbumDetail(): void {
-      emit('jumpAlbumDetail');
+    function jumpAlbumDetail(id: number): void {
+      emit('jumpAlbumDetail', id);
     }
 
     // 跳转歌手详情
