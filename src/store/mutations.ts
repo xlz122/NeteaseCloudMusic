@@ -65,6 +65,11 @@ const mutations: Mutations<State> = {
     state.singerTabIndex = 0;
     localStorage.setItem('singerTabIndex', JSON.stringify(0));
   },
+  // 专辑id
+  setAlbumId(state, albumId: number) {
+    state.albumId = albumId;
+    localStorage.setItem('albumId', JSON.stringify(albumId));
+  },
   // 歌手详情tab
   setSingerTabIndex(state, singerTabIndex: number) {
     state.singerTabIndex = singerTabIndex;

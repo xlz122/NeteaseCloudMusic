@@ -263,11 +263,8 @@ export default defineComponent({
     dateText.value = formatDateTime(new Date().getTime() / 1000, 'dd');
 
     // 新碟上架 - 跳转专辑
-    function jumpAlbumDetail(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+    function jumpAlbumDetail(id: number): void {
+      $router.push({ name: 'album-detail', params: { albumId: id } });
     }
 
     // 新碟上架 - 跳转歌手详情

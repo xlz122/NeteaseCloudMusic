@@ -137,6 +137,15 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "singer-detail" */ '../views/singer-detail/SingerDetail.vue'
           )
       },
+      // 专辑详情
+      {
+        path: '/album-detail',
+        name: 'album-detail',
+        component: () =>
+          import(
+            /* webpackChunkName: "singer-detail" */ '../views/album-detail/AlbumDetail.vue'
+          )
+      },
       // 用户资料
       {
         path: '/user-profile',

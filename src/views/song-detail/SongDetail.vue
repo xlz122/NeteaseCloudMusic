@@ -47,7 +47,7 @@
         </div>
         <!-- 评论 -->
         <div class="comment-component">
-          <comment :commentParams="commentParams" />
+          <Comment :commentParams="commentParams" />
         </div>
         <!-- 参数从0开始，分页需从1开始 -->
         <Page
