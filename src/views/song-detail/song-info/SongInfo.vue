@@ -53,7 +53,7 @@
             <span class="icon-play">播放</span>
           </div>
           <div class="play-add" @click="setAddPlayList"></div>
-          <div class="other collection">
+          <div class="other collection" @click="collectionClick">
             <span class="icon">收藏</span>
           </div>
           <div class="other share" @click="shareClick">
@@ -63,8 +63,8 @@
             <span class="icon">下载</span>
           </div>
           <div class="other comment" @click="commentClick">
-            <span class="icon"> (1234) </span>
-            <!-- <span class="icon">评论</span> -->
+            <!-- <span class="icon"> (1234) </span> -->
+            <span class="icon">评论</span>
           </div>
         </div>
         <!-- 歌词列表 -->
@@ -98,7 +98,8 @@ export default defineComponent({
       default: () => ({})
     }
   },
-  setup() {
+  emits: ['commentClick'],
+  setup(props, { emit }) {
     const $router = useRouter();
     const $store = useStore();
 
@@ -114,9 +115,42 @@ export default defineComponent({
       $router.push({ name: 'singer-detail', params: { singerId: id } });
     }
 
+    // 收藏
+    function collectionClick(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 分享
+    function shareClick(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 下载
+    function downloadClick(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 评论
+    function commentClick(): void {
+      emit('commentClick');
+    }
+
     return {
       songId,
-      jumpSingerDetail
+      jumpSingerDetail,
+      collectionClick,
+      shareClick,
+      downloadClick,
+      commentClick
     };
   }
 });
