@@ -3,7 +3,11 @@
     <div class="song-sheet-detail-container">
       <div class="song-sheet-content">
         <div class="song-user-info">
-          <SongInfo :songDetailData="songDetailData" :lyric="lyric" />
+          <SongInfo
+            :songDetailData="songDetailData"
+            :lyric="lyric"
+            @commentClick="commentClick"
+          />
         </div>
         <!-- 操作项 -->
         <!--
@@ -251,6 +255,15 @@ export default defineComponent({
       getCommentData();
     }
 
+    // 评论
+    function commentClick(): void {
+      const commentDom = document.querySelector(
+        '.comment-component'
+      ) as HTMLElement;
+      // 标题高度
+      window.scrollTo(0, Number(commentDom.offsetTop) + 20);
+    }
+
     onMounted(() => {
       // 头部导航选中
       $store.commit('setHeaderActiveIndex', 0);
@@ -263,7 +276,8 @@ export default defineComponent({
       songDetailData,
       lyric,
       commentParams,
-      changPage
+      changPage,
+      commentClick
     };
   }
 });
