@@ -17,8 +17,8 @@ const externals = {
 const cdn = {
   css: [],
   js: [
-    'https://lib.baomitu.com/vue/3.1.2/vue.global.min.js',
-    'https://lib.baomitu.com/vue-router/4.0.10/vue-router.global.min.js',
+    'https://lib.baomitu.com/vue/3.2.4/vue.global.min.js',
+    'https://lib.baomitu.com/vue-router/4.0.11/vue-router.global.min.js',
     'https://lib.baomitu.com/vuex/4.0.2/vuex.global.min.js',
     'https://lib.baomitu.com/axios/0.21.1/axios.min.js',
     'https://lib.baomitu.com/lodash.js/4.17.21/lodash.min.js'
@@ -45,8 +45,8 @@ module.exports = {
   css: {
     // 设置为true的时候 打包完成后会生成一些css.map文件,如果有报错,可以精确的输出哪一个文件、哪一行报错
     sourceMap: false,
-    // 是否开启样式模块 <style module></style>
-    requireModuleExtension: false,
+    // 是否开启样式模块 <style module></style>(v5已废弃)
+    // requireModuleExtension: false,
     // 共享的全局变量
     loaderOptions: {
       // 给 less-loader 传递选项
@@ -56,7 +56,7 @@ module.exports = {
           javascriptEnabled: true,
           modifyVars: {
             // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
-            hack: 'true; @import "@/assets/common.less";',
+            // hack: 'true; @import "@/assets/common.less";',
           },
         },
       },
@@ -71,7 +71,7 @@ module.exports = {
     // index: '',
     proxy: {
       api: {
-        target: 'http://n.xlz122.cn/api',
+        target: 'https://n.xlz122.cn/api',
         // 允许跨域
         ws: true,
         changeOrigin: true,

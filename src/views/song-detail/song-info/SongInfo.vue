@@ -43,7 +43,10 @@
         </div>
         <div class="info">
           <span>所属专辑：</span>
-          <span class="text">
+          <span
+            class="text"
+            @click="jumpAlbumDetail(songDetailData?.songs[0]?.al?.id)"
+          >
             {{ songDetailData?.songs[0]?.al?.name }}
           </span>
         </div>
@@ -52,7 +55,7 @@
           <div class="play" @click="playTitleMusic">
             <span class="icon-play">播放</span>
           </div>
-          <div class="play-add" @click="setAddPlayList"></div>
+          <div class="play-add" @click="setAddSinglePlayList"></div>
           <div class="other collection" @click="collectionClick">
             <span class="icon">收藏</span>
           </div>
@@ -63,8 +66,12 @@
             <span class="icon">下载</span>
           </div>
           <div class="other comment" @click="commentClick">
-            <!-- <span class="icon"> (1234) </span> -->
-            <span class="icon">评论</span>
+            <template v-if="commentTotal > 0">
+              <span class="icon"> ({{ commentTotal }}) </span>
+            </template>
+            <template v-else>
+              <span class="icon">评论</span>
+            </template>
           </div>
         </div>
         <!-- 歌词列表 -->
@@ -86,6 +93,8 @@
 import { defineComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { PlayMusicItem } from '@store/music/state';
+import { LoopType } from '@/types/types';
 
 export default defineComponent({
   props: {
@@ -96,6 +105,10 @@ export default defineComponent({
     lyric: {
       typs: Object,
       default: () => ({})
+    },
+    commentTotal: {
+      typs: Number,
+      default: 0
     }
   },
   emits: ['commentClick'],
@@ -113,6 +126,76 @@ export default defineComponent({
       // 存储歌手id
       $store.commit('setSingerId', id);
       $router.push({ name: 'singer-detail', params: { singerId: id } });
+    }
+
+    // 播放列表音乐
+    function playTitleMusic(): boolean | undefined {
+      if (!props?.songDetailData?.songs?.length) {
+        return false;
+      }
+
+      const item = props?.songDetailData?.songs[0];
+
+      // 处理播放器所需数据
+      const musicItem: PlayMusicItem = {
+        id: item.id,
+        name: item.name,
+        picUrl: item.al.picUrl,
+        time: item.dt,
+        mv: item.mv,
+        singerList: [],
+        targetType: 'song'
+      };
+
+      item?.ar?.forEach((item: LoopType) => {
+        musicItem.singerList.push({
+          id: item.id,
+          name: item.name
+        });
+      });
+
+      // 当前播放音乐id
+      $store.commit('music/setPlayMusicId', musicItem.id);
+      // 当前播放音乐数据
+      $store.commit('music/setPlayMusicItem', musicItem);
+      // 播放音乐数据
+      $store.commit('music/setPlayMusicList', musicItem);
+      // 开始播放
+      $store.commit('music/setMusicPlayStatus', {
+        look: true,
+        loading: true,
+        refresh: true
+      });
+    }
+
+    // 单个音乐添加到播放列表
+    function setAddSinglePlayList(): boolean | undefined {
+      if (!props?.songDetailData?.songs?.length) {
+        return false;
+      }
+
+      const item = props?.songDetailData?.songs[0];
+
+      // 处理播放器所需数据
+      const musicItem: PlayMusicItem = {
+        id: item.id,
+        name: item.name,
+        picUrl: item.al.picUrl,
+        time: item.dt,
+        mv: item.mv,
+        singerList: [],
+        targetType: 'song'
+      };
+
+      item?.ar?.forEach((item: LoopType) => {
+        musicItem.singerList.push({
+          id: item.id,
+          name: item.name
+        });
+      });
+
+      // 播放音乐数据
+      $store.commit('music/setPlayMusicList', musicItem);
     }
 
     // 收藏
@@ -144,13 +227,21 @@ export default defineComponent({
       emit('commentClick');
     }
 
+    // 跳转专辑详情
+    function jumpAlbumDetail(id: number): void {
+      $router.push({ name: 'album-detail', params: { albumId: id } });
+    }
+
     return {
       songId,
       jumpSingerDetail,
+      playTitleMusic,
+      setAddSinglePlayList,
       collectionClick,
       shareClick,
       downloadClick,
-      commentClick
+      commentClick,
+      jumpAlbumDetail
     };
   }
 });

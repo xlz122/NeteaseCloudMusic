@@ -79,13 +79,14 @@
               }"
               @click="collectionClick(songSheetDetail?.playlist?.subscribed)"
             >
-              <span
-                class="icon"
-                v-if="songSheetDetail?.playlist?.subscribedCount > 0"
-              >
-                ({{ songSheetDetail?.playlist?.subscribedCount }})
-              </span>
-              <span class="icon" v-else>收藏</span>
+              <template v-if="songSheetDetail?.playlist?.subscribedCount > 0">
+                <span class="icon">
+                  ({{ songSheetDetail?.playlist?.subscribedCount }})
+                </span>
+              </template>
+              <template v-else>
+                <span class="icon">收藏</span>
+              </template>
             </div>
           </template>
           <div
@@ -95,10 +96,14 @@
             }"
             @click="shareClick"
           >
-            <span class="icon" v-if="songSheetDetail?.playlist?.shareCount > 0">
-              ({{ songSheetDetail?.playlist?.shareCount }})
-            </span>
-            <span class="icon" v-else>分享</span>
+            <template v-if="songSheetDetail?.playlist?.shareCount > 0">
+              <span class="icon">
+                ({{ songSheetDetail?.playlist?.shareCount }})
+              </span>
+            </template>
+            <template v-else>
+              <span class="icon">分享</span>
+            </template>
           </div>
           <div
             class="other download"
@@ -116,13 +121,14 @@
             }"
             @click="commentClick"
           >
-            <span
-              class="icon"
-              v-if="songSheetDetail?.playlist?.commentCount > 0"
-            >
-              ({{ songSheetDetail?.playlist?.commentCount }})
-            </span>
-            <span class="icon" v-else>评论</span>
+            <template v-if="songSheetDetail?.playlist?.commentCount > 0">
+              <span class="icon">
+                ({{ songSheetDetail?.playlist?.commentCount }})
+              </span>
+            </template>
+            <template v-else>
+              <span class="icon">评论</span>
+            </template>
           </div>
         </div>
         <div class="tags" v-if="songSheetDetail?.playlist?.tags.length > 0">
@@ -346,7 +352,7 @@ export default defineComponent({
     }
 
     // 跳转用户资料
-    function jumpUserProfile(userId: number) {
+    function jumpUserProfile(userId: number): void {
       // 头部导航取消选中
       $store.commit('setHeaderActiveIndex', -1);
       $router.push({ name: 'user-profile', params: { userId } });

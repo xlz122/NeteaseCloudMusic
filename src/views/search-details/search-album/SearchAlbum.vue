@@ -1,35 +1,34 @@
 <template>
-  <div class="search-singer">
-    <ul class="search-singer-list">
-      <li
-        class="search-singer-item"
-        v-for="(item, index) in singerData.list"
-        :key="index"
-        :class="{ 'first-item': index % 6 }"
-      >
-        <div class="item-cover" @click="jumpSingerDetail(item?.id)">
-          <img
-            class="item-cover-img"
-            :src="`${item.picUrl}?param=130y130`"
-            alt=""
-          />
-        </div>
-        <div class="item-info">
-          <span class="item-info-text" @click="jumpSingerDetail(item?.id)">
-            {{ item.name }}
-          </span>
-          <span class="item-info-icon" v-if="item.accountId"></span>
-        </div>
-      </li>
-    </ul>
-    <Page
-      v-if="singerData.total"
-      :page="singerData.page"
-      :pageSize="singerData.pageSize"
-      :total="singerData.total"
-      @changPage="changPage"
-    />
-  </div>
+  <ul class="search-album-list">
+    <li
+      class="search-album-item"
+      v-for="(item, index) in albumData.list"
+      :key="index"
+    >
+      <div class="item-cover" @click="jumpAlbumDetail(item.id)">
+        <img
+          class="item-cover-img"
+          :src="`${item?.picUrl}?param=130y130`"
+          alt=""
+        />
+        <i class="item-cover-bg"></i>
+        <i class="item-cover-play"></i>
+      </div>
+      <p class="desc" @click="jumpAlbumDetail(item.id)">
+        {{ item?.name }}
+      </p>
+      <p class="name" @click="jumpSingerDetail(item?.artist?.id)">
+        {{ item?.artist?.name }}
+      </p>
+    </li>
+  </ul>
+  <Page
+    v-if="albumData.total"
+    :page="albumData.page"
+    :pageSize="albumData.pageSize"
+    :total="albumData.total"
+    @changPage="changPage"
+  />
 </template>
 
 <script lang="ts">
@@ -41,7 +40,7 @@ import { timeStampToDuration } from '@utils/utils.ts';
 import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
 
-type SingerData = {
+type albumData = {
   page: number;
   pageSize: number;
   total: number;
@@ -72,7 +71,7 @@ export default defineComponent({
       $store.getters.searchText.replace(/"/g, '')
     );
 
-    const singerData = reactive<SingerData>({
+    const albumData = reactive<albumData>({
       page: 1,
       pageSize: 30,
       total: 0,
@@ -83,22 +82,22 @@ export default defineComponent({
     watch(
       () => searchTitleText.value,
       () => {
-        getSearchSinger();
+        getSearchAlbum();
       }
     );
 
-    // 获取歌手列表
-    function getSearchSinger(): void {
+    // 获取专辑列表
+    function getSearchAlbum(): void {
       searchKeywords({
         keywords: searchTitleText.value || searchText.value,
-        offset: singerData.page - 1,
-        limit: singerData.pageSize,
-        type: 100
+        offset: albumData.page - 1,
+        limit: albumData.pageSize,
+        type: 10
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            singerData.total = res?.result?.artistCount;
-            singerData.list = res?.result?.artists;
+            albumData.total = res?.result?.albumCount;
+            albumData.list = res?.result?.albums;
           } else {
             $store.commit('setMessage', {
               type: 'error',
@@ -108,7 +107,12 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getSearchSinger();
+    getSearchAlbum();
+
+    // 跳转专辑
+    function jumpAlbumDetail(id: number): void {
+      $router.push({ name: 'album-detail', params: { albumId: id } });
+    }
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
@@ -121,14 +125,15 @@ export default defineComponent({
 
     // 分页
     function changPage(current: number): void {
-      singerData.page = current;
-      getSearchSinger();
+      albumData.page = current;
+      getSearchAlbum();
     }
 
     return {
       timeStampToDuration,
       userInfo,
-      singerData,
+      albumData,
+      jumpAlbumDetail,
       jumpSingerDetail,
       changPage
     };
@@ -137,5 +142,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './search-singer.less';
+@import './search-album.less';
 </style>

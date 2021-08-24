@@ -6,6 +6,7 @@
           <SongInfo
             :songDetailData="songDetailData"
             :lyric="lyric"
+            :commentTotal="commentParams.total"
             @commentClick="commentClick"
           />
         </div>
@@ -35,15 +36,25 @@
           <div class="operate-bottom">
             <template v-if="lyric?.lyricUser?.nickname">
               <span class="text">贡献歌词:</span>
-              <span class="name">
+              <span
+                class="name"
+                @click="jumpUserProfile(lyric?.lyricUser?.userid)"
+              >
                 {{ lyric?.lyricUser?.nickname }}
               </span>
               <span class="text temporary">暂时没有翻译，</span>
-              <span class="text translate">求翻译</span>
+              <span class="text translate" @click="lyricTranslate">
+                求翻译
+              </span>
             </template>
             <template v-else>
-              <span class="text">贡献歌词:</span>
-              <span class="name">
+              <span class="text" v-if="lyric?.transUser?.nickname">
+                贡献歌词:
+              </span>
+              <span
+                class="name"
+                @click="jumpUserProfile(lyric?.transUser?.userid)"
+              >
                 {{ lyric?.transUser?.nickname }}
               </span>
             </template>
@@ -79,7 +90,7 @@ import {
   onMounted,
   nextTick
 } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { songDetail } from '@api/song-detail';
 import { getLyric } from '@api/my-music';
@@ -110,6 +121,7 @@ export default defineComponent({
     Page
   },
   setup() {
+    const $router = useRouter();
     const $route = useRoute();
     const $store = useStore();
 
@@ -124,6 +136,7 @@ export default defineComponent({
             $store.commit('setSongId', Number(curVal.songId));
             getSongDetail();
             getCommentData();
+            getLyricData();
           });
         }
       },
@@ -151,6 +164,29 @@ export default defineComponent({
         .catch(() => ({}));
     }
     getSongDetail();
+
+    // 跳转用户资料
+    function jumpUserProfile(userId: number): void {
+      // 头部导航取消选中
+      $store.commit('setHeaderActiveIndex', -1);
+      $router.push({ name: 'user-profile', params: { userId } });
+    }
+
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
+
+    // 求翻译
+    function lyricTranslate(): boolean | undefined {
+      // 未登录打开登录对话框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能未开发'
+      });
+    }
 
     // 歌词数据
     const lyric = reactive<Lyric>({
@@ -274,7 +310,9 @@ export default defineComponent({
     return {
       songId,
       songDetailData,
+      jumpUserProfile,
       lyric,
+      lyricTranslate,
       commentParams,
       changPage,
       commentClick

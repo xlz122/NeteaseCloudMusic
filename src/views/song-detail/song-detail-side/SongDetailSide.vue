@@ -136,10 +136,11 @@ export default defineComponent({
 
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
-      // 存储歌曲id
-      $store.commit('setSongId', id);
       getSimiPlaylist();
       getSimiSong();
+      // 存储歌曲id
+      $store.commit('setSongId', id);
+      $router.push({ name: 'song-detail', params: { songId: id } });
     }
 
     // 跳转歌手详情
@@ -160,7 +161,8 @@ export default defineComponent({
         picUrl: item.album.picUrl,
         time: item.duration,
         mv: item.mv,
-        singerList: []
+        singerList: [],
+        targetType: 'song'
       };
 
       item?.ar?.forEach((item: LoopType) => {
@@ -193,7 +195,8 @@ export default defineComponent({
         picUrl: item.album.picUrl,
         time: item.duration,
         mv: item.mv,
-        singerList: []
+        singerList: [],
+        targetType: 'song'
       };
 
       item?.ar?.forEach((item: LoopType) => {

@@ -32,10 +32,10 @@
         </li>
       </ul>
       <div class="introduce">个人介绍：{{ userInfo?.profile?.signature }}</div>
-      <div class="info-3">
+      <div class="info-3" v-if="provinceName">
         <span>所在地区：{{ provinceName }}-{{ cityName }}</span>
       </div>
-      <div class="info-4">
+      <div class="info-4" v-if="false">
         社交网络：
         <i class="weibo display-overflow"></i>
       </div>
@@ -105,9 +105,12 @@ export default defineComponent({
       userDetail({ uid: uid.value })
         .then((res: ResponseType) => {
           if (res.code === 200) {
+            console.log(res.profile);
             userInfo.value = res;
-            provinceName.value = findCityZipCode(res?.profile?.province || 0);
-            cityName.value = findCityZipCode(res?.profile?.city || 0);
+            if (res?.profile?.province) {
+              provinceName.value = findCityZipCode(res?.profile?.province || 0);
+              cityName.value = findCityZipCode(res?.profile?.city || 0);
+            }
           } else {
             $store.commit('setMessage', {
               type: 'error',

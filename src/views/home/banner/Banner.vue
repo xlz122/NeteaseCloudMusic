@@ -207,6 +207,7 @@ export default defineComponent({
     function jumpDetail(item: unknown): void {
       const targetType = (item as { targetType: number }).targetType;
       const targetId = (item as { targetId: number }).targetId;
+      const targetUrl = (item as { url: string })?.url;
 
       // 跳转单曲
       if (targetType === 1) {
@@ -216,6 +217,19 @@ export default defineComponent({
       // 跳转专辑
       if (targetType === 10) {
         $router.push({ name: 'album-detail', params: { albumId: targetId } });
+      }
+
+      // 跳转歌单
+      if (targetType === 1000) {
+        $router.push({
+          name: 'song-sheet-detail',
+          params: { songSheetId: targetId }
+        });
+      }
+
+      // 跳转外部链接
+      if (targetType === 3000) {
+        window.open(targetUrl, '', '');
       }
     }
 
