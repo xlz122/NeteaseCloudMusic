@@ -13,7 +13,9 @@
 
 网易云API项目github地址: [https://github.com/Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)。
 
-网易云线上API接口文档地址: [https://wyy.wangpinpin.com/](https://wyy.wangpinpin.com/)。
+网易云线上API接口文档地址1: [https://binaryify.github.io/NeteaseCloudMusicApi/#/](https://binaryify.github.io/NeteaseCloudMusicApi/#/)。
+
+网易云线上API接口文档地址2: [https://neteasecloudmusicapi.vercel.app/#/](https://neteasecloudmusicapi.vercel.app/#/)。
 
 如有问题，请联系QQ``122874722``。
 
