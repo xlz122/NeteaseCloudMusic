@@ -9,7 +9,7 @@
           v-for="(item, index) in hotNewDiscList"
           :key="index"
         >
-          <div class="item-cover">
+          <div class="item-cover" @click="jumpAlbumDetail(item.id)">
             <img
               class="item-cover-img"
               :src="`${item?.picUrl}?param=130y130`"
@@ -18,7 +18,9 @@
             <i class="item-cover-bg"></i>
             <i class="item-cover-play"></i>
           </div>
-          <p class="desc" @click="jumpAlbumDetail">{{ item?.name }}</p>
+          <p class="desc" @click="jumpAlbumDetail(item.id)">
+            {{ item?.name }}
+          </p>
           <p class="name" @click="jumpSingerDetail(item?.artist?.id)">
             {{ item?.artist?.name }}
           </p>
@@ -104,11 +106,8 @@ export default defineComponent({
     getHotNewDisc();
 
     // 跳转专辑
-    function jumpAlbumDetail(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+    function jumpAlbumDetail(id: number): void {
+      $router.push({ name: 'album-detail', params: { albumId: id } });
     }
 
     // 跳转歌手详情

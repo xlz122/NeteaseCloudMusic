@@ -153,7 +153,6 @@ export default defineComponent({
 
     // 播放列表音乐
     function playListMusic(item: Record<string, any>): void {
-      console.log(item);
       // 处理播放器所需数据
       const musicItem: PlayMusicItem = {
         id: item.id,

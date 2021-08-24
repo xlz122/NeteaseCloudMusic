@@ -73,7 +73,7 @@
               </div>
             </div>
           </td>
-          <td class="tbody-td">
+          <td class="tbody-td" @click="jumpAlbumDetail(item.al.id)">
             <div class="hd">
               <span class="text">{{ item.al.name }}</span>
             </div>
@@ -293,6 +293,11 @@ export default defineComponent({
       $router.push({ name: 'song-detail', params: { songId: id } });
     }
 
+    // 跳转专辑
+    function jumpAlbumDetail(id: number): void {
+      $router.push({ name: 'album-detail', params: { albumId: id } });
+    }
+
     return {
       timeStampToDuration,
       singerSong,
@@ -302,7 +307,8 @@ export default defineComponent({
       setAddPlayList,
       setAddSinglePlayList,
       playListMusic,
-      jumpSongDetail
+      jumpSongDetail,
+      jumpAlbumDetail
     };
   }
 });

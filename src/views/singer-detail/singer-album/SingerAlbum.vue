@@ -11,13 +11,13 @@
             <img
               class="item-cover-img"
               :src="`${item.picUrl}?param=120y120`"
-              @click="jumpAlbumDetail"
+              @click="jumpAlbumDetail(item.id)"
               alt=""
             />
             <i class="item-cover-bg"></i>
             <i class="item-cover-play"></i>
           </div>
-          <p class="desc" @click="jumpAlbumDetail">{{ item.name }}</p>
+          <p class="desc" @click="jumpAlbumDetail(item.id)">{{ item.name }}</p>
           <p class="name">
             {{ formatDateTime(item.publishTime / 1000, 'yyyy.MM.dd') }}
           </p>
@@ -37,6 +37,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { artistAlbum } from '@api/singer-detail';
 import { formatDateTime } from '@utils/utils.ts';
@@ -54,6 +55,7 @@ export default defineComponent({
     Page
   },
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     // 歌手id
@@ -100,11 +102,8 @@ export default defineComponent({
     getArtistAlbum();
 
     // 跳转专辑
-    function jumpAlbumDetail(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+    function jumpAlbumDetail(id: number): void {
+      $router.push({ name: 'album-detail', params: { albumId: id } });
     }
 
     // 分页

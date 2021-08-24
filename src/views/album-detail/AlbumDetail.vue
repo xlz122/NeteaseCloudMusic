@@ -1,40 +1,36 @@
 <template>
-  <div class="song-sheet-detail">
-    <div class="song-sheet-detail-container">
-      <div class="song-sheet-content">
-        <UserInfo class="user-info" @commentClick="commentClick" />
+  <div class="album-detail">
+    <div class="album-detail-container">
+      <div class="album-content">
+        <AlbumInfo
+          class="user-info"
+          :userInfo="albumData.userInfo"
+          :songs="albumData.songs"
+          @commentClick="commentClick"
+        />
         <div class="list-title">
-          <h3 class="title-text">歌曲列表</h3>
+          <h3 class="title-text">包含歌曲列表</h3>
           <span class="title-text-num">
-            {{ songSheetDetail?.playlist?.trackCount }}首歌
+            {{ albumData?.songs?.length }}首歌
           </span>
           <div class="title-right">
             <div class="out">
               <i class="icon"></i>
               <a
                 class="link"
-                :href="`https://music.163.com/#/outchain/0/${songSheetId}`"
+                :href="`https://music.163.com/#/outchain/1/${albumId}`"
               >
                 生成外链播放器
               </a>
             </div>
-            <div
-              class="title-play-num"
-              v-if="songSheetDetail?.playlist?.tracks.length > 0"
-            >
-              播放:
-              <span class="eye-catching">{{
-                songSheetDetail?.playlist?.playCount
-              }}</span>
-              次
-            </div>
           </div>
         </div>
-        <MusicTable class="music-table" />
-        <div class="playlist-see-more">
-          <div class="text">查看更多内容，请下载客户端</div>
-          <router-link class="link" to="/download">立即下载</router-link>
-        </div>
+        <AlbumSong
+          class="music-table"
+          :loading="albumData.loading"
+          :noData="albumData.noData"
+          :songs="albumData.songs"
+        />
         <!-- 评论 -->
         <div class="comment-component">
           <Comment :commentParams="commentParams" />
@@ -48,7 +44,7 @@
           @changPage="changPage"
         />
       </div>
-      <div class="song-sheet-side">
+      <div class="album-side">
         <SongSheetSide />
       </div>
     </div>
@@ -56,23 +52,37 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, watch, onMounted } from 'vue';
+import {
+  defineComponent,
+  reactive,
+  computed,
+  watch,
+  nextTick,
+  onMounted
+} from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import { playlistDetail } from '@api/song-sheet-detail';
-import { commentPlayList } from '@api/my-music';
+import { albumDetail } from '@api/album-detail';
+import { commentAlbum } from '@api/album-detail';
 import { ResponseType, CommentParams } from '@/types/types';
 import { handleCommentData } from '@components/comment/handleCommentData';
-import UserInfo from '@components/song-sheet/user-info/UserInfo.vue';
-import MusicTable from '@components/song-sheet/music-table/MusicTable.vue';
+import AlbumInfo from './album-info/AlbumInfo.vue';
+import AlbumSong from './album-song/AlbumSong.vue';
 import Comment from '@components/comment/Comment.vue';
-import SongSheetSide from './song-sheet-side/SongSheetSide.vue';
+import SongSheetSide from './album-detail-side/AlbumDetailSide.vue';
 import Page from '@components/page/Page.vue';
+
+type AlbumData = {
+  loading: boolean;
+  noData: boolean;
+  userInfo: unknown;
+  songs: unknown[];
+};
 
 export default defineComponent({
   components: {
-    UserInfo,
-    MusicTable,
+    AlbumInfo,
+    AlbumSong,
     Comment,
     SongSheetSide,
     Page
@@ -81,15 +91,25 @@ export default defineComponent({
     const $route = useRoute();
     const $store = useStore();
 
-    // 歌单id
-    const songSheetId = computed(() => $store.getters['music/songSheetId']);
+    // 专辑id
+    const albumId = computed(() => $store.getters.albumId);
+
+    const albumData = reactive<AlbumData>({
+      loading: false,
+      noData: false,
+      userInfo: {},
+      songs: []
+    });
 
     watch(
       () => $route.params,
       curVal => {
-        if (curVal.songSheetId) {
-          $store.commit('music/setSongSheetId', Number(curVal.songSheetId));
-          getSongDetail();
+        if (curVal.albumId) {
+          $store.commit('setAlbumId', Number(curVal.albumId));
+          nextTick(() => {
+            getAlbumDetail();
+            getCommentData();
+          });
         }
       },
       {
@@ -97,30 +117,35 @@ export default defineComponent({
       }
     );
 
-    // 歌单详情数据
-    const songSheetDetail = computed(
-      () => $store.getters['music/songSheetDetail']
-    );
-
     // 获取歌单详情
-    function getSongDetail(): void {
-      // 清空歌单详情数据
-      $store.commit('music/setSongSheetDetail', {});
-      playlistDetail({
-        id: songSheetId.value
+    function getAlbumDetail(): void {
+      albumData.loading = true;
+      albumData.noData = false;
+      albumData.songs = [];
+
+      albumDetail({
+        id: albumId.value
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            $store.commit('music/setSongSheetDetail', res);
+            albumData.userInfo = res.album;
+            albumData.songs = res.songs;
+            if (res.songs.length === 0) {
+              albumData.noData = true;
+            }
+            // 存储歌手id
+            $store.commit('setSingerId', res.album.artist.id);
           } else {
             $store.commit('setMessage', {
               type: 'error',
               title: res?.msg
             });
           }
+          albumData.loading = false;
         })
         .catch(() => ({}));
     }
+    getAlbumDetail();
 
     // 评论
     function commentClick(): void {
@@ -133,7 +158,7 @@ export default defineComponent({
 
     // 获取评论数据
     const commentParams = reactive<CommentParams>({
-      id: songSheetId.value,
+      id: albumId.value,
       offset: 1,
       limit: 20,
       total: 0,
@@ -142,14 +167,14 @@ export default defineComponent({
     });
     function getCommentData(): void {
       const params = {
-        id: songSheetId.value,
+        id: albumId.value,
         limit: commentParams.limit
       };
       // 精彩评论不加offset
       if (commentParams.offset > 1) {
         params['offset'] = commentParams.offset;
       }
-      commentPlayList({ ...params })
+      commentAlbum({ ...params })
         .then((res: ResponseType) => {
           if (res.code === 200) {
             const result = handleCommentData(res);
@@ -179,8 +204,8 @@ export default defineComponent({
     });
 
     return {
-      songSheetDetail,
-      songSheetId,
+      albumId,
+      albumData,
       commentClick,
       commentParams,
       changPage
@@ -190,5 +215,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './song-sheet-detail.less';
+@import './album-detail.less';
 </style>

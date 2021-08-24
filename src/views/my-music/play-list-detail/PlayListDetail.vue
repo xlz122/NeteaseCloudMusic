@@ -22,7 +22,7 @@
     <MusicTable class="music-table" />
     <!-- 评论 -->
     <div class="comment-component">
-      <comment :commentParams="commentParams" />
+      <Comment :commentParams="commentParams" />
       <!-- 参数从0开始，分页需从1开始 -->
       <Page
         v-if="commentParams.total > commentParams.limit"

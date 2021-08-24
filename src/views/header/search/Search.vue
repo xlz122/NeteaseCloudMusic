@@ -67,7 +67,7 @@
               class="f-cb-i"
               v-for="(item, index) in searchPropos.albums"
               :key="index"
-              @click="albumDetail(item)"
+              @click="jumpAlbumDetail(item.id)"
             >
               <span class="f-cb-text">
                 {{ item.name.slice(0, searchValue.length) }}
@@ -210,7 +210,7 @@ export default defineComponent({
       $router.push({ name: 'song-detail', params: { songId: id } });
     }
 
-    // 歌手详情
+    // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       // 取消二级导航选中
       $store.commit('setSubActiveIndex', -1);
@@ -219,12 +219,9 @@ export default defineComponent({
       $router.push({ name: 'singer-detail', params: { singerId: id } });
     }
 
-    // 专辑详情
-    function albumDetail(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+    // 跳转专辑详情
+    function jumpAlbumDetail(id: number): void {
+      $router.push({ name: 'album-detail', params: { albumId: id } });
     }
 
     // 歌单详情
@@ -241,7 +238,7 @@ export default defineComponent({
       searchEnter,
       jumpSongDetail,
       jumpSingerDetail,
-      albumDetail,
+      jumpAlbumDetail,
       jumpSongSheet
     };
   }
