@@ -6,7 +6,7 @@
       <!-- 入驻歌手 -->
       <h3 class="side-title">
         <span>入驻歌手</span>
-        <router-link class="link" to="">查看全部 ></router-link>
+        <router-link class="link" to="/home-singer">查看全部 ></router-link>
       </h3>
       <ul class="list">
         <li
