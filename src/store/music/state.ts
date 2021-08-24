@@ -20,15 +20,17 @@ export type MusicDetailOptions = {
 };
 
 export type PlayMusicItem = {
-  id: number;
-  name: string;
-  picUrl: string;
-  time: number;
-  mv: number;
+  id: number; // 歌曲id
+  name: string; // 歌手name
+  picUrl: string; // 头像
+  time: number; // 时长
+  mv: number; // mv数量
   singerList: {
-    id: string;
-    name: string;
+    id: string; // 歌手id
+    name: string; // 歌手name
   }[];
+  targetType?: string; // 来源（歌单/专辑/单曲等）
+  targetId?: number; // 来源id
 };
 
 // 本地存储容错处理

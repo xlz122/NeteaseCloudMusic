@@ -56,7 +56,7 @@
             <span class="text time">
               {{ timeStampToDuration(item.time / 1000) }}
             </span>
-            <i class="share"></i>
+            <i class="share" @click="jumpSongPosition()"></i>
           </li>
         </ul>
         <!-- 列表空时展示 -->
@@ -152,6 +152,18 @@ export default defineComponent({
       closePlayList();
     }
 
+    // 跳转歌曲位置
+    function jumpSongPosition(): void {
+      // 该功能需要在歌曲数据中添加歌曲来源，targetType（歌单/专辑/单曲）
+      // targetId（歌单id/专辑id/单曲id）
+      // 单曲链接，不可点击，需要判断
+      // $router.push({ name: 'home-song-sheet', params: { songSheetId: id } });
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
     // 关闭列表
     function closePlayList(): void {
       emit('closePlayList');
@@ -165,6 +177,7 @@ export default defineComponent({
       deleteMusicList,
       playlistItem,
       jumpSingerDetail,
+      jumpSongPosition,
       closePlayList
     };
   }
