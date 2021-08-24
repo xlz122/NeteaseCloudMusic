@@ -4,17 +4,14 @@
       <span class="text">我的歌手({{ subPlayListCount }})</span>
     </div>
     <ul class="list">
-      <li
-        class="item"
-        v-for="(item, index) in subPlayListList"
-        :key="index"
-        @click="subPlayListClick"
-      >
-        <div class="cover">
+      <li class="item" v-for="(item, index) in subPlayListList" :key="index">
+        <div class="cover" @click="jumpSingerDetail(item.id)">
           <img class="img" :src="`${item?.picUrl}?param=80y80`" alt="" />
         </div>
         <div class="info">
-          <h4 class="info-title">{{ item?.name }}</h4>
+          <h4 class="info-title" @click="jumpSingerDetail(item.id)">
+            {{ item?.name }}
+          </h4>
           <p class="desc">{{ item?.albumSize }}专辑</p>
         </div>
       </li>
@@ -24,6 +21,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { subPlayList } from '@api/my-music';
 import { ResponseType } from '@/types/types';
@@ -31,6 +29,7 @@ import { timeStampToDuration } from '@utils/utils.ts';
 
 export default defineComponent({
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     // 我的视频数量
@@ -47,18 +46,20 @@ export default defineComponent({
     }
     getMyMvSbulist();
 
-    // 列表点击
-    function subPlayListClick(): void {
-      $store.commit('setMessage', {
-        type: 'info',
-        title: '点击'
-      });
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌手id
+      $store.commit('setSingerId', id);
+      $router.push({ name: 'singer-detail', params: { singerId: id } });
     }
+
     return {
       timeStampToDuration,
       subPlayListCount,
       subPlayListList,
-      subPlayListClick
+      jumpSingerDetail
     };
   }
 });
