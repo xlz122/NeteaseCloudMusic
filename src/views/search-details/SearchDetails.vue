@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue';
+import { computed, defineComponent, ref, watch, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import SearchHeader from './search-header/SearchHeader.vue';
 import SearchTabs from './search-tabs/SearchTabs.vue';
@@ -93,6 +93,11 @@ export default defineComponent({
         immediate: true
       }
     );
+
+    //  离开页面，重置tab
+    onUnmounted(() => {
+      $store.commit('setSearchIndex', 0);
+    });
 
     return {
       searchIndex,
