@@ -45,30 +45,30 @@
         </div>
         <div class="play-add" @click="setAddPlayList"></div>
         <div class="other collection" @click="collectionClick">
-          <template v-if="userInfo?.info?.likedCount === 0">
-            <span class="icon">收藏</span>
+          <template v-if="userInfo?.info?.likedCount > 0">
+            <span class="icon"> ({{ userInfo?.info?.likedCount }}) </span>
           </template>
           <template v-else>
-            <span class="icon"> ({{ userInfo?.info?.likedCount }}) </span>
+            <span class="icon">收藏</span>
           </template>
         </div>
         <div class="other share" @click="shareClick">
-          <template v-if="userInfo?.info?.shareCount === 0">
-            <span class="icon">分享</span>
+          <template v-if="userInfo?.info?.shareCount > 0">
+            <span class="icon">({{ userInfo?.info?.shareCount }})</span>
           </template>
           <template v-else>
-            <span class="icon">({{ userInfo?.info?.shareCount }})</span>
+            <span class="icon">分享</span>
           </template>
         </div>
         <div class="other download" @click="downloadClick">
           <span class="icon">下载</span>
         </div>
         <div class="other comment" @click="commentClick">
-          <template v-if="userInfo?.info?.commentCount === 0">
-            <span class="icon">评论</span>
+          <template v-if="userInfo?.info?.commentCount > 0">
+            <span class="icon">({{ userInfo?.info?.commentCount }})</span>
           </template>
           <template v-else>
-            <span class="icon">({{ userInfo?.info?.commentCount }})</span>
+            <span class="icon">评论</span>
           </template>
         </div>
       </div>
