@@ -43,7 +43,10 @@
         </div>
         <div class="info">
           <span>所属专辑：</span>
-          <span class="text">
+          <span
+            class="text"
+            @click="jumpAlbumDetail(songDetailData?.songs[0]?.al?.id)"
+          >
             {{ songDetailData?.songs[0]?.al?.name }}
           </span>
         </div>
@@ -216,6 +219,11 @@ export default defineComponent({
       emit('commentClick');
     }
 
+    // 跳转专辑详情
+    function jumpAlbumDetail(id: number): void {
+      $router.push({ name: 'album-detail', params: { albumId: id } });
+    }
+
     return {
       songId,
       jumpSingerDetail,
@@ -224,7 +232,8 @@ export default defineComponent({
       collectionClick,
       shareClick,
       downloadClick,
-      commentClick
+      commentClick,
+      jumpAlbumDetail
     };
   }
 });

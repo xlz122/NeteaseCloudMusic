@@ -14,7 +14,9 @@
     <!-- 搜索建议 -->
     <template v-if="Object.keys(searchPropos).length">
       <ul class="search-list" v-show="searchProposShow">
-        <li class="item-note">搜“{{ searchValue }}”相关用户 ></li>
+        <li class="item-note" @click="jumpSearchUser">
+          搜“{{ searchValue }}”相关用户 >
+        </li>
         <!-- 单曲 -->
         <li class="item" v-if="searchPropos?.songs">
           <div class="title">
@@ -108,7 +110,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { searchPropose } from '@api/search';
@@ -128,11 +130,28 @@ export default defineComponent({
     // 搜索建议数据
     const searchPropos = ref<unknown>({});
 
+    // 搜索关键词
+    const searchText = computed(() =>
+      $store.getters.searchText.replace(/"/g, '')
+    );
+
+    // 导航搜索回车
+    watch(
+      () => searchText.value,
+      () => {
+        searchValue.value = searchText.value;
+      },
+      {
+        immediate: true
+      }
+    );
+
     // 搜索框获取焦点
     function searchFocus(): void {
       searchPlaceholder.value = '';
       if (searchValue.value) {
         searchProposShow.value = true;
+        getSearchPropos();
       }
     }
 
@@ -201,6 +220,21 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
+    // 跳转搜索用户
+    function jumpSearchUser(): void {
+      // 存储关键字
+      $store.commit('setSearchText', searchValue.value);
+      // 头部导航取消选中
+      $store.commit('setHeaderActiveIndex', -1);
+      // 搜索详情页导航选中
+      $store.commit('setSearchIndex', 7);
+      // 跳转搜索详情页
+      $router.push({
+        name: 'search-details',
+        query: { searchText: searchValue.value }
+      });
+    }
+
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
       // 取消二级导航选中
@@ -224,7 +258,7 @@ export default defineComponent({
       $router.push({ name: 'album-detail', params: { albumId: id } });
     }
 
-    // 歌单详情
+    // 跳转歌单详情
     function jumpSongSheet(id: number): void {
       $router.push({ name: 'song-sheet-detail', params: { songSheetId: id } });
     }
@@ -236,6 +270,7 @@ export default defineComponent({
       searchFocus,
       searchBlur,
       searchEnter,
+      jumpSearchUser,
       jumpSongDetail,
       jumpSingerDetail,
       jumpAlbumDetail,
