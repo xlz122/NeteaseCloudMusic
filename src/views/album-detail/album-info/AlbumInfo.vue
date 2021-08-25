@@ -32,7 +32,7 @@
           {{ formatDateTime(userInfo?.publishTime / 1000, 'yyyy-MM-dd') }}
         </span>
       </div>
-      <div class="info">
+      <div class="info" v-if="userInfo?.company">
         <span>发行公司：</span>
         <span class="text">
           {{ userInfo?.company }}
@@ -45,17 +45,31 @@
         </div>
         <div class="play-add" @click="setAddPlayList"></div>
         <div class="other collection" @click="collectionClick">
-          <span class="icon">收藏</span>
+          <template v-if="userInfo?.info?.likedCount === 0">
+            <span class="icon">收藏</span>
+          </template>
+          <template v-else>
+            <span class="icon"> ({{ userInfo?.info?.likedCount }}) </span>
+          </template>
         </div>
         <div class="other share" @click="shareClick">
-          <span class="icon">分享</span>
+          <template v-if="userInfo?.info?.shareCount === 0">
+            <span class="icon">分享</span>
+          </template>
+          <template v-else>
+            <span class="icon">({{ userInfo?.info?.shareCount }})</span>
+          </template>
         </div>
         <div class="other download" @click="downloadClick">
           <span class="icon">下载</span>
         </div>
         <div class="other comment" @click="commentClick">
-          <!-- <span class="icon"> (1234) </span> -->
-          <span class="icon">评论</span>
+          <template v-if="userInfo?.info?.commentCount === 0">
+            <span class="icon">评论</span>
+          </template>
+          <template v-else>
+            <span class="icon">({{ userInfo?.info?.commentCount }})</span>
+          </template>
         </div>
       </div>
     </div>

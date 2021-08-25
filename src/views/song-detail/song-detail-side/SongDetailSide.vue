@@ -136,10 +136,11 @@ export default defineComponent({
 
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
-      // 存储歌曲id
-      $store.commit('setSongId', id);
       getSimiPlaylist();
       getSimiSong();
+      // 存储歌曲id
+      $store.commit('setSongId', id);
+      $router.push({ name: 'song-detail', params: { songId: id } });
     }
 
     // 跳转歌手详情
