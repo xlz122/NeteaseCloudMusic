@@ -79,13 +79,13 @@
               }"
               @click="collectionClick(songSheetDetail?.playlist?.subscribed)"
             >
-              <template v-if="songSheetDetail?.playlist?.subscribedCount === 0">
-                <span class="icon">收藏</span>
-              </template>
-              <template v-else>
+              <template v-if="songSheetDetail?.playlist?.subscribedCount > 0">
                 <span class="icon">
                   ({{ songSheetDetail?.playlist?.subscribedCount }})
                 </span>
+              </template>
+              <template v-else>
+                <span class="icon">收藏</span>
               </template>
             </div>
           </template>
@@ -96,13 +96,13 @@
             }"
             @click="shareClick"
           >
-            <template v-if="songSheetDetail?.playlist?.shareCount === 0">
-              <span class="icon">分享</span>
-            </template>
-            <template v-else>
+            <template v-if="songSheetDetail?.playlist?.shareCount > 0">
               <span class="icon">
                 ({{ songSheetDetail?.playlist?.shareCount }})
               </span>
+            </template>
+            <template v-else>
+              <span class="icon">分享</span>
             </template>
           </div>
           <div
@@ -121,13 +121,13 @@
             }"
             @click="commentClick"
           >
-            <template v-if="songSheetDetail?.playlist?.commentCount === 0">
-              <span class="icon">评论</span>
-            </template>
-            <template v-else>
+            <template v-if="songSheetDetail?.playlist?.commentCount > 0">
               <span class="icon">
                 ({{ songSheetDetail?.playlist?.commentCount }})
               </span>
+            </template>
+            <template v-else>
+              <span class="icon">评论</span>
             </template>
           </div>
         </div>

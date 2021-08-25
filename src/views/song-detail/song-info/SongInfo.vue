@@ -66,11 +66,11 @@
             <span class="icon">下载</span>
           </div>
           <div class="other comment" @click="commentClick">
-            <template v-if="commentTotal === 0">
-              <span class="icon">评论</span>
+            <template v-if="commentTotal > 0">
+              <span class="icon"> ({{ commentTotal }}) </span>
             </template>
             <template v-else>
-              <span class="icon"> ({{ commentTotal }}) </span>
+              <span class="icon">评论</span>
             </template>
           </div>
         </div>

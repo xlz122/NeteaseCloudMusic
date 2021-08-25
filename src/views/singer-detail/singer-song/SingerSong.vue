@@ -17,6 +17,9 @@
         }"
         @click="setAddPlayList"
       ></div>
+      <div class="other collection" @click="collectionClick">
+        <span class="icon"> 收藏热门{{ singerSong?.hotSongs.length }} </span>
+      </div>
     </div>
     <!-- loading -->
     <div class="loading" v-if="loading">
@@ -298,6 +301,14 @@ export default defineComponent({
       $router.push({ name: 'album-detail', params: { albumId: id } });
     }
 
+    // 收藏
+    function collectionClick(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
     return {
       timeStampToDuration,
       singerSong,
@@ -308,7 +319,8 @@ export default defineComponent({
       setAddSinglePlayList,
       playListMusic,
       jumpSongDetail,
-      jumpAlbumDetail
+      jumpAlbumDetail,
+      collectionClick
     };
   }
 });
