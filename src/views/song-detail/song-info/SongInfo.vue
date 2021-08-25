@@ -66,8 +66,12 @@
             <span class="icon">下载</span>
           </div>
           <div class="other comment" @click="commentClick">
-            <!-- <span class="icon"> (1234) </span> -->
-            <span class="icon">评论</span>
+            <template v-if="commentTotal === 0">
+              <span class="icon">评论</span>
+            </template>
+            <template v-else>
+              <span class="icon"> ({{ commentTotal }}) </span>
+            </template>
           </div>
         </div>
         <!-- 歌词列表 -->
@@ -101,6 +105,10 @@ export default defineComponent({
     lyric: {
       typs: Object,
       default: () => ({})
+    },
+    commentTotal: {
+      typs: Number,
+      default: 0
     }
   },
   emits: ['commentClick'],

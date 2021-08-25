@@ -6,6 +6,7 @@
           <SongInfo
             :songDetailData="songDetailData"
             :lyric="lyric"
+            :commentTotal="commentParams.total"
             @commentClick="commentClick"
           />
         </div>
@@ -42,7 +43,9 @@
               <span class="text translate">求翻译</span>
             </template>
             <template v-else>
-              <span class="text">贡献歌词:</span>
+              <span class="text" v-if="lyric?.transUser?.nickname">
+                贡献歌词:
+              </span>
               <span class="name">
                 {{ lyric?.transUser?.nickname }}
               </span>
@@ -124,6 +127,7 @@ export default defineComponent({
             $store.commit('setSongId', Number(curVal.songId));
             getSongDetail();
             getCommentData();
+            getLyricData();
           });
         }
       },
