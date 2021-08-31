@@ -1,6 +1,6 @@
 ### NeteaseCloudMusic
 
-线上地址：[http://n.xlz122.cn](http://n.xlz122.cn)
+线上地址：[https://n.xlz122.cn](https://n.xlz122.cn)
 
 ### 简介
 
