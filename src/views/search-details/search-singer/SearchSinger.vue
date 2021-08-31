@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, watch } from 'vue';
+import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { searchKeywords } from '@api/search';
@@ -52,9 +52,17 @@ export default defineComponent({
   components: {
     Page
   },
-  setup() {
+  props: {
+    searchTitleText: {
+      type: String,
+      default: ''
+    }
+  },
+  setup(props) {
     const $router = useRouter();
     const $store = useStore();
+
+    const { searchTitleText } = toRefs(props);
 
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
@@ -71,21 +79,18 @@ export default defineComponent({
       list: []
     });
 
-    // 导航搜索回车
+    // 详情搜索回车
     watch(
-      () => searchText.value,
+      () => searchTitleText.value,
       () => {
         getSearchSinger();
-      },
-      {
-        immediate: true
       }
     );
 
     // 获取歌手列表
     function getSearchSinger(): void {
       searchKeywords({
-        keywords: searchText.value,
+        keywords: searchTitleText.value || searchText.value,
         offset: singerData.page - 1,
         limit: singerData.pageSize,
         type: 100
@@ -103,6 +108,7 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
+    getSearchSinger();
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
