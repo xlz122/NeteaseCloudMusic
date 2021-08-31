@@ -146,6 +146,7 @@ export default defineComponent({
     // 刷新
     function refresh(): void {
       getQrcodeImgKey();
+      qrcodeInvalid.value = false;
     }
 
     // 其他登录
