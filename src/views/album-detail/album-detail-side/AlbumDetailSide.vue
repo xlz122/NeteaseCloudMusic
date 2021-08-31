@@ -20,7 +20,7 @@
     </h3>
     <ul class="song-sheet-list">
       <li class="item" v-for="(item, index) in albumList" :key="index">
-        <div class="item-cover" @click="jumpSongSheetDetail(item.id)">
+        <div class="item-cover" @click="jumpAlbumDetail(item.id)">
           <img class="cover-img" :src="`${item.picUrl}?param=50y50`" alt="" />
         </div>
         <div class="item-info">
