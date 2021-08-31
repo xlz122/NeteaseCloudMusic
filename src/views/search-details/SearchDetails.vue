@@ -11,11 +11,11 @@
       <SearchTabs @changeTab="changeTab" />
       <!-- 单曲 -->
       <template v-if="searchIndex === 0">
-        <SearchSong />
+        <SearchSong :searchTitleText="searchTitleText" />
       </template>
       <!-- 歌手 -->
       <template v-if="searchIndex === 1">
-        <SearchSinger />
+        <SearchSinger :searchTitleText="searchTitleText" />
       </template>
     </div>
   </div>

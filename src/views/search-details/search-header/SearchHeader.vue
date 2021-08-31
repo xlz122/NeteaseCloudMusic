@@ -193,7 +193,6 @@ export default defineComponent({
 
     // 获取搜索框建议
     function getSearchPropos(): void {
-      searchProposShow.value = true;
       searchPropose({
         keywords: searchValue.value
       })
