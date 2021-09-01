@@ -19,7 +19,7 @@ const cdn = {
   js: [
     'https://lib.baomitu.com/vue/3.2.4/vue.global.min.js',
     'https://lib.baomitu.com/vue-router/4.0.11/vue-router.global.min.js',
-    'https://lib.baomitu.com/vue/3.2.4/vue.global.min.js',
+    'https://lib.baomitu.com/vuex/4.0.2/vuex.global.min.js',
     'https://lib.baomitu.com/axios/0.21.1/axios.min.js',
     'https://lib.baomitu.com/lodash.js/4.17.21/lodash.min.js'
   ],
