@@ -17,6 +17,10 @@
       <template v-if="searchIndex === 1">
         <SearchSinger :searchTitleText="searchTitleText" />
       </template>
+      <!-- 歌手 -->
+      <template v-if="searchIndex === 2">
+        <SearchAlbum :searchTitleText="searchTitleText" />
+      </template>
     </div>
   </div>
 </template>
@@ -28,13 +32,15 @@ import SearchHeader from './search-header/SearchHeader.vue';
 import SearchTabs from './search-tabs/SearchTabs.vue';
 import SearchSong from './search-song/SearchSong.vue';
 import SearchSinger from './search-singer/SearchSinger.vue';
+import SearchAlbum from './search-album/SearchAlbum.vue';
 
 export default defineComponent({
   components: {
     SearchHeader,
     SearchTabs,
     SearchSong,
-    SearchSinger
+    SearchSinger,
+    SearchAlbum
   },
   setup() {
     const $store = useStore();
