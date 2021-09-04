@@ -92,7 +92,7 @@ export default defineComponent({
     function getArtistMv(): void {
       artistMv({
         id: singerId.value,
-        offset: mvParams.offset - 1,
+        offset: (mvParams.offset - 1) * mvParams.limit,
         limit: mvParams.limit
       })
         .then((res: ResponseType) => {

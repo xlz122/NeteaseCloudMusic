@@ -24,8 +24,8 @@
   </ul>
   <Page
     v-if="albumData.total"
-    :page="albumData.page"
-    :pageSize="albumData.pageSize"
+    :page="albumData.offset"
+    :pageSize="albumData.limit"
     :total="albumData.total"
     @changPage="changPage"
   />
@@ -41,8 +41,8 @@ import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
 
 type albumData = {
-  page: number;
-  pageSize: number;
+  offset: number;
+  limit: number;
   total: number;
   list: unknown[];
 };
@@ -72,8 +72,8 @@ export default defineComponent({
     );
 
     const albumData = reactive<albumData>({
-      page: 1,
-      pageSize: 30,
+      offset: 1,
+      limit: 30,
       total: 0,
       list: []
     });
@@ -90,8 +90,8 @@ export default defineComponent({
     function getSearchAlbum(): void {
       searchKeywords({
         keywords: searchTitleText.value || searchText.value,
-        offset: albumData.page - 1,
-        limit: albumData.pageSize,
+        offset: (albumData.offset - 1) * albumData.limit,
+        limit: albumData.limit,
         type: 10
       })
         .then((res: ResponseType) => {
@@ -125,7 +125,7 @@ export default defineComponent({
 
     // 分页
     function changPage(current: number): void {
-      albumData.page = current;
+      albumData.offset = current;
       getSearchAlbum();
     }
 

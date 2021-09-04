@@ -50,8 +50,8 @@
   </ul>
   <Page
     v-if="songData.total"
-    :page="songData.page"
-    :pageSize="songData.pageSize"
+    :page="songData.offset"
+    :pageSize="songData.limit"
     :total="songData.total"
     @changPage="changPage"
   />
@@ -69,8 +69,8 @@ import { PlayMusicItem } from '@store/music/state';
 import { ResponseType } from '@/types/types';
 
 type SongData = {
-  page: number;
-  pageSize: number;
+  offset: number;
+  limit: number;
   total: number;
   list: unknown[];
 };
@@ -100,8 +100,8 @@ export default defineComponent({
     );
 
     const songData = reactive<SongData>({
-      page: 1,
-      pageSize: 30,
+      offset: 1,
+      limit: 30,
       total: 0,
       list: []
     });
@@ -118,8 +118,8 @@ export default defineComponent({
     function getSearchSong(): void {
       searchKeywords({
         keywords: searchTitleText.value || searchText.value,
-        offset: songData.page - 1,
-        limit: songData.pageSize,
+        offset: (songData.offset - 1) * songData.limit,
+        limit: songData.limit,
         type: 1
       })
         .then((res: ResponseType) => {
@@ -213,7 +213,7 @@ export default defineComponent({
 
     // 分页
     function changPage(current: number): void {
-      songData.page = current;
+      songData.offset = current;
       getSearchSong();
     }
 
