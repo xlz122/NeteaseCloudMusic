@@ -67,9 +67,9 @@
       </ul>
       <!-- 参数从0开始，分页需从1开始 -->
       <Page
-        v-if="songParams.total > songParams.pageSize"
-        :page="songParams.page"
-        :pageSize="songParams.pageSize"
+        v-if="songParams.total > songParams.limit"
+        :page="songParams.offset"
+        :pageSize="songParams.limit"
         :total="songParams.total"
         @changPage="changPage"
       />
@@ -90,8 +90,8 @@ import Page from '@components/page/Page.vue';
 type SongParams = {
   order: string;
   cat: string;
-  page: number;
-  pageSize: number;
+  offset: number;
+  limit: number;
   total: number;
 };
 
@@ -111,8 +111,8 @@ export default defineComponent({
     const songParams = reactive<SongParams>({
       order: 'hot',
       cat: '全部',
-      page: 1,
-      pageSize: 50,
+      offset: 1,
+      limit: 50,
       total: 0
     });
     // 获取热门歌单数据
@@ -120,8 +120,8 @@ export default defineComponent({
       topPlaylist({
         order: songParams.order,
         cat: songParams.cat,
-        offset: songParams.page - 1,
-        limit: songParams.pageSize
+        offset: (songParams.offset - 1) * songParams.limit,
+        limit: songParams.limit
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
@@ -163,7 +163,7 @@ export default defineComponent({
         return false;
       }
       songParams.cat = '全部';
-      songParams.page = 1;
+      songParams.offset = 1;
     }
 
     // 分类弹框
@@ -178,7 +178,7 @@ export default defineComponent({
         return false;
       }
       songParams.cat = name;
-      songParams.page = 1;
+      songParams.offset = 1;
       getTopPlaylist();
       classifyShow.value = false;
     }
@@ -197,7 +197,7 @@ export default defineComponent({
 
     // 分页
     function changPage(current: number): void {
-      songParams.page = current;
+      songParams.offset = current;
       getTopPlaylist();
     }
 

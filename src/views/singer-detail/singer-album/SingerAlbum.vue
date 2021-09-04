@@ -83,7 +83,7 @@ export default defineComponent({
     function getArtistAlbum(): void {
       artistAlbum({
         id: singerId.value,
-        offset: albumParams.offset - 1,
+        offset: (albumParams.offset - 1) * albumParams.limit,
         limit: albumParams.limit
       })
         .then((res: ResponseType) => {

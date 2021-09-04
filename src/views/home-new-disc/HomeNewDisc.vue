@@ -43,7 +43,7 @@
           v-for="(item, index) in newDiscAlbumList"
           :key="index"
         >
-          <div class="item-cover">
+          <div class="item-cover" @click="jumpAlbumDetail(item.id)">
             <img
               class="item-cover-img"
               :src="`${item?.picUrl}?param=130y130`"
@@ -52,7 +52,9 @@
             <i class="item-cover-bg"></i>
             <i class="item-cover-play"></i>
           </div>
-          <p class="desc">{{ item?.name }}</p>
+          <p class="desc" @click="jumpAlbumDetail(item.id)">
+            {{ item?.name }}
+          </p>
           <p class="name" @click="jumpSingerDetail(item?.artist?.id)">
             {{ item?.artist?.name }}
           </p>
@@ -129,7 +131,7 @@ export default defineComponent({
     // 全部新碟
     function getNweDiscAlbum(): void {
       nweDiscAlbum({
-        offset: newDiscFormData.offset - 1,
+        offset: (newDiscFormData.offset - 1) * newDiscFormData.limit,
         limit: newDiscFormData.limit,
         area: newDiscFormData.area
       })
@@ -156,7 +158,7 @@ export default defineComponent({
 
     // 分页
     function changPage(current: number): void {
-      newDiscFormData.offset = current - 1;
+      newDiscFormData.offset = current;
       getNweDiscAlbum();
     }
 

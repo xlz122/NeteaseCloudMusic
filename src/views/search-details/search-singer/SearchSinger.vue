@@ -24,8 +24,8 @@
     </ul>
     <Page
       v-if="singerData.total"
-      :page="singerData.page"
-      :pageSize="singerData.pageSize"
+      :page="singerData.offset"
+      :pageSize="singerData.limit"
       :total="singerData.total"
       @changPage="changPage"
     />
@@ -42,8 +42,8 @@ import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
 
 type SingerData = {
-  page: number;
-  pageSize: number;
+  offset: number;
+  limit: number;
   total: number;
   list: unknown[];
 };
@@ -73,8 +73,8 @@ export default defineComponent({
     );
 
     const singerData = reactive<SingerData>({
-      page: 1,
-      pageSize: 30,
+      offset: 1,
+      limit: 30,
       total: 0,
       list: []
     });
@@ -91,8 +91,8 @@ export default defineComponent({
     function getSearchSinger(): void {
       searchKeywords({
         keywords: searchTitleText.value || searchText.value,
-        offset: singerData.page - 1,
-        limit: singerData.pageSize,
+        offset: (singerData.offset - 1) * singerData.limit,
+        limit: singerData.limit,
         type: 100
       })
         .then((res: ResponseType) => {
@@ -121,7 +121,7 @@ export default defineComponent({
 
     // 分页
     function changPage(current: number): void {
-      singerData.page = current;
+      singerData.offset = current;
       getSearchSinger();
     }
 
