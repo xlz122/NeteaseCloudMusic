@@ -4,29 +4,44 @@
       <SearchHeader @searchEnter="searchEnter" />
       <div class="search-desc">
         搜索“{{ searchTitleText }}”，找到
-        <!-- songData.count -->
-        <span class="search-desc-num">{{ 0 }}</span>
+        <span class="search-desc-num">{{ searchCount || 0 }}</span>
         {{ handleTitle }}
       </div>
       <SearchTabs @changeTab="changeTab" />
       <!-- 单曲 -->
       <template v-if="searchIndex === 0">
-        <SearchSong :searchTitleText="searchTitleText" />
+        <SearchSong
+          :searchTitleText="searchTitleText"
+          @searchCountChange="searchCountChange"
+        />
       </template>
       <!-- 歌手 -->
       <template v-if="searchIndex === 1">
-        <SearchSinger :searchTitleText="searchTitleText" />
+        <SearchSinger
+          :searchTitleText="searchTitleText"
+          @searchCountChange="searchCountChange"
+        />
       </template>
       <!-- 歌手 -->
       <template v-if="searchIndex === 2">
-        <SearchAlbum :searchTitleText="searchTitleText" />
+        <SearchAlbum
+          :searchTitleText="searchTitleText"
+          @searchCountChange="searchCountChange"
+        />
       </template>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch, onUnmounted } from 'vue';
+import {
+  defineComponent,
+  ref,
+  computed,
+  watch,
+  onMounted,
+  onUnmounted
+} from 'vue';
 import { useStore } from 'vuex';
 import SearchHeader from './search-header/SearchHeader.vue';
 import SearchTabs from './search-tabs/SearchTabs.vue';
@@ -70,10 +85,19 @@ export default defineComponent({
       searchTitleText.value = searchValue;
     }
 
+    // 搜索结果数量
+    const searchCount = ref<number>(0);
+
+    function searchCountChange(count: number): void {
+      searchCount.value = count;
+    }
+
     // tab切换
     const tabTitle = ref<string>('单曲');
     function changeTab(item: string): void {
       tabTitle.value = item;
+      // tab切换，重置搜索结果数量
+      searchCount.value = 0;
     }
 
     // 处理标题
@@ -100,6 +124,11 @@ export default defineComponent({
       }
     );
 
+    onMounted(() => {
+      // 搜索详情页导航重置
+      $store.commit('setSearchIndex', 0);
+    });
+
     //  离开页面，重置tab
     onUnmounted(() => {
       $store.commit('setSearchIndex', 0);
@@ -110,6 +139,8 @@ export default defineComponent({
       searchTitleText,
       searchEnter,
       changeTab,
+      searchCount,
+      searchCountChange,
       handleTitle
     };
   }

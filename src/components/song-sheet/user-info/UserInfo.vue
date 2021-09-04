@@ -2,10 +2,16 @@
   <div class="song-sheet-user-info">
     <div class="header-info">
       <div class="info-img">
-        <img
-          class="img"
-          :src="`${songSheetDetail?.playlist?.coverImgUrl}?param=200y200`"
-        />
+        <template v-if="songSheetDetail?.playlist?.coverImgUrl">
+          <img
+            class="img"
+            :src="`${songSheetDetail?.playlist?.coverImgUrl}?param=200y200`"
+            alt=""
+          />
+        </template>
+        <template>
+          <img class="img" src="" alt="" />
+        </template>
         <i class="icon"></i>
       </div>
       <div class="info-right">
