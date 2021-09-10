@@ -22,17 +22,14 @@
       </li>
     </ul>
     <ul class="list">
-      <li
-        class="item"
-        v-for="(item, index) in main"
-        :key="index"
-        @click="jumpSingerDetail(item.id)"
-      >
-        <div class="item-cover">
+      <li class="item" v-for="(item, index) in main" :key="index">
+        <div class="item-cover" @click="jumpSingerDetail(item.id)">
           <img class="item-cover-img" :src="item.picUrl" alt="" />
         </div>
         <div class="item-desc">
-          <span class="item-desc-text">{{ item.name }}</span>
+          <span class="item-desc-text" @click="jumpSingerDetail(item.id)">
+            {{ item.name }}
+          </span>
           <span class="item-desc-icon" v-if="item.accountId"></span>
         </div>
       </li>

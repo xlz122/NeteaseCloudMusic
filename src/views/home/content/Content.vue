@@ -19,9 +19,8 @@
           v-for="(item, index) in songListData"
           :key="index"
           :class="{ 'last-item': songListData.length > 2 && index === 3 }"
-          @click="jumpSongSheetDetail(item.id)"
         >
-          <div class="item-top">
+          <div class="item-top" @click="jumpSongSheetDetail(item.id)">
             <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
             <div class="info">
               <i class="info-icon"></i>
@@ -29,7 +28,11 @@
               <i class="info-icon-right"></i>
             </div>
           </div>
-          <div class="item-bottom" :title="item?.name">
+          <div
+            class="item-bottom"
+            :title="item?.name"
+            @click="jumpSongSheetDetail(item.id)"
+          >
             {{ item?.name }}
           </div>
         </li>
@@ -40,9 +43,8 @@
             v-for="(item, index) in individualizatData"
             :key="index"
             :class="{ 'last-item': index === 1 }"
-            @click="jumpSongSheetDetail(item.id)"
           >
-            <div class="item-top">
+            <div class="item-top" @click="jumpSongSheetDetail(item.id)">
               <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
               <div class="info">
                 <i class="info-icon"></i>
@@ -50,7 +52,11 @@
                 <i class="info-icon-right"></i>
               </div>
             </div>
-            <div class="item-bottom" :title="item?.name">
+            <div
+              class="item-bottom"
+              :title="item?.name"
+              @click="jumpSongSheetDetail(item.id)"
+            >
               {{ item?.name }}
             </div>
           </li>
@@ -62,7 +68,7 @@
           :key="index"
           :class="{ 'last-item': index === 2 }"
         >
-          <div class="item-top">
+          <div class="item-top" @click="jumpDjprogramDetail(item.id)">
             <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
             <div class="info">
               <i class="info-icon"></i>
@@ -70,7 +76,11 @@
               <i class="info-icon-right"></i>
             </div>
           </div>
-          <div class="item-bottom" :title="item?.name">
+          <div
+            class="item-bottom"
+            :title="item?.name"
+            @click="jumpDjprogramDetail(item.id)"
+          >
             <span class="radio-station"></span>
             {{ item?.name }}
           </div>
@@ -98,9 +108,8 @@
           v-for="(item, index) in individualizatData"
           :key="index"
           :class="{ 'last-item': index === individualizatData.length - 1 }"
-          @click="jumpSongSheetDetail(item.id)"
         >
-          <div class="item-top">
+          <div class="item-top" @click="jumpSongSheetDetail(item.id)">
             <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
             <div class="info">
               <i class="info-icon"></i>
@@ -108,7 +117,11 @@
               <i class="info-icon-right"></i>
             </div>
           </div>
-          <div class="item-bottom" :title="item?.name">
+          <div
+            class="item-bottom"
+            :title="item?.name"
+            @click="jumpSongSheetDetail(item.id)"
+          >
             {{ item?.name }}
           </div>
           <em class="item-like">{{ item?.copywriter }}</em>
@@ -219,6 +232,14 @@ export default defineComponent({
     }
     getSongList();
 
+    // 跳转电台详情
+    function jumpDjprogramDetail(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
     // 获取热门推荐 - 推荐电台数据
     const djprogramData = ref<unknown[]>([]);
     function getDjprogram() {
@@ -291,6 +312,7 @@ export default defineComponent({
       songSheetMore,
       jumpSongSheetDetail,
       songListData,
+      jumpDjprogramDetail,
       djprogramData,
       individualizatData,
       weekText,
