@@ -262,6 +262,7 @@ export default defineComponent({
     function jumpSongSheet(id: number): void {
       $router.push({ name: 'song-sheet-detail', params: { songSheetId: id } });
     }
+
     return {
       searchPlaceholder,
       searchValue,
