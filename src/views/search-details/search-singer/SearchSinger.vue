@@ -58,7 +58,8 @@ export default defineComponent({
       default: ''
     }
   },
-  setup(props) {
+  emits: ['searchCountChange'],
+  setup(props, { emit }) {
     const $router = useRouter();
     const $store = useStore();
 
@@ -99,6 +100,7 @@ export default defineComponent({
           if (res.code === 200) {
             singerData.total = res?.result?.artistCount;
             singerData.list = res?.result?.artists;
+            emit('searchCountChange', res?.result?.artistCount);
           } else {
             $store.commit('setMessage', {
               type: 'error',
