@@ -34,14 +34,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  computed,
-  watch,
-  onMounted,
-  onUnmounted
-} from 'vue';
+import { defineComponent, ref, computed, watch, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import SearchHeader from './search-header/SearchHeader.vue';
 import SearchTabs from './search-tabs/SearchTabs.vue';
@@ -111,11 +104,6 @@ export default defineComponent({
         immediate: true
       }
     );
-
-    onMounted(() => {
-      // 搜索详情页导航重置
-      $store.commit('setSearchIndex', 0);
-    });
 
     //  离开页面，重置tab
     onUnmounted(() => {
