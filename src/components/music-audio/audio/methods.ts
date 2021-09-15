@@ -54,6 +54,15 @@ export function getPrevMusicId(): Promise<number> {
         id = playMusicList[playMusicList.length - 1].id;
       }
     }
+
+    // 播放模式
+    const musicModeType = store.getters['music/musicModeType'];
+    // 随机播放
+    if (musicModeType === 2) {
+      const musicItem = Math.floor(Math.random() * playMusicList.length);
+      id = playMusicList[musicItem].id;
+    }
+
     // 当前播放音乐id
     store.commit('music/setPlayMusicId', id);
     // 当前播放音乐数据
@@ -100,6 +109,15 @@ export function getNextMusicId(): Promise<number> {
         id = playMusicList[0].id;
       }
     }
+
+    // 播放模式
+    const musicModeType = store.getters['music/musicModeType'];
+    // 随机播放
+    if (musicModeType === 2) {
+      const musicItem = Math.floor(Math.random() * playMusicList.length);
+      id = playMusicList[musicItem].id;
+    }
+
     // 当前播放音乐id
     store.commit('music/setPlayMusicId', id);
     // 当前播放音乐数据
