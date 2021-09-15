@@ -189,8 +189,10 @@ export default defineComponent({
       }
       // 搜索内容变化
       if (searchValue.value !== oldSearchValue.value) {
-        // 存储关键字
+        // 搜索关键字
         $store.commit('setSearchText', searchValue.value);
+        // 搜索详情关键字
+        $store.commit('setSearchDetailText', searchValue.value);
         // 头部导航取消选中
         $store.commit('setHeaderActiveIndex', -1);
         // 跳转搜索详情页

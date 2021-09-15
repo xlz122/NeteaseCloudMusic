@@ -52,7 +52,7 @@ export default defineComponent({
     Page
   },
   props: {
-    searchTitleText: {
+    searchDetailText: {
       type: String,
       default: ''
     }
@@ -62,7 +62,7 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    const { searchTitleText } = toRefs(props);
+    const { searchDetailText } = toRefs(props);
 
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
@@ -81,7 +81,7 @@ export default defineComponent({
 
     // 详情搜索回车
     watch(
-      () => searchTitleText.value,
+      () => searchDetailText.value,
       () => {
         getSearchAlbum();
       }
@@ -90,7 +90,7 @@ export default defineComponent({
     // 获取专辑列表
     function getSearchAlbum(): void {
       searchKeywords({
-        keywords: searchTitleText.value || searchText.value,
+        keywords: searchDetailText.value || searchText.value,
         offset: (albumData.offset - 1) * albumData.limit,
         limit: albumData.limit,
         type: 10

@@ -75,7 +75,10 @@
           </div>
         </div>
         <!-- 歌词列表 -->
-        <ul class="lyric-list">
+        <ul
+          class="lyric-list"
+          :class="[{ 'lyric-list-auto': lyric.list.length < 13 || toggleShow }]"
+        >
           <li
             class="lyric-list-item"
             v-for="(item, index) in lyric.list"
@@ -84,13 +87,23 @@
             {{ item.lyric }}
           </li>
         </ul>
+        <div class="toggle-btn" v-if="lyric.list.length > 13">
+          <template v-if="!toggleShow">
+            <span class="text" @click="toggle">展开</span>
+            <i class="icon"></i>
+          </template>
+          <template v-else>
+            <span class="text" @click="toggle">收起</span>
+            <i class="icon hide"></i>
+          </template>
+        </div>
       </div>
     </template>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { PlayMusicItem } from '@store/music/state';
@@ -227,6 +240,12 @@ export default defineComponent({
       emit('commentClick');
     }
 
+    // 歌词展开/收缩
+    const toggleShow = ref<boolean>(false);
+    function toggle(): void {
+      toggleShow.value = !toggleShow.value;
+    }
+
     // 跳转专辑详情
     function jumpAlbumDetail(id: number): void {
       $router.push({ name: 'album-detail', params: { albumId: id } });
@@ -241,6 +260,8 @@ export default defineComponent({
       shareClick,
       downloadClick,
       commentClick,
+      toggleShow,
+      toggle,
       jumpAlbumDetail
     };
   }

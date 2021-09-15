@@ -3,7 +3,7 @@
     <div class="search-details-container">
       <SearchHeader @searchEnter="searchEnter" />
       <div class="search-desc">
-        搜索“{{ searchTitleText }}”，找到
+        搜索“{{ searchDetailText }}”，找到
         <span class="search-desc-num">{{ searchCount || 0 }}</span>
         {{ handleTitle }}
       </div>
@@ -11,21 +11,21 @@
       <!-- 单曲 -->
       <template v-if="searchIndex === 0">
         <SearchSong
-          :searchTitleText="searchTitleText"
+          :searchDetailText="searchDetailText"
           @searchCountChange="searchCountChange"
         />
       </template>
       <!-- 歌手 -->
       <template v-if="searchIndex === 1">
         <SearchSinger
-          :searchTitleText="searchTitleText"
+          :searchDetailText="searchDetailText"
           @searchCountChange="searchCountChange"
         />
       </template>
       <!-- 歌手 -->
       <template v-if="searchIndex === 2">
         <SearchAlbum
-          :searchTitleText="searchTitleText"
+          :searchDetailText="searchDetailText"
           @searchCountChange="searchCountChange"
         />
       </template>
@@ -34,14 +34,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  computed,
-  watch,
-  onMounted,
-  onUnmounted
-} from 'vue';
+import { defineComponent, ref, computed, watch, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import SearchHeader from './search-header/SearchHeader.vue';
 import SearchTabs from './search-tabs/SearchTabs.vue';
@@ -60,29 +53,17 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 搜索关键词
-    const searchText = computed(() =>
-      $store.getters.searchText.replace(/"/g, '')
-    );
     // tab选中
     const searchIndex = computed(() => $store.getters.searchIndex);
-    // 标题
-    const searchTitleText = ref<string>('');
-
-    // 导航搜索回车
-    watch(
-      () => searchText.value,
-      () => {
-        searchTitleText.value = searchText.value;
-      },
-      {
-        immediate: true
-      }
+    // 搜索详情关键字
+    const searchDetailText = computed(() =>
+      $store.getters.searchDetailText.replace(/"/g, '')
     );
 
     // 详情搜索回车
     function searchEnter(searchValue: string): void {
-      searchTitleText.value = searchValue;
+      console.log(searchValue);
+      $store.commit('setSearchDetailText', searchValue);
     }
 
     // 搜索结果数量
@@ -124,11 +105,6 @@ export default defineComponent({
       }
     );
 
-    onMounted(() => {
-      // 搜索详情页导航重置
-      $store.commit('setSearchIndex', 0);
-    });
-
     //  离开页面，重置tab
     onUnmounted(() => {
       $store.commit('setSearchIndex', 0);
@@ -136,7 +112,7 @@ export default defineComponent({
 
     return {
       searchIndex,
-      searchTitleText,
+      searchDetailText,
       searchEnter,
       changeTab,
       searchCount,
