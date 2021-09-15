@@ -27,7 +27,12 @@
         </div>
         <div class="item-right">
           <span class="name">{{ item.name }}</span>
-          <span class="num">{{ item.trackCount }}首</span>
+          <span class="num">
+            {{ item.trackCount }}首
+            <span class="right-desc" v-if="item.subscribed">
+              by {{ item.creator.nickname }}
+            </span>
+          </span>
         </div>
         <div class="item-operate">
           <!-- 是否无法编辑 -->
