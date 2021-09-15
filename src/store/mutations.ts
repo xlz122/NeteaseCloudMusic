@@ -45,7 +45,11 @@ const mutations: Mutations<State> = {
   // 搜索关键字
   setSearchText(state, searchText: string) {
     state.searchText = searchText;
-    localStorage.setItem('searchText', JSON.stringify(searchText));
+  },
+  // 搜索详情关键字
+  setSearchDetailText(state, searchDetailText: string) {
+    state.searchDetailText = searchDetailText;
+    localStorage.setItem('searchDetailText', JSON.stringify(searchDetailText));
   },
   // 用户uid(自己或其他人)
   setUserId(state, userId: number) {

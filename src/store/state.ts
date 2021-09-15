@@ -6,6 +6,7 @@ export type State = {
   isLogin: boolean;
   message: unknown;
   searchText: string;
+  searchDetailText: string;
   userId: number;
   songId: number;
   singerId: number;
@@ -28,7 +29,8 @@ const state: State = {
   userInfo: faultTolerant('userInfo') || {}, // 用户信息
   isLogin: faultTolerant('isLogin') || false, // 是否登录
   message: {}, // 消息提示
-  searchText: localStorage.getItem('searchText') || '', // 搜索关键字
+  searchText: '', // 搜索关键字
+  searchDetailText: localStorage.getItem('searchDetailText') || '', // 搜索关键字
   userId: Number(localStorage.getItem('userId')) || 0, // 用户uid(自己或其他人)
   songId: Number(localStorage.getItem('songId')) || 0, // 歌曲id
   singerId: Number(localStorage.getItem('singerId')) || 0, // 歌手id

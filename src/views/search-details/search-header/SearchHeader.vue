@@ -124,27 +124,17 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    const searchText = computed(() =>
-      $store.getters.searchText.replace(/"/g, '')
+    // 搜索详情关键字
+    const searchDetailText = computed(() =>
+      $store.getters.searchDetailText.replace(/"/g, '')
     );
 
     // 搜索内容
-    const searchValue = ref<string>(searchText.value);
+    const searchValue = ref<string>(searchDetailText.value);
     // 搜索建议显隐
     const searchProposShow = ref<boolean>(false);
     // 搜索建议数据
     const searchPropos = ref<unknown>({});
-
-    // 导航搜索回车
-    watch(
-      () => searchText.value,
-      () => {
-        searchValue.value = searchText.value;
-      },
-      {
-        immediate: true
-      }
-    );
 
     // 搜索框获取焦点
     function searchFocus(): void {
