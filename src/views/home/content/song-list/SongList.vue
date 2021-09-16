@@ -45,7 +45,9 @@
             </div>
           </li>
         </ul>
-        <div class="more" @click="songListMore">查看全部></div>
+        <div class="more" @click="songListMore(item?.playlist?.id)">
+          查看全部>
+        </div>
       </dd>
     </dl>
   </div>
@@ -227,8 +229,8 @@ export default defineComponent({
     }
 
     // 查看全部
-    function songListMore(): void {
-      $router.push({ name: 'home-toplist' });
+    function songListMore(id: number): void {
+      $router.push({ name: 'home-toplist', params: { songSheetId: id } });
     }
 
     return {
