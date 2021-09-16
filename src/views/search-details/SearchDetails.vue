@@ -62,7 +62,6 @@ export default defineComponent({
 
     // 详情搜索回车
     function searchEnter(searchValue: string): void {
-      console.log(searchValue);
       $store.commit('setSearchDetailText', searchValue);
     }
 
