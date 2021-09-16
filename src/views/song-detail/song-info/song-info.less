@@ -272,15 +272,44 @@
     }
 
     .lyric-list {
-      height: 200px;
+      height: 303px;
       margin-top: 38px;
       line-height: 23px;
       color: #333;
       overflow: hidden;
 
       .lyric-list-item {
-        min-height: 28px;
-        margin-bottom: 5px;
+        min-height: 21px;
+        margin-bottom: 1px;
+      }
+    }
+
+    .lyric-list-auto {
+      height: auto;
+    }
+
+    .toggle-btn {
+      margin-top: 5px;
+
+      .text {
+        display: inline-block;
+        vertical-align: middle;
+        color: #0c73c2;
+        cursor: pointer;
+      }
+
+      .icon {
+        display: inline-block;
+        vertical-align: middle;
+        width: 11px;
+        height: 8px;
+        margin-top: 2px;
+        background: url(~@assets/image/icon.png);
+        background-position: -65px -520px;
+      }
+
+      .hide {
+        background-position: -45px -520px;
       }
     }
   }
