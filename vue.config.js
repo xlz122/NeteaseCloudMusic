@@ -87,7 +87,7 @@ module.exports = {
     if (process.env.NODE_ENV === 'production') {
       // 为生产环境修改配置...
       // 去掉所有console.log()
-      config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
+      // config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
 
       // 打包文件大小配置
       config.performance = {
@@ -172,7 +172,7 @@ module.exports = {
     // 图片打包成base64配置，limit: 10240为10k
     config.module
       .rule('images')
-      .test(/\.(jpg|png|gif|svg)$/)
+      .test(/\.(jpg|png|gif)$/)
       .use('url-loader')
       .loader('url-loader')
       .tap(options => Object.assign(options, { limit: 10240 }));

@@ -15,7 +15,10 @@
       <div class="time">{{ formatDate(item?.showTime) }}</div>
       <div class="mood" v-html="item?.json?.msg"></div>
       <div class="music-info">
-        <div class="music-cover">
+        <div
+          class="music-cover"
+          @click="setAddSinglePlayList(item?.json?.song)"
+        >
           <img
             class="cover-img"
             :src="`${item?.json?.song?.album?.picUrl}?param=40y40`"
@@ -24,8 +27,16 @@
           <i class="play-icon"></i>
         </div>
         <div class="music-detail">
-          <h3 class="music-detail-title">{{ item?.json?.song?.name }}</h3>
-          <h4 class="music-detail-name">
+          <h3
+            class="music-detail-title"
+            @click="jumpSongDetail(item?.json?.song?.id)"
+          >
+            {{ item?.json?.song?.name }}
+          </h3>
+          <h4
+            class="music-detail-name"
+            @click="jumpSingerDetail(item?.json?.song?.artists[0]?.id)"
+          >
             {{ item?.json?.song?.artists[0].name }}
           </h4>
         </div>
@@ -356,14 +367,34 @@ export default defineComponent({
       default: () => ({})
     }
   },
-  emits: ['jumpUserProfile'],
+  emits: [
+    'jumpUserProfile',
+    'setAddSinglePlayList',
+    'jumpSongDetail',
+    'jumpSingerDetail'
+  ],
   setup(props, { emit }) {
     function jumpUserProfile(userId: number): void {
       emit('jumpUserProfile', userId);
     }
+
+    function setAddSinglePlayList(item: Record<string, any>): void {
+      emit('setAddSinglePlayList', item);
+    }
+
+    function jumpSongDetail(id: number): void {
+      emit('jumpSongDetail', id);
+    }
+
+    function jumpSingerDetail(id: number): void {
+      emit('jumpSingerDetail', id);
+    }
     return {
       formatDate,
-      jumpUserProfile
+      jumpUserProfile,
+      setAddSinglePlayList,
+      jumpSongDetail,
+      jumpSingerDetail
     };
   }
 });

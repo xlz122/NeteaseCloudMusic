@@ -35,11 +35,12 @@
             <i class="play-icon"></i>
             <span class="text song-title">{{ item.name }}</span>
             <div class="operate-btn">
-              <i class="icon collect"></i>
-              <i class="icon share"></i>
-              <i class="icon download"></i>
+              <i class="icon collect" title="收藏"></i>
+              <i class="icon share" title="分享"></i>
+              <i class="icon download" title="下载"></i>
               <i
                 class="icon delete"
+                title="删除"
                 @click="deleteMusicList(item.id, $event)"
               ></i>
             </div>

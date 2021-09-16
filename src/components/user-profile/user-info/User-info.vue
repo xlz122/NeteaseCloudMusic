@@ -105,7 +105,6 @@ export default defineComponent({
       userDetail({ uid: uid.value })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            console.log(res.profile);
             userInfo.value = res;
             if (res?.profile?.province) {
               provinceName.value = findCityZipCode(res?.profile?.province || 0);

@@ -53,6 +53,7 @@ export type ProgressData = {
 
 // 评论
 export type CommentParams = {
+  type: number;
   id: number;
   offset: number;
   limit: number;

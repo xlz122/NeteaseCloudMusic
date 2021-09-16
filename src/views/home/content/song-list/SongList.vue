@@ -2,7 +2,7 @@
   <div class="song-list">
     <dl class="group" v-for="(item, index) in listData" :key="index">
       <dt class="top">
-        <div class="top-img">
+        <div class="top-img" @click="songListMore(item?.playlist?.id)">
           <img
             class="img"
             :src="item?.playlist?.coverImgUrl"
@@ -10,7 +10,11 @@
           />
         </div>
         <div class="title">
-          <h3 class="t-text" @click="songListMore">
+          <h3
+            class="t-text"
+            :title="item?.playlist?.name"
+            @click="songListMore"
+          >
             {{ item?.playlist?.name }}
           </h3>
           <div class="btns">
@@ -29,7 +33,9 @@
             <span class="num" :class="{ topThree: ind < 3 }">
               {{ ind + 1 }}
             </span>
-            <p class="text" @click="jumpSongDetail(i.id)">{{ i?.name }}</p>
+            <p class="text" :title="i?.name" @click="jumpSongDetail(i.id)">
+              {{ i?.name }}
+            </p>
             <div class="operate">
               <i
                 class="operate-play"
@@ -45,7 +51,9 @@
             </div>
           </li>
         </ul>
-        <div class="more" @click="songListMore">查看全部></div>
+        <div class="more" @click="songListMore(item?.playlist?.id)">
+          查看全部>
+        </div>
       </dd>
     </dl>
   </div>
@@ -227,7 +235,8 @@ export default defineComponent({
     }
 
     // 查看全部
-    function songListMore(): void {
+    function songListMore(id: number): void {
+      $store.commit('music/setSongSheetId', id);
       $router.push({ name: 'home-toplist' });
     }
 

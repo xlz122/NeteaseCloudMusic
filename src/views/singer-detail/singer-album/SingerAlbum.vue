@@ -17,7 +17,9 @@
             <i class="item-cover-bg"></i>
             <i class="item-cover-play"></i>
           </div>
-          <p class="desc" @click="jumpAlbumDetail(item.id)">{{ item.name }}</p>
+          <p class="desc" :title="item.name" @click="jumpAlbumDetail(item.id)">
+            {{ item.name }}
+          </p>
           <p class="name">
             {{ formatDateTime(item.publishTime / 1000, 'yyyy.MM.dd') }}
           </p>

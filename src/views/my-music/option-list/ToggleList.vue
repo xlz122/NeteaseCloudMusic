@@ -26,7 +26,7 @@
           <img class="img" :src="item.coverImgUrl" alt="" />
         </div>
         <div class="item-right">
-          <span class="name">{{ item.name }}</span>
+          <span class="name" :title="item.name">{{ item.name }}</span>
           <span class="num">
             {{ item.trackCount }}首
             <span class="right-desc" v-if="item.subscribed">
@@ -39,12 +39,14 @@
           <i
             class="operate-icon operate-edit"
             v-if="!item.cannotEdit"
+            title="编辑"
             @click="listEdit"
           ></i>
           <!-- 是否无法删除 -->
           <i
             class="operate-icon operate-delete"
             v-if="!item.cannotDelete"
+            title="删除"
             @click="listDelete(item.id, $event)"
           ></i>
         </div>

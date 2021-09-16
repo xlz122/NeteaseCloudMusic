@@ -13,9 +13,7 @@
 
 网易云API项目github地址: [https://github.com/Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)。
 
-网易云线上API接口文档地址1: [https://binaryify.github.io/NeteaseCloudMusicApi/#/](https://binaryify.github.io/NeteaseCloudMusicApi/#/)。
-
-网易云线上API接口文档地址2: [https://neteasecloudmusicapi.vercel.app/#/](https://neteasecloudmusicapi.vercel.app/#/)。
+网易云线上API接口文档地址: [https://binaryify.github.io/NeteaseCloudMusicApi/#/](https://binaryify.github.io/NeteaseCloudMusicApi/#/)。
 
 ### 项目使用技术栈
 
@@ -38,16 +36,18 @@
 	* 网易邮箱登录完成
 	* 首页完成
 	* 我的音乐完成
-	* 音乐播放器完成90%
-	* 朋友页面95%
+	* 音乐播放器完成
+	* 朋友页面
 	* 下载页面完成
 	* 创作中心页面完成
+	* 排行榜页面完成
 	* 歌单页面完成
 	* 歌单详情页面完成
 	* 歌手页面完成
 	* 歌手详情页面完成
-	* 歌曲详情页面完成95%
+	* 歌曲详情页面完成
 	* 新碟上架页面完成
+	* 专辑详情页面完成
 ### 项目运行
 
 启动项目

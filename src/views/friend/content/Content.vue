@@ -15,7 +15,13 @@
     </div>
     <ul class="list">
       <li class="item" v-for="(item, index) in eventList" :key="index">
-        <Item :item="item" @jumpUserProfile="jumpUserProfile" />
+        <Item
+          :item="item"
+          @jumpUserProfile="jumpUserProfile"
+          @setAddSinglePlayList="setAddSinglePlayList"
+          @jumpSongDetail="jumpSongDetail"
+          @jumpSingerDetail="jumpSingerDetail"
+        />
       </li>
     </ul>
     <!-- loading -->
@@ -32,6 +38,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { friendEvent, dynamicLike, FirendEvent } from '@api/friend';
 import { LoopType, ResponseType } from '@/types/types';
+import { PlayMusicItem } from '@store/music/state';
 import { getPageBottomHeight } from '@utils/utils';
 import { formatMixedText } from '@utils/formatMixedText';
 import Item from './Item.vue';
@@ -108,6 +115,57 @@ export default defineComponent({
       $router.push({ name: 'user-profile', params: { userId } });
     }
 
+    // 单个音乐添加到播放列表
+    function setAddSinglePlayList(item: Record<string, any>): void {
+      // 处理播放器所需数据
+      const musicItem: PlayMusicItem = {
+        id: item.id,
+        name: item.name,
+        picUrl: item.img80x80,
+        time: item.duration,
+        mv: item.mv || 0,
+        singerList: []
+      };
+
+      item?.artists?.forEach((item: LoopType) => {
+        musicItem.singerList.push({
+          id: item.id,
+          name: item.name
+        });
+      });
+
+      // 当前播放音乐id
+      $store.commit('music/setPlayMusicId', musicItem.id);
+      // 当前播放音乐数据
+      $store.commit('music/setPlayMusicItem', musicItem);
+      // 播放音乐数据
+      $store.commit('music/setPlayMusicList', musicItem);
+      // 开始播放
+      $store.commit('music/setMusicPlayStatus', {
+        look: true,
+        loading: true,
+        refresh: true
+      });
+    }
+
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌曲id
+      $store.commit('setSongId', id);
+      $router.push({ name: 'song-detail', params: { songId: id } });
+    }
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌手id
+      $store.commit('setSingerId', id);
+      $router.push({ name: 'singer-detail', params: { singerId: id } });
+    }
+
     // 动态点赞
     function setDynamicLike(id: number, threadId: number, type: number): void {
       // 页面静态修改
@@ -150,6 +208,9 @@ export default defineComponent({
       eventList,
       loading,
       jumpUserProfile,
+      setAddSinglePlayList,
+      jumpSongDetail,
+      jumpSingerDetail,
       setDynamicLike
     };
   }

@@ -51,7 +51,9 @@
           <td class="tbody-td">
             <div class="hd">
               <span class="text" @click="jumpSongDetail(item.id)">
-                <span class="title">{{ item.name }}</span>
+                <span class="title" :title="`${item.name}`">
+                  {{ item.name }}
+                </span>
                 <span class="no-click" v-if="item.alia[0]">
                   - {{ item.alia[0] }}
                 </span>
@@ -65,10 +67,14 @@
                 {{ timeStampToDuration(item.dt / 1000) }}
               </span>
               <div class="operate-btn">
-                <i class="icon add" @click="setAddSinglePlayList(item)"></i>
-                <i class="icon collect"></i>
-                <i class="icon share"></i>
-                <i class="icon download"></i>
+                <i
+                  class="icon add"
+                  title="添加到播放列表"
+                  @click="setAddSinglePlayList(item)"
+                ></i>
+                <i class="icon collect" title="收藏"></i>
+                <i class="icon share" title="分享"></i>
+                <i class="icon download" title="下载"></i>
                 <!-- 用户自己才有删除按钮 -->
                 <i
                   class="icon delete"
@@ -76,6 +82,7 @@
                     songSheetDetail?.playlist?.creator?.userId ===
                     userInfo?.profile?.userId
                   "
+                  title="删除"
                   @click="deleteMusicShow(item.id)"
                 ></i>
               </div>
@@ -84,7 +91,11 @@
           <td class="tbody-td singer">
             <div class="hd">
               <template class="text" v-for="(i, ind) in item.ar" :key="ind">
-                <span class="name" @click="jumpSingerDetail(i.id)">
+                <span
+                  class="name"
+                  :title="i.name"
+                  @click="jumpSingerDetail(i.id)"
+                >
                   {{ i.name }}
                 </span>
                 <span class="line" v-if="ind !== item.ar.length - 1">/</span>
@@ -93,7 +104,7 @@
           </td>
           <td class="tbody-td" @click="jumpAlbumDetail(item.al.id)">
             <div class="hd">
-              <span class="text">{{ item.al.name }}</span>
+              <span class="text" :title="item.al.name">{{ item.al.name }}</span>
             </div>
           </td>
         </tr>

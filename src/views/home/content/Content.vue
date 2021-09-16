@@ -94,13 +94,15 @@
       </div>
       <ul class="list-content">
         <li class="item individualization">
-          <div class="item-top">
+          <div class="item-top" @click="jumpRecommend">
             <i class="img"></i>
             <span class="head">{{ weekText }}</span>
             <span class="head-text">{{ dateText }}</span>
             <span class="mask"></span>
           </div>
-          <div class="item-bottom" title="每日歌曲推荐">每日歌曲推荐</div>
+          <div class="item-bottom" title="每日歌曲推荐" @click="jumpRecommend">
+            每日歌曲推荐
+          </div>
           <em class="item-like">根据你的口味生成，每天6:00更新</em>
         </li>
         <li
@@ -124,8 +126,10 @@
           >
             {{ item?.name }}
           </div>
-          <em class="item-like">{{ item?.copywriter }}</em>
-          <button class="disable-like">不感兴趣</button>
+          <div class="like-text">
+            <em class="item-like">{{ item?.copywriter }}</em>
+            <button class="disable-like">不感兴趣</button>
+          </div>
         </li>
       </ul>
     </div>
@@ -281,7 +285,15 @@ export default defineComponent({
 
     // 获取当前日期
     const dateText = ref<string>('');
-    dateText.value = formatDateTime(new Date().getTime() / 1000, 'dd');
+    dateText.value = formatDateTime(new Date().getTime() / 1000, 'dd').replace(
+      /\b(0+)/gi,
+      ''
+    );
+
+    // 个性化推荐 - 跳转每日推荐
+    function jumpRecommend(): void {
+      $router.push({ name: 'home-recommend' });
+    }
 
     // 新碟上架 - 跳转专辑
     function jumpAlbumDetail(id: number): void {
@@ -317,6 +329,7 @@ export default defineComponent({
       individualizatData,
       weekText,
       dateText,
+      jumpRecommend,
       jumpAlbumDetail,
       jumpSingerDetail,
       albumNewestMore,
