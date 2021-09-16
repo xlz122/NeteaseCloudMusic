@@ -10,7 +10,7 @@
             href="https://music.163.com/st/musician"
             target="_blank"
           >
-            <i class="icon"></i>
+            <img class="icon" :src="musicianSvg" alt="" />
             <p class="typename">网易音乐人</p>
             <p class="intro">欢迎所有音乐“妄想”</p>
           </a>
@@ -21,14 +21,14 @@
             href="https://music.163.com/st/creator"
             target="_blank"
           >
-            <i class="icon"></i>
+            <img class="icon" :src="talentSvg" alt="" />
             <p class="typename">云音乐达人</p>
             <p class="intro">用内容创作玩转音乐</p>
           </a>
         </li>
         <li class="item anchor">
           <a class="link" href="https://look.163.com/" target="_blank">
-            <i class="icon"></i>
+            <img class="icon" :src="anchorSvg" alt="" />
             <p class="typename">LOOK主播</p>
             <p class="intro">让世界看见特别的你</p>
           </a>
@@ -69,6 +69,9 @@ import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import Qrcode from '@views/login/qrcode/Qrcode.vue';
 import Other from '@views/login/other/Other.vue';
+import musicianSvg from '../../../assets/image/header/creator-center/musician.svg';
+import talentSvg from '../../../assets/image/header/creator-center/talent.svg';
+import anchorSvg from '../../../assets/image/header/creator-center/anchor.svg';
 
 export default defineComponent({
   components: {
@@ -105,6 +108,9 @@ export default defineComponent({
       $store.commit('setHeaderActiveIndex', -1);
     });
     return {
+      musicianSvg,
+      talentSvg,
+      anchorSvg,
       isLogin,
       qrcodeLoginShow,
       qrcodeLogin,

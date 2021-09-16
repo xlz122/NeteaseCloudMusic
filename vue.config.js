@@ -172,7 +172,7 @@ module.exports = {
     // 图片打包成base64配置，limit: 10240为10k
     config.module
       .rule('images')
-      .test(/\.(jpg|png|gif|svg)$/)
+      .test(/\.(jpg|png|gif)$/)
       .use('url-loader')
       .loader('url-loader')
       .tap(options => Object.assign(options, { limit: 10240 }));
