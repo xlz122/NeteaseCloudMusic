@@ -22,168 +22,27 @@
       v-if="commentParams.offset <= 1 && commentParams.hotList?.length > 0"
     >
       <h3 class="comment-list-title">精彩评论</h3>
-      <ul class="comment-list">
-        <li
-          class="item"
-          v-for="(item, index) in commentParams.hotList"
-          :key="index"
-        >
-          <img
-            class="user-avatar"
-            :src="item?.user?.avatarUrl"
-            @click="jumpUserProfile(item?.user?.userId)"
-          />
-          <div class="item-right">
-            <div class="detail-text">
-              <span class="text">
-                <span class="name" @click="jumpUserProfile(item?.user?.userId)">
-                  {{ item?.user?.nickname }}
-                </span>
-                : {{ item?.content }}
-              </span>
-            </div>
-            <!-- 他人回复部分 -->
-            <template v-if="item?.beReplied.length > 0">
-              <div
-                class="comment-content-detail"
-                v-for="(i, ind) in item?.beReplied"
-                :key="ind"
-              >
-                <template v-if="i.status === 0">
-                  <span class="name" @click="jumpUserProfile(i?.user?.userId)">
-                    {{ i?.user?.nickname }}
-                  </span>
-                  <span class="text">: {{ i?.content }}</span>
-                </template>
-                <template v-if="i.status === -5">
-                  <span class="text delete-text">该评论已删除</span>
-                </template>
-              </div>
-            </template>
-            <div class="item-operate">
-              <span class="time">{{ formatDate(item?.time) }}</span>
-              <div class="reply-operate">
-                <span class="delete" @click="deleteCommentList(item.commentId)">
-                  删除
-                </span>
-                <span class="delete-line">|</span>
-                <!-- 点赞 -->
-                <i
-                  class="like liked"
-                  v-if="item.liked"
-                  @click="songSheetLikeList(item.commentId, 0)"
-                ></i>
-                <i
-                  class="like no-like"
-                  v-else
-                  @click="songSheetLikeList(item.commentId, 1)"
-                ></i>
-                <span class="like-num" v-if="item.likedCount > 0">
-                  ({{ item.likedCount }})
-                </span>
-                <span class="line">|</span>
-                <span class="reply" @click="setHotComments(index)"> 回复 </span>
-              </div>
-            </div>
-            <!-- 回复他人 -->
-            <div class="comment-content-reply-others" v-if="item?.replyShow">
-              <comment-replay
-                class="comment-content-replay"
-                :rows="1"
-                :width="567"
-                :nickname="item?.user?.nickname"
-                @submit="replySubmit($event, item.commentId)"
-              />
-            </div>
-          </div>
-        </li>
-      </ul>
+      <CommentList
+        :type="0"
+        :list="commentParams.hotList"
+        @deleteCommentList="deleteCommentList"
+        @songSheetLikeList="songSheetLikeList"
+        @setComments="setComments"
+        @replySubmit="replySubmit"
+      />
     </template>
     <!-- 最新评论 -->
-    <h3
-      class="comment-list-title"
-      v-if="commentParams.offset <= 1 && commentParams.list?.length > 0"
-    >
-      最新评论({{ commentParams.total }})
-    </h3>
-    <ul class="comment-list" v-if="commentParams.list?.length > 0">
-      <li class="item" v-for="(item, index) in commentParams.list" :key="index">
-        <img class="user-avatar" :src="item?.user?.avatarUrl" />
-        <div class="item-right">
-          <div class="detail-text">
-            <span class="name" @click="jumpUserProfile(item?.user?.userId)">
-              {{ item?.user?.nickname }}
-            </span>
-            <span class="colon">:</span>
-            <div class="text" v-html="item.content"></div>
-          </div>
-          <!-- 他人回复部分 -->
-          <template v-if="item?.beReplied.length > 0">
-            <div
-              class="comment-content-detail"
-              v-for="(i, ind) in item?.beReplied"
-              :key="ind"
-            >
-              <template v-if="i.status === 0">
-                <span class="name">
-                  {{ i?.user?.nickname }}
-                </span>
-                <span class="colon">:</span>
-                <span class="text" v-html="item?.beReplied[0]?.content"></span>
-              </template>
-              <template v-if="i.status === -5">
-                <span class="text delete-text">该评论已删除</span>
-              </template>
-            </div>
-          </template>
-          <div class="item-operate">
-            <span class="time">{{ formatDate(item?.time) }}</span>
-            <div class="reply-operate">
-              <!-- 只能删除自己的评论 -->
-              <span
-                v-if="item?.user?.userId === userInfo?.profile?.userId"
-                class="delete"
-                @click="deleteCommentList(item.commentId)"
-              >
-                删除
-              </span>
-              <span
-                v-if="item?.user?.userId === userInfo?.profile?.userId"
-                class="delete-line"
-              >
-                |
-              </span>
-              <!-- 点赞 -->
-              <i
-                class="like liked"
-                v-if="item.liked"
-                @click="songSheetLikeList(item.commentId, 0)"
-              ></i>
-              <i
-                class="like no-like"
-                v-else
-                @click="songSheetLikeList(item.commentId, 1)"
-              ></i>
-              <span class="like-num" v-if="item.likedCount > 0">
-                ({{ item.likedCount }})
-              </span>
-              <span class="line">|</span>
-              <span class="reply" @click="setNewestComment(index)"> 回复 </span>
-            </div>
-          </div>
-          <!-- 回复他人 -->
-          <div class="comment-content-reply-others" v-if="item?.replyShow">
-            <comment-replay
-              class="comment-content-replay"
-              :rows="1"
-              :width="567"
-              :nickname="item?.user?.nickname"
-              @submit="replySubmit($event, item.commentId)"
-            />
-          </div>
-        </div>
-      </li>
-    </ul>
+    <template v-if="commentParams.list?.length > 0">
+      <h3 class="comment-list-title">最新评论({{ commentParams.total }})</h3>
+      <CommentList
+        :type="1"
+        :list="commentParams.list"
+        @deleteCommentList="deleteCommentList"
+        @songSheetLikeList="songSheetLikeList"
+        @setComments="setComments"
+        @replySubmit="replySubmit"
+      />
+    </template>
     <!-- 删除歌曲弹框 -->
     <my-dialog
       class="delete-comment-dialog"
@@ -202,25 +61,24 @@
 
 <script lang="ts">
 /* eslint-disable */
-import { defineComponent, ref, computed, nextTick } from 'vue';
-import { useRouter } from 'vue-router';
+import { defineComponent, ref, computed, nextTick, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import {
-  // commentPlayList,
-  addSongSheetComment,
-  deleteSongSheetComment,
-  // songSheetLike,
-  replySongSheetComment
-} from '@api/my-music';
-import { ResponseType } from '@/types/types';
-import { formatDate } from '@utils/utils';
+  addComment,
+  deleteComment,
+  commentLike,
+  replyComment
+} from '@api/comment';
+import { ResponseType, LoopType } from '@/types/types';
 import CommentReplay from '@/components/comment/comment-replay/CommentReplay.vue';
+import CommentList from '@/components/comment/comment-list/CommentList.vue';
 import MyDialog from '@/components/MyDialog.vue';
 import defaultAvatarImg from '@assets/image/user/default_avatar.jpg';
 
 export default defineComponent({
   components: {
     CommentReplay,
+    CommentList,
     MyDialog
   },
   props: {
@@ -229,8 +87,10 @@ export default defineComponent({
       default: () => ({})
     }
   },
-  setup(props) {
-    const $router = useRouter();
+  emits: ['commentRefresh'],
+  setup(props, { emit }) {
+    const { commentParams } = toRefs(props);
+
     const $store = useStore();
 
     // 是否登录
@@ -238,13 +98,6 @@ export default defineComponent({
 
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
-
-    // 跳转用户资料
-    function jumpUserProfile(userId: number): void {
-      // 头部导航取消选中
-      $store.commit('setHeaderActiveIndex', -1);
-      $router.push({ name: 'user-profile', params: { userId } });
-    }
 
     // 是否清除回复内容
     const commentClearText = ref<boolean>(false);
@@ -255,6 +108,7 @@ export default defineComponent({
       if (!isLogin.value) {
         return false;
       }
+
       if (replayText.length === 0) {
         $store.commit('setMessage', {
           type: 'error',
@@ -269,8 +123,10 @@ export default defineComponent({
         });
         return false;
       }
-      addSongSheetComment({
-        id: props?.commentParams?.id,
+
+      addComment({
+        type: commentParams.value?.type,
+        id: commentParams.value?.id,
         content: replayText
       }).then((res: ResponseType) => {
         if (res.code === 200) {
@@ -282,35 +138,12 @@ export default defineComponent({
           nextTick(() => {
             commentClearText.value = false;
           });
+          emit('commentRefresh');
         } else {
           // 评论失败提醒
           $store.commit('setMessage', { type: 'error', title: '评论失败' });
         }
       });
-    }
-
-    // 精彩评论
-    function setHotComments(index: number): void {
-      // 关闭最新评论
-      // commentParams.list.forEach((item: LoopType) => {
-      //   item.replyShow = false;
-      // });
-      // commentParams.hotList.forEach((item: LoopType) => {
-      //   item.replyShow = false;
-      // });
-      // commentParams.hotList[index].replyShow = true;
-    }
-
-    // 最新评论
-    function setNewestComment(index: number): void {
-      // 关闭精彩评论
-      // commentParams.hotList.forEach((item: LoopType) => {
-      //   item.replyShow = false;
-      // });
-      // commentParams.list.forEach((item: LoopType) => {
-      //   item.replyShow = false;
-      // });
-      // commentParams.list[index].replyShow = true;
     }
 
     // 删除评论
@@ -323,12 +156,14 @@ export default defineComponent({
 
     // 删除评论 - 确定
     function deleteCommentConfirm() {
-      deleteSongSheetComment({
+      deleteComment({
+        type: commentParams.value?.type,
         id: props?.commentParams?.id,
         commentId: deleteCommentId.value
       }).then((res: ResponseType) => {
         if (res.code === 200) {
           deleteCommentDialog.value = false;
+          emit('commentRefresh');
         } else {
           deleteCommentDialog.value = false;
           $store.commit('setMessage', {
@@ -345,24 +180,64 @@ export default defineComponent({
     }
 
     // 点赞
-    function songSheetLikeList(commentId: number, type: number): void {
-      // // 页面静态修改
-      // const likeIndex = commentParams.list.findIndex(
-      //   (item: LoopType) => item.commentId === commentId
-      // );
-      // if (type === 0) {
-      //   commentParams.list[likeIndex].liked = false;
-      //   commentParams.list[likeIndex].likedCount--;
-      // } else {
-      //   commentParams.list[likeIndex].liked = true;
-      //   commentParams.list[likeIndex].likedCount++;
-      // }
-      // // 接口修改
-      // songSheetLike({
-      //   id: props?.songSheetDetail?.playlist?.id,
-      //   cid: commentId,
-      //   t: type
-      // });
+    function songSheetLikeList(
+      t: number,
+      commentId: number,
+      type: number
+    ): void {
+      // t 0精彩评论，1最新评论
+      let likeIndex = 0;
+      if (t === 0) {
+        likeIndex = commentParams.value.hotList.findIndex(
+          (item: LoopType) => item.commentId === commentId
+        );
+        // 页面静态修改
+        if (type === 0) {
+          commentParams.value.hotList[likeIndex].liked = false;
+          commentParams.value.hotList[likeIndex].likedCount--;
+        } else {
+          commentParams.value.hotList[likeIndex].liked = true;
+          commentParams.value.hotList[likeIndex].likedCount++;
+        }
+      }
+      if (t === 1) {
+        likeIndex = commentParams.value.list.findIndex(
+          (item: LoopType) => item.commentId === commentId
+        );
+        // 页面静态修改
+        if (type === 0) {
+          commentParams.value.list[likeIndex].liked = false;
+          commentParams.value.list[likeIndex].likedCount--;
+        } else {
+          commentParams.value.list[likeIndex].liked = true;
+          commentParams.value.list[likeIndex].likedCount++;
+        }
+      }
+
+      // 接口修改
+      commentLike({
+        type: commentParams.value?.type,
+        id: props?.commentParams?.id,
+        cid: commentId,
+        t: type
+      });
+    }
+
+    // 打开当前评论回复框
+    function setComments(type: number, index: number): void {
+      commentParams.value.hotList.forEach((item: LoopType) => {
+        item.replyShow = false;
+      });
+      commentParams.value.list.forEach((item: LoopType) => {
+        item.replyShow = false;
+      });
+
+      if (type === 0) {
+        commentParams.value.hotList[index].replyShow = true;
+      }
+      if (type === 1) {
+        commentParams.value.list[index].replyShow = true;
+      }
     }
 
     // 回复提交（精彩评论、最新回复）
@@ -384,7 +259,9 @@ export default defineComponent({
         });
         return false;
       }
-      replySongSheetComment({
+
+      replyComment({
+        type: commentParams.value?.type,
         id: props?.commentParams?.id,
         content: replayText,
         commentId
@@ -392,6 +269,7 @@ export default defineComponent({
         if (res.code === 200) {
           // 评论成功提醒
           $store.commit('setMessage', { type: 'info', title: '评论成功' });
+          emit('commentRefresh');
         } else {
           // 评论失败提醒
           $store.commit('setMessage', { type: 'error', title: '评论失败' });
@@ -400,19 +278,16 @@ export default defineComponent({
     }
 
     return {
-      formatDate,
       defaultAvatarImg,
-      jumpUserProfile,
       userInfo,
       commentClearText,
       commentSubmit,
-      setHotComments,
-      setNewestComment,
       deleteCommentList,
       deleteCommentDialog,
       deleteCommentConfirm,
       deleteCommentCancel,
       songSheetLikeList,
+      setComments,
       replySubmit
     };
   }

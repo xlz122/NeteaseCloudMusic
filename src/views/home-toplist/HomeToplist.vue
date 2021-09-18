@@ -9,6 +9,7 @@
           :updateFrequency="updateFrequency"
           :songSheetDetail="songSheetDetail"
           :commentParams="commentParams"
+          @commentRefresh="commentRefresh"
           @changPage="changPage"
         />
       </div>
@@ -17,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, ref, reactive, watch } from 'vue';
 import { useStore } from 'vuex';
 import { playlistDetail } from '@api/song-sheet-detail';
 import { commentPlayList } from '@api/my-music';
@@ -73,13 +74,22 @@ export default defineComponent({
 
     // 获取评论数据
     const commentParams = reactive<CommentParams>({
-      id: songSheetId.value,
+      type: 2,
+      id: 0,
       offset: 1,
       limit: 20,
       total: 0,
       hotList: [],
       list: []
     });
+
+    watch(
+      () => songSheetId.value,
+      () => {
+        commentParams.id = songSheetId.value;
+      }
+    );
+
     function getCommentData(): void {
       const params = {
         id: songSheetId.value,
@@ -104,6 +114,11 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
+    // 刷新评论
+    function commentRefresh(): void {
+      getCommentData();
+    }
+
     // 分页
     function changPage(current: number): void {
       commentParams.offset = current;
@@ -115,6 +130,7 @@ export default defineComponent({
       menuChange,
       songSheetDetail,
       commentParams,
+      commentRefresh,
       changPage
     };
   }
