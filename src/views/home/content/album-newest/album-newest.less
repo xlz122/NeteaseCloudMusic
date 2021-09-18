@@ -44,10 +44,29 @@
           background-position: 0 -570px;
           cursor: pointer;
 
+          &:hover {
+            .icon {
+              display: inline-block;
+            }
+          }
+
           .img {
             display: block;
             width: 100px;
             height: 100px;
+          }
+
+          .icon {
+            display: none;
+            position: absolute;
+            left: 72px;
+            right: 10px;
+            bottom: 5px;
+            width: 22px;
+            height: 22px;
+            
+            background: url(~@/assets/image/music-audio/iconall.png);
+            background-position: 0 -85px;
           }
         }
 
