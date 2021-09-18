@@ -38,22 +38,31 @@
           <td class="tbody-left">
             <div class="hd">
               <span class="text">{{ index + 1 }}</span>
+              <i class="icon-new"></i>
+            </div>
+          </td>
+          <td class="tbody-td" :class="{ song: index < 3 }">
+            <div class="hd">
+              <template v-if="index < 3">
+                <img
+                  class="song-img"
+                  :src="item.al.picUrl"
+                  alt=""
+                  @click="jumpSongDetail(item.id)"
+                />
+              </template>
               <i
                 class="icon-play"
                 :class="{ 'active-play': item.id === playMusicId }"
                 @click="playListMusic(item)"
               ></i>
-            </div>
-          </td>
-          <td class="tbody-td">
-            <div class="hd">
               <span class="text" @click="jumpSongDetail(item.id)">
                 <span class="title">{{ item.name }}</span>
                 <span class="no-click" v-if="item.alia[0]">
                   - {{ item.alia[0] }}
                 </span>
               </span>
-              <i class="icon-play" v-if="item.mv > 0"></i>
+              <i class="icon-mv" v-if="item.mv > 0"></i>
             </div>
           </td>
           <td class="tbody-td">
