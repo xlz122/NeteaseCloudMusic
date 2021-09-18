@@ -104,18 +104,14 @@
       .hd {
         height: 18px;
 
-        .icon-play {
+        .icon-new {
           display: inline-block;
           vertical-align: middle;
-          width: 17px;
+          width: 16px;
           height: 17px;
-          background: url(~@/assets/image/my-music/my-music-table.png);
-          background-position: 0 -103px;
-          cursor: pointer;
-        }
-
-        .active-play {
-          background-position: -20px -128px;
+          margin-left: 4px;
+          background: url(~@/assets/image/icon.png);
+          background-position: -67px -283px;
         }
 
         .text {
@@ -133,6 +129,21 @@
         height: 18px;
 
         .icon-play {
+          display: inline-block;
+          vertical-align: middle;
+          width: 17px;
+          height: 17px;
+          margin-right: 8px;
+          background: url(~@/assets/image/my-music/my-music-table.png);
+          background-position: 0 -103px;
+          cursor: pointer;
+        }
+
+        .active-play {
+          background-position: -20px -128px;
+        }
+
+        .icon-mv {
           display: inline-block;
           vertical-align: middle;
           width: 23px;
@@ -153,7 +164,7 @@
           color: #333;
           padding-right: 25px;
           margin-right: -24px;
-          max-width: 87%;
+          max-width: 81%;
           height: 20px;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -238,12 +249,28 @@
       }
     }
 
+    .song {
+      .hd {
+        height: auto;
+
+        .song-img {
+          display: inline-block;
+          vertical-align: middle;
+          width: 50px;
+          height: 50px;
+          margin-right: 14px;
+          cursor: pointer;
+        }
+      }
+    }
+
     .singer {
       .hd {
         max-width: 87%;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
+
         .name {
           cursor: pointer;
         }
