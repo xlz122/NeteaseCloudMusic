@@ -48,13 +48,7 @@
             }"
             @click="setAddPlayList"
           ></div>
-          <div
-            class="other collection"
-            :class="{
-              'disable-collection': songSheetDetail?.playlist?.subscribed
-            }"
-            @click="collectionClick(songSheetDetail?.playlist?.subscribed)"
-          >
+          <div class="other collection disable-collection">
             <template v-if="songSheetDetail?.playlist?.subscribedCount > 0">
               <span class="icon">
                 ({{ songSheetDetail?.playlist?.subscribedCount }})
@@ -250,14 +244,6 @@ export default defineComponent({
       });
     }
 
-    // 收藏
-    function collectionClick(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
-    }
-
     // 分享
     function shareClick(): void {
       $store.commit('setMessage', {
@@ -287,7 +273,6 @@ export default defineComponent({
       formatDateTime,
       playTitleMusic,
       setAddPlayList,
-      collectionClick,
       shareClick,
       downloadClick,
       commentClick
