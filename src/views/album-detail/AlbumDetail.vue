@@ -33,7 +33,10 @@
         />
         <!-- 评论 -->
         <div class="comment-component">
-          <Comment :commentParams="commentParams" />
+          <Comment
+            :commentParams="commentParams"
+            @commentRefresh="commentRefresh"
+          />
         </div>
         <!-- 参数从0开始，分页需从1开始 -->
         <Page
@@ -158,6 +161,7 @@ export default defineComponent({
 
     // 获取评论数据
     const commentParams = reactive<CommentParams>({
+      type: 3,
       id: albumId.value,
       offset: 1,
       limit: 20,
@@ -190,6 +194,11 @@ export default defineComponent({
     }
     getCommentData();
 
+    // 刷新评论
+    function commentRefresh(): void {
+      getCommentData();
+    }
+
     // 分页
     function changPage(current: number): void {
       commentParams.offset = current;
@@ -208,6 +217,7 @@ export default defineComponent({
       albumData,
       commentClick,
       commentParams,
+      commentRefresh,
       changPage
     };
   }
