@@ -38,10 +38,12 @@
         <div class="item-operate">
           <span class="time">{{ formatDate(item?.time) }}</span>
           <div class="reply-operate">
-            <span class="delete" @click="deleteCommentList(item.commentId)">
-              删除
-            </span>
-            <span class="delete-line">|</span>
+            <template v-if="isDelete(item.user.userId)">
+              <span class="delete" @click="deleteCommentList(item.commentId)">
+                删除
+              </span>
+              <span class="delete-line">|</span>
+            </template>
             <!-- 点赞 -->
             <i
               class="like liked"
@@ -75,7 +77,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { formatDate } from '@utils/utils';
@@ -105,6 +107,23 @@ export default defineComponent({
   setup(props, { emit }) {
     const $router = useRouter();
     const $store = useStore();
+
+    // 用户信息
+    const userInfo = computed(() => $store.getters.userInfo);
+
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
+
+    // 是否显示删除按钮
+    function isDelete(userId: number): boolean | undefined {
+      if (!isLogin.value) {
+        return false;
+      }
+      if (userInfo.value.profile.userId === userId) {
+        return true;
+      }
+      return false;
+    }
 
     // 跳转用户资料
     function jumpUserProfile(userId: number): void {
@@ -139,6 +158,7 @@ export default defineComponent({
 
     return {
       formatDate,
+      isDelete,
       jumpUserProfile,
       deleteCommentList,
       songSheetLikeList,
