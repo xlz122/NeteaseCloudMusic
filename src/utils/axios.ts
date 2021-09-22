@@ -10,6 +10,9 @@ import {
 
 type IAxiosError = AxiosError & {
   status: number;
+  response: {
+    status: number;
+  };
 };
 
 // 标识请求
@@ -96,7 +99,7 @@ class HttpRequest {
       },
       (error: IAxiosError) => {
         // cookie过期
-        if (error.status === 301) {
+        if (error?.response.status === 301) {
           store.commit('setLogout');
         }
         return Promise.reject(error);
