@@ -60,7 +60,6 @@
 </template>
 
 <script lang="ts">
-/* eslint-disable */
 import { defineComponent, ref, computed, nextTick, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import {
@@ -184,7 +183,13 @@ export default defineComponent({
       t: number,
       commentId: number,
       type: number
-    ): void {
+    ): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       // t 0精彩评论，1最新评论
       let likeIndex = 0;
       if (t === 0) {
@@ -224,7 +229,13 @@ export default defineComponent({
     }
 
     // 打开当前评论回复框
-    function setComments(type: number, index: number): void {
+    function setComments(type: number, index: number): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       commentParams.value.hotList.forEach((item: LoopType) => {
         item.replyShow = false;
       });
