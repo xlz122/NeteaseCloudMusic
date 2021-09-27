@@ -60,9 +60,17 @@ export default defineComponent({
         if (curVal) {
           (async () => {
             const list: List[] = await getTopList();
+            const ItemId = list.findIndex(
+              (item: List) => item.id === songSheetId.value
+            );
             list.forEach((item: List) => {
-              if (item.id === songSheetId.value) {
-                updateFrequency.value = item.updateFrequency;
+              if (ItemId !== -1) {
+                if (item.id === songSheetId.value) {
+                  updateFrequency.value = item.updateFrequency;
+                }
+              } else {
+                $store.commit('music/setSongSheetId', list[0].id);
+                updateFrequency.value = list[0].updateFrequency;
               }
             });
             getSongDetail();
