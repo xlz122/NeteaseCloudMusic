@@ -4,8 +4,8 @@
     <ul class="menu-list">
       <li
         class="item"
-        :class="{ 'active-item': menuActive === item.id }"
-        v-for="(item, index) in toplist.character"
+        :class="{ 'active-item': songSheetId === item.id }"
+        v-for="(item, index) in character"
         :key="index"
         @click="menuChange(item.id, item.updateFrequency)"
       >
@@ -22,8 +22,8 @@
     <ul class="menu-list">
       <li
         class="item"
-        :class="{ 'active-item': menuActive === item.id }"
-        v-for="(item, index) in toplist.media"
+        :class="{ 'active-item': songSheetId === item.id }"
+        v-for="(item, index) in media"
         :key="index"
         @click="menuChange(item.id, item.updateFrequency)"
       >
@@ -40,50 +40,33 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
-import { topList } from '@api/home-toplist';
-import { ResponseType } from '@/types/types';
 
 export default defineComponent({
+  props: {
+    character: {
+      type: Array,
+      default: () => []
+    },
+    media: {
+      type: Array,
+      default: () => []
+    }
+  },
   emits: ['menuChange'],
   setup(props, { emit }) {
     const $store = useStore();
 
-    const menuActive = ref<number>(0);
-
-    const toplist = reactive({
-      character: [],
-      media: []
-    });
-    // 获取所有榜单
-    function getTopList(): void {
-      topList()
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            toplist.character = res.list.slice(0, 4);
-            toplist.media = res.list.slice(4);
-            // 默认第一项选中
-            menuChange(res.list[0].id, res.list[0].updateFrequency);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
-          }
-        })
-        .catch(() => ({}));
-    }
-    getTopList();
+    // 歌单id
+    const songSheetId = computed(() => $store.getters['music/songSheetId']);
 
     function menuChange(id: number, updateFrequency: string): void {
-      menuActive.value = id;
       emit('menuChange', id, updateFrequency);
     }
 
     return {
-      toplist,
-      menuActive,
+      songSheetId,
       menuChange
     };
   }

@@ -230,7 +230,8 @@ export default defineComponent({
 
     // 查看全部
     function songListMore(id: number): void {
-      $router.push({ name: 'home-toplist', params: { songSheetId: id } });
+      $store.commit('music/setSongSheetId', id);
+      $router.push({ name: 'home-toplist' });
     }
 
     return {

@@ -2,7 +2,11 @@
   <div class="home-toplist">
     <div class="home-toplist-container">
       <div class="home-toplist-menu">
-        <ToplistMenu @menuChange="menuChange" />
+        <ToplistMenu
+          :character="toplist.character"
+          :media="toplist.media"
+          @menuChange="menuChange"
+        />
       </div>
       <div class="home-toplist-content">
         <ToplistContent
@@ -18,14 +22,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, watch } from 'vue';
+import { defineComponent, ref, reactive, computed, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { playlistDetail } from '@api/song-sheet-detail';
 import { commentPlayList } from '@api/my-music';
+import { topList } from '@api/home-toplist';
 import { ResponseType, CommentParams } from '@/types/types';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import ToplistMenu from './toplist-menu/ToplistMenu.vue';
 import ToplistContent from './toplist-content/ToplistContent.vue';
+
+type List = {
+  id: number;
+  updateFrequency: string;
+};
 
 export default defineComponent({
   name: 'home-toplist',
@@ -34,17 +45,72 @@ export default defineComponent({
     ToplistContent
   },
   setup() {
+    const $route = useRoute();
     const $store = useStore();
 
     // 歌单id
-    const songSheetId = ref<number>(0);
-
+    const songSheetId = computed(() => $store.getters['music/songSheetId']);
     // 更新字符串
     const updateFrequency = ref<string>('');
 
+    // 监听路由传参，获取歌单详情
+    watch(
+      () => $route.params,
+      curVal => {
+        if (curVal) {
+          (async () => {
+            const list: List[] = await getTopList();
+            list.forEach((item: List) => {
+              if (item.id === songSheetId.value) {
+                updateFrequency.value = item.updateFrequency;
+              }
+            });
+            getSongDetail();
+            getCommentData();
+          })();
+        } else {
+          (async () => {
+            const list: List[] = await getTopList();
+            $store.commit('music/setSongSheetId', list[0].id);
+            updateFrequency.value = list[0].updateFrequency;
+            getSongDetail();
+            getCommentData();
+          })();
+        }
+      },
+      {
+        immediate: true
+      }
+    );
+
+    const toplist = reactive({
+      character: [],
+      media: []
+    });
+
+    // 获取所有榜单
+    function getTopList(): Promise<List[]> {
+      return new Promise(resolve => {
+        topList()
+          .then((res: ResponseType) => {
+            if (res.code === 200) {
+              toplist.character = res.list.slice(0, 4);
+              toplist.media = res.list.slice(4);
+              resolve(res.list);
+            } else {
+              $store.commit('setMessage', {
+                type: 'error',
+                title: res?.msg
+              });
+            }
+          })
+          .catch(() => ({}));
+      });
+    }
+
     // 菜单选择
     function menuChange(id: number, frequency: string): void {
-      songSheetId.value = id;
+      $store.commit('music/setSongSheetId', id);
       updateFrequency.value = frequency;
       getSongDetail();
       getCommentData();
@@ -126,6 +192,7 @@ export default defineComponent({
     }
 
     return {
+      toplist,
       updateFrequency,
       menuChange,
       songSheetDetail,
