@@ -2,7 +2,7 @@
   <div class="song-list">
     <dl class="group" v-for="(item, index) in listData" :key="index">
       <dt class="top">
-        <div class="top-img">
+        <div class="top-img" @click="songListMore(item?.playlist?.id)">
           <img
             class="img"
             :src="item?.playlist?.coverImgUrl"
