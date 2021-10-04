@@ -9,7 +9,11 @@
       <div class="td play-icon" @click="playListMusic(item)"></div>
       <div class="td td1">
         <div class="text">
-          <span class="name" @click="jumpSongDetail(item.id)">
+          <span
+            class="name"
+            :title="item?.name"
+            @click="jumpSongDetail(item.id)"
+          >
             {{ item?.name }}
           </span>
           <span class="desc" v-if="item?.tns?.length">
@@ -21,28 +25,37 @@
       <!-- 操作项 -->
       <div class="td td2">
         <div class="operate-btn">
-          <i class="icon add" @click="setAddSinglePlayList(item)"></i>
-          <i class="icon collect"></i>
-          <i class="icon share"></i>
-          <i class="icon download"></i>
+          <i
+            class="icon add"
+            title="添加到播放列表"
+            @click="setAddSinglePlayList(item)"
+          ></i>
+          <i class="icon collect" title="收藏"></i>
+          <i class="icon share" title="分享"></i>
+          <i class="icon download" title="下载"></i>
           <!-- 用户自己才有删除按钮 -->
           <i
             class="icon delete"
             v-if="item?.ar[0]?.id === userInfo?.profile?.userId"
+            title="删除"
             @click="deleteMusicShow(item.id)"
           ></i>
         </div>
       </div>
       <div class="td td3">
         <div class="text">
-          <span class="name" @click="jumpSingerDetail(item?.ar[0]?.id)">
+          <span
+            class="name"
+            :title="item?.ar[0]?.name"
+            @click="jumpSingerDetail(item?.ar[0]?.id)"
+          >
             {{ item?.ar[0]?.name }}
           </span>
         </div>
       </div>
       <div class="td td4">
         <div class="text">
-          <span class="name">{{ item?.al?.name }}</span>
+          <span class="name" :title="item?.al?.name">{{ item?.al?.name }}</span>
         </div>
       </div>
       <div class="td">{{ timeStampToDuration(item.dt / 1000) }}</div>

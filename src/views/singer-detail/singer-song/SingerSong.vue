@@ -6,6 +6,7 @@
         :class="{
           'disable-play': singerSong?.hotSongs.length === 0
         }"
+        title="播放"
         @click="playTitleMusic"
       >
         <span class="icon-play">播放</span>
@@ -15,6 +16,7 @@
         :class="{
           'disable-play-add': singerSong?.hotSongs.length === 0
         }"
+        title="添加到播放列表"
         @click="setAddPlayList"
       ></div>
       <div class="other collection" @click="collectionClick">
@@ -55,7 +57,9 @@
           <td class="tbody-td">
             <div class="hd">
               <span class="text" @click="jumpSongDetail(item.id)">
-                <span class="name">{{ item.name }}</span>
+                <span class="name" :title="`${item.name}`">
+                  {{ item.name }}
+                </span>
                 <span class="no-click" v-if="item.alia[0]">
                   - {{ item.alia[0] }}
                 </span>
@@ -69,16 +73,20 @@
                 {{ timeStampToDuration(item.dt / 1000) }}
               </span>
               <div class="operate-btn">
-                <i class="icon add" @click="setAddSinglePlayList(item)"></i>
-                <i class="icon collect"></i>
-                <i class="icon share"></i>
-                <i class="icon download"></i>
+                <i
+                  class="icon add"
+                  title="添加到播放列表"
+                  @click="setAddSinglePlayList(item)"
+                ></i>
+                <i class="icon collect" title="收藏"></i>
+                <i class="icon share" title="分享"></i>
+                <i class="icon download" title="下载"></i>
               </div>
             </div>
           </td>
           <td class="tbody-td" @click="jumpAlbumDetail(item.al.id)">
             <div class="hd">
-              <span class="text">{{ item.al.name }}</span>
+              <span class="text" :title="item.al.name">{{ item.al.name }}</span>
             </div>
           </td>
         </tr>

@@ -9,7 +9,11 @@
           v-for="(item, index) in hotNewDiscList"
           :key="index"
         >
-          <div class="item-cover" @click="jumpAlbumDetail(item.id)">
+          <div
+            class="item-cover"
+            :title="item.name"
+            @click="jumpAlbumDetail(item.id)"
+          >
             <img
               class="item-cover-img"
               :src="`${item?.picUrl}?param=130y130`"
@@ -18,12 +22,17 @@
             <i class="item-cover-bg"></i>
             <i class="item-cover-play"></i>
           </div>
-          <p class="desc" @click="jumpAlbumDetail(item.id)">
+          <p class="desc" :title="item.name" @click="jumpAlbumDetail(item.id)">
             {{ item?.name }}
           </p>
-          <p class="name" @click="jumpSingerDetail(item?.artist?.id)">
-            {{ item?.artist?.name }}
-          </p>
+          <template v-for="(i, ind) in item?.artists" :key="ind">
+            <span class="name" :title="i.name" @click="jumpSingerDetail(i.id)">
+              {{ i.name }}
+            </span>
+            <span class="line" v-if="ind !== item?.artists.length - 1">
+              /
+            </span>
+          </template>
         </li>
       </ul>
       <!-- 全部新碟 -->
@@ -43,7 +52,11 @@
           v-for="(item, index) in newDiscAlbumList"
           :key="index"
         >
-          <div class="item-cover" @click="jumpAlbumDetail(item.id)">
+          <div
+            class="item-cover"
+            :title="item.name"
+            @click="jumpAlbumDetail(item.id)"
+          >
             <img
               class="item-cover-img"
               :src="`${item?.picUrl}?param=130y130`"
@@ -52,12 +65,17 @@
             <i class="item-cover-bg"></i>
             <i class="item-cover-play"></i>
           </div>
-          <p class="desc" @click="jumpAlbumDetail(item.id)">
+          <p class="desc" :title="item.name" @click="jumpAlbumDetail(item.id)">
             {{ item?.name }}
           </p>
-          <p class="name" @click="jumpSingerDetail(item?.artist?.id)">
-            {{ item?.artist?.name }}
-          </p>
+          <template v-for="(i, ind) in item?.artists" :key="ind">
+            <span class="name" :title="i.name" @click="jumpSingerDetail(i.id)">
+              {{ i.name }}
+            </span>
+            <span class="line" v-if="ind !== item?.artists.length - 1">
+              /
+            </span>
+          </template>
         </li>
       </ul>
       <!-- 参数从0开始，分页需从1开始 -->

@@ -45,7 +45,7 @@
               <span class="by">by</span>
               <span
                 class="text"
-                :title="item?.name"
+                :title="item?.creator?.nickname"
                 @click="jumpUserProfile(item?.creator?.userId)"
               >
                 {{ item?.creator?.nickname }}

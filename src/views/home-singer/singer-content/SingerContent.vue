@@ -23,11 +23,19 @@
     </ul>
     <ul class="list">
       <li class="item" v-for="(item, index) in main" :key="index">
-        <div class="item-cover" @click="jumpSingerDetail(item.id)">
+        <div
+          class="item-cover"
+          :title="`${item.name}的音乐`"
+          @click="jumpSingerDetail(item.id)"
+        >
           <img class="item-cover-img" :src="item.picUrl" alt="" />
         </div>
         <div class="item-desc">
-          <span class="item-desc-text" @click="jumpSingerDetail(item.id)">
+          <span
+            class="item-desc-text"
+            :title="`${item.name}的音乐`"
+            @click="jumpSingerDetail(item.id)"
+          >
             {{ item.name }}
           </span>
           <span class="item-desc-icon" v-if="item.accountId"></span>
@@ -42,7 +50,9 @@
         :key="index"
         @click="jumpSingerDetail(item.id)"
       >
-        <span class="item-text">{{ item.name }}</span>
+        <span class="item-text" :title="`${item.name}的音乐`">
+          {{ item.name }}
+        </span>
         <span class="item-icon" v-if="item.accountId"></span>
       </li>
     </ul>
