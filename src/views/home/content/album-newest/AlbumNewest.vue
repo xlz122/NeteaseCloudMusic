@@ -27,7 +27,11 @@
             </div>
             <div class="name-list">
               <template v-for="(i, ind) in item?.artists" :key="ind">
-                <span class="name" @click="jumpSingerDetail(i.id)">
+                <span
+                  class="name"
+                  :title="i?.name"
+                  @click="jumpSingerDetail(i.id)"
+                >
                   {{ i.name }}
                 </span>
                 <span class="line" v-if="ind !== item.artists.length - 1">

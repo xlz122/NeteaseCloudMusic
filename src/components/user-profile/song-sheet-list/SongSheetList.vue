@@ -21,7 +21,7 @@
           :class="{ 'first-list-item': !(index % 5) }"
           @click="jumpSongSheetDetail(item.id)"
         >
-          <div class="item-cover" :title="item.title">
+          <div class="item-cover" :title="item.name">
             <img
               class="cover-img"
               :src="`${item.coverImgUrl}?param=140y140`"
@@ -33,7 +33,7 @@
               <i class="info-icon-right"></i>
             </div>
           </div>
-          <p class="item-desc" :title="item.title">{{ item.name }}</p>
+          <p class="item-desc" :title="item.name">{{ item.name }}</p>
         </li>
       </ul>
     </template>
@@ -58,7 +58,7 @@
           :class="{ 'first-list-item': index === 0 }"
           @click="jumpSongSheetDetail(item.id)"
         >
-          <div class="item-cover" :title="item.title">
+          <div class="item-cover" :title="item.name">
             <img
               class="cover-img"
               :src="`${item.coverImgUrl}?param=140y140`"
@@ -70,7 +70,7 @@
               <i class="info-icon-right"></i>
             </div>
           </div>
-          <p class="item-desc" :title="item.title">{{ item.name }}</p>
+          <p class="item-desc" :title="item.name">{{ item.name }}</p>
         </li>
       </ul>
     </template>

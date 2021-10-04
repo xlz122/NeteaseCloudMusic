@@ -28,6 +28,7 @@
           />
           <span
             class="user-name"
+            :title="songSheetDetail?.playlist?.creator?.nickname"
             @click="jumpUserProfile(songSheetDetail?.playlist?.creator?.userId)"
           >
             {{ songSheetDetail?.playlist?.creator?.nickname }}
@@ -49,6 +50,7 @@
             :class="{
               'disable-play': songSheetDetail?.playlist?.tracks.length === 0
             }"
+            title="播放"
             @click="playTitleMusic"
           >
             <span class="icon-play">播放</span>
@@ -58,6 +60,7 @@
             :class="{
               'disable-play-add': songSheetDetail?.playlist?.tracks.length === 0
             }"
+            title="添加到播放列表"
             @click="setAddPlayList"
           ></div>
           <!-- 自己的歌单，不可收藏/取消收藏 -->

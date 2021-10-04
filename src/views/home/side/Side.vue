@@ -39,7 +39,7 @@
       </h3>
       <ul class="list anchor-list">
         <li
-          class="item"
+          class="anchor-item"
           v-for="(item, index) in anchorList"
           :key="index"
           @click="jumpUserProfile(item.userId)"

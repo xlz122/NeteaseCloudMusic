@@ -10,7 +10,11 @@
           />
         </div>
         <div class="title">
-          <h3 class="t-text" @click="songListMore">
+          <h3
+            class="t-text"
+            :title="item?.playlist?.name"
+            @click="songListMore"
+          >
             {{ item?.playlist?.name }}
           </h3>
           <div class="btns">
@@ -29,7 +33,9 @@
             <span class="num" :class="{ topThree: ind < 3 }">
               {{ ind + 1 }}
             </span>
-            <p class="text" @click="jumpSongDetail(i.id)">{{ i?.name }}</p>
+            <p class="text" :title="i?.name" @click="jumpSongDetail(i.id)">
+              {{ i?.name }}
+            </p>
             <div class="operate">
               <i
                 class="operate-play"
