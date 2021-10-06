@@ -124,8 +124,10 @@
           >
             {{ item?.name }}
           </div>
-          <em class="item-like">{{ item?.copywriter }}</em>
-          <button class="disable-like">不感兴趣</button>
+          <div class="like-text">
+            <em class="item-like">{{ item?.copywriter }}</em>
+            <button class="disable-like">不感兴趣</button>
+          </div>
         </li>
       </ul>
     </div>
@@ -281,7 +283,10 @@ export default defineComponent({
 
     // 获取当前日期
     const dateText = ref<string>('');
-    dateText.value = formatDateTime(new Date().getTime() / 1000, 'dd');
+    dateText.value = formatDateTime(new Date().getTime() / 1000, 'dd').replace(
+      /\b(0+)/gi,
+      ''
+    );
 
     // 新碟上架 - 跳转专辑
     function jumpAlbumDetail(id: number): void {
