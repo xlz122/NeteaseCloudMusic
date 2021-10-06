@@ -65,6 +65,15 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "user-level" */ '../views/user/level/Level.vue'
           )
       },
+      // 首页 - 每日推荐
+      {
+        path: '/home-recommend',
+        name: 'home-recommend',
+        component: () =>
+          import(
+            /* webpackChunkName: "home-recommend" */ '../views/home-recommend/HomeRecommend.vue'
+          )
+      },
       // 首页 - 排行榜
       {
         path: '/home-toplist',

@@ -94,13 +94,15 @@
       </div>
       <ul class="list-content">
         <li class="item individualization">
-          <div class="item-top">
+          <div class="item-top" @click="jumpRecommend">
             <i class="img"></i>
             <span class="head">{{ weekText }}</span>
             <span class="head-text">{{ dateText }}</span>
             <span class="mask"></span>
           </div>
-          <div class="item-bottom" title="每日歌曲推荐">每日歌曲推荐</div>
+          <div class="item-bottom" title="每日歌曲推荐" @click="jumpRecommend">
+            每日歌曲推荐
+          </div>
           <em class="item-like">根据你的口味生成，每天6:00更新</em>
         </li>
         <li
@@ -288,6 +290,11 @@ export default defineComponent({
       ''
     );
 
+    // 个性化推荐 - 跳转每日推荐
+    function jumpRecommend(): void {
+      $router.push({ name: 'home-recommend' });
+    }
+
     // 新碟上架 - 跳转专辑
     function jumpAlbumDetail(id: number): void {
       $router.push({ name: 'album-detail', params: { albumId: id } });
@@ -322,6 +329,7 @@ export default defineComponent({
       individualizatData,
       weekText,
       dateText,
+      jumpRecommend,
       jumpAlbumDetail,
       jumpSingerDetail,
       albumNewestMore,
