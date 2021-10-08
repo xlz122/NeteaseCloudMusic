@@ -87,7 +87,7 @@ module.exports = {
     if (process.env.NODE_ENV === 'production') {
       // 为生产环境修改配置...
       // 去掉所有console.log()
-      config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
+      // config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
 
       // 打包文件大小配置
       config.performance = {
