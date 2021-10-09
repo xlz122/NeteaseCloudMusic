@@ -26,7 +26,7 @@ import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { playlistDetail } from '@api/song-sheet-detail';
-import { commentPlayList } from '@api/my-music';
+import { commentPlayList } from '@api/comment';
 import { topList } from '@api/home-toplist';
 import { ResponseType, CommentParams } from '@/types/types';
 import { handleCommentData } from '@components/comment/handleCommentData';
