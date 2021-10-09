@@ -40,7 +40,7 @@
         <template v-if="isLogin">
           <li
             class="item"
-            v-for="(item, index) in individualizatData"
+            v-for="(item, index) in individualizatSongSheet"
             :key="index"
             :class="{ 'last-item': index === 1 }"
           >
@@ -107,9 +107,11 @@
         </li>
         <li
           class="item individualization"
-          v-for="(item, index) in individualizatData"
+          v-for="(item, index) in individualizatData.slice(0, 3)"
           :key="index"
-          :class="{ 'last-item': index === individualizatData.length - 1 }"
+          :class="{
+            'last-item': index === individualizatData.slice(0, 3).length - 1
+          }"
         >
           <div class="item-top" @click="jumpSongSheetDetail(item.id)">
             <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
@@ -128,7 +130,9 @@
           </div>
           <div class="like-text">
             <em class="item-like">{{ item?.copywriter }}</em>
-            <button class="disable-like">不感兴趣</button>
+            <button class="disable-like" @click="uninterested(index)">
+              不感兴趣
+            </button>
           </div>
         </li>
       </ul>
@@ -258,6 +262,7 @@ export default defineComponent({
     }
     getDjprogram();
 
+    const individualizatSongSheet = ref<unknown[]>([]);
     const individualizatData = ref<unknown[]>([]);
     // 获取个性化推荐歌单数据
     function getIndividualizat(): boolean | undefined {
@@ -270,7 +275,10 @@ export default defineComponent({
             item.playcount = bigNumberTransform(item.playcount);
           });
           // 截取前三项
-          individualizatData.value = res?.recommend.slice(0, 3);
+          individualizatSongSheet.value = JSON.parse(
+            JSON.stringify(res?.recommend.slice(0, 3))
+          );
+          individualizatData.value = JSON.parse(JSON.stringify(res?.recommend));
         }
       });
     }
@@ -290,6 +298,20 @@ export default defineComponent({
     // 个性化推荐 - 跳转每日推荐
     function jumpRecommend(): void {
       $router.push({ name: 'home-recommend' });
+    }
+
+    // 个性化推荐 - 不感兴趣
+    function uninterested(index: number): boolean | undefined {
+      if (individualizatData.value.length <= 3) {
+        $store.commit('setMessage', {
+          type: 'info',
+          title: '暂无更多推荐'
+        });
+        return false;
+      }
+
+      individualizatData.value.splice(index, 1, individualizatData.value[3]);
+      individualizatData.value.splice(3, 1);
     }
 
     // 新碟上架 - 跳转专辑
@@ -323,10 +345,12 @@ export default defineComponent({
       songListData,
       jumpDjprogramDetail,
       djprogramData,
+      individualizatSongSheet,
       individualizatData,
       weekText,
       dateText,
       jumpRecommend,
+      uninterested,
       jumpAlbumDetail,
       jumpSingerDetail,
       albumNewestMore,
