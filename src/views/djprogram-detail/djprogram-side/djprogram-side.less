@@ -1,0 +1,95 @@
+.djprogram-side-container {
+  padding: 20px 40px 40px 30px;
+
+  .title {
+    position: relative;
+    height: 23px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    color: #333;
+    font-size: 12px;
+    text-align: left;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    .title-all {
+      position: absolute;
+      right: 0;
+      color: #666;
+      font-weight: normal;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .djprogram-side-list {
+    margin-bottom: 25px;
+
+    .item {
+      width: 200px;
+      height: 50px;
+      margin-bottom: 15px;
+      line-height: 24px;
+      text-align: left;
+
+      .item-cover {
+        display: inline-block;
+        vertical-align: top;
+        width: 50px;
+        height: 50px;
+        cursor: pointer;
+
+        .cover-img {
+          display: inline-block;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .item-info {
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 10px;
+        line-height: 24px;
+
+        .info-title {
+          width: 140px;
+          font-size: 14px;
+          color: #000;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          word-wrap: normal;
+          cursor: pointer;
+        }
+
+        .info-title:hover {
+          text-decoration: underline;
+        }
+
+        .info-desc {
+          width: 140px;
+
+          .text {
+            max-width: 106px;
+            color: #999;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-wrap: normal;
+            cursor: pointer;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+}

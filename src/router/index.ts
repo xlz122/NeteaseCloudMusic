@@ -137,6 +137,15 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "song-sheet-detail" */ '../views/song-sheet-detail/SongSheetDetail.vue'
           )
       },
+      // 电台节目详情
+      {
+        path: '/djprogram-detail',
+        name: 'djprogram-detail',
+        component: () =>
+          import(
+            /* webpackChunkName: "djprogram-detail" */ '../views/djprogram-detail/DjprogramDetail.vue'
+          )
+      },
       // 歌手详情
       {
         path: '/singer-detail',

@@ -10,6 +10,7 @@ export type State = {
   userId: number;
   songId: number;
   singerId: number;
+  djprogramId: number;
   albumId: number;
   singerTabIndex: number;
   searchIndex: number;
@@ -34,6 +35,7 @@ const state: State = {
   userId: Number(localStorage.getItem('userId')) || 0, // 用户uid(自己或其他人)
   songId: Number(localStorage.getItem('songId')) || 0, // 歌曲id
   singerId: Number(localStorage.getItem('singerId')) || 0, // 歌手id
+  djprogramId: Number(localStorage.getItem('djprogramId')) || 0, // 电台节目id
   albumId: Number(localStorage.getItem('albumId')) || 0, // 专辑id
   singerTabIndex: Number(localStorage.getItem('singerTabIndex')) || 0, // 歌手详情导航
   searchIndex: Number(localStorage.getItem('searchIndex')) || 0 // 搜索详情导航

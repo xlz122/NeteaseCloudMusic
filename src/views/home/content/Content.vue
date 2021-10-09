@@ -236,12 +236,9 @@ export default defineComponent({
     }
     getSongList();
 
-    // 跳转电台详情
-    function jumpDjprogramDetail(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+    // 跳转电台节目详情
+    function jumpDjprogramDetail(id: number): void {
+      $router.push({ name: 'djprogram-detail', params: { djprogramId: id } });
     }
 
     // 获取热门推荐 - 推荐电台数据

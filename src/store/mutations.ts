@@ -74,6 +74,11 @@ const mutations: Mutations<State> = {
     state.albumId = albumId;
     localStorage.setItem('albumId', JSON.stringify(albumId));
   },
+  // 电台节目id
+  setDjprogramId(state, djprogramId: number) {
+    state.djprogramId = djprogramId;
+    localStorage.setItem('djprogramId', JSON.stringify(djprogramId));
+  },
   // 歌手详情tab
   setSingerTabIndex(state, singerTabIndex: number) {
     state.singerTabIndex = singerTabIndex;
