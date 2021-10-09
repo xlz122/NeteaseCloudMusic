@@ -38,7 +38,7 @@ export const commentMusic = ({
 };
 
 /**
- * @desc 新增歌单评论
+ * @desc 新增评论
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
  * @param { Number } id - 歌单id
@@ -109,7 +109,7 @@ export const replyComment = ({
 };
 
 /**
- * @desc 删除歌单评论
+ * @desc 删除评论
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
  * @param { Number } id - 歌单id
@@ -144,7 +144,7 @@ export const deleteComment = ({
 };
 
 /**
- * @desc 歌单评论点赞
+ * @desc 评论点赞
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
  * @param { Number } id - 歌单id

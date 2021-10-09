@@ -1,0 +1,386 @@
+.djprogram-user-info-container {
+  padding: 47px 30px 0 39px;
+  text-align: left;
+
+  .cover-warp {
+    display: inline-block;
+    vertical-align: top;
+    width: 155px;
+
+    .cover {
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+      width: 140px;
+      height: 140px;
+      padding: 3px;
+      border: 1px solid #ccc;
+
+      .cover-img {
+        width: 100%;
+        height: 100%;
+      }
+
+      .cover-img-bg {
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 140px;
+        height: 140px;
+        background: url(~@/assets/image/my-music/coverall.png) no-repeat;
+        background-position: -230px -380px;
+      }
+    }
+  }
+
+  .info-right {
+    display: inline-block;
+    vertical-align: top;
+    width: calc(100% - 221px);
+    margin-left: 15px;
+    margin-top: 18px;
+
+    .title {
+      display: block;
+
+      .icon-title {
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+        width: 73px;
+        height: 24px;
+        margin-right: 8px;
+        background: url(~@/assets/image/icon2.png) no-repeat;
+        background-position: 0 -75px;
+      }
+
+      .title-text {
+        display: inline-block;
+        vertical-align: top;
+        width: 335px;
+        font-size: 20px;
+        font-weight: normal;
+        font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
+      }
+    }
+
+    .rdiname {
+      margin-top: 29px;
+
+      .icon {
+        display: inline-block;
+        vertical-align: middle;
+        width: 16px;
+        height: 17px;
+        background: url(~@/assets/image/icon2.png) no-repeat;
+        background-position: -50px -20px;
+      }
+
+      .text {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 15px 0 8px;
+        color: #666;
+        font-size: 16px;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .subscribe {
+        display: inline-block;
+        vertical-align: middle;
+        height: 28px;
+        line-height: 29px;
+        padding-right: 5px;
+        background: url(~@/assets/image/icon-button.png) no-repeat;
+        background-position: right -2400px;
+        color: #333;
+        cursor: pointer;
+
+        &:hover {
+          background-position: right -2470px;
+        }
+
+        .subscribe-icon {
+          position: relative;
+          display: inline-block;
+          padding: 0 10px 0 24px;
+          background: url(~@/assets/image/icon-button.png) no-repeat;
+          background-position: 0 -2370px;
+
+          &:hover {
+            background-position: 0 -2440px;
+          }
+
+          &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 6px;
+            transform: translateY(-60%);
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            background: url(~@/assets/image/icon2.png) no-repeat;
+            background-position: -50px 0;
+          }
+        }
+      }
+    }
+  }
+
+  .info-bottom {
+    display: block;
+    margin-top: 20px;
+
+    .operate-btn {
+      display: inline-block;
+      vertical-align: middle;
+      margin-top: 5px;
+      margin-right: 23px;
+
+      .play {
+        display: inline-block;
+        vertical-align: top;
+        min-width: 59px;
+        height: 31px;
+        line-height: 31px;
+        padding-right: 5px;
+        margin-right: 10px;
+        background: url(~@/assets/image/icon-button.png) no-repeat;
+        background-position: right -676px;
+
+        .icon-play {
+          display: inline-block;
+          vertical-align: middle;
+          width: 100%;
+          height: 31px;
+          line-height: 31px;
+          margin-top: -1px;
+          background: url(~@/assets/image/icon-button.png) no-repeat;
+          background-position: 0 -387px;
+          color: #fff;
+          text-align: center;
+          cursor: pointer;
+        }
+
+        .icon-play::before {
+          content: '';
+          display: inline-block;
+          vertical-align: middle;
+          width: 20px;
+          height: 18px;
+          margin: 0px 2px 2px 0;
+          background: url(~@/assets/image/icon-button.png) no-repeat;
+          background-position: 0 -1622px;
+        }
+      }
+
+      .play:hover {
+        background-position: right -510px;
+
+        .icon-play {
+          background-position: 0 -469px;
+        }
+
+        .icon-play::before {
+          background-position: -28px -1622px;
+        }
+      }
+
+      .other {
+        display: inline-block;
+        vertical-align: middle;
+        height: 32px;
+        line-height: 30px;
+        margin-left: -3px;
+        margin-right: 8px;
+        padding-right: 0;
+        background: url(~@/assets/image/icon-button.png) no-repeat;
+        background-position: right -1192px;
+        color: #333;
+        font-style: normal;
+        text-align: left;
+        font-size: inherit;
+        font-family: simsun, \5b8b\4f53;
+        cursor: pointer;
+
+        .icon {
+          display: inline-block;
+          vertical-align: middle;
+          height: 32px;
+          padding-left: 30px;
+          margin-right: 4px;
+          background: url(~@/assets/image/icon-button.png) no-repeat;
+          background-position: 0 -1149px;
+          font-style: normal;
+          font-weight: 600;
+        }
+      }
+
+      .like {
+        position: relative;
+        background-position: right -1020px;
+
+        .like-icon {
+          position: absolute;
+          top: 7px;
+          left: 9px;
+          width: 17px;
+          height: 15px;
+          background: url(~@/assets/image/icon-button.png) no-repeat;
+          background-position: 0 -95px;
+        }
+
+        .icon {
+          background-position: 0 -59px;
+        }
+      }
+
+      .share {
+        background-position: right -1020px;
+
+        .icon {
+          background-position: 0 -1225px;
+        }
+      }
+
+      .download {
+        background-position: right -1020px;
+
+        .icon {
+          background-position: 0 -2761px;
+        }
+      }
+
+      .comment {
+        background-position: right -1020px;
+
+        .icon {
+          background-position: 0 -1465px;
+        }
+      }
+
+      .like:hover {
+        background-position: right -1106px;
+
+        .icon {
+          background-position: 0 -141px;
+        }
+      }
+
+      .share:hover {
+        background-position: right -1106px;
+
+        .icon {
+          background-position: 0 -1268px;
+        }
+      }
+
+      .download:hover {
+        background-position: right -1106px;
+
+        .icon {
+          background-position: 0 -2805px;
+        }
+      }
+
+      .comment:hover {
+        background-position: right -1106px;
+
+        .icon {
+          background-position: 0 -1508px;
+        }
+      }
+    }
+
+    .out {
+      display: inline-block;
+      vertical-align: middle;
+      text-align: center;
+
+      .icon {
+        display: inline-block;
+        vertical-align: middle;
+        width: 16px;
+        height: 16px;
+        background: url(~@/assets/image/icon.png) repeat-y center 0;
+        background-position: -34px -863px;
+      }
+
+      .link {
+        color: #4996d1;
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .sub {
+    height: 35px;
+    line-height: 35px;
+    margin-top: 25px;
+
+    .cat {
+      display: inline-block;
+      vertical-align: middle;
+      height: 16px;
+      padding: 0 6px;
+      border: 1px solid #999;
+      line-height: 16px;
+      margin: -3px 9px 0 0;
+      color: #cc0000;
+      border-color: #cc0000;
+      font-size: 12px;
+      cursor: pointer;
+
+      &:hover {
+        color: #cc0000;
+        border-color: #cc0000;
+        background: #fbeeee;
+      }
+    }
+
+    .sub-title {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 14px;
+
+      .title-text {
+        max-width: 42%;
+        margin-right: 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
+      }
+    }
+
+    .sub-time {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 18px;
+      color: #999;
+    }
+
+    .title-play-num {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 18px;
+      color: #999;
+
+      .eye-catching {
+        color: #c20c0c;
+        font-weight: bold;
+      }
+    }
+  }
+
+  .simple-description {
+    line-height: 23px;
+    color: #666;
+  }
+}
