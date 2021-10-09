@@ -41,7 +41,7 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { commentPlayList } from '@api/my-music';
+import { commentPlayList } from '@api/comment';
 import { ResponseType, CommentParams } from '@/types/types';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import UserInfo from '@components/song-sheet/user-info/UserInfo.vue';
