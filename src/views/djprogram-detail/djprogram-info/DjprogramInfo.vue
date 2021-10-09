@@ -41,6 +41,7 @@
             <span class="icon"> ({{ djProgramDetailData?.likedCount }}) </span>
           </template>
           <template v-else>
+            <icon class="like-icon"></icon>
             <span class="icon">喜欢</span>
           </template>
         </div>
