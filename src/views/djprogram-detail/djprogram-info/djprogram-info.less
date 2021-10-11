@@ -36,7 +36,7 @@
   .info-right {
     display: inline-block;
     vertical-align: top;
-    width: calc(100% - 221px);
+    width: calc(100% - 170px);
     margin-left: 15px;
     margin-top: 18px;
 
@@ -57,7 +57,7 @@
       .title-text {
         display: inline-block;
         vertical-align: top;
-        width: 335px;
+        width: 385px;
         font-size: 20px;
         font-weight: normal;
         font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
@@ -79,9 +79,13 @@
       .text {
         display: inline-block;
         vertical-align: middle;
+        max-width: 67%;
         margin: 0 15px 0 8px;
         color: #666;
         font-size: 16px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         cursor: pointer;
 
         &:hover {
@@ -348,9 +352,12 @@
       display: inline-block;
       vertical-align: middle;
       font-size: 14px;
+      max-width: 52%;
 
       .title-text {
-        max-width: 42%;
+        display: inline-block;
+        vertical-align: middle;
+        max-width: 80%;
         margin-right: 5px;
         overflow: hidden;
         text-overflow: ellipsis;
