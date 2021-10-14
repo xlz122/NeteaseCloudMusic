@@ -120,6 +120,9 @@ module.exports = {
       };
     } else {
       // 为开发环境修改配置...
+      return {
+        devtool: 'source-map'
+      }
     }
 
     // 代码拆分
