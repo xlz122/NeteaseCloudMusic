@@ -34,6 +34,11 @@ const mutations: Mutations<State> = {
     state.isLogin = true;
     localStorage.setItem('isLogin', JSON.stringify(true));
   },
+  // 用户cookie
+  setCookie(state, cookie) {
+    state.cookie = cookie as string;
+    localStorage.setItem('cookie', JSON.stringify(cookie));
+  },
   // 消息提示
   setMessage(state, message: Message) {
     return new Promise(resolve => {

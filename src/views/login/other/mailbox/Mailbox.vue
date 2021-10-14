@@ -17,6 +17,7 @@
       v-model="mailboxFormData.password"
       type="password"
       placeholder="请输入密码"
+      @keyup.enter="passwordEnter"
     />
   </div>
   <div class="verification" v-if="mailboxVerify.show">
@@ -113,12 +114,18 @@ export default defineComponent({
           }
           // 登录成功
           if (res.code === 200 && res.account.status === 0) {
-            document.cookie = `${res.cookie}`;
+            // 存储用户cookie
+            $store.commit('setCookie', res.cookie);
             // 获取用户详情
             getUserInfo(res?.account?.id);
           }
         })
         .catch(() => ({}));
+    }
+
+    // 密码框监听 - 回车
+    function passwordEnter(): void {
+      mailboxSubmit();
     }
 
     // 获取用户详情
@@ -143,7 +150,8 @@ export default defineComponent({
     return {
       mailboxFormData,
       mailboxVerify,
-      mailboxSubmit
+      mailboxSubmit,
+      passwordEnter
     };
   }
 });

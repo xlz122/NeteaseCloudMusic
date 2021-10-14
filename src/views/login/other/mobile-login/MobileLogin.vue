@@ -35,6 +35,7 @@
       v-model="mobileFormData.password"
       type="password"
       placeholder="请输入密码"
+      @keyup.enter="passwordEnter"
     />
   </div>
   <div class="verification" v-if="mobileVerify.show">
@@ -173,13 +174,23 @@ export default defineComponent({
             }
             // 登录成功
             if (res.code === 200 && res.account.status === 0) {
-              document.cookie = `${res.cookie}`;
+              const cookieArr: string[] = res.cookie.split(';;');
+              cookieArr.forEach(item => {
+                document.cookie = item;
+              });
+              // 存储用户cookie
+              $store.commit('setCookie', res.cookie);
               // 获取用户详情
               getUserInfo(res?.account?.id);
             }
           })
           .catch(() => ({}));
       });
+    }
+
+    // 密码框监听 - 回车
+    function passwordEnter(): void {
+      mobileSubmit();
     }
 
     // 检测手机号是否注册
@@ -242,6 +253,7 @@ export default defineComponent({
       mobilePhoneChange,
       mobileVerify,
       mobileSubmit,
+      passwordEnter,
       mobileSubmitText
     };
   }
