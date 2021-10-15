@@ -1,32 +1,38 @@
 <template>
-  <ul class="search-album-list">
+  <ul class="search-mv-list">
     <li
-      class="search-album-item"
-      v-for="(item, index) in albumData.list"
+      class="search-mv-item"
+      v-for="(item, index) in mvData.list"
       :key="index"
+      :class="{ 'first-item': index % 5 }"
     >
-      <div class="item-cover" @click="jumpAlbumDetail(item.id)">
-        <img
-          class="item-cover-img"
-          :src="`${item?.picUrl}?param=130y130`"
-          alt=""
-        />
-        <i class="item-cover-bg"></i>
-        <i class="item-cover-play"></i>
+      <div class="cover">
+        <img class="img" :src="item?.coverUrl" alt="" />
+        <div class="play-volume">
+          <span class="icon-play"></span>
+          <span class="text">{{ bigNumberTransform(item?.playTime) }}</span>
+        </div>
+        <div class="duration">
+          {{ timeStampToDuration(item?.durationms / 1000) }}
+        </div>
       </div>
-      <p class="desc" @click="jumpAlbumDetail(item.id)">
-        {{ item?.name }}
-      </p>
-      <p class="name" @click="jumpSingerDetail(item?.artist?.id)">
-        {{ item?.artist?.name }}
-      </p>
+      <div class="item-title">
+        <i class="icon" v-if="item?.type === 0"></i>
+        <span :title="item?.title">{{ item?.title }}</span>
+      </div>
+      <div class="item-name">
+        <span class="text" v-if="item?.type !== 0">by</span>
+        <span class="name" @click="jumpSingerDetail(item?.creator[0].userId)">
+          {{ item?.creator[0].userName }}
+        </span>
+      </div>
     </li>
   </ul>
   <Page
-    v-if="albumData.total > albumData.limit"
-    :page="albumData.offset"
-    :pageSize="albumData.limit"
-    :total="albumData.total"
+    v-if="mvData.total > mvData.limit"
+    :page="mvData.offset"
+    :pageSize="mvData.limit"
+    :total="mvData.total"
     @changPage="changPage"
   />
 </template>
@@ -36,11 +42,11 @@ import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { searchKeywords } from '@api/search';
-import { timeStampToDuration } from '@utils/utils.ts';
+import { bigNumberTransform, timeStampToDuration } from '@utils/utils.ts';
 import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
 
-type AlbumData = {
+type MvData = {
   offset: number;
   limit: number;
   total: number;
@@ -72,7 +78,7 @@ export default defineComponent({
       $store.getters.searchText.replace(/"/g, '')
     );
 
-    const albumData = reactive<AlbumData>({
+    const mvData = reactive<MvData>({
       offset: 1,
       limit: 30,
       total: 0,
@@ -83,23 +89,24 @@ export default defineComponent({
     watch(
       () => searchDetailText.value,
       () => {
-        getSearchAlbum();
+        getSearchMv();
       }
     );
 
-    // 获取专辑列表
-    function getSearchAlbum(): void {
+    // 获取视频列表
+    function getSearchMv(): void {
       searchKeywords({
         keywords: searchDetailText.value || searchText.value,
-        offset: (albumData.offset - 1) * albumData.limit,
-        limit: albumData.limit,
-        type: 10
+        offset: (mvData.offset - 1) * mvData.limit,
+        limit: mvData.limit,
+        type: 1014
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            albumData.total = res?.result?.albumCount;
-            albumData.list = res?.result?.albums;
-            emit('searchCountChange', res?.result?.albumCount);
+            mvData.total = res?.result?.videoCount;
+            mvData.list = res?.result?.videos;
+            emit('searchCountChange', res?.result?.videoCount);
+            console.log(mvData.list);
           } else {
             $store.commit('setMessage', {
               type: 'error',
@@ -109,12 +116,7 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getSearchAlbum();
-
-    // 跳转专辑
-    function jumpAlbumDetail(id: number): void {
-      $router.push({ name: 'album-detail', params: { albumId: id } });
-    }
+    getSearchMv();
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
@@ -127,15 +129,15 @@ export default defineComponent({
 
     // 分页
     function changPage(current: number): void {
-      albumData.offset = current;
-      getSearchAlbum();
+      mvData.offset = current;
+      getSearchMv();
     }
 
     return {
+      bigNumberTransform,
       timeStampToDuration,
       userInfo,
-      albumData,
-      jumpAlbumDetail,
+      mvData,
       jumpSingerDetail,
       changPage
     };
@@ -144,5 +146,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './search-album.less';
+@import './search-mv.less';
 </style>
