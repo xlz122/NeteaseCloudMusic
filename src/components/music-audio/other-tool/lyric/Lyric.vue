@@ -94,6 +94,9 @@ export default defineComponent({
         // 重置播放索引
         lyric.index = 0;
         getLyricData();
+      },
+      {
+        immediate: true
       }
     );
 
@@ -103,6 +106,18 @@ export default defineComponent({
         id: playMusicId.value
       }).then((res: ResponseType) => {
         lyric.noData = false;
+
+        // 没有歌词
+        if (res.nolyric) {
+          // 清空歌词
+          lyric.list = [];
+          // 显示暂无歌词
+          lyric.noData = true;
+          // 清空存储歌词
+          $store.commit('music/setLyrics', []);
+          return false;
+        }
+
         try {
           handlerLyric(res.lrc.lyric);
         } catch {
