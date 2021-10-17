@@ -27,7 +27,7 @@ const cdn = {
 
 // gzip压缩
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
-// 图片一般不要压缩，体积会比原来还大
+// 配置需要进行压缩的文件
 const productionGzipExtensions = ['js', 'css', 'json'];
 
 module.exports = {
@@ -67,11 +67,9 @@ module.exports = {
     open: false,
     // 启动服务端口号
     port: 8018,
-    //启动项目后，默认进入的页面地址
-    // index: '',
     proxy: {
       api: {
-        target: 'https://n.xlz122.cn/api',
+        target: process.env.VUE_APP_BASE_URL,
         // 允许跨域
         ws: true,
         changeOrigin: true,
@@ -86,17 +84,17 @@ module.exports = {
     // development(开发)环境下config.optimization是undefined
     if (process.env.NODE_ENV === 'production') {
       // 为生产环境修改配置...
-      // 去掉所有console.log()
+      // 去掉所有console.log()，cli 5.0版本配置更改（无效）
       // config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
 
       // 打包文件大小配置
       config.performance = {
         hints: 'warning',
-        //入口起点的最大体积 整数类型（以字节为单位）
+        // 入口起点的最大体积 整数类型（以字节为单位）
         maxEntrypointSize: 50000000,
-        //生成文件的最大体积 整数类型（以字节为单位 300k）
+        // 生成文件的最大体积 整数类型（以字节为单位 300k）
         maxAssetSize: 30000000,
-        //只给出 js 文件的性能提示
+        // 只给出 js 文件的性能提示
         assetFilter: function (assetFilename) {
           return assetFilename.endsWith('.js');
         }
@@ -113,7 +111,7 @@ module.exports = {
             test: new RegExp(
               '\\.(' + productionGzipExtensions.join('|') + ')$'
             ),
-            //对超过10k的数据进行压缩
+            // 对超过10k的数据进行压缩
             threshold: 10240,
             // 压缩比例，值为0 ~ 1
             minRatio: 0.6
@@ -160,6 +158,7 @@ module.exports = {
       .set('@types', resolve('src/types'))
       .set('@utils', resolve('src/utils'))
       .set('@views', resolve('src/views'));
+
     // 配置index.html title、cdn引入
     config.plugin('html').tap(args => {
       args[0].title = '网易云音乐';
@@ -169,6 +168,7 @@ module.exports = {
       }
       return args;
     });
+
     // 图片打包成base64配置，limit: 10240为10k
     config.module
       .rule('images')
@@ -176,6 +176,7 @@ module.exports = {
       .use('url-loader')
       .loader('url-loader')
       .tap(options => Object.assign(options, { limit: 10240 }));
+
     // 移除 prefetch 插件
     config.plugins.delete('prefetch');
     // 移除 preload 插件

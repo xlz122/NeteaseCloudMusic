@@ -109,7 +109,7 @@ class HttpRequest {
 }
 
 const Axios = new HttpRequest({
-  baseURL: '/api'
+  baseURL: process.env.VUE_APP_BASE_URL
 });
 
 export default Axios;
