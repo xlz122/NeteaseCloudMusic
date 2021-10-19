@@ -10,6 +10,8 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "dependencies": {
+    "@commitlint/cli": "^13.2.1",
+    "@commitlint/config-conventional": "^13.2.0",
     "axios": "^0.22.0",
     "compression-webpack-plugin": "^5.0.1",
     "conventional-changelog": "^3.1.24",
