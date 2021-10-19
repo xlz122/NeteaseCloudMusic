@@ -1,16 +1,19 @@
 {
   "name": "netease-cloud-music",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --report",
     "lint": "vue-cli-service lint",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "dependencies": {
     "axios": "^0.22.0",
     "compression-webpack-plugin": "^5.0.1",
+    "conventional-changelog": "^3.1.24",
+    "conventional-changelog-cli": "^2.1.1",
     "husky": "^7.0.2",
     "lint-staged": "^11.2.0",
     "rimraf": "^3.0.2",
