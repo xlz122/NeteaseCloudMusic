@@ -1,17 +1,14 @@
-## [1.0.4](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.3...v1.0.4) (2021-10-18)
+## [1.0.4](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.3...v1.0.4) (2021-10-19)
 
 
 ### Bug Fixes
 
-* 修复无歌词未清空本地存储歌词bug,修复未打开播放列表切换歌曲，歌词不更新bug ([b842953](https://github.com/xlz122/NeteaseCloudMusic/commit/b842953b11fecc9be9eba79b3277db56eed0aa52))
+* 修复无歌词未清空本地存储歌词bug,修复未打开播放列表切换歌曲，歌词不更新bug ([e6fbfae](https://github.com/xlz122/NeteaseCloudMusic/commit/e6fbfae0b727a34b21c93a180c654675461c2f1f))
 
 
 ### Features
 
-* 开发/生产环境的接口基础路径放置在.env文件中 ([6903ad4](https://github.com/xlz122/NeteaseCloudMusic/commit/6903ad4f263e745158b51db8fbec5bb2c8bf182e))
-* 增加代码提交前eslint验证(error不允许提交) ([e5110c3](https://github.com/xlz122/NeteaseCloudMusic/commit/e5110c392a34152145989190bd4af114e0ccd4ff))
-* 增加开发环境配置，用于vscode内debugger调试 ([7e0cb54](https://github.com/xlz122/NeteaseCloudMusic/commit/7e0cb5492e61a7bd9d5f2ecfcb44fc2942fae2dd))
-* 增加搜索详情-视频页面 ([ba39a2d](https://github.com/xlz122/NeteaseCloudMusic/commit/ba39a2d4eb80d1ac3d36a5912ad67f63bb510cc4))
+* 增加搜索详情-视频页面 ([4e21102](https://github.com/xlz122/NeteaseCloudMusic/commit/4e2110291e529a2b3e37776c201ce49e3654b2ef))
 
 
 
