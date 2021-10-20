@@ -99,7 +99,8 @@ export default defineComponent({
         }
         // 803授权成功
         if (res.code === 803) {
-          document.cookie = `${res.cookie}`;
+          // 存储用户cookie
+          $store.commit('setCookie', res.cookie);
           getAccount();
         }
       });

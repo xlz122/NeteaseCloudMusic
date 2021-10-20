@@ -9,6 +9,7 @@ const getters: Getters<State> = {
   subActiveIndex: state => state.subActiveIndex,
   loginDialog: state => state.loginDialog,
   userInfo: state => state.userInfo,
+  cookie: state => state.cookie,
   isLogin: state => state.isLogin,
   message: state => state.message,
   searchText: state => state.searchText,
