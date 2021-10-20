@@ -17,6 +17,7 @@
       v-model="mailboxFormData.password"
       type="password"
       placeholder="请输入密码"
+      @keyup.enter="passwordEnter"
     />
   </div>
   <div class="verification" v-if="mailboxVerify.show">
@@ -122,6 +123,11 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
+    // 密码框监听 - 回车
+    function passwordEnter(): void {
+      mailboxSubmit();
+    }
+
     // 获取用户详情
     function getUserInfo(uid: number): void {
       userInfo({ uid }).then((res: ResponseDataType) => {
@@ -144,7 +150,8 @@ export default defineComponent({
     return {
       mailboxFormData,
       mailboxVerify,
-      mailboxSubmit
+      mailboxSubmit,
+      passwordEnter
     };
   }
 });
