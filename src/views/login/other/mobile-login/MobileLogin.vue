@@ -174,6 +174,10 @@ export default defineComponent({
             }
             // 登录成功
             if (res.code === 200 && res.account.status === 0) {
+              const cookieArr: string[] = res.cookie.split(';;');
+              cookieArr.forEach(item => {
+                document.cookie = item;
+              });
               // 存储用户cookie
               $store.commit('setCookie', res.cookie);
               // 获取用户详情

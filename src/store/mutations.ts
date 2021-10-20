@@ -1,4 +1,5 @@
 import { State } from '@store/state';
+import { clearAllCookie } from '@utils/cookie';
 
 type Mutations<T, U = any> = {
   [key: string]: (state: T, payload: U) => void;
@@ -107,6 +108,8 @@ const mutations: Mutations<State> = {
     state.userInfo = {};
     // 清除所有本地存储
     localStorage.clear();
+    // 清除所有cookie
+    clearAllCookie();
   }
 };
 

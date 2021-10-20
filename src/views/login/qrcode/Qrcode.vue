@@ -99,6 +99,11 @@ export default defineComponent({
         }
         // 803授权成功
         if (res.code === 803) {
+          const cookie = res.cookie as string;
+          const cookieArr: string[] = cookie.split(';;');
+          cookieArr.forEach(item => {
+            document.cookie = item;
+          });
           // 存储用户cookie
           $store.commit('setCookie', res.cookie);
           getAccount();
