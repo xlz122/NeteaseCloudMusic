@@ -35,6 +35,7 @@
       v-model="mobileFormData.password"
       type="password"
       placeholder="请输入密码"
+      @keyup.enter="passwordEnter"
     />
   </div>
   <div class="verification" v-if="mobileVerify.show">
@@ -183,6 +184,11 @@ export default defineComponent({
       });
     }
 
+    // 密码框监听 - 回车
+    function passwordEnter(): void {
+      mobileSubmit();
+    }
+
     // 检测手机号是否注册
     function getTestCellphone(): Promise<void> {
       return new Promise(resolve => {
@@ -243,6 +249,7 @@ export default defineComponent({
       mobilePhoneChange,
       mobileVerify,
       mobileSubmit,
+      passwordEnter,
       mobileSubmitText
     };
   }
