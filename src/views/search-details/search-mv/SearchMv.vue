@@ -106,7 +106,6 @@ export default defineComponent({
             mvData.total = res?.result?.videoCount;
             mvData.list = res?.result?.videos;
             emit('searchCountChange', res?.result?.videoCount);
-            console.log(mvData.list);
           } else {
             $store.commit('setMessage', {
               type: 'error',
