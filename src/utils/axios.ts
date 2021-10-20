@@ -85,6 +85,18 @@ class HttpRequest {
           pending[requestData] = cancel;
         });
 
+        if (config.method === 'get') {
+          config.params = Object.assign(config.params, {
+            cookie: encodeURIComponent(store.getters.cookie)
+          });
+        }
+
+        if (config.method === 'post') {
+          config.params = Object.assign(config.data, {
+            cookie: store.getters.cookie
+          });
+        }
+
         return Promise.resolve(config);
       },
       (error: AxiosError) => {

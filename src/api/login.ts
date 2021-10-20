@@ -116,7 +116,7 @@ export const cellphoneLogin = ({
   password,
   countrycode
 }: CellphoneLogin): AxiosRequest => {
-  const params = {
+  const data = {
     timestamp: new Date().getTime(),
     phone,
     password,
@@ -124,8 +124,8 @@ export const cellphoneLogin = ({
   };
   return axios.request({
     url: '/login/cellphone',
-    method: 'get',
-    params
+    method: 'post',
+    data
   });
 };
 
@@ -204,7 +204,7 @@ export const mailboxLogin = ({
   password,
   md5Password
 }: MailboxLogin): AxiosRequest => {
-  const params = {
+  const data = {
     timestamp: new Date().getTime(),
     email,
     password,
@@ -212,8 +212,8 @@ export const mailboxLogin = ({
   };
   return axios.request({
     url: '/login',
-    method: 'get',
-    params
+    method: 'post',
+    data
   });
 };
 

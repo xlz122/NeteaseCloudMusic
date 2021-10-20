@@ -3,6 +3,7 @@ export type State = {
   subActiveIndex: number;
   loginDialog: boolean;
   userInfo: unknown;
+  cookie: string;
   isLogin: boolean;
   message: unknown;
   searchText: string;
@@ -28,6 +29,7 @@ const state: State = {
   subActiveIndex: Number(localStorage.getItem('subActiveIndex')) || 0, // 二级导航选中
   loginDialog: false, // 登录对话框显隐
   userInfo: faultTolerant('userInfo') || {}, // 用户信息
+  cookie: localStorage.getItem('cookie') || '', // 用户cookie
   isLogin: faultTolerant('isLogin') || false, // 是否登录
   message: {}, // 消息提示
   searchText: '', // 搜索关键字
