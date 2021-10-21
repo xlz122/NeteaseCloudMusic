@@ -36,6 +36,13 @@
           @searchCountChange="searchCountChange"
         />
       </template>
+      <!-- 视频 -->
+      <template v-if="searchIndex === 7">
+        <SearchUser
+          :searchDetailText="searchDetailText"
+          @searchCountChange="searchCountChange"
+        />
+      </template>
     </div>
   </div>
 </template>
@@ -49,6 +56,7 @@ import SearchSong from './search-song/SearchSong.vue';
 import SearchSinger from './search-singer/SearchSinger.vue';
 import SearchAlbum from './search-album/SearchAlbum.vue';
 import SearchMv from './search-mv/SearchMv.vue';
+import SearchUser from './search-user/SearchUser.vue';
 
 export default defineComponent({
   components: {
@@ -57,7 +65,8 @@ export default defineComponent({
     SearchSong,
     SearchSinger,
     SearchAlbum,
-    SearchMv
+    SearchMv,
+    SearchUser
   },
   setup() {
     const $store = useStore();
