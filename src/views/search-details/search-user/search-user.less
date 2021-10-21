@@ -1,0 +1,114 @@
+.search-user-list {
+  margin-top: 20px;
+  text-align: left;
+
+  .search-user-item {
+    display: flex;
+    vertical-align: middle;
+    width: 100%;
+    height: 62px;
+    line-height: 52px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    box-sizing: border-box;
+    border: 1px solid #fff;
+
+    &:hover {
+      border: 1px solid #e1e1e1;
+      background: #f2f2f2;
+    }
+
+    .item-cover {
+      display: inline-block;
+      vertical-align: middle;
+      width: 50px;
+      height: 50px;
+      margin-left: 10px;
+      cursor: pointer;
+
+      .img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .item-title {
+      display: inline-block;
+      vertical-align: middle;
+      flex: 1;
+      max-width: 465px;
+      align-items: center;
+      margin-left: 20px;
+      margin-right: 10px;
+
+      .text {
+        display: inline-block;
+        vertical-align: middle;
+        max-width: 100%;
+        font-size: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .icon-sex {
+        display: inline-block;
+        vertical-align: middle;
+        width: 14px;
+        height: 15px;
+        margin-left: 5px;
+        background: url(~@/assets/image/icon.png);
+        cursor: pointer;
+      }
+
+      .male {
+        background-position: -70px -20px;
+      }
+
+      .female {
+        background-position: -70px 0;
+      }
+    }
+
+    .item-follow {
+      display: inline-block;
+      vertical-align: middle;
+      width: 96px;
+      padding: 0 10px;
+
+      .follow-btn {
+        display: inline-block;
+        vertical-align: middle;
+        width: 64px;
+        height: 27px;
+        padding-left: 17px;
+        background: url(~@/assets/image/my-music/icon-button.png);
+        background-position: 0 -990px;
+        border: none;
+        outline: none;
+        cursor: pointer;
+
+        &:hover {
+          background-position: 0 -1020px;
+        }
+      }
+    }
+
+    .item-text {
+      display: inline-block;
+      vertical-align: middle;
+      width: 96px;
+      padding: 0 10px;
+      color: #999;
+    }
+  }
+
+  .even {
+    background-color: #f7f7f7;
+  }
+}
