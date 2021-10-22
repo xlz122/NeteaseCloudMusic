@@ -62,6 +62,9 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
+
     const { searchDetailText } = toRefs(props);
 
     // 搜索关键词
@@ -116,7 +119,12 @@ export default defineComponent({
     }
 
     // 关注
-    function follow(): void {
+    function follow(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
