@@ -1,5 +1,7 @@
 .other {
+  position: relative;
   overflow: hidden;
+  text-align: left;
 
   .phone-login {
     display: inline-block;
@@ -58,6 +60,7 @@
     display: inline-block;
     vertical-align: top;
     padding: 3px 0 3px 39px;
+    text-align: left;
 
     .item {
       margin-top: 15px;
@@ -106,13 +109,15 @@
 }
 
 .icon-qrcode-login {
-  position: relative;
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
 
 .icon-qrcode-login::before {
   content: '';
   position: absolute;
-  left: 478px;
+  right: -1px;
   bottom: 0;
   z-index: 100000;
   width: 52px;
@@ -166,27 +171,30 @@
   width: 220px;
   padding: 0px 0 43px;
   margin: 0 auto;
+  text-align: left;
 }
 
 // 邮箱登录
 .mailbox-form {
   width: 220px;
-  padding: 30px 0 43px;
+  padding: 0px 0 43px;
   margin: 0 auto;
+  text-align: left;
 }
 
 // 返回其他登录
 .return-other-login {
-  position: relative;
-  padding: 0 19px;
+  width: 100%;
   height: 48px;
   border-top: 1px solid #c6c6c6;
   border-radius: 0 0 4px 4px;
   line-height: 48px;
   background-color: #f7f7f7;
+  text-align: left;
 
   .text {
     color: #0c72c3;
+    padding: 0 19px;
     cursor: pointer;
   }
 
