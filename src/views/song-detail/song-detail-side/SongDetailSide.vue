@@ -62,6 +62,13 @@
     </template>
     <h3 class="title">网易云音乐多端下载</h3>
     <SideDownload />
+    <a class="supplement" href="#" target="_blank">补充或修改艺人资料></a>
+    <a
+      class="supplement"
+      href="https://music.163.com/#/wiki/task-center/m/st/wiki/task-center/recommend"
+      target="_blank"
+      >用户wiki任务中心></a
+    >
   </div>
 </template>
 

@@ -29,7 +29,7 @@
           <Search />
           <div class="create">
             <router-link class="link" to="/creator-center" target="_blank">
-              创作中心
+              创作者中心
             </router-link>
           </div>
           <div class="login" v-if="isLogin">
