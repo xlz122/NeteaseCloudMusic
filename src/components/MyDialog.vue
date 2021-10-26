@@ -115,13 +115,11 @@ export default defineComponent({
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.8);
 }
 .my_dialog_content {
-  min-height: 100px;
   overflow-x: hidden;
   overflow-y: auto;
   position: relative;
   padding-top: 38px;
   text-align: left;
-  box-sizing: border-box;
 }
 .my_dialog_title {
   cursor: all-scroll;
