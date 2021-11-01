@@ -2,7 +2,7 @@ import axios from '@utils/axios';
 import { AxiosRequest } from '@/types/types';
 
 /**
- * @desc 二维码登录 - 获取key
+ * @description 二维码登录 - 获取key
  * @param { Number } timestamp - 防止接口缓存
  */
 export const qrcodeKey = (): AxiosRequest => {
@@ -15,7 +15,7 @@ export const qrcodeKey = (): AxiosRequest => {
 };
 
 /**
- * @desc 二维码登录 - 获取二维码
+ * @description 二维码登录 - 获取二维码
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } key - 二维码登录key
  * @param { Boolean } [qrimg] - 是否生成二维码base64链接，可选
@@ -40,7 +40,7 @@ export const qrcodeImg = ({ key, qrimg }: GetQrcodeImg): AxiosRequest => {
 };
 
 /**
- * @desc 二维码登录 - 检测扫码状态
+ * @description 二维码登录 - 检测扫码状态
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } key - 二维码登录key
  */
@@ -57,7 +57,7 @@ export const qrcodeStatus = ({ key }: { key: string }): AxiosRequest => {
 };
 
 /**
- * @desc 手机号登录 - 获取国家编码列表
+ * @description 手机号登录 - 获取国家编码列表
  * @param { Number } timestamp - 防止接口缓存
  */
 export const countryCode = (): AxiosRequest => {
@@ -70,7 +70,7 @@ export const countryCode = (): AxiosRequest => {
 };
 
 /**
- * @desc 手机号登录 - 检测手机号码是否已注册
+ * @description 手机号登录 - 检测手机号码是否已注册
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } phone - 手机号码
  * @param { String } [countrycode] - 国家码，用于国外手机号(可选)
@@ -98,7 +98,7 @@ export const testCellphone = ({
 };
 
 /**
- * @desc 手机号登录 - 登录
+ * @description 手机号登录 - 登录
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } phone - 手机号码
  * @param { String } password - 密码
@@ -130,7 +130,7 @@ export const cellphoneLogin = ({
 };
 
 /**
- * @desc 手机号注册 - 发送验证码
+ * @description 手机号注册 - 发送验证码
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } phone - 手机号码
  * @param { String } [ctcode] - 国家码，用于国外手机号(可选)
@@ -155,7 +155,7 @@ export const captchaSent = ({ phone, ctcode }: CaptchaSent): AxiosRequest => {
 };
 
 /**
- * @desc 手机号注册 - 验证验证码
+ * @description 手机号注册 - 验证验证码
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } captcha - 验证码
  * @param { String } [ctcode] - 国家码，用于国外手机号(可选)
@@ -186,7 +186,7 @@ export const captchaVerify = ({
 };
 
 /**
- * @desc 邮箱登录
+ * @description 邮箱登录
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } email - 163 网易邮箱
  * @param { String } password - 密码
@@ -218,7 +218,7 @@ export const mailboxLogin = ({
 };
 
 /**
- * @desc 获取账号信息
+ * @description 获取账号信息
  * @param { Number } timestamp - 防止接口缓存
  */
 export const accountInfo = (): AxiosRequest => {
@@ -233,7 +233,7 @@ export const accountInfo = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取用户信息
+ * @description 获取用户信息
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } uid - 账号id
  */
@@ -250,7 +250,7 @@ export const userInfo = ({ uid }: { uid: number }): AxiosRequest => {
 };
 
 /**
- * @desc 退出登录
+ * @description 退出登录
  * @param { Number } timestamp - 防止接口缓存
  */
 export const logout = (): AxiosRequest => {

@@ -6,7 +6,11 @@
       :key="index"
       :class="{ 'even-item': index % 2 }"
     >
-      <div class="td play-icon" @click="playListMusic(item)"></div>
+      <div
+        class="td play-icon"
+        :class="{ 'active-play': item.id === playMusicId }"
+        @click="playListMusic(item)"
+      ></div>
       <div class="td td1">
         <div class="text">
           <span
@@ -104,6 +108,9 @@ export default defineComponent({
     const $store = useStore();
 
     const { searchDetailText } = toRefs(props);
+
+    // 当前播放音乐id
+    const playMusicId = computed(() => $store.getters['music/playMusicId']);
 
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
@@ -234,6 +241,7 @@ export default defineComponent({
 
     return {
       timeStampToDuration,
+      playMusicId,
       userInfo,
       songData,
       jumpSongDetail,

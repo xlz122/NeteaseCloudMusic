@@ -2,7 +2,7 @@ import axios from '@utils/axios';
 import { AxiosRequest } from '@/types/types';
 
 /**
- * @desc 获取歌单分类
+ * @description 获取歌单分类
  * @param { Number } timestamp - 防止接口缓存
  */
 export const playlistCatlist = (): AxiosRequest => {
@@ -17,7 +17,7 @@ export const playlistCatlist = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取歌单列表
+ * @description 获取歌单列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } order - 可选值为 'new' 和 'hot', 分别对应最新和最热 , 默认为 'hot'
  * @param { String } cat - tag, 比如 " 华语 "、" 古风 " 、" 欧美 "、" 流行 ", 默认为 "全部"

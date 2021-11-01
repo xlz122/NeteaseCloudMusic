@@ -54,7 +54,7 @@ module.exports = {
         if (url) {
           // 取消默认生成的链接引用
           context.linkReferences = false;
- 
+
           // 自定义
           url = `${url}/commit/`;
           commit.subject = `${commit.subject} [#${commit.hash}](${url}${commit.hash})`;
@@ -80,4 +80,4 @@ module.exports = {
     noteGroupsSort: 'title',
     notesSort: compareFunc
   }
-}
+};

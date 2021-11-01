@@ -1,5 +1,5 @@
 /**
- * @desc 设置cookie
+ * @description 设置cookie
  * @param { String } key - key
  * @param { String } value - value
  * @param { String | Number } [expires] - 过期时间，可选
@@ -20,7 +20,7 @@ export function setCookie(
 }
 
 /**
- * @desc 获取cookie
+ * @description 获取cookie
  * @param { String } key - key
  */
 export function getCookie(key: string): string {
@@ -35,7 +35,7 @@ export function getCookie(key: string): string {
 }
 
 /**
- * @desc 删除cookie
+ * @description 删除cookie
  * @param { String } key - key
  */
 export function removeCookie(key: string): void {
@@ -43,7 +43,7 @@ export function removeCookie(key: string): void {
 }
 
 /**
- * @desc 清除所有cookie
+ * @description 清除所有cookie
  */
 export function clearAllCookie(): void {
   const date = new Date();

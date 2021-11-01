@@ -3,7 +3,7 @@ import { getPlayMusicUrl } from '@api/my-music';
 import { ResponseDataType, LoopType } from '@/types/types';
 
 /**
- * @desc 获取音乐播放链接
+ * @description 获取音乐播放链接
  * @param { Number } id - 音乐id
  * @return { String } 音乐播放链接
  */
@@ -18,7 +18,7 @@ export function getMusicUrl(id: number): Promise<string> {
 }
 
 /**
- * @desc 获取上一首歌曲id
+ * @description 获取上一首歌曲id
  * @return { Number } 上一首歌曲id
  */
 export function getPrevMusicId(): Promise<number> {
@@ -73,7 +73,7 @@ export function getPrevMusicId(): Promise<number> {
 }
 
 /**
- * @desc 获取下一首歌曲id
+ * @description 获取下一首歌曲id
  * @return { Number } 上一首歌曲id
  */
 export function getNextMusicId(): Promise<number> {
