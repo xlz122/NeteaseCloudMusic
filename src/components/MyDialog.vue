@@ -169,6 +169,7 @@ export default defineComponent({
   text-align: center;
   vertical-align: middle;
   font-size: 14px;
+  margin-top: 30px;
   margin-bottom: 35px;
   border-radius: 3px;
   text-decoration: none;
