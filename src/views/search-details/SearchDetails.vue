@@ -36,7 +36,14 @@
           @searchCountChange="searchCountChange"
         />
       </template>
-      <!-- 视频 -->
+      <!-- 声音主播 -->
+      <template v-if="searchIndex === 6">
+        <SearchAnchor
+          :searchDetailText="searchDetailText"
+          @searchCountChange="searchCountChange"
+        />
+      </template>
+      <!-- 用户 -->
       <template v-if="searchIndex === 7">
         <SearchUser
           :searchDetailText="searchDetailText"
@@ -56,6 +63,7 @@ import SearchSong from './search-song/SearchSong.vue';
 import SearchSinger from './search-singer/SearchSinger.vue';
 import SearchAlbum from './search-album/SearchAlbum.vue';
 import SearchMv from './search-mv/SearchMv.vue';
+import SearchAnchor from './search-anchor/SearchAnchor.vue';
 import SearchUser from './search-user/SearchUser.vue';
 
 export default defineComponent({
@@ -66,6 +74,7 @@ export default defineComponent({
     SearchSinger,
     SearchAlbum,
     SearchMv,
+    SearchAnchor,
     SearchUser
   },
   setup() {
