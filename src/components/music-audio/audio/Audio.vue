@@ -22,6 +22,7 @@ import { useStore } from 'vuex';
 import { getMusicUrl, getNextMusicId } from './methods';
 
 export default defineComponent({
+  name: 'AudioView',
   setup() {
     const $store = useStore();
 

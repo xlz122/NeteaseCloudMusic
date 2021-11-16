@@ -114,6 +114,7 @@ import MobilePhoneRegister from './mobile-register/MobileRegister.vue';
 import Mailbox from './mailbox/Mailbox.vue';
 
 export default defineComponent({
+  name: 'LoginOther',
   components: {
     MobilePhoneLogin,
     MobilePhoneRegister,

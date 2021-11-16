@@ -52,6 +52,7 @@
 import { defineComponent, ref, toRefs, watch } from '@vue/runtime-core';
 
 export default defineComponent({
+  name: 'PageView',
   props: {
     page: {
       type: Number,

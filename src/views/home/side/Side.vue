@@ -66,6 +66,7 @@ import { useStore } from 'vuex';
 import SideUser from './side-user/SideUser.vue';
 
 export default defineComponent({
+  name: 'HomeSide',
   components: {
     SideUser
   },

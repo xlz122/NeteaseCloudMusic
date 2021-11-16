@@ -361,6 +361,7 @@ import { defineComponent } from 'vue';
 import { formatDate } from '@utils/utils';
 
 export default defineComponent({
+  name: 'FriendContentItem',
   props: {
     item: {
       type: Object,

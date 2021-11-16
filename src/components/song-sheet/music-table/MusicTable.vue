@@ -90,7 +90,7 @@
           </td>
           <td class="tbody-td singer">
             <div class="hd">
-              <template class="text" v-for="(i, ind) in item.ar" :key="ind">
+              <div class="text" v-for="(i, ind) in item.ar" :key="ind">
                 <span
                   class="name"
                   :title="i.name"
@@ -99,7 +99,7 @@
                   {{ i.name }}
                 </span>
                 <span class="line" v-if="ind !== item.ar.length - 1">/</span>
-              </template>
+              </div>
             </div>
           </td>
           <td class="tbody-td" @click="jumpAlbumDetail(item.al.id)">

@@ -44,6 +44,7 @@ import { formatMixedText } from '@utils/formatMixedText';
 import Item from './Item.vue';
 
 export default defineComponent({
+  name: 'FriendContent',
   components: {
     Item
   },

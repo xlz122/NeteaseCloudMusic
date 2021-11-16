@@ -65,6 +65,7 @@ type VerifyMethod = {
 };
 
 export default defineComponent({
+  name: 'LoginMailbox',
   setup() {
     const $store = useStore();
 

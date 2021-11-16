@@ -22,7 +22,7 @@ const HomeContent = defineAsyncComponent(() => import('./content/Content.vue'));
 const HomeSide = defineAsyncComponent(() => import('./side/Side.vue'));
 
 export default defineComponent({
-  name: 'home',
+  name: 'HomeView',
   components: {
     Banner,
     HomeContent,

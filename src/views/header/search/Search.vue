@@ -117,6 +117,7 @@ import { searchPropose } from '@api/search';
 import { ResponseType } from '@/types/types';
 
 export default defineComponent({
+  name: 'HeaderSearch',
   setup() {
     const $router = useRouter();
     const $store = useStore();

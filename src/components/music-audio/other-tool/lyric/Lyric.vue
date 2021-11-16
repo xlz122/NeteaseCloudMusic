@@ -52,6 +52,7 @@ type List = {
 };
 
 export default defineComponent({
+  name: 'LyricView',
   setup() {
     const $store = useStore();
 

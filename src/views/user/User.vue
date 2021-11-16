@@ -28,6 +28,7 @@ type NavList = {
 };
 
 export default defineComponent({
+  name: 'UserView',
   setup() {
     const $router = useRouter();
     const $store = useStore();

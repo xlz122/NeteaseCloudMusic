@@ -105,7 +105,7 @@ type NextLevel = {
 };
 
 export default defineComponent({
-  name: 'level',
+  name: 'UserLevel',
   setup() {
     const $store = useStore();
     // level
