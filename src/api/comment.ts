@@ -9,11 +9,11 @@ export type CommentParams = {
 };
 
 /**
- * @desc 获取歌曲评论列表
+ * @descriptionription 获取歌曲评论列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌曲id
  * @param { Number } [offset] - 页数
- * @param { Number } [limit] - 每页评论条数，默认20
+ * @param { Number } [limit] - 偏移数量，默认20
  * @param { Number } [before] - 分页参数,取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到)
  */
 export const commentMusic = ({
@@ -37,11 +37,11 @@ export const commentMusic = ({
 };
 
 /**
- * @desc 获取歌单评论列表
+ * @descriptionription 获取歌单评论列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单id
  * @param { Number } [offset] - 页数
- * @param { Number } [limit] - 每页评论条数，默认20
+ * @param { Number } [limit] - 偏移数量，默认20
  * @param { Number } [before] - 分页参数,取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到)
  */
 export const commentPlayList = ({
@@ -65,11 +65,11 @@ export const commentPlayList = ({
 };
 
 /**
- * @desc 获取专辑评论列表
+ * @descriptionription 获取专辑评论列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 专辑id
  * @param { Number } [offset] - 页数
- * @param { Number } [limit] - 每页评论条数，默认20
+ * @param { Number } [limit] - 偏移数量，默认20
  * @param { Number } [before] - 分页参数,取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到)
  */
 export const commentAlbum = ({
@@ -93,11 +93,11 @@ export const commentAlbum = ({
 };
 
 /**
- * @desc 获取电台节目评论列表
+ * @descriptionription 获取电台节目评论列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 专辑id
  * @param { Number } [offset] - 页数
- * @param { Number } [limit] - 每页评论条数，默认20
+ * @param { Number } [limit] - 偏移数量，默认20
  * @param { Number } [before] - 分页参数,取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到)
  */
 export const commentDjprogram = ({
@@ -121,7 +121,7 @@ export const commentDjprogram = ({
 };
 
 /**
- * @desc 新增评论
+ * @descriptionription 新增评论
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
  * @param { Number } id - 歌单id
@@ -152,7 +152,7 @@ export const addComment = ({ type, id, content }: AddComment): AxiosRequest => {
 };
 
 /**
- * @desc 回复歌单评论
+ * @descriptionription 回复歌单评论
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
  * @param { Number } id - 歌单id
@@ -175,24 +175,23 @@ export const replyComment = ({
 }: ReplyComment): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
-    t: 2, // t 1为回复评论
+    t: 2, // t 2为回复评论
     type,
     id,
     content,
     commentId
   };
 
-  // eslint-disable-next-line
-  const paramsStr = `t=${params.t}&type=${params.type}&id=${params.id}&content=${params.content}&commentId=${params.commentId}`;
+  const paramsStr = `t=${params.t}&type=${params.type}&id=${params.id}&content=${params.content}`;
 
   return axios.request({
-    url: `/comment?timestamp=${params.timestamp}&${paramsStr}`,
+    url: `/comment?timestamp=${params.timestamp}&${paramsStr}&commentId=${params.commentId}`,
     method: 'get'
   });
 };
 
 /**
- * @desc 删除评论
+ * @descriptionription 删除评论
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
  * @param { Number } id - 歌单id
@@ -227,7 +226,7 @@ export const deleteComment = ({
 };
 
 /**
- * @desc 评论点赞
+ * @descriptionription 评论点赞
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
  * @param { Number } id - 歌单id

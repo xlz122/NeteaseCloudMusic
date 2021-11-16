@@ -2,7 +2,7 @@ import { LoopType } from '@/types/types';
 import { expressionList } from '@/components/comment/comment-replay/comment-replay';
 
 /**
- * @desc 混合文本格式化
+ * @description 混合文本格式化
  * @param { String } - content 内容字符串
  * @return { String } 格式化后内容字符串
  */
@@ -37,7 +37,7 @@ export function formatMixedText(content: string): string {
 }
 
 /**
- * @desc 去除重复的[]符号
+ * @description 去除重复的[]符号
  * @param { String } - chareacterStr 带有重复[]的表情字符串
  * @return { String } 返回去除重复[]符号的表情字符串
  */

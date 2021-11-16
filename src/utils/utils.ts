@@ -1,5 +1,5 @@
 /**
- * @desc 日期字符串转时间戳
+ * @description 日期字符串转时间戳
  * @param { String} - 日期字符串
  * @returns { Nubmer } 时间戳
  */
@@ -8,7 +8,7 @@ export function datestrToTimestamp(datestr: string): number {
 }
 
 /**
- * @desc 获取当前星期几
+ * @description 获取当前星期几
  * @return { String } 星期几
  */
 export function getWeekDate(): string {
@@ -28,7 +28,7 @@ export function getWeekDate(): string {
 }
 
 /**
- * @desc 时间戳转视频时长
+ * @description 时间戳转视频时长
  * @return { String } 视频时长 01:23:45
  */
 export function timeStampToDuration(timeStamp: number): string {
@@ -61,7 +61,7 @@ export function timeStampToDuration(timeStamp: number): string {
 }
 
 /**
- * @desc 日期字符串/时间戳，转格式化后的日期字符串
+ * @description 日期字符串/时间戳，转格式化后的日期字符串
  * @param { String | Date } - date 日期或者时间戳
  * @param { String } - fmt 格式化后的日期字符串格式
  */
@@ -108,7 +108,7 @@ export function formatDateTime(
 }
 
 /**
- * @desc 时间戳转日期字符串，主要用于评论时间
+ * @description 时间戳转日期字符串，主要用于评论时间
  * @param { Nubmer} - 时间戳
  * @returns { String } 格式化后的日期字符串
  */
@@ -242,7 +242,7 @@ export function bigNumberTransform(value: number): number | string {
 }
 
 /**
- * @description 获取滚动条距离页面底部的高度
+ * @descriptionription 获取滚动条距离页面底部的高度
  * @param { MouseEvent } event 滚动条事件对象
  */
 export function getPageBottomHeight(e: Event): number {

@@ -2,7 +2,7 @@ import axios from '@utils/axios';
 import { AxiosRequest } from '@/types/types';
 
 /**
- * @desc 获取朋友动态
+ * @description 获取朋友动态
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } pagesize - 每页数据,默认20
  * @param { Number } lasttime - 返回数据的 lasttime ,默认-1,传入上一次返回结果的 lasttime,将会返回下一页的数据
@@ -30,7 +30,7 @@ export const friendEvent = ({
 };
 
 /**
- * @desc 朋友动态点赞
+ * @description 朋友动态点赞
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } cid - 评论id
  * @param { Number } threadId - 动态的 threadId
@@ -54,11 +54,11 @@ export const dynamicLike = ({
     threadId, // 动态的 threadId
     t
   };
+
+  const paramsStr = `type=${params.tpye}&cid=${params.cid}&threadId=${params.threadId}&t=${params.t}`;
+
   return axios.request({
-    url: `/comment/like?
-      timestamp=${params.timestamp}&type=${params.tpye}
-      &cid=${params.cid}&threadId=${params.threadId}&t=${params.t}
-    `,
+    url: `/comment/like?timestamp=${params.timestamp}&${paramsStr}`,
     method: 'get'
   });
 };

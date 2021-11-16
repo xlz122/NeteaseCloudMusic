@@ -2,7 +2,7 @@ import axios from '@utils/axios';
 import { AxiosRequest } from '@/types/types';
 
 /**
- * @desc 获取专辑详情
+ * @descriptionription 获取专辑详情
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 专辑id
  */
@@ -19,11 +19,11 @@ export const albumDetail = ({ id }: { id: number }): AxiosRequest => {
 };
 
 /**
- * @desc 获取歌手专辑
+ * @descriptionription 获取歌手专辑
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌手id
  * @param { Number } offset - 页数，默认为 0
- * @param { Number } limit - 取出数量，默认为 50
+ * @param { Number } limit - 偏移数量，默认为 50
  */
 
 export type ArtistAlbum = {

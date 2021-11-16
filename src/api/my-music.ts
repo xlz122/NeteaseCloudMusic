@@ -2,7 +2,7 @@ import axios from '@utils/axios';
 import { AxiosRequest } from '@/types/types';
 
 /**
- * @desc 获取用户歌单，收藏，mv, dj 数量
+ * @description 获取用户歌单，收藏，mv, dj 数量
  * @param { Number } timestamp - 防止接口缓存
  */
 export const userSubcount = (): AxiosRequest => {
@@ -17,7 +17,7 @@ export const userSubcount = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取我的歌手列表
+ * @description 获取我的歌手列表
  * @param { Number } timestamp - 防止接口缓存
  */
 export const subPlayList = (): AxiosRequest => {
@@ -32,7 +32,7 @@ export const subPlayList = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取我的视频列表
+ * @description 获取我的视频列表
  * @param { Number } timestamp - 防止接口缓存
  */
 export const myMvSbulist = (): AxiosRequest => {
@@ -47,7 +47,7 @@ export const myMvSbulist = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取用户歌单列表
+ * @description 获取用户歌单列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } uid - 账号id
  */
@@ -64,7 +64,7 @@ export const userPlayList = ({ uid }: { uid: number }): AxiosRequest => {
 };
 
 /**
- * @desc 新增用户歌单
+ * @description 新增用户歌单
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } name - 歌单名称
  */
@@ -81,7 +81,7 @@ export const addPlayList = ({ name }: { name: string }): AxiosRequest => {
 };
 
 /**
- * @desc 删除用户歌单
+ * @description 删除用户歌单
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单id
  */
@@ -98,7 +98,7 @@ export const deletePlayList = ({ id }: { id: number }): AxiosRequest => {
 };
 
 /**
- * @desc 获取用户歌单详情
+ * @description 获取用户歌单详情
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单id
  */
@@ -115,7 +115,7 @@ export const playListDetail = ({ id }: { id: number }): AxiosRequest => {
 };
 
 /**
- * @desc 删除歌单歌曲
+ * @description 删除歌单歌曲
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } op - 从歌单增加单曲为 add, 删除为 del
  * @param { Number } pid: 歌单 id
@@ -142,7 +142,7 @@ export const deleteMusic = ({ pid, tracks }: DeleteMusic): AxiosRequest => {
 };
 
 /**
- * @desc 获取播放url
+ * @description 获取播放url
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌曲id
  * @param { Number } [br] - 码率,默认设置了 999000 即最大码率,如果要 320k 则可设置为 320000,其他类推
