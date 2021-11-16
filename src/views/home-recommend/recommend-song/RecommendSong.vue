@@ -95,7 +95,7 @@
       </tbody>
     </table>
     <!-- 音乐列表空时展示 -->
-    <div class="no-list-data" v-if="recommendSong.length === 0">
+    <div class="no-list-data" v-if="!loading && recommendSong.length === 0">
       <div class="title">
         <i class="icon"></i>
         <h3 class="text">暂无音乐！</h3>
@@ -135,15 +135,11 @@ export default defineComponent({
     // 当前播放音乐id
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
 
-    const loading = ref<boolean>(false);
+    const loading = ref<boolean>(true);
     watch(
       () => recommendSong.value,
       () => {
-        if (recommendSong.value.length) {
-          loading.value = false;
-        } else {
-          loading.value = true;
-        }
+        loading.value = false;
       }
     );
 
