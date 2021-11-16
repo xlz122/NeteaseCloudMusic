@@ -2,7 +2,7 @@ import axios from '@utils/axios';
 import { AxiosRequest } from '@/types/types';
 
 /**
- * @desc 获取歌曲详情
+ * @description 获取歌曲详情
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } ids - 歌曲id
  */
@@ -19,7 +19,7 @@ export const songDetail = ({ ids }: { ids: number }): AxiosRequest => {
 };
 
 /**
- * @desc 获取歌曲的相似歌单
+ * @description 获取歌曲的相似歌单
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌曲id
  */
@@ -36,7 +36,7 @@ export const simiPlaylist = ({ id }: { id: number }): AxiosRequest => {
 };
 
 /**
- * @desc 获取相似歌曲
+ * @description 获取相似歌曲
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌曲id
  */

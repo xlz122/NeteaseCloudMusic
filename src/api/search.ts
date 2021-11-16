@@ -2,7 +2,7 @@ import axios from '@utils/axios';
 import { AxiosRequest } from '@/types/types';
 
 /**
- * @desc 获取搜索建议
+ * @description 获取搜索建议
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } keywords - 关键词
  */
@@ -23,7 +23,7 @@ export const searchPropose = ({
 };
 
 /**
- * @desc 获取搜索列表
+ * @description 获取搜索列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } keywords - 关键词
  * @param { Number } [offest] - 页数: 默认为0

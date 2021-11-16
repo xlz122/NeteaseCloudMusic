@@ -2,7 +2,7 @@ import axios from '@utils/axios';
 import { AxiosRequest } from '@/types/types';
 
 /**
- * @desc 获取 banner( 轮播图 )
+ * @description 获取 banner ( 轮播图 )
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type - 资源类型，0为pc
  */
@@ -19,7 +19,7 @@ export const bannerImgUrl = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取热门推荐 - 推荐歌单
+ * @description 获取热门推荐 - 推荐歌单
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } limit - 条数，可选
  */
@@ -40,7 +40,7 @@ export const recommendSongList = ({
 };
 
 /**
- * @desc 获取热门推荐 - 推荐电台
+ * @description 获取热门推荐 - 推荐电台
  * @param { Number } timestamp - 防止接口缓存
  */
 export const recommendDjprogram = (): AxiosRequest => {
@@ -53,7 +53,7 @@ export const recommendDjprogram = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取个性化推荐
+ * @description 获取个性化推荐
  * @param { Number } timestamp - 防止接口缓存
  */
 export const recommendResource = (): AxiosRequest => {
@@ -66,7 +66,7 @@ export const recommendResource = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取新碟上架
+ * @description 获取新碟上架
  * @param { Number } timestamp - 防止接口缓存
  */
 export const albumNewest = (): AxiosRequest => {
@@ -79,7 +79,7 @@ export const albumNewest = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取用户动态
+ * @description 获取用户动态
  * @param { Number } timestamp - 防止接口缓存
  */
 export const userEvent = (): AxiosRequest => {
@@ -92,7 +92,7 @@ export const userEvent = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取用户关注列表
+ * @description 获取用户关注列表
  * @param { Number } timestamp - 防止接口缓存
  */
 export const userFollows = (): AxiosRequest => {
@@ -105,7 +105,7 @@ export const userFollows = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取用户粉丝列表
+ * @description 获取用户粉丝列表
  * @param { Number } timestamp - 防止接口缓存
  */
 export const userFolloweds = (): AxiosRequest => {
@@ -118,7 +118,7 @@ export const userFolloweds = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取用户粉丝列表
+ * @description 获取用户粉丝列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type - 签到类型 , 默认 0, 其中 0 为安卓端签到 ,1 为 web/PC 签到
  */
@@ -135,7 +135,7 @@ export const dailySignin = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取飙升榜列表
+ * @description 获取飙升榜列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 飙升榜id
  */
@@ -152,7 +152,7 @@ export const soaringList = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取新歌榜列表
+ * @description 获取新歌榜列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 新歌榜id
  */
@@ -169,7 +169,7 @@ export const newSongs = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取原创榜列表
+ * @description 获取原创榜列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 飙升榜id
  */

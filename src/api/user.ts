@@ -2,7 +2,7 @@ import axios from '@utils/axios';
 import { AxiosRequest } from '@/types/types';
 
 /**
- * @desc 获取账号信息(需登录)
+ * @description 获取账号信息（需登录）
  * @param { Number } timestamp - 防止接口缓存
  */
 export const userAccount = (): AxiosRequest => {
@@ -17,7 +17,7 @@ export const userAccount = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取用户等级信息
+ * @description 获取用户等级信息
  * @param { Number } timestamp - 防止接口缓存
  */
 export const userLevel = (): AxiosRequest => {
@@ -32,7 +32,7 @@ export const userLevel = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取用户详情
+ * @description 获取用户详情
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } uid - 用户id
  */

@@ -2,7 +2,7 @@ import axios from '@utils/axios';
 import { AxiosRequest } from '@/types/types';
 
 /**
- * @desc 获取新碟上架
+ * @description 获取新碟上架
  * @param { Number } timestamp - 防止接口缓存
  */
 export const hotNewDisc = (): AxiosRequest => {
@@ -17,7 +17,7 @@ export const hotNewDisc = (): AxiosRequest => {
 };
 
 /**
- * @desc 获取全部新碟
+ * @description 获取全部新碟
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } limit - 返回数量 , 默认为 30
  * @param { Number } offset - 偏移数量，用于分页 , 如 :( 页数 -1)*30, 其中 30 为 limit 的值 , 默认为 0
