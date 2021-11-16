@@ -78,7 +78,6 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { formatDate } from '@utils/utils';
 import CommentReplay from '@/components/comment/comment-replay/CommentReplay.vue';
@@ -105,7 +104,6 @@ export default defineComponent({
     'replySubmit'
   ],
   setup(props, { emit }) {
-    const $router = useRouter();
     const $store = useStore();
 
     // 用户信息
@@ -126,10 +124,8 @@ export default defineComponent({
     }
 
     // 跳转用户资料
-    function jumpUserProfile(userId: number): void {
-      // 头部导航取消选中
-      $store.commit('setHeaderActiveIndex', -1);
-      $router.push({ name: 'user-profile', params: { userId } });
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
     }
 
     // 删除评论

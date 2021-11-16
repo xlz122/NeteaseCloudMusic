@@ -10,9 +10,11 @@ export type State = {
   searchDetailText: string;
   userId: number;
   songId: number;
+  songSheetId: number;
   singerId: number;
   djprogramId: number;
   albumId: number;
+  videoId: string;
   singerTabIndex: number;
   searchIndex: number;
 };
@@ -36,9 +38,11 @@ const state: State = {
   searchDetailText: localStorage.getItem('searchDetailText') || '', // 搜索关键字
   userId: Number(localStorage.getItem('userId')) || 0, // 用户uid(自己或其他人)
   songId: Number(localStorage.getItem('songId')) || 0, // 歌曲id
+  songSheetId: Number(localStorage.getItem('songSheetId')) || 0, // 歌单id
   singerId: Number(localStorage.getItem('singerId')) || 0, // 歌手id
   djprogramId: Number(localStorage.getItem('djprogramId')) || 0, // 电台节目id
   albumId: Number(localStorage.getItem('albumId')) || 0, // 专辑id
+  videoId: faultTolerant('videoId') || '', // 视频id
   singerTabIndex: Number(localStorage.getItem('singerTabIndex')) || 0, // 歌手详情导航
   searchIndex: Number(localStorage.getItem('searchIndex')) || 0 // 搜索详情导航
 };

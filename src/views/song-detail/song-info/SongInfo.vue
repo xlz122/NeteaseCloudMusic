@@ -92,14 +92,14 @@
           </li>
         </ul>
         <div class="toggle-btn" v-if="lyric.list.length > 13">
-          <template v-if="!toggleShow">
-            <span class="text" @click="toggle">展开</span>
+          <span v-if="!toggleShow" @click="toggle">
+            <span class="text">展开</span>
             <i class="icon"></i>
-          </template>
-          <template v-else>
-            <span class="text" @click="toggle">收起</span>
+          </span>
+          <span v-else @click="toggle">
+            <span class="text">收起</span>
             <i class="icon hide"></i>
-          </template>
+          </span>
         </div>
       </div>
     </template>
@@ -108,7 +108,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { PlayMusicItem } from '@store/music/state';
 import { LoopType } from '@/types/types';
@@ -130,7 +129,6 @@ export default defineComponent({
   },
   emits: ['commentClick'],
   setup(props, { emit }) {
-    const $router = useRouter();
     const $store = useStore();
 
     // 歌曲id
@@ -138,11 +136,7 @@ export default defineComponent({
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌手id
-      $store.commit('setSingerId', id);
-      $router.push({ name: 'singer-detail', params: { singerId: id } });
+      $store.commit('jumpSingerDetail', id);
     }
 
     // 播放列表音乐
@@ -252,7 +246,7 @@ export default defineComponent({
 
     // 跳转专辑详情
     function jumpAlbumDetail(id: number): void {
-      $router.push({ name: 'album-detail', params: { albumId: id } });
+      $store.commit('jumpAlbumDetail', id);
     }
 
     return {

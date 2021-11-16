@@ -1,12 +1,17 @@
 <template>
-  <ul class="search-mv-list">
+  <!-- loading -->
+  <div class="loading" v-if="mvData.loading">
+    <i class="loading-icon"></i>
+    加载中...
+  </div>
+  <ul class="search-mv-list" v-if="!mvData.loading">
     <li
       class="search-mv-item"
       v-for="(item, index) in mvData.list"
       :key="index"
       :class="{ 'first-item': index % 5 }"
     >
-      <div class="cover">
+      <div class="cover" @click="jumpVideoDetail(item.type, item.vid)">
         <img class="img" :src="item?.coverUrl" alt="" />
         <div class="play-volume">
           <span class="icon-play"></span>
@@ -18,7 +23,12 @@
       </div>
       <div class="item-title">
         <i class="icon" v-if="item?.type === 0"></i>
-        <span :title="item?.title">{{ item?.title }}</span>
+        <span
+          :title="item?.title"
+          @click="jumpVideoDetail(item.type, item.vid)"
+        >
+          {{ item?.title }}
+        </span>
       </div>
       <div class="item-name">
         <span class="text" v-if="item?.type !== 0">by</span>
@@ -47,6 +57,7 @@ import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
 
 type MvData = {
+  loading: boolean;
   offset: number;
   limit: number;
   total: number;
@@ -79,6 +90,7 @@ export default defineComponent({
     );
 
     const mvData = reactive<MvData>({
+      loading: true,
       offset: 1,
       limit: 30,
       total: 0,
@@ -112,18 +124,24 @@ export default defineComponent({
               title: res?.msg
             });
           }
+          mvData.loading = false;
         })
         .catch(() => ({}));
     }
     getSearchMv();
 
+    // 跳转视频详情
+    function jumpVideoDetail(type: number, id: number): void {
+      // type 0为mv, type 1为视频
+      if (type === 1) {
+        $router.push({ name: 'video-detail', params: { id } });
+        $store.commit('setVideoId', id);
+      }
+    }
+
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌手id
-      $store.commit('setSingerId', id);
-      $router.push({ name: 'singer-detail', params: { singerId: id } });
+      $store.commit('jumpSingerDetail', id);
     }
 
     // 分页
@@ -137,6 +155,7 @@ export default defineComponent({
       timeStampToDuration,
       userInfo,
       mvData,
+      jumpVideoDetail,
       jumpSingerDetail,
       changPage
     };

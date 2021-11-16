@@ -88,7 +88,6 @@
 
 <script lang="ts">
 import { defineComponent, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { formatDateTime } from '@utils/utils.ts';
 import { LoopType } from '@/types/types';
@@ -110,16 +109,11 @@ export default defineComponent({
   setup(props, { emit }) {
     const { songs } = toRefs(props);
 
-    const $router = useRouter();
     const $store = useStore();
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌手id
-      $store.commit('setSingerId', id);
-      $router.push({ name: 'singer-detail', params: { singerId: id } });
+      $store.commit('jumpSingerDetail', id);
     }
 
     // 头部播放 - 默认播放列表第一项

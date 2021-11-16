@@ -1,5 +1,10 @@
 <template>
-  <ul class="search-user-list">
+  <!-- loading -->
+  <div class="loading" v-if="userData.loading">
+    <i class="loading-icon"></i>
+    加载中...
+  </div>
+  <ul class="search-user-list" v-if="!userData.loading">
     <li
       class="search-user-item"
       v-for="(item, index) in userData.list"
@@ -34,13 +39,13 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { searchKeywords } from '@api/search';
 import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
 
 type AlbumData = {
+  loading: boolean;
   offset: number;
   limit: number;
   total: number;
@@ -59,7 +64,6 @@ export default defineComponent({
   },
   emits: ['searchCountChange'],
   setup(props, { emit }) {
-    const $router = useRouter();
     const $store = useStore();
 
     // 是否登录
@@ -73,6 +77,7 @@ export default defineComponent({
     );
 
     const userData = reactive<AlbumData>({
+      loading: true,
       offset: 1,
       limit: 30,
       total: 0,
@@ -106,16 +111,15 @@ export default defineComponent({
               title: res?.msg
             });
           }
+          userData.loading = false;
         })
         .catch(() => ({}));
     }
     getSearchUser();
 
     // 跳转用户资料
-    function jumpUserProfile(userId: number): void {
-      // 头部导航取消选中
-      $store.commit('setHeaderActiveIndex', -1);
-      $router.push({ name: 'user-profile', params: { userId } });
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
     }
 
     // 关注

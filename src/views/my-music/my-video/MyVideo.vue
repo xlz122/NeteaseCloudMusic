@@ -1,14 +1,14 @@
 <template>
-  <div class="my-mv">
+  <div class="my-video">
     <div class="title">
-      <span class="text">我的视频({{ myMvCount }})</span>
+      <span class="text">我的视频({{ MyVideoCount }})</span>
     </div>
     <ul class="list">
       <li
         class="item"
-        v-for="(item, index) in myMvList"
+        v-for="(item, index) in MyVideoList"
         :key="index"
-        @click="myMvplay"
+        @click="MyVideoplay(item.vid)"
       >
         <div class="cover">
           <img class="img" :src="item?.coverUrl" alt="" />
@@ -36,7 +36,7 @@
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { myMvSbulist } from '@api/my-music';
+import { MyVideoSbulist } from '@api/my-music';
 import { ResponseType } from '@/types/types';
 import { timeStampToDuration } from '@utils/utils.ts';
 
@@ -46,38 +46,34 @@ export default defineComponent({
     const $store = useStore();
 
     // 我的视频数量
-    const myMvCount = ref<number>(0);
+    const MyVideoCount = ref<number>(0);
     // 获取我的视频列表
-    const myMvList = ref<unknown[]>([]);
-    function getMyMvSbulist(): void {
-      myMvSbulist().then((res: ResponseType) => {
+    const MyVideoList = ref<unknown[]>([]);
+    function getMyVideoSbulist(): void {
+      MyVideoSbulist().then((res: ResponseType) => {
         if (res.code === 200) {
-          myMvCount.value = res.count || 0;
-          myMvList.value = res.data;
+          MyVideoCount.value = res.count || 0;
+          MyVideoList.value = res.data;
         }
       });
     }
-    getMyMvSbulist();
+    getMyVideoSbulist();
 
     // 播放
-    function myMvplay(): void {
-      $store.commit('setMessage', {
-        type: 'info',
-        title: '点击mv播放'
-      });
+    function MyVideoplay(id: string): void {
+      $router.push({ name: 'video-detail', params: { id } });
+      $store.commit('setVideoId', id);
     }
 
     // 跳转用户资料
-    function jumpUserProfile(userId: number): void {
-      // 头部导航取消选中
-      $store.commit('setHeaderActiveIndex', -1);
-      $router.push({ name: 'user-profile', params: { userId } });
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
     }
     return {
       timeStampToDuration,
-      myMvCount,
-      myMvList,
-      myMvplay,
+      MyVideoCount,
+      MyVideoList,
+      MyVideoplay,
       jumpUserProfile
     };
   }
@@ -85,5 +81,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scopde>
-@import './my-mv.less';
+@import './my-video.less';
 </style>

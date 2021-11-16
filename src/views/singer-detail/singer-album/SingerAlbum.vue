@@ -39,7 +39,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { artistAlbum } from '@api/singer-detail';
 import { formatDateTime } from '@utils/utils.ts';
@@ -57,7 +56,6 @@ export default defineComponent({
     Page
   },
   setup() {
-    const $router = useRouter();
     const $store = useStore();
 
     // 歌手id
@@ -103,9 +101,9 @@ export default defineComponent({
     }
     getArtistAlbum();
 
-    // 跳转专辑
+    // 跳转专辑详情
     function jumpAlbumDetail(id: number): void {
-      $router.push({ name: 'album-detail', params: { albumId: id } });
+      $store.commit('jumpAlbumDetail', id);
     }
 
     // 分页

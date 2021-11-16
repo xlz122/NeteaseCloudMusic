@@ -1,5 +1,10 @@
 <template>
-  <div class="search-singer">
+  <!-- loading -->
+  <div class="loading" v-if="singerData.loading">
+    <i class="loading-icon"></i>
+    加载中...
+  </div>
+  <div class="search-singer" v-if="!singerData.loading">
     <ul class="search-singer-list">
       <li
         class="search-singer-item"
@@ -34,7 +39,6 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { searchKeywords } from '@api/search';
 import { timeStampToDuration } from '@utils/utils.ts';
@@ -42,6 +46,7 @@ import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
 
 type SingerData = {
+  loading: boolean;
   offset: number;
   limit: number;
   total: number;
@@ -60,7 +65,6 @@ export default defineComponent({
   },
   emits: ['searchCountChange'],
   setup(props, { emit }) {
-    const $router = useRouter();
     const $store = useStore();
 
     const { searchDetailText } = toRefs(props);
@@ -74,6 +78,7 @@ export default defineComponent({
     );
 
     const singerData = reactive<SingerData>({
+      loading: true,
       offset: 1,
       limit: 30,
       total: 0,
@@ -107,6 +112,7 @@ export default defineComponent({
               title: res?.msg
             });
           }
+          singerData.loading = false;
         })
         .catch(() => ({}));
     }
@@ -114,11 +120,7 @@ export default defineComponent({
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌手id
-      $store.commit('setSingerId', id);
-      $router.push({ name: 'singer-detail', params: { singerId: id } });
+      $store.commit('jumpSingerDetail', id);
     }
 
     // 分页

@@ -93,6 +93,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { userLevel } from '@api/user';
 import { ResponseType } from '@/types/types';
@@ -105,9 +106,11 @@ type NextLevel = {
 };
 
 export default defineComponent({
-  name: 'level',
+  name: 'UserLevel',
   setup() {
+    const $router = useRouter();
     const $store = useStore();
+
     // level
     const levelArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     // 用户等级
@@ -152,10 +155,7 @@ export default defineComponent({
 
     // 了解等级特权
     function understand(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      $router.push({ name: 'level-detail' });
     }
 
     return {

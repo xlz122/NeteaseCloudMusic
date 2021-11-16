@@ -23,6 +23,7 @@ import Qrcode from '@views/login/qrcode/Qrcode.vue';
 import Other from '@views/login/other/Other.vue';
 
 export default defineComponent({
+  name: 'LoginView',
   components: {
     MyDialog,
     Qrcode,

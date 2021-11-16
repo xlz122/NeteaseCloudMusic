@@ -10,11 +10,6 @@ const mutations: Mutations<State, unknown> = {
   setMusicDetailOptions(state, musicDetailOptions) {
     state.musicDetailOptions = musicDetailOptions as MusicDetailOptions;
   },
-  // 歌单id
-  setSongSheetId(state, songSheetId) {
-    state.songSheetId = songSheetId as number;
-    localStorage.setItem('songSheetId', JSON.stringify(songSheetId));
-  },
   // 歌单详情数据
   setSongSheetDetail(state, songSheetDetail) {
     state.songSheetDetail = songSheetDetail as unknown;
@@ -101,7 +96,7 @@ const mutations: Mutations<State, unknown> = {
     }
     // 保存数据
     state.playMusicList = list as unknown[];
-    localStorage.setItem('playMusicData', JSON.stringify(list));
+    localStorage.setItem('playMusicList', JSON.stringify(list));
   }
 };
 

@@ -18,6 +18,7 @@ import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({
+  name: 'MessageView',
   setup() {
     const $store = useStore();
 

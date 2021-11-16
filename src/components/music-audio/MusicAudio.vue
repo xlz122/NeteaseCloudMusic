@@ -61,7 +61,9 @@
         <div class="play">
           <div class="play-info">
             <span class="music-name">
-              <span class="name">{{ playMusicItem?.name }}</span>
+              <span class="name" @click="jumpSongDetail(playMusicItem?.id)">
+                {{ playMusicItem?.name }}
+              </span>
               <span class="icon-mv" v-if="playMusicItem?.mv > 0"></span>
             </span>
             <span class="singer-name">
@@ -103,7 +105,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 // 播放器
@@ -121,7 +122,6 @@ export default defineComponent({
     OtherTool
   },
   setup() {
-    const $router = useRouter();
     const $store = useStore();
 
     // 播放器锁定在底部
@@ -235,13 +235,14 @@ export default defineComponent({
       });
     }
 
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      $store.commit('jumpSongDetail', id);
+    }
+
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌手id
-      $store.commit('setSingerId', id);
-      $router.push({ name: 'singer-detail', params: { singerId: id } });
+      $store.commit('jumpSingerDetail', id);
     }
 
     // 跳转歌曲位置
@@ -269,6 +270,7 @@ export default defineComponent({
       nextPlayMusic,
       musicPlayProgress,
       progressChange,
+      jumpSongDetail,
       jumpSingerDetail,
       jumpSongPosition
     };

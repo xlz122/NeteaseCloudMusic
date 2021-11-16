@@ -65,6 +65,15 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "user-level" */ '../views/user/level/Level.vue'
           )
       },
+      // 个人中心 - 我的等级 - 等级详情
+      {
+        path: '/level-detail',
+        name: 'level-detail',
+        component: () =>
+          import(
+            /* webpackChunkName: "level-detail" */ '../views/user/level/level-detail/LevelDetail.vue'
+          )
+      },
       // 首页 - 每日推荐
       {
         path: '/home-recommend',
@@ -171,6 +180,15 @@ const routes: Array<RouteRecordRaw> = [
         component: () =>
           import(
             /* webpackChunkName: "song-sheet-detail" */ '../components/user-profile/UserProfile.vue'
+          )
+      },
+      // 视频
+      {
+        path: '/video-detail',
+        name: 'video-detail',
+        component: () =>
+          import(
+            /* webpackChunkName: "video" */ '../views/video-detail/VideoDetail.vue'
           )
       }
     ]

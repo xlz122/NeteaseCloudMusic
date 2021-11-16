@@ -124,7 +124,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
 type List = {
@@ -135,18 +134,16 @@ type List = {
 };
 
 export default defineComponent({
+  name: 'FriendSide',
   setup() {
-    const $router = useRouter();
     const $store = useStore();
 
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
 
     // 跳转用户资料
-    function jumpUserProfile(userId: number): void {
-      // 头部导航取消选中
-      $store.commit('setHeaderActiveIndex', -1);
-      $router.push({ name: 'user-profile', params: { userId } });
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
     }
 
     // 明星列表

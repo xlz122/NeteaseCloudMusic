@@ -1,0 +1,298 @@
+.video-player {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .full-operate {
+    display: none;
+  }
+
+  .play {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0);
+
+    .icon {
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 74px;
+      height: 74px;
+      margin-left: -37px;
+      margin-top: -37px;
+      cursor: pointer;
+    }
+
+    .pause-icon {
+      background: url(~@/assets/image/video/pause-icon.png) no-repeat center center;
+
+      &:hover {
+        background: url(~@/assets/image/video/pause-hover-icon.png) no-repeat center center;
+      }
+    }
+
+    .replay-icon {
+      top: 40%;
+      background: url(~@/assets/image/video/replay-icon.png) no-repeat center center;
+
+      &:hover {
+        background: url(~@/assets/image/video/replay-hover-icon.png) no-repeat center center;
+      }
+    }
+
+    .text {
+      position: absolute;
+      left: 50%;
+      bottom: -28px;
+      transform: translateX(-50%);
+      display: inline-block;
+      width: 40px;
+      height: 26px;
+      padding: 0 10px;
+      margin-top: 8px;
+      line-height: 26px;
+      font-size: 14px;
+      color: #a5a7a8;
+    }
+  }
+
+  .wrap {
+    position: absolute;
+    left: 0;
+    bottom: 6px;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    .icon {
+      display: inline-block;
+      vertical-align: middle;
+      width: 34px;
+      height: 32px;
+      margin: 0 6px;
+      cursor: pointer;
+    }
+
+    .pause-btn {
+      background: url(~@/assets/image/video/video-pause-icon.png) no-repeat center center;
+
+      &:hover {
+        background: url(~@/assets/image/video/video-pause-hover-icon.png) no-repeat center center;
+      }
+    }
+
+    .play-btn {
+      background: url(~@/assets/image/video/video-play-icon.png) no-repeat center center;
+
+      &:hover {
+        background: url(~@/assets/image/video/video-play-hover-icon.png) no-repeat center center;
+      }
+    }
+
+    .time {
+      display: inline-block;
+      vertical-align: middle;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .progress {
+      display: inline-block;
+      vertical-align: middle;
+      flex: 1;
+      height: 4px;
+      margin: 0 10px;
+      border-radius: 2px;
+      background-color: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+    }
+
+    .other {
+      display: inline-block;
+      vertical-align: middle;
+
+      .volume-btn {
+        display: inline-block;
+        vertical-align: middle;
+        width: 16px;
+        height: 12px;
+        margin: 0 10px 0 20px;
+        background: url(~@/assets/image/video/volume-icon.png) no-repeat center center;
+        cursor: pointer;
+
+        &:hover {
+          background: url(~@/assets/image/video/volume-hover-icon.png) no-repeat center center;
+        }
+      }
+
+      .mode {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        width: 50px;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.5);
+        cursor: default;
+
+        &:hover {
+          color: #fff;
+        }
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          display: block;
+          width: 1px;
+          height: 100%;
+          background: rgba(255, 255, 255, 0.2);
+        }
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          right: 0;
+          display: block;
+          width: 1px;
+          height: 100%;
+          background: rgba(255, 255, 255, 0.2);
+        }
+      }
+
+      .full {
+        display: inline-block;
+        vertical-align: middle;
+        width: 34px;
+        height: 34px;
+        background: url(~@/assets/image/video/full-icon.png) no-repeat center center;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          background: url(~@/assets/image/video/full-hover-icon.png) no-repeat center center;
+        }
+      }
+
+      .narrow {
+        display: inline-block;
+        vertical-align: middle;
+        width: 34px;
+        height: 34px;
+        background: url(~@/assets/image/video/narrow-icon.png) no-repeat center center;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          background: url(~@/assets/image/video/narrow-hover-icon.png) no-repeat center center;
+        }
+      }
+    }
+  }
+}
+
+.video-player-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 20001009;
+  background: #000;
+
+  .full-operate {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: left;
+
+    .title {
+      width: auto;
+      height: 50px;
+      padding-left: 20px;
+      margin-right: 200px;
+      line-height: 50px;
+      font-size: 18px;
+      color: #fff;
+      font-weight: normal;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      word-wrap: normal;
+    }
+
+    .list {
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      .item {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        width: 61px;
+        height: 50px;
+        padding: 0;
+        border: none;
+
+        .icon {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          display: inline-block;
+          width: 36px;
+          height: 36px;
+          cursor: pointer;
+        }
+
+        .like {
+          background: url(~@/assets/image/video/like-icon.png) no-repeat center center;
+
+          &:hover {
+            background: url(~@/assets/image/video/like-hover-icon.png) no-repeat center center;
+          }
+        }
+
+        .liked {
+          background: url(~@/assets/image/video/liked-icon.png) no-repeat center center;
+
+          &:hover {
+            background: url(~@/assets/image/video/liked-hover-icon.png) no-repeat center center;
+          }
+        }
+
+        .collection {
+          background: url(~@/assets/image/video/collection-icon.png) no-repeat center center;
+
+          &:hover {
+            background: url(~@/assets/image/video/collection-hover-icon.png) no-repeat center center;
+          }
+        }
+
+        .collectioned {
+          background: url(~@/assets/image/video/collectioned-icon.png) no-repeat center center;
+
+          &:hover {
+            background: url(~@/assets/image/video/collectioned-hover-icon.png) no-repeat center center;
+          }
+        }
+
+        .share {
+          background: url(~@/assets/image/video/share-icon.png) no-repeat center center;
+
+          &:hover {
+            background: url(~@/assets/image/video/share-hover-icon.png) no-repeat center center;
+          }
+        }
+      }
+    }
+  }
+}

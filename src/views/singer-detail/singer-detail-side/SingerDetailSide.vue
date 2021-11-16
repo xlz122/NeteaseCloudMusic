@@ -113,8 +113,7 @@ export default defineComponent({
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
-      // 存储歌手id
-      $store.commit('setSingerId', id);
+      $store.commit('jumpSingerDetail', id);
       getSimiArtist();
     }
 

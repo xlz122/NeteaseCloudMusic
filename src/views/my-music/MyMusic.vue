@@ -7,7 +7,7 @@
       </div>
       <div class="my-music-main">
         <sub-play-list v-if="musicDetailOptions.subPlayList" />
-        <my-mv v-if="musicDetailOptions.myMv" />
+        <my-video v-if="musicDetailOptions.MyVideo" />
         <play-list-detail v-if="musicDetailOptions.playListDetail" />
       </div>
     </div>
@@ -27,7 +27,7 @@ import { defineComponent, computed, watch, onUnmounted, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import OptionList from '@views/my-music/option-list/OptionList.vue';
 import SubPlayList from '@views/my-music/sub-play-list/SubPlayList.vue';
-import MyMv from '@views/my-music/my-mv/MyMv.vue';
+import MyVideo from '@/views/my-music/my-video/MyVideo.vue';
 import PlayListDetail from '@views/my-music/play-list-detail/PlayListDetail.vue';
 
 export default defineComponent({
@@ -35,7 +35,7 @@ export default defineComponent({
   components: {
     OptionList,
     SubPlayList,
-    MyMv,
+    MyVideo,
     PlayListDetail
   },
   setup() {
@@ -62,7 +62,7 @@ export default defineComponent({
           const appDom = document.getElementById('app') as HTMLElement;
           const footerDom = document.querySelector('.footer') as HTMLElement;
           if (appDom && footerDom) {
-            appDom.style.height = '100vh';
+            // appDom.style.height = '100vh';
             footerDom.style.display = 'none';
           }
         }
@@ -70,17 +70,13 @@ export default defineComponent({
     );
     onMounted(() => {
       if (isLogin.value) {
-        const appDom = document.getElementById('app') as HTMLElement;
         const footerDom = document.querySelector('.footer') as HTMLElement;
-        appDom.style.height = '100vh';
         footerDom.style.display = 'none';
       }
     });
     onUnmounted(() => {
       if (isLogin.value) {
-        const appDom = document.getElementById('app') as HTMLElement;
         const footerDom = document.querySelector('.footer') as HTMLElement;
-        appDom.style.height = 'auto';
         footerDom.style.display = 'block';
       }
     });

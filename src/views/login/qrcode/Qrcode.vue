@@ -45,6 +45,7 @@ import {
 import { ResponseDataType } from '@/types/types';
 
 export default defineComponent({
+  name: 'LoginQrcode',
   emits: ['otherLogin'],
   setup(props, ctx) {
     const $store = useStore();

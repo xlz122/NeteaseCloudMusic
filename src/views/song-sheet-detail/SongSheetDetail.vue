@@ -85,13 +85,12 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌单id
-    const songSheetId = computed(() => $store.getters['music/songSheetId']);
+    const songSheetId = computed(() => $store.getters.songSheetId);
 
     watch(
       () => $route.params,
       curVal => {
         if (curVal.songSheetId) {
-          $store.commit('music/setSongSheetId', Number(curVal.songSheetId));
           getSongDetail();
         }
       },

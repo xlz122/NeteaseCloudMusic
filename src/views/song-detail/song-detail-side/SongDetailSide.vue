@@ -74,7 +74,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { simiPlaylist, simiSong } from '@api/song-detail';
 import { ResponseType, LoopType } from '@/types/types';
@@ -86,7 +85,6 @@ export default defineComponent({
     SideDownload
   },
   setup() {
-    const $router = useRouter();
     const $store = useStore();
 
     // 歌曲id
@@ -112,14 +110,12 @@ export default defineComponent({
 
     // 跳转歌单详情
     function jumpSongSheetDetail(id: number): void {
-      $router.push({ name: 'song-sheet-detail', params: { songSheetId: id } });
+      $store.commit('jumpSongSheetDetail', id);
     }
 
     // 跳转用户资料
-    function jumpUserProfile(userId: number): void {
-      // 头部导航取消选中
-      $store.commit('setHeaderActiveIndex', -1);
-      $router.push({ name: 'user-profile', params: { userId } });
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
     }
 
     // 相似歌曲
@@ -145,18 +141,13 @@ export default defineComponent({
     function jumpSongDetail(id: number): void {
       getSimiPlaylist();
       getSimiSong();
-      // 存储歌曲id
-      $store.commit('setSongId', id);
-      $router.push({ name: 'song-detail', params: { songId: id } });
+
+      $store.commit('jumpSongDetail', id);
     }
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌手id
-      $store.commit('setSingerId', id);
-      $router.push({ name: 'singer-detail', params: { singerId: id } });
+      $store.commit('jumpSingerDetail', id);
     }
 
     // 播放列表音乐

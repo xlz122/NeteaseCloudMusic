@@ -76,7 +76,7 @@ export default defineComponent({
     const listData = reactive<Record<string, any>>([]);
     // 获取飙升榜数据
     function getSoaringList(): void {
-      soaringList().then((res: ResponseType) => {
+      soaringList({ id: 19723756 }).then((res: ResponseType) => {
         if (res.code === 200) {
           listData.push(res);
         }
@@ -86,7 +86,7 @@ export default defineComponent({
 
     // 获取新歌榜数据
     function getNewSongs(): void {
-      newSongs().then((res: ResponseType) => {
+      newSongs({ id: 3779629 }).then((res: ResponseType) => {
         if (res.code === 200) {
           listData.push(res);
         }
@@ -96,7 +96,7 @@ export default defineComponent({
 
     // 获取原创榜数据
     function getOriginalList(): void {
-      originalList().then((res: ResponseType) => {
+      originalList({ id: 2884035 }).then((res: ResponseType) => {
         if (res.code === 200) {
           listData.push(res);
         }
@@ -171,11 +171,7 @@ export default defineComponent({
 
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌曲id
-      $store.commit('setSongId', id);
-      $router.push({ name: 'song-detail', params: { songId: id } });
+      $store.commit('jumpSongDetail', id);
     }
 
     // 播放列表音乐
@@ -236,7 +232,7 @@ export default defineComponent({
 
     // 查看全部
     function songListMore(id: number): void {
-      $store.commit('music/setSongSheetId', id);
+      $store.commit('setSongSheetId', id);
       $router.push({ name: 'home-toplist' });
     }
 

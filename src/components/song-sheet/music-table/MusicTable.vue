@@ -8,7 +8,7 @@
     <!-- 歌曲列表部分 -->
     <table
       class="play-list-table"
-      v-if="songSheetDetail?.playlist?.tracks.length > 0"
+      v-if="!loading && songSheetDetail?.playlist?.tracks.length > 0"
     >
       <thead>
         <tr>
@@ -90,7 +90,7 @@
           </td>
           <td class="tbody-td singer">
             <div class="hd">
-              <template class="text" v-for="(i, ind) in item.ar" :key="ind">
+              <div class="text" v-for="(i, ind) in item.ar" :key="ind">
                 <span
                   class="name"
                   :title="i.name"
@@ -99,7 +99,7 @@
                   {{ i.name }}
                 </span>
                 <span class="line" v-if="ind !== item.ar.length - 1">/</span>
-              </template>
+              </div>
             </div>
           </td>
           <td class="tbody-td" @click="jumpAlbumDetail(item.al.id)">
@@ -113,7 +113,7 @@
     <!-- 音乐列表空时展示 -->
     <div
       class="no-list-data"
-      v-if="songSheetDetail?.playlist?.tracks.length === 0"
+      v-if="!loading && songSheetDetail?.playlist?.tracks.length === 0"
     >
       <div class="title">
         <i class="icon"></i>
@@ -154,8 +154,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import MyDialog from '@/components/MyDialog.vue';
 import { timeStampToDuration } from '@utils/utils.ts';
@@ -168,7 +167,6 @@ export default defineComponent({
     MyDialog
   },
   setup() {
-    const $router = useRouter();
     const $store = useStore();
 
     // 用户信息
@@ -181,25 +179,17 @@ export default defineComponent({
     // 当前播放音乐id
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
 
-    const loading = ref<boolean>(false);
-    watch(
-      () => songSheetDetail.value,
-      () => {
-        if (songSheetDetail.value?.code) {
-          loading.value = false;
-        } else {
-          loading.value = true;
-        }
-      }
-    );
+    const loading = ref<boolean>(true);
+
+    onMounted(() => {
+      setTimeout(() => {
+        loading.value = false;
+      }, 200);
+    });
 
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌曲id
-      $store.commit('setSongId', id);
-      $router.push({ name: 'song-detail', params: { songId: id } });
+      $store.commit('jumpSongDetail', id);
     }
 
     // 计算歌曲是否有版权
@@ -239,11 +229,7 @@ export default defineComponent({
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌手id
-      $store.commit('setSingerId', id);
-      $router.push({ name: 'singer-detail', params: { singerId: id } });
+      $store.commit('jumpSingerDetail', id);
     }
 
     // 播放列表音乐
@@ -286,9 +272,9 @@ export default defineComponent({
       });
     }
 
-    // 跳转专辑
+    // 跳转专辑详情
     function jumpAlbumDetail(id: number): void {
-      $router.push({ name: 'album-detail', params: { albumId: id } });
+      $store.commit('jumpAlbumDetail', id);
     }
 
     // 无版权弹框 - 确定

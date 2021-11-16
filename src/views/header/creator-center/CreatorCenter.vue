@@ -74,6 +74,7 @@ import talentSvg from '../../../assets/image/header/creator-center/talent.svg';
 import anchorSvg from '../../../assets/image/header/creator-center/anchor.svg';
 
 export default defineComponent({
+  name: 'CreatorCenter',
   components: {
     Qrcode,
     Other

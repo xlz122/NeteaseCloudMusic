@@ -148,7 +148,7 @@ export default defineComponent({
       }
     );
 
-    // 跳转专辑
+    // 跳转专辑详情
     function jumpAlbumDetail(id: number): void {
       emit('jumpAlbumDetail', id);
     }

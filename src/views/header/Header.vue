@@ -34,7 +34,7 @@
           </div>
           <div class="login" v-if="isLogin">
             <img class="user-img" :src="userInfo?.profile?.avatarUrl" />
-            <user class="user-list" />
+            <User class="user-list" />
           </div>
           <div v-else class="login" @click="openLogin">登录</div>
         </div>
@@ -69,9 +69,9 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { LoopType } from '@/types/types';
 import Search from '@views/header/search/Search.vue';
 import User from '@views/user/User.vue';
-import { LoopType } from '@/types/types';
 
 type NavList = {
   title: string;
@@ -80,9 +80,10 @@ type NavList = {
 };
 
 export default defineComponent({
+  name: 'HeaderView',
   components: {
-    User,
-    Search
+    Search,
+    User
   },
   setup() {
     const $route = useRoute();
@@ -112,7 +113,7 @@ export default defineComponent({
         link: '/my-music'
       },
       {
-        title: '朋友',
+        title: '关注',
         link: '/friend'
       },
       {
