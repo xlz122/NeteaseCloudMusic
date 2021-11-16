@@ -195,6 +195,8 @@ export default defineComponent({
         $store.commit('setSearchDetailText', searchValue.value);
         // 头部导航取消选中
         $store.commit('setHeaderActiveIndex', -1);
+        // 搜索详情页导航选中
+        $store.commit('setSearchIndex', 0);
         // 跳转搜索详情页
         $router.push({
           name: 'search-details',
