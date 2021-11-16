@@ -11,7 +11,7 @@ const externals = {
   'vue-router': 'VueRouter',
   'vuex': 'Vuex',
   'axios': 'axios',
-  'lodash': '_'
+  'lodash': '_',
 };
 // 使用cdn引入的文件
 const cdn = {
@@ -21,7 +21,7 @@ const cdn = {
     'https://lib.baomitu.com/vue-router/4.0.11/vue-router.global.min.js',
     'https://lib.baomitu.com/vuex/4.0.2/vuex.global.min.js',
     'https://lib.baomitu.com/axios/0.21.1/axios.min.js',
-    'https://lib.baomitu.com/lodash.js/4.17.21/lodash.min.js'
+    'https://lib.baomitu.com/lodash.js/4.17.21/lodash.min.js',
   ],
 };
 
@@ -31,6 +31,7 @@ const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const productionGzipExtensions = ['js', 'css', 'json'];
 
 module.exports = {
+  // 基础路径
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
   // 打包生成文件目录，默认dist
   outputDir: 'dist',
