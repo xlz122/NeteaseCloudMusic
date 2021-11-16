@@ -61,7 +61,9 @@
         <div class="play">
           <div class="play-info">
             <span class="music-name">
-              <span class="name">{{ playMusicItem?.name }}</span>
+              <span class="name" @click="jumpSongDetail(playMusicItem?.id)">
+                {{ playMusicItem?.name }}
+              </span>
               <span class="icon-mv" v-if="playMusicItem?.mv > 0"></span>
             </span>
             <span class="singer-name">
@@ -235,6 +237,15 @@ export default defineComponent({
       });
     }
 
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      // 取消二级导航选中
+      $store.commit('setSubActiveIndex', -1);
+      // 存储歌曲id
+      $store.commit('setSongId', id);
+      $router.push({ name: 'song-detail', params: { songId: id } });
+    }
+
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       // 取消二级导航选中
@@ -269,6 +280,7 @@ export default defineComponent({
       nextPlayMusic,
       musicPlayProgress,
       progressChange,
+      jumpSongDetail,
       jumpSingerDetail,
       jumpSongPosition
     };

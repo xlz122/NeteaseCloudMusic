@@ -139,10 +139,10 @@ export const dailySignin = (): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 飙升榜id
  */
-export const soaringList = (): AxiosRequest => {
+export const soaringList = ({ id }: { id: number }): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
-    id: 19723756
+    id
   };
   return axios.request({
     url: '/playlist/detail',
@@ -156,10 +156,10 @@ export const soaringList = (): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 新歌榜id
  */
-export const newSongs = (): AxiosRequest => {
+export const newSongs = ({ id }: { id: number }): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
-    id: 3779629
+    id
   };
   return axios.request({
     url: '/playlist/detail',
@@ -173,10 +173,10 @@ export const newSongs = (): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 飙升榜id
  */
-export const originalList = (): AxiosRequest => {
+export const originalList = ({ id }: { id: number }): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime(),
-    id: 2884035
+    id
   };
   return axios.request({
     url: '/playlist/detail',
