@@ -1,17 +1,16 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
   },
   extends: [
     'plugin:vue/vue3-essential',
     'eslint:recommended',
     '@vue/typescript/recommended',
-    '@vue/prettier',
-    '@vue/prettier/@typescript-eslint'
+    'plugin:prettier/recommended',
   ],
   parserOptions: {
-    ecmaVersion: 2020
+    ecmaVersion: 2020,
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
@@ -20,6 +19,10 @@ module.exports = {
     // '@typescript-eslint/no-inferrable-types': 'off',
     // 关闭any类型时的警告
     '@typescript-eslint/no-explicit-any': 'off',
+    // 组件name ignores数组为忽略（string[]）
+    'vue/multi-word-component-names': ['error', {
+      'ignores': []
+    }],
     // 禁止在变量定义之前使用它们 variables(变量)
     '@typescript-eslint/no-use-before-define': [
       2,
