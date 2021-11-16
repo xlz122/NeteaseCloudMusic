@@ -80,6 +80,7 @@ type NavList = {
 };
 
 export default defineComponent({
+  name: 'HeaderView',
   components: {
     User,
     Search

@@ -168,6 +168,7 @@ import { useStore } from 'vuex';
 import MyDialog from '@/components/MyDialog.vue';
 
 export default defineComponent({
+  name: 'FooterView',
   components: {
     MyDialog
   },

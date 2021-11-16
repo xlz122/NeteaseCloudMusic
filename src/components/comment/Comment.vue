@@ -75,6 +75,7 @@ import MyDialog from '@/components/MyDialog.vue';
 import defaultAvatarImg from '@assets/image/user/default_avatar.jpg';
 
 export default defineComponent({
+  name: 'CommentView',
   components: {
     CommentReplay,
     CommentList,

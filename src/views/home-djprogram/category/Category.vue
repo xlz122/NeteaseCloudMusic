@@ -92,6 +92,7 @@ import { djCatelist } from '@api/home-djprogram';
 import { ResponseType } from '@/types/types';
 
 export default defineComponent({
+  name: 'HomeDjprogramCategory',
   emits: ['djCategorChange'],
   setup(props, { emit }) {
     const $store = useStore();

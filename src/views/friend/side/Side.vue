@@ -135,6 +135,7 @@ type List = {
 };
 
 export default defineComponent({
+  name: 'FriendSide',
   setup() {
     const $router = useRouter();
     const $store = useStore();

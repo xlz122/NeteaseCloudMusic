@@ -182,6 +182,7 @@ import { LoopType, ResponseType } from '@/types/types';
 import { getWeekDate, formatDateTime, bigNumberTransform } from '@utils/utils';
 
 export default defineComponent({
+  name: 'HomeContent',
   components: {
     AlbumNewest,
     SongList

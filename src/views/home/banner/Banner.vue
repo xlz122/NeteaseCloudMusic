@@ -68,6 +68,7 @@ type Banner = {
 };
 
 export default defineComponent({
+  name: 'HomeBanner',
   setup() {
     const $router = useRouter();
     const $store = useStore();
