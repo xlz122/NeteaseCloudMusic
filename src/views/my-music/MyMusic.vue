@@ -62,7 +62,7 @@ export default defineComponent({
           const appDom = document.getElementById('app') as HTMLElement;
           const footerDom = document.querySelector('.footer') as HTMLElement;
           if (appDom && footerDom) {
-            appDom.style.height = '100vh';
+            // appDom.style.height = '100vh';
             footerDom.style.display = 'none';
           }
         }
@@ -70,17 +70,13 @@ export default defineComponent({
     );
     onMounted(() => {
       if (isLogin.value) {
-        const appDom = document.getElementById('app') as HTMLElement;
         const footerDom = document.querySelector('.footer') as HTMLElement;
-        appDom.style.height = '100vh';
         footerDom.style.display = 'none';
       }
     });
     onUnmounted(() => {
       if (isLogin.value) {
-        const appDom = document.getElementById('app') as HTMLElement;
         const footerDom = document.querySelector('.footer') as HTMLElement;
-        appDom.style.height = 'auto';
         footerDom.style.display = 'block';
       }
     });
