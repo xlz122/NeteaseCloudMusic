@@ -93,7 +93,7 @@ import {
   onMounted,
   nextTick
 } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { songDetail } from '@api/song-detail';
 import { getLyric } from '@api/my-music';
@@ -124,7 +124,6 @@ export default defineComponent({
     Page
   },
   setup() {
-    const $router = useRouter();
     const $route = useRoute();
     const $store = useStore();
 
@@ -136,7 +135,6 @@ export default defineComponent({
       curVal => {
         if (curVal.songId) {
           nextTick(() => {
-            $store.commit('setSongId', Number(curVal.songId));
             getSongDetail();
             getCommentData();
             getLyricData();
@@ -169,10 +167,8 @@ export default defineComponent({
     getSongDetail();
 
     // 跳转用户资料
-    function jumpUserProfile(userId: number): void {
-      // 头部导航取消选中
-      $store.commit('setHeaderActiveIndex', -1);
-      $router.push({ name: 'user-profile', params: { userId } });
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
     }
 
     // 是否登录

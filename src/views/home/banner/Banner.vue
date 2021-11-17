@@ -56,7 +56,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, watch, onUnmounted } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { bannerImgUrl } from '@api/home';
 import { ResponseType } from '@/types/types';
@@ -70,7 +69,6 @@ type Banner = {
 export default defineComponent({
   name: 'HomeBanner',
   setup() {
-    const $router = useRouter();
     const $store = useStore();
 
     const banner = reactive<Banner>({
@@ -210,37 +208,25 @@ export default defineComponent({
       const targetId = (item as { targetId: number }).targetId;
       const targetUrl = (item as { url: string })?.url;
 
-      // 跳转单曲
+      // 跳转歌曲详情
       if (targetType === 1) {
-        jumpSongDetail(targetId);
+        $store.commit('jumpSongDetail', targetId);
       }
 
-      // 跳转专辑
+      // 跳转专辑详情
       if (targetType === 10) {
-        $router.push({ name: 'album-detail', params: { albumId: targetId } });
+        $store.commit('jumpAlbumDetail', targetId);
       }
 
-      // 跳转歌单
+      // 跳转歌单详情
       if (targetType === 1000) {
-        $router.push({
-          name: 'song-sheet-detail',
-          params: { songSheetId: targetId }
-        });
+        $store.commit('jumpSongSheetDetail', targetId);
       }
 
       // 跳转外部链接
       if (targetType === 3000) {
         window.open(targetUrl, '', '');
       }
-    }
-
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌曲id
-      $store.commit('setSongId', id);
-      $router.push({ name: 'song-detail', params: { songId: id } });
     }
 
     onUnmounted(() => {

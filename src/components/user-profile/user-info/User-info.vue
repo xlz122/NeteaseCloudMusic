@@ -64,7 +64,6 @@ export default defineComponent({
       curVal => {
         // 传入
         if (curVal.userId) {
-          $store.commit('setUserId', Number(curVal.userId));
           getUserDetail();
           return false;
         }

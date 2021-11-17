@@ -1,6 +1,5 @@
 export type State = {
   musicDetailOptions: MusicDetailOptions;
-  songSheetId: number;
   songSheetDetail: unknown;
   playMusicId: number;
   playMusicList: unknown;
@@ -46,7 +45,6 @@ const state: State = {
     myMv: false,
     playListDetail: false
   }, // 我的音乐 - 详情显示
-  songSheetId: Number(localStorage.getItem('songSheetId')) || 0, // 歌单id
   songSheetDetail: faultTolerant('songSheetDetail') || {}, // 歌单详情数据
   playMusicId: Number(localStorage.getItem('playMusicId')) || 0, // 当前播放音乐id
   playMusicItem: faultTolerant('playMusicItem') || {}, // 当前播放音乐数据

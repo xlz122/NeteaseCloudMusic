@@ -23,7 +23,6 @@ const actions: Actions<Store, unknown> = {
       logout().then((res: ResponseDataType) => {
         if (res?.code === 200) {
           commit('setLogout', '');
-          // 跳转首页
           router.push('/');
           resolve(res);
         }

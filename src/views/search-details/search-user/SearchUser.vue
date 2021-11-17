@@ -34,7 +34,6 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { searchKeywords } from '@api/search';
 import Page from '@components/page/Page.vue';
@@ -59,7 +58,6 @@ export default defineComponent({
   },
   emits: ['searchCountChange'],
   setup(props, { emit }) {
-    const $router = useRouter();
     const $store = useStore();
 
     // 是否登录
@@ -112,10 +110,8 @@ export default defineComponent({
     getSearchUser();
 
     // 跳转用户资料
-    function jumpUserProfile(userId: number): void {
-      // 头部导航取消选中
-      $store.commit('setHeaderActiveIndex', -1);
-      $router.push({ name: 'user-profile', params: { userId } });
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
     }
 
     // 关注

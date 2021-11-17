@@ -54,7 +54,7 @@ export default defineComponent({
     );
 
     // 侧边歌单列表选中项id
-    const songSheetId = computed(() => $store.getters['music/songSheetId']);
+    const songSheetId = computed(() => $store.getters.songSheetId);
 
     const optionsCount = reactive<OptionsCount>({
       subPlayListCount: 0, // 我的视频数量
@@ -122,11 +122,11 @@ export default defineComponent({
           if (songSheetId.value > 0 && playListId.includes(songSheetId.value)) {
             getSongListDetail(songSheetId.value);
             // 左侧选中
-            $store.commit('music/setSongSheetId', songSheetId.value);
+            $store.commit('setSongSheetId', songSheetId.value);
           } else {
             getSongListDetail(res.playlist[0].id);
             // 左侧选中
-            $store.commit('music/setSongSheetId', res.playlist[0].id);
+            $store.commit('setSongSheetId', res.playlist[0].id);
           }
         }
       });
@@ -143,7 +143,7 @@ export default defineComponent({
       $store.commit('music/setMusicDetailOptions', musicDetail);
 
       // 取消其他项选中
-      $store.commit('music/setSongSheetId', -1);
+      $store.commit('setSongSheetId', -1);
     }
 
     // 我的视频点击
@@ -156,7 +156,7 @@ export default defineComponent({
       $store.commit('music/setMusicDetailOptions', musicDetail);
 
       // 取消其他项选中
-      $store.commit('music/setSongSheetId', -1);
+      $store.commit('setSongSheetId', -1);
     }
 
     // 创建歌单项点击
@@ -174,7 +174,7 @@ export default defineComponent({
       }
 
       // 存储选中id
-      $store.commit('music/setSongSheetId', id);
+      $store.commit('setSongSheetId', id);
     }
 
     // 收藏歌单项点击
@@ -203,7 +203,7 @@ export default defineComponent({
       }
 
       // 存储选中id
-      $store.commit('music/setSongSheetId', id);
+      $store.commit('setSongSheetId', id);
     }
 
     // 获取歌单详情

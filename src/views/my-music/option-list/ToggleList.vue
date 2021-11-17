@@ -112,7 +112,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌单id
-    const songSheetId = computed(() => $store.getters['music/songSheetId']);
+    const songSheetId = computed(() => $store.getters.songSheetId);
 
     // 列表显隐切换
     const listShow = ref<boolean>(true);

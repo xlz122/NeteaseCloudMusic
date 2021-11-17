@@ -21,7 +21,6 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { subPlayList } from '@api/my-music';
 import { ResponseType } from '@/types/types';
@@ -29,7 +28,6 @@ import { timeStampToDuration } from '@utils/utils.ts';
 
 export default defineComponent({
   setup() {
-    const $router = useRouter();
     const $store = useStore();
 
     // 我的视频数量
@@ -48,11 +46,7 @@ export default defineComponent({
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌手id
-      $store.commit('setSingerId', id);
-      $router.push({ name: 'singer-detail', params: { singerId: id } });
+      $store.commit('jumpSingerDetail', id);
     }
 
     return {

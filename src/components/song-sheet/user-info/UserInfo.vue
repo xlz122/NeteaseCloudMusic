@@ -361,10 +361,8 @@ export default defineComponent({
     }
 
     // 跳转用户资料
-    function jumpUserProfile(userId: number): void {
-      // 头部导航取消选中
-      $store.commit('setHeaderActiveIndex', -1);
-      $router.push({ name: 'user-profile', params: { userId } });
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
     }
 
     // 跳转歌单

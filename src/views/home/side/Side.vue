@@ -61,7 +61,6 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import SideUser from './side-user/SideUser.vue';
 
@@ -71,7 +70,6 @@ export default defineComponent({
     SideUser
   },
   setup() {
-    const $router = useRouter();
     const $store = useStore();
 
     // 入驻歌手无接口(服务器渲染)
@@ -142,10 +140,8 @@ export default defineComponent({
     ]);
 
     // 跳转用户资料
-    function jumpUserProfile(userId: number): void {
-      // 头部导航取消选中
-      $store.commit('setHeaderActiveIndex', -1);
-      $router.push({ name: 'user-profile', params: { userId } });
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
     }
     return {
       singerList,

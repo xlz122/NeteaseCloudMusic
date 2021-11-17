@@ -49,7 +49,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌单id
-    const songSheetId = computed(() => $store.getters['music/songSheetId']);
+    const songSheetId = computed(() => $store.getters.songSheetId);
     // 更新字符串
     const updateFrequency = ref<string>('');
 
@@ -69,7 +69,7 @@ export default defineComponent({
                   updateFrequency.value = item.updateFrequency;
                 }
               } else {
-                $store.commit('music/setSongSheetId', list[0].id);
+                $store.commit('setSongSheetId', list[0].id);
                 updateFrequency.value = list[0].updateFrequency;
               }
             });
@@ -79,7 +79,7 @@ export default defineComponent({
         } else {
           (async () => {
             const list: List[] = await getTopList();
-            $store.commit('music/setSongSheetId', list[0].id);
+            $store.commit('setSongSheetId', list[0].id);
             updateFrequency.value = list[0].updateFrequency;
             getSongDetail();
             getCommentData();
@@ -118,7 +118,7 @@ export default defineComponent({
 
     // 菜单选择
     function menuChange(id: number, frequency: string): void {
-      $store.commit('music/setSongSheetId', id);
+      $store.commit('setSongSheetId', id);
       updateFrequency.value = frequency;
       getSongDetail();
       getCommentData();

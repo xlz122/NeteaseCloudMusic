@@ -8,10 +8,12 @@
             {{ singerDetail?.artist?.englishName }}
           </h3>
           <img
+            v-if="singerDetail?.artist?.cover"
             class="singer-avatar"
             :src="`${singerDetail?.artist?.cover}?param=640y300`"
             alt=""
           />
+          <img v-else class="singer-avatar" src="" alt="" />
           <i
             class="artist-home"
             v-if="singerDetail?.user"
@@ -48,7 +50,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { artistDetail } from '@api/singer-detail';
 import { ResponseType } from '@/types/types';
@@ -67,7 +68,6 @@ export default defineComponent({
     SingerDetailSide
   },
   setup() {
-    const $router = useRouter();
     const $store = useStore();
 
     // 歌手id
@@ -112,8 +112,8 @@ export default defineComponent({
     getArtistDetail();
 
     // 跳转用户资料
-    function jumpUserProfile(userId: number): void {
-      $router.push({ name: 'user-profile', params: { userId } });
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
     }
 
     // 收藏/取消收藏歌手

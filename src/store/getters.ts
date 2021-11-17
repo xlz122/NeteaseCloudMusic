@@ -16,6 +16,7 @@ const getters: Getters<State> = {
   searchDetailText: state => state.searchDetailText,
   userId: state => state.userId,
   songId: state => state.songId,
+  songSheetId: state => state.songSheetId,
   singerId: state => state.singerId,
   djprogramId: state => state.djprogramId,
   albumId: state => state.albumId,

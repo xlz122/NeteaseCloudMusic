@@ -217,7 +217,7 @@ export default defineComponent({
 
     // 跳转歌单详情
     function jumpSongSheetDetail(id: number): void {
-      $router.push({ name: 'song-sheet-detail', params: { songSheetId: id } });
+      $store.commit('jumpSongSheetDetail', id);
     }
 
     // 获取热门推荐 - 推荐歌单数据
@@ -317,16 +317,12 @@ export default defineComponent({
 
     // 新碟上架 - 跳转专辑
     function jumpAlbumDetail(id: number): void {
-      $router.push({ name: 'album-detail', params: { albumId: id } });
+      $store.commit('jumpAlbumDetail', id);
     }
 
     // 新碟上架 - 跳转歌手详情
     function jumpSingerDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌手id
-      $store.commit('setSingerId', id);
-      $router.push({ name: 'singer-detail', params: { singerId: id } });
+      $store.commit('jumpSingerDetail', id);
     }
 
     // 新碟上架 - 更多

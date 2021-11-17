@@ -79,7 +79,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { userPlayList } from '@api/my-music';
 import { SongList, ResponseType, LoopType } from '@/types/types';
@@ -88,7 +88,6 @@ import { bigNumberTransform } from '@utils/utils';
 export default defineComponent({
   setup() {
     const $route = useRoute();
-    const $router = useRouter();
     const $store = useStore();
 
     // 用户uid
@@ -99,7 +98,6 @@ export default defineComponent({
       curVal => {
         // 传入
         if (curVal.userId) {
-          $store.commit('setUserId', Number(curVal.userId));
           getUserPlayList();
           return false;
         }
@@ -169,7 +167,7 @@ export default defineComponent({
 
     // 跳转歌单详情
     function jumpSongSheetDetail(id: number): void {
-      $router.push({ name: 'song-sheet-detail', params: { songSheetId: id } });
+      $store.commit('jumpSongSheetDetail', id);
     }
 
     return {

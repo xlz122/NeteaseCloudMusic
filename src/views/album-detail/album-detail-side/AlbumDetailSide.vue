@@ -46,7 +46,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { artistAlbum } from '@api/singer-detail';
 import { ResponseType } from '@/types/types';
@@ -69,7 +68,6 @@ export default defineComponent({
     }
   },
   setup() {
-    const $router = useRouter();
     const $store = useStore();
 
     // 歌手id
@@ -116,29 +114,25 @@ export default defineComponent({
     // 专辑id
     const albumId = computed(() => $store.getters.albumId);
 
-    // 跳转专辑
+    // 跳转专辑详情
     function jumpAlbumDetail(id: number): boolean | undefined {
       // 当前专辑id和跳转专辑id相同
       if (albumId.value === id) {
         return false;
       }
-      $router.push({ name: 'album-detail', params: { albumId: id } });
+      $store.commit('jumpAlbumDetail', id);
     }
 
     // 跳转歌手详情
     function jumpSingerDetail(): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
       // 歌手详情导航选中
       $store.commit('setSingerTabIndex', 1);
-      $router.push({ name: 'singer-detail' });
+      $store.commit('jumpSingerDetail', singerId.value);
     }
 
     // 跳转用户资料
-    function jumpUserProfile(userId: number): void {
-      // 头部导航取消选中
-      $store.commit('setHeaderActiveIndex', -1);
-      $router.push({ name: 'user-profile', params: { userId } });
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
     }
 
     return {
