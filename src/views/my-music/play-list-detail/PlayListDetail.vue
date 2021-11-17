@@ -65,7 +65,7 @@ export default defineComponent({
     );
 
     // 歌单id
-    const songSheetId = computed(() => $store.getters['music/songSheetId']);
+    const songSheetId = computed(() => $store.getters.songSheetId);
 
     // 监听路由传参，获取歌曲评论
     watch(

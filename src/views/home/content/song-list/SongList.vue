@@ -171,11 +171,7 @@ export default defineComponent({
 
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌曲id
-      $store.commit('setSongId', id);
-      $router.push({ name: 'song-detail', params: { songId: id } });
+      $store.commit('jumpSongDetail', id);
     }
 
     // 播放列表音乐
@@ -236,7 +232,7 @@ export default defineComponent({
 
     // 查看全部
     function songListMore(id: number): void {
-      $store.commit('music/setSongSheetId', id);
+      $store.commit('setSongSheetId', id);
       $router.push({ name: 'home-toplist' });
     }
 

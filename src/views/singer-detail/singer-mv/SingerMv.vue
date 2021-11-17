@@ -109,7 +109,7 @@ export default defineComponent({
     }
     getArtistMv();
 
-    // 跳转Mv
+    // 跳转Mv详情
     function jumpMvDetail(): void {
       $store.commit('setMessage', {
         type: 'error',

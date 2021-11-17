@@ -108,7 +108,6 @@ export default defineComponent({
       () => $route.params,
       curVal => {
         if (curVal.albumId) {
-          $store.commit('setAlbumId', Number(curVal.albumId));
           nextTick(() => {
             getAlbumDetail();
             getCommentData();

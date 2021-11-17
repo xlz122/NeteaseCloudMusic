@@ -34,7 +34,6 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { searchKeywords } from '@api/search';
 import { timeStampToDuration } from '@utils/utils.ts';
@@ -60,7 +59,6 @@ export default defineComponent({
   },
   emits: ['searchCountChange'],
   setup(props, { emit }) {
-    const $router = useRouter();
     const $store = useStore();
 
     const { searchDetailText } = toRefs(props);
@@ -114,11 +112,7 @@ export default defineComponent({
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌手id
-      $store.commit('setSingerId', id);
-      $router.push({ name: 'singer-detail', params: { singerId: id } });
+      $store.commit('jumpSingerDetail', id);
     }
 
     // 分页

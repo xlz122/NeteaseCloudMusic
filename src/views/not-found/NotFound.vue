@@ -7,7 +7,7 @@ import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
-  name: 'not-found',
+  name: 'NotFound',
   setup() {
     const router = useRouter();
 

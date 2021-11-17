@@ -85,7 +85,6 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 // 歌词组件
 import Lyric from '../lyric/Lyric.vue';
@@ -102,7 +101,6 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    const $router = useRouter();
     const $store = useStore();
 
     // 播放列表数据
@@ -145,11 +143,7 @@ export default defineComponent({
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌手id
-      $store.commit('setSingerId', id);
-      $router.push({ name: 'singer-detail', params: { singerId: id } });
+      $store.commit('jumpSongDetail', id);
       closePlayList();
     }
 

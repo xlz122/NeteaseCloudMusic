@@ -56,7 +56,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { topPlaylist } from '@api/home-song-sheet';
 import { ResponseType } from '@/types/types';
@@ -80,7 +79,6 @@ export default defineComponent({
     }
   },
   setup() {
-    const $router = useRouter();
     const $store = useStore();
 
     // 歌单详情数据
@@ -118,15 +116,13 @@ export default defineComponent({
     getTopPlaylist();
 
     // 跳转用户资料
-    function jumpUserProfile(userId: number): void {
-      // 头部导航取消选中
-      $store.commit('setHeaderActiveIndex', -1);
-      $router.push({ name: 'user-profile', params: { userId } });
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
     }
 
     // 跳转歌单详情
     function jumpSongSheetDetail(id: number): void {
-      $router.push({ name: 'song-sheet-detail', params: { songSheetId: id } });
+      $store.commit('jumpSongSheetDetail', id);
       // 重新获取热门歌单
       getTopPlaylist();
     }

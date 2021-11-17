@@ -103,7 +103,6 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils.ts';
 import { LoopType } from '@/types/types';
@@ -125,7 +124,6 @@ export default defineComponent({
     }
   },
   setup() {
-    const $router = useRouter();
     const $store = useStore();
 
     // 当前播放音乐id
@@ -133,11 +131,7 @@ export default defineComponent({
 
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌曲id
-      $store.commit('setSongId', id);
-      $router.push({ name: 'song-detail', params: { songId: id } });
+      $store.commit('jumpSongDetail', id);
     }
 
     // 单个音乐添加到播放列表
@@ -165,11 +159,7 @@ export default defineComponent({
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌手id
-      $store.commit('setSingerId', id);
-      $router.push({ name: 'singer-detail', params: { singerId: id } });
+      $store.commit('jumpSingerDetail', id);
     }
 
     // 播放列表音乐

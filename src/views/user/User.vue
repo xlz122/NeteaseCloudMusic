@@ -100,10 +100,7 @@ export default defineComponent({
 
       // 我的主页
       if (item?.link === '/user-profile') {
-        $router.push({
-          name: 'user-profile',
-          params: { userId: userInfo?.value.profile?.userId }
-        });
+        $store.commit('jumpUserProfile', userInfo?.value.profile?.userId);
         return false;
       }
 

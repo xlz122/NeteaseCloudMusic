@@ -92,7 +92,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue';
-import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { hotNewDisc, nweDiscAlbum, NweDiscAlbum } from '@api/home-new-disc';
 import { ResponseType } from '@/types/types';
@@ -104,7 +103,6 @@ export default defineComponent({
     Page
   },
   setup() {
-    const $router = useRouter();
     const $store = useStore();
 
     const hotNewDiscList = ref<unknown[]>([]);
@@ -125,18 +123,14 @@ export default defineComponent({
     }
     getHotNewDisc();
 
-    // 跳转专辑
+    // 跳转专辑详情
     function jumpAlbumDetail(id: number): void {
-      $router.push({ name: 'album-detail', params: { albumId: id } });
+      $store.commit('jumpAlbumDetail', id);
     }
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
-      // 取消二级导航选中
-      $store.commit('setSubActiveIndex', -1);
-      // 存储歌手id
-      $store.commit('setSingerId', id);
-      $router.push({ name: 'singer-detail', params: { singerId: id } });
+      $store.commit('jumpSingerDetail', id);
     }
 
     const pageTotal = ref<number>(0);

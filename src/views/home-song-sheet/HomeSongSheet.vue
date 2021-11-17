@@ -79,7 +79,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, watch, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { topPlaylist } from '@api/home-song-sheet';
 import { ResponseType, LoopType } from '@/types/types';
@@ -103,7 +103,6 @@ export default defineComponent({
   },
   setup() {
     const $route = useRoute();
-    const $router = useRouter();
     const $store = useStore();
 
     const songTitle = ref<string>('全部');
@@ -185,14 +184,12 @@ export default defineComponent({
 
     // 跳转歌单详情
     function jumpSongSheetDetail(id: number): void {
-      $router.push({ name: 'song-sheet-detail', params: { songSheetId: id } });
+      $store.commit('jumpSongSheetDetail', id);
     }
 
     // 跳转用户资料
-    function jumpUserProfile(userId: number): void {
-      // 头部导航取消选中
-      $store.commit('setHeaderActiveIndex', -1);
-      $router.push({ name: 'user-profile', params: { userId } });
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
     }
 
     // 分页
