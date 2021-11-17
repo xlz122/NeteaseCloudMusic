@@ -184,6 +184,9 @@ export default defineComponent({
       () => songSheetDetail.value,
       () => {
         loading.value = false;
+      },
+      {
+        immediate: true
       }
     );
 
