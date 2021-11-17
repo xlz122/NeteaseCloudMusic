@@ -223,11 +223,15 @@ export default defineComponent({
           time: -1
         };
         const time = item.match(regTime);
-        obj.lyric =
-          item.split(']')[1].trim() === '' ? '' : item.split(']')[1].trim();
-        obj.time = time
-          ? formatLyricTime(time[0].slice(1, time[0].length - 1))
-          : 0;
+        if (item.includes('[')) {
+          obj.lyric =
+            item.split(']')[1].trim() === '' ? '' : item.split(']')[1].trim();
+          obj.time = time
+            ? formatLyricTime(time[0].slice(1, time[0].length - 1))
+            : 0;
+        } else {
+          obj.lyric = item;
+        }
         lyric.list.push(obj);
       });
     }

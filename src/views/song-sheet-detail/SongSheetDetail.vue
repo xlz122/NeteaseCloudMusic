@@ -91,7 +91,6 @@ export default defineComponent({
       () => $route.params,
       curVal => {
         if (curVal.songSheetId) {
-          $store.commit('setSongSheetId', Number(curVal.songSheetId));
           getSongDetail();
         }
       },
