@@ -88,6 +88,9 @@ const mutations: Mutations<State> = {
   },
   // 跳转歌单详情
   jumpSongSheetDetail(state, songSheetId: number) {
+    state.songSheetId = songSheetId;
+    localStorage.setItem('songSheetId', JSON.stringify(songSheetId));
+
     Router.push({ name: 'song-sheet-detail', params: { songSheetId } });
   },
   // 跳转歌手详情

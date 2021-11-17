@@ -92,14 +92,14 @@
           </li>
         </ul>
         <div class="toggle-btn" v-if="lyric.list.length > 13">
-          <template v-if="!toggleShow">
-            <span class="text" @click="toggle">展开</span>
+          <span v-if="!toggleShow" @click="toggle">
+            <span class="text">展开</span>
             <i class="icon"></i>
-          </template>
-          <template v-else>
-            <span class="text" @click="toggle">收起</span>
+          </span>
+          <span v-else @click="toggle">
+            <span class="text">收起</span>
             <i class="icon hide"></i>
-          </template>
+          </span>
         </div>
       </div>
     </template>
