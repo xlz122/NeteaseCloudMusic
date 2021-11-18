@@ -1,3 +1,6 @@
+![](./src/assets/design-sketch/npm-6.14.8.svg)
+![](./src/assets/design-sketch/node-12.22.0.svg)
+
 **特别声明：本项目中的展示图片归网易云所有。如果侵权，请联系删除。**
 
 请联系QQ``122874722``。
@@ -47,10 +50,6 @@ yarn build
 ### 项目效果图
 
 ![](./src/assets/design-sketch/home.png)
-![](./src/assets/design-sketch/my-music.png)
-![](./src/assets/design-sketch/friend.png)
-![](./src/assets/design-sketch/download.png)
-![](./src/assets/design-sketch/my-home.png)
 ## 写在最后
 
 * 本项目仅用于学习使用，切勿用于商业用途，否则产生的法律后果与作者无关。
