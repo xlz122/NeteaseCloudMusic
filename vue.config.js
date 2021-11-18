@@ -46,8 +46,6 @@ module.exports = {
   css: {
     // 设置为true的时候 打包完成后会生成一些css.map文件,如果有报错,可以精确的输出哪一个文件、哪一行报错
     sourceMap: false,
-    // 是否开启样式模块 <style module></style>(v5已废弃)
-    // requireModuleExtension: false,
     // 共享的全局变量
     loaderOptions: {
       // 给 less-loader 传递选项
@@ -82,10 +80,19 @@ module.exports = {
   },
   configureWebpack: config => {
     // 环境判断
-    // development(开发)环境下config.optimization是undefined
     if (process.env.NODE_ENV === 'production') {
       // 为生产环境修改配置...
-      // 去掉所有console.log()，cli 5.0版本配置更改（无效）
+      // 配置删除console.*函数调用
+      config.optimization.minimizer[0].options.minimizer.options.compress = Object.assign(
+        config.optimization.minimizer[0].options.minimizer.options.compress,
+        {
+          drop_console: false, // 删除所有console.*函数的调用
+          drop_debugger: true, // 删除所有debugger
+          pure_funcs: ['console.log', 'console.dir'], // 删除特定的console.*函数的调用
+        }
+      );
+
+      // webpack4 版本支持
       // config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
 
       // 打包文件大小配置
@@ -173,7 +180,17 @@ module.exports = {
       return args;
     });
 
-    // 图片打包成base64配置，limit: 10240为10k（v5版本无效）
+    // 小图片配置base64（v5版本：url-loader、file-loader被移除）
+    config.module
+      .rule('images')
+      .test(/\.(jpg|png|gif)$/)
+      .set('parser', {
+        dataUrlCondition: {
+          maxSize: 10 * 1024 // 10KiB
+        }
+      })
+
+    // webpack4 版本支持
     // config.module
     //   .rule('images')
     //   .test(/\.(jpg|png|gif)$/)
