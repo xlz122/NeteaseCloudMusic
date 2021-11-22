@@ -8,7 +8,7 @@
     <!-- 歌曲列表部分 -->
     <table
       class="play-list-table"
-      v-if="songSheetDetail?.playlist?.tracks.length > 0"
+      v-if="!loading && songSheetDetail?.playlist?.tracks.length > 0"
     >
       <thead>
         <tr>
@@ -113,7 +113,7 @@
     <!-- 音乐列表空时展示 -->
     <div
       class="no-list-data"
-      v-if="loading && songSheetDetail?.playlist?.tracks.length === 0"
+      v-if="!loading && songSheetDetail?.playlist?.tracks.length === 0"
     >
       <div class="title">
         <i class="icon"></i>
@@ -184,9 +184,6 @@ export default defineComponent({
       () => songSheetDetail.value,
       () => {
         loading.value = false;
-      },
-      {
-        immediate: true
       }
     );
 

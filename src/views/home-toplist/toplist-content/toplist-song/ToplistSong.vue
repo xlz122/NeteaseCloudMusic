@@ -112,7 +112,7 @@
     <!-- 音乐列表空时展示 -->
     <div
       class="no-list-data"
-      v-if="songSheetDetail?.playlist?.tracks.length === 0"
+      v-if="!loading && songSheetDetail?.playlist?.tracks.length === 0"
     >
       <div class="title">
         <i class="icon"></i>
@@ -182,15 +182,11 @@ export default defineComponent({
     // 当前播放音乐id
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
 
-    const loading = ref<boolean>(false);
+    const loading = ref<boolean>(true);
     watch(
       () => songSheetDetail.value,
       () => {
-        if (songSheetDetail.value?.code) {
-          loading.value = false;
-        } else {
-          loading.value = true;
-        }
+        loading.value = false;
       }
     );
 
