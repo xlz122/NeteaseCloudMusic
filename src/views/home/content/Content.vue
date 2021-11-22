@@ -2,7 +2,7 @@
   <div class="content">
     <div class="group">
       <div class="list-title">
-        <span class="title">热门推荐</span>
+        <span class="title" @click="songSheetMore">热门推荐</span>
         <ul class="tab">
           <li class="item first-item" @click="jumpSongSheet('华语')">华语</li>
           <li class="item" @click="jumpSongSheet('流行')">流行</li>
@@ -90,7 +90,7 @@
     <!-- 个性化推荐 -->
     <div class="group" v-if="isLogin">
       <div class="list-title">
-        <span class="title">个性化推荐</span>
+        <span class="title individualization-title">个性化推荐</span>
       </div>
       <ul class="list-content">
         <li class="item individualization">
@@ -139,7 +139,7 @@
     </div>
     <div class="group">
       <div class="list-title">
-        <span class="title">新碟上架</span>
+        <span class="title" @click="albumNewestMore">新碟上架</span>
         <span class="more" @click="albumNewestMore">更多</span>
       </div>
       <album-newest
@@ -149,7 +149,7 @@
     </div>
     <div class="group">
       <div class="list-title">
-        <span class="title">榜单</span>
+        <span class="title" @click="songListMore">榜单</span>
         <span class="more" @click="songListMore">更多</span>
       </div>
       <song-list />
