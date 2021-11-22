@@ -96,7 +96,7 @@ const mutations: Mutations<State, unknown> = {
     }
     // 保存数据
     state.playMusicList = list as unknown[];
-    localStorage.setItem('playMusicData', JSON.stringify(list));
+    localStorage.setItem('playMusicList', JSON.stringify(list));
   }
 };
 
