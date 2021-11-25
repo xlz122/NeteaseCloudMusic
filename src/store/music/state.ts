@@ -14,7 +14,7 @@ export type State = {
 
 export type MusicDetailOptions = {
   subPlayList: boolean;
-  myMv: boolean;
+  MyVideo: boolean;
   playListDetail: boolean;
 };
 
@@ -42,7 +42,7 @@ function faultTolerant(name: string) {
 const state: State = {
   musicDetailOptions: {
     subPlayList: false,
-    myMv: false,
+    MyVideo: false,
     playListDetail: false
   }, // 我的音乐 - 详情显示
   songSheetDetail: faultTolerant('songSheetDetail') || {}, // 歌单详情数据

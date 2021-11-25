@@ -11,10 +11,10 @@
   <!-- 我的视频 -->
   <h2
     class="music-my-mv"
-    :class="{ 'music-my-mv-active': musicDetailOptions.myMv }"
-    @click="myMvClick"
+    :class="{ 'music-my-mv-active': musicDetailOptions.MyVideo }"
+    @click="MyVideoClick"
   >
-    我的视频({{ optionsCount.myMvCount }})
+    我的视频({{ optionsCount.MyVideoCount }})
   </h2>
   <!-- 创建的歌单 -->
   <toggle-list
@@ -58,7 +58,7 @@ export default defineComponent({
 
     const optionsCount = reactive<OptionsCount>({
       subPlayListCount: 0, // 我的视频数量
-      myMvCount: 0, // 我的视频数量
+      MyVideoCount: 0, // 我的视频数量
       createdPlayCount: 0, // 创建歌单数量
       collectionPlayCount: 0 // 创建歌单数量
     });
@@ -67,7 +67,7 @@ export default defineComponent({
     function getUserSubcount(): void {
       userSubcount().then((res: ResponseType) => {
         optionsCount.subPlayListCount = res.subPlaylistCount || 0;
-        optionsCount.myMvCount = res.mvCount || 0;
+        optionsCount.MyVideoCount = res.mvCount || 0;
         optionsCount.createdPlayCount = res.createdPlaylistCount || 0;
         optionsCount.collectionPlayCount = res.subPlaylistCount || 0;
       });
@@ -147,12 +147,12 @@ export default defineComponent({
     }
 
     // 我的视频点击
-    function myMvClick(): void {
+    function MyVideoClick(): void {
       const musicDetail = JSON.parse(JSON.stringify(musicDetailOptions.value));
       for (const value in musicDetail) {
         musicDetail[value] = false;
       }
-      musicDetail.myMv = true;
+      musicDetail.MyVideo = true;
       $store.commit('music/setMusicDetailOptions', musicDetail);
 
       // 取消其他项选中
@@ -224,7 +224,7 @@ export default defineComponent({
       optionsCount,
       songSheetList,
       subPlayListClick,
-      myMvClick,
+      MyVideoClick,
       createListClick,
       collectionListClick
     };
