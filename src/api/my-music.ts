@@ -35,7 +35,7 @@ export const subPlayList = (): AxiosRequest => {
  * @description 获取我的视频列表
  * @param { Number } timestamp - 防止接口缓存
  */
-export const myMvSbulist = (): AxiosRequest => {
+export const MyVideoSbulist = (): AxiosRequest => {
   const params = {
     timestamp: new Date().getTime()
   };
