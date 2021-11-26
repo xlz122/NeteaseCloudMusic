@@ -42,7 +42,7 @@ const state: State = {
   singerId: Number(localStorage.getItem('singerId')) || 0, // 歌手id
   djprogramId: Number(localStorage.getItem('djprogramId')) || 0, // 电台节目id
   albumId: Number(localStorage.getItem('albumId')) || 0, // 专辑id
-  videoId: JSON.parse(localStorage.getItem('videoId') || '') || '', // 视频id
+  videoId: faultTolerant('videoId') || '', // 视频id
   singerTabIndex: Number(localStorage.getItem('singerTabIndex')) || 0, // 歌手详情导航
   searchIndex: Number(localStorage.getItem('searchIndex')) || 0 // 搜索详情导航
 };
