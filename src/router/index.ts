@@ -172,6 +172,15 @@ const routes: Array<RouteRecordRaw> = [
           import(
             /* webpackChunkName: "song-sheet-detail" */ '../components/user-profile/UserProfile.vue'
           )
+      },
+      // 视频
+      {
+        path: '/video-detail',
+        name: 'video-detail',
+        component: () =>
+          import(
+            /* webpackChunkName: "video" */ '../views/video-detail/VideoDetail.vue'
+          )
       }
     ]
   },
