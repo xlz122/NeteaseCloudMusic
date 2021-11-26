@@ -6,7 +6,7 @@
       :key="index"
       :class="{ 'first-item': index % 5 }"
     >
-      <div class="cover">
+      <div class="cover" @click="jumpVideoDetail(item.type, item.vid)">
         <img class="img" :src="item?.coverUrl" alt="" />
         <div class="play-volume">
           <span class="icon-play"></span>
@@ -18,7 +18,12 @@
       </div>
       <div class="item-title">
         <i class="icon" v-if="item?.type === 0"></i>
-        <span :title="item?.title">{{ item?.title }}</span>
+        <span
+          :title="item?.title"
+          @click="jumpVideoDetail(item.type, item.vid)"
+        >
+          {{ item?.title }}
+        </span>
       </div>
       <div class="item-name">
         <span class="text" v-if="item?.type !== 0">by</span>
@@ -39,6 +44,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { searchKeywords } from '@api/search';
 import { bigNumberTransform, timeStampToDuration } from '@utils/utils.ts';
@@ -64,6 +70,7 @@ export default defineComponent({
   },
   emits: ['searchCountChange'],
   setup(props, { emit }) {
+    const $router = useRouter();
     const $store = useStore();
 
     const { searchDetailText } = toRefs(props);
@@ -115,6 +122,15 @@ export default defineComponent({
     }
     getSearchMv();
 
+    // 跳转视频详情
+    function jumpVideoDetail(type: number, id: number): void {
+      // type 0为mv, type 1为视频
+      if (type === 1) {
+        $router.push({ name: 'video-detail', params: { id } });
+        $store.commit('setVideoId', id);
+      }
+    }
+
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       $store.commit('jumpSingerDetail', id);
@@ -131,6 +147,7 @@ export default defineComponent({
       timeStampToDuration,
       userInfo,
       mvData,
+      jumpVideoDetail,
       jumpSingerDetail,
       changPage
     };

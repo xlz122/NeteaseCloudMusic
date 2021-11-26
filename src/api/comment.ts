@@ -95,7 +95,7 @@ export const commentAlbum = ({
 /**
  * @descriptionription 获取电台节目评论列表
  * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 专辑id
+ * @param { Number } id - 节目id
  * @param { Number } [offset] - 页数
  * @param { Number } [limit] - 偏移数量，默认20
  * @param { Number } [before] - 分页参数,取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到)
@@ -121,10 +121,38 @@ export const commentDjprogram = ({
 };
 
 /**
+ * @descriptionription 获取视频评论列表
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } id - 视频id
+ * @param { Number } [offset] - 页数
+ * @param { Number } [limit] - 偏移数量，默认20
+ * @param { Number } [before] - 分页参数,取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到)
+ */
+export const commentVideo = ({
+  id,
+  offset,
+  limit,
+  before
+}: CommentParams): AxiosRequest => {
+  const params = {
+    timestamp: new Date().getTime(),
+    id,
+    offset,
+    limit,
+    before
+  };
+  return axios.request({
+    url: '/comment/video',
+    method: 'get',
+    params
+  });
+};
+
+/**
  * @descriptionription 新增评论
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
- * @param { Number } id - 歌单id
+ * @param { Number } id - type类型id
  * @param { String } content - 评论内容
  */
 
@@ -155,7 +183,7 @@ export const addComment = ({ type, id, content }: AddComment): AxiosRequest => {
  * @descriptionription 回复歌单评论
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
- * @param { Number } id - 歌单id
+ * @param { Number } id - type类型id
  * @param { String } content - 评论内容
  * @param { Number } commentId - 内容id
  */
@@ -194,7 +222,7 @@ export const replyComment = ({
  * @descriptionription 删除评论
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
- * @param { Number } id - 歌单id
+ * @param { Number } id - type类型id
  * @param { Number } commentId - 内容id
  */
 
@@ -229,7 +257,7 @@ export const deleteComment = ({
  * @descriptionription 评论点赞
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
- * @param { Number } id - 歌单id
+ * @param { Number } id - type类型id
  * @param { Number } cid - 评论id
  * @param { Number } t - 是否点赞 ,1 为点赞 ,0 为取消点赞
  */

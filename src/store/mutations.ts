@@ -75,6 +75,11 @@ const mutations: Mutations<State> = {
     state.djprogramId = djprogramId;
     localStorage.setItem('djprogramId', JSON.stringify(djprogramId));
   },
+  // 视频id
+  setVideoId(state, videoId: string) {
+    state.videoId = videoId;
+    localStorage.setItem('videoId', JSON.stringify(videoId));
+  },
   // 跳转歌曲详情
   jumpSongDetail(state, songId: number) {
     // 取消二级导航选中

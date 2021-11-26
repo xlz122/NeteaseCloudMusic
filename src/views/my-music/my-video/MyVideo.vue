@@ -8,7 +8,7 @@
         class="item"
         v-for="(item, index) in MyVideoList"
         :key="index"
-        @click="MyVideoplay"
+        @click="MyVideoplay(item.vid)"
       >
         <div class="cover">
           <img class="img" :src="item?.coverUrl" alt="" />
@@ -34,6 +34,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { MyVideoSbulist } from '@api/my-music';
 import { ResponseType } from '@/types/types';
@@ -41,6 +42,7 @@ import { timeStampToDuration } from '@utils/utils.ts';
 
 export default defineComponent({
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     // 我的视频数量
@@ -58,11 +60,9 @@ export default defineComponent({
     getMyVideoSbulist();
 
     // 播放
-    function MyVideoplay(): void {
-      $store.commit('setMessage', {
-        type: 'info',
-        title: '点击video播放'
-      });
+    function MyVideoplay(id: string): void {
+      $router.push({ name: 'video-detail', params: { id } });
+      $store.commit('setVideoId', id);
     }
 
     // 跳转用户资料

@@ -154,7 +154,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
+import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import MyDialog from '@/components/MyDialog.vue';
 import { timeStampToDuration } from '@utils/utils.ts';
@@ -180,12 +180,12 @@ export default defineComponent({
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
 
     const loading = ref<boolean>(true);
-    watch(
-      () => songSheetDetail.value,
-      () => {
+
+    onMounted(() => {
+      setTimeout(() => {
         loading.value = false;
-      }
-    );
+      }, 200);
+    });
 
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
