@@ -76,7 +76,6 @@ export default defineComponent({
 
     // 切换播放/暂停状态
     function togglePlayStatus(): void {
-      console.log('d');
       videoStatus.value = videoStatus.value === 'play' ? 'pause' : 'play';
     }
 
