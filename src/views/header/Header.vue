@@ -113,7 +113,7 @@ export default defineComponent({
         link: '/my-music'
       },
       {
-        title: '朋友',
+        title: '关注',
         link: '/friend'
       },
       {
