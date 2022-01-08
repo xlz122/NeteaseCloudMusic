@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     // 关闭 key[value] 报错
-    "suppressImplicitAnyIndexErrors":true,
+    "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
