@@ -1,0 +1,218 @@
+.mv-detail {
+  background-color: #f2f2f2;
+
+  .mv-detail-container {
+    width: 980px;
+    margin: 0 auto;
+    background-color: #fff;
+    background: url(~@/assets/image/song-sheet/song-sheet-detail-bg.png) repeat-y center 0;
+    border: 1px solid #d3d3d3;
+    border-width: 0 1px;
+
+    .mv-detail-content {
+      display: inline-block;
+      vertical-align: top;
+      width: calc(100% - 274px);
+      padding-bottom: 40px;
+
+      .title {
+        margin: 37px 0 8px 39px;
+        text-align: left;
+
+        .icon {
+          display: inline-block;
+          vertical-align: middle;
+          width: 29px;
+          height: 18px;
+          margin-right: 5px;
+          background: url(~@/assets/image/icon2.png) no-repeat 0 9999px;
+          background-position: -230px -480px;
+        }
+
+        .text {
+          display: inline-block;
+          vertical-align: middle;
+          max-width: 98%;
+          margin-right: 8px;
+          font-size: 24px;
+          line-height: 32px;
+          font-weight: normal;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          word-wrap: normal;
+        }
+
+        .desc {
+          display: inline-block;
+          vertical-align: bottom;
+          margin-bottom: 4px;
+          font-weight: normal;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          text-align: left;
+
+          .by {
+            margin-right: 5px;
+            font-size: 12px;
+            color: #333;
+          }
+
+          .text {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 0;
+            line-height: 1;
+            font-size: 12px;
+            color: #0c73c2;
+            cursor: pointer;
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+
+          .line {
+            display: inline-block;
+            vertical-align: middle;
+            margin: 2px 3px 0;
+            color: #000;
+          }
+        }
+      }
+
+      .video-container {
+        position: relative;
+        width: 640px;
+        height: 360px;
+        margin-left: 39px;
+        background-color: #000;
+      }
+
+      .operate-btn {
+        margin: 12px 45px 0 39px;
+        text-align: left;
+
+        .other {
+          display: inline-block;
+          vertical-align: middle;
+          height: 32px;
+          line-height: 30px;
+          margin-left: -3px;
+          margin-right: 8px;
+          padding-right: 0;
+          background: url(~@/assets/image/icon-button.png) no-repeat;
+          background-position: right -1192px;
+          color: #333;
+          font-style: normal;
+          text-align: left;
+          font-size: inherit;
+          font-family: simsun, \5b8b\4f53;
+          cursor: pointer;
+
+          .icon {
+            display: inline-block;
+            vertical-align: middle;
+            height: 32px;
+            padding-left: 30px;
+            margin-right: 4px;
+            background: url(~@/assets/image/icon-button.png) no-repeat;
+            background-position: 0 -1149px;
+            font-family: simsun, \5b8b\4f53;
+          }
+        }
+
+        .like {
+          position: relative;
+          background-position: right -1020px;
+
+          .like-icon {
+            position: absolute;
+            top: 7px;
+            left: 9px;
+            width: 17px;
+            height: 15px;
+            background: url(~@/assets/image/icon-button.png) no-repeat;
+            background-position: 0 -95px;
+          }
+
+          .icon {
+            background-position: 0 -59px;
+          }
+        }
+
+        .collection {
+          background-position: right -1020px;
+
+          .icon {
+            background-position: 0 -977px;
+          }
+        }
+
+        .collection-sub {
+          .icon {
+            background-position: 0 -3080px;
+          }
+        }
+
+        .share {
+          background-position: right -1020px;
+
+          .icon {
+            background-position: 0 -1225px;
+          }
+        }
+
+        .collection:hover {
+          background-position: right -1106px;
+
+          .icon {
+            background-position: 0 -1063px;
+          }
+        }
+
+        .collection-sub:hover {
+          .icon {
+            background-position: 0 -3080px;
+
+            &:hover {
+              background-position: 0 -3180px;
+            }
+          }
+        }
+
+        .share:hover {
+          background-position: right -1106px;
+
+          .icon {
+            background-position: 0 -1268px;
+          }
+        }
+      }
+
+      ::v-deep(.comment-component) {
+        margin-left: 39px;
+        margin-right: 30px;
+
+        .detail-comment {
+          width: 637px;
+        }
+
+        .list-title {
+          padding-left: 0;
+        }
+
+        .comment-textarea {
+          width: 558px;
+        }
+      }
+    }
+
+    .mv-detail-side {
+      display: inline-block;
+      vertical-align: top;
+      width: 270px;
+    }
+  }
+}

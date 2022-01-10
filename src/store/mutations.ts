@@ -75,10 +75,10 @@ const mutations: Mutations<State> = {
     state.djprogramId = djprogramId;
     localStorage.setItem('djprogramId', JSON.stringify(djprogramId));
   },
-  // 视频id
-  setVideoId(state, videoId: string) {
-    state.videoId = videoId;
-    localStorage.setItem('videoId', JSON.stringify(videoId));
+  // 视频/mv 数据
+  setVideo(state, video) {
+    state.video = video;
+    localStorage.setItem('video', JSON.stringify(video));
   },
   // 跳转歌曲详情
   jumpSongDetail(state, songId: number) {
@@ -156,6 +156,14 @@ const mutations: Mutations<State> = {
     localStorage.clear();
     // 清除所有cookie
     clearAllCookie();
+  },
+  // 当前播放音乐进度数据
+  setVideoPlayProgress(state, playProgress) {
+    const videoPlayProgress = JSON.parse(
+      JSON.stringify(state.videoPlayProgress)
+    );
+    const progress = Object.assign(videoPlayProgress, playProgress);
+    state.videoPlayProgress = progress as unknown;
   }
 };
 

@@ -3,7 +3,7 @@
     <!-- 头部部分 -->
     <div class="play-list-title">
       <h4 class="title">播放列表({{ playMusicList.length }})</h4>
-      <div class="add-all">
+      <div class="add-all" @click="collectAll">
         <i class="icon"></i>
         <span>收藏全部</span>
       </div>
@@ -35,13 +35,21 @@
             <i class="play-icon"></i>
             <span class="text song-title">{{ item.name }}</span>
             <div class="operate-btn">
-              <i class="icon collect" title="收藏"></i>
-              <i class="icon share" title="分享"></i>
-              <i class="icon download" title="下载"></i>
+              <i
+                class="icon collect"
+                title="收藏"
+                @click="collectMusic(item.id, $event)"
+              ></i>
+              <i class="icon share" title="分享" @click.stop="shareClick"></i>
+              <i
+                class="icon download"
+                title="下载"
+                @click.stop="downloadClick"
+              ></i>
               <i
                 class="icon delete"
                 title="删除"
-                @click="deleteMusicList(item.id, $event)"
+                @click="deleteMusic(item.id, $event)"
               ></i>
             </div>
             <span class="text name" @click.stop>
@@ -57,7 +65,7 @@
             <span class="text time">
               {{ timeStampToDuration(item.time / 1000) }}
             </span>
-            <i class="share" @click="jumpSongPosition()"></i>
+            <i class="share" @click.stop="jumpSongPosition"></i>
           </li>
         </ul>
         <!-- 列表空时展示 -->
@@ -86,6 +94,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
+import { LoopType } from '@/types/types';
 // 歌词组件
 import Lyric from '../lyric/Lyric.vue';
 import { timeStampToDuration } from '@utils/utils';
@@ -103,6 +112,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const $store = useStore();
 
+    // 是否登录
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
+
     // 播放列表数据
     const playMusicList = computed(() => $store.getters['music/playMusicList']);
 
@@ -116,13 +128,69 @@ export default defineComponent({
       () => $store.getters['music/playMusicItem']
     );
 
+    // 收藏全部歌曲
+    function collectAll(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      let ids = '';
+      playMusicList.value.forEach((item: LoopType) => {
+        ids += `${item.id},`;
+      });
+
+      $store.commit('music/collectPlayMusic', {
+        visible: true,
+        songIds: ids
+      });
+    }
+
     // 清除列表
     function emptyMusicList(): void {
       $store.commit('music/emptyPlayMusicList');
     }
 
+    // 收藏歌曲
+    function collectMusic(id: number, event: MouseEvent): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      event.stopPropagation();
+      $store.commit('music/collectPlayMusic', {
+        visible: true,
+        songIds: id
+      });
+    }
+
+    // 分享
+    function shareClick(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 下载
+    function downloadClick(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
     // 列表项删除
-    function deleteMusicList(id: number, event: MouseEvent): void {
+    function deleteMusic(id: number, event: MouseEvent): void {
       event.stopPropagation();
       $store.commit('music/deletePlayMusicList', id);
     }
@@ -163,13 +231,18 @@ export default defineComponent({
     function closePlayList(): void {
       emit('closePlayList');
     }
+
     return {
       playMusicList,
       playMusicId,
       playMusicItem,
       timeStampToDuration,
+      collectAll,
       emptyMusicList,
-      deleteMusicList,
+      collectMusic,
+      shareClick,
+      downloadClick,
+      deleteMusic,
       playlistItem,
       jumpSingerDetail,
       jumpSongPosition,

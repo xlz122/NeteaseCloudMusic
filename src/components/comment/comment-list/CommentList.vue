@@ -30,7 +30,7 @@
               <span>:</span>
               <span v-html="i?.content"></span>
             </template>
-            <template v-if="i.status === -5">
+            <template v-if="i.status === -5 || i.status === -10">
               <span class="text delete-text">该评论已删除</span>
             </template>
           </div>

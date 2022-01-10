@@ -19,7 +19,16 @@
           </h3>
           <div class="btns">
             <i class="btn-play" title="播放" @click="playTitleMusic(index)"></i>
-            <i class="btn-collection" title="收藏"></i>
+            <template v-if="!item?.playlist?.subscribed">
+              <i
+                class="btn-collection"
+                title="收藏"
+                @click="collectionClick(item?.playlist?.id)"
+              ></i>
+            </template>
+            <template v-if="item?.playlist?.subscribed">
+              <i class="btn-collection subscribe" title="已收藏"></i>
+            </template>
           </div>
         </div>
       </dt>
@@ -47,7 +56,11 @@
                 title="添加到播放列表"
                 @click="setAddSinglePlayList(i)"
               ></i>
-              <i class="operate-collection" title="收藏"></i>
+              <i
+                class="operate-collection"
+                title="收藏"
+                @click="collectMusic(i.id)"
+              ></i>
             </div>
           </li>
         </ul>
@@ -60,10 +73,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { soaringList, newSongs, originalList } from '@api/home';
+import { playlistSubscribe } from '@api/song-sheet-detail';
 import { ResponseType, LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
 import { throttle } from 'lodash';
@@ -72,6 +86,9 @@ export default defineComponent({
   setup() {
     const $router = useRouter();
     const $store = useStore();
+
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
 
     const listData = reactive<Record<string, any>>([]);
     // 获取飙升榜数据
@@ -169,6 +186,38 @@ export default defineComponent({
       }
     );
 
+    // 收藏
+    function collectionClick(id: number): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      // 1:收藏 2:取消收藏
+      playlistSubscribe({ id, t: 1 })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            listData.forEach((item: LoopType) => {
+              if (item.playlist.id === id) {
+                item.playlist.subscribed = true;
+              }
+            });
+
+            $store.commit('setMessage', {
+              type: 'info',
+              title: '收藏成功'
+            });
+          } else {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: res?.msg
+            });
+          }
+        })
+        .catch(() => ({}));
+    }
+
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
       $store.commit('jumpSongDetail', id);
@@ -230,6 +279,20 @@ export default defineComponent({
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
+    // 收藏歌曲
+    function collectMusic(id: number): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      $store.commit('music/collectPlayMusic', {
+        visible: true,
+        songIds: id
+      });
+    }
+
     // 查看全部
     function songListMore(id: number): void {
       $store.commit('setSongSheetId', id);
@@ -241,7 +304,9 @@ export default defineComponent({
       playTitleMusic,
       jumpSongDetail,
       playListMusic,
+      collectionClick,
       setAddSinglePlayList,
+      collectMusic,
       songListMore
     };
   }

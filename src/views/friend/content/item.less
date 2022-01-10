@@ -36,11 +36,11 @@
     .t-icon {
       display: inline-block;
       vertical-align: middle;
-      width: 12px;
-      height: 13px;
+      width: 15px;
+      height: 15px;
       margin: 3px 0 0 1px;
-      background: url(~@/assets/image/icon2.png);
-      background-position: -110px -190px;
+      background: url(~@/assets/image/friend/icon-song.png) no-repeat;
+      background-size: 100% 100%;
     }
 
     // 文案图标
@@ -104,9 +104,26 @@
         }
       }
 
+      &.cover-album {
+        width: 50px;
+        height: 40px;
+        background: url(~@/assets/image/friend/frd-dyn-sprite.png);
+        background-position: right -70px;
+      
+        .play-icon {
+          display: none;
+        }
+
+        &:hover {
+          .play-icon {
+            display: block;
+          }
+        }
+      }
+
       .cover-img {
-        width: 100%;
-        height: 100%;
+        width: 40px;
+        height: 40px;
       }
 
       .play-icon {
@@ -129,7 +146,17 @@
       vertical-align: top;
       margin-left: 12px;
 
+      .music-detail-datg {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 6px;
+        color: #e03f40;
+        border: solid 1px #e03f40;
+      }
+
       .music-detail-title {
+        display: inline-block;
+        vertical-align: middle;
         color: #000;
         font-size: 14px;
         font-weight: normal;

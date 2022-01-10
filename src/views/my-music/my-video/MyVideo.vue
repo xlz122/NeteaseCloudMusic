@@ -8,12 +8,12 @@
         class="item"
         v-for="(item, index) in MyVideoList"
         :key="index"
-        @click="MyVideoplay(item.vid)"
+        @click="jumpVideoDetail(item.type, item.vid)"
       >
         <div class="cover">
           <img class="img" :src="item?.coverUrl" alt="" />
           <div class="play-volume">
-            <span class="icon-play"></span>
+            <span class="icon-mv"></span>
             <span class="text">{{ item?.playTime }}</span>
           </div>
           <div class="duration">
@@ -60,9 +60,15 @@ export default defineComponent({
     getMyVideoSbulist();
 
     // 播放
-    function MyVideoplay(id: string): void {
-      $router.push({ name: 'video-detail', params: { id } });
-      $store.commit('setVideoId', id);
+    function jumpVideoDetail(type: number, id: number): void {
+      // type 0为mv, 1为视频
+      if (type === 0) {
+        $router.push({ name: 'mv-detail', params: { id } });
+      }
+      if (type === 1) {
+        $router.push({ name: 'video-detail', params: { id } });
+      }
+      $store.commit('setVideo', { id, url: '' });
     }
 
     // 跳转用户资料
@@ -73,7 +79,7 @@ export default defineComponent({
       timeStampToDuration,
       MyVideoCount,
       MyVideoList,
-      MyVideoplay,
+      jumpVideoDetail,
       jumpUserProfile
     };
   }

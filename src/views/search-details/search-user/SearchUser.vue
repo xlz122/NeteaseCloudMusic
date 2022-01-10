@@ -22,7 +22,12 @@
         <i class="icon-sex female" v-if="item?.gender === 2"></i>
       </div>
       <div class="item-follow">
-        <button class="follow-btn" @click="follow">关注</button>
+        <template v-if="!item?.followed">
+          <button class="follow-btn" @click="follow(item.userId)">关注</button>
+        </template>
+        <template v-if="item?.followed">
+          <button class="follow-btn followed">已关注</button>
+        </template>
       </div>
       <div class="item-text">歌单：{{ item?.playlistCount }}</div>
       <div class="item-text">粉丝：{{ item?.followeds }}</div>
@@ -40,7 +45,7 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
-import { searchKeywords } from '@api/search';
+import { searchKeywords, followUser } from '@api/search';
 import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
 
@@ -123,16 +128,28 @@ export default defineComponent({
     }
 
     // 关注
-    function follow(): boolean | undefined {
+    function follow(userId: number): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
       }
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+
+      followUser({ id: userId, t: 1 })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            $store.commit('setMessage', {
+              type: 'info',
+              title: '关注成功'
+            });
+          } else {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: res?.msg
+            });
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 分页

@@ -232,7 +232,7 @@
       .hd {
         height: 18px;
 
-        .icon-play {
+        .icon-mv {
           display: inline-block;
           vertical-align: middle;
           width: 23px;
@@ -384,6 +384,64 @@
             &:hover {
               text-decoration: underline;
             }
+          }
+        }
+      }
+    }
+
+    .no-copyright {
+      .tbody-left {
+        .hd {
+          .icon-play {
+            opacity: 0.5;
+          }
+        }
+      }
+
+      .tbody-td {
+        .hd {
+          .text {
+            color: #bbb;
+          }
+
+          .icon-mv {
+            background: url(~@/assets/image/my-music/my-music-table.png);
+            background-position: -60px -151px;
+          }
+
+          .operate-btn {
+            .add {
+              display: none;
+            }
+
+            .collect {
+              display: none;
+            }
+
+            .share {
+              display: none;
+            }
+
+            .download {
+              display: none;
+            }
+
+            .delete {
+              margin-right: 0px;
+              background-position: 0 -217px;
+
+              &:hover {
+                background-position: -20px -217px;
+              }
+            }
+          }
+
+          .name {
+            color: #bbb;
+          }
+
+          .line {
+            color: #bbb;
           }
         }
       }

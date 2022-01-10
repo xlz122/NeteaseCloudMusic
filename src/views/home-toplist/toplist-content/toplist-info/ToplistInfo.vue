@@ -50,7 +50,11 @@
             title="添加到播放列表"
             @click="setAddPlayList"
           ></div>
-          <div class="other collection disable-collection">
+          <div
+            class="other collection"
+            :class="`${isLogin ? 'disable-collection' : ''}`"
+            @click="collectionClick"
+          >
             <template v-if="songSheetDetail?.playlist?.subscribedCount > 0">
               <span class="icon">
                 ({{ songSheetDetail?.playlist?.subscribedCount }})
@@ -108,7 +112,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs } from 'vue';
+import { defineComponent, computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { formatDateTime } from '@utils/utils.ts';
@@ -131,6 +135,8 @@ export default defineComponent({
     const { songSheetDetail } = toRefs(props);
 
     const $store = useStore();
+
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
     // 计算歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
@@ -246,8 +252,23 @@ export default defineComponent({
       });
     }
 
+    // 收藏
+    function collectionClick(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+    }
+
     // 分享
-    function shareClick(): void {
+    function shareClick(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -263,18 +284,27 @@ export default defineComponent({
     }
 
     // 评论
-    function commentClick(): void {
+    function commentClick(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       const commentDom = document.querySelector(
         '.comment-component'
       ) as HTMLElement;
-      // 标题高度
-      window.scrollTo(0, Number(commentDom.offsetTop) + 120);
+
+      const appwrap = document.querySelector('.app-wrap') as HTMLElement;
+      appwrap.scrollTo(0, Number(commentDom.offsetTop) + 120);
     }
 
     return {
       formatDateTime,
+      isLogin,
       playTitleMusic,
       setAddPlayList,
+      collectionClick,
       shareClick,
       downloadClick,
       commentClick

@@ -1,11 +1,16 @@
 <template>
   <div class="album-info-container">
     <div class="cover-warp">
-      <img
-        class="cover-img"
-        :src="`${userInfo?.picUrl}?param=177y177`"
-        alt=""
-      />
+      <template v-if="userInfo?.picUrl">
+        <img
+          class="cover-img"
+          :src="`${userInfo?.picUrl}?param=177y177`"
+          alt=""
+        />
+      </template>
+      <template v-else>
+        <img class="cover-img" src="" alt="" />
+      </template>
       <i class="cover-bg"></i>
     </div>
     <div class="info-right">
@@ -48,7 +53,7 @@
           title="添加到播放列表"
           @click="setAddPlayList"
         ></div>
-        <div class="other collection" @click="collectionClick">
+        <div class="other collection" @click="collectionAll">
           <template v-if="userInfo?.info?.likedCount > 0">
             <span class="icon"> ({{ userInfo?.info?.likedCount }}) </span>
           </template>
@@ -87,7 +92,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs } from 'vue';
+import { defineComponent, computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { formatDateTime } from '@utils/utils.ts';
 import { LoopType } from '@/types/types';
@@ -110,6 +115,9 @@ export default defineComponent({
     const { songs } = toRefs(props);
 
     const $store = useStore();
+
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
@@ -209,16 +217,33 @@ export default defineComponent({
       });
     }
 
-    // 收藏
-    function collectionClick(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
+    // 收藏全部
+    function collectionAll(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      let ids = '';
+      songs.value.forEach((item: LoopType) => {
+        ids += `${item.id},`;
+      });
+
+      $store.commit('music/collectPlayMusic', {
+        visible: true,
+        songIds: ids
       });
     }
 
     // 分享
-    function shareClick(): void {
+    function shareClick(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -234,7 +259,13 @@ export default defineComponent({
     }
 
     // 评论
-    function commentClick(): void {
+    function commentClick(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       emit('commentClick');
     }
 
@@ -243,7 +274,7 @@ export default defineComponent({
       jumpSingerDetail,
       playTitleMusic,
       setAddPlayList,
-      collectionClick,
+      collectionAll,
       shareClick,
       downloadClick,
       commentClick

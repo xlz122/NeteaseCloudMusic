@@ -1,6 +1,10 @@
 export type State = {
   musicDetailOptions: MusicDetailOptions;
   songSheetDetail: unknown;
+  collectSong: {
+    visible: boolean;
+    songIds: string;
+  };
   playMusicId: number;
   playMusicList: unknown;
   playMusicItem: PlayMusicItem;
@@ -46,6 +50,10 @@ const state: State = {
     playListDetail: false
   }, // 我的音乐 - 详情显示
   songSheetDetail: faultTolerant('songSheetDetail') || {}, // 歌单详情数据
+  collectSong: {
+    visible: false,
+    songIds: ''
+  }, // 收藏歌曲
   playMusicId: Number(localStorage.getItem('playMusicId')) || 0, // 当前播放音乐id
   playMusicItem: faultTolerant('playMusicItem') || {}, // 当前播放音乐数据
   playMusicList: faultTolerant('playMusicList') || [], // 播放列表数据

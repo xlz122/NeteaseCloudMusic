@@ -35,11 +35,11 @@
       ></i>
       <i class="icon pause-btn" v-else @click="togglePlayStatus"></i>
       <span class="time">
-        {{ timeStampToDuration(0) || '00:00' }}
+        {{ timeStampToDuration(videoPlayProgress.currentTime || 0) || '00:00' }}
       </span>
       <div class="progress"></div>
       <span class="time">
-        {{ timeStampToDuration(0) || '00:00' }}
+        {{ timeStampToDuration(videoPlayProgress.duration || 0) || '00:00' }}
       </span>
       <div class="other">
         <i class="volume-btn"></i>
@@ -53,7 +53,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted } from 'vue';
+import {
+  defineComponent,
+  ref,
+  computed,
+  watch,
+  onMounted,
+  onUnmounted
+} from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils';
 // 播放器
@@ -73,6 +80,38 @@ export default defineComponent({
     const $store = useStore();
 
     const videoStatus = ref<string>('pause');
+
+    // 播放进度数据
+    const videoPlayProgress = computed(
+      () => $store.getters['videoPlayProgress']
+    );
+
+    // 播放状态
+    const musicPlayStatus = computed(
+      () => $store.getters['music/musicPlayStatus']
+    );
+
+    // 播放视频暂停音乐,播放音乐暂停视频
+    watch(
+      () => videoStatus.value,
+      () => {
+        if (videoStatus.value === 'play') {
+          $store.commit('music/setMusicPlayStatus', {
+            look: false,
+            loading: false,
+            refresh: false
+          });
+        }
+      }
+    );
+    watch(
+      () => musicPlayStatus.value,
+      () => {
+        if (musicPlayStatus.value.look) {
+          videoStatus.value = 'pause';
+        }
+      }
+    );
 
     // 切换播放/暂停状态
     function togglePlayStatus(): void {
@@ -157,6 +196,7 @@ export default defineComponent({
 
     return {
       timeStampToDuration,
+      videoPlayProgress,
       videoStatus,
       togglePlayStatus,
       videoEnded,

@@ -19,7 +19,7 @@
         title="添加到播放列表"
         @click="setAddPlayList"
       ></div>
-      <div class="other collection" @click="collectionClick">
+      <div class="other collection" @click="collectionAll">
         <span class="icon"> 收藏热门{{ singerSong?.hotSongs.length }} </span>
       </div>
     </div>
@@ -64,7 +64,11 @@
                   - {{ item.alia[0] }}
                 </span>
               </span>
-              <i class="icon-play" v-if="item.mv > 0"></i>
+              <i
+                class="icon-mv"
+                v-if="item.mv > 0"
+                @click="jumpVideoDetail(item.mv)"
+              ></i>
             </div>
           </td>
           <td class="tbody-td">
@@ -78,9 +82,17 @@
                   title="添加到播放列表"
                   @click="setAddSinglePlayList(item)"
                 ></i>
-                <i class="icon collect" title="收藏"></i>
-                <i class="icon share" title="分享"></i>
-                <i class="icon download" title="下载"></i>
+                <i
+                  class="icon collect"
+                  title="收藏"
+                  @click="collectMusic(item.id)"
+                ></i>
+                <i class="icon share" title="分享" @click="shareClick"></i>
+                <i
+                  class="icon download"
+                  title="下载"
+                  @click="downloadClick"
+                ></i>
               </div>
             </div>
           </td>
@@ -103,7 +115,7 @@
         <span class="icon"></span>
         <span class="text">即可将你喜欢的音乐收藏到“我的音乐”</span>
         <span class="text go">马上去</span>
-        <span class="link">发现音乐</span>
+        <router-link class="link" to="/">发现音乐</router-link>
       </p>
     </div>
   </div>
@@ -111,6 +123,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { artistSong } from '@api/singer-detail';
 import { timeStampToDuration } from '@utils/utils.ts';
@@ -120,7 +133,11 @@ import { throttle } from 'lodash';
 
 export default defineComponent({
   setup() {
+    const $router = useRouter();
     const $store = useStore();
+
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
 
     // 当前播放音乐id
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
@@ -293,9 +310,51 @@ export default defineComponent({
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
+    // 收藏歌曲
+    function collectMusic(id: number): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      $store.commit('music/collectPlayMusic', {
+        visible: true,
+        songIds: id
+      });
+    }
+
+    // 分享
+    function shareClick(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 下载
+    function downloadClick(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
       $store.commit('jumpSongDetail', id);
+    }
+
+    // 跳转视频详情
+    function jumpVideoDetail(id: number): void {
+      $router.push({ name: 'mv-detail', params: { id } });
+      $store.commit('setVideo', { id, url: '' });
     }
 
     // 跳转专辑详情
@@ -303,11 +362,22 @@ export default defineComponent({
       $store.commit('jumpAlbumDetail', id);
     }
 
-    // 收藏
-    function collectionClick(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
+    // 收藏全部
+    function collectionAll(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      let ids = '';
+      singerSong.value?.hotSongs.forEach((item: LoopType) => {
+        ids += `${item.id},`;
+      });
+
+      $store.commit('music/collectPlayMusic', {
+        visible: true,
+        songIds: ids
       });
     }
 
@@ -319,10 +389,14 @@ export default defineComponent({
       playTitleMusic,
       setAddPlayList,
       setAddSinglePlayList,
+      collectMusic,
+      shareClick,
+      downloadClick,
       playListMusic,
       jumpSongDetail,
+      jumpVideoDetail,
       jumpAlbumDetail,
-      collectionClick
+      collectionAll
     };
   }
 });

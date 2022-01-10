@@ -86,7 +86,7 @@ export default defineComponent({
 <style lang="less" scoped>
 .my_dialog {
   position: fixed;
-  z-index: 951218;
+  z-index: 20001009;
   left: 0;
   top: 0;
   bottom: 0;
@@ -143,16 +143,17 @@ export default defineComponent({
   color: #fff;
 }
 .my_dialog_close {
-  cursor: pointer;
   position: absolute;
-  top: 50%;
-  margin-top: -8px;
+  top: 16px;
   right: 20px;
-  width: 16px;
-  height: 16px;
-  line-height: 16px;
-  font-size: 16px;
-  color: #ccc;
+  z-index: 20;
+  width: 10px;
+  height: 10px;
+  background: url(~@/assets/image/dialog-title.png);
+  background-position: 0 -95px;
+  overflow: hidden;
+  text-indent: -9999px;
+  cursor: pointer;
 }
 .my_dialog_close:hover {
   color: #ccc;

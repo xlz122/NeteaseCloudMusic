@@ -1,0 +1,265 @@
+.loading {
+  width: 100%;
+  height: 26px;
+  padding: 20px 0;
+  text-align: center;
+  color: #999;
+
+  .loading-icon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    margin-right: 2px;
+    background: url(~@/assets/image/loading.gif) no-repeat;
+  }
+}
+
+.search-song-sheet {
+  margin-top: 20px;
+  text-align: left;
+
+  .item {
+    padding: 3px 10px 3px 18px;
+    border: 1px solid #fff;
+
+    .td {
+      display: inline-block;
+      vertical-align: middle;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+
+      .text {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        padding-right: 25px;
+        width: auto;
+        max-width: 100%;
+        height: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+        .name {
+          cursor: pointer;
+          color: #333;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .desc {
+          color: #aeaeae;
+        }
+
+        .icon-mv {
+          display: inline-block;
+          vertical-align: middle;
+          width: 23px;
+          height: 17px;
+          margin-top: -3px;
+          background: url(~@/assets/image/my-music/my-music-table.png);
+          background-position: 0 -151px;
+          cursor: pointer;
+
+          &:hover {
+            background-position: -30px -151px;
+          }
+        }
+      }
+    }
+
+    .play-icon {
+      display: inline-block;
+      vertical-align: middle;
+      width: 17px;
+      height: 17px;
+      margin-right: 15px;
+      background: url(~@/assets/image/my-music/my-music-table.png);
+      background-position: 0 -103px;
+      cursor: pointer;
+
+      &:hover {
+        background-position: 0 -128px;
+      }
+    }
+
+    .active-play {
+      background-position: -20px -128px;
+
+      &:hover {
+        background-position: -20px -128px;
+      }
+    }
+
+    .td1 {
+      margin: 0 10px 0 5px;
+
+      .cover-img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    .td2 {
+      width: 255px;
+      margin: 0 10px;
+      max-width: 99%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      .text {
+        color: #333;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .td3-sheet {
+      width: 65px;
+      margin-right: 5px;
+
+      .operate-btn {
+        visibility: hidden;
+        display: inline-block;
+        vertical-align: middle;
+        width: 100%;
+        height: 28px;
+        line-height: 28px;
+
+        .icon {
+          display: inline-block;
+          vertical-align: top;
+          width: 16px;
+          height: 16px;
+          margin-left: 0px;
+          margin-right: 10px;
+          background: url(~@/assets/image/my-music/my-music-table.png);
+          cursor: pointer;
+        }
+
+        .add {
+          width: 16px;
+          height: 16px;
+          background: url(~@/assets/image/icon.png);
+          background-position: 0 -700px;
+
+          &:hover {
+            background-position: -22px -700px;
+          }
+        }
+
+        .collect {
+          width: 18px;
+          background-position: 0 -174px;
+
+          &:hover {
+            background-position: -20px -174px;
+          }
+        }
+
+        .collectd {
+          background-position: -40px -174px;
+          cursor: default;
+
+          &:hover {
+            background-position: -40px -174px;
+          }
+        }
+
+        .share {
+          background-position: 0 -195px;
+
+          &:hover {
+            background-position: -20px -195px;
+          }
+        }
+
+        .download {
+          background-position: -81px -174px;
+
+          &:hover {
+            background-position: -104px -174px;
+          }
+        }
+
+        .delete {
+          margin-right: 0px;
+          background-position: 0 -217px;
+
+          &:hover {
+            background-position: -20px -217px;
+          }
+        }
+      }
+    }
+
+    .td4-sheet {
+      display: inline-block;
+      vertical-align: middle;
+      width: 35px;
+      padding-right: 0;
+      padding-left: 6px;
+      color: #999;
+    }
+
+    .td5-sheet {
+      display: inline-block;
+      vertical-align: middle;
+      width: 20%;
+      margin: 0 10px;
+
+      .name {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+
+        .by {
+          margin-right: 5px;
+          color: #666;
+        }
+
+        .text {
+          color: #666;
+        }
+      }
+    }
+
+    .td6-sheet {
+      display: inline-block;
+      vertical-align: middle;
+      width: 78px;
+      margin: 0 8px;
+      color: #999;
+    }
+  }
+
+  .item:hover {
+    border: 1px solid #e1e1e1;
+    background: #f2f2f2;
+
+    .operate-btn {
+      visibility: visible;
+      display: inline-block;
+      vertical-align: middle;
+      width: 100%;
+
+      .icon {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 4px;
+      }
+    }
+  }
+
+  .even-item {
+    background: #f7f7f7;
+    border-color: #f7f7f7;
+  }
+}

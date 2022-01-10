@@ -1,7 +1,7 @@
 <template>
   <div class="progress" ref="progressRef" @click="handleProgressClick">
     <div class="current-progress" ref="currentProgressRef">
-      <i class="icon" ref="progressIconRef"></i>
+      <i class="icon icon-audio" ref="progressIconRef"></i>
       <i class="icon-loading" v-if="musicPlayStatus.loading"></i>
     </div>
     <div class="total-progress" ref="cacheProgressRef"></div>
@@ -71,7 +71,7 @@ export default defineComponent({
     function handleProgressClick(e: MouseEvent): boolean | undefined {
       // 点击进度图标
       const target = e.target as HTMLElement;
-      if (target.className === 'icon') {
+      if (target.className === 'icon icon-audio') {
         return false;
       }
       const progressWidth = (progressRef.value as HTMLElement).offsetWidth;
@@ -88,7 +88,7 @@ export default defineComponent({
     // 监听鼠标按下事件
     function mousedown(e: MouseEvent): void {
       const target = e.target as HTMLElement;
-      if (target.className === 'icon') {
+      if (target.className === 'icon icon-audio') {
         isMouseDown.value = true;
         currentLeft.value =
           e.clientX - (progressIconRef.value as HTMLElement)?.offsetLeft;
@@ -97,7 +97,8 @@ export default defineComponent({
 
     // 监听鼠标移动事件
     function mousemove(e: MouseEvent): void {
-      if (isMouseDown.value) {
+      // buttons 1为鼠标左键按下移动
+      if (e.buttons === 1 && isMouseDown.value) {
         // 12为圆点宽度一半
         let moveX = e.clientX - currentLeft.value + 12;
         const progressWidth = (progressRef.value as HTMLElement).offsetWidth;
@@ -128,21 +129,31 @@ export default defineComponent({
     }
 
     onMounted(() => {
+      const audioProgress = document.querySelector(
+        '#musicAudio .wrap'
+      ) as HTMLAudioElement;
+
       // 监听鼠标按下事件
-      document.addEventListener('mousedown', mousedown);
+      audioProgress.addEventListener('mousedown', mousedown);
       // 监听鼠标移动事件
-      document.addEventListener('mousemove', mousemove);
+      audioProgress.addEventListener('mousemove', mousemove);
       // 监听鼠标放开事件
-      document.addEventListener('mouseup', mouseup);
+      audioProgress.addEventListener('mouseup', mouseup);
     });
+
     onUnmounted(() => {
+      const audioProgress = document.querySelector(
+        '#musicAudio .wrap'
+      ) as HTMLAudioElement;
+
       // 移除监听鼠标按下事件
-      document.removeEventListener('mousedown', mousedown);
+      audioProgress.removeEventListener('mousedown', mousedown);
       // 移除监听鼠标移动事件
-      document.removeEventListener('mousemove', mousemove);
+      audioProgress.removeEventListener('mousemove', mousemove);
       // 移除监听鼠标放开事件
-      document.removeEventListener('mouseup', mouseup);
+      audioProgress.removeEventListener('mouseup', mouseup);
     });
+
     return {
       timeStampToDuration,
       progressRef,

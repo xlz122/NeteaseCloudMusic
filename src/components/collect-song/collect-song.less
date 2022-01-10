@@ -1,0 +1,69 @@
+.collect-song {
+  .collect-song-dialog {
+    /deep/ .my_dialog_content {
+      padding-top: 0;
+    }
+
+    .collect-song-sheet {
+      padding: 10px 0 10px 35px;
+      background: #e6e6e6;
+      cursor: pointer;
+
+      .icon {
+        display: inline-block;
+        vertical-align: middle;
+        width: 35px;
+        height: 36px;
+        margin-right: 10px;
+        background: url(~@/assets/image/icon.png);
+        background-position: 0 -495px;
+      }
+    }
+
+    .song-sheet-list {
+      margin-bottom: 30px;
+      background-color: #fff;
+
+      .item {
+        padding: 8px 0 6px 35px;
+        border-top: 1px solid #e0e0e0;
+        cursor: pointer;
+
+        &:hover {
+          background: #f2f2f2;
+        }
+
+        .item-cover {
+          display: inline-block;
+          vertical-align: middle;
+          width: 40px;
+          margin-right: 13px;
+
+          .item-cover-img {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+          }
+        }
+
+        .item-info {
+          display: inline-block;
+          vertical-align: middle;
+
+          .item-info-name {
+            display: block;
+            margin-bottom: 7px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            word-wrap: break-word;
+          }
+
+          .item-info-count {
+            color: #666;
+          }
+        }
+      }
+    }
+  }
+}

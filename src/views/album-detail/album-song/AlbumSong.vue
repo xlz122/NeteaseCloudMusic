@@ -47,7 +47,11 @@
                   - {{ item.alia[0] }}
                 </span>
               </span>
-              <i class="icon-play" v-if="item.mv > 0"></i>
+              <i
+                class="icon-mv"
+                v-if="item.mv > 0"
+                @click="jumpVideoDetail(item.mv)"
+              ></i>
             </div>
           </td>
           <td class="tbody-td">
@@ -61,9 +65,17 @@
                   title="添加到播放列表"
                   @click="setAddSinglePlayList(item)"
                 ></i>
-                <i class="icon collect" title="收藏"></i>
-                <i class="icon share" title="分享"></i>
-                <i class="icon download" title="下载"></i>
+                <i
+                  class="icon collect"
+                  title="收藏"
+                  @click="collectMusic(item.id)"
+                ></i>
+                <i class="icon share" title="分享" @click="shareClick"></i>
+                <i
+                  class="icon download"
+                  title="下载"
+                  @click="downloadClick"
+                ></i>
               </div>
             </div>
           </td>
@@ -95,7 +107,7 @@
         <span class="icon"></span>
         <span class="text">即可将你喜欢的音乐收藏到“我的音乐”</span>
         <span class="text go">马上去</span>
-        <span class="link">发现音乐</span>
+        <router-link class="link" to="/">发现音乐</router-link>
       </p>
     </div>
   </div>
@@ -103,6 +115,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils.ts';
 import { LoopType } from '@/types/types';
@@ -124,7 +137,11 @@ export default defineComponent({
     }
   },
   setup() {
+    const $router = useRouter();
     const $store = useStore();
+
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
 
     // 当前播放音乐id
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
@@ -132,6 +149,12 @@ export default defineComponent({
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
       $store.commit('jumpSongDetail', id);
+    }
+
+    // 跳转视频详情
+    function jumpVideoDetail(id: number): void {
+      $router.push({ name: 'mv-detail', params: { id } });
+      $store.commit('setVideo', { id, url: '' });
     }
 
     // 单个音乐添加到播放列表
@@ -155,6 +178,42 @@ export default defineComponent({
 
       // 播放音乐数据
       $store.commit('music/setPlayMusicList', musicItem);
+    }
+
+    // 收藏歌曲
+    function collectMusic(id: number): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      $store.commit('music/collectPlayMusic', {
+        visible: true,
+        songIds: id
+      });
+    }
+
+    // 分享
+    function shareClick(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 下载
+    function downloadClick(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
     }
 
     // 跳转歌手详情
@@ -199,8 +258,12 @@ export default defineComponent({
       timeStampToDuration,
       playMusicId,
       jumpSongDetail,
+      jumpVideoDetail,
       jumpSingerDetail,
       setAddSinglePlayList,
+      collectMusic,
+      shareClick,
+      downloadClick,
       playListMusic
     };
   }

@@ -19,8 +19,6 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { videoUrl } from '@api/video-detail';
-import { ResponseType } from '@/types/types';
 
 export default defineComponent({
   name: 'VideoView',
@@ -34,13 +32,13 @@ export default defineComponent({
   setup(props, { emit }) {
     const $store = useStore();
 
-    // 视频id
-    const videoId = computed(() => $store.getters.videoId);
+    // 视频/mv
+    const video = computed(() => $store.getters.video);
 
     watch(
-      () => videoId.value,
+      () => video.value.url,
       () => {
-        if (videoId.value) {
+        if (video.value.url) {
           initVideoSrc();
         }
       }
@@ -51,11 +49,7 @@ export default defineComponent({
 
     // 初始获取播放地址
     function initVideoSrc(): void {
-      if (videoId.value) {
-        videoUrl({ id: videoId.value }).then((res: ResponseType) => {
-          videoSrc.value = res.urls[0].url;
-        });
-      }
+      videoSrc.value = video.value.url;
     }
     initVideoSrc();
 
@@ -87,10 +81,15 @@ export default defineComponent({
     // 播放暂停
     // function videoPause(): void {}
 
-    // 当前播放时间
-    // function updateTime(e: any): void {
-    //   console.log(e.target.currentTime);
-    // }
+    // 播放进度
+    function updateTime(e: any): void {
+      const progress = e.target.currentTime / e.target.duration;
+      $store.commit('setVideoPlayProgress', {
+        progress: progress * 100,
+        currentTime: e.target.currentTime || 0,
+        duration: e.target.duration || 0
+      });
+    }
 
     // 播放完成
     function videoEnded(): void {
@@ -102,7 +101,7 @@ export default defineComponent({
       videoRef,
       // videoPlay,
       // videoPause,
-      // updateTime,
+      updateTime,
       videoEnded
     };
   }

@@ -55,16 +55,25 @@
             class="img"
             v-if="playMusicItem?.picUrl"
             :src="playMusicItem?.picUrl"
+            @click="jumpSongDetail(playMusicItem?.id)"
           />
           <span class="default-img"></span>
         </div>
         <div class="play">
           <div class="play-info">
             <span class="music-name">
-              <span class="name" @click="jumpSongDetail(playMusicItem?.id)">
+              <span
+                class="name"
+                :title="playMusicItem?.name"
+                @click="jumpSongDetail(playMusicItem?.id)"
+              >
                 {{ playMusicItem?.name }}
               </span>
-              <span class="icon-mv" v-if="playMusicItem?.mv > 0"></span>
+              <i
+                class="icon-mv"
+                v-if="playMusicItem?.mv > 0"
+                @click="jumpVideoDetail(playMusicItem?.mv)"
+              ></i>
             </span>
             <span class="singer-name">
               <span
@@ -105,6 +114,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 // 播放器
@@ -122,6 +132,7 @@ export default defineComponent({
     OtherTool
   },
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     // 播放器锁定在底部
@@ -240,6 +251,12 @@ export default defineComponent({
       $store.commit('jumpSongDetail', id);
     }
 
+    // 跳转视频详情
+    function jumpVideoDetail(id: number): void {
+      $router.push({ name: 'mv-detail', params: { id } });
+      $store.commit('setVideo', { id, url: '' });
+    }
+
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       $store.commit('jumpSingerDetail', id);
@@ -271,6 +288,7 @@ export default defineComponent({
       musicPlayProgress,
       progressChange,
       jumpSongDetail,
+      jumpVideoDetail,
       jumpSingerDetail,
       jumpSongPosition
     };

@@ -23,9 +23,9 @@
               v-if="songSheetDetail?.playlist?.tracks.length > 0"
             >
               播放:
-              <span class="eye-catching">{{
-                songSheetDetail?.playlist?.playCount
-              }}</span>
+              <span class="eye-catching">
+                {{ songSheetDetail?.playlist?.playCount }}
+              </span>
               次
             </div>
           </div>
@@ -129,8 +129,9 @@ export default defineComponent({
       const commentDom = document.querySelector(
         '.comment-component'
       ) as HTMLElement;
-      // 标题高度
-      window.scrollTo(0, Number(commentDom.offsetTop) + 20);
+
+      const appwrap = document.querySelector('.app-wrap') as HTMLElement;
+      appwrap.scrollTo(0, Number(commentDom.offsetTop) + 20);
     }
 
     // 获取评论数据

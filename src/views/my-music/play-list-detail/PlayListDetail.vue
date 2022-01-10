@@ -71,7 +71,7 @@ export default defineComponent({
     watch(
       () => songSheetId.value,
       curVal => {
-        if (curVal) {
+        if (curVal && Number(curVal) >= 0) {
           getCommentData();
         }
       }
@@ -84,7 +84,7 @@ export default defineComponent({
       ) as HTMLElement;
       const myMusicDom = document.querySelector('.my-music') as HTMLElement;
       // 标题高度
-      myMusicDom.scrollTo(0, Number(commentDom.offsetTop) - 36);
+      myMusicDom.scrollTo(0, Number(commentDom.offsetTop) - 40);
     }
 
     // 获取评论数据

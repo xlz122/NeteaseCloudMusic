@@ -14,7 +14,7 @@
       <div class="cover" @click="jumpVideoDetail(item.type, item.vid)">
         <img class="img" :src="item?.coverUrl" alt="" />
         <div class="play-volume">
-          <span class="icon-play"></span>
+          <span class="icon-mv"></span>
           <span class="text">{{ bigNumberTransform(item?.playTime) }}</span>
         </div>
         <div class="duration">
@@ -132,11 +132,14 @@ export default defineComponent({
 
     // 跳转视频详情
     function jumpVideoDetail(type: number, id: number): void {
-      // type 0为mv, type 1为视频
+      // type 0为mv, 1为视频
+      if (type === 0) {
+        $router.push({ name: 'mv-detail', params: { id } });
+      }
       if (type === 1) {
         $router.push({ name: 'video-detail', params: { id } });
-        $store.commit('setVideoId', id);
       }
+      $store.commit('setVideo', { id, url: '' });
     }
 
     // 跳转歌手详情

@@ -115,9 +115,36 @@ export const playListDetail = ({ id }: { id: number }): AxiosRequest => {
 };
 
 /**
+ * @description 添加歌曲到歌单
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { String } op - 添加歌曲到歌单 add, 删除为 del
+ * @param { Number } pid: 歌单 id
+ * @param { Number } id - 歌曲id
+ */
+
+type CollectMusic = {
+  pid: number | string;
+  tracks: number | string;
+};
+
+export const collectMusic = ({ pid, tracks }: CollectMusic): AxiosRequest => {
+  const params = {
+    timestamp: new Date().getTime(),
+    op: 'add',
+    pid,
+    tracks
+  };
+  return axios.request({
+    url: '/playlist/tracks',
+    method: 'get',
+    params
+  });
+};
+
+/**
  * @description 删除歌单歌曲
  * @param { Number } timestamp - 防止接口缓存
- * @param { String } op - 从歌单增加单曲为 add, 删除为 del
+ * @param { String } op - 添加歌曲到歌单 add, 删除为 del
  * @param { Number } pid: 歌单 id
  * @param { Number } id - 歌曲id
  */
