@@ -1,5 +1,10 @@
 <template>
-  <ul class="search-user-list">
+  <!-- loading -->
+  <div class="loading" v-if="userData.loading">
+    <i class="loading-icon"></i>
+    加载中...
+  </div>
+  <ul class="search-user-list" v-if="!userData.loading">
     <li
       class="search-user-item"
       v-for="(item, index) in userData.list"
@@ -40,6 +45,7 @@ import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
 
 type AlbumData = {
+  loading: boolean;
   offset: number;
   limit: number;
   total: number;
@@ -71,6 +77,7 @@ export default defineComponent({
     );
 
     const userData = reactive<AlbumData>({
+      loading: true,
       offset: 1,
       limit: 30,
       total: 0,
@@ -104,6 +111,7 @@ export default defineComponent({
               title: res?.msg
             });
           }
+          userData.loading = false;
         })
         .catch(() => ({}));
     }

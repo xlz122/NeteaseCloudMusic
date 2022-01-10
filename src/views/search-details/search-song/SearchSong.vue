@@ -1,5 +1,10 @@
 <template>
-  <ul class="search-song">
+  <!-- loading -->
+  <div class="loading" v-if="songData.loading">
+    <i class="loading-icon"></i>
+    加载中...
+  </div>
+  <ul class="search-song" v-if="!songData.loading">
     <li
       class="item"
       v-for="(item, index) in songData.list"
@@ -85,6 +90,7 @@ import { PlayMusicItem } from '@store/music/state';
 import { ResponseType } from '@/types/types';
 
 type SongData = {
+  loading: boolean;
   offset: number;
   limit: number;
   total: number;
@@ -119,6 +125,7 @@ export default defineComponent({
     );
 
     const songData = reactive<SongData>({
+      loading: true,
       offset: 1,
       limit: 30,
       total: 0,
@@ -152,6 +159,7 @@ export default defineComponent({
               title: res?.msg
             });
           }
+          songData.loading = false;
         })
         .catch(() => ({}));
     }

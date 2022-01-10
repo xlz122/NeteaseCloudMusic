@@ -1,5 +1,10 @@
 <template>
-  <ul class="search-mv-list">
+  <!-- loading -->
+  <div class="loading" v-if="mvData.loading">
+    <i class="loading-icon"></i>
+    加载中...
+  </div>
+  <ul class="search-mv-list" v-if="!mvData.loading">
     <li
       class="search-mv-item"
       v-for="(item, index) in mvData.list"
@@ -52,6 +57,7 @@ import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
 
 type MvData = {
+  loading: boolean;
   offset: number;
   limit: number;
   total: number;
@@ -84,6 +90,7 @@ export default defineComponent({
     );
 
     const mvData = reactive<MvData>({
+      loading: true,
       offset: 1,
       limit: 30,
       total: 0,
@@ -117,6 +124,7 @@ export default defineComponent({
               title: res?.msg
             });
           }
+          mvData.loading = false;
         })
         .catch(() => ({}));
     }
