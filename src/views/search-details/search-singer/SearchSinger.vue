@@ -1,5 +1,10 @@
 <template>
-  <div class="search-singer">
+  <!-- loading -->
+  <div class="loading" v-if="singerData.loading">
+    <i class="loading-icon"></i>
+    加载中...
+  </div>
+  <div class="search-singer" v-if="!singerData.loading">
     <ul class="search-singer-list">
       <li
         class="search-singer-item"
@@ -41,6 +46,7 @@ import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
 
 type SingerData = {
+  loading: boolean;
   offset: number;
   limit: number;
   total: number;
@@ -72,6 +78,7 @@ export default defineComponent({
     );
 
     const singerData = reactive<SingerData>({
+      loading: true,
       offset: 1,
       limit: 30,
       total: 0,
@@ -105,6 +112,7 @@ export default defineComponent({
               title: res?.msg
             });
           }
+          singerData.loading = false;
         })
         .catch(() => ({}));
     }

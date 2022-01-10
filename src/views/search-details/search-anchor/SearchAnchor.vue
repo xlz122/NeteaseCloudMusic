@@ -1,6 +1,11 @@
 <template>
-  <h2 class="search-anchor-title">声音主播</h2>
-  <ul class="search-anchor-list">
+  <!-- loading -->
+  <div class="loading" v-if="anchorData.loading">
+    <i class="loading-icon"></i>
+    加载中...
+  </div>
+  <h2 class="search-anchor-title" v-if="!anchorData.loading">声音主播</h2>
+  <ul class="search-anchor-list" v-if="!anchorData.loading">
     <li
       class="search-anchor-item"
       v-for="(item, index) in anchorData.list"
@@ -42,6 +47,7 @@ import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
 
 type AnchorData = {
+  loading: boolean;
   offset: number;
   limit: number;
   total: number;
@@ -73,6 +79,7 @@ export default defineComponent({
     );
 
     const anchorData = reactive<AnchorData>({
+      loading: true,
       offset: 1,
       limit: 30,
       total: 0,
@@ -106,6 +113,7 @@ export default defineComponent({
               title: res?.msg
             });
           }
+          anchorData.loading = false;
         })
         .catch(() => ({}));
     }
