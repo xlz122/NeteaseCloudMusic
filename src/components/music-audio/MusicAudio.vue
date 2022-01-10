@@ -55,13 +55,18 @@
             class="img"
             v-if="playMusicItem?.picUrl"
             :src="playMusicItem?.picUrl"
+            @click="jumpSongDetail(playMusicItem?.id)"
           />
           <span class="default-img"></span>
         </div>
         <div class="play">
           <div class="play-info">
             <span class="music-name">
-              <span class="name" @click="jumpSongDetail(playMusicItem?.id)">
+              <span
+                class="name"
+                :title="playMusicItem?.name"
+                @click="jumpSongDetail(playMusicItem?.id)"
+              >
                 {{ playMusicItem?.name }}
               </span>
               <span class="icon-mv" v-if="playMusicItem?.mv > 0"></span>
