@@ -1,29 +1,50 @@
 <template>
-  <div class="not-found">未找到该页面，将在3秒后返回首页...</div>
+  <div class="not-found">
+    <Header />
+    <div class="content">
+      <i class="img"></i>
+      <p class="text">很抱歉，你要查找的网页找不到</p>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useRouter } from 'vue-router';
+import Header from '@views/header/Header.vue';
 
 export default defineComponent({
   name: 'NotFound',
-  setup() {
-    const router = useRouter();
-
-    setTimeout(() => {
-      router.push({ name: 'home' });
-    }, 3000);
+  components: {
+    Header
   }
 });
 </script>
 
 <style lang="less" scoped>
 .not-found {
-  position: fixed;
-  top: 0;
-  left: 0;
-  color: #000;
-  font-size: 16px;
+  display: flex;
+  flex-flow: column;
+  height: 100vh;
+  background: #fcfcfc;
+
+  .content {
+    flex-grow: 1;
+    padding-top: 27px;
+
+    .img {
+      display: inline-block;
+      width: 281px;
+      height: 115px;
+      background: url(~@/assets/image/not-found.jpg);
+      text-align: center;
+    }
+
+    .text {
+      margin: 15px 0;
+      text-align: center;
+      font-size: 16px;
+      color: #666;
+    }
+  }
 }
 </style>
