@@ -108,6 +108,10 @@ export default defineComponent({
       }).then((res: ResponseType) => {
         lyric.noData = false;
 
+        // 重置歌词滚动高度
+        const lyricDom = document.querySelector('.lyric') as HTMLElement;
+        lyricDom.scrollTo(0, 0);
+
         // 没有歌词
         if (res.nolyric) {
           // 清空歌词
