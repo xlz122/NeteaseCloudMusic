@@ -3,12 +3,7 @@
     <div class="warp">
       <div class="content">
         <ul class="list" ref="listRef" :style="listStyle">
-          <li
-            class="item"
-            v-for="(item, index) in listData"
-            :key="index"
-            ref="liRef"
-          >
+          <li class="item" v-for="(item, index) in listData" :key="index">
             <div class="item-img">
               <img
                 class="img"
@@ -94,12 +89,13 @@ export default defineComponent({
     });
 
     const listRef = ref<HTMLElement>();
-    const liRef = ref<HTMLElement>();
 
     // 上一轮
     const albumPrev = throttle(
       function () {
-        const li = liRef.value as HTMLElement;
+        const ul = listRef.value as HTMLElement;
+        const li = ul.children[0];
+
         if (listOffest.index === 0) {
           // 瞬间返回二倍模板，并在短暂延迟后执行动画
           listOffest.index = 2;
@@ -125,7 +121,9 @@ export default defineComponent({
     // 下一轮
     const albumNext = throttle(
       function () {
-        const li = liRef.value as HTMLElement;
+        const ul = listRef.value as HTMLElement;
+        const li = ul.children[0];
+
         // 瞬间返回二倍模板，并在短暂延迟后执行动画
         if (listOffest.index === 2) {
           listOffest.index = 0;
@@ -160,7 +158,6 @@ export default defineComponent({
     return {
       listData,
       listRef,
-      liRef,
       listStyle,
       albumPrev,
       albumNext,
