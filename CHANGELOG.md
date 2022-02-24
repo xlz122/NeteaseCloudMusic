@@ -1,3 +1,32 @@
+## [1.0.8](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.7...v1.0.8) (2022-02-24)
+
+
+### ✨ Features | 新功能
+
+* 404页面完善 [#3603b35](https://github.com/xlz122/NeteaseCloudMusic/commit/3603b35) 
+* 增加歌曲添加到歌单功能 [#07896d8](https://github.com/xlz122/NeteaseCloudMusic/commit/07896d8) 
+
+
+### 🎫 Chores | 其他更新
+
+* 更新其余依赖项 [#9708df3](https://github.com/xlz122/NeteaseCloudMusic/commit/9708df3) 
+* cli更新正式版(v5.0.1) [#5d3a344](https://github.com/xlz122/NeteaseCloudMusic/commit/5d3a344) 
+* cli更新v5.0.0-rc.2版本 [#8e97ecc](https://github.com/xlz122/NeteaseCloudMusic/commit/8e97ecc) 
+* cli更新v5.0.0-rc.3版本 [#644fa01](https://github.com/xlz122/NeteaseCloudMusic/commit/644fa01) 
+* update license year [#ded2c5f](https://github.com/xlz122/NeteaseCloudMusic/commit/ded2c5f) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 弹框组件关闭按钮替换成图标 [#7845aa4](https://github.com/xlz122/NeteaseCloudMusic/commit/7845aa4) 
+* 更改axios cdn版本 [#abe519a](https://github.com/xlz122/NeteaseCloudMusic/commit/abe519a) 
+* 修复播放列表，歌曲切换-歌词滚动条没有重置的bug [#bf9e318](https://github.com/xlz122/NeteaseCloudMusic/commit/bf9e318) 
+* 修复播放列表点击操作按钮也会触发播放的bug [#1de535c](https://github.com/xlz122/NeteaseCloudMusic/commit/1de535c) 
+* 修复评论状态(-10),评论显示空白的bug [#ac7f9b4](https://github.com/xlz122/NeteaseCloudMusic/commit/ac7f9b4) 
+* 修复首页新碟上架无法滚动bug [#e582070](https://github.com/xlz122/NeteaseCloudMusic/commit/e582070) 
+
+
+
 ## [1.0.7](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.6...v1.0.7) (2022-01-10)
 
 
