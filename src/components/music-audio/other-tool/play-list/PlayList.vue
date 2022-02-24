@@ -40,8 +40,8 @@
                 title="收藏"
                 @click="collectMusic(item.id, $event)"
               ></i>
-              <i class="icon share" title="分享"></i>
-              <i class="icon download" title="下载"></i>
+              <i class="icon share" title="分享" @click.stop></i>
+              <i class="icon download" title="下载" @click.stop></i>
               <i
                 class="icon delete"
                 title="删除"
