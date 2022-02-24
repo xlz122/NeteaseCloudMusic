@@ -76,7 +76,11 @@
                   title="添加到播放列表"
                   @click="setAddSinglePlayList(item)"
                 ></i>
-                <i class="icon collect" title="收藏"></i>
+                <i
+                  class="icon collect"
+                  title="收藏"
+                  @click="collectMusic(item.id)"
+                ></i>
                 <i class="icon share" title="分享"></i>
                 <i class="icon download" title="下载"></i>
                 <!-- 用户自己才有删除按钮 -->
@@ -275,6 +279,14 @@ export default defineComponent({
       });
     }
 
+    // 收藏歌曲
+    function collectMusic(id: number): void {
+      $store.commit('music/collectPlayMusic', {
+        visible: true,
+        songId: id
+      });
+    }
+
     // 无版权弹框 - 确定
     function noCopyrightConfirm(): void {
       noCopyrightDialog.value = false;
@@ -317,6 +329,7 @@ export default defineComponent({
       isCopyright,
       jumpSingerDetail,
       setAddSinglePlayList,
+      collectMusic,
       noCopyrightDialog,
       noCopyrightConfirm,
       playListMusic,
