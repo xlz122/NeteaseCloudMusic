@@ -15,6 +15,10 @@ const mutations: Mutations<State, unknown> = {
     state.songSheetDetail = songSheetDetail as unknown;
     localStorage.setItem('songSheetDetail', JSON.stringify(songSheetDetail));
   },
+  // 收藏歌曲
+  collectPlayMusic(state, song) {
+    state.collectSong = song as { visible: boolean; songId: number };
+  },
   // 当前播放音乐id
   setPlayMusicId(state, playMusicId) {
     state.playMusicId = playMusicId as number;

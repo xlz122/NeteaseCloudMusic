@@ -78,7 +78,11 @@
                   title="添加到播放列表"
                   @click="setAddSinglePlayList(item)"
                 ></i>
-                <i class="icon collect" title="收藏"></i>
+                <i
+                  class="icon collect"
+                  title="收藏"
+                  @click="collectMusic(item.id)"
+                ></i>
                 <i class="icon share" title="分享"></i>
                 <i class="icon download" title="下载"></i>
               </div>
@@ -293,6 +297,14 @@ export default defineComponent({
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
+    // 收藏歌曲
+    function collectMusic(id: number): void {
+      $store.commit('music/collectPlayMusic', {
+        visible: true,
+        songId: id
+      });
+    }
+
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
       $store.commit('jumpSongDetail', id);
@@ -319,6 +331,7 @@ export default defineComponent({
       playTitleMusic,
       setAddPlayList,
       setAddSinglePlayList,
+      collectMusic,
       playListMusic,
       jumpSongDetail,
       jumpAlbumDetail,

@@ -60,7 +60,10 @@
             title="添加到播放列表"
             @click="setAddSinglePlayList"
           ></div>
-          <div class="other collection" @click="collectionClick">
+          <div
+            class="other collection"
+            @click="collectMusic(songDetailData?.songs[0]?.id)"
+          >
             <span class="icon">收藏</span>
           </div>
           <div class="other share" @click="shareClick">
@@ -210,10 +213,10 @@ export default defineComponent({
     }
 
     // 收藏
-    function collectionClick(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
+    function collectMusic(id: number): void {
+      $store.commit('music/collectPlayMusic', {
+        visible: true,
+        songId: id
       });
     }
 
@@ -254,7 +257,7 @@ export default defineComponent({
       jumpSingerDetail,
       playTitleMusic,
       setAddSinglePlayList,
-      collectionClick,
+      collectMusic,
       shareClick,
       downloadClick,
       commentClick,

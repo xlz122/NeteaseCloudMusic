@@ -35,13 +35,17 @@
             <i class="play-icon"></i>
             <span class="text song-title">{{ item.name }}</span>
             <div class="operate-btn">
-              <i class="icon collect" title="收藏"></i>
+              <i
+                class="icon collect"
+                title="收藏"
+                @click="collectMusic(item.id, $event)"
+              ></i>
               <i class="icon share" title="分享"></i>
               <i class="icon download" title="下载"></i>
               <i
                 class="icon delete"
                 title="删除"
-                @click="deleteMusicList(item.id, $event)"
+                @click="deleteMusic(item.id, $event)"
               ></i>
             </div>
             <span class="text name" @click.stop>
@@ -121,8 +125,17 @@ export default defineComponent({
       $store.commit('music/emptyPlayMusicList');
     }
 
+    // 收藏歌曲
+    function collectMusic(id: number, event: MouseEvent): void {
+      event.stopPropagation();
+      $store.commit('music/collectPlayMusic', {
+        visible: true,
+        songId: id
+      });
+    }
+
     // 列表项删除
-    function deleteMusicList(id: number, event: MouseEvent): void {
+    function deleteMusic(id: number, event: MouseEvent): void {
       event.stopPropagation();
       $store.commit('music/deletePlayMusicList', id);
     }
@@ -169,7 +182,8 @@ export default defineComponent({
       playMusicItem,
       timeStampToDuration,
       emptyMusicList,
-      deleteMusicList,
+      collectMusic,
+      deleteMusic,
       playlistItem,
       jumpSingerDetail,
       jumpSongPosition,

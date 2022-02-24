@@ -47,7 +47,11 @@
                 title="添加到播放列表"
                 @click="setAddSinglePlayList(i)"
               ></i>
-              <i class="operate-collection" title="收藏"></i>
+              <i
+                class="operate-collection"
+                title="收藏"
+                @click="collectMusic(i.id)"
+              ></i>
             </div>
           </li>
         </ul>
@@ -230,6 +234,14 @@ export default defineComponent({
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
+    // 收藏歌曲
+    function collectMusic(id: number): void {
+      $store.commit('music/collectPlayMusic', {
+        visible: true,
+        songId: id
+      });
+    }
+
     // 查看全部
     function songListMore(id: number): void {
       $store.commit('setSongSheetId', id);
@@ -242,6 +254,7 @@ export default defineComponent({
       jumpSongDetail,
       playListMusic,
       setAddSinglePlayList,
+      collectMusic,
       songListMore
     };
   }

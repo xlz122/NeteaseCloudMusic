@@ -1,6 +1,10 @@
 <template>
   <div class="oper">
-    <button class="btn collection-btn" title="收藏"></button>
+    <button
+      class="btn collection-btn"
+      title="收藏"
+      @click="collectMusic"
+    ></button>
     <button class="btn share-btn" title="分享"></button>
   </div>
   <div class="other">
@@ -63,6 +67,17 @@ export default defineComponent({
 
     // 播放列表数据
     const playMusicList = computed(() => $store.getters['music/playMusicList']);
+
+    // 当前播放id
+    const playMusicId = computed(() => $store.getters['music/playMusicId']);
+
+    // 收藏歌曲
+    function collectMusic(): void {
+      $store.commit('music/collectPlayMusic', {
+        visible: true,
+        songId: playMusicId.value
+      });
+    }
 
     // 音量条显隐
     const volumeProgressShow = ref<boolean>(false);
@@ -141,6 +156,8 @@ export default defineComponent({
     }
     return {
       playMusicList,
+      playMusicId,
+      collectMusic,
       volumeProgressShow,
       setVolumeProgress,
       musicModeType,
