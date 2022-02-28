@@ -9,10 +9,24 @@
 
 <script lang="ts">
 import { defineComponent, ref, onMounted, onUnmounted } from 'vue';
+import { debounce } from 'lodash';
 
 export default defineComponent({
   setup() {
     const jumpTopShow = ref<boolean>(false);
+
+    function setJumpTopShow(e: Event): void {
+      const target = e.target as Record<string, any>;
+      const scrollTop = target.scrollTop;
+
+      if (!jumpTopShow.value && scrollTop >= 20) {
+        jumpTopShow.value = true;
+      }
+
+      if (scrollTop < 20) {
+        jumpTopShow.value = false;
+      }
+    }
 
     function jumpTop(): void {
       const appwrap = document.querySelector('.app-wrap') as HTMLElement;
@@ -22,18 +36,7 @@ export default defineComponent({
     onMounted(() => {
       const appwrap = document.querySelector('.app-wrap') as HTMLElement;
 
-      appwrap.addEventListener('scroll', function (e: Event): void {
-        const target = e.target as Record<string, any>;
-        const scrollTop = target.scrollTop;
-
-        if (!jumpTopShow.value && scrollTop >= 20) {
-          jumpTopShow.value = true;
-        }
-
-        if (scrollTop < 20) {
-          jumpTopShow.value = false;
-        }
-      });
+      appwrap.addEventListener('scroll', debounce(setJumpTopShow, 100), false);
     });
 
     onUnmounted(() => {
