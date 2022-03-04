@@ -53,7 +53,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted } from 'vue';
+import {
+  defineComponent,
+  ref,
+  computed,
+  watch,
+  onMounted,
+  onUnmounted
+} from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils';
 // 播放器
@@ -73,6 +80,33 @@ export default defineComponent({
     const $store = useStore();
 
     const videoStatus = ref<string>('pause');
+
+    // 播放状态
+    const musicPlayStatus = computed(
+      () => $store.getters['music/musicPlayStatus']
+    );
+
+    // 播放视频暂停音乐,播放音乐暂停视频
+    watch(
+      () => videoStatus.value,
+      () => {
+        if (videoStatus.value === 'play') {
+          $store.commit('music/setMusicPlayStatus', {
+            look: false,
+            loading: false,
+            refresh: false
+          });
+        }
+      }
+    );
+    watch(
+      () => musicPlayStatus.value,
+      () => {
+        if (musicPlayStatus.value.look) {
+          videoStatus.value = 'pause';
+        }
+      }
+    );
 
     // 切换播放/暂停状态
     function togglePlayStatus(): void {
