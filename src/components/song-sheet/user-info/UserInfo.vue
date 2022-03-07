@@ -86,7 +86,7 @@
               :class="{
                 'disable-collection': songSheetDetail?.playlist?.subscribed
               }"
-              @click="collectionClick(songSheetDetail?.playlist?.subscribed)"
+              @click="collectionClick()"
             >
               <template v-if="songSheetDetail?.playlist?.subscribedCount > 0">
                 <span class="icon">
@@ -303,29 +303,20 @@ export default defineComponent({
     }
 
     // 收藏
-    function collectionClick(subscribed: boolean): void {
+    function collectionClick(): void {
       // 1:收藏 2:取消收藏
-      const t = subscribed ? 2 : 1;
       playlistSubscribe({
         id: songSheetDetail.value?.playlist?.id,
-        t
+        t: 1
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            if (t === 1) {
-              $store.commit('setMessage', {
-                type: 'info',
-                title: '收藏成功'
-              });
-              songSheetDetail.value.playlist.subscribed = true;
-            }
-            if (t === 2) {
-              $store.commit('setMessage', {
-                type: 'info',
-                title: '取消收藏'
-              });
-              songSheetDetail.value.playlist.subscribed = false;
-            }
+            $store.commit('setMessage', {
+              type: 'info',
+              title: '收藏成功'
+            });
+
+            songSheetDetail.value.playlist.subscribed = true;
 
             // 更新歌单详情
             $store.commit('music/setSongSheetDetail', songSheetDetail.value);

@@ -103,7 +103,7 @@
           <div class="item-bottom" title="每日歌曲推荐" @click="jumpRecommend">
             每日歌曲推荐
           </div>
-          <em class="item-like">根据你的口味生成，每天6:00更新</em>
+          <em class="item-like">根据你的口味生成,每天6:00更新</em>
         </li>
         <li
           class="item individualization"

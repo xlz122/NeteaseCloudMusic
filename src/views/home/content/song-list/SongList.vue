@@ -19,7 +19,16 @@
           </h3>
           <div class="btns">
             <i class="btn-play" title="播放" @click="playTitleMusic(index)"></i>
-            <i class="btn-collection" title="收藏"></i>
+            <template v-if="!item?.playlist?.subscribed">
+              <i
+                class="btn-collection"
+                title="收藏"
+                @click="collectionClick(item?.playlist?.id)"
+              ></i>
+            </template>
+            <template v-if="item?.playlist?.subscribed">
+              <i class="btn-collection subscribe" title="已收藏"></i>
+            </template>
           </div>
         </div>
       </dt>
@@ -68,6 +77,7 @@ import { defineComponent, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { soaringList, newSongs, originalList } from '@api/home';
+import { playlistSubscribe } from '@api/song-sheet-detail';
 import { ResponseType, LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
 import { throttle } from 'lodash';
@@ -173,6 +183,32 @@ export default defineComponent({
       }
     );
 
+    // 收藏
+    function collectionClick(id: number): void {
+      // 1:收藏 2:取消收藏
+      playlistSubscribe({ id, t: 1 })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            listData.forEach((item: LoopType) => {
+              if (item.playlist.id === id) {
+                item.playlist.subscribed = true;
+              }
+            });
+
+            $store.commit('setMessage', {
+              type: 'info',
+              title: '收藏成功'
+            });
+          } else {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: res?.msg
+            });
+          }
+        })
+        .catch(() => ({}));
+    }
+
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
       $store.commit('jumpSongDetail', id);
@@ -253,6 +289,7 @@ export default defineComponent({
       playTitleMusic,
       jumpSongDetail,
       playListMusic,
+      collectionClick,
       setAddSinglePlayList,
       collectMusic,
       songListMore
