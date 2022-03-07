@@ -19,7 +19,18 @@
             v-if="singerDetail?.user"
             @click="jumpUserProfile(singerDetail?.user?.userId)"
           ></i>
-          <i class="artist-sub" @click="setArtistSub"></i>
+          <template v-if="singerDetail?.user?.followed">
+            <i
+              class="artist-sub collected"
+              @click="setArtistSub(singerDetail?.user?.followed)"
+            ></i>
+          </template>
+          <template v-if="!singerDetail?.user?.followed">
+            <i
+              class="artist-sub"
+              @click="setArtistSub(singerDetail?.user?.followed)"
+            ></i>
+          </template>
         </div>
         <ul class="singer-tabs">
           <li
@@ -51,7 +62,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { artistDetail } from '@api/singer-detail';
+import { artistDetail, artistSub } from '@api/singer-detail';
 import { ResponseType } from '@/types/types';
 import SingerDetailSide from './singer-detail-side/SingerDetailSide.vue';
 import SingerSong from './singer-song/SingerSong.vue';
@@ -84,7 +95,7 @@ export default defineComponent({
     );
 
     // 歌手详情
-    const singerDetail = ref<never[]>([]);
+    const singerDetail = ref<Record<string, any>>([]);
 
     // 获取歌手详情
     function getArtistDetail(): void {
@@ -117,13 +128,37 @@ export default defineComponent({
     }
 
     // 收藏/取消收藏歌手
-    function setArtistSub(): void {
-      // 歌手详情里未找到是否收藏参数
-      // 可使用，先请求收藏的歌手列表接口，然后对比当前歌手id，来判断是否被收藏
-      $store.commit('setMessage', {
-        type: 'info',
-        title: '收藏成功'
-      });
+    function setArtistSub(followed: boolean): void {
+      // 1:收藏 2:取消收藏
+      const t = followed ? 2 : 1;
+
+      artistSub({ id: singerId.value, t })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            if (t === 1) {
+              singerDetail.value.user.followed = true;
+
+              $store.commit('setMessage', {
+                type: 'info',
+                title: '收藏成功'
+              });
+            }
+            if (t === 2) {
+              singerDetail.value.user.followed = false;
+
+              $store.commit('setMessage', {
+                type: 'info',
+                title: '取消收藏成功'
+              });
+            }
+          } else {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: res?.msg
+            });
+          }
+        })
+        .catch(() => ({}));
     }
 
     // tab部分
