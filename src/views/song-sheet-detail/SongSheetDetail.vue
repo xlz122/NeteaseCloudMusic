@@ -23,9 +23,9 @@
               v-if="songSheetDetail?.playlist?.tracks.length > 0"
             >
               播放:
-              <span class="eye-catching">{{
-                songSheetDetail?.playlist?.playCount
-              }}</span>
+              <span class="eye-catching">
+                {{ songSheetDetail?.playlist?.playCount }}
+              </span>
               次
             </div>
           </div>
