@@ -18,7 +18,7 @@
         >
           <img class="cover-img" :src="item?.coverUrl" alt="" />
           <div class="play-volume">
-            <span class="icon-play"></span>
+            <span class="icon-mv"></span>
             <span class="text">{{ bigNumberTransform(item?.playTime) }}</span>
           </div>
         </div>
@@ -89,13 +89,13 @@ export default defineComponent({
     const $store = useStore();
 
     // 视频id
-    const videoId = computed<number>(() => $store.getters.videoId);
+    const video = computed(() => $store.getters.video);
 
     const videoList = ref<unknown[]>([]);
 
     // 获取相关推荐视频
     function getVideolist(): void {
-      relatedVideo({ id: videoId.value })
+      relatedVideo({ id: video.value.id })
         .then((res: ResponseType) => {
           if (res.code === 200) {
             videoList.value = res.data;
@@ -118,7 +118,7 @@ export default defineComponent({
     // 跳转视频详情
     function jumpVideoDetail(id: number): void {
       $router.push({ name: 'video-detail', params: { id } });
-      $store.commit('setVideoId', id);
+      $store.commit('setVideo', { id, url: '' });
       // 重新获取相关视频
       getVideolist();
     }

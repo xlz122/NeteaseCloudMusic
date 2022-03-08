@@ -16,7 +16,7 @@
             <i class="item-cover-bg"></i>
             <i class="item-cover-play"></i>
           </div>
-          <p class="desc" @click="jumpMvDetail">{{ item.name }}</p>
+          <p class="desc" @click="jumpMvDetail(item.id)">{{ item.name }}</p>
         </li>
       </ul>
       <!-- 参数从0开始，分页需从1开始 -->
@@ -33,6 +33,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { artistMv } from '@api/singer-detail';
 import { formatDateTime } from '@utils/utils.ts';
@@ -56,6 +57,7 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const $router = useRouter();
     const $store = useStore();
 
     // 歌手id
@@ -110,11 +112,9 @@ export default defineComponent({
     getArtistMv();
 
     // 跳转Mv详情
-    function jumpMvDetail(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+    function jumpMvDetail(id: number): void {
+      $router.push({ name: 'mv-detail', params: { id } });
+      $store.commit('setVideo', { id, url: '' });
     }
 
     // 分页

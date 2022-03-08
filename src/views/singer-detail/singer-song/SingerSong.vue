@@ -64,7 +64,11 @@
                   - {{ item.alia[0] }}
                 </span>
               </span>
-              <i class="icon-play" v-if="item.mv > 0"></i>
+              <i
+                class="icon-mv"
+                v-if="item.mv > 0"
+                @click="jumpVideoDetail(item.mv)"
+              ></i>
             </div>
           </td>
           <td class="tbody-td">
@@ -115,6 +119,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { artistSong } from '@api/singer-detail';
 import { timeStampToDuration } from '@utils/utils.ts';
@@ -124,6 +129,7 @@ import { throttle } from 'lodash';
 
 export default defineComponent({
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     // 当前播放音乐id
@@ -310,6 +316,12 @@ export default defineComponent({
       $store.commit('jumpSongDetail', id);
     }
 
+    // 跳转视频详情
+    function jumpVideoDetail(id: number): void {
+      $router.push({ name: 'mv-detail', params: { id } });
+      $store.commit('setVideo', { id, url: '' });
+    }
+
     // 跳转专辑详情
     function jumpAlbumDetail(id: number): void {
       $store.commit('jumpAlbumDetail', id);
@@ -334,6 +346,7 @@ export default defineComponent({
       collectMusic,
       playListMusic,
       jumpSongDetail,
+      jumpVideoDetail,
       jumpAlbumDetail,
       collectionClick
     };

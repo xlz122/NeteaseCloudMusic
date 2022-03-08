@@ -28,7 +28,11 @@
           <span class="desc" v-if="item?.tns?.length">
             - ({{ item.tns[0] }})
           </span>
-          <i class="icon-play" v-if="item.mv > 0"></i>
+          <i
+            class="icon-mv"
+            v-if="item.mv > 0"
+            @click="jumpVideoDetail(item.mv)"
+          ></i>
         </div>
       </div>
       <!-- 操作项 -->
@@ -85,6 +89,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { searchKeywords } from '@api/search';
 import { timeStampToDuration } from '@utils/utils.ts';
@@ -113,6 +118,7 @@ export default defineComponent({
   },
   emits: ['searchCountChange'],
   setup(props, { emit }) {
+    const $router = useRouter();
     const $store = useStore();
 
     const { searchDetailText } = toRefs(props);
@@ -172,6 +178,12 @@ export default defineComponent({
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
       $store.commit('jumpSongDetail', id);
+    }
+
+    // 跳转视频详情
+    function jumpVideoDetail(id: number): void {
+      $router.push({ name: 'mv-detail', params: { id } });
+      $store.commit('setVideo', { id, url: '' });
     }
 
     // 跳转歌手详情
@@ -255,6 +267,7 @@ export default defineComponent({
       userInfo,
       songData,
       jumpSongDetail,
+      jumpVideoDetail,
       jumpSingerDetail,
       setAddSinglePlayList,
       playListMusic,

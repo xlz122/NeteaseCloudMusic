@@ -53,7 +53,7 @@
         <!-- 操作项 -->
         <div class="operate-btn">
           <div class="play" @click="playTitleMusic">
-            <span class="icon-play" title="播放">播放</span>
+            <span class="icon-mv" title="播放">播放</span>
           </div>
           <div
             class="play-add"

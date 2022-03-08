@@ -149,6 +149,34 @@ export const commentVideo = ({
 };
 
 /**
+ * @descriptionription 获取视频评论列表
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } id - mvid
+ * @param { Number } [offset] - 页数
+ * @param { Number } [limit] - 偏移数量，默认20
+ * @param { Number } [before] - 分页参数,取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到)
+ */
+export const commentMv = ({
+  id,
+  offset,
+  limit,
+  before
+}: CommentParams): AxiosRequest => {
+  const params = {
+    timestamp: new Date().getTime(),
+    id,
+    offset,
+    limit,
+    before
+  };
+  return axios.request({
+    url: '/comment/mv',
+    method: 'get',
+    params
+  });
+};
+
+/**
  * @descriptionription 新增评论
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态

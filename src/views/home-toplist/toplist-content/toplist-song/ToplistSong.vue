@@ -62,7 +62,11 @@
                   - {{ item.alia[0] }}
                 </span>
               </span>
-              <i class="icon-mv" v-if="item.mv > 0"></i>
+              <i
+                class="icon-mv"
+                v-if="item.mv > 0"
+                @click="jumpVideoDetail(item.mv)"
+              ></i>
             </div>
           </td>
           <td class="tbody-td">
@@ -158,6 +162,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import MyDialog from '@/components/MyDialog.vue';
 import { timeStampToDuration } from '@utils/utils.ts';
@@ -178,6 +183,7 @@ export default defineComponent({
   setup(props) {
     const { songSheetDetail } = toRefs(props);
 
+    const $router = useRouter();
     const $store = useStore();
 
     // 用户信息
@@ -197,6 +203,12 @@ export default defineComponent({
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
       $store.commit('jumpSongDetail', id);
+    }
+
+    // 跳转视频详情
+    function jumpVideoDetail(id: number): void {
+      $router.push({ name: 'mv-detail', params: { id } });
+      $store.commit('setVideo', { id, url: '' });
     }
 
     // 计算歌曲是否有版权
@@ -280,7 +292,13 @@ export default defineComponent({
     }
 
     // 收藏歌曲
-    function collectMusic(id: number): void {
+    function collectMusic(id: number): boolean | undefined {
+      // 无版权处理
+      if (isCopyright(id)) {
+        noCopyrightDialog.value = true;
+        return false;
+      }
+
       $store.commit('music/collectPlayMusic', {
         visible: true,
         songId: id
@@ -326,6 +344,7 @@ export default defineComponent({
       playMusicId,
       loading,
       jumpSongDetail,
+      jumpVideoDetail,
       isCopyright,
       jumpSingerDetail,
       setAddSinglePlayList,
