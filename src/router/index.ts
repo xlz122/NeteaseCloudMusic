@@ -182,13 +182,22 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "song-sheet-detail" */ '../components/user-profile/UserProfile.vue'
           )
       },
-      // 视频
+      // 视频详情
       {
         path: '/video-detail',
         name: 'video-detail',
         component: () =>
           import(
-            /* webpackChunkName: "video" */ '../views/video-detail/VideoDetail.vue'
+            /* webpackChunkName: "video-detail" */ '../views/video-detail/VideoDetail.vue'
+          )
+      },
+      // mv详情
+      {
+        path: '/mv-detail',
+        name: 'mv-detail',
+        component: () =>
+          import(
+            /* webpackChunkName: "mv-detail" */ '../views/mv-detail/MvDetail.vue'
           )
       }
     ]

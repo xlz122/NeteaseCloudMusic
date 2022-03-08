@@ -1,31 +1,39 @@
 <template>
-  <div class="video-detail">
-    <div class="video-detail-container">
-      <div class="video-detail-content">
+  <div class="mv-detail">
+    <div class="mv-detail-container">
+      <div class="mv-detail-content">
         <div class="title">
-          <h2 class="text" :title="videoDetailData.title">
-            {{ videoDetailData.title }}
+          <i class="icon"></i>
+          <h2 class="text" :title="mvDetailData.name">
+            {{ mvDetailData.name }}
           </h2>
           <div class="desc">
             <span class="by">by</span>
-            <span
-              class="name"
-              @click="jumpUserProfile(videoDetailData?.creator.userId)"
+            <template
+              v-for="(item, index) in mvDetailData?.artists"
+              :key="index"
             >
-              {{ videoDetailData?.creator?.nickname }}
-            </span>
+              <span class="text" @click="jumpSingerDetail(item.id)">
+                {{ item.name }}
+              </span>
+              <span
+                class="line"
+                v-if="index !== mvDetailData?.artists.length - 1"
+                >/</span
+              >
+            </template>
           </div>
         </div>
         <!-- 播放器 -->
         <div class="video-container">
-          <VideoPlayer :videoDetailData="videoDetailData" />
+          <VideoPlayer :videoDetailData="mvDetailData" />
         </div>
         <!-- 操作项 -->
         <div class="operate-btn">
           <div class="other like" @click="likeClick">
-            <template v-if="videoDetailData?.praisedCount > 0">
+            <template v-if="mvDetailData?.praisedCount > 0">
               <i class="like-icon"></i>
-              <span class="icon"> ({{ videoDetailData?.praisedCount }}) </span>
+              <span class="icon"> ({{ mvDetailData?.praisedCount }}) </span>
             </template>
             <template v-else>
               <i class="like-icon"></i>
@@ -33,18 +41,16 @@
             </template>
           </div>
           <div class="other collection" @click="collectionClick">
-            <template v-if="videoDetailData?.subscribeCount > 0">
-              <span class="icon">
-                ({{ videoDetailData?.subscribeCount }})
-              </span>
+            <template v-if="mvDetailData?.subscribeCount > 0">
+              <span class="icon">({{ mvDetailData?.subscribeCount }})</span>
             </template>
             <template v-else>
               <span class="icon">收藏</span>
             </template>
           </div>
           <div class="other share" @click="shareClick">
-            <template v-if="videoDetailData?.shareCount > 0">
-              <span class="icon">({{ videoDetailData?.shareCount }})</span>
+            <template v-if="mvDetailData?.shareCount > 0">
+              <span class="icon">({{ mvDetailData?.shareCount }})</span>
             </template>
             <template v-else>
               <span class="icon">分享</span>
@@ -67,8 +73,8 @@
           @changPage="changPage"
         />
       </div>
-      <div class="video-detail-side">
-        <VideoDetailSide :videoDetailData="videoDetailData" />
+      <div class="mv-detail-side">
+        <VideoDetailSide :mvDetailData="mvDetailData" />
       </div>
     </div>
   </div>
@@ -86,14 +92,14 @@ import {
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import { videoDetail } from '@api/video-detail';
-import { commentVideo } from '@api/comment';
-import { videoUrl } from '@api/video-detail';
+import { mvDetail } from '@api/mv-detail';
+import { mvUrl } from '@api/mv-detail';
+import { commentMv } from '@api/comment';
 import { ResponseType, CommentParams } from '@/types/types';
 import VideoPlayer from '@components/video-player/VideoPlayer.vue';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import Comment from '@components/comment/Comment.vue';
-import VideoDetailSide from './video-detail-side/VideoDetailSide.vue';
+import VideoDetailSide from './mv-detail-side/MvDetailSide.vue';
 import Page from '@components/page/Page.vue';
 
 export default defineComponent({
@@ -108,7 +114,6 @@ export default defineComponent({
     const $route = useRoute();
     const $store = useStore();
 
-    // 视频id
     const video = computed(() => $store.getters.video);
 
     watch(
@@ -116,14 +121,14 @@ export default defineComponent({
       curVal => {
         if (curVal.id) {
           nextTick(() => {
-            getVideoDetail();
+            getMvDetail();
             getVideoSrc();
             getCommentData();
           });
           return false;
         }
         if (video.value.id) {
-          getVideoDetail();
+          getMvDetail();
         }
       },
       {
@@ -131,15 +136,15 @@ export default defineComponent({
       }
     );
 
-    const videoDetailData = ref<unknown>({});
-    // 获取视频详情
-    function getVideoDetail(): void {
-      videoDetail({
-        id: video.value.id
+    const mvDetailData = ref<unknown>({});
+    // 获取mv详情
+    function getMvDetail(): void {
+      mvDetail({
+        mvid: video.value.id
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            videoDetailData.value = res.data;
+            mvDetailData.value = res.data;
           } else {
             $store.commit('setMessage', {
               type: 'error',
@@ -152,15 +157,15 @@ export default defineComponent({
 
     // 获取播放地址
     function getVideoSrc(): void {
-      videoUrl({ id: video.value.id }).then((res: ResponseType) => {
-        $store.commit('setVideo', { ...video.value, url: res.urls[0].url });
+      mvUrl({ id: video.value.id }).then((res: ResponseType) => {
+        $store.commit('setVideo', { ...video.value, url: res.data.url });
       });
     }
     getVideoSrc();
 
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      $store.commit('jumpSingerDetail', id);
     }
 
     // 喜欢
@@ -189,7 +194,7 @@ export default defineComponent({
 
     // 获取评论数据
     const commentParams = reactive<CommentParams>({
-      type: 5,
+      type: 1,
       id: video.value.id,
       offset: 1,
       limit: 20,
@@ -206,7 +211,7 @@ export default defineComponent({
       if (commentParams.offset > 1) {
         params['offset'] = (commentParams.offset - 1) * commentParams.limit;
       }
-      commentVideo({ ...params })
+      commentMv({ ...params })
         .then((res: ResponseType) => {
           if (res.code === 200) {
             const result = handleCommentData(res);
@@ -241,9 +246,8 @@ export default defineComponent({
     });
 
     return {
-      video,
-      videoDetailData,
-      jumpUserProfile,
+      mvDetailData,
+      jumpSingerDetail,
       likeClick,
       collectionClick,
       shareClick,
@@ -256,5 +260,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './video-detail.less';
+@import './mv-detail.less';
 </style>

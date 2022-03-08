@@ -58,7 +58,11 @@
                   - {{ item.alia[0] }}
                 </span>
               </span>
-              <i class="icon-play" v-if="item.mv > 0"></i>
+              <i
+                class="icon-mv"
+                v-if="item.mv > 0"
+                @click="jumpVideoDetail(item.mv)"
+              ></i>
             </div>
           </td>
           <td class="tbody-td">
@@ -159,6 +163,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import MyDialog from '@/components/MyDialog.vue';
 import { timeStampToDuration } from '@utils/utils.ts';
@@ -171,6 +176,7 @@ export default defineComponent({
     MyDialog
   },
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     // 用户信息
@@ -194,6 +200,12 @@ export default defineComponent({
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
       $store.commit('jumpSongDetail', id);
+    }
+
+    // 跳转视频详情
+    function jumpVideoDetail(id: number): void {
+      $router.push({ name: 'mv-detail', params: { id } });
+      $store.commit('setVideo', { id, url: '' });
     }
 
     // 计算歌曲是否有版权
@@ -329,6 +341,7 @@ export default defineComponent({
       playMusicId,
       loading,
       jumpSongDetail,
+      jumpVideoDetail,
       isCopyright,
       jumpSingerDetail,
       setAddSinglePlayList,

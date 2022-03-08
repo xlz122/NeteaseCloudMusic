@@ -47,7 +47,11 @@
                   - {{ item.alia[0] }}
                 </span>
               </span>
-              <i class="icon-play" v-if="item.mv > 0"></i>
+              <i
+                class="icon-mv"
+                v-if="item.mv > 0"
+                @click="jumpVideoDetail(item.mv)"
+              ></i>
             </div>
           </td>
           <td class="tbody-td">
@@ -107,6 +111,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils.ts';
 import { LoopType } from '@/types/types';
@@ -128,6 +133,7 @@ export default defineComponent({
     }
   },
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     // 当前播放音乐id
@@ -136,6 +142,12 @@ export default defineComponent({
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
       $store.commit('jumpSongDetail', id);
+    }
+
+    // 跳转视频详情
+    function jumpVideoDetail(id: number): void {
+      $router.push({ name: 'mv-detail', params: { id } });
+      $store.commit('setVideo', { id, url: '' });
     }
 
     // 单个音乐添加到播放列表
@@ -211,6 +223,7 @@ export default defineComponent({
       timeStampToDuration,
       playMusicId,
       jumpSongDetail,
+      jumpVideoDetail,
       jumpSingerDetail,
       setAddSinglePlayList,
       collectMusic,

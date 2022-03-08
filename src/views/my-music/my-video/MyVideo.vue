@@ -13,7 +13,7 @@
         <div class="cover">
           <img class="img" :src="item?.coverUrl" alt="" />
           <div class="play-volume">
-            <span class="icon-play"></span>
+            <span class="icon-mv"></span>
             <span class="text">{{ item?.playTime }}</span>
           </div>
           <div class="duration">
@@ -62,7 +62,7 @@ export default defineComponent({
     // 播放
     function MyVideoplay(id: string): void {
       $router.push({ name: 'video-detail', params: { id } });
-      $store.commit('setVideoId', id);
+      $store.commit('setVideo', { id, url: '' });
     }
 
     // 跳转用户资料
