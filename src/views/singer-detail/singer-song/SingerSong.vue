@@ -19,7 +19,7 @@
         title="添加到播放列表"
         @click="setAddPlayList"
       ></div>
-      <div class="other collection" @click="collectionClick">
+      <div class="other collection" @click="collectionAll">
         <span class="icon"> 收藏热门{{ singerSong?.hotSongs.length }} </span>
       </div>
     </div>
@@ -327,11 +327,16 @@ export default defineComponent({
       $store.commit('jumpAlbumDetail', id);
     }
 
-    // 收藏
-    function collectionClick(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
+    // 收藏全部
+    function collectionAll(): void {
+      let ids = '';
+      singerSong.value?.hotSongs.forEach((item: LoopType) => {
+        ids += `${item.id},`;
+      });
+
+      $store.commit('music/collectPlayMusic', {
+        visible: true,
+        songIds: ids
       });
     }
 
@@ -348,7 +353,7 @@ export default defineComponent({
       jumpSongDetail,
       jumpVideoDetail,
       jumpAlbumDetail,
-      collectionClick
+      collectionAll
     };
   }
 });

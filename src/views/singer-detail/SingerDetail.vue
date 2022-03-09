@@ -136,20 +136,20 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res.code === 200) {
             if (t === 1) {
-              singerDetail.value.user.followed = true;
-
               $store.commit('setMessage', {
                 type: 'info',
                 title: '收藏成功'
               });
+
+              singerDetail.value.user.followed = true;
             }
             if (t === 2) {
-              singerDetail.value.user.followed = false;
-
               $store.commit('setMessage', {
                 type: 'info',
                 title: '取消收藏成功'
               });
+
+              singerDetail.value.user.followed = false;
             }
           } else {
             $store.commit('setMessage', {
