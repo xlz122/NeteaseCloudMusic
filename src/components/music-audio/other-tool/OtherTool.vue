@@ -75,7 +75,7 @@ export default defineComponent({
     function collectMusic(): void {
       $store.commit('music/collectPlayMusic', {
         visible: true,
-        songId: playMusicId.value
+        songIds: playMusicId.value
       });
     }
 

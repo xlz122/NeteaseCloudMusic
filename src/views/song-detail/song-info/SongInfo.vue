@@ -212,11 +212,11 @@ export default defineComponent({
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
-    // 收藏
+    // 收藏歌曲
     function collectMusic(id: number): void {
       $store.commit('music/collectPlayMusic', {
         visible: true,
-        songId: id
+        songIds: id
       });
     }
 

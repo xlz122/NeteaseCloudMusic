@@ -3,7 +3,7 @@
     <!-- 头部部分 -->
     <div class="play-list-title">
       <h4 class="title">播放列表({{ playMusicList.length }})</h4>
-      <div class="add-all">
+      <div class="add-all" @click="collectAll">
         <i class="icon"></i>
         <span>收藏全部</span>
       </div>
@@ -90,6 +90,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
+import { LoopType } from '@/types/types';
 // 歌词组件
 import Lyric from '../lyric/Lyric.vue';
 import { timeStampToDuration } from '@utils/utils';
@@ -120,6 +121,19 @@ export default defineComponent({
       () => $store.getters['music/playMusicItem']
     );
 
+    // 收藏歌曲
+    function collectAll(): void {
+      let ids = '';
+      playMusicList.value.forEach((item: LoopType) => {
+        ids += `${item.id},`;
+      });
+
+      $store.commit('music/collectPlayMusic', {
+        visible: true,
+        songIds: ids
+      });
+    }
+
     // 清除列表
     function emptyMusicList(): void {
       $store.commit('music/emptyPlayMusicList');
@@ -130,7 +144,7 @@ export default defineComponent({
       event.stopPropagation();
       $store.commit('music/collectPlayMusic', {
         visible: true,
-        songId: id
+        songIds: id
       });
     }
 
@@ -176,11 +190,13 @@ export default defineComponent({
     function closePlayList(): void {
       emit('closePlayList');
     }
+
     return {
       playMusicList,
       playMusicId,
       playMusicItem,
       timeStampToDuration,
+      collectAll,
       emptyMusicList,
       collectMusic,
       deleteMusic,

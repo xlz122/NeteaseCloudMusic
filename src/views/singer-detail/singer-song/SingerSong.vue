@@ -111,7 +111,7 @@
         <span class="icon"></span>
         <span class="text">即可将你喜欢的音乐收藏到“我的音乐”</span>
         <span class="text go">马上去</span>
-        <span class="link">发现音乐</span>
+        <router-link class="link" to="/">发现音乐</router-link>
       </p>
     </div>
   </div>
@@ -307,7 +307,7 @@ export default defineComponent({
     function collectMusic(id: number): void {
       $store.commit('music/collectPlayMusic', {
         visible: true,
-        songId: id
+        songIds: id
       });
     }
 

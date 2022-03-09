@@ -17,7 +17,7 @@ const mutations: Mutations<State, unknown> = {
   },
   // 收藏歌曲
   collectPlayMusic(state, song) {
-    state.collectSong = song as { visible: boolean; songId: number };
+    state.collectSong = song as { visible: boolean; songIds: string };
   },
   // 当前播放音乐id
   setPlayMusicId(state, playMusicId) {
