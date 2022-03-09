@@ -303,7 +303,12 @@ export default defineComponent({
     }
 
     // 收藏
-    function collectionClick(): void {
+    function collectionClick(): boolean | undefined {
+      // 歌单是否已收藏
+      if (songSheetDetail.value?.playlist?.subscribed) {
+        return false;
+      }
+
       // 1:收藏 2:取消收藏
       playlistSubscribe({
         id: songSheetDetail.value?.playlist?.id,
