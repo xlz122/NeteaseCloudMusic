@@ -99,13 +99,13 @@ export default defineComponent({
     function collect(id: number): void {
       collectMusic({
         pid: id,
-        tracks: collectSong.value.songId
+        tracks: collectSong.value.songIds
       })
         .then((res: ResponseType) => {
           if (res.body.code === 200) {
             $store.commit('music/collectPlayMusic', {
               visible: false,
-              songId: 0
+              songIds: ''
             });
             $store.commit('setMessage', {
               type: 'info',
@@ -125,7 +125,7 @@ export default defineComponent({
     function collectCancel(): void {
       $store.commit('music/collectPlayMusic', {
         visible: false,
-        songId: 0
+        songIds: ''
       });
     }
 

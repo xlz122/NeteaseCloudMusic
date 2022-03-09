@@ -251,7 +251,7 @@ export default defineComponent({
     function collectMusic(id: number): void {
       $store.commit('music/collectPlayMusic', {
         visible: true,
-        songId: id
+        songIds: id
       });
     }
 

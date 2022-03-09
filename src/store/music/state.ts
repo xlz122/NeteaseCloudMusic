@@ -3,7 +3,7 @@ export type State = {
   songSheetDetail: unknown;
   collectSong: {
     visible: boolean;
-    songId: number;
+    songIds: string;
   };
   playMusicId: number;
   playMusicList: unknown;
@@ -52,7 +52,7 @@ const state: State = {
   songSheetDetail: faultTolerant('songSheetDetail') || {}, // 歌单详情数据
   collectSong: {
     visible: false,
-    songId: 0
+    songIds: ''
   }, // 收藏歌曲
   playMusicId: Number(localStorage.getItem('playMusicId')) || 0, // 当前播放音乐id
   playMusicItem: faultTolerant('playMusicItem') || {}, // 当前播放音乐数据
