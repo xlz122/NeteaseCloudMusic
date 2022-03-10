@@ -66,7 +66,7 @@ export default defineComponent({
 
     function getUserPlayList(): void {
       userPlayList({
-        uid: userInfo.value.profile.userId
+        uid: userInfo.value?.profile?.userId
       }).then((res: ResponseType) => {
         if (res.code === 200) {
           songSheetList.value = [];
