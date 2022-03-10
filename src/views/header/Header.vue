@@ -206,7 +206,7 @@ export default defineComponent({
           (item: LoopType) => item.link === path
         );
         if (subIndex !== -1) {
-          subNavChange(subNavList.value[subIndex], subIndex);
+          $store.commit('setSubActiveIndex', subIndex);
         }
       },
       {
