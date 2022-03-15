@@ -61,7 +61,7 @@
             <span class="text time">
               {{ timeStampToDuration(item.time / 1000) }}
             </span>
-            <i class="share" @click="jumpSongPosition()"></i>
+            <i class="share" @click.stop="jumpSongPosition"></i>
           </li>
         </ul>
         <!-- 列表空时展示 -->
