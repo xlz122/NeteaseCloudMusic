@@ -58,3 +58,28 @@ export const searchKeywords = ({
     params
   });
 };
+
+/**
+ * @description 收藏/取消收藏用户
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } id - 用户id
+ * @param { Number } t - 1为收藏,其他为取消收藏
+ */
+
+type Follow = {
+  id: number;
+  t: number;
+};
+
+export const followUser = ({ id, t }: Follow): AxiosRequest => {
+  const params = {
+    timestamp: new Date().getTime(),
+    id,
+    t
+  };
+  return axios.request({
+    url: '/follow',
+    method: 'get',
+    params
+  });
+};
