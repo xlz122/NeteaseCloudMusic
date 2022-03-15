@@ -34,3 +34,28 @@ export const mvUrl = ({ id }: { id: number }): AxiosRequest => {
     params
   });
 };
+
+/**
+ * @description 收藏/取消收藏mv
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } mvid - mvid
+ * @param { Number } t - t : 1 为收藏,其他为取消收藏
+ */
+
+type MvSub = {
+  mvid: number;
+  t: number;
+};
+
+export const mvSub = ({ mvid, t }: MvSub): AxiosRequest => {
+  const params = {
+    timestamp: new Date().getTime(),
+    mvid,
+    t
+  };
+  return axios.request({
+    url: '/mv/sub',
+    method: 'get',
+    params
+  });
+};

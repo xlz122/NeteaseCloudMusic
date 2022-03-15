@@ -40,9 +40,13 @@
               <span class="icon">喜欢</span>
             </template>
           </div>
-          <div class="other collection" @click="collectionClick">
-            <template v-if="mvDetailData?.subscribeCount > 0">
-              <span class="icon">({{ mvDetailData?.subscribeCount }})</span>
+          <div
+            class="other collection"
+            :class="{ 'collection-sub': mvsubed }"
+            @click="collectionClick(mvsubed)"
+          >
+            <template v-if="mvDetailData?.subCount > 0">
+              <span class="icon">({{ mvDetailData?.subCount }})</span>
             </template>
             <template v-else>
               <span class="icon">收藏</span>
@@ -93,7 +97,7 @@ import {
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { mvDetail } from '@api/mv-detail';
-import { mvUrl } from '@api/mv-detail';
+import { mvUrl, mvSub } from '@api/mv-detail';
 import { commentMv } from '@api/comment';
 import { ResponseType, CommentParams } from '@/types/types';
 import VideoPlayer from '@components/video-player/VideoPlayer.vue';
@@ -137,6 +141,8 @@ export default defineComponent({
     );
 
     const mvDetailData = ref<unknown>({});
+    // 是否收藏
+    const mvsubed = ref<boolean>(false);
     // 获取mv详情
     function getMvDetail(): void {
       mvDetail({
@@ -145,6 +151,7 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res.code === 200) {
             mvDetailData.value = res.data;
+            mvsubed.value = res.subed;
           } else {
             $store.commit('setMessage', {
               type: 'error',
@@ -177,11 +184,37 @@ export default defineComponent({
     }
 
     // 收藏
-    function collectionClick(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+    function collectionClick(followed: boolean): void {
+      // 1:收藏 2:取消收藏
+      const t = followed ? 2 : 1;
+
+      mvSub({ mvid: video.value.id, t })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            if (t === 1) {
+              $store.commit('setMessage', {
+                type: 'info',
+                title: '收藏成功'
+              });
+
+              mvsubed.value = true;
+            }
+            if (t === 2) {
+              $store.commit('setMessage', {
+                type: 'info',
+                title: '取消收藏成功'
+              });
+
+              mvsubed.value = false;
+            }
+          } else {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: res?.msg
+            });
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 分享
@@ -247,6 +280,7 @@ export default defineComponent({
 
     return {
       mvDetailData,
+      mvsubed,
       jumpSingerDetail,
       likeClick,
       collectionClick,
