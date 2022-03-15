@@ -22,7 +22,8 @@ const getters: Getters<State> = {
   albumId: state => state.albumId,
   video: state => state.video,
   singerTabIndex: state => state.singerTabIndex,
-  searchIndex: state => state.searchIndex
+  searchIndex: state => state.searchIndex,
+  videoPlayProgress: state => state.videoPlayProgress
 };
 
 export default getters;

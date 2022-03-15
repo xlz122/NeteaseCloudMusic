@@ -35,11 +35,11 @@
       ></i>
       <i class="icon pause-btn" v-else @click="togglePlayStatus"></i>
       <span class="time">
-        {{ timeStampToDuration(0) || '00:00' }}
+        {{ timeStampToDuration(videoPlayProgress.currentTime || 0) || '00:00' }}
       </span>
       <div class="progress"></div>
       <span class="time">
-        {{ timeStampToDuration(0) || '00:00' }}
+        {{ timeStampToDuration(videoPlayProgress.duration || 0) || '00:00' }}
       </span>
       <div class="other">
         <i class="volume-btn"></i>
@@ -80,6 +80,11 @@ export default defineComponent({
     const $store = useStore();
 
     const videoStatus = ref<string>('pause');
+
+    // 播放进度数据
+    const videoPlayProgress = computed(
+      () => $store.getters['videoPlayProgress']
+    );
 
     // 播放状态
     const musicPlayStatus = computed(
@@ -191,6 +196,7 @@ export default defineComponent({
 
     return {
       timeStampToDuration,
+      videoPlayProgress,
       videoStatus,
       togglePlayStatus,
       videoEnded,

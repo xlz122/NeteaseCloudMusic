@@ -81,10 +81,15 @@ export default defineComponent({
     // 播放暂停
     // function videoPause(): void {}
 
-    // 当前播放时间
-    // function updateTime(e: any): void {
-    //   console.log(e.target.currentTime);
-    // }
+    // 播放进度
+    function updateTime(e: any): void {
+      const progress = e.target.currentTime / e.target.duration;
+      $store.commit('setVideoPlayProgress', {
+        progress: progress * 100,
+        currentTime: e.target.currentTime || 0,
+        duration: e.target.duration || 0
+      });
+    }
 
     // 播放完成
     function videoEnded(): void {
@@ -96,7 +101,7 @@ export default defineComponent({
       videoRef,
       // videoPlay,
       // videoPause,
-      // updateTime,
+      updateTime,
       videoEnded
     };
   }

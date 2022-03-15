@@ -20,6 +20,7 @@ export type State = {
   };
   singerTabIndex: number;
   searchIndex: number;
+  videoPlayProgress: unknown;
 };
 
 // 本地存储容错处理
@@ -47,7 +48,8 @@ const state: State = {
   albumId: Number(localStorage.getItem('albumId')) || 0, // 专辑id
   video: faultTolerant('video') || {}, // 视频/mv 数据
   singerTabIndex: Number(localStorage.getItem('singerTabIndex')) || 0, // 歌手详情导航
-  searchIndex: Number(localStorage.getItem('searchIndex')) || 0 // 搜索详情导航
+  searchIndex: Number(localStorage.getItem('searchIndex')) || 0, // 搜索详情导航
+  videoPlayProgress: {} // 当前播放视频进度数据
 };
 
 export default state;
