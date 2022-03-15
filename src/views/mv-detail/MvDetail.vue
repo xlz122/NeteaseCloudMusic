@@ -118,6 +118,9 @@ export default defineComponent({
     const $route = useRoute();
     const $store = useStore();
 
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
+
     const video = computed(() => $store.getters.video);
 
     watch(
@@ -184,7 +187,13 @@ export default defineComponent({
     }
 
     // 收藏
-    function collectionClick(followed: boolean): void {
+    function collectionClick(followed: boolean): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       // 1:收藏 2:取消收藏
       const t = followed ? 2 : 1;
 

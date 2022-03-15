@@ -186,6 +186,9 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
+
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
 
@@ -293,6 +296,12 @@ export default defineComponent({
 
     // 收藏歌曲
     function collectMusic(id: number): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       // 无版权处理
       if (isCopyright(id)) {
         noCopyrightDialog.value = true;

@@ -178,6 +178,9 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
+
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
 
@@ -304,6 +307,12 @@ export default defineComponent({
 
     // 收藏
     function collectionClick(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       // 歌单是否已收藏
       if (songSheetDetail.value?.playlist?.subscribed) {
         return false;

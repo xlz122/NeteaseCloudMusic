@@ -87,7 +87,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, toRefs } from 'vue';
+import { defineComponent, computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { formatDateTime } from '@utils/utils.ts';
 import { LoopType } from '@/types/types';
@@ -110,6 +110,9 @@ export default defineComponent({
     const { songs } = toRefs(props);
 
     const $store = useStore();
+
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
@@ -210,7 +213,13 @@ export default defineComponent({
     }
 
     // 收藏全部
-    function collectionAll(): void {
+    function collectionAll(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       let ids = '';
       songs.value.forEach((item: LoopType) => {
         ids += `${item.id},`;

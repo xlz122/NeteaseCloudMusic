@@ -132,6 +132,9 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
+
     // 当前播放音乐id
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
 
@@ -304,7 +307,13 @@ export default defineComponent({
     }
 
     // 收藏歌曲
-    function collectMusic(id: number): void {
+    function collectMusic(id: number): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       $store.commit('music/collectPlayMusic', {
         visible: true,
         songIds: id
@@ -328,7 +337,13 @@ export default defineComponent({
     }
 
     // 收藏全部
-    function collectionAll(): void {
+    function collectionAll(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       let ids = '';
       singerSong.value?.hotSongs.forEach((item: LoopType) => {
         ids += `${item.id},`;

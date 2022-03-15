@@ -81,6 +81,9 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
+
     // 歌手id
     const singerId = computed(() => $store.getters.singerId);
 
@@ -128,7 +131,13 @@ export default defineComponent({
     }
 
     // 收藏/取消收藏歌手
-    function setArtistSub(followed: boolean): void {
+    function setArtistSub(followed: boolean): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       // 1:收藏 2:取消收藏
       const t = followed ? 2 : 1;
 
