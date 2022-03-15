@@ -71,7 +71,7 @@ export default defineComponent({
     watch(
       () => songSheetId.value,
       curVal => {
-        if (curVal) {
+        if (curVal && Number(curVal) >= 0) {
           getCommentData();
         }
       }
