@@ -65,6 +65,9 @@ export default defineComponent({
     const $route = useRoute();
     const $store = useStore();
 
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
+
     // 播放列表数据
     const playMusicList = computed(() => $store.getters['music/playMusicList']);
 
@@ -72,7 +75,13 @@ export default defineComponent({
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
 
     // 收藏歌曲
-    function collectMusic(): void {
+    function collectMusic(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       $store.commit('music/collectPlayMusic', {
         visible: true,
         songIds: playMusicId.value

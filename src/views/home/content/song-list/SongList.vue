@@ -73,7 +73,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { soaringList, newSongs, originalList } from '@api/home';
@@ -86,6 +86,9 @@ export default defineComponent({
   setup() {
     const $router = useRouter();
     const $store = useStore();
+
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
 
     const listData = reactive<Record<string, any>>([]);
     // 获取飙升榜数据
@@ -184,7 +187,13 @@ export default defineComponent({
     );
 
     // 收藏
-    function collectionClick(id: number): void {
+    function collectionClick(id: number): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       // 1:收藏 2:取消收藏
       playlistSubscribe({ id, t: 1 })
         .then((res: ResponseType) => {
@@ -271,7 +280,13 @@ export default defineComponent({
     }
 
     // 收藏歌曲
-    function collectMusic(id: number): void {
+    function collectMusic(id: number): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       $store.commit('music/collectPlayMusic', {
         visible: true,
         songIds: id
