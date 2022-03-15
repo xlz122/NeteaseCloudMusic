@@ -156,6 +156,14 @@ const mutations: Mutations<State> = {
     localStorage.clear();
     // 清除所有cookie
     clearAllCookie();
+  },
+  // 当前播放音乐进度数据
+  setVideoPlayProgress(state, playProgress) {
+    const videoPlayProgress = JSON.parse(
+      JSON.stringify(state.videoPlayProgress)
+    );
+    const progress = Object.assign(videoPlayProgress, playProgress);
+    state.videoPlayProgress = progress as unknown;
   }
 };
 
