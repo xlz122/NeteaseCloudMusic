@@ -12,7 +12,10 @@
           <template v-for="(item, index) in banner.list" :key="index">
             <img
               class="img"
-              :class="{ 'switching-img': bannerImgSwitching }"
+              :class="{
+                'switching-img':
+                  bannerImgSwitching && item.imageUrl === banner.currentUrl
+              }"
               v-show="item.imageUrl === banner.currentUrl"
               :src="item.imageUrl"
               @click="jumpDetail(item)"
