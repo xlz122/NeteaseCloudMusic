@@ -1,3 +1,38 @@
+## [1.0.9](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.8...v1.0.9) (2022-03-16)
+
+
+### ⚡ Performance Improvements | 性能优化
+
+* 回到顶部优化(使用防抖) [#7ba89bd](https://github.com/xlz122/NeteaseCloudMusic/commit/7ba89bd) 
+
+
+### ✨ Features | 新功能
+
+* 播放器列表收藏全部完善 [#3b80bcf](https://github.com/xlz122/NeteaseCloudMusic/commit/3b80bcf) 
+* 歌手详情-收藏歌手完成 [#6d631c4](https://github.com/xlz122/NeteaseCloudMusic/commit/6d631c4) 
+* 每日推荐、专辑、歌手详情收藏完善 [#22331b2](https://github.com/xlz122/NeteaseCloudMusic/commit/22331b2) 
+* 视频播放器增加时间进度 [#2a38562](https://github.com/xlz122/NeteaseCloudMusic/commit/2a38562) 
+* 首页、歌单详情，歌单收藏功能修改 [#f5b529c](https://github.com/xlz122/NeteaseCloudMusic/commit/f5b529c) 
+* 搜索详情-用户关注完成 [#881790a](https://github.com/xlz122/NeteaseCloudMusic/commit/881790a) 
+* 完善mv收藏 [#18adfba](https://github.com/xlz122/NeteaseCloudMusic/commit/18adfba) 
+* 增加mv详情页面,各页面视频、mv跳转完善 [#6cebbc9](https://github.com/xlz122/NeteaseCloudMusic/commit/6cebbc9) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 修复播放列表点击链接图标会播放音乐的bug [#37f8901](https://github.com/xlz122/NeteaseCloudMusic/commit/37f8901) 
+* 修复各页面收藏未登录情况下未弹出登录框的bug [#8584a38](https://github.com/xlz122/NeteaseCloudMusic/commit/8584a38) 
+* 修复首页轮播图动态class类名bug [#f9d87f8](https://github.com/xlz122/NeteaseCloudMusic/commit/f9d87f8) 
+* 修复跳转至二级导航路由所在页面，watch触发两次的bug [#a4084c5](https://github.com/xlz122/NeteaseCloudMusic/commit/a4084c5) 
+* 修复未登录页面无法打开的bug [#8b7fa7c](https://github.com/xlz122/NeteaseCloudMusic/commit/8b7fa7c) 
+* 修复我的视频跳转mv报错bug [#683c3c1](https://github.com/xlz122/NeteaseCloudMusic/commit/683c3c1) 
+* 修复我的音乐切换至歌单以外的tab项,意外请求评论接口的bug [#fa463ff](https://github.com/xlz122/NeteaseCloudMusic/commit/fa463ff) 
+* 修复已收藏的歌单会继续调用收藏歌单接口的bug [#cdbc050](https://github.com/xlz122/NeteaseCloudMusic/commit/cdbc050) 
+* 修复音频播放器鼠标松开依然在拖动的bug [#27172ff](https://github.com/xlz122/NeteaseCloudMusic/commit/27172ff) 
+* 修复音视频可以同时播放的bug [#4d54a97](https://github.com/xlz122/NeteaseCloudMusic/commit/4d54a97) 
+
+
+
 ## [1.0.8](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.7...v1.0.8) (2022-02-24)
 
 
