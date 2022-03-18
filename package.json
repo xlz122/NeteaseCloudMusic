@@ -39,7 +39,7 @@
     "less": "^4.0.0",
     "less-loader": "^8.0.0",
     "prettier": "^2.4.1",
-    "typescript": "~4.1.5"
+    "typescript": "~4.5.5"
   },
   "husky": {
     "hooks": {
