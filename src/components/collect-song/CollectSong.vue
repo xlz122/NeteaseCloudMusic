@@ -47,17 +47,25 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    const collectSong = computed(() => $store.getters['music/collectSong']);
+    // 是否登录
+    const isLogin = computed(() => $store.getters.isLogin);
 
     // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
+
+    const collectSong = computed(() => $store.getters['music/collectSong']);
 
     watch(
       () => collectSong.value.visible,
       () => {
         if (collectSong.value.visible) {
           getUserPlayList();
+        } else if (isLogin.value) {
+          getUserPlayList();
         }
+      },
+      {
+        immediate: true
       }
     );
 
@@ -85,7 +93,6 @@ export default defineComponent({
         }
       });
     }
-    getUserPlayList();
 
     // 新歌单
     function addSongSheet(): void {
