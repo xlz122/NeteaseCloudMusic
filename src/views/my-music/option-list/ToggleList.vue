@@ -164,7 +164,7 @@ export default defineComponent({
         addPlayList({ name: params.name }).then((res: ResponseType) => {
           if (res.code === 200) {
             // 添加到列表第二项
-            propsListData.value.splice(1, 1, res.playlist);
+            propsListData.value.splice(1, 0, res.playlist);
             // 获取歌单详情
             const id = res.id;
             emit('listClick', id);
