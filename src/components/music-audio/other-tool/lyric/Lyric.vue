@@ -210,20 +210,25 @@ export default defineComponent({
 
         // 当前播放时间
         const currentTime = musicPlayProgress.value.currentTime;
+
+        // 重新播放,回到顶部
+        if (currentTime < 1) {
+          lyric.index = 0;
+          const lyricDom = document.querySelector('.lyric') as HTMLElement;
+          lyricDom.scrollTo(0, 0);
+        }
+
         // 获取当前播放索引
         lyric.list.forEach((item, index) => {
-          // 大于最后一项
-          if (index + 1 > lyric.list.length - 1) {
-            return false;
-          }
-          // 大于当前时间，小于下一项时间
+          // 大于当前时间
           const itemTime = Math.floor(item.time);
-          // -1用于动画过渡
-          if (
-            itemTime <= currentTime &&
-            currentTime < lyric.list[index + 1].time
-          ) {
+          if (lyric.list[index + 1] && itemTime <= currentTime) {
             lyric.index = index;
+          }
+
+          // 最后一项
+          if (!lyric.list[index + 1] && itemTime <= currentTime) {
+            lyric.index = lyric.list.length - 1;
           }
         });
       }
@@ -252,7 +257,7 @@ export default defineComponent({
     }
 
     // 过渡动画函数
-    function scrollAnimation(): void {
+    function scrollAnimation(): boolean | undefined {
       const lyricDom = document.querySelector('.lyric') as HTMLElement;
       let timer = 0;
       // 定时器存在，清空定时器
@@ -263,6 +268,12 @@ export default defineComponent({
       const once = 32 / 70;
       // 累计高度
       let total = 0;
+
+      // 滚动到底部
+      if (total >= lyricDom.scrollTop + lyricDom.offsetHeight) {
+        return false;
+      }
+
       timer = setInterval(() => {
         if (total >= 32) {
           clearInterval(timer);
