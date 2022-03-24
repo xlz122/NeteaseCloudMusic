@@ -1,11 +1,16 @@
 <template>
   <div class="album-info-container">
     <div class="cover-warp">
-      <img
-        class="cover-img"
-        :src="`${userInfo?.picUrl}?param=177y177`"
-        alt=""
-      />
+      <template v-if="userInfo?.picUrl">
+        <img
+          class="cover-img"
+          :src="`${userInfo?.picUrl}?param=177y177`"
+          alt=""
+        />
+      </template>
+      <template v-else>
+        <img class="cover-img" src="" alt="" />
+      </template>
       <i class="cover-bg"></i>
     </div>
     <div class="info-right">

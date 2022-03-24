@@ -90,7 +90,6 @@ export default defineComponent({
               item.json = JSON.parse(item.json);
               item.json.msg = formatMixedText(item.json.msg);
             });
-            console.log(res.event);
             eventList.value = eventList.value.concat(res.event);
             // 下一页所需参数
             firendEventParams.lasttime = res.lasttime;
