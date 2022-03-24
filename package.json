@@ -10,14 +10,14 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 -n ./.changelog.config.js"
   },
   "dependencies": {
-    "@commitlint/cli": "^16.2.1",
+    "@commitlint/cli": "^16.2.3",
     "@commitlint/config-conventional": "^16.2.1",
-    "axios": "^0.26.0",
+    "axios": "^0.26.1",
     "compression-webpack-plugin": "^5.0.1",
     "conventional-changelog": "^3.1.25",
     "conventional-changelog-cli": "^2.2.2",
     "husky": "^7.0.4",
-    "lint-staged": "^12.3.4",
+    "lint-staged": "^12.3.7",
     "rimraf": "^3.0.2",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
