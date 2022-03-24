@@ -21,6 +21,7 @@
           @setAddSinglePlayList="setAddSinglePlayList"
           @jumpSongDetail="jumpSongDetail"
           @jumpSingerDetail="jumpSingerDetail"
+          @jumpAlbumDetail="jumpAlbumDetail"
         />
       </li>
     </ul>
@@ -89,6 +90,7 @@ export default defineComponent({
               item.json = JSON.parse(item.json);
               item.json.msg = formatMixedText(item.json.msg);
             });
+            console.log(res.event);
             eventList.value = eventList.value.concat(res.event);
             // 下一页所需参数
             firendEventParams.lasttime = res.lasttime;
@@ -155,6 +157,11 @@ export default defineComponent({
       $store.commit('jumpSingerDetail', id);
     }
 
+    // 跳转专辑详情
+    function jumpAlbumDetail(id: number): void {
+      $store.commit('jumpAlbumDetail', id);
+    }
+
     // 动态点赞
     function setDynamicLike(id: number, threadId: number, type: number): void {
       // 页面静态修改
@@ -200,6 +207,7 @@ export default defineComponent({
       setAddSinglePlayList,
       jumpSongDetail,
       jumpSingerDetail,
+      jumpAlbumDetail,
       setDynamicLike
     };
   }
