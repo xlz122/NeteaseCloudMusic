@@ -81,8 +81,12 @@
                   title="收藏"
                   @click="collectMusic(item.id)"
                 ></i>
-                <i class="icon share" title="分享"></i>
-                <i class="icon download" title="下载"></i>
+                <i class="icon share" title="分享" @click="shareClick"></i>
+                <i
+                  class="icon download"
+                  title="下载"
+                  @click="downloadClick"
+                ></i>
                 <!-- 用户自己才有删除按钮 -->
                 <i
                   class="icon delete"
@@ -310,6 +314,28 @@ export default defineComponent({
       $store.commit('jumpAlbumDetail', id);
     }
 
+    // 分享
+    function shareClick(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 下载
+    function downloadClick(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
     // 无版权弹框 - 确定
     function noCopyrightConfirm(): void {
       noCopyrightDialog.value = false;
@@ -359,6 +385,8 @@ export default defineComponent({
       noCopyrightDialog,
       noCopyrightConfirm,
       playListMusic,
+      shareClick,
+      downloadClick,
       deleteMusicDialog,
       deleteMusicShow,
       deleteMusicConfirm,

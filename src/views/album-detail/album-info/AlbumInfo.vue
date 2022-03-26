@@ -237,7 +237,13 @@ export default defineComponent({
     }
 
     // 分享
-    function shareClick(): void {
+    function shareClick(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -253,7 +259,13 @@ export default defineComponent({
     }
 
     // 评论
-    function commentClick(): void {
+    function commentClick(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       emit('commentClick');
     }
 

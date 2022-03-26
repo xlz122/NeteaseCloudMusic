@@ -5,7 +5,7 @@
       title="收藏"
       @click="collectMusic"
     ></button>
-    <button class="btn share-btn" title="分享"></button>
+    <button class="btn share-btn" title="分享" @click="shareClick"></button>
   </div>
   <div class="other">
     <!-- 音量控制 -->
@@ -88,6 +88,20 @@ export default defineComponent({
       });
     }
 
+    // 分享
+    function shareClick(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
     // 音量条显隐
     const volumeProgressShow = ref<boolean>(false);
     function setVolumeProgress(): void {
@@ -167,6 +181,7 @@ export default defineComponent({
       playMusicList,
       playMusicId,
       collectMusic,
+      shareClick,
       volumeProgressShow,
       setVolumeProgress,
       musicModeType,
