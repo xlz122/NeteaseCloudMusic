@@ -134,6 +134,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const $store = useStore();
 
+    // 是否登录
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
+
     // 歌曲id
     const songId = computed(() => $store.getters.songId);
 
@@ -213,7 +216,13 @@ export default defineComponent({
     }
 
     // 收藏歌曲
-    function collectMusic(id: number): void {
+    function collectMusic(id: number): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       $store.commit('music/collectPlayMusic', {
         visible: true,
         songIds: id
@@ -221,7 +230,13 @@ export default defineComponent({
     }
 
     // 分享
-    function shareClick(): void {
+    function shareClick(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -237,7 +252,13 @@ export default defineComponent({
     }
 
     // 评论
-    function commentClick(): void {
+    function commentClick(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       emit('commentClick');
     }
 

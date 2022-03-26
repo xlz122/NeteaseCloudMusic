@@ -40,8 +40,12 @@
                 title="收藏"
                 @click="collectMusic(item.id, $event)"
               ></i>
-              <i class="icon share" title="分享" @click.stop></i>
-              <i class="icon download" title="下载" @click.stop></i>
+              <i class="icon share" title="分享" @click.stop="shareClick"></i>
+              <i
+                class="icon download"
+                title="下载"
+                @click.stop="downloadClick"
+              ></i>
               <i
                 class="icon delete"
                 title="删除"
@@ -108,6 +112,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const $store = useStore();
 
+    // 是否登录
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
+
     // 播放列表数据
     const playMusicList = computed(() => $store.getters['music/playMusicList']);
 
@@ -121,8 +128,14 @@ export default defineComponent({
       () => $store.getters['music/playMusicItem']
     );
 
-    // 收藏歌曲
-    function collectAll(): void {
+    // 收藏全部歌曲
+    function collectAll(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       let ids = '';
       playMusicList.value.forEach((item: LoopType) => {
         ids += `${item.id},`;
@@ -140,11 +153,39 @@ export default defineComponent({
     }
 
     // 收藏歌曲
-    function collectMusic(id: number, event: MouseEvent): void {
+    function collectMusic(id: number, event: MouseEvent): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
       event.stopPropagation();
       $store.commit('music/collectPlayMusic', {
         visible: true,
         songIds: id
+      });
+    }
+
+    // 分享
+    function shareClick(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 下载
+    function downloadClick(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
       });
     }
 
@@ -199,6 +240,8 @@ export default defineComponent({
       collectAll,
       emptyMusicList,
       collectMusic,
+      shareClick,
+      downloadClick,
       deleteMusic,
       playlistItem,
       jumpSingerDetail,

@@ -86,7 +86,7 @@ export default defineComponent({
 <style lang="less" scoped>
 .my_dialog {
   position: fixed;
-  z-index: 951218;
+  z-index: 20001009;
   left: 0;
   top: 0;
   bottom: 0;
