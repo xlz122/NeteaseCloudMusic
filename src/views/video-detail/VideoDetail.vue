@@ -32,7 +32,11 @@
               <span class="icon">喜欢</span>
             </template>
           </div>
-          <div class="other collection" @click="collectionClick">
+          <div
+            class="other collection"
+            :class="{ 'collection-sub': videoSubed }"
+            @click="collectionClick(videoSubed)"
+          >
             <template v-if="videoDetailData?.subscribeCount > 0">
               <span class="icon">
                 ({{ videoDetailData?.subscribeCount }})
@@ -86,10 +90,11 @@ import {
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { MyVideoSbulist } from '@api/my-music';
 import { videoDetail } from '@api/video-detail';
 import { commentVideo } from '@api/comment';
-import { videoUrl } from '@api/video-detail';
-import { ResponseType, CommentParams } from '@/types/types';
+import { videoUrl, videoSub } from '@api/video-detail';
+import { ResponseType, CommentParams, LoopType } from '@/types/types';
 import VideoPlayer from '@components/video-player/VideoPlayer.vue';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import Comment from '@components/comment/Comment.vue';
@@ -173,18 +178,61 @@ export default defineComponent({
       });
     }
 
+    // 是否收藏
+    const videoSubed = ref<boolean>(false);
+
+    // 获取视频列表
+    function getVideoSbulist(): void {
+      MyVideoSbulist().then((res: ResponseType) => {
+        if (res.code === 200) {
+          res.data.forEach((item: LoopType) => {
+            if (item.vid === video.value.id) {
+              videoSubed.value = true;
+            }
+          });
+        }
+      });
+    }
+    getVideoSbulist();
+
     // 收藏
-    function collectionClick(): boolean | undefined {
+    function collectionClick(followed: boolean): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      // 1:收藏 2:取消收藏
+      const t = followed ? 2 : 1;
+
+      videoSub({ id: video.value.id, t })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            if (t === 1) {
+              $store.commit('setMessage', {
+                type: 'info',
+                title: '收藏成功'
+              });
+
+              videoSubed.value = true;
+            }
+            if (t === 2) {
+              $store.commit('setMessage', {
+                type: 'info',
+                title: '取消收藏成功'
+              });
+
+              videoSubed.value = false;
+            }
+          } else {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: res?.msg
+            });
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 分享
@@ -253,6 +301,7 @@ export default defineComponent({
       videoDetailData,
       jumpUserProfile,
       likeClick,
+      videoSubed,
       collectionClick,
       shareClick,
       commentParams,
