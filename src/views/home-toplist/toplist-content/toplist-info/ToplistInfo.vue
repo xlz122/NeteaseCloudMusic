@@ -52,7 +52,7 @@
           ></div>
           <div
             class="other collection"
-            :class="{ isLogin: 'disable-collection' }"
+            :class="`${isLogin ? 'disable-collection' : ''}`"
             @click="collectionClick"
           >
             <template v-if="songSheetDetail?.playlist?.subscribedCount > 0">
