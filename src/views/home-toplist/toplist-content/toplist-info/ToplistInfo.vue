@@ -294,8 +294,9 @@ export default defineComponent({
       const commentDom = document.querySelector(
         '.comment-component'
       ) as HTMLElement;
-      // 标题高度
-      window.scrollTo(0, Number(commentDom.offsetTop) + 120);
+
+      const appwrap = document.querySelector('.app-wrap') as HTMLElement;
+      appwrap.scrollTo(0, Number(commentDom.offsetTop) + 120);
     }
 
     return {
