@@ -1,3 +1,35 @@
+## [1.0.10](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.9...v1.0.10) (2022-03-27)
+
+
+### ✨ Features | 新功能
+
+* 关注页面-单曲、专辑修改 [#2791898](https://github.com/xlz122/NeteaseCloudMusic/commit/2791898) 
+* 完成视频的收藏/取消收藏功能（通过收藏的视频列表判断视频被收藏） [#871c320](https://github.com/xlz122/NeteaseCloudMusic/commit/871c320) 
+* 增加搜索详情-歌单页面 [#c77a165](https://github.com/xlz122/NeteaseCloudMusic/commit/c77a165) 
+* 增加一些工具函数 [#67b1f4c](https://github.com/xlz122/NeteaseCloudMusic/commit/67b1f4c) 
+
+
+### 🎫 Chores | 其他更新
+
+* 升级部分依赖项 [#903cf48](https://github.com/xlz122/NeteaseCloudMusic/commit/903cf48) 
+* cli更新v5.0.3版本 [#5306895](https://github.com/xlz122/NeteaseCloudMusic/commit/5306895) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 升级compression-webpack-plugin，并修复高版本打包失败的bug [#27f9246](https://github.com/xlz122/NeteaseCloudMusic/commit/27f9246) 
+* 修复登录后排行榜页面收藏按钮样式bug [#66dc4f1](https://github.com/xlz122/NeteaseCloudMusic/commit/66dc4f1) 
+* 修复歌曲重新播放歌词没有重置滚动条、歌词最后一项不高亮等bug [#9073fc3](https://github.com/xlz122/NeteaseCloudMusic/commit/9073fc3) 
+* 修复各页面评论按钮跳转因修改全局跳转顶部导致无效的bug [#7901019](https://github.com/xlz122/NeteaseCloudMusic/commit/7901019) 
+* 修复搜索详情搜索框、导航样式bug [#4c03b19](https://github.com/xlz122/NeteaseCloudMusic/commit/4c03b19) 
+* 修复跳转专辑详情控制台图片404报错 [#b4e8489](https://github.com/xlz122/NeteaseCloudMusic/commit/b4e8489) 
+* 修复未登录/登录，排行榜-收藏按钮展示不同的bug [#036c3d2](https://github.com/xlz122/NeteaseCloudMusic/commit/036c3d2) 
+* 修复未登录触发获取用户歌单接口的bug [#f7433b4](https://github.com/xlz122/NeteaseCloudMusic/commit/f7433b4) 
+* 修复未登录各页面分享、下载按钮未弹出登录框的bug [#8f0a944](https://github.com/xlz122/NeteaseCloudMusic/commit/8f0a944) 
+* 修复新建歌单后，页面会删除歌单第二项的bug [#874d566](https://github.com/xlz122/NeteaseCloudMusic/commit/874d566) 
+
+
+
 ## [1.0.9](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.8...v1.0.9) (2022-03-16)
 
 
