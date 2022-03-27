@@ -36,6 +36,13 @@
           @searchCountChange="searchCountChange"
         />
       </template>
+      <!-- 歌单 -->
+      <template v-if="searchIndex === 5">
+        <SearchSongSheet
+          :searchDetailText="searchDetailText"
+          @searchCountChange="searchCountChange"
+        />
+      </template>
       <!-- 声音主播 -->
       <template v-if="searchIndex === 6">
         <SearchAnchor
@@ -63,6 +70,7 @@ import SearchSong from './search-song/SearchSong.vue';
 import SearchSinger from './search-singer/SearchSinger.vue';
 import SearchAlbum from './search-album/SearchAlbum.vue';
 import SearchMv from './search-mv/SearchMv.vue';
+import SearchSongSheet from './search-song-sheet/SearchSongSheet.vue';
 import SearchAnchor from './search-anchor/SearchAnchor.vue';
 import SearchUser from './search-user/SearchUser.vue';
 
@@ -74,6 +82,7 @@ export default defineComponent({
     SearchSinger,
     SearchAlbum,
     SearchMv,
+    SearchSongSheet,
     SearchAnchor,
     SearchUser
   },
