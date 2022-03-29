@@ -72,7 +72,13 @@
       </div>
       <div class="td td4">
         <div class="text">
-          <span class="name" :title="item?.al?.name">{{ item?.al?.name }}</span>
+          <span
+            class="name"
+            :title="item?.al?.name"
+            @click="jumpAlbumDetail(item?.al?.id)"
+          >
+            {{ item?.al?.name }}
+          </span>
         </div>
       </div>
       <div class="td">{{ timeStampToDuration(item.dt / 1000) }}</div>
@@ -194,6 +200,11 @@ export default defineComponent({
       $store.commit('jumpSingerDetail', id);
     }
 
+    // 跳转专辑详情
+    function jumpAlbumDetail(id: number): void {
+      $store.commit('jumpAlbumDetail', id);
+    }
+
     // 单个音乐添加到播放列表
     function setAddSinglePlayList(item: Record<string, any>): void {
       // 处理播放器所需数据
@@ -300,6 +311,7 @@ export default defineComponent({
       jumpSongDetail,
       jumpVideoDetail,
       jumpSingerDetail,
+      jumpAlbumDetail,
       setAddSinglePlayList,
       playListMusic,
       collectMusic,
