@@ -63,7 +63,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed } from 'vue';
+import { defineComponent, ref, reactive, computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import SongDialog from './SongDialog.vue';
 import { addPlayList, deletePlayList } from '@api/my-music';
@@ -107,7 +107,7 @@ export default defineComponent({
   emits: ['listClick'],
   setup(props: { listData: LoopType; listCount: number }, { emit }) {
     const propsListData = ref<LoopType>(props.listData);
-    const propsListCount = ref<number>(props.listCount);
+    const propsListCount = toRefs(props).listCount;
 
     const $store = useStore();
 
