@@ -28,17 +28,22 @@
           :title="`${item.name}的音乐`"
           @click="jumpSingerDetail(item.id)"
         >
-          <img class="item-cover-img" :src="item?.picUrl" alt="" />
+          <img class="item-cover-img" :src="item.picUrl" alt="" />
         </div>
         <div class="item-desc">
           <span
             class="item-desc-text"
-            :title="`${item?.name}的音乐`"
+            :title="`${item.name}的音乐`"
             @click="jumpSingerDetail(item.id)"
           >
-            {{ item.name }}
+            {{ item?.name }}
           </span>
-          <span class="item-desc-icon" v-if="item?.accountId"></span>
+          <span
+            class="item-desc-icon"
+            v-if="item?.accountId"
+            :title="`${item.name}的个人主页`"
+            @click="jumpUserProfile(item.accountId)"
+          ></span>
         </div>
       </li>
     </ul>
@@ -50,10 +55,15 @@
         :key="index"
         @click="jumpSingerDetail(item.id)"
       >
-        <span class="item-text" :title="`${item?.name}的音乐`">
-          {{ item.name }}
+        <span class="item-text" :title="`${item.name}的音乐`">
+          {{ item?.name }}
         </span>
-        <span class="item-icon" v-if="item?.accountId"></span>
+        <span
+          class="item-icon"
+          v-if="item?.accountId"
+          :title="`${item.name}的个人主页`"
+          @click="jumpUserProfile(item.accountId)"
+        ></span>
       </li>
     </ul>
   </div>
@@ -86,7 +96,7 @@ export default defineComponent({
       default: () => []
     }
   },
-  emits: ['screenChange', 'jumpSingerDetail'],
+  emits: ['screenChange', 'jumpSingerDetail', 'jumpUserProfile'],
   setup(props, { emit }) {
     const { title } = toRefs(props);
 
@@ -225,11 +235,17 @@ export default defineComponent({
       emit('jumpSingerDetail', id);
     }
 
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      emit('jumpUserProfile', id);
+    }
+
     return {
       sortList,
       activeScreen,
       screenChange,
-      jumpSingerDetail
+      jumpSingerDetail,
+      jumpUserProfile
     };
   }
 });
