@@ -82,7 +82,6 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 是否登录
     const isLogin = computed(() => $store.getters.isLogin);
 
     // 扫码/其他登录方式切换

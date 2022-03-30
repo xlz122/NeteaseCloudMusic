@@ -134,9 +134,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const $store = useStore();
 
-    // 是否登录
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-
     // 歌曲id
     const songId = computed(() => $store.getters.songId);
 

@@ -81,9 +81,7 @@ export default defineComponent({
 
     const { searchDetailText } = toRefs(props);
 
-    // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
-
     // 搜索关键词
     const searchText = computed(() =>
       $store.getters.searchText.replace(/"/g, '')

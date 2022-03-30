@@ -41,9 +41,7 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 是否登录
     const isLogin = computed(() => $store.getters.isLogin);
-
     // 详情显示
     const musicDetailOptions = computed(
       () => $store.getters['music/musicDetailOptions']

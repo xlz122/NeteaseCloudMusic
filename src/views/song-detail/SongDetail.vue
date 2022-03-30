@@ -127,8 +127,10 @@ export default defineComponent({
     const $route = useRoute();
     const $store = useStore();
 
+    const isLogin = computed(() => $store.getters.isLogin);
     // 歌曲id
     const songId = computed(() => $store.getters.songId);
+
     // 监听路由传参，获取歌曲详情
     watch(
       () => $route.params,
@@ -170,9 +172,6 @@ export default defineComponent({
     function jumpUserProfile(id: number): void {
       $store.commit('jumpUserProfile', id);
     }
-
-    // 是否登录
-    const isLogin = computed(() => $store.getters.isLogin);
 
     // 求翻译
     function lyricTranslate(): boolean | undefined {

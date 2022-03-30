@@ -81,9 +81,7 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 是否登录
     const isLogin = computed(() => $store.getters.isLogin);
-
     // 歌手id
     const singerId = computed(() => $store.getters.singerId);
 

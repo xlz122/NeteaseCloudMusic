@@ -88,7 +88,6 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 是否登录
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
     // 当前播放音乐id
     const playMusicId = computed<number>(

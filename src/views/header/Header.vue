@@ -97,10 +97,7 @@ export default defineComponent({
       }
     }
 
-    // 是否登录
     const isLogin = computed(() => $store.getters.isLogin);
-
-    // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
 
     const navList = ref<NavList[]>([

@@ -71,7 +71,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const $store = useStore();
 
-    // 是否登录
     const isLogin = computed(() => $store.getters.isLogin);
 
     const { searchDetailText } = toRefs(props);

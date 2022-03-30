@@ -113,7 +113,6 @@ export default defineComponent({
     const $route = useRoute();
     const $store = useStore();
 
-    // 是否登录
     const isLogin = computed(() => $store.getters.isLogin);
     const video = computed(() => $store.getters.video);
 

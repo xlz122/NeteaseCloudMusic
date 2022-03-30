@@ -140,9 +140,7 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    // 是否登录
     const isLogin = computed(() => $store.getters.isLogin);
-
     // 当前播放音乐id
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
 

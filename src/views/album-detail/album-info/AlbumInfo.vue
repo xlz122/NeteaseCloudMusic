@@ -116,7 +116,6 @@ export default defineComponent({
 
     const $store = useStore();
 
-    // 是否登录
     const isLogin = computed(() => $store.getters.isLogin);
 
     // 跳转歌手详情

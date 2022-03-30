@@ -106,9 +106,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const $store = useStore();
 
-    // 是否登录
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
 
     // 是否显示删除按钮
