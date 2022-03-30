@@ -19,7 +19,7 @@
         title="添加到播放列表"
         @click="setAddPlayList"
       ></div>
-      <div class="other collection" @click="collectionAll">
+      <div class="other collection" @click="handleCollectAll">
         <span class="icon"> 收藏热门{{ singerSong?.hotSongs.length }} </span>
       </div>
     </div>
@@ -50,18 +50,18 @@
               <i
                 class="icon-play"
                 :class="{ 'active-play': item.id === playMusicId }"
-                @click="playListMusic(item)"
+                @click="playSingleMusic(item)"
               ></i>
             </div>
           </td>
           <td class="tbody-td">
             <div class="hd">
               <span class="text" @click="jumpSongDetail(item.id)">
-                <span class="name" :title="`${item.name}`">
-                  {{ item.name }}
+                <span class="name" :title="`${item?.name}`">
+                  {{ item?.name }}
                 </span>
-                <span class="no-click" v-if="item.alia[0]">
-                  - {{ item.alia[0] }}
+                <span class="no-click" v-if="item?.alia[0]">
+                  - {{ item?.alia[0] }}
                 </span>
               </span>
               <i
@@ -80,25 +80,27 @@
                 <i
                   class="icon add"
                   title="添加到播放列表"
-                  @click="setAddSinglePlayList(item)"
+                  @click="singleMusicToPlayList(item)"
                 ></i>
                 <i
                   class="icon collect"
                   title="收藏"
-                  @click="collectMusic(item.id)"
+                  @click="handleCollection(item.id)"
                 ></i>
-                <i class="icon share" title="分享" @click="shareClick"></i>
+                <i class="icon share" title="分享" @click="handleShare"></i>
                 <i
                   class="icon download"
                   title="下载"
-                  @click="downloadClick"
+                  @click="handleDownload"
                 ></i>
               </div>
             </div>
           </td>
           <td class="tbody-td" @click="jumpAlbumDetail(item.al.id)">
             <div class="hd">
-              <span class="text" :title="item.al.name">{{ item.al.name }}</span>
+              <span class="text" :title="item?.al?.name">
+                {{ item?.al?.name }}
+              </span>
             </div>
           </td>
         </tr>
@@ -136,14 +138,13 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    // 是否登录
-    const isLogin = computed(() => $store.getters.isLogin);
-
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     // 当前播放音乐id
-    const playMusicId = computed(() => $store.getters['music/playMusicId']);
-
+    const playMusicId = computed<number>(
+      () => $store.getters['music/playMusicId']
+    );
     // 歌手id
-    const singerId = computed(() => $store.getters.singerId);
+    const singerId = computed<number>(() => $store.getters.singerId);
 
     // 监听歌手id改变
     watch(
@@ -254,8 +255,8 @@ export default defineComponent({
       });
     }
 
-    // 播放列表音乐
-    function playListMusic(item: Record<string, any>): void {
+    // 播放单个歌曲
+    function playSingleMusic(item: Record<string, any>): void {
       // 处理播放器所需数据
       const musicItem: PlayMusicItem = {
         id: item.id,
@@ -287,8 +288,8 @@ export default defineComponent({
       });
     }
 
-    // 单个音乐添加到播放列表
-    function setAddSinglePlayList(item: Record<string, any>): void {
+    // 单个歌曲添加到播放列表
+    function singleMusicToPlayList(item: Record<string, any>): void {
       // 处理播放器所需数据
       const musicItem: PlayMusicItem = {
         id: item.id,
@@ -311,7 +312,7 @@ export default defineComponent({
     }
 
     // 收藏歌曲
-    function collectMusic(id: number): boolean | undefined {
+    function handleCollection(id: number): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -325,7 +326,7 @@ export default defineComponent({
     }
 
     // 分享
-    function shareClick(): boolean | undefined {
+    function handleShare(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -339,7 +340,7 @@ export default defineComponent({
     }
 
     // 下载
-    function downloadClick(): void {
+    function handleDownload(): void {
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -363,7 +364,7 @@ export default defineComponent({
     }
 
     // 收藏全部
-    function collectionAll(): boolean | undefined {
+    function handleCollectAll(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -388,15 +389,15 @@ export default defineComponent({
       loading,
       playTitleMusic,
       setAddPlayList,
-      setAddSinglePlayList,
-      collectMusic,
-      shareClick,
-      downloadClick,
-      playListMusic,
+      singleMusicToPlayList,
+      handleCollection,
+      handleShare,
+      handleDownload,
+      playSingleMusic,
       jumpSongDetail,
       jumpVideoDetail,
       jumpAlbumDetail,
-      collectionAll
+      handleCollectAll
     };
   }
 });

@@ -7,7 +7,7 @@
             <div class="item-img">
               <img
                 class="img"
-                :src="`${item.picUrl}?param=100y100`"
+                :src="`${item?.picUrl}?param=100y100`"
                 @click="jumpAlbumDetail"
                 alt=""
               />
@@ -27,9 +27,9 @@
                   :title="i?.name"
                   @click="jumpSingerDetail(i.id)"
                 >
-                  {{ i.name }}
+                  {{ i?.name }}
                 </span>
-                <span class="line" v-if="ind !== item.artists.length - 1">
+                <span class="line" v-if="ind !== item?.artists.length - 1">
                   /
                 </span>
               </template>
@@ -61,16 +61,18 @@ export default defineComponent({
     // 新碟上架数据
     const listData = ref<unknown[]>([]);
     function getListData() {
-      albumNewest().then((res: ResponseType) => {
-        if (res.code === 200) {
-          // 前五项和后五项位置替换
-          const first = res?.albums.slice(0, 5);
-          const last = res?.albums.slice(5, 10);
-          // 存储前十项，并复制为二倍模板
-          listData.value = [...last, ...first];
-          listData.value.unshift(...listData.value);
-        }
-      });
+      albumNewest()
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            // 前五项和后五项位置替换
+            const first = res?.albums.slice(0, 5);
+            const last = res?.albums.slice(5, 10);
+            // 存储前十项，并复制为二倍模板
+            listData.value = [...last, ...first];
+            listData.value.unshift(...listData.value);
+          }
+        })
+        .catch(() => ({}));
     }
     getListData();
 
@@ -155,6 +157,7 @@ export default defineComponent({
     function jumpSingerDetail(id: number): void {
       emit('jumpSingerDetail', id);
     }
+
     return {
       listData,
       listRef,

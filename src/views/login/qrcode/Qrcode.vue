@@ -53,12 +53,14 @@ export default defineComponent({
     // 获取二维码登录key
     const qrcodeImgKey = ref<string>('');
     function getQrcodeImgKey() {
-      qrcodeKey().then((res: ResponseDataType) => {
-        if (res.code === 200) {
-          qrcodeImgKey.value = res.data.unikey;
-          getQrcodeImg();
-        }
-      });
+      qrcodeKey()
+        .then((res: ResponseDataType) => {
+          if (res.code === 200) {
+            qrcodeImgKey.value = res.data.unikey;
+            getQrcodeImg();
+          }
+        })
+        .catch(() => ({}));
     }
     getQrcodeImgKey();
 
@@ -68,12 +70,14 @@ export default defineComponent({
       qrcodeImg({
         key: qrcodeImgKey.value,
         qrimg: true
-      }).then((res: ResponseDataType) => {
-        if (res.code === 200) {
-          qrcodeImgSrc.value = res.data.qrimg;
-          getQrcodeStatus();
-        }
-      });
+      })
+        .then((res: ResponseDataType) => {
+          if (res.code === 200) {
+            qrcodeImgSrc.value = res.data.qrimg;
+            getQrcodeStatus();
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 二维码失效
@@ -84,32 +88,34 @@ export default defineComponent({
     function getQrcodeStatus() {
       qrcodeStatus({
         key: qrcodeImgKey.value
-      }).then((res: ResponseDataType) => {
-        // 800失效，
-        if (res.code === 800) {
-          qrcodeInvalid.value = true;
-        }
-        // 801等待扫码，
-        if (res.code === 801) {
-          scanPolling(1000);
-        }
-        // 802待确认
-        if (res.code === 802) {
-          scanPolling(1000);
-          qrcodeAuthorized.value = true;
-        }
-        // 803授权成功
-        if (res.code === 803) {
-          const cookie = res.cookie as string;
-          const cookieArr: string[] = cookie.split(';;');
-          cookieArr.forEach(item => {
-            document.cookie = item;
-          });
-          // 存储用户cookie
-          $store.commit('setCookie', res.cookie);
-          getAccount();
-        }
-      });
+      })
+        .then((res: ResponseDataType) => {
+          // 800失效，
+          if (res.code === 800) {
+            qrcodeInvalid.value = true;
+          }
+          // 801等待扫码，
+          if (res.code === 801) {
+            scanPolling(1000);
+          }
+          // 802待确认
+          if (res.code === 802) {
+            scanPolling(1000);
+            qrcodeAuthorized.value = true;
+          }
+          // 803授权成功
+          if (res.code === 803) {
+            const cookie = res.cookie as string;
+            const cookieArr: string[] = cookie.split(';;');
+            cookieArr.forEach(item => {
+              document.cookie = item;
+            });
+            // 存储用户cookie
+            $store.commit('setCookie', res.cookie);
+            getAccount();
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 轮询扫码状态
@@ -125,29 +131,33 @@ export default defineComponent({
 
     // 获取账号信息
     function getAccount(): void {
-      accountInfo().then((res: ResponseDataType) => {
-        if (res.code === 200) {
-          // 获取用户详情
-          getUserInfo(res?.account?.id);
-        }
-      });
+      accountInfo()
+        .then((res: ResponseDataType) => {
+          if (res.code === 200) {
+            // 获取用户详情
+            getUserInfo(res?.account?.id);
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 获取用户详情
     function getUserInfo(uid: number): void {
-      userInfo({ uid }).then((res: ResponseDataType) => {
-        if (res.code === 200) {
-          // 存储用户信息
-          $store.commit('setUserInfo', res);
-          // 关闭登录对话框
-          $store.commit('setLoginDialog', false);
-        } else {
-          $store.commit('setMessage', {
-            type: 'error',
-            title: res?.msg
-          });
-        }
-      });
+      userInfo({ uid })
+        .then((res: ResponseDataType) => {
+          if (res.code === 200) {
+            // 存储用户信息
+            $store.commit('setUserInfo', res);
+            // 关闭登录对话框
+            $store.commit('setLoginDialog', false);
+          } else {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: res?.msg
+            });
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 刷新
@@ -168,6 +178,7 @@ export default defineComponent({
       qrcodeImgKey.value = '';
       qrcodeImgSrc.value = '';
     });
+
     return {
       qrcodeImgSrc,
       qrcodeInvalid,

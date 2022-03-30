@@ -9,15 +9,15 @@
       <!-- 两侧按钮及图片 -->
       <div class="banner-content">
         <div class="banner-img">
-          <template v-for="(item, index) in banner.list" :key="index">
+          <template v-for="(item, index) in banner?.list" :key="index">
             <img
               class="img"
               :class="{
                 'switching-img':
-                  bannerImgSwitching && item.imageUrl === banner.currentUrl
+                  bannerImgSwitching && item?.imageUrl === banner?.currentUrl
               }"
-              v-show="item.imageUrl === banner.currentUrl"
-              :src="item.imageUrl"
+              v-show="item?.imageUrl === banner?.currentUrl"
+              :src="item?.imageUrl"
               @click="jumpDetail(item)"
               alt=""
             />
@@ -38,8 +38,8 @@
       <ul class="warp-dots">
         <li
           class="dots-item"
-          :class="{ 'dots-active-item': index === banner.index }"
-          v-for="(item, index) in banner.list"
+          :class="{ 'dots-active-item': index === banner?.index }"
+          v-for="(item, index) in banner?.list"
           :key="index"
           @click="dotChange(index)"
         ></li>
@@ -81,16 +81,18 @@ export default defineComponent({
     });
 
     function getbannerList() {
-      bannerImgUrl().then((res: ResponseType) => {
-        if (res.code === 200) {
-          if (res.banners.length > 0) {
-            banner.list = res.banners;
-            banner.currentUrl = res.banners[0].imageUrl;
-            // 自动轮播
-            autoBanner();
+      bannerImgUrl()
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            if (res.banners.length > 0) {
+              banner.list = res.banners;
+              banner.currentUrl = res.banners[0].imageUrl;
+              // 自动轮播
+              autoBanner();
+            }
           }
-        }
-      });
+        })
+        .catch(() => ({}));
     }
     getbannerList();
 
@@ -238,6 +240,7 @@ export default defineComponent({
         clearInterval(bannerTimer.value as number);
       }
     });
+
     return {
       bannerRef,
       banner,

@@ -10,11 +10,11 @@
         @click="menuChange(item.id, item.updateFrequency)"
       >
         <div class="item-cover">
-          <img class="cover-img" :src="item.coverImgUrl" alt="" />
+          <img class="cover-img" :src="item?.coverImgUrl" alt="" />
         </div>
         <div class="item-info">
-          <div class="info-name">{{ item.name }}</div>
-          <div class="info-desc">{{ item.updateFrequency }}</div>
+          <div class="info-name">{{ item?.name }}</div>
+          <div class="info-desc">{{ item?.updateFrequency }}</div>
         </div>
       </li>
     </ul>
@@ -28,11 +28,11 @@
         @click="menuChange(item.id, item.updateFrequency)"
       >
         <div class="item-cover">
-          <img class="cover-img" :src="item.coverImgUrl" alt="" />
+          <img class="cover-img" :src="item?.coverImgUrl" alt="" />
         </div>
         <div class="item-info">
-          <div class="info-name">{{ item.name }}</div>
-          <div class="info-desc">{{ item.updateFrequency }}</div>
+          <div class="info-name">{{ item?.name }}</div>
+          <div class="info-desc">{{ item?.updateFrequency }}</div>
         </div>
       </li>
     </ul>
@@ -59,7 +59,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌单id
-    const songSheetId = computed(() => $store.getters.songSheetId);
+    const songSheetId = computed<number>(() => $store.getters.songSheetId);
 
     function menuChange(id: number, updateFrequency: string): void {
       emit('menuChange', id, updateFrequency);

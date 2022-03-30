@@ -21,11 +21,12 @@
           :key="index"
           :class="{ 'last-item': songSheetList.length > 2 && !(index % 5) }"
         >
-          <div class="item-top" @click="jumpSongSheetDetail(item.id)">
+          <div class="item-top">
             <img
               class="img"
               :src="`${item?.coverImgUrl}?param=140y140`"
               alt=""
+              @click="jumpSongSheetDetail(item.id)"
             />
             <div class="info">
               <i class="info-icon"></i>
@@ -36,7 +37,7 @@
           <div class="item-bottom">
             <span
               class="text"
-              :title="item?.name"
+              :title="item.name"
               @click="jumpSongSheetDetail(item.id)"
             >
               {{ item?.name }}
@@ -46,21 +47,10 @@
               <span
                 class="text"
                 :title="item?.creator?.nickname"
-                @click="jumpUserProfile(item?.creator?.userId)"
+                @click="jumpUserProfile(item.creator.userId)"
               >
                 {{ item?.creator?.nickname }}
               </span>
-              <!-- 小图标 -->
-              <!-- <img
-                class="desc-img"
-                src=""
-                alt=""
-              /> -->
-              <!-- <img
-                class="desc-img"
-                src=""
-                alt=""
-              /> -->
             </div>
           </div>
         </li>
@@ -161,8 +151,10 @@ export default defineComponent({
       if (songParams.cat === '全部') {
         return false;
       }
+
       songParams.cat = '全部';
       songParams.offset = 1;
+      getTopPlaylist();
     }
 
     // 分类弹框

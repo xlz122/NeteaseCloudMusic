@@ -1,21 +1,29 @@
 <template>
   <!-- loading -->
-  <div class="loading" v-if="userData.loading">
+  <div class="loading" v-if="userData?.loading">
     <i class="loading-icon"></i>
     加载中...
   </div>
-  <ul class="search-user-list" v-if="!userData.loading">
+  <ul class="search-user-list" v-if="!userData?.loading">
     <li
       class="search-user-item"
-      v-for="(item, index) in userData.list"
+      v-for="(item, index) in userData?.list"
       :key="index"
       :class="{ even: index % 2 }"
     >
-      <div class="item-cover" @click="jumpUserProfile(item?.userId)">
+      <div
+        class="item-cover"
+        :title="item?.nickname"
+        @click="jumpUserProfile(item?.userId)"
+      >
         <img class="img" :src="item?.avatarUrl" alt="" />
       </div>
       <div class="item-title">
-        <span class="text" @click="jumpUserProfile(item?.userId)">
+        <span
+          class="text"
+          :title="item?.nickname"
+          @click="jumpUserProfile(item?.userId)"
+        >
           {{ item?.nickname }}
         </span>
         <i class="icon-sex male" v-if="item?.gender === 1"></i>
@@ -71,13 +79,11 @@ export default defineComponent({
   setup(props, { emit }) {
     const $store = useStore();
 
-    // 是否登录
-    const isLogin = computed(() => $store.getters.isLogin);
-
     const { searchDetailText } = toRefs(props);
 
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     // 搜索关键词
-    const searchText = computed(() =>
+    const searchText = computed<string>(() =>
       $store.getters.searchText.replace(/"/g, '')
     );
 

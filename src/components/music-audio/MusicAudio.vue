@@ -40,7 +40,7 @@
           ></button>
           <button
             class="btn look-btn"
-            :class="{ 'look-play-btn': musicPlayStatus.look }"
+            :class="{ 'look-play-btn': musicPlayStatus?.look }"
             title="播放/暂停(p)"
             @click="lookPlayMusic"
           ></button>
@@ -136,7 +136,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 播放器锁定在底部
-    const musicAudioLock = computed(
+    const musicAudioLock = computed<boolean>(
       () => $store.getters['music/musicAudioLock']
     );
 
@@ -196,14 +196,16 @@ export default defineComponent({
     // 上一首
     const prevPlayMusic = throttle(
       function () {
-        getPrevMusicId().then(() => {
-          // 开始播放
-          $store.commit('music/setMusicPlayStatus', {
-            look: true,
-            loading: true,
-            refresh: true
-          });
-        });
+        getPrevMusicId()
+          .then(() => {
+            // 开始播放
+            $store.commit('music/setMusicPlayStatus', {
+              look: true,
+              loading: true,
+              refresh: true
+            });
+          })
+          .catch(() => ({}));
       },
       800,
       {
@@ -215,14 +217,16 @@ export default defineComponent({
     // 下一首
     const nextPlayMusic = throttle(
       function () {
-        getNextMusicId().then(() => {
-          // 开始播放
-          $store.commit('music/setMusicPlayStatus', {
-            look: true,
-            loading: true,
-            refresh: true
-          });
-        });
+        getNextMusicId()
+          .then(() => {
+            // 开始播放
+            $store.commit('music/setMusicPlayStatus', {
+              look: true,
+              loading: true,
+              refresh: true
+            });
+          })
+          .catch(() => ({}));
       },
       800,
       {

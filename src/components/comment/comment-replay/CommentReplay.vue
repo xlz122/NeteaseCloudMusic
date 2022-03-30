@@ -16,7 +16,7 @@
           v-model="replay.text"
           :rows="rows"
           readonly
-          @click="commentClick"
+          @click="jumpToComments"
           placeholder="评论"
         ></textarea>
       </template>
@@ -39,13 +39,13 @@
         <div class="emtwrap">
           <span
             class="emtwrap-img"
-            v-for="(item, index) in exproessionPage.list"
+            v-for="(item, index) in exproessionPage?.list"
             :key="index"
-            :title="item.title"
+            :title="item?.title"
           >
             <img
               class="emtwrap-expression"
-              :src="`http://s1.music.126.net/style/web2/emt/emoji_${item.num}.png`"
+              :src="`http://s1.music.126.net/style/web2/emt/emoji_${item?.num}.png`"
               @click="chooseEmoj(index)"
             />
           </span>
@@ -58,13 +58,13 @@
             class="j-flag u-btn u-btn-prv"
           ></a>
           <span class="j-flag text s-fc3">
-            {{ exproessionPage.current }} / {{ exproessionPage.total }}
+            {{ exproessionPage?.current }} / {{ exproessionPage?.total }}
           </span>
           <a
-            @click="expressionSwitch('next')"
+            class="j-flag u-btn u-btn-nxt"
             href="#"
             hidefocus="true"
-            class="j-flag u-btn u-btn-nxt"
+            @click="expressionSwitch('next')"
           ></a>
         </div>
       </div>
@@ -112,6 +112,8 @@ export default defineComponent({
   ) {
     const $store = useStore();
 
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
+
     // 回复数据
     const replay = reactive<Replay>({
       text: '',
@@ -136,11 +138,8 @@ export default defineComponent({
       }
     );
 
-    // 是否登录
-    const isLogin = computed(() => $store.getters.isLogin);
-
     // 未登录，输入框点击弹出登录框
-    function commentClick() {
+    function jumpToComments() {
       $store.commit('setLoginDialog', true);
     }
 
@@ -221,7 +220,7 @@ export default defineComponent({
       expressionList,
       replay,
       isLogin,
-      commentClick,
+      jumpToComments,
       expressionShow,
       isEmoj,
       exproessionPage,

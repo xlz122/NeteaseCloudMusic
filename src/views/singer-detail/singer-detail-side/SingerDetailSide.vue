@@ -10,10 +10,10 @@
           :class="{ 'first-item': !(index % 3) }"
           @click="jumpSingerDetail(item.id)"
         >
-          <router-link class="item-link" to="" :title="item.name">
-            <img class="item-img" :src="`${item.picUrl}?param=50y50`" />
+          <router-link class="item-link" to="" :title="item?.name">
+            <img class="item-img" :src="`${item?.picUrl}?param=50y50`" />
           </router-link>
-          <p class="desc">{{ item.name }}</p>
+          <p class="desc">{{ item?.name }}</p>
         </li>
       </ul>
     </template>
@@ -27,10 +27,10 @@
           :class="{ 'first-item': !(index % 3) }"
           @click="jumpSingerDetail(item.id)"
         >
-          <router-link class="item-link" to="" :title="item.name">
-            <img class="item-img" :src="`${item.picUrl}?param=50y50`" />
+          <router-link class="item-link" to="" :title="item?.name">
+            <img class="item-img" :src="`${item?.picUrl}?param=50y50`" />
           </router-link>
-          <p class="desc">{{ item.name }}</p>
+          <p class="desc">{{ item?.name }}</p>
         </li>
       </ul>
     </template>
@@ -66,6 +66,9 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
+    // 歌手id
+    const singerId = computed<number>(() => $store.getters.singerId);
+
     const hotSingerList = ref<unknown[]>([]);
     // 获取热门歌手
     function getTopArtists(): void {
@@ -86,8 +89,6 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
-    // 歌手id
-    const singerId = computed(() => $store.getters.singerId);
     const singerList = ref<unknown[]>([]);
 
     // 获取相似歌手

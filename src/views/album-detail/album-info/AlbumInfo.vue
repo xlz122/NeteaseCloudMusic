@@ -23,8 +23,12 @@
       <div class="info">
         <span>歌手：</span>
         <template v-for="(item, index) in userInfo?.artists" :key="index">
-          <span class="name" @click="jumpSingerDetail(item.id)">
-            {{ item.name }}
+          <span
+            class="name"
+            :title="item?.name"
+            @click="jumpSingerDetail(item.id)"
+          >
+            {{ item?.name }}
           </span>
           <span class="line" v-if="index !== userInfo?.artists.length - 1">
             /
@@ -53,7 +57,7 @@
           title="添加到播放列表"
           @click="setAddPlayList"
         ></div>
-        <div class="other collection" @click="collectionAll">
+        <div class="other collection" @click="handleCollectAll">
           <template v-if="userInfo?.info?.likedCount > 0">
             <span class="icon"> ({{ userInfo?.info?.likedCount }}) </span>
           </template>
@@ -61,7 +65,7 @@
             <span class="icon">收藏</span>
           </template>
         </div>
-        <div class="other share" @click="shareClick">
+        <div class="other share" @click="handleShare">
           <template v-if="userInfo?.info?.shareCount > 0">
             <span class="icon">({{ userInfo?.info?.shareCount }})</span>
           </template>
@@ -69,10 +73,10 @@
             <span class="icon">分享</span>
           </template>
         </div>
-        <div class="other download" @click="downloadClick">
+        <div class="other download" @click="handleDownload">
           <span class="icon">下载</span>
         </div>
-        <div class="other comment" @click="commentClick">
+        <div class="other comment" @click="jumpToComments">
           <template v-if="userInfo?.info?.commentCount > 0">
             <span class="icon">({{ userInfo?.info?.commentCount }})</span>
           </template>
@@ -110,15 +114,13 @@ export default defineComponent({
       default: () => ({})
     }
   },
-  emits: ['commentClick'],
+  emits: ['jumpToComments'],
   setup(props, { emit }) {
     const { songs } = toRefs(props);
 
     const $store = useStore();
 
-    // 是否登录
-    const isLogin = computed(() => $store.getters.isLogin);
-
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       $store.commit('jumpSingerDetail', id);
@@ -218,7 +220,7 @@ export default defineComponent({
     }
 
     // 收藏全部
-    function collectionAll(): boolean | undefined {
+    function handleCollectAll(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -237,7 +239,7 @@ export default defineComponent({
     }
 
     // 分享
-    function shareClick(): boolean | undefined {
+    function handleShare(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -251,7 +253,7 @@ export default defineComponent({
     }
 
     // 下载
-    function downloadClick(): void {
+    function handleDownload(): void {
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -259,14 +261,14 @@ export default defineComponent({
     }
 
     // 评论
-    function commentClick(): boolean | undefined {
+    function jumpToComments(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
       }
 
-      emit('commentClick');
+      emit('jumpToComments');
     }
 
     return {
@@ -274,10 +276,10 @@ export default defineComponent({
       jumpSingerDetail,
       playTitleMusic,
       setAddPlayList,
-      collectionAll,
-      shareClick,
-      downloadClick,
-      commentClick
+      handleCollectAll,
+      handleShare,
+      handleDownload,
+      jumpToComments
     };
   }
 });

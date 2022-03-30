@@ -15,13 +15,13 @@
         {{ videoDetailData?.creator?.nickname }}
       </h2>
       <ul class="list">
-        <li class="item" @click="likeClick">
+        <li class="item" @click="handleLike">
           <i class="icon like"></i>
         </li>
-        <li class="item" @click="collectionClick">
+        <li class="item" @click="handleCollection">
           <i class="icon collection"></i>
         </li>
-        <li class="item" @click="shareClick">
+        <li class="item" @click="handleShare">
           <i class="icon share"></i>
         </li>
       </ul>
@@ -79,17 +79,16 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    const videoStatus = ref<string>('pause');
-
     // 播放进度数据
     const videoPlayProgress = computed(
       () => $store.getters['videoPlayProgress']
     );
-
     // 播放状态
     const musicPlayStatus = computed(
       () => $store.getters['music/musicPlayStatus']
     );
+
+    const videoStatus = ref<string>('pause');
 
     // 播放视频暂停音乐,播放音乐暂停视频
     watch(
@@ -166,7 +165,7 @@ export default defineComponent({
     });
 
     // 喜欢
-    function likeClick(): void {
+    function handleLike(): void {
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -174,7 +173,7 @@ export default defineComponent({
     }
 
     // 收藏
-    function collectionClick(): void {
+    function handleCollection(): void {
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -182,7 +181,7 @@ export default defineComponent({
     }
 
     // 分享
-    function shareClick(): void {
+    function handleShare(): void {
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -204,9 +203,9 @@ export default defineComponent({
       fullscreen,
       lanchFullscreen,
       exitFullscreen,
-      likeClick,
-      collectionClick,
-      shareClick
+      handleLike,
+      handleCollection,
+      handleShare
     };
   }
 });

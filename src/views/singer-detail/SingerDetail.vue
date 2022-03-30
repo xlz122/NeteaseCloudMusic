@@ -3,8 +3,16 @@
     <div class="singer-detail-container">
       <div class="singer-content">
         <div class="singer-info">
-          <h2 class="singer-username">{{ singerDetail?.artist?.name }}</h2>
-          <h3 class="singer-english-name">
+          <h2
+            class="singer-username"
+            :title="`${singerDetail?.artist?.name} - ${singerDetail?.artist?.englishName}`"
+          >
+            {{ singerDetail?.artist?.name }}
+          </h2>
+          <h3
+            :title="`${singerDetail?.artist?.name} - ${singerDetail?.artist?.englishName}`"
+            class="singer-english-name"
+          >
             {{ singerDetail?.artist?.englishName }}
           </h3>
           <img
@@ -43,12 +51,12 @@
             ]"
             @click="tabChange(index)"
           >
-            <span class="text">{{ item.title }}</span>
+            <span class="text">{{ item?.title }}</span>
           </li>
         </ul>
         <!-- 根据选中，渲染对应组件 -->
         <component
-          :is="`${singerTabs[singerTabIndex].component}`"
+          :is="`${singerTabs[singerTabIndex]?.component}`"
           :singerDetail="singerDetail"
         ></component>
       </div>
@@ -81,11 +89,9 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 是否登录
-    const isLogin = computed(() => $store.getters.isLogin);
-
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     // 歌手id
-    const singerId = computed(() => $store.getters.singerId);
+    const singerId = computed<number>(() => $store.getters.singerId);
 
     // 监听歌手id改变
     watch(

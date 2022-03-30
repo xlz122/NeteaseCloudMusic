@@ -33,7 +33,7 @@ export default defineComponent({
     ]);
 
     // 选中
-    const searchIndex = computed(() => $store.getters.searchIndex);
+    const searchIndex = computed<number>(() => $store.getters.searchIndex);
     function changeActiveIndex(item: string, index: number): void {
       $store.commit('setSearchIndex', index);
       emit('changeTab', item, index);

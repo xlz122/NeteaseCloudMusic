@@ -1,7 +1,7 @@
 <template>
   <div class="song-sheet-container">
     <!-- 创建的歌单 -->
-    <template v-if="songSheetList.createSongList.length > 0">
+    <template v-if="songSheetList?.createSongList.length > 0">
       <div class="title">
         <span class="text">
           <span v-if="isLogOnUser">我创建的歌单</span>
@@ -10,35 +10,36 @@
           <i class="icon-r"></i>
         </span>
         <span class="text-length">
-          ({{ songSheetList.createSongList.length }})
+          ({{ songSheetList?.createSongList.length }})
         </span>
       </div>
       <ul class="song-sheet-list">
         <li
           class="list-item"
-          v-for="(item, index) in songSheetList.createSongList"
+          v-for="(item, index) in songSheetList?.createSongList"
           :key="index"
           :class="{ 'first-list-item': !(index % 5) }"
-          @click="jumpSongSheetDetail(item.id)"
         >
-          <div class="item-cover" :title="item.name">
+          <div class="item-cover">
             <img
               class="cover-img"
-              :src="`${item.coverImgUrl}?param=140y140`"
+              :src="`${item?.coverImgUrl}?param=140y140`"
+              :title="item?.name"
+              @click="jumpSongSheetDetail(item?.id)"
               alt="cover-img"
             />
             <div class="cover-bottom">
               <i class="info-icon"></i>
-              <span class="num">{{ item.playCount }}</span>
-              <i class="info-icon-right"></i>
+              <span class="num">{{ item?.playCount }}</span>
+              <i class="info-icon-right" title="播放"></i>
             </div>
           </div>
-          <p class="item-desc" :title="item.name">{{ item.name }}</p>
+          <p class="item-desc" :title="item?.name">{{ item?.name }}</p>
         </li>
       </ul>
     </template>
     <!-- 收藏的歌单 -->
-    <template v-if="songSheetList.collectionSongList.length > 0">
+    <template v-if="songSheetList?.collectionSongList.length > 0">
       <div class="title">
         <span class="text">
           <span v-if="isLogOnUser">我收藏的歌单</span>
@@ -47,30 +48,31 @@
           <i class="icon-r"></i>
         </span>
         <span class="text-length">
-          ({{ songSheetList.collectionSongList.length }})
+          ({{ songSheetList?.collectionSongList.length }})
         </span>
       </div>
       <ul class="song-sheet-list">
         <li
           class="list-item"
-          v-for="(item, index) in songSheetList.collectionSongList"
+          v-for="(item, index) in songSheetList?.collectionSongList"
           :key="index"
           :class="{ 'first-list-item': index === 0 }"
-          @click="jumpSongSheetDetail(item.id)"
         >
-          <div class="item-cover" :title="item.name">
+          <div class="item-cover">
             <img
               class="cover-img"
-              :src="`${item.coverImgUrl}?param=140y140`"
+              :src="`${item?.coverImgUrl}?param=140y140`"
+              :title="item?.name"
+              @click="jumpSongSheetDetail(item?.id)"
               alt="cover-img"
             />
             <div class="cover-bottom">
               <i class="info-icon"></i>
-              <span class="num">{{ item.playCount }}</span>
-              <i class="info-icon-right"></i>
+              <span class="num">{{ item?.playCount }}</span>
+              <i class="info-icon-right" title="播放"></i>
             </div>
           </div>
-          <p class="item-desc" :title="item.name">{{ item.name }}</p>
+          <p class="item-desc" :title="item?.name">{{ item?.name }}</p>
         </li>
       </ul>
     </template>
@@ -91,7 +93,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 用户uid
-    const uid = computed(() => $store.getters.userId);
+    const uid = computed<number>(() => $store.getters.userId);
     // 监听路由传参，获取用户详情、歌单列表
     watch(
       () => $route.params,
@@ -113,7 +115,7 @@ export default defineComponent({
 
     // 传入的uid是否是当前登录用户
     const isLogOnUser = ref<boolean>(false);
-    const isLogin = computed(() => $store.getters.isLogin);
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     function getIsLoginUser(): boolean | undefined {
       if (!isLogin.value) {
         return false;

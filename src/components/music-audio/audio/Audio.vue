@@ -28,14 +28,14 @@ export default defineComponent({
 
     // 播放列表
     const playMusicList = computed(() => $store.getters['music/playMusicList']);
-
     // 当前播放音乐id
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );
-
     // 音量
-    const musicVolume = computed(() => $store.getters['music/musicVolume']);
+    const musicVolume = computed<number>(
+      () => $store.getters['music/musicVolume']
+    );
 
     // 播放地址
     const audioSrc = ref<string>('');
@@ -43,9 +43,11 @@ export default defineComponent({
     // 初始获取播放地址
     function initAudioSrc(): void {
       if (playMusicId.value > 0) {
-        getMusicUrl(playMusicId.value).then((res: string) => {
-          audioSrc.value = res;
-        });
+        getMusicUrl(playMusicId.value)
+          .then((res: string) => {
+            audioSrc.value = res;
+          })
+          .catch(() => ({}));
       }
     }
     initAudioSrc();
@@ -68,20 +70,22 @@ export default defineComponent({
       () => musicPlayStatus.value.refresh,
       (curVal: boolean) => {
         if (curVal) {
-          getMusicUrl(playMusicId.value).then((res: string) => {
-            audioSrc.value = res;
-            // 重置播放进度
-            $store.commit('music/setMusicPlayProgress', {
-              progress: 0,
-              currentTime: 0,
-              duration: 0
-            });
-            // 重置刷新
-            $store.commit('music/setMusicPlayStatus', {
-              refresh: false
-            });
-            setAudioStatus();
-          });
+          getMusicUrl(playMusicId.value)
+            .then((res: string) => {
+              audioSrc.value = res;
+              // 重置播放进度
+              $store.commit('music/setMusicPlayProgress', {
+                progress: 0,
+                currentTime: 0,
+                duration: 0
+              });
+              // 重置刷新
+              $store.commit('music/setMusicPlayStatus', {
+                refresh: false
+              });
+              setAudioStatus();
+            })
+            .catch(() => ({}));
         }
       }
     );
@@ -220,14 +224,16 @@ export default defineComponent({
       }
       // 循环
       if (musicModeType.value === 1) {
-        getNextMusicId().then(() => {
-          // 开始播放
-          $store.commit('music/setMusicPlayStatus', {
-            look: true,
-            loading: true,
-            refresh: true
-          });
-        });
+        getNextMusicId()
+          .then(() => {
+            // 开始播放
+            $store.commit('music/setMusicPlayStatus', {
+              look: true,
+              loading: true,
+              refresh: true
+            });
+          })
+          .catch(() => ({}));
       }
       // 随机播放
       if (musicModeType.value === 2) {

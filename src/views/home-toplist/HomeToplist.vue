@@ -49,7 +49,8 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌单id
-    const songSheetId = computed(() => $store.getters.songSheetId);
+    const songSheetId = computed<number>(() => $store.getters.songSheetId);
+
     // 更新字符串
     const updateFrequency = ref<string>('');
 
@@ -57,7 +58,7 @@ export default defineComponent({
     watch(
       () => $route.params,
       curVal => {
-        if (curVal) {
+        if (curVal.id) {
           (async () => {
             const list: List[] = await getTopList();
             const ItemId = list.findIndex(

@@ -30,7 +30,7 @@
               <span>:</span>
               <span v-html="i?.content"></span>
             </template>
-            <template v-if="i.status === -5 || i.status === -10">
+            <template v-if="i?.status === -5 || i?.status === -10">
               <span class="text delete-text">该评论已删除</span>
             </template>
           </div>
@@ -38,8 +38,8 @@
         <div class="item-operate">
           <span class="time">{{ formatDate(item?.time) }}</span>
           <div class="reply-operate">
-            <template v-if="isDelete(item.user.userId)">
-              <span class="delete" @click="deleteCommentList(item.commentId)">
+            <template v-if="isDelete(item?.user?.userId)">
+              <span class="delete" @click="deleteCommentList(item?.commentId)">
                 删除
               </span>
               <span class="delete-line">|</span>
@@ -47,16 +47,16 @@
             <!-- 点赞 -->
             <i
               class="like liked"
-              v-if="item.liked"
-              @click="songSheetLikeList(type, item.commentId, 0)"
+              v-if="item?.liked"
+              @click="songSheetLikeList(type, item?.commentId, 0)"
             ></i>
             <i
               class="like no-like"
               v-else
-              @click="songSheetLikeList(type, item.commentId, 1)"
+              @click="songSheetLikeList(type, item?.commentId, 1)"
             ></i>
-            <span class="like-num" v-if="item.likedCount > 0">
-              ({{ item.likedCount }})
+            <span class="like-num" v-if="item?.likedCount > 0">
+              ({{ item?.likedCount }})
             </span>
             <span class="line">|</span>
             <span class="reply" @click="setComments(index)"> 回复 </span>
@@ -68,7 +68,7 @@
             class="comment-content-replay"
             :rows="1"
             :nickname="item?.user?.nickname"
-            @submit="replySubmit($event, item.commentId)"
+            @submit="replySubmit($event, item?.commentId)"
           />
         </div>
       </div>
@@ -106,11 +106,8 @@ export default defineComponent({
   setup(props, { emit }) {
     const $store = useStore();
 
-    // 用户信息
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
-
-    // 是否登录
-    const isLogin = computed(() => $store.getters.isLogin);
 
     // 是否显示删除按钮
     function isDelete(userId: number): boolean | undefined {

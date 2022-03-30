@@ -17,20 +17,20 @@
     <ul class="list" v-if="listShow">
       <li
         class="item"
-        :class="{ 'active-item': item.id === songSheetId }"
+        :class="{ 'active-item': item?.id === songSheetId }"
         v-for="(item, index) in propsListData"
         :key="index"
         @click="listClick(item.id)"
       >
         <div class="item-left">
-          <img class="img" :src="item.coverImgUrl" alt="" />
+          <img class="img" :src="item?.coverImgUrl" alt="" />
         </div>
         <div class="item-right">
-          <span class="name" :title="item.name">{{ item.name }}</span>
+          <span class="name" :title="item?.name">{{ item?.name }}</span>
           <span class="num">
             {{ item.trackCount }}首
             <span class="right-desc" v-if="item.subscribed">
-              by {{ item.creator.nickname }}
+              by {{ item?.creator?.nickname }}
             </span>
           </span>
         </div>
@@ -112,7 +112,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌单id
-    const songSheetId = computed(() => $store.getters.songSheetId);
+    const songSheetId = computed<number>(() => $store.getters.songSheetId);
 
     // 列表显隐切换
     const listShow = ref<boolean>(true);
@@ -161,42 +161,46 @@ export default defineComponent({
     function dialogConfirm(params: { type: string; name: string }): void {
       // 添加
       if (params.type === 'add') {
-        addPlayList({ name: params.name }).then((res: ResponseType) => {
-          if (res.code === 200) {
-            // 添加到列表第二项
-            propsListData.value.splice(1, 0, res.playlist);
-            // 获取歌单详情
-            const id = res.id;
-            emit('listClick', id);
-          }
-        });
+        addPlayList({ name: params.name })
+          .then((res: ResponseType) => {
+            if (res.code === 200) {
+              // 添加到列表第二项
+              propsListData.value.splice(1, 0, res.playlist);
+              // 获取歌单详情
+              const id = res.id;
+              emit('listClick', id);
+            }
+          })
+          .catch(() => ({}));
       }
 
       // 删除
       if (params.type === 'delete') {
-        deletePlayList({ id: dialogeData.id }).then((res: ResponseType) => {
-          if (res.code === 200) {
-            // 总数减少
-            if (propsListCount.value <= 0) {
-              propsListCount.value = 0;
-            } else {
-              propsListCount.value--;
+        deletePlayList({ id: dialogeData.id })
+          .then((res: ResponseType) => {
+            if (res.code === 200) {
+              // 总数减少
+              if (propsListCount.value <= 0) {
+                propsListCount.value = 0;
+              } else {
+                propsListCount.value--;
+              }
+              // 获取上一项id
+              const index = propsListData.value.findIndex(
+                (item: LoopType) => item.id === dialogeData.id
+              );
+              // 删除列表项
+              propsListData.value.splice(index, 1);
+              // 获取歌单详情
+              let id = propsListData.value[index - 1]?.id || 0;
+              // 上一项id不存在，但是列表还存在数据
+              if (!id && propsListData.value.length !== 0) {
+                id = propsListData.value[0].id;
+              }
+              emit('listClick', id);
             }
-            // 获取上一项id
-            const index = propsListData.value.findIndex(
-              (item: LoopType) => item.id === dialogeData.id
-            );
-            // 删除列表项
-            propsListData.value.splice(index, 1);
-            // 获取歌单详情
-            let id = propsListData.value[index - 1]?.id || 0;
-            // 上一项id不存在，但是列表还存在数据
-            if (!id && propsListData.value.length !== 0) {
-              id = propsListData.value[0].id;
-            }
-            emit('listClick', id);
-          }
-        });
+          })
+          .catch(() => ({}));
       }
       // 关闭弹框
       dialogeData.visible = false;
@@ -212,6 +216,7 @@ export default defineComponent({
     function listClick(id: number): void {
       emit('listClick', id);
     }
+
     return {
       propsListData,
       propsListCount,

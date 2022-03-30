@@ -9,8 +9,8 @@
         :class="{ 'first-item': !(index % 4) }"
         @click="jumpUserProfile(item.userId)"
       >
-        <router-link class="item-link" to="" :title="item.nickname">
-          <img class="item-img" :src="`${item.avatarUrl}?param=40y40`" />
+        <router-link class="item-link" to="" :title="item?.nickname">
+          <img class="item-img" :src="`${item?.avatarUrl}?param=40y40`" />
         </router-link>
       </li>
     </ul>
@@ -20,14 +20,18 @@
     </h3>
     <ul class="song-sheet-list">
       <li class="item" v-for="(item, index) in albumList" :key="index">
-        <div class="item-cover" @click="jumpAlbumDetail(item.id)">
-          <img class="cover-img" :src="`${item.picUrl}?param=50y50`" alt="" />
+        <div
+          class="item-cover"
+          :title="item?.name"
+          @click="jumpAlbumDetail(item?.id)"
+        >
+          <img class="cover-img" :src="`${item?.picUrl}?param=50y50`" alt="" />
         </div>
         <div class="item-info">
           <p
             class="info-title"
-            :title="item.name"
-            @click="jumpAlbumDetail(item.id)"
+            :title="item?.name"
+            @click="jumpAlbumDetail(item?.id)"
           >
             {{ item?.name }}
           </p>
@@ -47,7 +51,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { artistAlbum } from '@api/singer-detail';
+import { artistAlbum } from '@api/album-detail';
 import { ResponseType } from '@/types/types';
 import { formatDateTime } from '@utils/utils.ts';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
@@ -71,7 +75,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌手id
-    const singerId = computed(() => $store.getters.singerId);
+    const singerId = computed<number>(() => $store.getters.singerId);
 
     // 监听歌手id改变
     watch(

@@ -15,16 +15,16 @@
           class="item"
           v-for="(item, index) in songSheetList"
           :key="index"
-          @click="collect(item.id)"
+          @click="handleCollection(item.id)"
         >
           <div class="item-cover">
-            <img class="item-cover-img" :src="item.coverImgUrl" alt="" />
+            <img class="item-cover-img" :src="item?.coverImgUrl" alt="" />
           </div>
           <div class="item-info">
-            <span class="item-info-name" :title="item.name">
-              {{ item.name }}
+            <span class="item-info-name" :title="item?.name">
+              {{ item?.name }}
             </span>
-            <span class="item-info-count">{{ item.trackCount }}首</span>
+            <span class="item-info-count">{{ item?.trackCount }}首</span>
           </div>
         </li>
       </ul>
@@ -47,12 +47,8 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 是否登录
-    const isLogin = computed(() => $store.getters.isLogin);
-
-    // 用户信息
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
-
     const collectSong = computed(() => $store.getters['music/collectSong']);
 
     watch(
@@ -75,23 +71,25 @@ export default defineComponent({
     function getUserPlayList(): void {
       userPlayList({
         uid: userInfo.value?.profile?.userId
-      }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          songSheetList.value = [];
+      })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            songSheetList.value = [];
 
-          // 处理列表数据
-          res.playlist.forEach((item: LoopType) => {
-            // 喜欢的音乐处理
-            if (item.name.includes('喜欢的音乐')) {
-              item.name = '我喜欢的音乐';
-            }
-            // 收藏列表判断
-            if (!item.subscribed) {
-              songSheetList.value.push(item);
-            }
-          });
-        }
-      });
+            // 处理列表数据
+            res.playlist.forEach((item: LoopType) => {
+              // 喜欢的音乐处理
+              if (item.name.includes('喜欢的音乐')) {
+                item.name = '我喜欢的音乐';
+              }
+              // 收藏列表判断
+              if (!item.subscribed) {
+                songSheetList.value.push(item);
+              }
+            });
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 新歌单
@@ -103,7 +101,7 @@ export default defineComponent({
     }
 
     // 收藏歌曲
-    function collect(id: number): void {
+    function handleCollection(id: number): void {
       collectMusic({
         pid: id,
         tracks: collectSong.value.songIds
@@ -140,7 +138,7 @@ export default defineComponent({
       collectSong,
       songSheetList,
       addSongSheet,
-      collect,
+      handleCollection,
       collectCancel
     };
   }

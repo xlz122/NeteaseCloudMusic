@@ -6,8 +6,8 @@
       :key="index"
       @click="jumpDetail(item)"
     >
-      <i :class="`icon ${item.icon}`"></i>
-      <span class="title" v-if="item.link">{{ item.title }}</span>
+      <i :class="`icon ${item?.icon}`"></i>
+      <span class="title" v-if="item?.link">{{ item?.title }}</span>
       <a class="link" target="_blank" v-else :href="item?.href">
         {{ item?.title }}
       </a>
@@ -33,8 +33,7 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    // 用户信息
-    const userInfo = computed(() => $store.getters.userInfo || {});
+    const userInfo = computed(() => $store.getters.userInfo);
 
     const navList = ref<NavList[]>([
       {
@@ -80,6 +79,7 @@ export default defineComponent({
       if (!item?.link && item?.href) {
         return false;
       }
+
       // 未开发
       if (!item?.link) {
         $store.commit('setMessage', {
@@ -111,6 +111,7 @@ export default defineComponent({
     function signOut(): void {
       $store.dispatch('setLogout');
     }
+
     return {
       navList,
       jumpDetail

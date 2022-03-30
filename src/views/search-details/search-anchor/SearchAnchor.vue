@@ -1,11 +1,11 @@
 <template>
   <!-- loading -->
-  <div class="loading" v-if="anchorData.loading">
+  <div class="loading" v-if="anchorData?.loading">
     <i class="loading-icon"></i>
     加载中...
   </div>
-  <h2 class="search-anchor-title" v-if="!anchorData.loading">声音主播</h2>
-  <ul class="search-anchor-list" v-if="!anchorData.loading">
+  <h2 class="search-anchor-title" v-if="!anchorData?.loading">声音主播</h2>
+  <ul class="search-anchor-list" v-if="!anchorData?.loading">
     <li
       class="search-anchor-item"
       v-for="(item, index) in anchorData.list"
@@ -70,11 +70,9 @@ export default defineComponent({
 
     const { searchDetailText } = toRefs(props);
 
-    // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
-
     // 搜索关键词
-    const searchText = computed(() =>
+    const searchText = computed<string>(() =>
       $store.getters.searchText.replace(/"/g, '')
     );
 

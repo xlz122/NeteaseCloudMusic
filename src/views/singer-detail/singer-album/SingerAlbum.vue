@@ -10,15 +10,18 @@
           <div class="item-cover">
             <img
               class="item-cover-img"
-              :src="`${item.picUrl}?param=120y120`"
-              @click="jumpAlbumDetail(item.id)"
+              :src="`${item?.picUrl}?param=120y120`"
               alt=""
             />
-            <i class="item-cover-bg"></i>
-            <i class="item-cover-play"></i>
+            <i
+              class="item-cover-bg"
+              :title="item.name"
+              @click="jumpAlbumDetail(item.id)"
+            ></i>
+            <i class="item-cover-play" title="播放"></i>
           </div>
-          <p class="desc" :title="item.name" @click="jumpAlbumDetail(item.id)">
-            {{ item.name }}
+          <p class="desc" :title="item?.name" @click="jumpAlbumDetail(item.id)">
+            {{ item?.name }}
           </p>
           <p class="name">
             {{ formatDateTime(item.publishTime / 1000, 'yyyy.MM.dd') }}
@@ -40,7 +43,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { artistAlbum } from '@api/singer-detail';
+import { artistAlbum } from '@api/album-detail';
 import { formatDateTime } from '@utils/utils.ts';
 import { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
@@ -59,7 +62,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌手id
-    const singerId = computed(() => $store.getters.singerId);
+    const singerId = computed<number>(() => $store.getters.singerId);
 
     // 监听歌手id改变
     watch(

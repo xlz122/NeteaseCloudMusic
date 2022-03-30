@@ -7,7 +7,7 @@
             :songDetailData="songDetailData"
             :lyric="lyric"
             :commentTotal="commentParams.total"
-            @commentClick="commentClick"
+            @jumpToComments="jumpToComments"
           />
         </div>
         <!-- 操作项 -->
@@ -127,8 +127,10 @@ export default defineComponent({
     const $route = useRoute();
     const $store = useStore();
 
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     // 歌曲id
-    const songId = computed(() => $store.getters.songId);
+    const songId = computed<number>(() => $store.getters.songId);
+
     // 监听路由传参，获取歌曲详情
     watch(
       () => $route.params,
@@ -171,9 +173,6 @@ export default defineComponent({
       $store.commit('jumpUserProfile', id);
     }
 
-    // 是否登录
-    const isLogin = computed(() => $store.getters.isLogin);
-
     // 求翻译
     function lyricTranslate(): boolean | undefined {
       // 未登录打开登录对话框
@@ -181,6 +180,7 @@ export default defineComponent({
         $store.commit('setLoginDialog', true);
         return false;
       }
+
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能未开发'
@@ -198,12 +198,14 @@ export default defineComponent({
     function getLyricData() {
       getLyric({
         id: songId.value
-      }).then((res: ResponseType) => {
-        // 歌词作者
-        lyric.lyricUser = res?.lyricUser;
-        lyric.transUser = res?.transUser;
-        handlerLyric(res.lrc.lyric);
-      });
+      })
+        .then((res: ResponseType) => {
+          // 歌词作者
+          lyric.lyricUser = res?.lyricUser;
+          lyric.transUser = res?.transUser;
+          handlerLyric(res.lrc.lyric);
+        })
+        .catch(() => ({}));
     }
     getLyricData();
 
@@ -301,7 +303,7 @@ export default defineComponent({
     }
 
     // 评论
-    function commentClick(): void {
+    function jumpToComments(): void {
       const commentDom = document.querySelector(
         '.comment-component'
       ) as HTMLElement;
@@ -326,7 +328,7 @@ export default defineComponent({
       commentParams,
       commentRefresh,
       changPage,
-      commentClick
+      jumpToComments
     };
   }
 });

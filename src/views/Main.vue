@@ -29,18 +29,17 @@ export default defineComponent({
     const sUserAgent = navigator.userAgent.toLowerCase();
 
     nextTick(() => {
+      // pc/移动端样式设置
       if (
         /ipad|iphone|midp|rv:1.2.3.4|ucweb|android|windows ce|windows mobile/.test(
           sUserAgent
         )
       ) {
-        // 移动端
         nextTick(() => {
           const appwrap = document.querySelector('.app-wrap') as HTMLElement;
           appwrap.style.height = 'auto';
         });
       } else {
-        // pc
         const appwrap = document.querySelector('.app-wrap') as HTMLElement;
         appwrap.style.height = '100vh';
       }

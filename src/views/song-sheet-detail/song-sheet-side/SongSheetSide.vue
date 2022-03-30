@@ -1,17 +1,17 @@
 <template>
   <div class="song-sheet-side-container">
-    <template v-if="songSheetDetail.playlist?.subscribers.length > 0">
+    <template v-if="songSheetDetail?.playlist?.subscribers.length > 0">
       <h3 class="title">喜欢这个歌单的人</h3>
       <ul class="like-list">
         <li
           class="item"
-          v-for="(item, index) in songSheetDetail.playlist?.subscribers"
+          v-for="(item, index) in songSheetDetail?.playlist?.subscribers"
           :key="index"
           :class="{ 'first-item': !(index % 4) }"
           @click="jumpUserProfile(item.userId)"
         >
-          <router-link class="item-link" to="" :title="item.nickname">
-            <img class="item-img" :src="`${item.avatarUrl}?param=40y40`" />
+          <router-link class="item-link" to="" :title="item?.nickname">
+            <img class="item-img" :src="`${item?.avatarUrl}?param=40y40`" />
           </router-link>
         </li>
       </ul>
@@ -23,14 +23,15 @@
           <div class="item-cover" @click="jumpSongSheetDetail(item.id)">
             <img
               class="cover-img"
-              :src="`${item.coverImgUrl}?param=50y50`"
+              :src="`${item?.coverImgUrl}?param=50y50`"
+              :title="item.name"
               alt=""
             />
           </div>
           <div class="item-info">
             <p
               class="info-title"
-              :title="item.name"
+              :title="item?.name"
               @click="jumpSongSheetDetail(item.id)"
             >
               {{ item?.name }}

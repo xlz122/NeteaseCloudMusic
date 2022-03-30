@@ -1,13 +1,13 @@
 <template>
   <!-- loading -->
-  <div class="loading" v-if="mvData.loading">
+  <div class="loading" v-if="mvData?.loading">
     <i class="loading-icon"></i>
     加载中...
   </div>
-  <ul class="search-mv-list" v-if="!mvData.loading">
+  <ul class="search-mv-list" v-if="!mvData?.loading">
     <li
       class="search-mv-item"
-      v-for="(item, index) in mvData.list"
+      v-for="(item, index) in mvData?.list"
       :key="index"
       :class="{ 'first-item': index % 5 }"
     >
@@ -32,8 +32,12 @@
       </div>
       <div class="item-name">
         <span class="text" v-if="item?.type !== 0">by</span>
-        <span class="name" @click="jumpSingerDetail(item?.creator[0].userId)">
-          {{ item?.creator[0].userName }}
+        <span
+          class="name"
+          :title="item?.creator[0]?.userName"
+          @click="jumpSingerDetail(item?.creator[0].userId)"
+        >
+          {{ item?.creator[0]?.userName }}
         </span>
       </div>
     </li>
@@ -81,11 +85,9 @@ export default defineComponent({
 
     const { searchDetailText } = toRefs(props);
 
-    // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
-
     // 搜索关键词
-    const searchText = computed(() =>
+    const searchText = computed<string>(() =>
       $store.getters.searchText.replace(/"/g, '')
     );
 

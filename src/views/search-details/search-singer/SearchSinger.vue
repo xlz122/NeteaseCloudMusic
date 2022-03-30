@@ -12,18 +12,30 @@
         :key="index"
         :class="{ 'first-item': index % 6 }"
       >
-        <div class="item-cover" @click="jumpSingerDetail(item?.id)">
+        <div
+          class="item-cover"
+          :title="item?.name"
+          @click="jumpSingerDetail(item?.id)"
+        >
           <img
             class="item-cover-img"
-            :src="`${item.picUrl}?param=130y130`"
+            :src="`${item?.picUrl}?param=130y130`"
             alt=""
           />
         </div>
         <div class="item-info">
-          <span class="item-info-text" @click="jumpSingerDetail(item?.id)">
-            {{ item.name }}
+          <span
+            class="item-info-text"
+            :title="item?.name"
+            @click="jumpSingerDetail(item?.id)"
+          >
+            {{ item?.name }}
           </span>
-          <span class="item-info-icon" v-if="item.accountId"></span>
+          <span
+            class="item-info-icon"
+            v-if="item?.accountId"
+            @click="jumpUserProfile(item?.accountId)"
+          ></span>
         </div>
       </li>
     </ul>
@@ -69,11 +81,9 @@ export default defineComponent({
 
     const { searchDetailText } = toRefs(props);
 
-    // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
-
     // 搜索关键词
-    const searchText = computed(() =>
+    const searchText = computed<string>(() =>
       $store.getters.searchText.replace(/"/g, '')
     );
 
@@ -123,6 +133,11 @@ export default defineComponent({
       $store.commit('jumpSingerDetail', id);
     }
 
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
     // 分页
     function changPage(current: number): void {
       singerData.offset = current;
@@ -134,6 +149,7 @@ export default defineComponent({
       userInfo,
       singerData,
       jumpSingerDetail,
+      jumpUserProfile,
       changPage
     };
   }

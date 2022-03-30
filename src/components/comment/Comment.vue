@@ -1,7 +1,7 @@
 <template>
   <div class="list-title">
     <h3 class="title-text">评论</h3>
-    <span class="title-text-num">共{{ commentParams.total }}条评论</span>
+    <span class="title-text-num">共{{ commentParams?.total }}条评论</span>
   </div>
   <div class="detail-comment">
     <div class="comment-content">
@@ -19,7 +19,7 @@
     </div>
     <!-- 精彩评论(页数1展示) -->
     <template
-      v-if="commentParams.offset <= 1 && commentParams.hotList?.length > 0"
+      v-if="commentParams?.offset <= 1 && commentParams?.hotList?.length > 0"
     >
       <h3 class="comment-list-title">精彩评论</h3>
       <CommentList
@@ -32,8 +32,8 @@
       />
     </template>
     <!-- 最新评论 -->
-    <template v-if="commentParams.list?.length > 0">
-      <h3 class="comment-list-title">最新评论({{ commentParams.total }})</h3>
+    <template v-if="commentParams?.list?.length > 0">
+      <h3 class="comment-list-title">最新评论({{ commentParams?.total }})</h3>
       <CommentList
         :type="1"
         :list="commentParams.list"
@@ -93,10 +93,7 @@ export default defineComponent({
 
     const $store = useStore();
 
-    // 是否登录
-    const isLogin = computed(() => $store.getters.isLogin);
-
-    // 用户信息
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
 
     // 是否清除回复内容
@@ -128,22 +125,24 @@ export default defineComponent({
         type: commentParams.value?.type,
         id: commentParams.value?.id,
         content: replayText
-      }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          // 评论成功提醒
-          $store.commit('setMessage', { type: 'info', title: '评论成功' });
-          // 清空回复内容
-          commentClearText.value = true;
-          // 延迟重置
-          nextTick(() => {
-            commentClearText.value = false;
-          });
-          emit('commentRefresh');
-        } else {
-          // 评论失败提醒
-          $store.commit('setMessage', { type: 'error', title: '评论失败' });
-        }
-      });
+      })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            // 评论成功提醒
+            $store.commit('setMessage', { type: 'info', title: '评论成功' });
+            // 清空回复内容
+            commentClearText.value = true;
+            // 延迟重置
+            nextTick(() => {
+              commentClearText.value = false;
+            });
+            emit('commentRefresh');
+          } else {
+            // 评论失败提醒
+            $store.commit('setMessage', { type: 'error', title: '评论失败' });
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 删除评论
@@ -160,18 +159,20 @@ export default defineComponent({
         type: commentParams.value?.type,
         id: props?.commentParams?.id,
         commentId: deleteCommentId.value
-      }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          deleteCommentDialog.value = false;
-          emit('commentRefresh');
-        } else {
-          deleteCommentDialog.value = false;
-          $store.commit('setMessage', {
-            type: 'error',
-            title: '删除失败'
-          });
-        }
-      });
+      })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            deleteCommentDialog.value = false;
+            emit('commentRefresh');
+          } else {
+            deleteCommentDialog.value = false;
+            $store.commit('setMessage', {
+              type: 'error',
+              title: '删除失败'
+            });
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 删除评论 - 取消
@@ -277,16 +278,18 @@ export default defineComponent({
         id: props?.commentParams?.id,
         content: replayText,
         commentId
-      }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          // 评论成功提醒
-          $store.commit('setMessage', { type: 'info', title: '评论成功' });
-          emit('commentRefresh');
-        } else {
-          // 评论失败提醒
-          $store.commit('setMessage', { type: 'error', title: '评论失败' });
-        }
-      });
+      })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            // 评论成功提醒
+            $store.commit('setMessage', { type: 'info', title: '评论成功' });
+            emit('commentRefresh');
+          } else {
+            // 评论失败提醒
+            $store.commit('setMessage', { type: 'error', title: '评论失败' });
+          }
+        })
+        .catch(() => ({}));
     }
 
     return {

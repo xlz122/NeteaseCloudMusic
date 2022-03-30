@@ -30,26 +30,28 @@
             v-for="(item, index) in playMusicList"
             :key="index"
             :class="{ 'active-item': item.id === playMusicId }"
-            @click="playlistItem(item.id, item)"
+            @click="playlistItem(item?.id, item)"
           >
             <i class="play-icon"></i>
-            <span class="text song-title">{{ item.name }}</span>
+            <span class="text song-title" :title="item?.name">
+              {{ item?.name }}
+            </span>
             <div class="operate-btn">
               <i
                 class="icon collect"
                 title="收藏"
-                @click="collectMusic(item.id, $event)"
+                @click="handleCollection(item?.id, $event)"
               ></i>
-              <i class="icon share" title="分享" @click.stop="shareClick"></i>
+              <i class="icon share" title="分享" @click.stop="handleShare"></i>
               <i
                 class="icon download"
                 title="下载"
-                @click.stop="downloadClick"
+                @click.stop="handleDownload"
               ></i>
               <i
                 class="icon delete"
                 title="删除"
-                @click="deleteMusic(item.id, $event)"
+                @click="deleteMusic(item?.id, $event)"
               ></i>
             </div>
             <span class="text name" @click.stop>
@@ -58,7 +60,7 @@
                 :key="ind"
                 @click="jumpSingerDetail(i.id)"
               >
-                <span class="name-text">{{ i.name }}</span>
+                <span class="name-text" :title="i.name">{{ i.name }}</span>
                 <span v-if="ind !== item.singerList.length - 1"> / </span>
               </span>
             </span>
@@ -112,17 +114,13 @@ export default defineComponent({
   setup(props, { emit }) {
     const $store = useStore();
 
-    // 是否登录
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-
     // 播放列表数据
     const playMusicList = computed(() => $store.getters['music/playMusicList']);
-
     // 当前播放音乐id
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );
-
     // 当前播放音乐数据
     const playMusicItem = computed<number>(
       () => $store.getters['music/playMusicItem']
@@ -153,7 +151,10 @@ export default defineComponent({
     }
 
     // 收藏歌曲
-    function collectMusic(id: number, event: MouseEvent): boolean | undefined {
+    function handleCollection(
+      id: number,
+      event: MouseEvent
+    ): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -168,7 +169,7 @@ export default defineComponent({
     }
 
     // 分享
-    function shareClick(): boolean | undefined {
+    function handleShare(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -182,7 +183,7 @@ export default defineComponent({
     }
 
     // 下载
-    function downloadClick(): void {
+    function handleDownload(): void {
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -239,9 +240,9 @@ export default defineComponent({
       timeStampToDuration,
       collectAll,
       emptyMusicList,
-      collectMusic,
-      shareClick,
-      downloadClick,
+      handleCollection,
+      handleShare,
+      handleDownload,
       deleteMusic,
       playlistItem,
       jumpSingerDetail,

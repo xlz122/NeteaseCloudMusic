@@ -2,18 +2,18 @@
   <div class="song-list">
     <dl class="group" v-for="(item, index) in listData" :key="index">
       <dt class="top">
-        <div class="top-img" @click="songListMore(item?.playlist?.id)">
+        <div class="top-img" @click="songListMore(item.playlist.id)">
           <img
             class="img"
             :src="item?.playlist?.coverImgUrl"
-            :alt="item?.playlist?.name"
+            :alt="item?.playlist.name"
           />
         </div>
         <div class="title">
           <h3
             class="t-text"
             :title="item?.playlist?.name"
-            @click="songListMore"
+            @click="songListMore(item?.playlist?.id)"
           >
             {{ item?.playlist?.name }}
           </h3>
@@ -23,7 +23,7 @@
               <i
                 class="btn-collection"
                 title="收藏"
-                @click="collectionClick(item?.playlist?.id)"
+                @click="handleCollectAll(item.playlist.id)"
               ></i>
             </template>
             <template v-if="item?.playlist?.subscribed">
@@ -36,7 +36,7 @@
         <ul class="list">
           <li
             class="item"
-            v-for="(i, ind) in item?.playlist?.tracks.slice(0, 10)"
+            v-for="(i, ind) in item?.playlist?.tracks?.slice(0, 10)"
             :key="ind"
           >
             <span class="num" :class="{ topThree: ind < 3 }">
@@ -49,7 +49,7 @@
               <i
                 class="operate-play"
                 title="播放"
-                @click="playListMusic(i)"
+                @click="playSingleMusic(i)"
               ></i>
               <i
                 class="operate-add"
@@ -59,12 +59,12 @@
               <i
                 class="operate-collection"
                 title="收藏"
-                @click="collectMusic(i.id)"
+                @click="handleCollection(i.id)"
               ></i>
             </div>
           </li>
         </ul>
-        <div class="more" @click="songListMore(item?.playlist?.id)">
+        <div class="more" @click="songListMore(item.playlist.id)">
           查看全部>
         </div>
       </dd>
@@ -87,37 +87,42 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    // 是否登录
-    const isLogin = computed(() => $store.getters.isLogin);
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
     const listData = reactive<Record<string, any>>([]);
     // 获取飙升榜数据
     function getSoaringList(): void {
-      soaringList({ id: 19723756 }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          listData.push(res);
-        }
-      });
+      soaringList({ id: 19723756 })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            listData.push(res);
+          }
+        })
+        .catch(() => ({}));
     }
     getSoaringList();
 
     // 获取新歌榜数据
     function getNewSongs(): void {
-      newSongs({ id: 3779629 }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          listData.push(res);
-        }
-      });
+      newSongs({ id: 3779629 })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            listData.push(res);
+          }
+        })
+        .catch(() => ({}));
     }
     getNewSongs();
 
     // 获取原创榜数据
     function getOriginalList(): void {
-      originalList({ id: 2884035 }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          listData.push(res);
-        }
-      });
+      originalList({ id: 2884035 })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            listData.push(res);
+          }
+        })
+        .catch(() => ({}));
     }
     getOriginalList();
 
@@ -187,7 +192,7 @@ export default defineComponent({
     );
 
     // 收藏
-    function collectionClick(id: number): boolean | undefined {
+    function handleCollectAll(id: number): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -223,8 +228,8 @@ export default defineComponent({
       $store.commit('jumpSongDetail', id);
     }
 
-    // 播放列表音乐
-    function playListMusic(item: Record<string, any>): void {
+    // 播放单个歌曲
+    function playSingleMusic(item: Record<string, any>): void {
       // 处理播放器所需数据
       const musicItem: PlayMusicItem = {
         id: item.id,
@@ -280,7 +285,7 @@ export default defineComponent({
     }
 
     // 收藏歌曲
-    function collectMusic(id: number): boolean | undefined {
+    function handleCollection(id: number): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -296,17 +301,17 @@ export default defineComponent({
     // 查看全部
     function songListMore(id: number): void {
       $store.commit('setSongSheetId', id);
-      $router.push({ name: 'home-toplist' });
+      $router.push({ name: 'home-toplist', params: { id } });
     }
 
     return {
       listData,
       playTitleMusic,
       jumpSongDetail,
-      playListMusic,
-      collectionClick,
+      playSingleMusic,
+      handleCollectAll,
       setAddSinglePlayList,
-      collectMusic,
+      handleCollection,
       songListMore
     };
   }

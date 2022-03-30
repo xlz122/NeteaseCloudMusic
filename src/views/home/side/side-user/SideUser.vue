@@ -61,10 +61,7 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 是否登录
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-
-    // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
 
     // 重置签到
@@ -97,17 +94,20 @@ export default defineComponent({
         'signInTimestamp',
         JSON.stringify(new Date().getTime())
       );
-      dailySignin().then((res: ResponseType) => {
-        if (res.code === 200) {
-          $store.commit('setSignIn', true);
-        }
-      });
+      dailySignin()
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            $store.commit('setSignIn', true);
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 打开登录对话框
     function openLogin(): void {
       $store.commit('setLoginDialog', true);
     }
+
     return {
       isLogin,
       userInfo,

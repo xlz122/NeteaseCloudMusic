@@ -3,9 +3,9 @@
     <button
       class="btn collection-btn"
       title="收藏"
-      @click="collectMusic"
+      @click="handleCollection"
     ></button>
-    <button class="btn share-btn" title="分享" @click="shareClick"></button>
+    <button class="btn share-btn" title="分享" @click="handleShare"></button>
   </div>
   <div class="other">
     <!-- 音量控制 -->
@@ -65,17 +65,16 @@ export default defineComponent({
     const $route = useRoute();
     const $store = useStore();
 
-    // 是否登录
-    const isLogin = computed(() => $store.getters.isLogin);
-
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     // 播放列表数据
     const playMusicList = computed(() => $store.getters['music/playMusicList']);
-
     // 当前播放id
-    const playMusicId = computed(() => $store.getters['music/playMusicId']);
+    const playMusicId = computed<number>(
+      () => $store.getters['music/playMusicId']
+    );
 
     // 收藏歌曲
-    function collectMusic(): boolean | undefined {
+    function handleCollection(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -89,7 +88,7 @@ export default defineComponent({
     }
 
     // 分享
-    function shareClick(): boolean | undefined {
+    function handleShare(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -180,8 +179,8 @@ export default defineComponent({
     return {
       playMusicList,
       playMusicId,
-      collectMusic,
-      shareClick,
+      handleCollection,
+      handleShare,
       volumeProgressShow,
       setVolumeProgress,
       musicModeType,

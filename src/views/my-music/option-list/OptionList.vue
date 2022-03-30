@@ -6,15 +6,15 @@
     :class="{ 'music-my-singer-active': musicDetailOptions.subPlayList }"
     @click="subPlayListClick"
   >
-    我的歌手({{ optionsCount.subPlayListCount }})
+    我的歌手({{ optionsCount?.subPlayListCount }})
   </h2>
   <!-- 我的视频 -->
   <h2
     class="music-my-mv"
-    :class="{ 'music-my-mv-active': musicDetailOptions.MyVideo }"
+    :class="{ 'music-my-mv-active': musicDetailOptions?.MyVideo }"
     @click="MyVideoClick"
   >
-    我的视频({{ optionsCount.MyVideoCount }})
+    我的视频({{ optionsCount?.MyVideoCount }})
   </h2>
   <!-- 创建的歌单 -->
   <toggle-list
@@ -30,7 +30,7 @@
     :title="'收藏的歌单'"
     :listCount="optionsCount.collectionPlayCount"
     :listData="songSheetList.collectionSongList"
-    @listClick="collectionListClick"
+    @listClick="handleCollection"
   />
 </template>
 
@@ -54,7 +54,7 @@ export default defineComponent({
     );
 
     // 侧边歌单列表选中项id
-    const songSheetId = computed(() => $store.getters.songSheetId);
+    const songSheetId = computed<number>(() => $store.getters.songSheetId);
 
     const optionsCount = reactive<OptionsCount>({
       subPlayListCount: 0, // 我的视频数量
@@ -65,12 +65,14 @@ export default defineComponent({
 
     // 获取歌单，收藏，mv, dj 数量
     function getUserSubcount(): void {
-      userSubcount().then((res: ResponseType) => {
-        optionsCount.subPlayListCount = res.subPlaylistCount || 0;
-        optionsCount.MyVideoCount = res.mvCount || 0;
-        optionsCount.createdPlayCount = res.createdPlaylistCount || 0;
-        optionsCount.collectionPlayCount = res.subPlaylistCount || 0;
-      });
+      userSubcount()
+        .then((res: ResponseType) => {
+          optionsCount.subPlayListCount = res.subPlaylistCount || 0;
+          optionsCount.MyVideoCount = res.mvCount || 0;
+          optionsCount.createdPlayCount = res.createdPlaylistCount || 0;
+          optionsCount.collectionPlayCount = res.subPlaylistCount || 0;
+        })
+        .catch(() => ({}));
     }
     getUserSubcount();
 
@@ -80,56 +82,60 @@ export default defineComponent({
       collectionSongList: [] // 收藏的歌单
     });
     function getUserPlayList(): void {
-      // 用户信息
       const userInfo = computed(() => $store.getters.userInfo);
       userPlayList({
         uid: userInfo.value.profile.userId
-      }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          // 处理列表数据
-          res.playlist.forEach((item: LoopType) => {
-            // 喜欢的音乐处理
-            if (item.name.includes('喜欢的音乐')) {
-              item.name = '我喜欢的音乐';
-              item.cannotEdit = true;
-              item.cannotDelete = true;
+      })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            // 处理列表数据
+            res.playlist.forEach((item: LoopType) => {
+              // 喜欢的音乐处理
+              if (item.name.includes('喜欢的音乐')) {
+                item.name = '我喜欢的音乐';
+                item.cannotEdit = true;
+                item.cannotDelete = true;
+              }
+              // 收藏列表判断
+              if (!item.subscribed) {
+                songSheetList.createSongList.push(item);
+              } else {
+                item.cannotEdit = true;
+                songSheetList.collectionSongList.push(item);
+              }
+            });
+
+            // 初始化获取详情，列表id获取对应详情，不存在获取我喜欢的音乐详情
+            const musicDetail = JSON.parse(
+              JSON.stringify(musicDetailOptions.value)
+            );
+            for (const value in musicDetail) {
+              musicDetail[value] = false;
             }
-            // 收藏列表判断
-            if (!item.subscribed) {
-              songSheetList.createSongList.push(item);
+            musicDetail.playListDetail = true;
+            $store.commit('music/setMusicDetailOptions', musicDetail);
+
+            // id存在，属于左侧列表，使用缓存id
+            const playListId: number[] = [];
+            res.playlist.forEach((item: LoopType) => {
+              playListId.push(item.id);
+            });
+
+            if (
+              songSheetId.value > 0 &&
+              playListId.includes(songSheetId.value)
+            ) {
+              getSongListDetail(songSheetId.value);
+              // 左侧选中
+              $store.commit('setSongSheetId', songSheetId.value);
             } else {
-              item.cannotEdit = true;
-              songSheetList.collectionSongList.push(item);
+              getSongListDetail(res.playlist[0].id);
+              // 左侧选中
+              $store.commit('setSongSheetId', res.playlist[0].id);
             }
-          });
-
-          // 初始化获取详情，列表id获取对应详情，不存在获取我喜欢的音乐详情
-          const musicDetail = JSON.parse(
-            JSON.stringify(musicDetailOptions.value)
-          );
-          for (const value in musicDetail) {
-            musicDetail[value] = false;
           }
-          musicDetail.playListDetail = true;
-          $store.commit('music/setMusicDetailOptions', musicDetail);
-
-          // id存在，属于左侧列表，使用缓存id
-          const playListId: number[] = [];
-          res.playlist.forEach((item: LoopType) => {
-            playListId.push(item.id);
-          });
-
-          if (songSheetId.value > 0 && playListId.includes(songSheetId.value)) {
-            getSongListDetail(songSheetId.value);
-            // 左侧选中
-            $store.commit('setSongSheetId', songSheetId.value);
-          } else {
-            getSongListDetail(res.playlist[0].id);
-            // 左侧选中
-            $store.commit('setSongSheetId', res.playlist[0].id);
-          }
-        }
-      });
+        })
+        .catch(() => ({}));
     }
     getUserPlayList();
 
@@ -178,7 +184,7 @@ export default defineComponent({
     }
 
     // 收藏歌单项点击
-    function collectionListClick(id: number): boolean | undefined {
+    function handleCollection(id: number): boolean | undefined {
       // 收藏的歌单被全部删除
       if (id === 0) {
         // 选中我喜欢的音乐
@@ -209,16 +215,20 @@ export default defineComponent({
     // 获取歌单详情
     function getSongListDetail(id: number): void {
       $store.commit('music/setSongSheetDetail', {});
-      playListDetail({ id }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          // 单独处理我喜欢的音乐
-          if (res?.playlist?.name.includes('喜欢的音乐')) {
-            res.playlist.name = '我喜欢的音乐';
+
+      playListDetail({ id })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            // 单独处理我喜欢的音乐
+            if (res?.playlist?.name.includes('喜欢的音乐')) {
+              res.playlist.name = '我喜欢的音乐';
+            }
+            $store.commit('music/setSongSheetDetail', res);
           }
-          $store.commit('music/setSongSheetDetail', res);
-        }
-      });
+        })
+        .catch(() => ({}));
     }
+
     return {
       musicDetailOptions,
       optionsCount,
@@ -226,7 +236,7 @@ export default defineComponent({
       subPlayListClick,
       MyVideoClick,
       createListClick,
-      collectionListClick
+      handleCollection
     };
   }
 });

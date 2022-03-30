@@ -4,7 +4,7 @@
       <div class="label">手机号：</div>
       <div class="mobmie-phone-input">
         <div class="country-code" @click="toggleCountryCode">
-          <span class="country-code-text">+{{ mobileFormData.code }}</span>
+          <span class="country-code-text">+{{ mobileFormData?.code }}</span>
           <i class="country-code-icon"></i>
         </div>
         <input
@@ -24,8 +24,8 @@
             :key="index"
             @click="countryCodeChange(item.code)"
           >
-            <span class="left-text">{{ item.zh }}</span>
-            <span class="right-text">+{{ item.code }}</span>
+            <span class="left-text">{{ item?.zh }}</span>
+            <span class="right-text">+{{ item?.code }}</span>
           </li>
         </ul>
       </div>
@@ -160,15 +160,17 @@ export default defineComponent({
     // 获取国家编码列表
     const countryCodeList = ref<unknown[]>([]);
     function getCountryCode(): void {
-      countryCode().then((res: ResponseType) => {
-        if (res.code === 200) {
-          res.data.forEach((item: LoopType) => {
-            item?.countryList.forEach((i: LoopType) => {
-              countryCodeList.value.push(i);
+      countryCode()
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            res.data.forEach((item: LoopType) => {
+              item?.countryList.forEach((i: LoopType) => {
+                countryCodeList.value.push(i);
+              });
             });
-          });
-        }
-      });
+          }
+        })
+        .catch(() => ({}));
     }
     getCountryCode();
 
@@ -325,12 +327,15 @@ export default defineComponent({
         verifyMethod({ text: '请输入验证码' });
         return false;
       }
-      getCaptchaVerify().then(() => {
-        $store.commit('setMessage', {
-          type: 'error',
-          title: '很抱歉，余下功能未开发'
-        });
-      });
+
+      getCaptchaVerify()
+        .then(() => {
+          $store.commit('setMessage', {
+            type: 'error',
+            title: '很抱歉，余下功能未开发'
+          });
+        })
+        .catch(() => ({}));
     }
 
     // 验证验证码
@@ -371,6 +376,7 @@ export default defineComponent({
     onUnmounted(() => {
       document.removeEventListener('click', () => ({}));
     });
+
     return {
       countryCodeList,
       mobileFormData,

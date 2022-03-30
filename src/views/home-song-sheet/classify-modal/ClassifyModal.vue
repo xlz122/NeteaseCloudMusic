@@ -21,7 +21,7 @@
                 { theme: index === 4 }
               ]"
             ></i>
-            <span class="text">{{ item.title }}</span>
+            <span class="text">{{ item?.title }}</span>
           </div>
           <ul class="sub-list">
             <li
@@ -30,7 +30,7 @@
               :key="ind"
               @click="catChange(i.name)"
             >
-              <span class="text">{{ i.name }}</span>
+              <span class="text">{{ i?.name }}</span>
               <span class="line">|</span>
             </li>
           </ul>

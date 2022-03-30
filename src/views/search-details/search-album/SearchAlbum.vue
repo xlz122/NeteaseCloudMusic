@@ -1,28 +1,34 @@
 <template>
   <!-- loading -->
-  <div class="loading" v-if="albumData.loading">
+  <div class="loading" v-if="albumData?.loading">
     <i class="loading-icon"></i>
     加载中...
   </div>
-  <ul class="search-album-list" v-if="!albumData.loading">
+  <ul class="search-album-list" v-if="!albumData?.loading">
     <li
       class="search-album-item"
-      v-for="(item, index) in albumData.list"
+      v-for="(item, index) in albumData?.list"
       :key="index"
     >
-      <div class="item-cover" @click="jumpAlbumDetail(item.id)">
+      <div class="item-cover">
         <img
           class="item-cover-img"
           :src="`${item?.picUrl}?param=130y130`"
+          :title="item?.name"
+          @click="jumpAlbumDetail(item.id)"
           alt=""
         />
         <i class="item-cover-bg"></i>
-        <i class="item-cover-play"></i>
+        <i class="item-cover-play" title="播放"></i>
       </div>
-      <p class="desc" @click="jumpAlbumDetail(item.id)">
+      <p class="desc" :title="item?.name" @click="jumpAlbumDetail(item.id)">
         {{ item?.name }}
       </p>
-      <p class="name" @click="jumpSingerDetail(item?.artist?.id)">
+      <p
+        class="name"
+        :title="item?.artist?.name"
+        @click="jumpSingerDetail(item?.artist?.id)"
+      >
         {{ item?.artist?.name }}
       </p>
     </li>
@@ -68,11 +74,9 @@ export default defineComponent({
 
     const { searchDetailText } = toRefs(props);
 
-    // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
-
     // 搜索关键词
-    const searchText = computed(() =>
+    const searchText = computed<string>(() =>
       $store.getters.searchText.replace(/"/g, '')
     );
 
