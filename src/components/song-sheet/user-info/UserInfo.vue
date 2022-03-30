@@ -5,7 +5,7 @@
         <template v-if="songSheetDetail?.playlist?.coverImgUrl">
           <img
             class="img"
-            :src="`${songSheetDetail?.playlist?.coverImgUrl}?param=200y200`"
+            :src="`${songSheetDetail.playlist.coverImgUrl}?param=200y200`"
             alt=""
           />
         </template>
@@ -22,14 +22,13 @@
         <div class="info">
           <img
             class="user-avatar"
-            :src="songSheetDetail?.playlist?.creator?.avatarUrl"
-            @click="jumpUserProfile(songSheetDetail?.playlist?.creator?.userId)"
+            :src="songSheetDetail.playlist.creator.avatarUrl"
+            @click="jumpUserProfile(songSheetDetail.playlist.creator.userId)"
             alt=""
           />
           <span
             class="user-name"
-            :title="songSheetDetail?.playlist?.creator?.nickname"
-            @click="jumpUserProfile(songSheetDetail?.playlist?.creator?.userId)"
+            @click="jumpUserProfile(songSheetDetail.playlist.creator.userId)"
           >
             {{ songSheetDetail?.playlist?.creator?.nickname }}
           </span>
