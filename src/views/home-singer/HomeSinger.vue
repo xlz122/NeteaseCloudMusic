@@ -12,6 +12,7 @@
           :second="singerList.second"
           @screenChange="screenChange"
           @jumpSingerDetail="jumpSingerDetail"
+          @jumpUserProfile="jumpUserProfile"
         />
       </div>
     </div>
@@ -60,6 +61,7 @@ export default defineComponent({
         getTopArtists();
         return false;
       }
+
       // 入驻歌手
       if (area === -8 && type === 2) {
         singerList.sort = false;
@@ -71,6 +73,7 @@ export default defineComponent({
         });
         return false;
       }
+
       singerList.sort = true;
       artistParams.area = area;
       artistParams.type = type;
@@ -130,11 +133,17 @@ export default defineComponent({
       $store.commit('jumpSingerDetail', id);
     }
 
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
     return {
       singerList,
       menuSelete,
       screenChange,
-      jumpSingerDetail
+      jumpSingerDetail,
+      jumpUserProfile
     };
   }
 });
