@@ -31,7 +31,11 @@
             v-for="(item, index) in songDetailData?.songs[0]?.ar"
             :key="index"
           >
-            <span class="text" @click="jumpSingerDetail(item.id)">
+            <span
+              class="text"
+              :title="item?.name"
+              @click="jumpSingerDetail(item.id)"
+            >
               {{ item?.name }}
             </span>
             <span
