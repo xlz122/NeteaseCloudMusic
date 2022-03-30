@@ -138,7 +138,6 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
 
     // 跳转用户资料

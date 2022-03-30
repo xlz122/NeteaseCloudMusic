@@ -191,7 +191,6 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    // 是否登录
     const isLogin = computed(() => $store.getters.isLogin);
 
     // 监听登录，重新获取各项数据

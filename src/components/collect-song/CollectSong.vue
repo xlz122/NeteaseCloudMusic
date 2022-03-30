@@ -47,9 +47,7 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 是否登录
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
     const collectSong = computed(() => $store.getters['music/collectSong']);
 

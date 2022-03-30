@@ -33,8 +33,7 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    // 用户信息
-    const userInfo = computed(() => $store.getters.userInfo || {});
+    const userInfo = computed(() => $store.getters.userInfo);
 
     const navList = ref<NavList[]>([
       {

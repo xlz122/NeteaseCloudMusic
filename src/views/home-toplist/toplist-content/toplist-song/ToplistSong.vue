@@ -190,10 +190,7 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    // 是否登录
     const isLogin = computed(() => $store.getters.isLogin);
-
-    // 用户信息
     const userInfo = computed(() => $store.getters.userInfo);
 
     // 当前播放音乐id

@@ -113,14 +113,10 @@ export default defineComponent({
 
     const { searchDetailText } = toRefs(props);
 
-    // 是否登录
     const isLogin = computed(() => $store.getters.isLogin);
-
+    const userInfo = computed(() => $store.getters.userInfo);
     // 当前播放音乐id
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
-
-    // 用户信息
-    const userInfo = computed(() => $store.getters.userInfo);
 
     // 搜索关键词
     const searchText = computed(() =>

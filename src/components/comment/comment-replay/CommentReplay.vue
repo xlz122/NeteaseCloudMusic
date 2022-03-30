@@ -112,7 +112,6 @@ export default defineComponent({
   ) {
     const $store = useStore();
 
-    // 是否登录
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
     // 回复数据
