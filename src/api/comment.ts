@@ -9,7 +9,7 @@ export type CommentParams = {
 };
 
 /**
- * @descriptionription 获取歌曲评论列表
+ * @description 获取歌曲评论列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌曲id
  * @param { Number } [offset] - 页数
@@ -37,7 +37,7 @@ export const commentMusic = ({
 };
 
 /**
- * @descriptionription 获取歌单评论列表
+ * @description 获取歌单评论列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单id
  * @param { Number } [offset] - 页数
@@ -65,7 +65,7 @@ export const commentPlayList = ({
 };
 
 /**
- * @descriptionription 获取专辑评论列表
+ * @description 获取专辑评论列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 专辑id
  * @param { Number } [offset] - 页数
@@ -93,7 +93,7 @@ export const commentAlbum = ({
 };
 
 /**
- * @descriptionription 获取电台节目评论列表
+ * @description 获取电台节目评论列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 节目id
  * @param { Number } [offset] - 页数
@@ -121,7 +121,7 @@ export const commentDjprogram = ({
 };
 
 /**
- * @descriptionription 获取视频评论列表
+ * @description 获取视频评论列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 视频id
  * @param { Number } [offset] - 页数
@@ -149,7 +149,7 @@ export const commentVideo = ({
 };
 
 /**
- * @descriptionription 获取视频评论列表
+ * @description 获取视频评论列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - mvid
  * @param { Number } [offset] - 页数
@@ -177,7 +177,7 @@ export const commentMv = ({
 };
 
 /**
- * @descriptionription 新增评论
+ * @description 新增评论
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
  * @param { Number } id - type类型id
@@ -208,7 +208,7 @@ export const addComment = ({ type, id, content }: AddComment): AxiosRequest => {
 };
 
 /**
- * @descriptionription 回复歌单评论
+ * @description 回复歌单评论
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
  * @param { Number } id - type类型id
@@ -247,7 +247,7 @@ export const replyComment = ({
 };
 
 /**
- * @descriptionription 删除评论
+ * @description 删除评论
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
  * @param { Number } id - type类型id
@@ -282,7 +282,7 @@ export const deleteComment = ({
 };
 
 /**
- * @descriptionription 评论点赞
+ * @description 评论点赞
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
  * @param { Number } id - type类型id

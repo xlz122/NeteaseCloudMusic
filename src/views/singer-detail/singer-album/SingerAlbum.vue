@@ -40,7 +40,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { artistAlbum } from '@api/singer-detail';
+import { artistAlbum } from '@api/album-detail';
 import { formatDateTime } from '@utils/utils.ts';
 import { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
