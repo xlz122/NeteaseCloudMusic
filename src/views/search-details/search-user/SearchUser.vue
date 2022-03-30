@@ -1,10 +1,10 @@
 <template>
   <!-- loading -->
-  <div class="loading" v-if="userData.loading">
+  <div class="loading" v-if="userData?.loading">
     <i class="loading-icon"></i>
     加载中...
   </div>
-  <ul class="search-user-list" v-if="!userData.loading">
+  <ul class="search-user-list" v-if="!userData?.loading">
     <li
       class="search-user-item"
       v-for="(item, index) in userData.list"
@@ -71,12 +71,11 @@ export default defineComponent({
   setup(props, { emit }) {
     const $store = useStore();
 
-    const isLogin = computed(() => $store.getters.isLogin);
-
     const { searchDetailText } = toRefs(props);
 
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     // 搜索关键词
-    const searchText = computed(() =>
+    const searchText = computed<string>(() =>
       $store.getters.searchText.replace(/"/g, '')
     );
 

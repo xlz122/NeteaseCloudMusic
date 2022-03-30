@@ -6,7 +6,7 @@
           class="user-info"
           :userInfo="albumData.userInfo"
           :songs="albumData.songs"
-          @commentClick="commentClick"
+          @jumpToComments="jumpToComments"
         />
         <div class="list-title">
           <h3 class="title-text">包含歌曲列表</h3>
@@ -150,7 +150,7 @@ export default defineComponent({
     getAlbumDetail();
 
     // 评论
-    function commentClick(): void {
+    function jumpToComments(): void {
       const commentDom = document.querySelector(
         '.comment-component'
       ) as HTMLElement;
@@ -215,7 +215,7 @@ export default defineComponent({
     return {
       albumId,
       albumData,
-      commentClick,
+      jumpToComments,
       commentParams,
       commentRefresh,
       changPage

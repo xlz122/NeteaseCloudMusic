@@ -15,15 +15,15 @@
         <div class="item-cover" @click="jumpSingerDetail(item?.id)">
           <img
             class="item-cover-img"
-            :src="`${item.picUrl}?param=130y130`"
+            :src="`${item?.picUrl}?param=130y130`"
             alt=""
           />
         </div>
         <div class="item-info">
           <span class="item-info-text" @click="jumpSingerDetail(item?.id)">
-            {{ item.name }}
+            {{ item?.name }}
           </span>
-          <span class="item-info-icon" v-if="item.accountId"></span>
+          <span class="item-info-icon" v-if="item?.accountId"></span>
         </div>
       </li>
     </ul>
@@ -71,7 +71,7 @@ export default defineComponent({
 
     const userInfo = computed(() => $store.getters.userInfo);
     // 搜索关键词
-    const searchText = computed(() =>
+    const searchText = computed<string>(() =>
       $store.getters.searchText.replace(/"/g, '')
     );
 

@@ -11,8 +11,8 @@
         v-for="(item, index) in singerDesc?.introduction"
         :key="index"
       >
-        <h2 class="title">{{ item.ti }}</h2>
-        <p class="content">{{ item.txt }}</p>
+        <h2 class="title">{{ item?.ti }}</h2>
+        <p class="content">{{ item?.txt }}</p>
       </li>
     </ul>
   </div>
@@ -35,7 +35,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌手id
-    const singerId = computed(() => $store.getters.singerId);
+    const singerId = computed<number>(() => $store.getters.singerId);
 
     // 歌手描述
     const singerDesc = ref();

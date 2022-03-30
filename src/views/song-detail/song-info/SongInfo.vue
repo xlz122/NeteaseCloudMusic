@@ -32,7 +32,7 @@
             :key="index"
           >
             <span class="text" @click="jumpSingerDetail(item.id)">
-              {{ item.name }}
+              {{ item?.name }}
             </span>
             <span
               class="line"
@@ -58,21 +58,21 @@
           <div
             class="play-add"
             title="添加到播放列表"
-            @click="setAddSinglePlayList"
+            @click="singleMusicToPlayList"
           ></div>
           <div
             class="other collection"
-            @click="collectMusic(songDetailData?.songs[0]?.id)"
+            @click="handleCollection(songDetailData?.songs[0]?.id)"
           >
             <span class="icon">收藏</span>
           </div>
-          <div class="other share" @click="shareClick">
+          <div class="other share" @click="handleShare">
             <span class="icon">分享</span>
           </div>
-          <div class="other download" @click="downloadClick">
+          <div class="other download" @click="handleDownload">
             <span class="icon">下载</span>
           </div>
-          <div class="other comment" @click="commentClick">
+          <div class="other comment" @click="jumpToComments">
             <template v-if="commentTotal > 0">
               <span class="icon"> ({{ commentTotal }}) </span>
             </template>
@@ -130,7 +130,7 @@ export default defineComponent({
       default: 0
     }
   },
-  emits: ['commentClick'],
+  emits: ['jumpToComments'],
   setup(props, { emit }) {
     const $store = useStore();
 
@@ -143,7 +143,7 @@ export default defineComponent({
       $store.commit('jumpSingerDetail', id);
     }
 
-    // 播放列表音乐
+    // 播放单个歌曲
     function playTitleMusic(): boolean | undefined {
       if (!props?.songDetailData?.songs?.length) {
         return false;
@@ -183,8 +183,8 @@ export default defineComponent({
       });
     }
 
-    // 单个音乐添加到播放列表
-    function setAddSinglePlayList(): boolean | undefined {
+    // 单个歌曲添加到播放列表
+    function singleMusicToPlayList(): boolean | undefined {
       if (!props?.songDetailData?.songs?.length) {
         return false;
       }
@@ -214,7 +214,7 @@ export default defineComponent({
     }
 
     // 收藏歌曲
-    function collectMusic(id: number): boolean | undefined {
+    function handleCollection(id: number): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -228,7 +228,7 @@ export default defineComponent({
     }
 
     // 分享
-    function shareClick(): boolean | undefined {
+    function handleShare(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -242,7 +242,7 @@ export default defineComponent({
     }
 
     // 下载
-    function downloadClick(): void {
+    function handleDownload(): void {
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -250,14 +250,14 @@ export default defineComponent({
     }
 
     // 评论
-    function commentClick(): boolean | undefined {
+    function jumpToComments(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
       }
 
-      emit('commentClick');
+      emit('jumpToComments');
     }
 
     // 歌词展开/收缩
@@ -275,11 +275,11 @@ export default defineComponent({
       songId,
       jumpSingerDetail,
       playTitleMusic,
-      setAddSinglePlayList,
-      collectMusic,
-      shareClick,
-      downloadClick,
-      commentClick,
+      singleMusicToPlayList,
+      handleCollection,
+      handleShare,
+      handleDownload,
+      jumpToComments,
       toggleShow,
       toggle,
       jumpAlbumDetail

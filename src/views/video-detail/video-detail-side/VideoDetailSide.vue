@@ -5,8 +5,8 @@
       <p class="publish-time">
         发布时间：{{ formatDateTime(videoDetailData.publishTime / 1000) }}
       </p>
-      <p class="play-time">播放次数：{{ videoDetailData.playTime }}次</p>
-      <p class="text">{{ videoDetailData.description }}</p>
+      <p class="play-time">播放次数：{{ videoDetailData?.playTime }}次</p>
+      <p class="text">{{ videoDetailData?.description }}</p>
     </div>
     <h3 class="title">相关推荐</h3>
     <ul class="like-list">
@@ -88,7 +88,6 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    // 视频id
     const video = computed(() => $store.getters.video);
 
     const videoList = ref<unknown[]>([]);
@@ -119,7 +118,7 @@ export default defineComponent({
     function jumpVideoDetail(id: number): void {
       $router.push({ name: 'video-detail', params: { id } });
       $store.commit('setVideo', { id, url: '' });
-      // 重新获取相关视频
+
       getVideolist();
     }
 

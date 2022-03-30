@@ -23,14 +23,14 @@
         @click="listClick(item.id)"
       >
         <div class="item-left">
-          <img class="img" :src="item.coverImgUrl" alt="" />
+          <img class="img" :src="item?.coverImgUrl" alt="" />
         </div>
         <div class="item-right">
-          <span class="name" :title="item.name">{{ item.name }}</span>
+          <span class="name" :title="item?.name">{{ item?.name }}</span>
           <span class="num">
             {{ item.trackCount }}首
             <span class="right-desc" v-if="item.subscribed">
-              by {{ item.creator.nickname }}
+              by {{ item?.creator?.nickname }}
             </span>
           </span>
         </div>
@@ -112,7 +112,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌单id
-    const songSheetId = computed(() => $store.getters.songSheetId);
+    const songSheetId = computed<number>(() => $store.getters.songSheetId);
 
     // 列表显隐切换
     const listShow = ref<boolean>(true);
@@ -212,6 +212,7 @@ export default defineComponent({
     function listClick(id: number): void {
       emit('listClick', id);
     }
+
     return {
       propsListData,
       propsListCount,

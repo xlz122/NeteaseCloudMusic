@@ -333,6 +333,7 @@ export default defineComponent({
     function songListMore(): void {
       $router.push({ name: 'home-toplist' });
     }
+
     return {
       isLogin,
       jumpSongSheet,

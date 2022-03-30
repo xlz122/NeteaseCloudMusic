@@ -16,7 +16,7 @@
             <i class="item-cover-bg"></i>
             <i class="item-cover-play"></i>
           </div>
-          <p class="desc" @click="jumpMvDetail(item.id)">{{ item.name }}</p>
+          <p class="desc" @click="jumpMvDetail(item.id)">{{ item?.name }}</p>
         </li>
       </ul>
       <!-- 参数从0开始，分页需从1开始 -->
@@ -61,7 +61,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌手id
-    const singerId = computed(() => $store.getters.singerId);
+    const singerId = computed<number>(() => $store.getters.singerId);
 
     // 监听歌手id改变
     watch(

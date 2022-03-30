@@ -1,7 +1,7 @@
 <template>
   <div class="play-list-main">
     <!-- 个人信息部分 -->
-    <UserInfo class="user-info" @commentClick="commentClick" />
+    <UserInfo class="user-info" @jumpToComments="jumpToComments" />
     <div class="list-title">
       <h3 class="title-text">歌曲列表</h3>
       <span class="title-text-num">
@@ -63,9 +63,8 @@ export default defineComponent({
     const songSheetDetail = computed(
       () => $store.getters['music/songSheetDetail']
     );
-
     // 歌单id
-    const songSheetId = computed(() => $store.getters.songSheetId);
+    const songSheetId = computed<number>(() => $store.getters.songSheetId);
 
     // 监听路由传参，获取歌曲评论
     watch(
@@ -78,7 +77,7 @@ export default defineComponent({
     );
 
     // 评论
-    function commentClick(): void {
+    function jumpToComments(): void {
       const commentDom = document.querySelector(
         '.comment-component'
       ) as HTMLElement;
@@ -135,7 +134,7 @@ export default defineComponent({
 
     return {
       songSheetDetail,
-      commentClick,
+      jumpToComments,
       commentParams,
       commentRefresh,
       changPage

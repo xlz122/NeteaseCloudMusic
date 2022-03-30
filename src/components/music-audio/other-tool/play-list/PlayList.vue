@@ -38,13 +38,13 @@
               <i
                 class="icon collect"
                 title="收藏"
-                @click="collectMusic(item.id, $event)"
+                @click="handleCollection(item.id, $event)"
               ></i>
-              <i class="icon share" title="分享" @click.stop="shareClick"></i>
+              <i class="icon share" title="分享" @click.stop="handleShare"></i>
               <i
                 class="icon download"
                 title="下载"
-                @click.stop="downloadClick"
+                @click.stop="handleDownload"
               ></i>
               <i
                 class="icon delete"
@@ -149,7 +149,10 @@ export default defineComponent({
     }
 
     // 收藏歌曲
-    function collectMusic(id: number, event: MouseEvent): boolean | undefined {
+    function handleCollection(
+      id: number,
+      event: MouseEvent
+    ): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -164,7 +167,7 @@ export default defineComponent({
     }
 
     // 分享
-    function shareClick(): boolean | undefined {
+    function handleShare(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -178,7 +181,7 @@ export default defineComponent({
     }
 
     // 下载
-    function downloadClick(): void {
+    function handleDownload(): void {
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -235,9 +238,9 @@ export default defineComponent({
       timeStampToDuration,
       collectAll,
       emptyMusicList,
-      collectMusic,
-      shareClick,
-      downloadClick,
+      handleCollection,
+      handleShare,
+      handleDownload,
       deleteMusic,
       playlistItem,
       jumpSingerDetail,

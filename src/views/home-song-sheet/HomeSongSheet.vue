@@ -50,17 +50,6 @@
               >
                 {{ item?.creator?.nickname }}
               </span>
-              <!-- 小图标 -->
-              <!-- <img
-                class="desc-img"
-                src=""
-                alt=""
-              /> -->
-              <!-- <img
-                class="desc-img"
-                src=""
-                alt=""
-              /> -->
             </div>
           </div>
         </li>

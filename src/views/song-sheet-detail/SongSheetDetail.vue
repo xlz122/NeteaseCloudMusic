@@ -2,7 +2,7 @@
   <div class="song-sheet-detail">
     <div class="song-sheet-detail-container">
       <div class="song-sheet-content">
-        <UserInfo class="user-info" @commentClick="commentClick" />
+        <UserInfo class="user-info" @jumpToComments="jumpToComments" />
         <div class="list-title">
           <h3 class="title-text">歌曲列表</h3>
           <span class="title-text-num">
@@ -20,7 +20,7 @@
             </div>
             <div
               class="title-play-num"
-              v-if="songSheetDetail?.playlist?.tracks.length > 0"
+              v-if="songSheetDetail?.playlist?.tracks?.length > 0"
             >
               播放:
               <span class="eye-catching">
@@ -85,7 +85,11 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌单id
-    const songSheetId = computed(() => $store.getters.songSheetId);
+    const songSheetId = computed<number>(() => $store.getters.songSheetId);
+    // 歌单详情数据
+    const songSheetDetail = computed(
+      () => $store.getters['music/songSheetDetail']
+    );
 
     watch(
       () => $route.params,
@@ -99,15 +103,11 @@ export default defineComponent({
       }
     );
 
-    // 歌单详情数据
-    const songSheetDetail = computed(
-      () => $store.getters['music/songSheetDetail']
-    );
-
     // 获取歌单详情
     function getSongDetail(): void {
       // 清空歌单详情数据
       $store.commit('music/setSongSheetDetail', {});
+
       playlistDetail({
         id: songSheetId.value
       })
@@ -125,7 +125,7 @@ export default defineComponent({
     }
 
     // 评论
-    function commentClick(): void {
+    function jumpToComments(): void {
       const commentDom = document.querySelector(
         '.comment-component'
       ) as HTMLElement;
@@ -190,7 +190,7 @@ export default defineComponent({
     return {
       songSheetDetail,
       songSheetId,
-      commentClick,
+      jumpToComments,
       commentParams,
       commentRefresh,
       changPage

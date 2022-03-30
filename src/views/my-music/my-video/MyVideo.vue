@@ -50,12 +50,14 @@ export default defineComponent({
     // 获取我的视频列表
     const MyVideoList = ref<unknown[]>([]);
     function getMyVideoSbulist(): void {
-      MyVideoSbulist().then((res: ResponseType) => {
-        if (res.code === 200) {
-          MyVideoCount.value = res.count || 0;
-          MyVideoList.value = res.data;
-        }
-      });
+      MyVideoSbulist()
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            MyVideoCount.value = res.count || 0;
+            MyVideoList.value = res.data;
+          }
+        })
+        .catch(() => ({}));
     }
     getMyVideoSbulist();
 
@@ -75,6 +77,7 @@ export default defineComponent({
     function jumpUserProfile(id: number): void {
       $store.commit('jumpUserProfile', id);
     }
+
     return {
       timeStampToDuration,
       MyVideoCount,

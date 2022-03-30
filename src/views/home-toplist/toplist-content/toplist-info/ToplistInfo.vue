@@ -53,7 +53,7 @@
           <div
             class="other collection"
             :class="`${isLogin ? 'disable-collection' : ''}`"
-            @click="collectionClick"
+            @click="handleCollection"
           >
             <template v-if="songSheetDetail?.playlist?.subscribedCount > 0">
               <span class="icon">
@@ -69,7 +69,7 @@
             :class="{
               'disable-share': songSheetDetail?.playlist?.tracks.length === 0
             }"
-            @click="shareClick"
+            @click="handleShare"
           >
             <template v-if="songSheetDetail?.playlist?.shareCount > 0">
               <span class="icon">
@@ -85,7 +85,7 @@
             :class="{
               'disable-download': songSheetDetail?.playlist?.tracks.length === 0
             }"
-            @click="downloadClick"
+            @click="handleDownload"
           >
             <span class="icon">下载</span>
           </div>
@@ -94,7 +94,7 @@
             :class="{
               'disable-comment': songSheetDetail?.playlist?.tracks.length === 0
             }"
-            @click="commentClick"
+            @click="jumpToComments"
           >
             <template v-if="songSheetDetail?.playlist?.commentCount > 0">
               <span class="icon">
@@ -253,7 +253,7 @@ export default defineComponent({
     }
 
     // 收藏
-    function collectionClick(): boolean | undefined {
+    function handleCollection(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -262,7 +262,7 @@ export default defineComponent({
     }
 
     // 分享
-    function shareClick(): boolean | undefined {
+    function handleShare(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -276,7 +276,7 @@ export default defineComponent({
     }
 
     // 下载
-    function downloadClick(): void {
+    function handleDownload(): void {
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -284,7 +284,7 @@ export default defineComponent({
     }
 
     // 评论
-    function commentClick(): boolean | undefined {
+    function jumpToComments(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -304,10 +304,10 @@ export default defineComponent({
       isLogin,
       playTitleMusic,
       setAddPlayList,
-      collectionClick,
-      shareClick,
-      downloadClick,
-      commentClick
+      handleCollection,
+      handleShare,
+      handleDownload,
+      jumpToComments
     };
   }
 });

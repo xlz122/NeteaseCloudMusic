@@ -15,7 +15,7 @@
           class="item"
           v-for="(item, index) in songSheetList"
           :key="index"
-          @click="collect(item.id)"
+          @click="handleCollection(item.id)"
         >
           <div class="item-cover">
             <img class="item-cover-img" :src="item.coverImgUrl" alt="" />
@@ -99,7 +99,7 @@ export default defineComponent({
     }
 
     // 收藏歌曲
-    function collect(id: number): void {
+    function handleCollection(id: number): void {
       collectMusic({
         pid: id,
         tracks: collectSong.value.songIds
@@ -136,7 +136,7 @@ export default defineComponent({
       collectSong,
       songSheetList,
       addSongSheet,
-      collect,
+      handleCollection,
       collectCancel
     };
   }

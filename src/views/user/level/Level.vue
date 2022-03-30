@@ -68,11 +68,11 @@
             <div class="barbox">
               <span
                 class="current"
-                :style="`width: ${nextLevel.playProgress * 100}%;`"
+                :style="`width: ${nextLevel?.playProgress * 100}%;`"
               ></span>
             </div>
           </div>
-          还需听歌{{ nextLevel.playCount }}首
+          还需听歌{{ nextLevel?.playCount }}首
         </div>
         <div class="uitl">
           <span class="text">登录：</span>
@@ -80,11 +80,11 @@
             <div class="barbox">
               <span
                 class="current"
-                :style="`width: ${nextLevel.loginProgress * 100}%;`"
+                :style="`width: ${nextLevel?.loginProgress * 100}%;`"
               ></span>
             </div>
           </div>
-          还需登录{{ nextLevel.loginCount }}天
+          还需登录{{ nextLevel?.loginCount }}天
         </div>
       </div>
     </div>
@@ -111,7 +111,6 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    // level
     const levelArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     // 用户等级
     const level = ref<number>(0);

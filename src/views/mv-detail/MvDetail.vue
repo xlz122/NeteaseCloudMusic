@@ -4,8 +4,8 @@
       <div class="mv-detail-content">
         <div class="title">
           <i class="icon"></i>
-          <h2 class="text" :title="mvDetailData.name">
-            {{ mvDetailData.name }}
+          <h2 class="text" :title="mvDetailData?.name">
+            {{ mvDetailData?.name }}
           </h2>
           <div class="desc">
             <span class="by">by</span>
@@ -30,7 +30,7 @@
         </div>
         <!-- 操作项 -->
         <div class="operate-btn">
-          <div class="other like" @click="likeClick">
+          <div class="other like" @click="handleLike">
             <template v-if="mvDetailData?.praisedCount > 0">
               <i class="like-icon"></i>
               <span class="icon"> ({{ mvDetailData?.praisedCount }}) </span>
@@ -43,7 +43,7 @@
           <div
             class="other collection"
             :class="{ 'collection-sub': mvsubed }"
-            @click="collectionClick(mvsubed)"
+            @click="handleCollection(mvsubed)"
           >
             <template v-if="mvDetailData?.subCount > 0">
               <span class="icon">({{ mvDetailData?.subCount }})</span>
@@ -52,7 +52,7 @@
               <span class="icon">收藏</span>
             </template>
           </div>
-          <div class="other share" @click="shareClick">
+          <div class="other share" @click="handleShare">
             <template v-if="mvDetailData?.shareCount > 0">
               <span class="icon">({{ mvDetailData?.shareCount }})</span>
             </template>
@@ -118,7 +118,7 @@ export default defineComponent({
     const $route = useRoute();
     const $store = useStore();
 
-    const isLogin = computed(() => $store.getters.isLogin);
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const video = computed(() => $store.getters.video);
 
     watch(
@@ -177,7 +177,7 @@ export default defineComponent({
     }
 
     // 喜欢
-    function likeClick(): boolean | undefined {
+    function handleLike(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -191,7 +191,7 @@ export default defineComponent({
     }
 
     // 收藏
-    function collectionClick(followed: boolean): boolean | undefined {
+    function handleCollection(followed: boolean): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -231,7 +231,7 @@ export default defineComponent({
     }
 
     // 分享
-    function shareClick(): boolean | undefined {
+    function handleShare(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -301,9 +301,9 @@ export default defineComponent({
       mvDetailData,
       mvsubed,
       jumpSingerDetail,
-      likeClick,
-      collectionClick,
-      shareClick,
+      handleLike,
+      handleCollection,
+      handleShare,
       commentParams,
       commentRefresh,
       changPage

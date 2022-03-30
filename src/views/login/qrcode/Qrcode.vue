@@ -168,6 +168,7 @@ export default defineComponent({
       qrcodeImgKey.value = '';
       qrcodeImgSrc.value = '';
     });
+
     return {
       qrcodeImgSrc,
       qrcodeInvalid,

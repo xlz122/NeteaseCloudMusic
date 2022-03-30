@@ -105,6 +105,7 @@ export default defineComponent({
     function openLogin(): void {
       $store.commit('setLoginDialog', true);
     }
+
     return {
       isLogin,
       userInfo,

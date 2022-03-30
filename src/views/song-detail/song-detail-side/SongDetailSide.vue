@@ -7,14 +7,14 @@
           <div class="item-cover" @click="jumpSongSheetDetail(item.id)">
             <img
               class="cover-img"
-              :src="`${item.coverImgUrl}?param=50y50`"
+              :src="`${item?.coverImgUrl}?param=50y50`"
               alt=""
             />
           </div>
           <div class="item-info">
             <p
               class="info-title"
-              :title="item.name"
+              :title="item?.name"
               @click="jumpSongSheetDetail(item.id)"
             >
               {{ item?.name }}
@@ -40,7 +40,7 @@
           <div class="item-info">
             <p
               class="info-title"
-              :title="item.name"
+              :title="item?.name"
               @click="jumpSongDetail(item.id)"
             >
               <span class="text">{{ item?.name }}</span>
@@ -54,8 +54,11 @@
             </div>
           </div>
           <div class="item-operate">
-            <i class="icon-operate play" @click="playListMusic(item)"></i>
-            <i class="icon-operate add" @click="setAddSinglePlayList(item)"></i>
+            <i class="icon-operate play" @click="playSingleMusic(item)"></i>
+            <i
+              class="icon-operate add"
+              @click="singleMusicToPlayList(item)"
+            ></i>
           </div>
         </li>
       </ul>
@@ -88,7 +91,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌曲id
-    const songId = computed(() => $store.getters.songId);
+    const songId = computed<number>(() => $store.getters.songId);
 
     const songSheetList = ref<unknown[]>([]);
     // 获取这首歌的歌单
@@ -150,8 +153,8 @@ export default defineComponent({
       $store.commit('jumpSingerDetail', id);
     }
 
-    // 播放列表音乐
-    function playListMusic(item: Record<string, any>): void {
+    // 播放单个歌曲
+    function playSingleMusic(item: Record<string, any>): void {
       // 处理播放器所需数据
       const musicItem: PlayMusicItem = {
         id: item.id,
@@ -184,8 +187,8 @@ export default defineComponent({
       });
     }
 
-    // 单个音乐添加到播放列表
-    function setAddSinglePlayList(item: Record<string, any>): void {
+    // 单个歌曲添加到播放列表
+    function singleMusicToPlayList(item: Record<string, any>): void {
       // 处理播放器所需数据
       const musicItem: PlayMusicItem = {
         id: item.id,
@@ -215,8 +218,8 @@ export default defineComponent({
       simiSongList,
       jumpSongDetail,
       jumpSingerDetail,
-      playListMusic,
-      setAddSinglePlayList
+      playSingleMusic,
+      singleMusicToPlayList
     };
   }
 });

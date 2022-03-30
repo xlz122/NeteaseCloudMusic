@@ -49,7 +49,8 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌单id
-    const songSheetId = computed(() => $store.getters.songSheetId);
+    const songSheetId = computed<number>(() => $store.getters.songSheetId);
+
     // 更新字符串
     const updateFrequency = ref<string>('');
 

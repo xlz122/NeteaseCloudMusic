@@ -10,15 +10,15 @@
           <div class="item-cover">
             <img
               class="item-cover-img"
-              :src="`${item.picUrl}?param=120y120`"
+              :src="`${item?.picUrl}?param=120y120`"
               @click="jumpAlbumDetail(item.id)"
               alt=""
             />
             <i class="item-cover-bg"></i>
             <i class="item-cover-play"></i>
           </div>
-          <p class="desc" :title="item.name" @click="jumpAlbumDetail(item.id)">
-            {{ item.name }}
+          <p class="desc" :title="item?.name" @click="jumpAlbumDetail(item.id)">
+            {{ item?.name }}
           </p>
           <p class="name">
             {{ formatDateTime(item.publishTime / 1000, 'yyyy.MM.dd') }}
@@ -59,7 +59,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌手id
-    const singerId = computed(() => $store.getters.singerId);
+    const singerId = computed<number>(() => $store.getters.singerId);
 
     // 监听歌手id改变
     watch(

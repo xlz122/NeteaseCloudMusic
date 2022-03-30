@@ -2,7 +2,7 @@
   <div class="form-content">
     <div class="mobmie-phone-input">
       <div class="country-code" @click="toggleCountryCode">
-        <span class="country-code-text">+{{ mobileFormData.code }}</span>
+        <span class="country-code-text">+{{ mobileFormData?.code }}</span>
         <i class="country-code-icon"></i>
       </div>
       <input
@@ -22,8 +22,8 @@
           :key="index"
           @click="countryCodeChange(item.code)"
         >
-          <span class="left-text">{{ item.zh }}</span>
-          <span class="right-text">+{{ item.code }}</span>
+          <span class="left-text">{{ item?.zh }}</span>
+          <span class="right-text">+{{ item?.code }}</span>
         </li>
       </ul>
     </div>
@@ -40,7 +40,7 @@
   </div>
   <div class="verification" v-if="mobileVerify.show">
     <i class="icon-verification"></i>
-    <span class="text">{{ mobileVerify.text }}</span>
+    <span class="text">{{ mobileVerify?.text }}</span>
   </div>
   <div class="mobile-phone-checkbox">
     <label for="mobile-phone-checkbox">
@@ -244,6 +244,7 @@ export default defineComponent({
     onUnmounted(() => {
       document.removeEventListener('click', () => ({}));
     });
+
     return {
       countryCodeList,
       mobileFormData,

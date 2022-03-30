@@ -27,7 +27,7 @@
                   :title="i?.name"
                   @click="jumpSingerDetail(i.id)"
                 >
-                  {{ i.name }}
+                  {{ i?.name }}
                 </span>
                 <span class="line" v-if="ind !== item.artists.length - 1">
                   /
@@ -155,6 +155,7 @@ export default defineComponent({
     function jumpSingerDetail(id: number): void {
       emit('jumpSingerDetail', id);
     }
+
     return {
       listData,
       listRef,

@@ -17,18 +17,18 @@
           <li class="item" v-for="(item, index) in levelList" :key="index">
             <span class="n-level">
               <i class="icon"></i>
-              {{ item.level }}
+              {{ item?.level }}
             </span>
-            <span>{{ item.capacity }}</span>
+            <span>{{ item?.capacity }}</span>
             <span class="point"></span>
-            <span>{{ item.blacklist }}</span>
+            <span>{{ item?.blacklist }}</span>
             <span class="point" v-if="item?.additional"></span>
             <span v-if="item?.additional?.coupon">
-              {{ item.additional.coupon }}
+              {{ item?.additional?.coupon }}
             </span>
             <span class="point" v-if="item?.additional"></span>
             <span v-if="item?.additional?.value">
-              {{ item.additional.value }}
+              {{ item?.additional?.value }}
             </span>
           </li>
         </ul>

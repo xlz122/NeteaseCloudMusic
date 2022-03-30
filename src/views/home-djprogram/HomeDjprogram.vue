@@ -26,6 +26,7 @@ export default defineComponent({
         title: `分类id:${id}`
       });
     }
+
     return {
       djCategorChange
     };

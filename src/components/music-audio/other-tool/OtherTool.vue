@@ -3,9 +3,9 @@
     <button
       class="btn collection-btn"
       title="收藏"
-      @click="collectMusic"
+      @click="handleCollection"
     ></button>
-    <button class="btn share-btn" title="分享" @click="shareClick"></button>
+    <button class="btn share-btn" title="分享" @click="handleShare"></button>
   </div>
   <div class="other">
     <!-- 音量控制 -->
@@ -74,7 +74,7 @@ export default defineComponent({
     );
 
     // 收藏歌曲
-    function collectMusic(): boolean | undefined {
+    function handleCollection(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -88,7 +88,7 @@ export default defineComponent({
     }
 
     // 分享
-    function shareClick(): boolean | undefined {
+    function handleShare(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -179,8 +179,8 @@ export default defineComponent({
     return {
       playMusicList,
       playMusicId,
-      collectMusic,
-      shareClick,
+      handleCollection,
+      handleShare,
       volumeProgressShow,
       setVolumeProgress,
       musicModeType,

@@ -93,7 +93,7 @@
               class="f-cb-i"
               v-for="(item, index) in searchPropos.playlists"
               :key="index"
-              @click="jumpSongSheet(item.id)"
+              @click="jumpSongSheetDetail(item.id)"
             >
               <span class="f-cb-text">
                 {{ item.name.slice(0, searchValue.length) }}
@@ -256,7 +256,7 @@ export default defineComponent({
     }
 
     // 跳转歌单详情
-    function jumpSongSheet(id: number): void {
+    function jumpSongSheetDetail(id: number): void {
       $store.commit('jumpSongSheetDetail', id);
     }
 
@@ -272,7 +272,7 @@ export default defineComponent({
       jumpSongDetail,
       jumpSingerDetail,
       jumpAlbumDetail,
-      jumpSongSheet
+      jumpSongSheetDetail
     };
   }
 });

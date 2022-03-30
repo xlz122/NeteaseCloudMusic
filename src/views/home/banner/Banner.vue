@@ -238,6 +238,7 @@ export default defineComponent({
         clearInterval(bannerTimer.value as number);
       }
     });
+
     return {
       bannerRef,
       banner,

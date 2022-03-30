@@ -207,6 +207,7 @@ export default defineComponent({
       loginMode.mobileLogin = false;
       loginMode.allOtherLogin = true;
     }
+
     return {
       qrcodeLogin,
       officialCheckbox,
