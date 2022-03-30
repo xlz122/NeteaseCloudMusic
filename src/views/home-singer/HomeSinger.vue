@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { topArtists, artistList, ArtistList } from '@api/home-singer';
 import { ResponseType } from '@/types/types';
@@ -137,6 +137,11 @@ export default defineComponent({
     function jumpUserProfile(id: number): void {
       $store.commit('jumpUserProfile', id);
     }
+
+    onMounted(() => {
+      // 头部导航选中
+      $store.commit('setHeaderActiveIndex', 0);
+    });
 
     return {
       singerList,
