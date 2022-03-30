@@ -28,14 +28,14 @@ export default defineComponent({
 
     // 播放列表
     const playMusicList = computed(() => $store.getters['music/playMusicList']);
-
     // 当前播放音乐id
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );
-
     // 音量
-    const musicVolume = computed(() => $store.getters['music/musicVolume']);
+    const musicVolume = computed<number>(
+      () => $store.getters['music/musicVolume']
+    );
 
     // 播放地址
     const audioSrc = ref<string>('');

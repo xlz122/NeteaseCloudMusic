@@ -95,7 +95,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 专辑id
-    const albumId = computed(() => $store.getters.albumId);
+    const albumId = computed<number>(() => $store.getters.albumId);
 
     const albumData = reactive<AlbumData>({
       loading: false,

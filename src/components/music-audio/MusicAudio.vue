@@ -136,7 +136,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 播放器锁定在底部
-    const musicAudioLock = computed(
+    const musicAudioLock = computed<boolean>(
       () => $store.getters['music/musicAudioLock']
     );
 
