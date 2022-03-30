@@ -118,7 +118,9 @@
           <div class="item-bottom" title="每日歌曲推荐" @click="jumpRecommend">
             每日歌曲推荐
           </div>
-          <em class="item-like">根据你的口味生成,每天6:00更新</em>
+          <em class="item-like" title="根据你的口味生成,每天6:00更新">
+            根据你的口味生成,每天6:00更新
+          </em>
         </li>
         <li
           class="item individualization"
@@ -128,8 +130,13 @@
             'last-item': index === individualizatData?.slice(0, 3).length - 1
           }"
         >
-          <div class="item-top" @click="jumpSongSheetDetail(item.id)">
-            <img class="img" :src="`${item.picUrl}?param=140y140`" alt="" />
+          <div class="item-top">
+            <img
+              class="img"
+              :src="`${item.picUrl}?param=140y140`"
+              alt=""
+              @click="jumpSongSheetDetail(item.id)"
+            />
             <div class="info">
               <i class="info-icon"></i>
               <span class="num">{{ item?.playcount }}</span>
@@ -145,7 +152,11 @@
           </div>
           <div class="like-text">
             <em class="item-like">{{ item?.copywriter }}</em>
-            <button class="disable-like" @click="uninterested(index)">
+            <button
+              class="disable-like"
+              :title="item?.copywriter"
+              @click="uninterested(index)"
+            >
               不感兴趣
             </button>
           </div>
