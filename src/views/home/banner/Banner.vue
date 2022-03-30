@@ -81,16 +81,18 @@ export default defineComponent({
     });
 
     function getbannerList() {
-      bannerImgUrl().then((res: ResponseType) => {
-        if (res.code === 200) {
-          if (res.banners.length > 0) {
-            banner.list = res.banners;
-            banner.currentUrl = res.banners[0].imageUrl;
-            // 自动轮播
-            autoBanner();
+      bannerImgUrl()
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            if (res.banners.length > 0) {
+              banner.list = res.banners;
+              banner.currentUrl = res.banners[0].imageUrl;
+              // 自动轮播
+              autoBanner();
+            }
           }
-        }
-      });
+        })
+        .catch(() => ({}));
     }
     getbannerList();
 

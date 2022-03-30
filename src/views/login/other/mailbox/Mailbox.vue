@@ -131,14 +131,16 @@ export default defineComponent({
 
     // 获取用户详情
     function getUserInfo(uid: number): void {
-      userInfo({ uid }).then((res: ResponseDataType) => {
-        if (res.code === 200) {
-          // 存储用户信息
-          $store.commit('setUserInfo', res);
-          // 关闭登录对话框
-          $store.commit('setLoginDialog', false);
-        }
-      });
+      userInfo({ uid })
+        .then((res: ResponseDataType) => {
+          if (res.code === 200) {
+            // 存储用户信息
+            $store.commit('setUserInfo', res);
+            // 关闭登录对话框
+            $store.commit('setLoginDialog', false);
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 清空邮箱登录数据

@@ -125,22 +125,24 @@ export default defineComponent({
         type: commentParams.value?.type,
         id: commentParams.value?.id,
         content: replayText
-      }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          // 评论成功提醒
-          $store.commit('setMessage', { type: 'info', title: '评论成功' });
-          // 清空回复内容
-          commentClearText.value = true;
-          // 延迟重置
-          nextTick(() => {
-            commentClearText.value = false;
-          });
-          emit('commentRefresh');
-        } else {
-          // 评论失败提醒
-          $store.commit('setMessage', { type: 'error', title: '评论失败' });
-        }
-      });
+      })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            // 评论成功提醒
+            $store.commit('setMessage', { type: 'info', title: '评论成功' });
+            // 清空回复内容
+            commentClearText.value = true;
+            // 延迟重置
+            nextTick(() => {
+              commentClearText.value = false;
+            });
+            emit('commentRefresh');
+          } else {
+            // 评论失败提醒
+            $store.commit('setMessage', { type: 'error', title: '评论失败' });
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 删除评论
@@ -157,18 +159,20 @@ export default defineComponent({
         type: commentParams.value?.type,
         id: props?.commentParams?.id,
         commentId: deleteCommentId.value
-      }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          deleteCommentDialog.value = false;
-          emit('commentRefresh');
-        } else {
-          deleteCommentDialog.value = false;
-          $store.commit('setMessage', {
-            type: 'error',
-            title: '删除失败'
-          });
-        }
-      });
+      })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            deleteCommentDialog.value = false;
+            emit('commentRefresh');
+          } else {
+            deleteCommentDialog.value = false;
+            $store.commit('setMessage', {
+              type: 'error',
+              title: '删除失败'
+            });
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 删除评论 - 取消
@@ -274,16 +278,18 @@ export default defineComponent({
         id: props?.commentParams?.id,
         content: replayText,
         commentId
-      }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          // 评论成功提醒
-          $store.commit('setMessage', { type: 'info', title: '评论成功' });
-          emit('commentRefresh');
-        } else {
-          // 评论失败提醒
-          $store.commit('setMessage', { type: 'error', title: '评论失败' });
-        }
-      });
+      })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            // 评论成功提醒
+            $store.commit('setMessage', { type: 'info', title: '评论成功' });
+            emit('commentRefresh');
+          } else {
+            // 评论失败提醒
+            $store.commit('setMessage', { type: 'error', title: '评论失败' });
+          }
+        })
+        .catch(() => ({}));
     }
 
     return {

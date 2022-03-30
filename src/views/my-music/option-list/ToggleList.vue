@@ -161,42 +161,46 @@ export default defineComponent({
     function dialogConfirm(params: { type: string; name: string }): void {
       // 添加
       if (params.type === 'add') {
-        addPlayList({ name: params.name }).then((res: ResponseType) => {
-          if (res.code === 200) {
-            // 添加到列表第二项
-            propsListData.value.splice(1, 0, res.playlist);
-            // 获取歌单详情
-            const id = res.id;
-            emit('listClick', id);
-          }
-        });
+        addPlayList({ name: params.name })
+          .then((res: ResponseType) => {
+            if (res.code === 200) {
+              // 添加到列表第二项
+              propsListData.value.splice(1, 0, res.playlist);
+              // 获取歌单详情
+              const id = res.id;
+              emit('listClick', id);
+            }
+          })
+          .catch(() => ({}));
       }
 
       // 删除
       if (params.type === 'delete') {
-        deletePlayList({ id: dialogeData.id }).then((res: ResponseType) => {
-          if (res.code === 200) {
-            // 总数减少
-            if (propsListCount.value <= 0) {
-              propsListCount.value = 0;
-            } else {
-              propsListCount.value--;
+        deletePlayList({ id: dialogeData.id })
+          .then((res: ResponseType) => {
+            if (res.code === 200) {
+              // 总数减少
+              if (propsListCount.value <= 0) {
+                propsListCount.value = 0;
+              } else {
+                propsListCount.value--;
+              }
+              // 获取上一项id
+              const index = propsListData.value.findIndex(
+                (item: LoopType) => item.id === dialogeData.id
+              );
+              // 删除列表项
+              propsListData.value.splice(index, 1);
+              // 获取歌单详情
+              let id = propsListData.value[index - 1]?.id || 0;
+              // 上一项id不存在，但是列表还存在数据
+              if (!id && propsListData.value.length !== 0) {
+                id = propsListData.value[0].id;
+              }
+              emit('listClick', id);
             }
-            // 获取上一项id
-            const index = propsListData.value.findIndex(
-              (item: LoopType) => item.id === dialogeData.id
-            );
-            // 删除列表项
-            propsListData.value.splice(index, 1);
-            // 获取歌单详情
-            let id = propsListData.value[index - 1]?.id || 0;
-            // 上一项id不存在，但是列表还存在数据
-            if (!id && propsListData.value.length !== 0) {
-              id = propsListData.value[0].id;
-            }
-            emit('listClick', id);
-          }
-        });
+          })
+          .catch(() => ({}));
       }
       // 关闭弹框
       dialogeData.visible = false;

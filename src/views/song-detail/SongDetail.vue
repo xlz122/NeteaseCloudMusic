@@ -198,12 +198,14 @@ export default defineComponent({
     function getLyricData() {
       getLyric({
         id: songId.value
-      }).then((res: ResponseType) => {
-        // 歌词作者
-        lyric.lyricUser = res?.lyricUser;
-        lyric.transUser = res?.transUser;
-        handlerLyric(res.lrc.lyric);
-      });
+      })
+        .then((res: ResponseType) => {
+          // 歌词作者
+          lyric.lyricUser = res?.lyricUser;
+          lyric.transUser = res?.transUser;
+          handlerLyric(res.lrc.lyric);
+        })
+        .catch(() => ({}));
     }
     getLyricData();
 

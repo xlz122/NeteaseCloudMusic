@@ -94,11 +94,13 @@ export default defineComponent({
         'signInTimestamp',
         JSON.stringify(new Date().getTime())
       );
-      dailySignin().then((res: ResponseType) => {
-        if (res.code === 200) {
-          $store.commit('setSignIn', true);
-        }
-      });
+      dailySignin()
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            $store.commit('setSignIn', true);
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 打开登录对话框

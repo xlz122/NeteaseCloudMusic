@@ -71,23 +71,25 @@ export default defineComponent({
     function getUserPlayList(): void {
       userPlayList({
         uid: userInfo.value?.profile?.userId
-      }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          songSheetList.value = [];
+      })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            songSheetList.value = [];
 
-          // 处理列表数据
-          res.playlist.forEach((item: LoopType) => {
-            // 喜欢的音乐处理
-            if (item.name.includes('喜欢的音乐')) {
-              item.name = '我喜欢的音乐';
-            }
-            // 收藏列表判断
-            if (!item.subscribed) {
-              songSheetList.value.push(item);
-            }
-          });
-        }
-      });
+            // 处理列表数据
+            res.playlist.forEach((item: LoopType) => {
+              // 喜欢的音乐处理
+              if (item.name.includes('喜欢的音乐')) {
+                item.name = '我喜欢的音乐';
+              }
+              // 收藏列表判断
+              if (!item.subscribed) {
+                songSheetList.value.push(item);
+              }
+            });
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 新歌单

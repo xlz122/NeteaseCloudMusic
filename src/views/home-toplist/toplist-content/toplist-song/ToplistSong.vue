@@ -359,12 +359,14 @@ export default defineComponent({
       deleteMusic({
         pid: songSheetDetail.value.playlist.id,
         tracks: deleteMuiscId.value
-      }).then(() => {
-        const index = songSheetDetail.value?.playlist?.tracks?.findIndex(
-          (item: LoopType) => item.id === deleteMuiscId.value
-        );
-        songSheetDetail.value?.playlist?.tracks?.splice(index, 1);
-      });
+      })
+        .then(() => {
+          const index = songSheetDetail.value?.playlist?.tracks?.findIndex(
+            (item: LoopType) => item.id === deleteMuiscId.value
+          );
+          songSheetDetail.value?.playlist?.tracks?.splice(index, 1);
+        })
+        .catch(() => ({}));
     }
 
     // 删除歌曲 - 取消

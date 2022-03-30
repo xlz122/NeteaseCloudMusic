@@ -105,30 +105,32 @@ export default defineComponent({
     function getLyricData() {
       getLyric({
         id: playMusicId.value
-      }).then((res: ResponseType) => {
-        lyric.noData = false;
+      })
+        .then((res: ResponseType) => {
+          lyric.noData = false;
 
-        // 重置歌词滚动高度
-        const lyricDom = document.querySelector('.lyric') as HTMLElement;
-        lyricDom.scrollTo(0, 0);
+          // 重置歌词滚动高度
+          const lyricDom = document.querySelector('.lyric') as HTMLElement;
+          lyricDom.scrollTo(0, 0);
 
-        // 没有歌词
-        if (res.nolyric) {
-          // 清空歌词
-          lyric.list = [];
-          // 显示暂无歌词
-          lyric.noData = true;
-          // 清空存储歌词
-          $store.commit('music/setLyrics', []);
-          return false;
-        }
+          // 没有歌词
+          if (res.nolyric) {
+            // 清空歌词
+            lyric.list = [];
+            // 显示暂无歌词
+            lyric.noData = true;
+            // 清空存储歌词
+            $store.commit('music/setLyrics', []);
+            return false;
+          }
 
-        try {
-          handlerLyric(res.lrc.lyric);
-        } catch {
-          lyric.noData = true;
-        }
-      });
+          try {
+            handlerLyric(res.lrc.lyric);
+          } catch {
+            lyric.noData = true;
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 处理歌词数据
