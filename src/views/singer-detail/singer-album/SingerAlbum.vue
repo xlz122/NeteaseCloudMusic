@@ -10,14 +10,17 @@
           <div class="item-cover">
             <img
               class="item-cover-img"
-              :src="`${item?.picUrl}?param=120y120`"
-              @click="jumpAlbumDetail(item.id)"
+              :src="`${item.picUrl}?param=120y120`"
               alt=""
             />
-            <i class="item-cover-bg"></i>
-            <i class="item-cover-play"></i>
+            <i
+              class="item-cover-bg"
+              :title="item.name"
+              @click="jumpAlbumDetail(item.id)"
+            ></i>
+            <i class="item-cover-play" title="播放"></i>
           </div>
-          <p class="desc" :title="item?.name" @click="jumpAlbumDetail(item.id)">
+          <p class="desc" :title="item.name" @click="jumpAlbumDetail(item.id)">
             {{ item?.name }}
           </p>
           <p class="name">

@@ -3,8 +3,16 @@
     <div class="singer-detail-container">
       <div class="singer-content">
         <div class="singer-info">
-          <h2 class="singer-username">{{ singerDetail?.artist?.name }}</h2>
-          <h3 class="singer-english-name">
+          <h2
+            class="singer-username"
+            :title="`${singerDetail?.artist?.name} - ${singerDetail?.artist?.englishName}`"
+          >
+            {{ singerDetail?.artist?.name }}
+          </h2>
+          <h3
+            :title="`${singerDetail?.artist?.name} - ${singerDetail?.artist?.englishName}`"
+            class="singer-english-name"
+          >
             {{ singerDetail?.artist?.englishName }}
           </h3>
           <img

@@ -7,7 +7,7 @@
           v-for="(item, index) in mvList?.mvs"
           :key="index"
         >
-          <div class="item-cover" @click="jumpMvDetail">
+          <div class="item-cover" @click="jumpMvDetail(item.id)">
             <img
               class="item-cover-img"
               :src="`${item.imgurl}?param=137y103`"
