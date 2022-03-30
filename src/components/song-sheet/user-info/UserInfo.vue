@@ -22,7 +22,7 @@
         <div class="info">
           <img
             class="user-avatar"
-            :src="songSheetDetail.playlist.creator.avatarUrl"
+            :src="songSheetDetail?.playlist?.creator?.avatarUrl"
             @click="jumpUserProfile(songSheetDetail.playlist.creator.userId)"
             alt=""
           />

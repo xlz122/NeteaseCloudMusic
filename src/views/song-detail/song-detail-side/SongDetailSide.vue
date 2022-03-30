@@ -4,7 +4,11 @@
       <h3 class="title">包含这首歌的歌单</h3>
       <ul class="song-sheet-list">
         <li class="item" v-for="(item, index) in songSheetList" :key="index">
-          <div class="item-cover" @click="jumpSongSheetDetail(item.id)">
+          <div
+            class="item-cover"
+            :title="item?.name"
+            @click="jumpSongSheetDetail(item.id)"
+          >
             <img
               class="cover-img"
               :src="`${item?.coverImgUrl}?param=50y50`"
