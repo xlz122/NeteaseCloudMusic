@@ -158,9 +158,11 @@ export default defineComponent({
 
     // 获取播放地址
     function getVideoSrc(): void {
-      videoUrl({ id: video.value.id }).then((res: ResponseType) => {
-        $store.commit('setVideo', { ...video.value, url: res.urls[0].url });
-      });
+      videoUrl({ id: video.value.id })
+        .then((res: ResponseType) => {
+          $store.commit('setVideo', { ...video.value, url: res.urls[0].url });
+        })
+        .catch(() => ({}));
     }
     getVideoSrc();
 

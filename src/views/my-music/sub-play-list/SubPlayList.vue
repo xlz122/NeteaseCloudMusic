@@ -35,12 +35,14 @@ export default defineComponent({
     // 获取我的视频列表
     const subPlayListList = ref<unknown[]>([]);
     function getMyMvSbulist(): void {
-      subPlayList().then((res: ResponseType) => {
-        if (res.code === 200) {
-          subPlayListCount.value = res.count || 0;
-          subPlayListList.value = res.data;
-        }
-      });
+      subPlayList()
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            subPlayListCount.value = res.count || 0;
+            subPlayListList.value = res.data;
+          }
+        })
+        .catch(() => ({}));
     }
     getMyMvSbulist();
 

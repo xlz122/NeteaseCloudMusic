@@ -102,15 +102,17 @@ export default defineComponent({
     // 获取国家编码列表
     const countryCodeList = ref<unknown[]>([]);
     function getCountryCode(): void {
-      countryCode().then((res: ResponseType) => {
-        if (res.code === 200) {
-          res.data.forEach((item: LoopType) => {
-            item?.countryList.forEach((i: LoopType) => {
-              countryCodeList.value.push(i);
+      countryCode()
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            res.data.forEach((item: LoopType) => {
+              item?.countryList.forEach((i: LoopType) => {
+                countryCodeList.value.push(i);
+              });
             });
-          });
-        }
-      });
+          }
+        })
+        .catch(() => ({}));
     }
     getCountryCode();
 
@@ -199,31 +201,35 @@ export default defineComponent({
         testCellphone({
           countrycode: mobileFormData.code,
           phone: mobileFormData.phone
-        }).then((res: ResponseType) => {
-          // 手机号存在
-          if (res.code === 200 && res.exist === 1) {
-            resolve();
-          }
-          // 手机号不存在
-          if (res.code === 200 && res.exist === -1) {
-            verifyMethod({ text: '手机号未注册，点击右下角前往注册' });
-            mobileSubmitText.value = '登 录';
-          }
-        });
+        })
+          .then((res: ResponseType) => {
+            // 手机号存在
+            if (res.code === 200 && res.exist === 1) {
+              resolve();
+            }
+            // 手机号不存在
+            if (res.code === 200 && res.exist === -1) {
+              verifyMethod({ text: '手机号未注册，点击右下角前往注册' });
+              mobileSubmitText.value = '登 录';
+            }
+          })
+          .catch(() => ({}));
       });
     }
 
     // 获取用户详情
     function getUserInfo(uid: number): void {
-      userInfo({ uid }).then((res: ResponseDataType) => {
-        if (res.code === 200) {
-          // 存储用户信息
-          $store.commit('setUserInfo', res);
-          // 关闭登录对话框
-          $store.commit('setLoginDialog', false);
-          mobileSubmitText.value = '登 录';
-        }
-      });
+      userInfo({ uid })
+        .then((res: ResponseDataType) => {
+          if (res.code === 200) {
+            // 存储用户信息
+            $store.commit('setUserInfo', res);
+            // 关闭登录对话框
+            $store.commit('setLoginDialog', false);
+            mobileSubmitText.value = '登 录';
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 监听点击

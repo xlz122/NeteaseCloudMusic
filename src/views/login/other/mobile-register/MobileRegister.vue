@@ -160,15 +160,17 @@ export default defineComponent({
     // 获取国家编码列表
     const countryCodeList = ref<unknown[]>([]);
     function getCountryCode(): void {
-      countryCode().then((res: ResponseType) => {
-        if (res.code === 200) {
-          res.data.forEach((item: LoopType) => {
-            item?.countryList.forEach((i: LoopType) => {
-              countryCodeList.value.push(i);
+      countryCode()
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            res.data.forEach((item: LoopType) => {
+              item?.countryList.forEach((i: LoopType) => {
+                countryCodeList.value.push(i);
+              });
             });
-          });
-        }
-      });
+          }
+        })
+        .catch(() => ({}));
     }
     getCountryCode();
 
@@ -325,12 +327,15 @@ export default defineComponent({
         verifyMethod({ text: '请输入验证码' });
         return false;
       }
-      getCaptchaVerify().then(() => {
-        $store.commit('setMessage', {
-          type: 'error',
-          title: '很抱歉，余下功能未开发'
-        });
-      });
+
+      getCaptchaVerify()
+        .then(() => {
+          $store.commit('setMessage', {
+            type: 'error',
+            title: '很抱歉，余下功能未开发'
+          });
+        })
+        .catch(() => ({}));
     }
 
     // 验证验证码

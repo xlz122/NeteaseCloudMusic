@@ -9,11 +9,13 @@ import { ResponseDataType, LoopType } from '@/types/types';
  */
 export function getMusicUrl(id: number): Promise<string> {
   return new Promise(resolve => {
-    getPlayMusicUrl({ id }).then((res: ResponseDataType) => {
-      if (res.code === 200) {
-        resolve(res.data[0].url);
-      }
-    });
+    getPlayMusicUrl({ id })
+      .then((res: ResponseDataType) => {
+        if (res.code === 200) {
+          resolve(res.data[0].url);
+        }
+      })
+      .catch(() => ({}));
   });
 }
 

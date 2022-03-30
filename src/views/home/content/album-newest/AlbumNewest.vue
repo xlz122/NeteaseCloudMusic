@@ -61,16 +61,18 @@ export default defineComponent({
     // 新碟上架数据
     const listData = ref<unknown[]>([]);
     function getListData() {
-      albumNewest().then((res: ResponseType) => {
-        if (res.code === 200) {
-          // 前五项和后五项位置替换
-          const first = res?.albums.slice(0, 5);
-          const last = res?.albums.slice(5, 10);
-          // 存储前十项，并复制为二倍模板
-          listData.value = [...last, ...first];
-          listData.value.unshift(...listData.value);
-        }
-      });
+      albumNewest()
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            // 前五项和后五项位置替换
+            const first = res?.albums.slice(0, 5);
+            const last = res?.albums.slice(5, 10);
+            // 存储前十项，并复制为二倍模板
+            listData.value = [...last, ...first];
+            listData.value.unshift(...listData.value);
+          }
+        })
+        .catch(() => ({}));
     }
     getListData();
 

@@ -92,31 +92,37 @@ export default defineComponent({
     const listData = reactive<Record<string, any>>([]);
     // 获取飙升榜数据
     function getSoaringList(): void {
-      soaringList({ id: 19723756 }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          listData.push(res);
-        }
-      });
+      soaringList({ id: 19723756 })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            listData.push(res);
+          }
+        })
+        .catch(() => ({}));
     }
     getSoaringList();
 
     // 获取新歌榜数据
     function getNewSongs(): void {
-      newSongs({ id: 3779629 }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          listData.push(res);
-        }
-      });
+      newSongs({ id: 3779629 })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            listData.push(res);
+          }
+        })
+        .catch(() => ({}));
     }
     getNewSongs();
 
     // 获取原创榜数据
     function getOriginalList(): void {
-      originalList({ id: 2884035 }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          listData.push(res);
-        }
-      });
+      originalList({ id: 2884035 })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            listData.push(res);
+          }
+        })
+        .catch(() => ({}));
     }
     getOriginalList();
 

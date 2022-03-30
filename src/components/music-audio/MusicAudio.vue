@@ -196,14 +196,16 @@ export default defineComponent({
     // 上一首
     const prevPlayMusic = throttle(
       function () {
-        getPrevMusicId().then(() => {
-          // 开始播放
-          $store.commit('music/setMusicPlayStatus', {
-            look: true,
-            loading: true,
-            refresh: true
-          });
-        });
+        getPrevMusicId()
+          .then(() => {
+            // 开始播放
+            $store.commit('music/setMusicPlayStatus', {
+              look: true,
+              loading: true,
+              refresh: true
+            });
+          })
+          .catch(() => ({}));
       },
       800,
       {
@@ -215,14 +217,16 @@ export default defineComponent({
     // 下一首
     const nextPlayMusic = throttle(
       function () {
-        getNextMusicId().then(() => {
-          // 开始播放
-          $store.commit('music/setMusicPlayStatus', {
-            look: true,
-            loading: true,
-            refresh: true
-          });
-        });
+        getNextMusicId()
+          .then(() => {
+            // 开始播放
+            $store.commit('music/setMusicPlayStatus', {
+              look: true,
+              loading: true,
+              refresh: true
+            });
+          })
+          .catch(() => ({}));
       },
       800,
       {
