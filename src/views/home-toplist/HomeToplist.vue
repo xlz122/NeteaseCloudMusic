@@ -58,7 +58,7 @@ export default defineComponent({
     watch(
       () => $route.params,
       curVal => {
-        if (curVal) {
+        if (curVal.id) {
           (async () => {
             const list: List[] = await getTopList();
             const ItemId = list.findIndex(
