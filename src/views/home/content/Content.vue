@@ -20,8 +20,13 @@
           :key="index"
           :class="{ 'last-item': songListData.length > 2 && index === 3 }"
         >
-          <div class="item-top" @click="jumpSongSheetDetail(item.id)">
-            <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
+          <div class="item-top">
+            <img
+              class="img"
+              :src="`${item.picUrl}?param=140y140`"
+              alt=""
+              @click="jumpSongSheetDetail(item.id)"
+            />
             <div class="info">
               <i class="info-icon"></i>
               <span class="num">{{ item?.playCount }}</span>
@@ -44,8 +49,13 @@
             :key="index"
             :class="{ 'last-item': index === 1 }"
           >
-            <div class="item-top" @click="jumpSongSheetDetail(item.id)">
-              <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
+            <div class="item-top">
+              <img
+                class="img"
+                :src="`${item.picUrl}?param=140y140`"
+                alt=""
+                @click="jumpSongSheetDetail(item.id)"
+              />
               <div class="info">
                 <i class="info-icon"></i>
                 <span class="num">{{ item?.playcount }}</span>
@@ -68,8 +78,13 @@
           :key="index"
           :class="{ 'last-item': index === 2 }"
         >
-          <div class="item-top" @click="jumpDjprogramDetail(item.id)">
-            <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
+          <div class="item-top">
+            <img
+              class="img"
+              :src="`${item.picUrl}?param=140y140`"
+              alt=""
+              @click="jumpDjprogramDetail(item.id)"
+            />
             <div class="info">
               <i class="info-icon"></i>
               <span class="num">{{ item?.program?.adjustedPlayCount }}</span>
@@ -78,7 +93,7 @@
           </div>
           <div
             class="item-bottom"
-            :title="item?.name"
+            :title="item.name"
             @click="jumpDjprogramDetail(item.id)"
           >
             <span class="radio-station"></span>
@@ -107,14 +122,14 @@
         </li>
         <li
           class="item individualization"
-          v-for="(item, index) in individualizatData.slice(0, 3)"
+          v-for="(item, index) in individualizatData?.slice(0, 3)"
           :key="index"
           :class="{
-            'last-item': index === individualizatData.slice(0, 3).length - 1
+            'last-item': index === individualizatData?.slice(0, 3).length - 1
           }"
         >
           <div class="item-top" @click="jumpSongSheetDetail(item.id)">
-            <img class="img" :src="`${item?.picUrl}?param=140y140`" alt="" />
+            <img class="img" :src="`${item.picUrl}?param=140y140`" alt="" />
             <div class="info">
               <i class="info-icon"></i>
               <span class="num">{{ item?.playcount }}</span>
@@ -191,7 +206,7 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    const isLogin = computed(() => $store.getters.isLogin);
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
     // 监听登录，重新获取各项数据
     watch(
@@ -229,14 +244,16 @@ export default defineComponent({
       } else {
         limit = 5;
       }
-      recommendSongList({ limit }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          res?.result.forEach((item: LoopType) => {
-            item.playCount = bigNumberTransform(item?.playCount);
-          });
-          songListData.value = res?.result;
-        }
-      });
+      recommendSongList({ limit })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            res?.result.forEach((item: LoopType) => {
+              item.playCount = bigNumberTransform(item?.playCount);
+            });
+            songListData.value = res?.result;
+          }
+        })
+        .catch(() => ({}));
     }
     getSongList();
 
@@ -248,17 +265,19 @@ export default defineComponent({
     // 获取热门推荐 - 推荐电台数据
     const djprogramData = ref<unknown[]>([]);
     function getDjprogram() {
-      recommendDjprogram().then((res: ResponseType) => {
-        if (res.code === 200) {
-          res?.result.forEach((item: LoopType) => {
-            item.program.adjustedPlayCount = bigNumberTransform(
-              item?.program?.adjustedPlayCount
-            );
-          });
-          // 截取前三项
-          djprogramData.value = res?.result.slice(0, 3);
-        }
-      });
+      recommendDjprogram()
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            res?.result.forEach((item: LoopType) => {
+              item.program.adjustedPlayCount = bigNumberTransform(
+                item?.program?.adjustedPlayCount
+              );
+            });
+            // 截取前三项
+            djprogramData.value = res?.result.slice(0, 3);
+          }
+        })
+        .catch(() => ({}));
     }
     getDjprogram();
 
@@ -269,18 +288,22 @@ export default defineComponent({
       if (!isLogin.value) {
         return false;
       }
-      recommendResource().then((res: ResponseType) => {
-        if (res.code === 200) {
-          res?.recommend.forEach((item: LoopType) => {
-            item.playcount = bigNumberTransform(item.playcount);
-          });
-          // 截取前三项
-          individualizatSongSheet.value = JSON.parse(
-            JSON.stringify(res?.recommend.slice(0, 3))
-          );
-          individualizatData.value = JSON.parse(JSON.stringify(res?.recommend));
-        }
-      });
+      recommendResource()
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            res?.recommend.forEach((item: LoopType) => {
+              item.playcount = bigNumberTransform(item.playcount);
+            });
+            // 截取前三项
+            individualizatSongSheet.value = JSON.parse(
+              JSON.stringify(res?.recommend.slice(0, 3))
+            );
+            individualizatData.value = JSON.parse(
+              JSON.stringify(res?.recommend)
+            );
+          }
+        })
+        .catch(() => ({}));
     }
     getIndividualizat();
 
