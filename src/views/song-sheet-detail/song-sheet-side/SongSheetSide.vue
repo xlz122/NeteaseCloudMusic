@@ -24,6 +24,7 @@
             <img
               class="cover-img"
               :src="`${item?.coverImgUrl}?param=50y50`"
+              :title="item.name"
               alt=""
             />
           </div>
