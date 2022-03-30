@@ -1,13 +1,13 @@
 <template>
   <!-- loading -->
-  <div class="loading" v-if="albumData.loading">
+  <div class="loading" v-if="albumData?.loading">
     <i class="loading-icon"></i>
     加载中...
   </div>
-  <ul class="search-album-list" v-if="!albumData.loading">
+  <ul class="search-album-list" v-if="!albumData?.loading">
     <li
       class="search-album-item"
-      v-for="(item, index) in albumData.list"
+      v-for="(item, index) in albumData?.list"
       :key="index"
     >
       <div class="item-cover" @click="jumpAlbumDetail(item.id)">

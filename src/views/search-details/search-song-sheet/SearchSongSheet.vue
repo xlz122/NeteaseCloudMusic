@@ -7,7 +7,7 @@
   <ul class="search-song-sheet" v-if="!songSheetData?.loading">
     <li
       class="item"
-      v-for="(item, index) in songSheetData.list"
+      v-for="(item, index) in songSheetData?.list"
       :key="index"
       :class="{ 'even-item': index % 2 }"
     >
@@ -45,8 +45,8 @@
           ></i>
           <i
             class="icon collect"
-            :class="`${item.subscribed ? 'collectd' : ''}`"
-            :title="`${item.subscribed ? '已收藏' : '收藏'}`"
+            :class="`${item?.subscribed ? 'collectd' : ''}`"
+            :title="`${item?.subscribed ? '已收藏' : '收藏'}`"
             @click="handleCollection(item.id, item.subscribed)"
           ></i>
           <i class="icon share" title="分享" @click="shareClick"></i>

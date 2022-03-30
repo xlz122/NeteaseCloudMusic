@@ -98,7 +98,7 @@
             {{ item.lyric }}
           </li>
         </ul>
-        <div class="toggle-btn" v-if="lyric.list.length > 13">
+        <div class="toggle-btn" v-if="lyric?.list.length > 13">
           <span v-if="!toggleShow" @click="toggle">
             <span class="text">展开</span>
             <i class="icon"></i>

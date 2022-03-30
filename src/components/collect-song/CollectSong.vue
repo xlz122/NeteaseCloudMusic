@@ -18,13 +18,13 @@
           @click="handleCollection(item.id)"
         >
           <div class="item-cover">
-            <img class="item-cover-img" :src="item.coverImgUrl" alt="" />
+            <img class="item-cover-img" :src="item?.coverImgUrl" alt="" />
           </div>
           <div class="item-info">
-            <span class="item-info-name" :title="item.name">
-              {{ item.name }}
+            <span class="item-info-name" :title="item?.name">
+              {{ item?.name }}
             </span>
-            <span class="item-info-count">{{ item.trackCount }}首</span>
+            <span class="item-info-count">{{ item?.trackCount }}首</span>
           </div>
         </li>
       </ul>

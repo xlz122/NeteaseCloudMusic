@@ -56,7 +56,7 @@
         </ul>
         <!-- 根据选中，渲染对应组件 -->
         <component
-          :is="`${singerTabs[singerTabIndex].component}`"
+          :is="`${singerTabs[singerTabIndex]?.component}`"
           :singerDetail="singerDetail"
         ></component>
       </div>

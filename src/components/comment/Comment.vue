@@ -1,7 +1,7 @@
 <template>
   <div class="list-title">
     <h3 class="title-text">评论</h3>
-    <span class="title-text-num">共{{ commentParams.total }}条评论</span>
+    <span class="title-text-num">共{{ commentParams?.total }}条评论</span>
   </div>
   <div class="detail-comment">
     <div class="comment-content">
@@ -19,7 +19,7 @@
     </div>
     <!-- 精彩评论(页数1展示) -->
     <template
-      v-if="commentParams.offset <= 1 && commentParams.hotList?.length > 0"
+      v-if="commentParams?.offset <= 1 && commentParams?.hotList?.length > 0"
     >
       <h3 class="comment-list-title">精彩评论</h3>
       <CommentList
@@ -32,8 +32,8 @@
       />
     </template>
     <!-- 最新评论 -->
-    <template v-if="commentParams.list?.length > 0">
-      <h3 class="comment-list-title">最新评论({{ commentParams.total }})</h3>
+    <template v-if="commentParams?.list?.length > 0">
+      <h3 class="comment-list-title">最新评论({{ commentParams?.total }})</h3>
       <CommentList
         :type="1"
         :list="commentParams.list"

@@ -15,7 +15,7 @@
             ]"
             @click="navChange(index)"
           >
-            <router-link class="link" v-if="item.link" :to="item?.link">
+            <router-link class="link" v-if="item?.link" :to="item?.link">
               {{ item?.title }}
             </router-link>
             <a class="link" target="_blank" v-else :href="item?.href">

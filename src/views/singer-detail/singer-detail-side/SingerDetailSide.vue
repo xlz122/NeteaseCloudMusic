@@ -10,8 +10,8 @@
           :class="{ 'first-item': !(index % 3) }"
           @click="jumpSingerDetail(item.id)"
         >
-          <router-link class="item-link" to="" :title="item.name">
-            <img class="item-img" :src="`${item.picUrl}?param=50y50`" />
+          <router-link class="item-link" to="" :title="item?.name">
+            <img class="item-img" :src="`${item?.picUrl}?param=50y50`" />
           </router-link>
           <p class="desc">{{ item?.name }}</p>
         </li>
@@ -27,7 +27,7 @@
           :class="{ 'first-item': !(index % 3) }"
           @click="jumpSingerDetail(item.id)"
         >
-          <router-link class="item-link" to="" :title="item.name">
+          <router-link class="item-link" to="" :title="item?.name">
             <img class="item-img" :src="`${item?.picUrl}?param=50y50`" />
           </router-link>
           <p class="desc">{{ item?.name }}</p>

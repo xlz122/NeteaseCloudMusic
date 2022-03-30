@@ -24,7 +24,7 @@
           <div class="item-top">
             <img
               class="img"
-              :src="`${item.coverImgUrl}?param=140y140`"
+              :src="`${item?.coverImgUrl}?param=140y140`"
               alt=""
               @click="jumpSongSheetDetail(item.id)"
             />
@@ -46,7 +46,7 @@
               <span class="by">by</span>
               <span
                 class="text"
-                :title="item.creator.nickname"
+                :title="item?.creator?.nickname"
                 @click="jumpUserProfile(item.creator.userId)"
               >
                 {{ item?.creator?.nickname }}

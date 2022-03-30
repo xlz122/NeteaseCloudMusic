@@ -49,13 +49,13 @@
     <ul class="star-list">
       <li class="item" v-for="(item, index) in starList" :key="index">
         <div class="item-img">
-          <img class="img" :src="item.src" alt="" />
+          <img class="img" :src="item?.src" alt="" />
         </div>
         <div class="info">
-          <h4 class="info-title" :title="item.name">{{ item.name }}</h4>
-          <p class="info-desc" :title="item.desc">{{ item.desc }}</p>
+          <h4 class="info-title" :title="item?.name">{{ item?.name }}</h4>
+          <p class="info-desc" :title="item?.desc">{{ item?.desc }}</p>
         </div>
-        <button class="follow" v-if="!item.follow" @click="starFollow(index)">
+        <button class="follow" v-if="!item?.follow" @click="starFollow(index)">
           <span class="follow-text">关注</span>
         </button>
         <span class="follow-active-text" v-else>
@@ -75,7 +75,7 @@
     <ul class="star-list interested-list">
       <li class="item" v-for="(item, index) in interestedList" :key="index">
         <div class="item-img">
-          <img class="img" :src="item.src" alt="" />
+          <img class="img" :src="item?.src" alt="" />
         </div>
         <div class="info">
           <div
@@ -83,13 +83,13 @@
             :title="item.name"
             @click="jumpUserProfile(userInfo?.profile?.userId)"
           >
-            {{ item.name }}
+            {{ item?.name }}
           </div>
-          <p class="info-desc" :title="item.desc">{{ item.desc }}</p>
+          <p class="info-desc" :title="item?.desc">{{ item?.desc }}</p>
         </div>
         <button
           class="follow"
-          v-if="!item.follow"
+          v-if="!item?.follow"
           @click="interestedFollow(index)"
         >
           <span class="follow-text">关注</span>

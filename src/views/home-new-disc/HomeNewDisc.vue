@@ -12,19 +12,19 @@
           <div class="item-cover">
             <img
               class="item-cover-img"
-              :src="`${item.picUrl}?param=130y130`"
-              :title="item.name"
+              :src="`${item?.picUrl}?param=130y130`"
+              :title="item?.name"
               alt=""
               @click="jumpAlbumDetail(item.id)"
             />
             <i class="item-cover-bg"></i>
             <i class="item-cover-play" title="播放"></i>
           </div>
-          <p class="desc" :title="item.name" @click="jumpAlbumDetail(item.id)">
+          <p class="desc" :title="item?.name" @click="jumpAlbumDetail(item.id)">
             {{ item?.name }}
           </p>
           <template v-for="(i, ind) in item?.artists" :key="ind">
-            <span class="name" :title="i.name" @click="jumpSingerDetail(i.id)">
+            <span class="name" :title="i?.name" @click="jumpSingerDetail(i.id)">
               {{ i?.name }}
             </span>
             <span class="line" v-if="ind !== item?.artists.length - 1">
@@ -53,19 +53,19 @@
           <div class="item-cover">
             <img
               class="item-cover-img"
-              :src="`${item.picUrl}?param=130y130`"
-              :title="item.name"
+              :src="`${item?.picUrl}?param=130y130`"
+              :title="item?.name"
               alt=""
               @click="jumpAlbumDetail(item.id)"
             />
             <i class="item-cover-bg"></i>
             <i class="item-cover-play" title="播放"></i>
           </div>
-          <p class="desc" :title="item.name" @click="jumpAlbumDetail(item.id)">
+          <p class="desc" :title="item?.name" @click="jumpAlbumDetail(item.id)">
             {{ item?.name }}
           </p>
           <template v-for="(i, ind) in item?.artists" :key="ind">
-            <span class="name" :title="i.name" @click="jumpSingerDetail(i.id)">
+            <span class="name" :title="i?.name" @click="jumpSingerDetail(i.id)">
               {{ i?.name }}
             </span>
             <span class="line" v-if="ind !== item?.artists.length - 1">

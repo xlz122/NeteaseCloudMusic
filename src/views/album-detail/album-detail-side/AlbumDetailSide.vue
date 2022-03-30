@@ -9,8 +9,8 @@
         :class="{ 'first-item': !(index % 4) }"
         @click="jumpUserProfile(item.userId)"
       >
-        <router-link class="item-link" to="" :title="item.nickname">
-          <img class="item-img" :src="`${item.avatarUrl}?param=40y40`" />
+        <router-link class="item-link" to="" :title="item?.nickname">
+          <img class="item-img" :src="`${item?.avatarUrl}?param=40y40`" />
         </router-link>
       </li>
     </ul>
@@ -20,19 +20,18 @@
     </h3>
     <ul class="song-sheet-list">
       <li class="item" v-for="(item, index) in albumList" :key="index">
-        <div class="item-cover" @click="jumpAlbumDetail(item.id)">
-          <img
-            class="cover-img"
-            :src="`${item.picUrl}?param=50y50`"
-            :title="item.name"
-            alt=""
-          />
+        <div
+          class="item-cover"
+          :title="item?.name"
+          @click="jumpAlbumDetail(item?.id)"
+        >
+          <img class="cover-img" :src="`${item?.picUrl}?param=50y50`" alt="" />
         </div>
         <div class="item-info">
           <p
             class="info-title"
-            :title="item.name"
-            @click="jumpAlbumDetail(item.id)"
+            :title="item?.name"
+            @click="jumpAlbumDetail(item?.id)"
           >
             {{ item?.name }}
           </p>
