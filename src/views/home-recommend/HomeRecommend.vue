@@ -16,7 +16,6 @@
             :class="{
               'disable-play': recommendSong?.length === 0
             }"
-            title="播放"
             @click="playTitleMusic"
           >
             <span class="icon-play">播放全部</span>
@@ -26,10 +25,9 @@
             :class="{
               'disable-play-add': recommendSong?.length === 0
             }"
-            title="添加到播放列表"
             @click="setAddPlayList"
           ></div>
-          <div class="other collection" @click="handleCollectionAll">
+          <div class="other collection" @click="handleCollectAll">
             <span class="icon"> 收藏全部</span>
           </div>
         </div>
@@ -175,7 +173,7 @@ export default defineComponent({
     }
 
     // 收藏全部
-    function handleCollectionAll(): void {
+    function handleCollectAll(): void {
       let ids = '';
       recommendSong.value.forEach((item: LoopType) => {
         ids += `${item.id},`;
@@ -200,7 +198,7 @@ export default defineComponent({
       recommendSong,
       playTitleMusic,
       setAddPlayList,
-      handleCollectionAll
+      handleCollectAll
     };
   }
 });

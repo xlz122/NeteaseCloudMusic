@@ -19,7 +19,7 @@
         title="添加到播放列表"
         @click="setAddPlayList"
       ></div>
-      <div class="other collection" @click="handleCollectionAll">
+      <div class="other collection" @click="handleCollectAll">
         <span class="icon"> 收藏热门{{ singerSong?.hotSongs.length }} </span>
       </div>
     </div>
@@ -364,7 +364,7 @@ export default defineComponent({
     }
 
     // 收藏全部
-    function handleCollectionAll(): boolean | undefined {
+    function handleCollectAll(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -397,7 +397,7 @@ export default defineComponent({
       jumpSongDetail,
       jumpVideoDetail,
       jumpAlbumDetail,
-      handleCollectionAll
+      handleCollectAll
     };
   }
 });

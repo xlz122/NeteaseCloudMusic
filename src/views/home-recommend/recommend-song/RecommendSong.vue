@@ -48,11 +48,11 @@
                 <span class="title" :title="`${item.name}`">
                   {{ item?.name }}
                 </span>
-                <span class="no-click" v-if="item.alia[0]">
+                <span class="no-click" v-if="item?.alia[0]">
                   - {{ item?.alia[0] }}
                 </span>
               </span>
-              <i class="icon-play" v-if="item.mv > 0"></i>
+              <i class="icon-play" v-if="item?.mv > 0"></i>
             </div>
           </td>
           <td class="tbody-td">
@@ -66,15 +66,23 @@
                   title="添加到播放列表"
                   @click="singleMusicToPlayList(item)"
                 ></i>
-                <i class="icon collect" title="收藏"></i>
-                <i class="icon share" title="分享"></i>
-                <i class="icon download" title="下载"></i>
+                <i
+                  class="icon collect"
+                  title="收藏"
+                  @click="handleCollection(item.id)"
+                ></i>
+                <i class="icon share" title="分享" @click="handleShare"></i>
+                <i
+                  class="icon download"
+                  title="下载"
+                  @click="handleDownload"
+                ></i>
               </div>
             </div>
           </td>
           <td class="tbody-td singer">
             <div class="hd">
-              <div class="text" v-for="(i, ind) in item.ar" :key="ind">
+              <div class="text" v-for="(i, ind) in item?.ar" :key="ind">
                 <span
                   class="name"
                   :title="i.name"
@@ -88,7 +96,7 @@
           </td>
           <td class="tbody-td" @click="jumpAlbumDetail(item.al.id)">
             <div class="hd">
-              <span class="text" :title="item?.al?.name">
+              <span class="text" :title="item.al.name">
                 {{ item?.al?.name }}
               </span>
             </div>
@@ -132,6 +140,7 @@ export default defineComponent({
 
     const $store = useStore();
 
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     // 当前播放音乐id
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
@@ -173,11 +182,6 @@ export default defineComponent({
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
     // 播放单个歌曲
     function playSingleMusic(item: Record<string, any>): void {
       // 处理播放器所需数据
@@ -211,6 +215,47 @@ export default defineComponent({
       });
     }
 
+    // 收藏歌曲
+    function handleCollection(id: number): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      $store.commit('music/collectPlayMusic', {
+        visible: true,
+        songIds: id
+      });
+    }
+
+    // 分享
+    function handleShare(): boolean | undefined {
+      // 未登录打开登录框
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 下载
+    function handleDownload(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      $store.commit('jumpSingerDetail', id);
+    }
+
     // 跳转专辑详情
     function jumpAlbumDetail(id: number): void {
       $store.commit('jumpAlbumDetail', id);
@@ -221,10 +266,13 @@ export default defineComponent({
       playMusicId,
       loading,
       jumpSongDetail,
-      jumpSingerDetail,
+      playSingleMusic,
       singleMusicToPlayList,
-      jumpAlbumDetail,
-      playSingleMusic
+      handleCollection,
+      handleShare,
+      handleDownload,
+      jumpSingerDetail,
+      jumpAlbumDetail
     };
   }
 });
