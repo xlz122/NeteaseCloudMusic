@@ -25,7 +25,7 @@
         <template v-for="(item, index) in userInfo?.artists" :key="index">
           <span
             class="name"
-            :title="item.name"
+            :title="item?.name"
             @click="jumpSingerDetail(item.id)"
           >
             {{ item?.name }}

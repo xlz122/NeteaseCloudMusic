@@ -10,7 +10,7 @@
           <div class="item-cover" @click="jumpMvDetail(item.id)">
             <img
               class="item-cover-img"
-              :src="`${item.imgurl}?param=137y103`"
+              :src="`${item?.imgurl}?param=137y103`"
               alt=""
             />
             <i class="item-cover-bg"></i>

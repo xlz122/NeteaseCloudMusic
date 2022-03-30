@@ -9,15 +9,15 @@
       <!-- 两侧按钮及图片 -->
       <div class="banner-content">
         <div class="banner-img">
-          <template v-for="(item, index) in banner.list" :key="index">
+          <template v-for="(item, index) in banner?.list" :key="index">
             <img
               class="img"
               :class="{
                 'switching-img':
-                  bannerImgSwitching && item.imageUrl === banner.currentUrl
+                  bannerImgSwitching && item?.imageUrl === banner?.currentUrl
               }"
-              v-show="item.imageUrl === banner.currentUrl"
-              :src="item.imageUrl"
+              v-show="item?.imageUrl === banner?.currentUrl"
+              :src="item?.imageUrl"
               @click="jumpDetail(item)"
               alt=""
             />
@@ -38,8 +38,8 @@
       <ul class="warp-dots">
         <li
           class="dots-item"
-          :class="{ 'dots-active-item': index === banner.index }"
-          v-for="(item, index) in banner.list"
+          :class="{ 'dots-active-item': index === banner?.index }"
+          v-for="(item, index) in banner?.list"
           :key="index"
           @click="dotChange(index)"
         ></li>

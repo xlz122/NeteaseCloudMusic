@@ -7,7 +7,7 @@
             <div class="item-img">
               <img
                 class="img"
-                :src="`${item.picUrl}?param=100y100`"
+                :src="`${item?.picUrl}?param=100y100`"
                 @click="jumpAlbumDetail"
                 alt=""
               />
@@ -29,7 +29,7 @@
                 >
                   {{ i?.name }}
                 </span>
-                <span class="line" v-if="ind !== item.artists.length - 1">
+                <span class="line" v-if="ind !== item?.artists.length - 1">
                   /
                 </span>
               </template>

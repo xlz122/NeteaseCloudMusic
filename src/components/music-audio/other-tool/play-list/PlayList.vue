@@ -30,15 +30,15 @@
             v-for="(item, index) in playMusicList"
             :key="index"
             :class="{ 'active-item': item.id === playMusicId }"
-            @click="playlistItem(item.id, item)"
+            @click="playlistItem(item?.id, item)"
           >
             <i class="play-icon"></i>
-            <span class="text song-title">{{ item.name }}</span>
+            <span class="text song-title">{{ item?.name }}</span>
             <div class="operate-btn">
               <i
                 class="icon collect"
                 title="收藏"
-                @click="handleCollection(item.id, $event)"
+                @click="handleCollection(item?.id, $event)"
               ></i>
               <i class="icon share" title="分享" @click.stop="handleShare"></i>
               <i
@@ -49,7 +49,7 @@
               <i
                 class="icon delete"
                 title="删除"
-                @click="deleteMusic(item.id, $event)"
+                @click="deleteMusic(item?.id, $event)"
               ></i>
             </div>
             <span class="text name" @click.stop>

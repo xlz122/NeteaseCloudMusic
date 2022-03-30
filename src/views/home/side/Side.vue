@@ -13,10 +13,10 @@
           class="item"
           v-for="(item, index) in singerList"
           :key="index"
-          @click="jumpUserProfile(item.userId)"
+          @click="jumpUserProfile(item?.userId)"
         >
           <div class="item-img">
-            <img class="img" :src="item.src" alt="" />
+            <img class="img" :src="item?.src" alt="" />
           </div>
           <div class="info">
             <h4 class="info-title">{{ item?.name }}</h4>
@@ -42,10 +42,10 @@
           class="anchor-item"
           v-for="(item, index) in anchorList"
           :key="index"
-          @click="jumpUserProfile(item.userId)"
+          @click="jumpUserProfile(item?.userId)"
         >
           <div class="item-img">
-            <img class="img" :src="item.src" alt="" />
+            <img class="img" :src="item?.src" alt="" />
           </div>
           <div class="info">
             <h4 class="info-title">

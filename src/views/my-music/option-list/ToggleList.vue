@@ -17,7 +17,7 @@
     <ul class="list" v-if="listShow">
       <li
         class="item"
-        :class="{ 'active-item': item.id === songSheetId }"
+        :class="{ 'active-item': item?.id === songSheetId }"
         v-for="(item, index) in propsListData"
         :key="index"
         @click="listClick(item.id)"

@@ -39,13 +39,13 @@
         <div class="emtwrap">
           <span
             class="emtwrap-img"
-            v-for="(item, index) in exproessionPage.list"
+            v-for="(item, index) in exproessionPage?.list"
             :key="index"
-            :title="item.title"
+            :title="item?.title"
           >
             <img
               class="emtwrap-expression"
-              :src="`http://s1.music.126.net/style/web2/emt/emoji_${item.num}.png`"
+              :src="`http://s1.music.126.net/style/web2/emt/emoji_${item?.num}.png`"
               @click="chooseEmoj(index)"
             />
           </span>
@@ -58,13 +58,13 @@
             class="j-flag u-btn u-btn-prv"
           ></a>
           <span class="j-flag text s-fc3">
-            {{ exproessionPage.current }} / {{ exproessionPage.total }}
+            {{ exproessionPage?.current }} / {{ exproessionPage?.total }}
           </span>
           <a
-            @click="expressionSwitch('next')"
+            class="j-flag u-btn u-btn-nxt"
             href="#"
             hidefocus="true"
-            class="j-flag u-btn u-btn-nxt"
+            @click="expressionSwitch('next')"
           ></a>
         </div>
       </div>

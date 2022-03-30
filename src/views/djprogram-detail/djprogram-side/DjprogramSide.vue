@@ -9,12 +9,12 @@
         <div class="item-cover">
           <img
             class="cover-img"
-            :src="`${item.coverImgUrl}?param=50y50`"
+            :src="`${item?.coverImgUrl}?param=50y50`"
             alt=""
           />
         </div>
         <div class="item-info">
-          <p class="info-title" :title="item.name">
+          <p class="info-title" :title="item?.name">
             {{ item?.name }}
           </p>
           <div class="info-desc">

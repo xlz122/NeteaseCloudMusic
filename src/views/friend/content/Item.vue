@@ -1,6 +1,6 @@
 <template>
   <!-- 单曲 电台 -->
-  <template v-if="item.type === 18">
+  <template v-if="item?.type === 18">
     <div class="cover" @click="jumpUserProfile(item?.user?.userId)">
       <img class="img" :src="`${item?.user?.avatarUrl}?param=45y45`" alt="" />
     </div>
@@ -78,7 +78,7 @@
     </div>
   </template>
   <!-- 节目 -->
-  <template v-if="item.type === 17">
+  <template v-if="item?.type === 17">
     <div class="cover" @click="jumpUserProfile(item?.user?.userId)">
       <img class="img" :src="`${item?.user?.avatarUrl}?param=45y45`" alt="" />
     </div>
@@ -149,7 +149,7 @@
     </div>
   </template>
   <!-- 专辑 -->
-  <template v-if="item.type === 19">
+  <template v-if="item?.type === 19">
     <div class="cover" @click="jumpUserProfile(item?.user?.userId)">
       <img class="img" :src="`${item?.user?.avatarUrl}?param=45y45`" alt="" />
     </div>
@@ -225,7 +225,7 @@
     </div>
   </template>
   <!-- 歌单 -->
-  <template v-if="item.type === 13">
+  <template v-if="item?.type === 13">
     <div class="cover" @click="jumpUserProfile(item?.user?.userId)">
       <img class="img" :src="`${item?.user?.avatarUrl}?param=45y45`" alt="" />
     </div>
@@ -294,7 +294,7 @@
     </div>
   </template>
   <!-- 话题 -->
-  <template v-if="item.type === 33">
+  <template v-if="item?.type === 33">
     <div class="cover">
       <span class="img"></span>
     </div>
@@ -311,7 +311,7 @@
     </div>
   </template>
   <!-- 文案 -->
-  <template v-if="item.type === 35">
+  <template v-if="item?.type === 35">
     <div class="cover" @click="jumpUserProfile(item?.user?.userId)">
       <img class="img" :src="`${item?.user?.avatarUrl}?param=45y45`" alt="" />
     </div>

@@ -46,25 +46,25 @@
               <template v-if="index < 3">
                 <img
                   class="song-img"
-                  :src="item.al.picUrl"
+                  :src="item?.al?.picUrl"
                   alt=""
                   @click="jumpSongDetail(item.id)"
                 />
               </template>
               <i
                 class="icon-play"
-                :class="{ 'active-play': item.id === playMusicId }"
+                :class="{ 'active-play': item?.id === playMusicId }"
                 @click="playSingleMusic(item)"
               ></i>
               <span class="text" @click="jumpSongDetail(item.id)">
-                <span class="title" :title="item.name">{{ item.name }}</span>
-                <span class="no-click" v-if="item.alia[0]">
-                  - {{ item.alia[0] }}
+                <span class="title" :title="item?.name">{{ item?.name }}</span>
+                <span class="no-click" v-if="item?.alia[0]">
+                  - {{ item?.alia[0] }}
                 </span>
               </span>
               <i
                 class="icon-mv"
-                v-if="item.mv > 0"
+                v-if="item?.mv > 0"
                 @click="jumpVideoDetail(item.mv)"
               ></i>
             </div>
@@ -114,7 +114,7 @@
                 >
                   {{ i.name }}
                 </span>
-                <span class="line" v-if="ind !== item.ar.length - 1">/</span>
+                <span class="line" v-if="ind !== item?.ar?.length - 1">/</span>
               </div>
             </div>
           </td>

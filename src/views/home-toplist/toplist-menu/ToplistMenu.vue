@@ -28,7 +28,7 @@
         @click="menuChange(item.id, item.updateFrequency)"
       >
         <div class="item-cover">
-          <img class="cover-img" :src="item.coverImgUrl" alt="" />
+          <img class="cover-img" :src="item?.coverImgUrl" alt="" />
         </div>
         <div class="item-info">
           <div class="info-name">{{ item?.name }}</div>

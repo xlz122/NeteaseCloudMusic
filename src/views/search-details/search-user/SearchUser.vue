@@ -7,7 +7,7 @@
   <ul class="search-user-list" v-if="!userData?.loading">
     <li
       class="search-user-item"
-      v-for="(item, index) in userData.list"
+      v-for="(item, index) in userData?.list"
       :key="index"
       :class="{ even: index % 2 }"
     >

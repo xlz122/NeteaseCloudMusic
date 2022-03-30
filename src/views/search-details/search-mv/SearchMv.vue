@@ -1,13 +1,13 @@
 <template>
   <!-- loading -->
-  <div class="loading" v-if="mvData.loading">
+  <div class="loading" v-if="mvData?.loading">
     <i class="loading-icon"></i>
     加载中...
   </div>
-  <ul class="search-mv-list" v-if="!mvData.loading">
+  <ul class="search-mv-list" v-if="!mvData?.loading">
     <li
       class="search-mv-item"
-      v-for="(item, index) in mvData.list"
+      v-for="(item, index) in mvData?.list"
       :key="index"
       :class="{ 'first-item': index % 5 }"
     >

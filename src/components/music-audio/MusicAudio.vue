@@ -40,7 +40,7 @@
           ></button>
           <button
             class="btn look-btn"
-            :class="{ 'look-play-btn': musicPlayStatus.look }"
+            :class="{ 'look-play-btn': musicPlayStatus?.look }"
             title="播放/暂停(p)"
             @click="lookPlayMusic"
           ></button>

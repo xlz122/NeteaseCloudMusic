@@ -23,7 +23,7 @@
           <div class="item-top">
             <img
               class="img"
-              :src="`${item.picUrl}?param=140y140`"
+              :src="`${item?.picUrl}?param=140y140`"
               alt=""
               @click="jumpSongSheetDetail(item.id)"
             />
@@ -52,7 +52,7 @@
             <div class="item-top">
               <img
                 class="img"
-                :src="`${item.picUrl}?param=140y140`"
+                :src="`${item?.picUrl}?param=140y140`"
                 alt=""
                 @click="jumpSongSheetDetail(item.id)"
               />
@@ -133,7 +133,7 @@
           <div class="item-top">
             <img
               class="img"
-              :src="`${item.picUrl}?param=140y140`"
+              :src="`${item?.picUrl}?param=140y140`"
               alt=""
               @click="jumpSongSheetDetail(item.id)"
             />

@@ -3,7 +3,7 @@
     <h3 class="title">视频简介</h3>
     <div class="video-desc">
       <p class="publish-time">
-        发布时间：{{ formatDateTime(videoDetailData.publishTime / 1000) }}
+        发布时间：{{ formatDateTime(videoDetailData?.publishTime / 1000) }}
       </p>
       <p class="play-time">播放次数：{{ videoDetailData?.playTime }}次</p>
       <p class="text">{{ videoDetailData?.description }}</p>

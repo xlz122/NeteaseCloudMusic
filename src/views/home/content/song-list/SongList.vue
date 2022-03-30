@@ -5,15 +5,15 @@
         <div class="top-img" @click="songListMore(item.playlist.id)">
           <img
             class="img"
-            :src="item.playlist.coverImgUrl"
-            :alt="item.playlist.name"
+            :src="item?.playlist?.coverImgUrl"
+            :alt="item?.playlist.name"
           />
         </div>
         <div class="title">
           <h3
             class="t-text"
-            :title="item.playlist.name"
-            @click="songListMore(item.playlist.id)"
+            :title="item?.playlist?.name"
+            @click="songListMore(item?.playlist?.id)"
           >
             {{ item?.playlist?.name }}
           </h3>

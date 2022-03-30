@@ -16,7 +16,7 @@
           { hot: index === sortList.length - 1 },
           { 'active-item': index === activeScreen }
         ]"
-        @click="screenChange(index, item.small)"
+        @click="screenChange(index, item?.small)"
       >
         <span class="item-text">{{ item?.large }}</span>
       </li>
@@ -25,15 +25,15 @@
       <li class="item" v-for="(item, index) in main" :key="index">
         <div
           class="item-cover"
-          :title="`${item.name}的音乐`"
+          :title="`${item?.name}的音乐`"
           @click="jumpSingerDetail(item.id)"
         >
-          <img class="item-cover-img" :src="item.picUrl" alt="" />
+          <img class="item-cover-img" :src="item?.picUrl" alt="" />
         </div>
         <div class="item-desc">
           <span
             class="item-desc-text"
-            :title="`${item.name}的音乐`"
+            :title="`${item?.name}的音乐`"
             @click="jumpSingerDetail(item.id)"
           >
             {{ item?.name }}
@@ -41,7 +41,7 @@
           <span
             class="item-desc-icon"
             v-if="item?.accountId"
-            :title="`${item.name}的个人主页`"
+            :title="`${item?.name}的个人主页`"
             @click="jumpUserProfile(item.accountId)"
           ></span>
         </div>

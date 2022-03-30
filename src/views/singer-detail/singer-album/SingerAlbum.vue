@@ -10,7 +10,7 @@
           <div class="item-cover">
             <img
               class="item-cover-img"
-              :src="`${item.picUrl}?param=120y120`"
+              :src="`${item?.picUrl}?param=120y120`"
               alt=""
             />
             <i
@@ -20,7 +20,7 @@
             ></i>
             <i class="item-cover-play" title="播放"></i>
           </div>
-          <p class="desc" :title="item.name" @click="jumpAlbumDetail(item.id)">
+          <p class="desc" :title="item?.name" @click="jumpAlbumDetail(item.id)">
             {{ item?.name }}
           </p>
           <p class="name">
