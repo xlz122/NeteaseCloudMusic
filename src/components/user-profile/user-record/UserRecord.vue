@@ -89,11 +89,13 @@ export default defineComponent({
     const $store = useStore();
 
     // 是否登录
-    const isLogin = computed(() => $store.getters.isLogin);
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     // 当前播放音乐id
-    const playMusicId = computed(() => $store.getters['music/playMusicId']);
+    const playMusicId = computed<number>(
+      () => $store.getters['music/playMusicId']
+    );
     // 用户uid
-    const uid = computed(() => $store.getters.userId);
+    const uid = computed<number>(() => $store.getters.userId);
 
     const loading = ref<boolean>(false);
 

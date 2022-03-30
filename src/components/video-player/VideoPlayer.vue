@@ -79,17 +79,16 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    const videoStatus = ref<string>('pause');
-
     // 播放进度数据
     const videoPlayProgress = computed(
       () => $store.getters['videoPlayProgress']
     );
-
     // 播放状态
     const musicPlayStatus = computed(
       () => $store.getters['music/musicPlayStatus']
     );
+
+    const videoStatus = ref<string>('pause');
 
     // 播放视频暂停音乐,播放音乐暂停视频
     watch(

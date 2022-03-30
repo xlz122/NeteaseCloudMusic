@@ -22,10 +22,10 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    const messageShow = ref<boolean>(false);
-
     // 提示数据
     const message = computed(() => $store.getters.message);
+
+    const messageShow = ref<boolean>(false);
 
     // 提示定时器
     const timer = ref<number>(0);

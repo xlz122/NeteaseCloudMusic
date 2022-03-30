@@ -114,15 +114,12 @@ export default defineComponent({
 
     // 是否登录
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-
     // 播放列表数据
     const playMusicList = computed(() => $store.getters['music/playMusicList']);
-
     // 当前播放音乐id
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );
-
     // 当前播放音乐数据
     const playMusicItem = computed<number>(
       () => $store.getters['music/playMusicItem']

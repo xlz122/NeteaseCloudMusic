@@ -112,6 +112,9 @@ export default defineComponent({
   ) {
     const $store = useStore();
 
+    // 是否登录
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
+
     // 回复数据
     const replay = reactive<Replay>({
       text: '',
@@ -135,9 +138,6 @@ export default defineComponent({
         }
       }
     );
-
-    // 是否登录
-    const isLogin = computed(() => $store.getters.isLogin);
 
     // 未登录，输入框点击弹出登录框
     function commentClick() {

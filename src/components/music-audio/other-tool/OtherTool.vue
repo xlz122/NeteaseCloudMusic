@@ -66,13 +66,13 @@ export default defineComponent({
     const $store = useStore();
 
     // 是否登录
-    const isLogin = computed(() => $store.getters.isLogin);
-
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     // 播放列表数据
     const playMusicList = computed(() => $store.getters['music/playMusicList']);
-
     // 当前播放id
-    const playMusicId = computed(() => $store.getters['music/playMusicId']);
+    const playMusicId = computed<number>(
+      () => $store.getters['music/playMusicId']
+    );
 
     // 收藏歌曲
     function collectMusic(): boolean | undefined {
