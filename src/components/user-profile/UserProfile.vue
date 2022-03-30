@@ -3,6 +3,9 @@
     <div class="user-info">
       <UserInfo />
     </div>
+    <div class="user-record">
+      <UserRecord />
+    </div>
     <div class="song-sheet">
       <SongSheetList />
     </div>
@@ -12,12 +15,14 @@
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import UserInfo from '@components/user-profile/user-info/User-info.vue';
+import UserInfo from '@/components/user-profile/user-info/UserInfo.vue';
+import UserRecord from '@components/user-profile/user-record/UserRecord.vue';
 import SongSheetList from '@/components/user-profile/song-sheet-list/SongSheetList.vue';
 
 export default defineComponent({
   components: {
     UserInfo,
+    UserRecord,
     SongSheetList
   },
   setup() {
