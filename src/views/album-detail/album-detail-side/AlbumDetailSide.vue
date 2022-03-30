@@ -47,7 +47,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { artistAlbum } from '@api/singer-detail';
+import { artistAlbum } from '@api/album-detail';
 import { ResponseType } from '@/types/types';
 import { formatDateTime } from '@utils/utils.ts';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';

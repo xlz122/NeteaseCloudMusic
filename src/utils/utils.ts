@@ -242,7 +242,7 @@ export function bigNumberTransform(value: number): number | string {
 }
 
 /**
- * @descriptionription 获取滚动条距离页面底部的高度
+ * @description 获取滚动条距离页面底部的高度
  * @param { MouseEvent } event 滚动条事件对象
  */
 export function getPageBottomHeight(e: Event): number {
