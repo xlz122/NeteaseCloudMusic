@@ -33,10 +33,10 @@
               @click="jumpSongDetail(item.id)"
             >
               <span class="f-cb-text">
-                {{ item.name.slice(0, searchValue.length) }}
+                {{ item?.name?.slice(0, searchValue.length) }}
               </span>
               <span>
-                {{ item.name.slice(searchValue.length) }}-{{
+                {{ item?.name?.slice(searchValue.length) }}-{{
                   item?.artists[0]?.name
                 }}
               </span>
@@ -56,7 +56,7 @@
               :key="index"
               @click="jumpSingerDetail(item.id)"
             >
-              <span class="f-cb-text">{{ item.name }}</span>
+              <span class="f-cb-text">{{ item?.name }}</span>
             </li>
           </ul>
         </li>
@@ -95,13 +95,13 @@
               class="f-cb-i"
               v-for="(item, index) in searchPropos.playlists"
               :key="index"
-              @click="jumpSongSheet(item.id)"
+              @click="jumpSongSheetDetail(item.id)"
             >
               <span class="f-cb-text">
-                {{ item.name.slice(0, searchValue.length) }}
+                {{ item?.name?.slice(0, searchValue.length) }}
               </span>
               <span>
-                {{ item.name.slice(searchValue.length) }}
+                {{ item?.name?.slice(searchValue.length) }}
               </span>
             </li>
           </ul>
@@ -230,7 +230,7 @@ export default defineComponent({
     }
 
     // 跳转歌单详情
-    function jumpSongSheet(id: number): void {
+    function jumpSongSheetDetail(id: number): void {
       $store.commit('jumpSongSheetDetail', id);
     }
     return {
@@ -244,7 +244,7 @@ export default defineComponent({
       jumpSongDetail,
       jumpSingerDetail,
       jumpAlbumDetail,
-      jumpSongSheet
+      jumpSongSheetDetail
     };
   }
 });

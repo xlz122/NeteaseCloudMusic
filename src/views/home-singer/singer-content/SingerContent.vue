@@ -18,7 +18,7 @@
         ]"
         @click="screenChange(index, item.small)"
       >
-        <span class="item-text">{{ item.large }}</span>
+        <span class="item-text">{{ item?.large }}</span>
       </li>
     </ul>
     <ul class="list">
@@ -28,17 +28,17 @@
           :title="`${item.name}的音乐`"
           @click="jumpSingerDetail(item.id)"
         >
-          <img class="item-cover-img" :src="item.picUrl" alt="" />
+          <img class="item-cover-img" :src="item?.picUrl" alt="" />
         </div>
         <div class="item-desc">
           <span
             class="item-desc-text"
-            :title="`${item.name}的音乐`"
+            :title="`${item?.name}的音乐`"
             @click="jumpSingerDetail(item.id)"
           >
             {{ item.name }}
           </span>
-          <span class="item-desc-icon" v-if="item.accountId"></span>
+          <span class="item-desc-icon" v-if="item?.accountId"></span>
         </div>
       </li>
     </ul>
@@ -50,10 +50,10 @@
         :key="index"
         @click="jumpSingerDetail(item.id)"
       >
-        <span class="item-text" :title="`${item.name}的音乐`">
+        <span class="item-text" :title="`${item?.name}的音乐`">
           {{ item.name }}
         </span>
-        <span class="item-icon" v-if="item.accountId"></span>
+        <span class="item-icon" v-if="item?.accountId"></span>
       </li>
     </ul>
   </div>
@@ -224,6 +224,7 @@ export default defineComponent({
     function jumpSingerDetail(id: number): void {
       emit('jumpSingerDetail', id);
     }
+
     return {
       sortList,
       activeScreen,

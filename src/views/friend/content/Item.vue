@@ -17,7 +17,7 @@
       <div class="music-info">
         <div
           class="music-cover"
-          @click="setAddSinglePlayList(item?.json?.song)"
+          @click="singleMusicToPlayList(item?.json?.song)"
         >
           <img
             class="cover-img"
@@ -377,7 +377,7 @@ export default defineComponent({
   },
   emits: [
     'jumpUserProfile',
-    'setAddSinglePlayList',
+    'singleMusicToPlayList',
     'jumpSongDetail',
     'jumpSingerDetail',
     'jumpAlbumDetail'
@@ -387,8 +387,8 @@ export default defineComponent({
       emit('jumpUserProfile', userId);
     }
 
-    function setAddSinglePlayList(item: Record<string, any>): void {
-      emit('setAddSinglePlayList', item);
+    function singleMusicToPlayList(item: Record<string, any>): void {
+      emit('singleMusicToPlayList', item);
     }
 
     function jumpSongDetail(id: number): void {
@@ -405,7 +405,7 @@ export default defineComponent({
     return {
       formatDate,
       jumpUserProfile,
-      setAddSinglePlayList,
+      singleMusicToPlayList,
       jumpSongDetail,
       jumpSingerDetail,
       jumpAlbumDetail

@@ -1,10 +1,10 @@
 <template>
   <!-- loading -->
-  <div class="loading" v-if="songSheetData.loading">
+  <div class="loading" v-if="songSheetData?.loading">
     <i class="loading-icon"></i>
     加载中...
   </div>
-  <ul class="search-song-sheet" v-if="!songSheetData.loading">
+  <ul class="search-song-sheet" v-if="!songSheetData?.loading">
     <li
       class="item"
       v-for="(item, index) in songSheetData.list"
@@ -15,7 +15,7 @@
         class="td play-icon"
         :class="{ 'active-play': item.id === playMusicId }"
         title="播放"
-        @click="playListMusic(item)"
+        @click="playSingleMusic(item)"
       ></div>
       <div class="td td1">
         <img
@@ -41,13 +41,13 @@
           <i
             class="icon add"
             title="添加到播放列表"
-            @click="setAddSinglePlayList(item)"
+            @click="singleMusicToPlayList(item)"
           ></i>
           <i
             class="icon collect"
             :class="`${item.subscribed ? 'collectd' : ''}`"
             :title="`${item.subscribed ? '已收藏' : '收藏'}`"
-            @click="collectionClick(item.id, item.subscribed)"
+            @click="handleCollection(item.id, item.subscribed)"
           ></i>
           <i class="icon share" title="分享" @click="shareClick"></i>
         </div>
@@ -67,7 +67,7 @@
       </div>
       <div class="td6-sheet">收藏: {{ item?.bookCount }}</div>
       <div class="td6-sheet">
-        收听: {{ bigNumberTransform(item.playCount) }}
+        收听: {{ bigNumberTransform(item?.playCount) }}
       </div>
     </li>
   </ul>
@@ -113,13 +113,14 @@ export default defineComponent({
 
     const { searchDetailText } = toRefs(props);
 
-    const isLogin = computed(() => $store.getters.isLogin);
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
     // 当前播放音乐id
-    const playMusicId = computed(() => $store.getters['music/playMusicId']);
-
+    const playMusicId = computed<number>(
+      () => $store.getters['music/playMusicId']
+    );
     // 搜索关键词
-    const searchText = computed(() =>
+    const searchText = computed<string>(() =>
       $store.getters.searchText.replace(/"/g, '')
     );
 
@@ -174,16 +175,16 @@ export default defineComponent({
       $store.commit('jumpUserProfile', id);
     }
 
-    // 单个音乐添加到播放列表
-    function setAddSinglePlayList(): void {
+    // 单个歌曲添加到播放列表
+    function singleMusicToPlayList(): void {
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
       });
     }
 
-    // 播放列表音乐
-    function playListMusic(): void {
+    // 播放单个歌曲
+    function playSingleMusic(): void {
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -191,7 +192,7 @@ export default defineComponent({
     }
 
     // 收藏歌单
-    function collectionClick(
+    function handleCollection(
       id: number,
       subscribed: boolean
     ): boolean | undefined {
@@ -255,9 +256,9 @@ export default defineComponent({
       songSheetData,
       jumpSongSheetDetail,
       jumpUserProfile,
-      setAddSinglePlayList,
-      playListMusic,
-      collectionClick,
+      singleMusicToPlayList,
+      playSingleMusic,
+      handleCollection,
       shareClick,
       changPage
     };

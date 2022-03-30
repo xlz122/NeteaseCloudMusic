@@ -5,7 +5,7 @@
         <DjprogramInfo
           :djProgramDetailData="djProgramDetailData"
           :commentTotal="commentParams.total"
-          @commentClick="commentClick"
+          @jumpToComments="jumpToComments"
         />
         <!-- 评论 -->
         <div class="comment-component">
@@ -148,7 +148,7 @@ export default defineComponent({
     }
 
     // 评论
-    function commentClick(): void {
+    function jumpToComments(): void {
       const commentDom = document.querySelector(
         '.comment-component'
       ) as HTMLElement;
@@ -170,7 +170,7 @@ export default defineComponent({
       commentParams,
       commentRefresh,
       changPage,
-      commentClick
+      jumpToComments
     };
   }
 });

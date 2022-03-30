@@ -53,7 +53,7 @@
           title="添加到播放列表"
           @click="setAddPlayList"
         ></div>
-        <div class="other collection" @click="collectionAll">
+        <div class="other collection" @click="handleCollectionAll">
           <template v-if="userInfo?.info?.likedCount > 0">
             <span class="icon"> ({{ userInfo?.info?.likedCount }}) </span>
           </template>
@@ -61,7 +61,7 @@
             <span class="icon">收藏</span>
           </template>
         </div>
-        <div class="other share" @click="shareClick">
+        <div class="other share" @click="handleShare">
           <template v-if="userInfo?.info?.shareCount > 0">
             <span class="icon">({{ userInfo?.info?.shareCount }})</span>
           </template>
@@ -69,10 +69,10 @@
             <span class="icon">分享</span>
           </template>
         </div>
-        <div class="other download" @click="downloadClick">
+        <div class="other download" @click="handleDownload">
           <span class="icon">下载</span>
         </div>
-        <div class="other comment" @click="commentClick">
+        <div class="other comment" @click="jumpToComments">
           <template v-if="userInfo?.info?.commentCount > 0">
             <span class="icon">({{ userInfo?.info?.commentCount }})</span>
           </template>
@@ -110,7 +110,7 @@ export default defineComponent({
       default: () => ({})
     }
   },
-  emits: ['commentClick'],
+  emits: ['jumpToComments'],
   setup(props, { emit }) {
     const { songs } = toRefs(props);
 
@@ -217,7 +217,7 @@ export default defineComponent({
     }
 
     // 收藏全部
-    function collectionAll(): boolean | undefined {
+    function handleCollectionAll(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -236,7 +236,7 @@ export default defineComponent({
     }
 
     // 分享
-    function shareClick(): boolean | undefined {
+    function handleShare(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -250,7 +250,7 @@ export default defineComponent({
     }
 
     // 下载
-    function downloadClick(): void {
+    function handleDownload(): void {
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -258,14 +258,14 @@ export default defineComponent({
     }
 
     // 评论
-    function commentClick(): boolean | undefined {
+    function jumpToComments(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
       }
 
-      emit('commentClick');
+      emit('jumpToComments');
     }
 
     return {
@@ -273,10 +273,10 @@ export default defineComponent({
       jumpSingerDetail,
       playTitleMusic,
       setAddPlayList,
-      collectionAll,
-      shareClick,
-      downloadClick,
-      commentClick
+      handleCollectionAll,
+      handleShare,
+      handleDownload,
+      jumpToComments
     };
   }
 });

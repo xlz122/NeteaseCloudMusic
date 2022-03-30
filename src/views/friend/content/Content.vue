@@ -18,7 +18,7 @@
         <Item
           :item="item"
           @jumpUserProfile="jumpUserProfile"
-          @setAddSinglePlayList="setAddSinglePlayList"
+          @singleMusicToPlayList="singleMusicToPlayList"
           @jumpSongDetail="jumpSongDetail"
           @jumpSingerDetail="jumpSingerDetail"
           @jumpAlbumDetail="jumpAlbumDetail"
@@ -113,8 +113,8 @@ export default defineComponent({
       $store.commit('jumpUserProfile', id);
     }
 
-    // 单个音乐添加到播放列表
-    function setAddSinglePlayList(item: Record<string, any>): void {
+    // 单个歌曲添加到播放列表
+    function singleMusicToPlayList(item: Record<string, any>): void {
       // 处理播放器所需数据
       const musicItem: PlayMusicItem = {
         id: item.id,
@@ -203,7 +203,7 @@ export default defineComponent({
       eventList,
       loading,
       jumpUserProfile,
-      setAddSinglePlayList,
+      singleMusicToPlayList,
       jumpSongDetail,
       jumpSingerDetail,
       jumpAlbumDetail,

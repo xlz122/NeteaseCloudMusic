@@ -22,7 +22,7 @@
   </div>
   <div class="verification" v-if="mailboxVerify.show">
     <i class="icon-verification"></i>
-    <span class="text">{{ mailboxVerify.text }}</span>
+    <span class="text">{{ mailboxVerify?.text }}</span>
   </div>
   <div class="mailbox-checkbox">
     <label for="mailbox-checkbox">
@@ -148,6 +148,7 @@ export default defineComponent({
       mailboxVerify.type = '';
       mailboxVerify.text = '';
     });
+
     return {
       mailboxFormData,
       mailboxVerify,

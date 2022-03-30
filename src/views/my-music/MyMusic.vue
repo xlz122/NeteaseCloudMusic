@@ -60,24 +60,26 @@ export default defineComponent({
           const appDom = document.getElementById('app') as HTMLElement;
           const footerDom = document.querySelector('.footer') as HTMLElement;
           if (appDom && footerDom) {
-            // appDom.style.height = '100vh';
             footerDom.style.display = 'none';
           }
         }
       }
     );
+
     onMounted(() => {
       if (isLogin.value) {
         const footerDom = document.querySelector('.footer') as HTMLElement;
         footerDom.style.display = 'none';
       }
     });
+
     onUnmounted(() => {
       if (isLogin.value) {
         const footerDom = document.querySelector('.footer') as HTMLElement;
         footerDom.style.display = 'block';
       }
     });
+
     return {
       isLogin,
       musicDetailOptions,

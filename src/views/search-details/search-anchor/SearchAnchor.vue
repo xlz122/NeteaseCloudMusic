@@ -72,7 +72,7 @@ export default defineComponent({
 
     const userInfo = computed(() => $store.getters.userInfo);
     // 搜索关键词
-    const searchText = computed(() =>
+    const searchText = computed<string>(() =>
       $store.getters.searchText.replace(/"/g, '')
     );
 

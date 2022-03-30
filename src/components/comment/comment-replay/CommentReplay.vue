@@ -16,7 +16,7 @@
           v-model="replay.text"
           :rows="rows"
           readonly
-          @click="commentClick"
+          @click="jumpToComments"
           placeholder="评论"
         ></textarea>
       </template>
@@ -139,7 +139,7 @@ export default defineComponent({
     );
 
     // 未登录，输入框点击弹出登录框
-    function commentClick() {
+    function jumpToComments() {
       $store.commit('setLoginDialog', true);
     }
 
@@ -220,7 +220,7 @@ export default defineComponent({
       expressionList,
       replay,
       isLogin,
-      commentClick,
+      jumpToComments,
       expressionShow,
       isEmoj,
       exproessionPage,

@@ -35,7 +35,7 @@
         <div class="play" @click="playTitleMusic">
           <span class="icon-play">播放 </span>
         </div>
-        <div class="other like" @click="likeClick">
+        <div class="other like" @click="handleLike">
           <template v-if="djProgramDetailData?.likedCount > 0">
             <icon class="like-icon"></icon>
             <span class="icon"> ({{ djProgramDetailData?.likedCount }}) </span>
@@ -45,7 +45,7 @@
             <span class="icon">喜欢</span>
           </template>
         </div>
-        <div class="other comment" @click="commentClick">
+        <div class="other comment" @click="jumpToComments">
           <template v-if="commentTotal > 0">
             <span class="icon"> ({{ commentTotal }}) </span>
           </template>
@@ -53,7 +53,7 @@
             <span class="icon">评论</span>
           </template>
         </div>
-        <div class="other share" @click="shareClick">
+        <div class="other share" @click="handleShare">
           <template v-if="djProgramDetailData?.shareCount > 0">
             <span class="icon"> ({{ djProgramDetailData?.shareCount }}) </span>
           </template>
@@ -61,7 +61,7 @@
             <span class="icon">分享</span>
           </template>
         </div>
-        <div class="other download" @click="downloadClick">
+        <div class="other download" @click="handleDownload">
           <span class="icon">下载</span>
         </div>
       </div>
@@ -121,7 +121,7 @@ export default defineComponent({
       default: 0
     }
   },
-  emits: ['commentClick'],
+  emits: ['jumpToComments'],
   setup(props, { emit }) {
     const $store = useStore();
 
@@ -129,7 +129,7 @@ export default defineComponent({
     const djprogramId = computed(() => $store.getters.djprogramId);
 
     // 喜欢
-    function likeClick(): void {
+    function handleLike(): void {
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -137,12 +137,12 @@ export default defineComponent({
     }
 
     // 评论
-    function commentClick(): void {
-      emit('commentClick');
+    function jumpToComments(): void {
+      emit('jumpToComments');
     }
 
     // 分享
-    function shareClick(): void {
+    function handleShare(): void {
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -150,7 +150,7 @@ export default defineComponent({
     }
 
     // 下载
-    function downloadClick(): void {
+    function handleDownload(): void {
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -160,10 +160,10 @@ export default defineComponent({
     return {
       formatDateTime,
       djprogramId,
-      likeClick,
-      commentClick,
-      shareClick,
-      downloadClick
+      handleLike,
+      jumpToComments,
+      handleShare,
+      handleDownload
     };
   }
 });

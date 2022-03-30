@@ -29,7 +29,7 @@
             title="添加到播放列表"
             @click="setAddPlayList"
           ></div>
-          <div class="other collection" @click="collectionAll">
+          <div class="other collection" @click="handleCollectionAll">
             <span class="icon"> 收藏全部</span>
           </div>
         </div>
@@ -175,7 +175,7 @@ export default defineComponent({
     }
 
     // 收藏全部
-    function collectionAll(): void {
+    function handleCollectionAll(): void {
       let ids = '';
       recommendSong.value.forEach((item: LoopType) => {
         ids += `${item.id},`;
@@ -200,7 +200,7 @@ export default defineComponent({
       recommendSong,
       playTitleMusic,
       setAddPlayList,
-      collectionAll
+      handleCollectionAll
     };
   }
 });

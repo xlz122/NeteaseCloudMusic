@@ -33,7 +33,7 @@
       <div class="item-name">
         <span class="text" v-if="item?.type !== 0">by</span>
         <span class="name" @click="jumpSingerDetail(item?.creator[0].userId)">
-          {{ item?.creator[0].userName }}
+          {{ item?.creator[0]?.userName }}
         </span>
       </div>
     </li>
@@ -83,7 +83,7 @@ export default defineComponent({
 
     const userInfo = computed(() => $store.getters.userInfo);
     // 搜索关键词
-    const searchText = computed(() =>
+    const searchText = computed<string>(() =>
       $store.getters.searchText.replace(/"/g, '')
     );
 

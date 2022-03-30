@@ -43,7 +43,7 @@
             ]"
             @click="tabChange(index)"
           >
-            <span class="text">{{ item.title }}</span>
+            <span class="text">{{ item?.title }}</span>
           </li>
         </ul>
         <!-- 根据选中，渲染对应组件 -->
@@ -81,9 +81,9 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    const isLogin = computed(() => $store.getters.isLogin);
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     // 歌手id
-    const singerId = computed(() => $store.getters.singerId);
+    const singerId = computed<number>(() => $store.getters.singerId);
 
     // 监听歌手id改变
     watch(

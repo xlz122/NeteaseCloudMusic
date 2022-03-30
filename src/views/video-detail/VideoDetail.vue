@@ -3,14 +3,14 @@
     <div class="video-detail-container">
       <div class="video-detail-content">
         <div class="title">
-          <h2 class="text" :title="videoDetailData.title">
-            {{ videoDetailData.title }}
+          <h2 class="text" :title="videoDetailData?.title">
+            {{ videoDetailData?.title }}
           </h2>
           <div class="desc">
             <span class="by">by</span>
             <span
               class="name"
-              @click="jumpUserProfile(videoDetailData?.creator.userId)"
+              @click="jumpUserProfile(videoDetailData.creator.userId)"
             >
               {{ videoDetailData?.creator?.nickname }}
             </span>
@@ -22,7 +22,7 @@
         </div>
         <!-- 操作项 -->
         <div class="operate-btn">
-          <div class="other like" @click="likeClick">
+          <div class="other like" @click="handleLike">
             <template v-if="videoDetailData?.praisedCount > 0">
               <i class="like-icon"></i>
               <span class="icon"> ({{ videoDetailData?.praisedCount }}) </span>
@@ -35,7 +35,7 @@
           <div
             class="other collection"
             :class="{ 'collection-sub': videoSubed }"
-            @click="collectionClick(videoSubed)"
+            @click="handleCollection(videoSubed)"
           >
             <template v-if="videoDetailData?.subscribeCount > 0">
               <span class="icon">
@@ -46,7 +46,7 @@
               <span class="icon">收藏</span>
             </template>
           </div>
-          <div class="other share" @click="shareClick">
+          <div class="other share" @click="handleShare">
             <template v-if="videoDetailData?.shareCount > 0">
               <span class="icon">({{ videoDetailData?.shareCount }})</span>
             </template>
@@ -113,7 +113,7 @@ export default defineComponent({
     const $route = useRoute();
     const $store = useStore();
 
-    const isLogin = computed(() => $store.getters.isLogin);
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const video = computed(() => $store.getters.video);
 
     watch(
@@ -137,6 +137,7 @@ export default defineComponent({
     );
 
     const videoDetailData = ref<unknown>({});
+
     // 获取视频详情
     function getVideoDetail(): void {
       videoDetail({
@@ -169,7 +170,7 @@ export default defineComponent({
     }
 
     // 喜欢
-    function likeClick(): boolean | undefined {
+    function handleLike(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -182,25 +183,26 @@ export default defineComponent({
       });
     }
 
-    // 是否收藏
     const videoSubed = ref<boolean>(false);
 
-    // 获取视频列表
+    // 获取收藏的视频列表,判断当前视频是否被收藏
     function getVideoSbulist(): void {
-      MyVideoSbulist().then((res: ResponseType) => {
-        if (res.code === 200) {
-          res.data.forEach((item: LoopType) => {
-            if (item.vid === video.value.id) {
-              videoSubed.value = true;
-            }
-          });
-        }
-      });
+      MyVideoSbulist()
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            res.data.forEach((item: LoopType) => {
+              if (item.vid === video.value.id) {
+                videoSubed.value = true;
+              }
+            });
+          }
+        })
+        .catch(() => ({}));
     }
     getVideoSbulist();
 
     // 收藏
-    function collectionClick(followed: boolean): boolean | undefined {
+    function handleCollection(followed: boolean): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -240,7 +242,7 @@ export default defineComponent({
     }
 
     // 分享
-    function shareClick(): boolean | undefined {
+    function handleShare(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -310,10 +312,10 @@ export default defineComponent({
       video,
       videoDetailData,
       jumpUserProfile,
-      likeClick,
+      handleLike,
       videoSubed,
-      collectionClick,
-      shareClick,
+      handleCollection,
+      handleShare,
       commentParams,
       commentRefresh,
       changPage

@@ -38,7 +38,7 @@
               <i
                 class="icon-play"
                 :class="{ 'active-play': item.id === playMusicId }"
-                @click="playListMusic(item)"
+                @click="playSingleMusic(item)"
               ></i>
             </div>
           </td>
@@ -46,10 +46,10 @@
             <div class="hd">
               <span class="text" @click="jumpSongDetail(item.id)">
                 <span class="title" :title="`${item.name}`">
-                  {{ item.name }}
+                  {{ item?.name }}
                 </span>
                 <span class="no-click" v-if="item.alia[0]">
-                  - {{ item.alia[0] }}
+                  - {{ item?.alia[0] }}
                 </span>
               </span>
               <i class="icon-play" v-if="item.mv > 0"></i>
@@ -64,7 +64,7 @@
                 <i
                   class="icon add"
                   title="添加到播放列表"
-                  @click="setAddSinglePlayList(item)"
+                  @click="singleMusicToPlayList(item)"
                 ></i>
                 <i class="icon collect" title="收藏"></i>
                 <i class="icon share" title="分享"></i>
@@ -80,7 +80,7 @@
                   :title="i.name"
                   @click="jumpSingerDetail(i.id)"
                 >
-                  {{ i.name }}
+                  {{ i?.name }}
                 </span>
                 <span class="line" v-if="ind !== item.ar.length - 1">/</span>
               </div>
@@ -88,7 +88,9 @@
           </td>
           <td class="tbody-td" @click="jumpAlbumDetail(item.al.id)">
             <div class="hd">
-              <span class="text" :title="item.al.name">{{ item.al.name }}</span>
+              <span class="text" :title="item?.al?.name">
+                {{ item?.al?.name }}
+              </span>
             </div>
           </td>
         </tr>
@@ -131,7 +133,9 @@ export default defineComponent({
     const $store = useStore();
 
     // 当前播放音乐id
-    const playMusicId = computed(() => $store.getters['music/playMusicId']);
+    const playMusicId = computed<number>(
+      () => $store.getters['music/playMusicId']
+    );
 
     const loading = ref<boolean>(true);
     watch(
@@ -146,8 +150,8 @@ export default defineComponent({
       $store.commit('jumpSongDetail', id);
     }
 
-    // 单个音乐添加到播放列表
-    function setAddSinglePlayList(item: Record<string, any>): void {
+    // 单个歌曲添加到播放列表
+    function singleMusicToPlayList(item: Record<string, any>): void {
       // 处理播放器所需数据
       const musicItem: PlayMusicItem = {
         id: item.id,
@@ -174,8 +178,8 @@ export default defineComponent({
       $store.commit('jumpSingerDetail', id);
     }
 
-    // 播放列表音乐
-    function playListMusic(item: Record<string, any>): void {
+    // 播放单个歌曲
+    function playSingleMusic(item: Record<string, any>): void {
       // 处理播放器所需数据
       const musicItem: PlayMusicItem = {
         id: item.id,
@@ -218,9 +222,9 @@ export default defineComponent({
       loading,
       jumpSongDetail,
       jumpSingerDetail,
-      setAddSinglePlayList,
+      singleMusicToPlayList,
       jumpAlbumDetail,
-      playListMusic
+      playSingleMusic
     };
   }
 });

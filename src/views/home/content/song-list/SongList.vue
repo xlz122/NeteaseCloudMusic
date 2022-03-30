@@ -23,7 +23,7 @@
               <i
                 class="btn-collection"
                 title="收藏"
-                @click="collectionClick(item?.playlist?.id)"
+                @click="handleCollectionAll(item?.playlist?.id)"
               ></i>
             </template>
             <template v-if="item?.playlist?.subscribed">
@@ -49,7 +49,7 @@
               <i
                 class="operate-play"
                 title="播放"
-                @click="playListMusic(i)"
+                @click="playSingleMusic(i)"
               ></i>
               <i
                 class="operate-add"
@@ -59,7 +59,7 @@
               <i
                 class="operate-collection"
                 title="收藏"
-                @click="collectMusic(i.id)"
+                @click="handleCollection(i.id)"
               ></i>
             </div>
           </li>
@@ -186,7 +186,7 @@ export default defineComponent({
     );
 
     // 收藏
-    function collectionClick(id: number): boolean | undefined {
+    function handleCollectionAll(id: number): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -222,8 +222,8 @@ export default defineComponent({
       $store.commit('jumpSongDetail', id);
     }
 
-    // 播放列表音乐
-    function playListMusic(item: Record<string, any>): void {
+    // 播放单个歌曲
+    function playSingleMusic(item: Record<string, any>): void {
       // 处理播放器所需数据
       const musicItem: PlayMusicItem = {
         id: item.id,
@@ -279,7 +279,7 @@ export default defineComponent({
     }
 
     // 收藏歌曲
-    function collectMusic(id: number): boolean | undefined {
+    function handleCollection(id: number): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -302,10 +302,10 @@ export default defineComponent({
       listData,
       playTitleMusic,
       jumpSongDetail,
-      playListMusic,
-      collectionClick,
+      playSingleMusic,
+      handleCollectionAll,
       setAddSinglePlayList,
-      collectMusic,
+      handleCollection,
       songListMore
     };
   }

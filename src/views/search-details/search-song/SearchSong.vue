@@ -14,7 +14,7 @@
       <div
         class="td play-icon"
         :class="{ 'active-play': item.id === playMusicId }"
-        @click="playListMusic(item)"
+        @click="playSingleMusic(item)"
       ></div>
       <div class="td td1">
         <div class="text">
@@ -41,15 +41,15 @@
           <i
             class="icon add"
             title="添加到播放列表"
-            @click="setAddSinglePlayList(item)"
+            @click="singleMusicToPlayList(item)"
           ></i>
           <i
             class="icon collect"
             title="收藏"
-            @click="collectMusic(item.id)"
+            @click="handleCollection(item.id)"
           ></i>
-          <i class="icon share" title="分享" @click="shareClick"></i>
-          <i class="icon download" title="下载" @click="downloadClick"></i>
+          <i class="icon share" title="分享" @click="handleShare"></i>
+          <i class="icon download" title="下载" @click="handleDownload"></i>
           <!-- 用户自己才有删除按钮 -->
           <i
             class="icon delete"
@@ -129,13 +129,14 @@ export default defineComponent({
 
     const { searchDetailText } = toRefs(props);
 
-    const isLogin = computed(() => $store.getters.isLogin);
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
     // 当前播放音乐id
-    const playMusicId = computed(() => $store.getters['music/playMusicId']);
-
+    const playMusicId = computed<number>(
+      () => $store.getters['music/playMusicId']
+    );
     // 搜索关键词
-    const searchText = computed(() =>
+    const searchText = computed<string>(() =>
       $store.getters.searchText.replace(/"/g, '')
     );
 
@@ -201,8 +202,8 @@ export default defineComponent({
       $store.commit('jumpAlbumDetail', id);
     }
 
-    // 单个音乐添加到播放列表
-    function setAddSinglePlayList(item: Record<string, any>): void {
+    // 单个歌曲添加到播放列表
+    function singleMusicToPlayList(item: Record<string, any>): void {
       // 处理播放器所需数据
       const musicItem: PlayMusicItem = {
         id: item.id,
@@ -224,8 +225,8 @@ export default defineComponent({
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
-    // 播放列表音乐
-    function playListMusic(item: Record<string, any>): void {
+    // 播放单个歌曲
+    function playSingleMusic(item: Record<string, any>): void {
       // 处理播放器所需数据
       const musicItem: PlayMusicItem = {
         id: item.id,
@@ -258,7 +259,7 @@ export default defineComponent({
     }
 
     // 收藏歌曲
-    function collectMusic(id: number): boolean | undefined {
+    function handleCollection(id: number): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -272,7 +273,7 @@ export default defineComponent({
     }
 
     // 分享
-    function shareClick(): boolean | undefined {
+    function handleShare(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -286,7 +287,7 @@ export default defineComponent({
     }
 
     // 下载
-    function downloadClick(): void {
+    function handleDownload(): void {
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
@@ -308,11 +309,11 @@ export default defineComponent({
       jumpVideoDetail,
       jumpSingerDetail,
       jumpAlbumDetail,
-      setAddSinglePlayList,
-      playListMusic,
-      collectMusic,
-      shareClick,
-      downloadClick,
+      singleMusicToPlayList,
+      playSingleMusic,
+      handleCollection,
+      handleShare,
+      handleDownload,
       changPage
     };
   }

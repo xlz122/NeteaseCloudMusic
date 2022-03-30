@@ -6,15 +6,15 @@
     :class="{ 'music-my-singer-active': musicDetailOptions.subPlayList }"
     @click="subPlayListClick"
   >
-    我的歌手({{ optionsCount.subPlayListCount }})
+    我的歌手({{ optionsCount?.subPlayListCount }})
   </h2>
   <!-- 我的视频 -->
   <h2
     class="music-my-mv"
-    :class="{ 'music-my-mv-active': musicDetailOptions.MyVideo }"
+    :class="{ 'music-my-mv-active': musicDetailOptions?.MyVideo }"
     @click="MyVideoClick"
   >
-    我的视频({{ optionsCount.MyVideoCount }})
+    我的视频({{ optionsCount?.MyVideoCount }})
   </h2>
   <!-- 创建的歌单 -->
   <toggle-list
@@ -30,7 +30,7 @@
     :title="'收藏的歌单'"
     :listCount="optionsCount.collectionPlayCount"
     :listData="songSheetList.collectionSongList"
-    @listClick="collectionListClick"
+    @listClick="handleCollection"
   />
 </template>
 
@@ -54,7 +54,7 @@ export default defineComponent({
     );
 
     // 侧边歌单列表选中项id
-    const songSheetId = computed(() => $store.getters.songSheetId);
+    const songSheetId = computed<number>(() => $store.getters.songSheetId);
 
     const optionsCount = reactive<OptionsCount>({
       subPlayListCount: 0, // 我的视频数量
@@ -177,7 +177,7 @@ export default defineComponent({
     }
 
     // 收藏歌单项点击
-    function collectionListClick(id: number): boolean | undefined {
+    function handleCollection(id: number): boolean | undefined {
       // 收藏的歌单被全部删除
       if (id === 0) {
         // 选中我喜欢的音乐
@@ -208,16 +208,20 @@ export default defineComponent({
     // 获取歌单详情
     function getSongListDetail(id: number): void {
       $store.commit('music/setSongSheetDetail', {});
-      playListDetail({ id }).then((res: ResponseType) => {
-        if (res.code === 200) {
-          // 单独处理我喜欢的音乐
-          if (res?.playlist?.name.includes('喜欢的音乐')) {
-            res.playlist.name = '我喜欢的音乐';
+
+      playListDetail({ id })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            // 单独处理我喜欢的音乐
+            if (res?.playlist?.name.includes('喜欢的音乐')) {
+              res.playlist.name = '我喜欢的音乐';
+            }
+            $store.commit('music/setSongSheetDetail', res);
           }
-          $store.commit('music/setSongSheetDetail', res);
-        }
-      });
+        })
+        .catch(() => ({}));
     }
+
     return {
       musicDetailOptions,
       optionsCount,
@@ -225,7 +229,7 @@ export default defineComponent({
       subPlayListClick,
       MyVideoClick,
       createListClick,
-      collectionListClick
+      handleCollection
     };
   }
 });

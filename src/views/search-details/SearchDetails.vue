@@ -90,9 +90,9 @@ export default defineComponent({
     const $store = useStore();
 
     // tab选中
-    const searchIndex = computed(() => $store.getters.searchIndex);
+    const searchIndex = computed<number>(() => $store.getters.searchIndex);
     // 搜索详情关键字
-    const searchDetailText = computed(() =>
+    const searchDetailText = computed<string>(() =>
       $store.getters.searchDetailText.replace(/"/g, '')
     );
 
