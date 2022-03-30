@@ -53,7 +53,7 @@
           title="添加到播放列表"
           @click="setAddPlayList"
         ></div>
-        <div class="other collection" @click="handleCollectionAll">
+        <div class="other collection" @click="handleCollectAll">
           <template v-if="userInfo?.info?.likedCount > 0">
             <span class="icon"> ({{ userInfo?.info?.likedCount }}) </span>
           </template>
@@ -217,7 +217,7 @@ export default defineComponent({
     }
 
     // 收藏全部
-    function handleCollectionAll(): boolean | undefined {
+    function handleCollectAll(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -273,7 +273,7 @@ export default defineComponent({
       jumpSingerDetail,
       playTitleMusic,
       setAddPlayList,
-      handleCollectionAll,
+      handleCollectAll,
       handleShare,
       handleDownload,
       jumpToComments

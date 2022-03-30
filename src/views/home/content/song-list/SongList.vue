@@ -23,7 +23,7 @@
               <i
                 class="btn-collection"
                 title="收藏"
-                @click="handleCollectionAll(item.playlist.id)"
+                @click="handleCollectAll(item.playlist.id)"
               ></i>
             </template>
             <template v-if="item?.playlist?.subscribed">
@@ -192,7 +192,7 @@ export default defineComponent({
     );
 
     // 收藏
-    function handleCollectionAll(id: number): boolean | undefined {
+    function handleCollectAll(id: number): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -309,7 +309,7 @@ export default defineComponent({
       playTitleMusic,
       jumpSongDetail,
       playSingleMusic,
-      handleCollectionAll,
+      handleCollectAll,
       setAddSinglePlayList,
       handleCollection,
       songListMore
