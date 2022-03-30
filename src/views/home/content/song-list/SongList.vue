@@ -2,18 +2,18 @@
   <div class="song-list">
     <dl class="group" v-for="(item, index) in listData" :key="index">
       <dt class="top">
-        <div class="top-img" @click="songListMore(item?.playlist?.id)">
+        <div class="top-img" @click="songListMore(item.playlist.id)">
           <img
             class="img"
-            :src="item?.playlist?.coverImgUrl"
-            :alt="item?.playlist?.name"
+            :src="item.playlist.coverImgUrl"
+            :alt="item.playlist.name"
           />
         </div>
         <div class="title">
           <h3
             class="t-text"
-            :title="item?.playlist?.name"
-            @click="songListMore"
+            :title="item.playlist.name"
+            @click="songListMore(item.playlist.id)"
           >
             {{ item?.playlist?.name }}
           </h3>
@@ -23,7 +23,7 @@
               <i
                 class="btn-collection"
                 title="收藏"
-                @click="handleCollectionAll(item?.playlist?.id)"
+                @click="handleCollectionAll(item.playlist.id)"
               ></i>
             </template>
             <template v-if="item?.playlist?.subscribed">
@@ -36,7 +36,7 @@
         <ul class="list">
           <li
             class="item"
-            v-for="(i, ind) in item?.playlist?.tracks.slice(0, 10)"
+            v-for="(i, ind) in item?.playlist?.tracks?.slice(0, 10)"
             :key="ind"
           >
             <span class="num" :class="{ topThree: ind < 3 }">
@@ -64,7 +64,7 @@
             </div>
           </li>
         </ul>
-        <div class="more" @click="songListMore(item?.playlist?.id)">
+        <div class="more" @click="songListMore(item.playlist.id)">
           查看全部>
         </div>
       </dd>
@@ -87,7 +87,7 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    const isLogin = computed(() => $store.getters.isLogin);
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
     const listData = reactive<Record<string, any>>([]);
     // 获取飙升榜数据
@@ -301,7 +301,7 @@ export default defineComponent({
     // 查看全部
     function songListMore(id: number): void {
       $store.commit('setSongSheetId', id);
-      $router.push({ name: 'home-toplist' });
+      $router.push({ name: 'home-toplist', params: { id } });
     }
 
     return {
