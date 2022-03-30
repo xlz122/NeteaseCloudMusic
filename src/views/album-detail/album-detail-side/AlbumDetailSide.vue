@@ -21,7 +21,12 @@
     <ul class="song-sheet-list">
       <li class="item" v-for="(item, index) in albumList" :key="index">
         <div class="item-cover" @click="jumpAlbumDetail(item.id)">
-          <img class="cover-img" :src="`${item.picUrl}?param=50y50`" alt="" />
+          <img
+            class="cover-img"
+            :src="`${item.picUrl}?param=50y50`"
+            :title="item.name"
+            alt=""
+          />
         </div>
         <div class="item-info">
           <p
@@ -71,7 +76,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌手id
-    const singerId = computed(() => $store.getters.singerId);
+    const singerId = computed<number>(() => $store.getters.singerId);
 
     // 监听歌手id改变
     watch(

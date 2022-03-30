@@ -23,8 +23,12 @@
       <div class="info">
         <span>歌手：</span>
         <template v-for="(item, index) in userInfo?.artists" :key="index">
-          <span class="name" @click="jumpSingerDetail(item.id)">
-            {{ item.name }}
+          <span
+            class="name"
+            :title="item.name"
+            @click="jumpSingerDetail(item.id)"
+          >
+            {{ item?.name }}
           </span>
           <span class="line" v-if="index !== userInfo?.artists.length - 1">
             /
@@ -116,8 +120,7 @@ export default defineComponent({
 
     const $store = useStore();
 
-    const isLogin = computed(() => $store.getters.isLogin);
-
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       $store.commit('jumpSingerDetail', id);
