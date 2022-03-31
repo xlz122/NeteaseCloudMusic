@@ -89,6 +89,9 @@ const mutations: Mutations<State, unknown> = {
     // 清除歌词
     state.playLyrics = [] as unknown[];
     localStorage.setItem('playLyrics', [] as never);
+    // 清除本地当前播放数据(清除后刷新)
+    localStorage.setItem('playMusicId', '');
+    localStorage.setItem('playMusicItem', '');
   },
   // 播放器 - 删除播放列表单项数据
   deletePlayMusicList(state, id) {

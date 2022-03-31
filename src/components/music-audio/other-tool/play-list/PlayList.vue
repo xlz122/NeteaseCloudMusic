@@ -33,7 +33,9 @@
             @click="playlistItem(item?.id, item)"
           >
             <i class="play-icon"></i>
-            <span class="text song-title">{{ item?.name }}</span>
+            <span class="text song-title" :title="item?.name">
+              {{ item?.name }}
+            </span>
             <div class="operate-btn">
               <i
                 class="icon collect"
@@ -58,7 +60,7 @@
                 :key="ind"
                 @click="jumpSingerDetail(i.id)"
               >
-                <span class="name-text">{{ i.name }}</span>
+                <span class="name-text" :title="i.name">{{ i.name }}</span>
                 <span v-if="ind !== item.singerList.length - 1"> / </span>
               </span>
             </span>
