@@ -2,11 +2,16 @@
   <div class="djprogram-user-info-container">
     <div class="cover-warp">
       <div class="cover">
-        <img
-          class="cover-img"
-          :src="`${djProgramDetailData?.coverUrl}?param=130y130`"
-          alt=""
-        />
+        <template v-if="djProgramDetailData?.coverUrl">
+          <img
+            class="cover-img"
+            :src="`${djProgramDetailData?.coverUrl}?param=130y130`"
+            alt=""
+          />
+        </template>
+        <template v-else>
+          <img class="cover-img" src="" alt="" />
+        </template>
         <span class="cover-img-bg"></span>
       </div>
     </div>
@@ -37,11 +42,11 @@
         </div>
         <div class="other like" @click="handleLike">
           <template v-if="djProgramDetailData?.likedCount > 0">
-            <icon class="like-icon"></icon>
+            <i class="like-icon"></i>
             <span class="icon"> ({{ djProgramDetailData?.likedCount }}) </span>
           </template>
           <template v-else>
-            <icon class="like-icon"></icon>
+            <i class="like-icon"></i>
             <span class="icon">喜欢</span>
           </template>
         </div>
