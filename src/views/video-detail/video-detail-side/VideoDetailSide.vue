@@ -37,7 +37,6 @@
             <span class="text">by</span>
             <span
               class="name hide"
-              :title="item?.creator[0]?.userName"
               @click="jumpUserProfile(item?.creator[0]?.userId)"
             >
               {{ item?.creator[0]?.userName }}
