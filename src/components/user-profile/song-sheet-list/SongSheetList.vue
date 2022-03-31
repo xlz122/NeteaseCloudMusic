@@ -19,18 +19,19 @@
           v-for="(item, index) in songSheetList?.createSongList"
           :key="index"
           :class="{ 'first-list-item': !(index % 5) }"
-          @click="jumpSongSheetDetail(item?.id)"
         >
-          <div class="item-cover" :title="item?.name">
+          <div class="item-cover">
             <img
               class="cover-img"
               :src="`${item?.coverImgUrl}?param=140y140`"
+              :title="item?.name"
+              @click="jumpSongSheetDetail(item?.id)"
               alt="cover-img"
             />
             <div class="cover-bottom">
               <i class="info-icon"></i>
               <span class="num">{{ item?.playCount }}</span>
-              <i class="info-icon-right"></i>
+              <i class="info-icon-right" title="播放"></i>
             </div>
           </div>
           <p class="item-desc" :title="item?.name">{{ item?.name }}</p>
@@ -56,18 +57,19 @@
           v-for="(item, index) in songSheetList?.collectionSongList"
           :key="index"
           :class="{ 'first-list-item': index === 0 }"
-          @click="jumpSongSheetDetail(item?.id)"
         >
-          <div class="item-cover" :title="item?.name">
+          <div class="item-cover">
             <img
               class="cover-img"
               :src="`${item?.coverImgUrl}?param=140y140`"
+              :title="item?.name"
+              @click="jumpSongSheetDetail(item?.id)"
               alt="cover-img"
             />
             <div class="cover-bottom">
               <i class="info-icon"></i>
               <span class="num">{{ item?.playCount }}</span>
-              <i class="info-icon-right"></i>
+              <i class="info-icon-right" title="播放"></i>
             </div>
           </div>
           <p class="item-desc" :title="item?.name">{{ item?.name }}</p>
