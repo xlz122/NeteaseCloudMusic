@@ -10,6 +10,7 @@
             <span class="by">by</span>
             <span
               class="name"
+              :title="videoDetailData?.creator?.nickname"
               @click="jumpUserProfile(videoDetailData.creator.userId)"
             >
               {{ videoDetailData?.creator?.nickname }}
