@@ -10,19 +10,25 @@
       v-for="(item, index) in albumData?.list"
       :key="index"
     >
-      <div class="item-cover" @click="jumpAlbumDetail(item.id)">
+      <div class="item-cover">
         <img
           class="item-cover-img"
           :src="`${item?.picUrl}?param=130y130`"
+          :title="item?.name"
+          @click="jumpAlbumDetail(item.id)"
           alt=""
         />
         <i class="item-cover-bg"></i>
-        <i class="item-cover-play"></i>
+        <i class="item-cover-play" title="播放"></i>
       </div>
-      <p class="desc" @click="jumpAlbumDetail(item.id)">
+      <p class="desc" :title="item?.name" @click="jumpAlbumDetail(item.id)">
         {{ item?.name }}
       </p>
-      <p class="name" @click="jumpSingerDetail(item?.artist?.id)">
+      <p
+        class="name"
+        :title="item?.artist?.name"
+        @click="jumpSingerDetail(item?.artist?.id)"
+      >
         {{ item?.artist?.name }}
       </p>
     </li>

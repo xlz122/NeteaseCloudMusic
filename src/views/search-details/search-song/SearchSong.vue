@@ -61,11 +61,7 @@
       </div>
       <div class="td td3">
         <div class="text">
-          <span
-            class="name"
-            :title="item?.ar[0]?.name"
-            @click="jumpSingerDetail(item?.ar[0]?.id)"
-          >
+          <span class="name" @click="jumpSingerDetail(item?.ar[0]?.id)">
             {{ item?.ar[0]?.name }}
           </span>
         </div>
