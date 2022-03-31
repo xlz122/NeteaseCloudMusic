@@ -1,3 +1,49 @@
+## [1.0.11](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.10...v1.0.11) (2022-03-31)
+
+
+### ✨ Features | 新功能
+
+* 歌手页面补充跳转用户资料页面 [#ee163b7](https://github.com/xlz122/NeteaseCloudMusic/commit/ee163b7) 
+* 更新页面底部信息部分 [#e65db69](https://github.com/xlz122/NeteaseCloudMusic/commit/e65db69) 
+* 搜索详情-单曲,增加专辑跳转 [#e8a8bb2](https://github.com/xlz122/NeteaseCloudMusic/commit/e8a8bb2) 
+* 增加用户主页-听歌排行 [#986915f](https://github.com/xlz122/NeteaseCloudMusic/commit/986915f) 
+
+
+### 🎫 Chores | 其他更新
+
+* 部分变量重命名，补充部分类型，删除部分注释 [#dafdc94](https://github.com/xlz122/NeteaseCloudMusic/commit/dafdc94) 
+* 删除部分多余注释 [#6855463](https://github.com/xlz122/NeteaseCloudMusic/commit/6855463) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 部分文件template增加可选链? [#346cb15](https://github.com/xlz122/NeteaseCloudMusic/commit/346cb15) 
+* 所有接口方法补充catch回调 [#65e4eac](https://github.com/xlz122/NeteaseCloudMusic/commit/65e4eac) 
+* 修复/deep/被弃用警告 [#fde1603](https://github.com/xlz122/NeteaseCloudMusic/commit/fde1603) 
+* 修复播放列表-清空列表，刷新页面播放器还存在音乐的bug [#8ac8942](https://github.com/xlz122/NeteaseCloudMusic/commit/8ac8942) 
+* 修复部分注释错误，重复接口 [#b658701](https://github.com/xlz122/NeteaseCloudMusic/commit/b658701) 
+* 修复从歌手页跳转个人资料页面再返回歌手页导航没有正确显示bug [#20d59a0](https://github.com/xlz122/NeteaseCloudMusic/commit/20d59a0) 
+* 修复单曲详情显示不正确bug [#f6df21f](https://github.com/xlz122/NeteaseCloudMusic/commit/f6df21f) 
+* 修复电台详情控制台图片报404的bug [#84c2419](https://github.com/xlz122/NeteaseCloudMusic/commit/84c2419) 
+* 修复歌单-信息部分样式bug [#e439c17](https://github.com/xlz122/NeteaseCloudMusic/commit/e439c17) 
+* 修复歌单点击范围bug，热门点击无效bug [#17e85aa](https://github.com/xlz122/NeteaseCloudMusic/commit/17e85aa) 
+* 修复歌单详情-热门歌单头像缺少提示的bug [#b4ba989](https://github.com/xlz122/NeteaseCloudMusic/commit/b4ba989) 
+* 修复歌手详情，点击跳转不正确bug [#83f5040](https://github.com/xlz122/NeteaseCloudMusic/commit/83f5040) 
+* 修复个性化推荐点击范围bug [#62a5b38](https://github.com/xlz122/NeteaseCloudMusic/commit/62a5b38) 
+* 修复关注页样式bug [#e31daf2](https://github.com/xlz122/NeteaseCloudMusic/commit/e31daf2) 
+* 修复每日推荐收藏全部bug [#730111a](https://github.com/xlz122/NeteaseCloudMusic/commit/730111a) 
+* 修复首页-榜单跳转bug [#03b6544](https://github.com/xlz122/NeteaseCloudMusic/commit/03b6544) 
+* 修复首页-热门推荐点击范围bug [#f4b3089](https://github.com/xlz122/NeteaseCloudMusic/commit/f4b3089) 
+* 修复搜索详情各页面样式、显示、点击范围bug [#7716d55](https://github.com/xlz122/NeteaseCloudMusic/commit/7716d55) 
+* 修复我的视频样式展示bug [#5f34f22](https://github.com/xlz122/NeteaseCloudMusic/commit/5f34f22) 
+* 修复我的音乐-创建的歌单统计数失去响应式的bug [#a3bb280](https://github.com/xlz122/NeteaseCloudMusic/commit/a3bb280) 
+* 修复新碟上架页面点击范围不一致bug [#9b89ad1](https://github.com/xlz122/NeteaseCloudMusic/commit/9b89ad1) 
+* 修复用户资料点击范围bug [#e967e81](https://github.com/xlz122/NeteaseCloudMusic/commit/e967e81) 
+* 修复专辑详情-其他热门专辑显示bug [#9685681](https://github.com/xlz122/NeteaseCloudMusic/commit/9685681) 
+* 修复mv、视频详情显示bug [#82c26c7](https://github.com/xlz122/NeteaseCloudMusic/commit/82c26c7) 
+
+
+
 ## [1.0.10](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.9...v1.0.10) (2022-03-27)
 
 
