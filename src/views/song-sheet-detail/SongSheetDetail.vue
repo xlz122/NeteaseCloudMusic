@@ -1,7 +1,7 @@
 <template>
   <div class="song-sheet-detail">
-    <div class="song-sheet-detail-container">
-      <div class="song-sheet-content">
+    <div class="detail-container">
+      <div class="detail-content">
         <UserInfo class="user-info" @jumpToComments="jumpToComments" />
         <div class="list-title">
           <h3 class="title-text">歌曲列表</h3>
@@ -20,7 +20,7 @@
             </div>
             <div
               class="title-play-num"
-              v-if="songSheetDetail?.playlist?.tracks?.length > 0"
+              v-if="songSheetDetail?.playlist?.tracks.length > 0"
             >
               播放:
               <span class="eye-catching">
@@ -51,7 +51,7 @@
           @changPage="changPage"
         />
       </div>
-      <div class="song-sheet-side">
+      <div class="detail-side">
         <SongSheetSide />
       </div>
     </div>
@@ -94,7 +94,7 @@ export default defineComponent({
     watch(
       () => $route.params,
       curVal => {
-        if (curVal.songSheetId) {
+        if (curVal?.songSheetId) {
           getSongDetail();
         }
       },
@@ -105,14 +105,13 @@ export default defineComponent({
 
     // 获取歌单详情
     function getSongDetail(): void {
-      // 清空歌单详情数据
       $store.commit('music/setSongSheetDetail', {});
 
       playlistDetail({
         id: songSheetId.value
       })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
+          if (res?.code === 200) {
             $store.commit('music/setSongSheetDetail', res);
           } else {
             $store.commit('setMessage', {
@@ -124,7 +123,7 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
-    // 评论
+    // 跳转至评论
     function jumpToComments(): void {
       const commentDom = document.querySelector(
         '.comment-component'
@@ -181,9 +180,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      // 头部导航选中
       $store.commit('setHeaderActiveIndex', 0);
-      // 取消二级导航选中
       $store.commit('setSubActiveIndex', -1);
     });
 

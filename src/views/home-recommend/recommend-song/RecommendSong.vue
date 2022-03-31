@@ -1,12 +1,10 @@
 <template>
   <div class="music-table-container">
-    <!-- loading -->
     <div class="loading" v-if="loading">
       <i class="loading-icon"></i>
       加载中...
     </div>
-    <!-- 歌曲列表部分 -->
-    <table class="play-list-table" v-if="recommendSong.length > 0">
+    <table class="play-list-table" v-if="recommendSong?.length > 0">
       <thead>
         <tr>
           <th class="th first-th">
@@ -44,8 +42,8 @@
           </td>
           <td class="tbody-td">
             <div class="hd">
-              <span class="text" @click="jumpSongDetail(item.id)">
-                <span class="title" :title="`${item.name}`">
+              <span class="text" @click="jumpSongDetail(item?.id)">
+                <span class="title" :title="`${item?.name}`">
                   {{ item?.name }}
                 </span>
                 <span class="no-click" v-if="item?.alia[0]">
@@ -69,7 +67,7 @@
                 <i
                   class="icon collect"
                   title="收藏"
-                  @click="handleCollection(item.id)"
+                  @click="handleCollection(item?.id)"
                 ></i>
                 <i class="icon share" title="分享" @click="handleShare"></i>
                 <i
@@ -85,18 +83,18 @@
               <div class="text" v-for="(i, ind) in item?.ar" :key="ind">
                 <span
                   class="name"
-                  :title="i.name"
-                  @click="jumpSingerDetail(i.id)"
+                  :title="i?.name"
+                  @click="jumpSingerDetail(i?.id)"
                 >
                   {{ i?.name }}
                 </span>
-                <span class="line" v-if="ind !== item.ar.length - 1">/</span>
+                <span class="line" v-if="ind !== item?.ar?.length - 1">/</span>
               </div>
             </div>
           </td>
-          <td class="tbody-td" @click="jumpAlbumDetail(item.al.id)">
+          <td class="tbody-td" @click="jumpAlbumDetail(item?.al?.id)">
             <div class="hd">
-              <span class="text" :title="item.al.name">
+              <span class="text" :title="item?.al?.name">
                 {{ item?.al?.name }}
               </span>
             </div>
@@ -105,7 +103,7 @@
       </tbody>
     </table>
     <!-- 音乐列表空时展示 -->
-    <div class="no-list-data" v-if="!loading && recommendSong.length === 0">
+    <div class="no-list-data" v-if="!loading && recommendSong?.length === 0">
       <div class="title">
         <i class="icon"></i>
         <h3 class="text">暂无音乐！</h3>
@@ -215,9 +213,8 @@ export default defineComponent({
       });
     }
 
-    // 收藏歌曲
+    // 收藏
     function handleCollection(id: number): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -231,7 +228,6 @@ export default defineComponent({
 
     // 分享
     function handleShare(): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;

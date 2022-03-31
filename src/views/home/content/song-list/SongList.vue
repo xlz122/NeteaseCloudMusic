@@ -18,7 +18,7 @@
             {{ item?.playlist?.name }}
           </h3>
           <div class="btns">
-            <i class="btn-play" title="播放" @click="playTitleMusic(index)"></i>
+            <i class="btn-play" title="播放" @click="playAllMusic(index)"></i>
             <template v-if="!item?.playlist?.subscribed">
               <i
                 class="btn-collection"
@@ -126,13 +126,13 @@ export default defineComponent({
     }
     getOriginalList();
 
-    // 头部播放 - 默认播放列表第一项
-    const playTitleMusic = throttle(
+    // 播放全部- 默认播放列表第一项
+    const playAllMusic = throttle(
       function (index: number) {
         if (listData[index].playlist?.tracks.length === 0) {
           return false;
         }
-        // 播放第一项
+
         const item = listData[index].playlist?.tracks[0];
 
         // 处理播放器所需数据
@@ -193,7 +193,6 @@ export default defineComponent({
 
     // 收藏
     function handleCollectAll(id: number): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -284,9 +283,8 @@ export default defineComponent({
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
-    // 收藏歌曲
+    // 收藏
     function handleCollection(id: number): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -306,7 +304,7 @@ export default defineComponent({
 
     return {
       listData,
-      playTitleMusic,
+      playAllMusic,
       jumpSongDetail,
       playSingleMusic,
       handleCollectAll,

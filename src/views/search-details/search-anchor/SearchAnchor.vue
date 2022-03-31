@@ -1,5 +1,4 @@
 <template>
-  <!-- loading -->
   <div class="loading" v-if="anchorData?.loading">
     <i class="loading-icon"></i>
     加载中...
@@ -8,17 +7,17 @@
   <ul class="search-anchor-list" v-if="!anchorData?.loading">
     <li
       class="search-anchor-item"
-      v-for="(item, index) in anchorData.list"
+      v-for="(item, index) in anchorData?.list"
       :key="index"
     >
-      <div class="item-cover" @click="jumpDjradioDetail(item.id)">
+      <div class="item-cover" @click="jumpDjradioDetail(item?.id)">
         <img
           class="item-cover-img"
           :src="`${item?.picUrl}?param=150y150`"
           alt=""
         />
       </div>
-      <p class="desc" @click="jumpDjradioDetail(item.id)">
+      <p class="desc" @click="jumpDjradioDetail(item?.id)">
         {{ item?.name }}
       </p>
       <p class="name" @click="jumpUserProfile(item?.dj?.userId)">
@@ -76,6 +75,13 @@ export default defineComponent({
       $store.getters.searchText.replace(/"/g, '')
     );
 
+    watch(
+      () => searchDetailText.value,
+      () => {
+        getSearchAnchor();
+      }
+    );
+
     const anchorData = reactive<AnchorData>({
       loading: true,
       offset: 1,
@@ -83,14 +89,6 @@ export default defineComponent({
       total: 0,
       list: []
     });
-
-    // 详情搜索回车
-    watch(
-      () => searchDetailText.value,
-      () => {
-        getSearchAnchor();
-      }
-    );
 
     // 获取专辑列表
     function getSearchAnchor(): void {
@@ -101,7 +99,7 @@ export default defineComponent({
         type: 1009
       })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
+          if (res?.code === 200) {
             anchorData.total = res?.result?.djRadiosCount;
             anchorData.list = res?.result?.djRadios;
             emit('searchCountChange', res?.result?.djRadiosCount);

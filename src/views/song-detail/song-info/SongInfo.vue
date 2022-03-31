@@ -1,5 +1,5 @@
 <template>
-  <div class="song-user-info-container">
+  <div class="user-info-container">
     <template v-if="songDetailData?.songs?.length">
       <div class="cover-warp">
         <div class="cover">
@@ -40,7 +40,7 @@
             </span>
             <span
               class="line"
-              v-if="index !== songDetailData?.songs[0]?.ar.length - 1"
+              v-if="index !== songDetailData?.songs[0]?.ar?.length - 1"
               >/</span
             >
           </template>
@@ -56,7 +56,7 @@
         </div>
         <!-- 操作项 -->
         <div class="operate-btn">
-          <div class="play" @click="playTitleMusic">
+          <div class="play" @click="playAllMusic">
             <span class="icon-mv" title="播放">播放</span>
           </div>
           <div
@@ -88,14 +88,16 @@
         <!-- 歌词列表 -->
         <ul
           class="lyric-list"
-          :class="[{ 'lyric-list-auto': lyric.list.length < 13 || toggleShow }]"
+          :class="[
+            { 'lyric-list-auto': lyric?.list.length < 13 || toggleShow }
+          ]"
         >
           <li
             class="lyric-list-item"
-            v-for="(item, index) in lyric.list"
+            v-for="(item, index) in lyric?.list"
             :key="index"
           >
-            {{ item.lyric }}
+            {{ item?.lyric }}
           </li>
         </ul>
         <div class="toggle-btn" v-if="lyric?.list.length > 13">
@@ -147,9 +149,14 @@ export default defineComponent({
       $store.commit('jumpSingerDetail', id);
     }
 
+    // 跳转专辑详情
+    function jumpAlbumDetail(id: number): void {
+      $store.commit('jumpAlbumDetail', id);
+    }
+
     // 播放单个歌曲
-    function playTitleMusic(): boolean | undefined {
-      if (!props?.songDetailData?.songs?.length) {
+    function playAllMusic(): boolean | undefined {
+      if (!props?.songDetailData?.songs.length) {
         return false;
       }
 
@@ -189,7 +196,7 @@ export default defineComponent({
 
     // 单个歌曲添加到播放列表
     function singleMusicToPlayList(): boolean | undefined {
-      if (!props?.songDetailData?.songs?.length) {
+      if (!props?.songDetailData?.songs.length) {
         return false;
       }
 
@@ -217,9 +224,8 @@ export default defineComponent({
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
-    // 收藏歌曲
+    // 收藏
     function handleCollection(id: number): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -233,7 +239,6 @@ export default defineComponent({
 
     // 分享
     function handleShare(): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -253,9 +258,8 @@ export default defineComponent({
       });
     }
 
-    // 评论
+    // 跳转至评论
     function jumpToComments(): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -270,23 +274,18 @@ export default defineComponent({
       toggleShow.value = !toggleShow.value;
     }
 
-    // 跳转专辑详情
-    function jumpAlbumDetail(id: number): void {
-      $store.commit('jumpAlbumDetail', id);
-    }
-
     return {
       songId,
       jumpSingerDetail,
-      playTitleMusic,
+      jumpAlbumDetail,
+      playAllMusic,
       singleMusicToPlayList,
       handleCollection,
       handleShare,
       handleDownload,
       jumpToComments,
       toggleShow,
-      toggle,
-      jumpAlbumDetail
+      toggle
     };
   }
 });

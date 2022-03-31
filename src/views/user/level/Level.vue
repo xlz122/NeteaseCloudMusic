@@ -4,12 +4,12 @@
       <div class="level-title">
         当前等级:
         <i class="level-icon"></i>
-        <p class="num">{{ level || 0 }}</p>
+        <p class="num">{{ level?.current }}</p>
       </div>
       <!-- 进度 -->
       <div class="sub">
         <div class="subbg">
-          <div :style="`width:${(25 + 81) * level * 0.835 || 0}px;`">
+          <div :style="`width:${(25 + 81) * level?.current * 0.835 || 0}px;`">
             <span></span>
           </div>
         </div>
@@ -28,11 +28,11 @@
           <div class="divnum">
             <ul>
               <li
-                v-for="(item, index) in levelArr"
+                v-for="(item, index) in level?.list"
                 :key="index"
                 :class="[
-                  { 'z-ov': index < level },
-                  { 'z-on': index === level }
+                  { 'z-ov': index < level?.current },
+                  { 'z-on': index === level?.current }
                 ]"
               >
                 {{ item }}
@@ -60,7 +60,7 @@
       <div class="next-level-title">
         距离下一个等级:
         <i class="level-icon"></i>
-        <p class="num">{{ level + 1 || 0 }}</p>
+        <p class="num">{{ level?.current + 1 }}</p>
         <i class="n-iconpoint"></i>
         <div class="uitl">
           <span class="text">听歌：</span>
@@ -111,10 +111,11 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    const levelArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-    // 用户等级
-    const level = ref<number>(0);
-    // 特权
+    const level = reactive({
+      list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      current: 0
+    });
+
     const privilegeList = ref<string[]>([]);
     // 下一级数据
     const nextLevel = reactive<NextLevel>({
@@ -129,18 +130,18 @@ export default defineComponent({
       userLevel()
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            level.value = res.data.level;
-            privilegeList.value = res.data.info.split('$');
+            level.current = res?.data?.level;
+            privilegeList.value = res?.data?.info?.split('$');
             // 下一级(计算剩余)
             nextLevel.loginCount =
-              res.data.nextLoginCount - res.data.nowLoginCount;
+              res.data.nextLoginCount - res?.data?.nowLoginCount;
             nextLevel.playCount =
-              res.data.nextPlayCount - res.data.nowPlayCount;
+              res.data.nextPlayCount - res?.data?.nowPlayCount;
             // 下一级(计算百分比)
             nextLevel.loginProgress =
-              res.data.nowLoginCount / res.data.nextLoginCount.toFixed(3);
+              res.data.nowLoginCount / res?.data?.nextLoginCount.toFixed(3);
             nextLevel.playProgress =
-              res.data.nowPlayCount / res.data.nextPlayCount.toFixed(3);
+              res.data.nowPlayCount / res?.data?.nextPlayCount.toFixed(3);
           } else {
             $store.commit('setMessage', {
               type: 'error',
@@ -152,13 +153,11 @@ export default defineComponent({
     }
     getUserLevel();
 
-    // 了解等级特权
     function understand(): void {
       $router.push({ name: 'level-detail' });
     }
 
     return {
-      levelArr,
       level,
       privilegeList,
       nextLevel,

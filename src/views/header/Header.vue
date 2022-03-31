@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-    <!-- 头部导航及其他 -->
+    <!-- 一级导航 -->
     <div class="h-top">
       <div class="h-warp">
         <div class="logo" @click="logoJump"></div>
@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-    <!-- 头部子导航 -->
+    <!-- 二级导航 -->
     <div class="h-bottom">
       <div class="h-warp subnav" v-if="heaerActiveIndex === 0">
         <ul class="nav">
@@ -90,7 +90,6 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    // logo点击跳转
     function logoJump(): void {
       if ($route.path !== '/') {
         $router.push({ name: 'home' });
@@ -127,21 +126,19 @@ export default defineComponent({
       }
     ]);
 
-    // 头部导航当前选中项
     const heaerActiveIndex = computed<number>(
       () => $store.getters.heaerActiveIndex
     );
 
-    // 导航更改
+    // 一级导航更改
     function navChange(item: NavList, index: number): boolean | undefined {
-      // 外部链接不更改导航
       if (!item.link) {
         return false;
       }
+
       $store.commit('setHeaderActiveIndex', index);
     }
 
-    // 子导航数据
     const subNavList = ref<NavList[]>([
       {
         title: '推荐',
@@ -169,12 +166,11 @@ export default defineComponent({
       }
     ]);
 
-    // 二级导航当前选中项
     const subActiveIndex = computed<number>(
       () => $store.getters.subActiveIndex
     );
 
-    // 导航更改
+    // 二级导航更改
     function subNavChange(item: NavList, index: number): boolean | undefined {
       if (!item.link) {
         $store.commit('setMessage', {
@@ -183,6 +179,7 @@ export default defineComponent({
         });
         return false;
       }
+
       $router.push({ path: item.link });
       $store.commit('setSubActiveIndex', index);
     }
@@ -198,6 +195,7 @@ export default defineComponent({
         if (index !== -1) {
           $store.commit('setHeaderActiveIndex', index);
         }
+
         // 二级导航
         const subIndex = subNavList.value.findIndex(
           (item: LoopType) => item.link === path
@@ -215,6 +213,7 @@ export default defineComponent({
     function openLogin(): void {
       $store.commit('setLoginDialog', true);
     }
+
     return {
       logoJump,
       isLogin,

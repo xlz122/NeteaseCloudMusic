@@ -1,9 +1,21 @@
 <template>
   <div class="user-profile-container">
     <div class="user-info">
-      <UserInfo />
+      <UserInfo
+        :userId="userId"
+        :userInfo="userInfo"
+        :currentUserInfo="currentUserInfo"
+        :provinceName="provinceName"
+        :cityName="cityName"
+      />
     </div>
-    <div class="user-record">
+    <div
+      class="user-record"
+      v-if="
+        currentUserInfo?.profile?.userType === 0 ||
+        currentUserInfo?.profile?.userType === 4
+      "
+    >
       <UserRecord />
     </div>
     <div class="song-sheet">
@@ -13,8 +25,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from 'vue';
+import { defineComponent, ref, computed, watch, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { userDetail } from '@api/user';
+import findCityZipCode from './city';
+import { ResponseType } from '@/types/types';
 import UserInfo from '@/components/user-profile/user-info/UserInfo.vue';
 import UserRecord from '@components/user-profile/user-record/UserRecord.vue';
 import SongSheetList from '@/components/user-profile/song-sheet-list/SongSheetList.vue';
@@ -26,14 +42,68 @@ export default defineComponent({
     SongSheetList
   },
   setup() {
+    const $route = useRoute();
     const $store = useStore();
 
+    const userInfo = computed(() => $store.getters.userInfo);
+    // 用户id
+    const userId = computed<number>(() => $store.getters.userId);
+
+    watch(
+      () => $route.params,
+      curVal => {
+        // 传入
+        if (curVal?.userId) {
+          getUserDetail();
+          return false;
+        }
+        // 刷新
+        if (userId.value) {
+          getUserDetail();
+        }
+      },
+      {
+        immediate: true
+      }
+    );
+
+    const currentUserInfo = ref({});
+    // 省、市
+    const provinceName = ref<string>('');
+    const cityName = ref<string>('');
+
+    // 获取当前用户详情
+    function getUserDetail() {
+      userDetail({ uid: userId.value })
+        .then((res: ResponseType) => {
+          if (res?.code === 200) {
+            currentUserInfo.value = res;
+            if (res?.profile?.province) {
+              provinceName.value = findCityZipCode(res?.profile?.province || 0);
+              cityName.value = findCityZipCode(res?.profile?.city || 0);
+            }
+          } else {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: res?.msg
+            });
+          }
+        })
+        .catch(() => ({}));
+    }
+
     onMounted(() => {
-      // 取消头部导航选中
       $store.commit('setHeaderActiveIndex', -1);
-      // 取消二级导航选中
       $store.commit('setSubActiveIndex', -1);
     });
+
+    return {
+      userId,
+      userInfo,
+      currentUserInfo,
+      provinceName,
+      cityName
+    };
   }
 });
 </script>

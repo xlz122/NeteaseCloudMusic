@@ -12,9 +12,9 @@
       />
       <comment-replay
         class="comment-content-replay"
-        :clearText="commentClearText"
+        :isClearText="isClearText"
         :rows="3"
-        @submit="commentSubmit"
+        @submit="submit"
       />
     </div>
     <!-- 精彩评论(页数1展示) -->
@@ -25,20 +25,22 @@
       <CommentList
         :type="0"
         :list="commentParams.hotList"
-        @deleteCommentList="deleteCommentList"
-        @songSheetLikeList="songSheetLikeList"
+        @handleDeleteComment="handleDeleteComment"
+        @handleLikeComment="handleLikeComment"
         @setComments="setComments"
         @replySubmit="replySubmit"
       />
     </template>
     <!-- 最新评论 -->
     <template v-if="commentParams?.list?.length > 0">
-      <h3 class="comment-list-title">最新评论({{ commentParams?.total }})</h3>
+      <h3 class="comment-list-title" v-if="commentParams?.offset <= 1">
+        最新评论({{ commentParams?.total }})
+      </h3>
       <CommentList
         :type="1"
         :list="commentParams.list"
-        @deleteCommentList="deleteCommentList"
-        @songSheetLikeList="songSheetLikeList"
+        @handleDeleteComment="handleDeleteComment"
+        @handleLikeComment="handleLikeComment"
         @setComments="setComments"
         @replySubmit="replySubmit"
       />
@@ -97,11 +99,10 @@ export default defineComponent({
     const userInfo = computed(() => $store.getters.userInfo);
 
     // 是否清除回复内容
-    const commentClearText = ref<boolean>(false);
+    const isClearText = ref<boolean>(false);
 
     // 顶部评论提交
-    function commentSubmit(replayText: string): boolean | undefined {
-      // 未登录不触发操作
+    function submit(replayText: string): boolean | undefined {
       if (!isLogin.value) {
         return false;
       }
@@ -128,17 +129,15 @@ export default defineComponent({
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            // 评论成功提醒
             $store.commit('setMessage', { type: 'info', title: '评论成功' });
             // 清空回复内容
-            commentClearText.value = true;
+            isClearText.value = true;
             // 延迟重置
             nextTick(() => {
-              commentClearText.value = false;
+              isClearText.value = false;
             });
             emit('commentRefresh');
           } else {
-            // 评论失败提醒
             $store.commit('setMessage', { type: 'error', title: '评论失败' });
           }
         })
@@ -148,7 +147,7 @@ export default defineComponent({
     // 删除评论
     const deleteCommentDialog = ref<boolean>(false);
     const deleteCommentId = ref<number>(0);
-    function deleteCommentList(commentId: number): void {
+    function handleDeleteComment(commentId: number): void {
       deleteCommentDialog.value = true;
       deleteCommentId.value = commentId;
     }
@@ -180,25 +179,23 @@ export default defineComponent({
       deleteCommentDialog.value = false;
     }
 
-    // 点赞
-    function songSheetLikeList(
+    // 点赞(0精彩评论，1最新评论)
+    function handleLikeComment(
       t: number,
       commentId: number,
       type: number
     ): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
       }
 
-      // t 0精彩评论，1最新评论
+      // 页面静态修改
       let likeIndex = 0;
       if (t === 0) {
         likeIndex = commentParams.value.hotList.findIndex(
           (item: LoopType) => item.commentId === commentId
         );
-        // 页面静态修改
         if (type === 0) {
           commentParams.value.hotList[likeIndex].liked = false;
           commentParams.value.hotList[likeIndex].likedCount--;
@@ -211,7 +208,6 @@ export default defineComponent({
         likeIndex = commentParams.value.list.findIndex(
           (item: LoopType) => item.commentId === commentId
         );
-        // 页面静态修改
         if (type === 0) {
           commentParams.value.list[likeIndex].liked = false;
           commentParams.value.list[likeIndex].likedCount--;
@@ -232,7 +228,6 @@ export default defineComponent({
 
     // 打开当前评论回复框
     function setComments(type: number, index: number): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -281,11 +276,9 @@ export default defineComponent({
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            // 评论成功提醒
             $store.commit('setMessage', { type: 'info', title: '评论成功' });
             emit('commentRefresh');
           } else {
-            // 评论失败提醒
             $store.commit('setMessage', { type: 'error', title: '评论失败' });
           }
         })
@@ -295,13 +288,13 @@ export default defineComponent({
     return {
       defaultAvatarImg,
       userInfo,
-      commentClearText,
-      commentSubmit,
-      deleteCommentList,
+      isClearText,
+      submit,
+      handleDeleteComment,
       deleteCommentDialog,
       deleteCommentConfirm,
       deleteCommentCancel,
-      songSheetLikeList,
+      handleLikeComment,
       setComments,
       replySubmit
     };

@@ -16,7 +16,7 @@
             :class="{
               'disable-play': recommendSong?.length === 0
             }"
-            @click="playTitleMusic"
+            @click="playAllMusic"
           >
             <span class="icon-play">播放全部</span>
           </div>
@@ -25,7 +25,7 @@
             :class="{
               'disable-play-add': recommendSong?.length === 0
             }"
-            @click="setAddPlayList"
+            @click="allMusicToPlayList"
           ></div>
           <div class="other collection" @click="handleCollectAll">
             <span class="icon"> 收藏全部</span>
@@ -74,7 +74,6 @@ export default defineComponent({
       ''
     );
 
-    // 歌曲列表数据
     const recommendSong = ref();
 
     // 获取每日推荐歌曲列表
@@ -95,13 +94,13 @@ export default defineComponent({
     }
     getRecommendSong();
 
-    // 头部播放 - 默认播放列表第一项
-    const playTitleMusic = throttle(
+    // 播放全部- 默认播放列表第一项
+    const playAllMusic = throttle(
       function () {
         if (recommendSong.value?.length === 0) {
           return false;
         }
-        // 播放第一项
+
         const item = recommendSong.value[0];
 
         // 处理播放器所需数据
@@ -145,7 +144,7 @@ export default defineComponent({
     );
 
     // 全部音乐添加到播放列表
-    function setAddPlayList(): boolean | undefined {
+    function allMusicToPlayList(): boolean | undefined {
       if (recommendSong.value?.length === 0) {
         return false;
       }
@@ -186,9 +185,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      // 头部导航选中
       $store.commit('setHeaderActiveIndex', 0);
-      // 取消二级导航选中
       $store.commit('setSubActiveIndex', -1);
     });
 
@@ -196,8 +193,8 @@ export default defineComponent({
       weekText,
       dateText,
       recommendSong,
-      playTitleMusic,
-      setAddPlayList,
+      playAllMusic,
+      allMusicToPlayList,
       handleCollectAll
     };
   }

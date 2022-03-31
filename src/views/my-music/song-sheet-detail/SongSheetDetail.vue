@@ -1,10 +1,9 @@
 <template>
-  <div class="play-list-main">
-    <!-- 个人信息部分 -->
+  <div class="song-sheet-detail">
     <UserInfo class="user-info" @jumpToComments="jumpToComments" />
     <div class="list-title">
       <h3 class="title-text">歌曲列表</h3>
-      <span class="title-text-num">
+      <span class="title-track">
         {{ songSheetDetail?.playlist?.trackCount }}首歌
       </span>
       <div
@@ -12,15 +11,14 @@
         v-if="songSheetDetail?.playlist?.tracks.length > 0"
       >
         播放:
-        <span class="eye-catching">{{
-          songSheetDetail?.playlist?.playCount
-        }}</span>
+        <span class="eye-catching">
+          {{ songSheetDetail?.playlist?.playCount }}
+        </span>
         次
       </div>
     </div>
     <!-- 音乐列表 -->
     <MusicTable class="music-table" />
-    <!-- 评论 -->
     <div class="comment-component">
       <Comment
         :commentParams="commentParams"
@@ -39,8 +37,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, watch } from 'vue';
+import { defineComponent, reactive, computed, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
+import { playListDetail } from '@api/my-music';
 import { commentPlayList } from '@api/comment';
 import { ResponseType, CommentParams } from '@/types/types';
 import { handleCommentData } from '@components/comment/handleCommentData';
@@ -59,31 +58,56 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
+    // 歌单id
+    const songSheetId = computed<number>(() => $store.getters.songSheetId);
     // 歌单详情
     const songSheetDetail = computed(
       () => $store.getters['music/songSheetDetail']
     );
-    // 歌单id
-    const songSheetId = computed<number>(() => $store.getters.songSheetId);
 
-    // 监听路由传参，获取歌曲评论
     watch(
       () => songSheetId.value,
-      curVal => {
-        if (curVal && Number(curVal) >= 0) {
+      () => {
+        nextTick(() => {
+          getSongSheetDetail();
           getCommentData();
-        }
+        });
+      },
+      {
+        immediate: true
       }
     );
 
-    // 评论
+    // 获取歌单详情
+    function getSongSheetDetail(): void {
+      $store.commit('music/setSongSheetDetail', {});
+
+      playListDetail({
+        id: songSheetId.value
+      })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            if (res?.playlist?.name.includes('喜欢的音乐')) {
+              res.playlist.name = '我喜欢的音乐';
+            }
+            $store.commit('music/setSongSheetDetail', res);
+          } else {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: res?.msg
+            });
+          }
+        })
+        .catch(() => ({}));
+    }
+
+    // 跳转至评论
     function jumpToComments(): void {
       const commentDom = document.querySelector(
         '.comment-component'
       ) as HTMLElement;
       const myMusicDom = document.querySelector('.my-music') as HTMLElement;
-      // 标题高度
-      myMusicDom.scrollTo(0, Number(commentDom.offsetTop) - 40);
+      myMusicDom?.scrollTo(0, Number(commentDom.offsetTop) - 40);
     }
 
     // 获取评论数据
@@ -144,5 +168,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './play-list-detail.less';
+@import './song-sheet-detail.less';
 </style>

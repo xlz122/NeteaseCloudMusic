@@ -1,11 +1,9 @@
 <template>
   <div class="music-table-container">
-    <!-- loading -->
     <div class="loading" v-if="loading">
       <i class="loading-icon"></i>
       加载中...
     </div>
-    <!-- 歌曲列表部分 -->
     <table
       class="play-list-table"
       v-if="songSheetDetail?.playlist?.tracks.length > 0"
@@ -32,7 +30,7 @@
           :key="index"
           :class="[
             { 'even-tr': (index + 1) % 2 },
-            { 'no-copyright': isCopyright(item.id) }
+            { 'no-copyright': isCopyright(item?.id) }
           ]"
         >
           <td class="tbody-left">
@@ -48,7 +46,7 @@
                   class="song-img"
                   :src="item?.al?.picUrl"
                   alt=""
-                  @click="jumpSongDetail(item.id)"
+                  @click="jumpSongDetail(item?.id)"
                 />
               </template>
               <i
@@ -56,7 +54,7 @@
                 :class="{ 'active-play': item?.id === playMusicId }"
                 @click="playSingleMusic(item)"
               ></i>
-              <span class="text" @click="jumpSongDetail(item.id)">
+              <span class="text" @click="jumpSongDetail(item?.id)">
                 <span class="title" :title="item?.name">{{ item?.name }}</span>
                 <span class="no-click" v-if="item?.alia[0]">
                   - {{ item?.alia[0] }}
@@ -65,7 +63,7 @@
               <i
                 class="icon-mv"
                 v-if="item?.mv > 0"
-                @click="jumpVideoDetail(item.mv)"
+                @click="jumpVideoDetail(item?.mv)"
               ></i>
             </div>
           </td>
@@ -83,7 +81,7 @@
                 <i
                   class="icon collect"
                   title="收藏"
-                  @click="handleCollection(item.id)"
+                  @click="handleCollection(item?.id)"
                 ></i>
                 <i class="icon share" title="分享" @click="handleShare"></i>
                 <i
@@ -99,20 +97,20 @@
                     userInfo?.profile?.userId
                   "
                   title="删除"
-                  @click="deleteMusicShow(item.id)"
+                  @click="deleteMusicShow(item?.id)"
                 ></i>
               </div>
             </div>
           </td>
           <td class="tbody-td singer">
             <div class="hd">
-              <div class="text" v-for="(i, ind) in item.ar" :key="ind">
+              <div class="text" v-for="(i, ind) in item?.ar" :key="ind">
                 <span
                   class="name"
                   :title="i.name"
-                  @click="jumpSingerDetail(i.id)"
+                  @click="jumpSingerDetail(i?.id)"
                 >
-                  {{ i.name }}
+                  {{ i?.name }}
                 </span>
                 <span class="line" v-if="ind !== item?.ar?.length - 1">/</span>
               </div>
@@ -296,9 +294,8 @@ export default defineComponent({
       });
     }
 
-    // 收藏歌曲
+    // 收藏
     function handleCollection(id: number): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -318,7 +315,6 @@ export default defineComponent({
 
     // 分享
     function handleShare(): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;

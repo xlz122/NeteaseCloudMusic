@@ -102,7 +102,7 @@ export default defineComponent({
       return new Promise(resolve => {
         topList()
           .then((res: ResponseType) => {
-            if (res.code === 200) {
+            if (res?.code === 200) {
               toplist.character = res.list.slice(0, 4);
               toplist.media = res.list.slice(4);
               resolve(res.list);
@@ -125,7 +125,6 @@ export default defineComponent({
       getCommentData();
     }
 
-    // 歌单详情数据
     const songSheetDetail = ref<unknown>({});
 
     // 获取歌单详情
@@ -135,7 +134,7 @@ export default defineComponent({
         id: songSheetId.value
       })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
+          if (res?.code === 200) {
             songSheetDetail.value = res;
           } else {
             $store.commit('setMessage', {

@@ -36,7 +36,6 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 歌手数据
     const singerList = reactive({
       title: '热门歌手',
       sort: false,
@@ -44,7 +43,6 @@ export default defineComponent({
       second: []
     });
 
-    // 分类数据
     const artistParams = reactive<ArtistList>({
       area: -1,
       type: -1,
@@ -139,7 +137,6 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      // 头部导航选中
       $store.commit('setHeaderActiveIndex', 0);
     });
 

@@ -1,6 +1,6 @@
 <template>
   <!-- 播放器 -->
-  <music-autio-component />
+  <MusicAutioComponent />
   <div class="music-audio-container">
     <div
       class="music-audio-playbar"
@@ -12,7 +12,6 @@
       @mouseenter="musicAudioEnter"
       @mouseleave="musicAudioLeave"
     >
-      <!-- 锁定 -->
       <div class="updn">
         <div class="updn-left">
           <i
@@ -26,11 +25,8 @@
         </div>
         <div class="updn-right"></div>
       </div>
-      <!-- 背景 -->
       <div class="playbar-bg"></div>
-      <!-- 播放器展示 -->
       <div class="hand" title="展开播放条" @mouseenter="musicAudioEnter"></div>
-      <!-- 内容 -->
       <div class="wrap">
         <div class="operate-btn">
           <button
@@ -99,14 +95,14 @@
             ></span>
           </div>
           <div class="play-progress">
-            <play-progress
+            <PlayProgress
               :musicPlayStatus="musicPlayStatus"
               :musicPlayProgress="musicPlayProgress"
               @progressChange="progressChange"
             />
           </div>
         </div>
-        <other-tool />
+        <OtherTool />
       </div>
     </div>
   </div>

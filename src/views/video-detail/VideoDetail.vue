@@ -1,27 +1,25 @@
 <template>
   <div class="video-detail">
-    <div class="video-detail-container">
-      <div class="video-detail-content">
+    <div class="detail-container">
+      <div class="detail-content">
         <div class="title">
-          <h2 class="text" :title="videoDetailData?.title">
+          <h2 class="title-text" :title="videoDetailData?.title">
             {{ videoDetailData?.title }}
           </h2>
-          <div class="desc">
+          <div class="title-info">
             <span class="by">by</span>
             <span
               class="name"
               :title="videoDetailData?.creator?.nickname"
-              @click="jumpUserProfile(videoDetailData.creator.userId)"
+              @click="jumpUserProfile(videoDetailData?.creator?.userId)"
             >
               {{ videoDetailData?.creator?.nickname }}
             </span>
           </div>
         </div>
-        <!-- 播放器 -->
         <div class="video-container">
           <VideoPlayer :videoDetailData="videoDetailData" />
         </div>
-        <!-- 操作项 -->
         <div class="operate-btn">
           <div class="other like" @click="handleLike">
             <template v-if="videoDetailData?.praisedCount > 0">
@@ -72,7 +70,7 @@
           @changPage="changPage"
         />
       </div>
-      <div class="video-detail-side">
+      <div class="detail-side">
         <VideoDetailSide :videoDetailData="videoDetailData" />
       </div>
     </div>
@@ -145,8 +143,8 @@ export default defineComponent({
         id: video.value.id
       })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
-            videoDetailData.value = res.data;
+          if (res?.code === 200) {
+            videoDetailData.value = res?.data;
           } else {
             $store.commit('setMessage', {
               type: 'error',
@@ -161,7 +159,12 @@ export default defineComponent({
     function getVideoSrc(): void {
       videoUrl({ id: video.value.id })
         .then((res: ResponseType) => {
-          $store.commit('setVideo', { ...video.value, url: res.urls[0].url });
+          if (res?.code === 200) {
+            $store.commit('setVideo', {
+              ...video.value,
+              url: res?.urls[0]?.url
+            });
+          }
         })
         .catch(() => ({}));
     }
@@ -174,7 +177,6 @@ export default defineComponent({
 
     // 喜欢
     function handleLike(): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -192,9 +194,9 @@ export default defineComponent({
     function getVideoSbulist(): void {
       MyVideoSbulist()
         .then((res: ResponseType) => {
-          if (res.code === 200) {
-            res.data.forEach((item: LoopType) => {
-              if (item.vid === video.value.id) {
+          if (res?.code === 200) {
+            res?.data?.forEach((item: LoopType) => {
+              if (item?.vid === video.value.id) {
                 videoSubed.value = true;
               }
             });
@@ -206,7 +208,6 @@ export default defineComponent({
 
     // 收藏
     function handleCollection(followed: boolean): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -217,7 +218,7 @@ export default defineComponent({
 
       videoSub({ id: video.value.id, t })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
+          if (res?.code === 200) {
             if (t === 1) {
               $store.commit('setMessage', {
                 type: 'info',
@@ -246,7 +247,6 @@ export default defineComponent({
 
     // 分享
     function handleShare(): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -305,14 +305,11 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      // 头部导航选中
       $store.commit('setHeaderActiveIndex', 0);
-      // 取消二级导航选中
       $store.commit('setSubActiveIndex', -1);
     });
 
     return {
-      video,
       videoDetailData,
       jumpUserProfile,
       handleLike,

@@ -4,10 +4,10 @@
     <ul class="menu-list">
       <li
         class="item"
-        :class="{ 'active-item': songSheetId === item.id }"
+        :class="{ 'active-item': songSheetId === item?.id }"
         v-for="(item, index) in character"
         :key="index"
-        @click="menuChange(item.id, item.updateFrequency)"
+        @click="menuChange(item?.id, item?.updateFrequency)"
       >
         <div class="item-cover">
           <img class="cover-img" :src="item?.coverImgUrl" alt="" />
@@ -22,10 +22,10 @@
     <ul class="menu-list">
       <li
         class="item"
-        :class="{ 'active-item': songSheetId === item.id }"
+        :class="{ 'active-item': songSheetId === item?.id }"
         v-for="(item, index) in media"
         :key="index"
-        @click="menuChange(item.id, item.updateFrequency)"
+        @click="menuChange(item?.id, item?.updateFrequency)"
       >
         <div class="item-cover">
           <img class="cover-img" :src="item?.coverImgUrl" alt="" />

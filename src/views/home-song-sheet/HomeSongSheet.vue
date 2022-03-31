@@ -26,19 +26,23 @@
               class="img"
               :src="`${item?.coverImgUrl}?param=140y140`"
               alt=""
-              @click="jumpSongSheetDetail(item.id)"
+              @click="jumpSongSheetDetail(item?.id)"
             />
             <div class="info">
               <i class="info-icon"></i>
               <span class="num">{{ item?.playCount }}</span>
-              <i class="info-icon-right"></i>
+              <i
+                class="info-icon-right"
+                title="播放"
+                @click="songSheetToPlayListPlay(item?.id)"
+              ></i>
             </div>
           </div>
           <div class="item-bottom">
             <span
               class="text"
               :title="item.name"
-              @click="jumpSongSheetDetail(item.id)"
+              @click="jumpSongSheetDetail(item?.id)"
             >
               {{ item?.name }}
             </span>
@@ -47,7 +51,7 @@
               <span
                 class="text"
                 :title="item?.creator?.nickname"
-                @click="jumpUserProfile(item.creator.userId)"
+                @click="jumpUserProfile(item?.creator?.userId)"
               >
                 {{ item?.creator?.nickname }}
               </span>
@@ -72,7 +76,9 @@ import { defineComponent, ref, reactive, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { topPlaylist } from '@api/home-song-sheet';
+import { playlistTrack } from '@api/song-sheet-detail';
 import { ResponseType, LoopType } from '@/types/types';
+import { PlayMusicItem } from '@store/music/state';
 import { bigNumberTransform } from '@utils/utils';
 import ClassifyModal from './classify-modal/ClassifyModal.vue';
 import Page from '@components/page/Page.vue';
@@ -131,7 +137,6 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
-    // 监听路由传参
     watch(
       () => $route.params,
       (curVal: { name: string }) => {
@@ -174,6 +179,70 @@ export default defineComponent({
       classifyShow.value = false;
     }
 
+    // 歌单歌曲添加到播放器
+    function songSheetToPlayListPlay(id: number): void {
+      playlistTrack({ id })
+        .then((res: ResponseType) => {
+          if (res?.code === 200) {
+            if (res?.songs.length === 0) {
+              return false;
+            }
+
+            const item = res?.songs[0];
+
+            // 处理播放器所需数据
+            const musicItem: PlayMusicItem = {
+              id: item.id,
+              name: item.name,
+              picUrl: item.al.picUrl,
+              time: item.dt,
+              mv: item.mv,
+              singerList: []
+            };
+
+            item?.ar?.forEach((item: LoopType) => {
+              musicItem.singerList.push({
+                id: item.id,
+                name: item.name
+              });
+            });
+
+            // 当前播放音乐id
+            $store.commit('music/setPlayMusicId', musicItem.id);
+            // 当前播放音乐数据
+            $store.commit('music/setPlayMusicItem', musicItem);
+            // 开始播放
+            $store.commit('music/setMusicPlayStatus', {
+              look: true,
+              refresh: true
+            });
+
+            // 添加播放列表
+            res?.songs.forEach((item: LoopType) => {
+              // 处理播放器所需数据
+              const musicItem: PlayMusicItem = {
+                id: item.id,
+                name: item.name,
+                picUrl: item.al.picUrl,
+                time: item.dt,
+                mv: item.mv,
+                singerList: []
+              };
+
+              item?.ar?.forEach((item: LoopType) => {
+                musicItem.singerList.push({
+                  id: item.id,
+                  name: item.name
+                });
+              });
+              // 播放音乐数据
+              $store.commit('music/setPlayMusicList', musicItem);
+            });
+          }
+        })
+        .catch(() => ({}));
+    }
+
     // 跳转歌单详情
     function jumpSongSheetDetail(id: number): void {
       $store.commit('jumpSongSheetDetail', id);
@@ -191,7 +260,6 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      // 头部导航选中
       $store.commit('setHeaderActiveIndex', 0);
     });
 
@@ -203,6 +271,7 @@ export default defineComponent({
       classifyShow,
       classifyModal,
       catChange,
+      songSheetToPlayListPlay,
       jumpSongSheetDetail,
       jumpUserProfile,
       changPage

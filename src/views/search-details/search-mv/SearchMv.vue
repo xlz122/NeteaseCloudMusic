@@ -1,5 +1,4 @@
 <template>
-  <!-- loading -->
   <div class="loading" v-if="mvData?.loading">
     <i class="loading-icon"></i>
     加载中...
@@ -11,7 +10,7 @@
       :key="index"
       :class="{ 'first-item': index % 5 }"
     >
-      <div class="cover" @click="jumpVideoDetail(item.type, item.vid)">
+      <div class="cover" @click="jumpVideoDetail(item?.type, item?.vid)">
         <img class="img" :src="item?.coverUrl" alt="" />
         <div class="play-volume">
           <span class="icon-mv"></span>
@@ -25,7 +24,7 @@
         <i class="icon" v-if="item?.type === 0"></i>
         <span
           :title="item?.title"
-          @click="jumpVideoDetail(item.type, item.vid)"
+          @click="jumpVideoDetail(item?.type, item?.vid)"
         >
           {{ item?.title }}
         </span>
@@ -35,7 +34,7 @@
         <span
           class="name"
           :title="item?.creator[0]?.userName"
-          @click="jumpSingerDetail(item?.creator[0].userId)"
+          @click="jumpSingerDetail(item?.creator[0]?.userId)"
         >
           {{ item?.creator[0]?.userName }}
         </span>
@@ -91,6 +90,13 @@ export default defineComponent({
       $store.getters.searchText.replace(/"/g, '')
     );
 
+    watch(
+      () => searchDetailText.value,
+      () => {
+        getSearchMv();
+      }
+    );
+
     const mvData = reactive<MvData>({
       loading: true,
       offset: 1,
@@ -98,14 +104,6 @@ export default defineComponent({
       total: 0,
       list: []
     });
-
-    // 详情搜索回车
-    watch(
-      () => searchDetailText.value,
-      () => {
-        getSearchMv();
-      }
-    );
 
     // 获取视频列表
     function getSearchMv(): void {
@@ -141,6 +139,7 @@ export default defineComponent({
       if (type === 1) {
         $router.push({ name: 'video-detail', params: { id } });
       }
+
       $store.commit('setVideo', { id, url: '' });
     }
 

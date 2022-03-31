@@ -7,7 +7,7 @@
           'disable-play': singerSong?.hotSongs.length === 0
         }"
         title="播放"
-        @click="playTitleMusic"
+        @click="playAllMusic"
       >
         <span class="icon-play">播放</span>
       </div>
@@ -17,18 +17,16 @@
           'disable-play-add': singerSong?.hotSongs.length === 0
         }"
         title="添加到播放列表"
-        @click="setAddPlayList"
+        @click="allMusicToPlayList"
       ></div>
       <div class="other collection" @click="handleCollectAll">
         <span class="icon"> 收藏热门{{ singerSong?.hotSongs.length }} </span>
       </div>
     </div>
-    <!-- loading -->
     <div class="loading" v-if="loading">
       <i class="loading-icon"></i>
       加载中...
     </div>
-    <!-- 歌曲列表部分 -->
     <table class="play-list-table" v-if="singerSong?.hotSongs.length > 0">
       <thead>
         <tr>
@@ -56,7 +54,7 @@
           </td>
           <td class="tbody-td">
             <div class="hd">
-              <span class="text" @click="jumpSongDetail(item.id)">
+              <span class="text" @click="jumpSongDetail(item?.id)">
                 <span class="name" :title="`${item?.name}`">
                   {{ item?.name }}
                 </span>
@@ -67,14 +65,14 @@
               <i
                 class="icon-mv"
                 v-if="item.mv > 0"
-                @click="jumpVideoDetail(item.mv)"
+                @click="jumpVideoDetail(item?.mv)"
               ></i>
             </div>
           </td>
           <td class="tbody-td">
             <div class="hd">
               <span class="text time">
-                {{ timeStampToDuration(item.dt / 1000) }}
+                {{ timeStampToDuration(item?.dt / 1000) }}
               </span>
               <div class="operate-btn">
                 <i
@@ -85,7 +83,7 @@
                 <i
                   class="icon collect"
                   title="收藏"
-                  @click="handleCollection(item.id)"
+                  @click="handleCollection(item?.id)"
                 ></i>
                 <i class="icon share" title="分享" @click="handleShare"></i>
                 <i
@@ -96,7 +94,7 @@
               </div>
             </div>
           </td>
-          <td class="tbody-td" @click="jumpAlbumDetail(item.al.id)">
+          <td class="tbody-td" @click="jumpAlbumDetail(item?.al?.id)">
             <div class="hd">
               <span class="text" :title="item?.al?.name">
                 {{ item?.al?.name }}
@@ -146,7 +144,6 @@ export default defineComponent({
     // 歌手id
     const singerId = computed<number>(() => $store.getters.singerId);
 
-    // 监听歌手id改变
     watch(
       () => singerId.value,
       curVal => {
@@ -156,16 +153,15 @@ export default defineComponent({
       }
     );
 
-    // 歌曲数据
     const singerSong = ref();
 
-    // 获取歌手单曲
+    // 获取歌手歌曲数据
     const loading = ref<boolean>(true);
     function getArtistSong(): void {
       artistSong({ id: singerId.value })
         .then((res: ResponseType) => {
           loading.value = false;
-          if (res.code === 200) {
+          if (res?.code === 200) {
             singerSong.value = res;
           } else {
             $store.commit('setMessage', {
@@ -178,13 +174,13 @@ export default defineComponent({
     }
     getArtistSong();
 
-    // 头部播放 - 默认播放列表第一项
-    const playTitleMusic = throttle(
+    // 播放全部- 默认播放列表第一项
+    const playAllMusic = throttle(
       function () {
         if (singerSong.value?.hotSongs?.length === 0) {
           return false;
         }
-        // 播放第一项
+
         const item = singerSong.value?.hotSongs[0];
 
         // 处理播放器所需数据
@@ -228,10 +224,11 @@ export default defineComponent({
     );
 
     // 全部音乐添加到播放列表
-    function setAddPlayList(): boolean | undefined {
+    function allMusicToPlayList(): boolean | undefined {
       if (singerSong.value?.hotSongs?.length === 0) {
         return false;
       }
+
       singerSong.value?.hotSongs?.forEach((item: LoopType) => {
         // 处理播放器所需数据
         const musicItem: PlayMusicItem = {
@@ -252,6 +249,24 @@ export default defineComponent({
 
         // 播放音乐数据
         $store.commit('music/setPlayMusicList', musicItem);
+      });
+    }
+
+    // 收藏全部
+    function handleCollectAll(): boolean | undefined {
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      let ids = '';
+      singerSong.value?.hotSongs.forEach((item: LoopType) => {
+        ids += `${item.id},`;
+      });
+
+      $store.commit('music/collectPlayMusic', {
+        visible: true,
+        songIds: ids
       });
     }
 
@@ -311,9 +326,8 @@ export default defineComponent({
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
-    // 收藏歌曲
+    // 收藏
     function handleCollection(id: number): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -327,7 +341,6 @@ export default defineComponent({
 
     // 分享
     function handleShare(): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -363,41 +376,22 @@ export default defineComponent({
       $store.commit('jumpAlbumDetail', id);
     }
 
-    // 收藏全部
-    function handleCollectAll(): boolean | undefined {
-      // 未登录打开登录框
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      let ids = '';
-      singerSong.value?.hotSongs.forEach((item: LoopType) => {
-        ids += `${item.id},`;
-      });
-
-      $store.commit('music/collectPlayMusic', {
-        visible: true,
-        songIds: ids
-      });
-    }
-
     return {
       timeStampToDuration,
       singerSong,
       playMusicId,
       loading,
-      playTitleMusic,
-      setAddPlayList,
+      playAllMusic,
+      allMusicToPlayList,
+      handleCollectAll,
+      playSingleMusic,
       singleMusicToPlayList,
       handleCollection,
       handleShare,
       handleDownload,
-      playSingleMusic,
       jumpSongDetail,
       jumpVideoDetail,
-      jumpAlbumDetail,
-      handleCollectAll
+      jumpAlbumDetail
     };
   }
 });

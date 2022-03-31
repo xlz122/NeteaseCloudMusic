@@ -64,7 +64,7 @@ export default defineComponent({
 
     // 电台节目id
     const djprogramId = computed(() => $store.getters.djprogramId);
-    // 监听路由传参，获取歌曲详情
+
     watch(
       () => $route.params,
       curVal => {
@@ -147,7 +147,7 @@ export default defineComponent({
       getCommentData();
     }
 
-    // 评论
+    // 跳转至评论
     function jumpToComments(): void {
       const commentDom = document.querySelector(
         '.comment-component'
@@ -158,9 +158,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      // 头部导航选中
       $store.commit('setHeaderActiveIndex', 0);
-      // 取消二级导航选中
       $store.commit('setSubActiveIndex', -1);
     });
 

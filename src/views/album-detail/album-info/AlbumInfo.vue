@@ -26,7 +26,7 @@
           <span
             class="name"
             :title="item?.name"
-            @click="jumpSingerDetail(item.id)"
+            @click="jumpSingerDetail(item?.id)"
           >
             {{ item?.name }}
           </span>
@@ -49,13 +49,13 @@
       </div>
       <!-- 操作项 -->
       <div class="operate-btn">
-        <div class="play" @click="playTitleMusic">
+        <div class="play" @click="playAllMusic">
           <span class="icon-play" title="播放">播放</span>
         </div>
         <div
           class="play-add"
           title="添加到播放列表"
-          @click="setAddPlayList"
+          @click="allMusicToPlayList"
         ></div>
         <div class="other collection" @click="handleCollectAll">
           <template v-if="userInfo?.info?.likedCount > 0">
@@ -121,18 +121,19 @@ export default defineComponent({
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
+
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       $store.commit('jumpSingerDetail', id);
     }
 
-    // 头部播放 - 默认播放列表第一项
-    const playTitleMusic = throttle(
+    // 播放全部- 默认播放列表第一项
+    const playAllMusic = throttle(
       function () {
         if (songs.value.length === 0) {
           return false;
         }
-        // 播放第一项
+
         const item = songs.value[0];
 
         // 处理播放器所需数据
@@ -192,7 +193,7 @@ export default defineComponent({
     );
 
     // 全部音乐添加到播放列表
-    function setAddPlayList(): boolean | undefined {
+    function allMusicToPlayList(): boolean | undefined {
       if (songs.value.length === 0) {
         return false;
       }
@@ -221,7 +222,6 @@ export default defineComponent({
 
     // 收藏全部
     function handleCollectAll(): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -240,7 +240,6 @@ export default defineComponent({
 
     // 分享
     function handleShare(): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -260,9 +259,8 @@ export default defineComponent({
       });
     }
 
-    // 评论
+    // 跳转至评论
     function jumpToComments(): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -274,8 +272,8 @@ export default defineComponent({
     return {
       formatDateTime,
       jumpSingerDetail,
-      playTitleMusic,
-      setAddPlayList,
+      playAllMusic,
+      allMusicToPlayList,
       handleCollectAll,
       handleShare,
       handleDownload,

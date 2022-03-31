@@ -158,6 +158,7 @@ export default defineComponent({
       // 移除监听鼠标放开事件
       document.removeEventListener('mouseup', mouseup);
     });
+
     return {
       progressRef,
       currentProgressRef,

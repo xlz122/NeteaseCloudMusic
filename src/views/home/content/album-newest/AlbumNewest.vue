@@ -58,8 +58,8 @@ type ListOffest = {
 export default defineComponent({
   emits: ['jumpAlbumDetail', 'jumpSingerDetail'],
   setup(props, { emit }) {
-    // 新碟上架数据
     const listData = ref<unknown[]>([]);
+    // 获取新碟上架数据
     function getListData() {
       albumNewest()
         .then((res: ResponseType) => {

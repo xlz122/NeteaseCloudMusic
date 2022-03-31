@@ -87,12 +87,10 @@ export default defineComponent({
     // 扫码/其他登录方式切换
     const qrcodeLoginShow = ref<boolean>(true);
 
-    // 切换扫码登录
     function qrcodeLogin(): void {
       qrcodeLoginShow.value = true;
     }
 
-    // 切换其他方式登录
     function otherLogin(): void {
       qrcodeLoginShow.value = false;
     }
@@ -104,9 +102,9 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      // 头部导航取消选中
       $store.commit('setHeaderActiveIndex', -1);
     });
+
     return {
       musicianSvg,
       talentSvg,

@@ -106,6 +106,12 @@
         background: #eeeeee;
 
         .song {
+          .song-text {
+            .text {
+              max-width: 79%;
+            }
+          }
+
           .operate-btn {
             visibility: visible;
             text-align: left;
@@ -163,38 +169,42 @@
 
         .song-text {
           display: inline-block;
-          max-width: 75%;
+          width: 100%;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
+          color: #333;
+          cursor: pointer;
 
-          .name {
-            display: inline-block;
-            vertical-align: middle;
-            color: #333;
-            cursor: pointer;
-
-            &:hover {
-              text-decoration: underline;
-            }
+          &:hover {
+            text-decoration: underline;
           }
 
-          .desc {
+          .text {
             display: inline-block;
             vertical-align: middle;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
 
-            .em {
-              margin: 0 5px;
-            }
-
-            .text {
+            .desc {
               display: inline-block;
               vertical-align: middle;
-              color: #aeaeae;
-              cursor: pointer;
 
-              &:hover {
-                text-decoration: underline;
+              .em {
+                margin: 0 5px;
+              }
+
+              .desc-text {
+                display: inline-block;
+                vertical-align: middle;
+                color: #aeaeae;
+                cursor: pointer;
+
+                &:hover {
+                  text-decoration: underline;
+                }
               }
             }
           }

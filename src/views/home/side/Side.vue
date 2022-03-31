@@ -1,9 +1,7 @@
 <template>
   <div class="side">
-    <!-- 个人信息 -->
-    <side-user />
+    <SideUser />
     <div class="side-content">
-      <!-- 入驻歌手 -->
       <h3 class="side-title">
         <span>入驻歌手</span>
         <router-link class="link" to="/home-singer">查看全部 ></router-link>
@@ -143,6 +141,7 @@ export default defineComponent({
     function jumpUserProfile(id: number): void {
       $store.commit('jumpUserProfile', id);
     }
+
     return {
       singerList,
       anchorList,

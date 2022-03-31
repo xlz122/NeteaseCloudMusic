@@ -1,5 +1,5 @@
 <template>
-  <div class="user-record-container" v-if="recordList.length > 0">
+  <div class="user-record-container" v-if="recordList?.length > 0">
     <div class="title">
       <span class="title-text">听歌排行</span>
       <h4 class="title-desc">累积听歌0首</h4>
@@ -22,7 +22,6 @@
         </span>
       </div>
     </div>
-    <!-- loading -->
     <div class="loading" v-if="loading">
       <i class="loading-icon"></i>
       加载中...
@@ -34,43 +33,48 @@
           <i
             class="icon-play"
             :class="{ 'active-play': item?.song?.id === playMusicId }"
-            @click="playSingleMusic(item.song)"
+            @click="playSingleMusic(item?.song)"
           ></i>
         </div>
         <div class="song">
-          <div class="song-text">
-            <span
-              class="name"
-              :title="item?.song?.name"
-              @click="jumpSongDetail(item.song.id)"
-            >
-              <b>{{ item?.song?.name }}</b>
-            </span>
-            <span class="desc">
-              <em class="em">-</em>
-              <span class="text" @click="jumpSingerDetail(item.song.ar[0].id)">
-                {{ item?.song?.ar[0]?.name }}
+          <div
+            class="song-text"
+            :title="item?.song?.name"
+            @click="jumpSongDetail(item?.song?.id)"
+          >
+            <b class="text">
+              {{ item?.song?.name }}
+              <span class="desc">
+                <em class="em">-</em>
+                <span
+                  class="desc-text"
+                  @click="jumpSingerDetail(item?.song?.ar[0]?.id)"
+                >
+                  {{ item?.song?.ar[0]?.name }}
+                </span>
               </span>
-            </span>
+            </b>
           </div>
           <div class="operate-btn">
             <i
               class="icon add"
               title="添加到播放列表"
-              @click="singleMusicToPlayList(item.song)"
+              @click="singleMusicToPlayList(item?.song)"
             ></i>
             <i
               class="icon collect"
               title="收藏"
-              @click="handleCollection(item.song.id)"
+              @click="handleCollection(item?.song?.id)"
             ></i>
             <i class="icon share" title="分享" @click="handleShare"></i>
             <i class="icon download" title="下载" @click="handleDownload"></i>
           </div>
         </div>
         <div class="tops">
-          <span class="bg" :style="{ width: `${item.score}%` }"></span>
-          <span class="times">{{ item?.playCount }}次</span>
+          <span class="bg" :style="{ width: `${item?.score}%` }"></span>
+          <span class="times" v-if="item?.playCount > 0">
+            {{ item?.playCount }}次
+          </span>
         </div>
       </li>
     </ul>
@@ -115,15 +119,17 @@ export default defineComponent({
     );
 
     const recordList = ref<unknown[]>([]);
+    // 获取用户播放记录
     function getUserRecord(): void {
       userRecord({ uid: uid.value, type: type.value })
         .then((res: ResponseType) => {
           if (res.code === 200) {
             if (type.value === 0) {
-              recordList.value = res.allData?.slice(0, 10);
+              recordList.value = res?.allData?.slice(0, 10);
             } else {
-              recordList.value = res.weekData?.slice(0, 10);
+              recordList.value = res?.weekData?.slice(0, 10);
             }
+
             loading.value = false;
           } else {
             $store.commit('setMessage', {
@@ -201,9 +207,8 @@ export default defineComponent({
       $store.commit('jumpSingerDetail', id);
     }
 
-    // 收藏歌曲
+    // 收藏
     function handleCollection(id: number): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -217,7 +222,6 @@ export default defineComponent({
 
     // 分享
     function handleShare(): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;

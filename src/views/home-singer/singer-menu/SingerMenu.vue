@@ -6,16 +6,16 @@
       :key="index"
       :class="{ language: index !== 0 }"
     >
-      <h2 class="group-title">{{ item.title }}</h2>
+      <h2 class="group-title">{{ item?.title }}</h2>
       <ul class="group-list">
         <li
           class="item"
           v-for="(i, ind) in item?.list"
           :key="ind"
-          @click="menuSelete(i.title, item, i.type)"
+          @click="menuSelete(i?.title, item, i?.type)"
         >
-          <span class="item-text" :class="{ 'item-active-text': i.selected }">
-            {{ i.title }}
+          <span class="item-text" :class="{ 'item-active-text': i?.selected }">
+            {{ i?.title }}
           </span>
         </li>
       </ul>

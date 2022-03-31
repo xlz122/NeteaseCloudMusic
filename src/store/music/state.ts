@@ -1,5 +1,4 @@
 export type State = {
-  musicDetailOptions: MusicDetailOptions;
   songSheetDetail: unknown;
   collectSong: {
     visible: boolean;
@@ -14,12 +13,6 @@ export type State = {
   musicModeType: number;
   musicVolume: number;
   playLyrics: unknown;
-};
-
-export type MusicDetailOptions = {
-  subPlayList: boolean;
-  MyVideo: boolean;
-  playListDetail: boolean;
 };
 
 export type PlayMusicItem = {
@@ -44,11 +37,6 @@ function faultTolerant(name: string) {
 }
 
 const state: State = {
-  musicDetailOptions: {
-    subPlayList: false,
-    MyVideo: false,
-    playListDetail: false
-  }, // 我的音乐 - 详情显示
   songSheetDetail: faultTolerant('songSheetDetail') || {}, // 歌单详情数据
   collectSong: {
     visible: false,

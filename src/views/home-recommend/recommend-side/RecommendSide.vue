@@ -13,7 +13,7 @@
         <li class="item">
           <i class="icon play"></i>
           <span class="text">你播放了</span>
-          <span class="num">{{ userInfo.listenSongs }}</span>
+          <span class="num">{{ userInfo?.listenSongs }}</span>
           <span class="text">首音乐</span>
         </li>
         <li class="item">

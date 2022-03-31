@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch, onUnmounted } from 'vue';
+import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import SearchHeader from './search-header/SearchHeader.vue';
 import SearchTabs from './search-tabs/SearchTabs.vue';
@@ -96,27 +96,22 @@ export default defineComponent({
       $store.getters.searchDetailText.replace(/"/g, '')
     );
 
-    // 详情搜索回车
     function searchEnter(searchValue: string): void {
       $store.commit('setSearchDetailText', searchValue);
     }
 
-    // 搜索结果数量
     const searchCount = ref<number>(0);
-
     function searchCountChange(count: number): void {
       searchCount.value = count;
     }
 
-    // tab切换
     const tabTitle = ref<string>('单曲');
     function changeTab(item: string): void {
       tabTitle.value = item;
-      // tab切换，重置搜索结果数量
+
       searchCount.value = 0;
     }
 
-    // 处理标题
     const handleTitle = ref<string>('');
     watch(
       () => tabTitle.value,
@@ -139,11 +134,6 @@ export default defineComponent({
         immediate: true
       }
     );
-
-    //  离开页面，重置tab
-    onUnmounted(() => {
-      $store.commit('setSearchIndex', 0);
-    });
 
     return {
       searchIndex,

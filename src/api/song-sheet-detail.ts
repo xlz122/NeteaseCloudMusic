@@ -2,6 +2,23 @@ import axios from '@utils/axios';
 import { AxiosRequest } from '@/types/types';
 
 /**
+ * @description 获取歌单所有歌曲
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } id - 歌单 id
+ */
+export const playlistTrack = ({ id }: { id: number }): AxiosRequest => {
+  const params = {
+    timestamp: new Date().getTime(),
+    id
+  };
+  return axios.request({
+    url: '/playlist/track/all',
+    method: 'get',
+    params
+  });
+};
+
+/**
  * @description 获取歌单详情
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单 id

@@ -18,25 +18,29 @@
           class="item"
           v-for="(item, index) in songListData"
           :key="index"
-          :class="{ 'last-item': songListData.length > 2 && index === 3 }"
+          :class="{ 'last-item': songListData?.length > 2 && index === 3 }"
         >
           <div class="item-top">
             <img
               class="img"
               :src="`${item?.picUrl}?param=140y140`"
               alt=""
-              @click="jumpSongSheetDetail(item.id)"
+              @click="jumpSongSheetDetail(item?.id)"
             />
             <div class="info">
               <i class="info-icon"></i>
               <span class="num">{{ item?.playCount }}</span>
-              <i class="info-icon-right"></i>
+              <i
+                class="info-icon-right"
+                title="播放"
+                @click="songSheetToPlayListPlay(item?.id)"
+              ></i>
             </div>
           </div>
           <div
             class="item-bottom"
             :title="item?.name"
-            @click="jumpSongSheetDetail(item.id)"
+            @click="jumpSongSheetDetail(item?.id)"
           >
             {{ item?.name }}
           </div>
@@ -54,18 +58,22 @@
                 class="img"
                 :src="`${item?.picUrl}?param=140y140`"
                 alt=""
-                @click="jumpSongSheetDetail(item.id)"
+                @click="jumpSongSheetDetail(item?.id)"
               />
               <div class="info">
                 <i class="info-icon"></i>
                 <span class="num">{{ item?.playcount }}</span>
-                <i class="info-icon-right"></i>
+                <i
+                  class="info-icon-right"
+                  title="播放"
+                  @click="songSheetToPlayListPlay(item?.id)"
+                ></i>
               </div>
             </div>
             <div
               class="item-bottom"
               :title="item?.name"
-              @click="jumpSongSheetDetail(item.id)"
+              @click="jumpSongSheetDetail(item?.id)"
             >
               {{ item?.name }}
             </div>
@@ -81,9 +89,9 @@
           <div class="item-top">
             <img
               class="img"
-              :src="`${item.picUrl}?param=140y140`"
+              :src="`${item?.picUrl}?param=140y140`"
               alt=""
-              @click="jumpDjprogramDetail(item.id)"
+              @click="jumpDjprogramDetail(item?.id)"
             />
             <div class="info">
               <i class="info-icon"></i>
@@ -93,8 +101,8 @@
           </div>
           <div
             class="item-bottom"
-            :title="item.name"
-            @click="jumpDjprogramDetail(item.id)"
+            :title="item?.name"
+            @click="jumpDjprogramDetail(item?.id)"
           >
             <span class="radio-station"></span>
             {{ item?.name }}
@@ -135,7 +143,7 @@
               class="img"
               :src="`${item?.picUrl}?param=140y140`"
               alt=""
-              @click="jumpSongSheetDetail(item.id)"
+              @click="jumpSongSheetDetail(item?.id)"
             />
             <div class="info">
               <i class="info-icon"></i>
@@ -146,7 +154,7 @@
           <div
             class="item-bottom"
             :title="item?.name"
-            @click="jumpSongSheetDetail(item.id)"
+            @click="jumpSongSheetDetail(item?.id)"
           >
             {{ item?.name }}
           </div>
@@ -204,7 +212,9 @@ import {
   recommendDjprogram,
   recommendResource
 } from '@api/home';
+import { playlistTrack } from '@api/song-sheet-detail';
 import { LoopType, ResponseType } from '@/types/types';
+import { PlayMusicItem } from '@store/music/state';
 import { getWeekDate, formatDateTime, bigNumberTransform } from '@utils/utils';
 
 export default defineComponent({
@@ -219,7 +229,6 @@ export default defineComponent({
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
-    // 监听登录，重新获取各项数据
     watch(
       () => isLogin.value,
       (curVal: boolean) => {
@@ -238,6 +247,70 @@ export default defineComponent({
     // 热门推荐 - 跳转更多歌单
     function songSheetMore(): void {
       $router.push({ name: 'home-song-sheet' });
+    }
+
+    // 歌单歌曲添加到播放器
+    function songSheetToPlayListPlay(id: number): void {
+      playlistTrack({ id })
+        .then((res: ResponseType) => {
+          if (res?.code === 200) {
+            if (res?.songs.length === 0) {
+              return false;
+            }
+
+            const item = res?.songs[0];
+
+            // 处理播放器所需数据
+            const musicItem: PlayMusicItem = {
+              id: item.id,
+              name: item.name,
+              picUrl: item.al.picUrl,
+              time: item.dt,
+              mv: item.mv,
+              singerList: []
+            };
+
+            item?.ar?.forEach((item: LoopType) => {
+              musicItem.singerList.push({
+                id: item.id,
+                name: item.name
+              });
+            });
+
+            // 当前播放音乐id
+            $store.commit('music/setPlayMusicId', musicItem.id);
+            // 当前播放音乐数据
+            $store.commit('music/setPlayMusicItem', musicItem);
+            // 开始播放
+            $store.commit('music/setMusicPlayStatus', {
+              look: true,
+              refresh: true
+            });
+
+            // 添加播放列表
+            res?.songs.forEach((item: LoopType) => {
+              // 处理播放器所需数据
+              const musicItem: PlayMusicItem = {
+                id: item.id,
+                name: item.name,
+                picUrl: item.al.picUrl,
+                time: item.dt,
+                mv: item.mv,
+                singerList: []
+              };
+
+              item?.ar?.forEach((item: LoopType) => {
+                musicItem.singerList.push({
+                  id: item.id,
+                  name: item.name
+                });
+              });
+              // 播放音乐数据
+              $store.commit('music/setPlayMusicList', musicItem);
+            });
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 跳转歌单详情
@@ -348,12 +421,12 @@ export default defineComponent({
       individualizatData.value.splice(3, 1);
     }
 
-    // 新碟上架 - 跳转专辑
+    // 跳转专辑详情
     function jumpAlbumDetail(id: number): void {
       $store.commit('jumpAlbumDetail', id);
     }
 
-    // 新碟上架 - 跳转歌手详情
+    // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       $store.commit('jumpSingerDetail', id);
     }
@@ -373,6 +446,7 @@ export default defineComponent({
       jumpSongSheet,
       songSheetMore,
       jumpSongSheetDetail,
+      songSheetToPlayListPlay,
       songListData,
       jumpDjprogramDetail,
       djprogramData,
