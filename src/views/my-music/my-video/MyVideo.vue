@@ -13,16 +13,19 @@
         <div class="cover">
           <img class="img" :src="item?.coverUrl" alt="" />
           <div class="play-volume">
-            <span class="icon-mv"></span>
+            <span class="icon-play"></span>
             <span class="text">{{ item?.playTime }}</span>
           </div>
           <div class="duration">
             {{ timeStampToDuration(item?.durationms / 1000) }}
           </div>
         </div>
-        <div class="item-title">{{ item?.title }}</div>
+        <div class="item-title" :title="item?.title">
+          <i class="icon-mv" v-if="item?.type === 0"></i>
+          {{ item?.title }}
+        </div>
         <div class="item-name">
-          <span class="text">by</span>
+          <span class="text" v-if="item?.type === 1">by</span>
           <span class="name" @click="jumpUserProfile(item?.creator[0]?.userId)">
             {{ item?.creator[0]?.userName }}
           </span>
