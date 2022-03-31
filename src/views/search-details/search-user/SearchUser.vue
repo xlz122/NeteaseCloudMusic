@@ -11,11 +11,19 @@
       :key="index"
       :class="{ even: index % 2 }"
     >
-      <div class="item-cover" @click="jumpUserProfile(item?.userId)">
+      <div
+        class="item-cover"
+        :title="item?.nickname"
+        @click="jumpUserProfile(item?.userId)"
+      >
         <img class="img" :src="item?.avatarUrl" alt="" />
       </div>
       <div class="item-title">
-        <span class="text" @click="jumpUserProfile(item?.userId)">
+        <span
+          class="text"
+          :title="item?.nickname"
+          @click="jumpUserProfile(item?.userId)"
+        >
           {{ item?.nickname }}
         </span>
         <i class="icon-sex male" v-if="item?.gender === 1"></i>

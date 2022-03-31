@@ -32,7 +32,11 @@
       </div>
       <div class="item-name">
         <span class="text" v-if="item?.type !== 0">by</span>
-        <span class="name" @click="jumpSingerDetail(item?.creator[0].userId)">
+        <span
+          class="name"
+          :title="item?.creator[0]?.userName"
+          @click="jumpSingerDetail(item?.creator[0].userId)"
+        >
           {{ item?.creator[0]?.userName }}
         </span>
       </div>
