@@ -1,6 +1,6 @@
 <template>
   <i class="icon-doubt"></i>
-  <div class="lyric">
+  <div class="lyric" v-if="playMusicId">
     <!-- 没有歌词 -->
     <div class="not-lyric" v-if="lyric.noData">
       <span>暂时没有歌词</span>
@@ -287,6 +287,7 @@ export default defineComponent({
     }
 
     return {
+      playMusicId,
       lyric
     };
   }
