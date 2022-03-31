@@ -44,26 +44,40 @@
             <span class="line">|</span>
           </li>
           <li class="item">
-            <span class="link" @click="feedback"> 意见反馈 </span>
+            <a
+              class="link"
+              href="//mp.music.163.com/600948c936c13f4d09752e73/contact-us-web/index.html?source=Music-Main-Station"
+              target="_blank"
+            >
+              联系我们
+            </a>
             <span class="line">|</span>
+          </li>
+          <li class="item">
+            <a
+              class="link"
+              href="https://music.163.com/ui/resource"
+              target="_blank"
+            >
+              广告合作
+            </a>
+            <span class="line">|</span>
+          </li>
+          <li class="item">
+            <a class="link" href="https://jubao.163.com" target="_blank">
+              廉正举报
+            </a>
           </li>
         </ul>
         <div class="group">
-          <span>网易公司版权所有©1997-2021</span>
+          <span>网易公司版权所有©1997-2022</span>
           <span class="sep">杭州乐读科技有限公司运营：</span>
           <a
             class="link"
             href="https://p1.music.126.net/Mos9LTpl6kYt6YTutA6gjg==/109951164248627501.png"
             target="_blank"
           >
-            浙网文[2018]3506-263号
-          </a>
-        </div>
-        <div class="group">
-          <span class="sep">违法和不良信息举报电话：0571-89853516</span>
-          <span>举报邮箱：</span>
-          <a class="link" href="mailto:ncm5990@163.com" target="_blank">
-            ncm5990@163.com
+            浙网文[2021] 1186-054号
           </a>
         </div>
         <div class="group">
@@ -87,7 +101,7 @@
       <!-- 右侧图标部分 -->
       <div class="content-right">
         <ul class="right-nav">
-          <li class="item">
+          <li class="item first-item">
             <a
               class="link amped-icon"
               href="https://web-amped.music.163.com/"
