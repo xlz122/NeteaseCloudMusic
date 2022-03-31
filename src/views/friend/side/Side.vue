@@ -15,6 +15,7 @@
           <h4 class="name">
             <span
               class="text"
+              :title="userInfo?.profile?.nickname"
               @click="jumpUserProfile(userInfo?.profile?.userId)"
             >
               {{ userInfo?.profile?.nickname }}
