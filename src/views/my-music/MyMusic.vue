@@ -3,12 +3,20 @@
   <div class="my-music" v-if="isLogin">
     <div class="my-music-container">
       <div class="my-music-scroll">
-        <option-list />
+        <OptionList :options="options" @handleOptions="handleOptions" />
       </div>
       <div class="my-music-main">
-        <sub-play-list v-if="musicDetailOptions.subPlayList" />
-        <my-video v-if="musicDetailOptions.MyVideo" />
-        <play-list-detail v-if="musicDetailOptions.playListDetail" />
+        <MySinger
+          v-if="options.mySinger.visible"
+          :options="options"
+          @handleOptions="handleOptions"
+        />
+        <MyVideo
+          v-if="options.myVideo.visible"
+          :options="options"
+          @handleOptions="handleOptions"
+        />
+        <SongSheetDetail v-if="options.songSheet.visible" />
       </div>
     </div>
   </div>
@@ -23,31 +31,72 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, watch, onUnmounted, onMounted } from 'vue';
+import {
+  defineComponent,
+  reactive,
+  computed,
+  watch,
+  onUnmounted,
+  onMounted
+} from 'vue';
 import { useStore } from 'vuex';
+import { userSubcount } from '@api/my-music';
+import { ResponseType } from '@/types/types';
 import OptionList from '@views/my-music/option-list/OptionList.vue';
-import SubPlayList from '@views/my-music/sub-play-list/SubPlayList.vue';
+import MySinger from '@/views/my-music/my-singer/MySinger.vue';
 import MyVideo from '@/views/my-music/my-video/MyVideo.vue';
-import PlayListDetail from '@views/my-music/play-list-detail/PlayListDetail.vue';
+import SongSheetDetail from '@/views/my-music/song-sheet-detail/SongSheetDetail.vue';
 
 export default defineComponent({
   name: 'my-music',
   components: {
     OptionList,
-    SubPlayList,
+    MySinger,
     MyVideo,
-    PlayListDetail
+    SongSheetDetail
   },
   setup() {
     const $store = useStore();
 
     const isLogin = computed(() => $store.getters.isLogin);
-    // 详情显示
-    const musicDetailOptions = computed(
-      () => $store.getters['music/musicDetailOptions']
-    );
 
-    // 打开登录对话框
+    const options = reactive({
+      mySinger: {
+        visible: false,
+        count: 0
+      },
+      myVideo: {
+        visible: false,
+        count: 0
+      },
+      songSheet: {
+        visible: true,
+        createCount: 0,
+        collectionCount: 0
+      }
+    });
+
+    // 获取统计数量
+    function getUserSubcount(): void {
+      userSubcount()
+        .then((res: ResponseType) => {
+          options.mySinger.count = res?.artistCount || 0;
+          options.myVideo.count = res?.mvCount || 0;
+          options.songSheet.createCount = res?.createdPlaylistCount || 0;
+          options.songSheet.collectionCount = res?.subPlaylistCount || 0;
+        })
+        .catch(() => ({}));
+    }
+    getUserSubcount();
+
+    function handleOptions(params: Record<string, any>): void {
+      for (const value in options) {
+        options[value].visible = false;
+      }
+
+      options[params.type] = { ...options[params.type], ...params.data };
+    }
+
     function openLogin(): void {
       $store.commit('setLoginDialog', true);
     }
@@ -82,7 +131,8 @@ export default defineComponent({
 
     return {
       isLogin,
-      musicDetailOptions,
+      options,
+      handleOptions,
       openLogin
     };
   }

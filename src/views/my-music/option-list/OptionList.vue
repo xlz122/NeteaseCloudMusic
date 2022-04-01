@@ -1,242 +1,236 @@
 <template>
-  <!-- 我的歌手 -->
   <h2
-    v-if="optionsCount.subPlayListCount > 0"
+    v-if="options?.mySinger?.count > 0"
     class="music-my-singer"
-    :class="{ 'music-my-singer-active': musicDetailOptions.subPlayList }"
-    @click="subPlayListClick"
+    :class="{ 'my-singer-active': options?.mySinger?.visible }"
+    @click="handleMySinger"
   >
-    我的歌手({{ optionsCount?.subPlayListCount }})
+    我的歌手({{ options?.mySinger?.count }})
   </h2>
-  <!-- 我的视频 -->
   <h2
+    v-if="options?.myVideo?.count > 0"
     class="music-my-mv"
-    :class="{ 'music-my-mv-active': musicDetailOptions?.MyVideo }"
-    @click="MyVideoClick"
+    :class="{ 'my-mv-active': options?.myVideo?.visible }"
+    @click="handleMyVideo"
   >
-    我的视频({{ optionsCount?.MyVideoCount }})
+    我的视频({{ options?.myVideo?.count }})
   </h2>
-  <!-- 创建的歌单 -->
-  <toggle-list
+  <SongSheetToggle
     :title="'创建的歌单'"
-    :listCount="optionsCount.createdPlayCount"
-    :listData="songSheetList.createSongList"
+    :list="songSheetList.createSongSheet"
+    :listCount="options?.songSheet?.createCount"
     addBtnShow
-    @listClick="createListClick"
+    @handleListChange="handleListChange"
+    @dialogConfirm="handleConfirm"
   />
-  <!-- 收藏的歌单 -->
-  <toggle-list
-    v-if="optionsCount.collectionPlayCount > 0"
+  <SongSheetToggle
+    v-if="options?.songSheet?.collectionCount > 0"
+    :visible="options?.songSheet?.visible"
     :title="'收藏的歌单'"
-    :listCount="optionsCount.collectionPlayCount"
-    :listData="songSheetList.collectionSongList"
-    @listClick="handleCollection"
+    :list="songSheetList.collectSongSheet"
+    :listCount="options?.songSheet?.collectionCount"
+    @handleListChange="handleListChange"
+    @dialogConfirm="handleConfirm"
   />
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, computed } from 'vue';
 import { useStore } from 'vuex';
-import ToggleList from './ToggleList.vue';
-import { userSubcount, userPlayList, playListDetail } from '@api/my-music';
-import { OptionsCount, SongList, ResponseType, LoopType } from '@/types/types';
+import SongSheetToggle from './song-sheet-toggle/SongSheetToggle.vue';
+import { userPlayList, addPlayList, deletePlayList } from '@api/my-music';
+import { ResponseType, LoopType } from '@/types/types';
+
+type SongSheetList = {
+  createSongSheet: Record<string, any>;
+  collectSongSheet: Record<string, any>;
+};
 
 export default defineComponent({
   components: {
-    ToggleList
+    SongSheetToggle
   },
-  setup() {
+  props: {
+    options: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  emits: ['handleOptions'],
+  setup(props, { emit }) {
     const $store = useStore();
 
-    // 详情页面显示
-    const musicDetailOptions = computed(
-      () => $store.getters['music/musicDetailOptions']
-    );
+    const userInfo = computed(() => $store.getters.userInfo);
 
-    // 侧边歌单列表选中项id
-    const songSheetId = computed<number>(() => $store.getters.songSheetId);
-
-    const optionsCount = reactive<OptionsCount>({
-      subPlayListCount: 0, // 我的视频数量
-      MyVideoCount: 0, // 我的视频数量
-      createdPlayCount: 0, // 创建歌单数量
-      collectionPlayCount: 0 // 创建歌单数量
-    });
-
-    // 获取歌单，收藏，mv, dj 数量
-    function getUserSubcount(): void {
-      userSubcount()
-        .then((res: ResponseType) => {
-          optionsCount.subPlayListCount = res.subPlaylistCount || 0;
-          optionsCount.MyVideoCount = res.mvCount || 0;
-          optionsCount.createdPlayCount = res.createdPlaylistCount || 0;
-          optionsCount.collectionPlayCount = res.subPlaylistCount || 0;
-        })
-        .catch(() => ({}));
+    // 我的歌手
+    function handleMySinger(): void {
+      emit('handleOptions', {
+        type: 'mySinger',
+        data: {
+          visible: true
+        }
+      });
     }
-    getUserSubcount();
 
-    // 获取歌单列表
-    const songSheetList = reactive<SongList>({
-      createSongList: [], // 创建的歌单
-      collectionSongList: [] // 收藏的歌单
+    // 我的视频
+    function handleMyVideo(): void {
+      emit('handleOptions', {
+        type: 'myVideo',
+        data: {
+          visible: true
+        }
+      });
+    }
+
+    const songSheetList = reactive<SongSheetList>({
+      createSongSheet: [],
+      collectSongSheet: []
     });
+
+    // 获取用户歌单列表
     function getUserPlayList(): void {
-      const userInfo = computed(() => $store.getters.userInfo);
+      songSheetList.createSongSheet = [];
+      songSheetList.collectSongSheet = [];
+
       userPlayList({
-        uid: userInfo.value.profile.userId
+        uid: userInfo.value?.profile?.userId
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            // 处理列表数据
-            res.playlist.forEach((item: LoopType) => {
-              // 喜欢的音乐处理
-              if (item.name.includes('喜欢的音乐')) {
+            res?.playlist.forEach((item: LoopType) => {
+              if (item?.name?.includes('喜欢的音乐')) {
                 item.name = '我喜欢的音乐';
                 item.cannotEdit = true;
                 item.cannotDelete = true;
               }
+
               // 收藏列表判断
               if (!item.subscribed) {
-                songSheetList.createSongList.push(item);
+                songSheetList.createSongSheet.push(item);
               } else {
                 item.cannotEdit = true;
-                songSheetList.collectionSongList.push(item);
+                songSheetList.collectSongSheet.push(item);
               }
+
+              $store.commit('setSongSheetId', res?.playlist[0].id);
             });
-
-            // 初始化获取详情，列表id获取对应详情，不存在获取我喜欢的音乐详情
-            const musicDetail = JSON.parse(
-              JSON.stringify(musicDetailOptions.value)
-            );
-            for (const value in musicDetail) {
-              musicDetail[value] = false;
-            }
-            musicDetail.playListDetail = true;
-            $store.commit('music/setMusicDetailOptions', musicDetail);
-
-            // id存在，属于左侧列表，使用缓存id
-            const playListId: number[] = [];
-            res.playlist.forEach((item: LoopType) => {
-              playListId.push(item.id);
-            });
-
-            if (
-              songSheetId.value > 0 &&
-              playListId.includes(songSheetId.value)
-            ) {
-              getSongListDetail(songSheetId.value);
-              // 左侧选中
-              $store.commit('setSongSheetId', songSheetId.value);
-            } else {
-              getSongListDetail(res.playlist[0].id);
-              // 左侧选中
-              $store.commit('setSongSheetId', res.playlist[0].id);
-            }
           }
         })
         .catch(() => ({}));
     }
     getUserPlayList();
 
-    // 我的歌手点击
-    function subPlayListClick(): void {
-      const musicDetail = JSON.parse(JSON.stringify(musicDetailOptions.value));
-      for (const value in musicDetail) {
-        musicDetail[value] = false;
-      }
-      musicDetail.subPlayList = true;
-      $store.commit('music/setMusicDetailOptions', musicDetail);
+    // 创建/收藏歌单点击
+    function handleListChange(id: number): void {
+      emit('handleOptions', {
+        type: 'songSheet',
+        data: {
+          visible: true
+        }
+      });
 
-      // 取消其他项选中
-      $store.commit('setSongSheetId', -1);
-    }
-
-    // 我的视频点击
-    function MyVideoClick(): void {
-      const musicDetail = JSON.parse(JSON.stringify(musicDetailOptions.value));
-      for (const value in musicDetail) {
-        musicDetail[value] = false;
-      }
-      musicDetail.MyVideo = true;
-      $store.commit('music/setMusicDetailOptions', musicDetail);
-
-      // 取消其他项选中
-      $store.commit('setSongSheetId', -1);
-    }
-
-    // 创建歌单项点击
-    function createListClick(id: number): void {
-      const musicDetail = JSON.parse(JSON.stringify(musicDetailOptions.value));
-      for (const value in musicDetail) {
-        musicDetail[value] = false;
-      }
-      musicDetail.playListDetail = true;
-      $store.commit('music/setMusicDetailOptions', musicDetail);
-
-      // 获取歌单详情
-      if (id !== songSheetId.value) {
-        getSongListDetail(id);
-      }
-
-      // 存储选中id
       $store.commit('setSongSheetId', id);
     }
 
-    // 收藏歌单项点击
-    function handleCollection(id: number): boolean | undefined {
-      // 收藏的歌单被全部删除
-      if (id === 0) {
-        // 选中我喜欢的音乐
-        const createSongList = JSON.parse(
-          JSON.stringify(songSheetList.createSongList)
-        );
-        createListClick(createSongList[0].id);
-        // 隐藏收藏的歌单
-        optionsCount.collectionPlayCount = 0;
+    // 添加/删除歌单
+    function handleConfirm(data: {
+      type: string;
+      name: string;
+      id: number;
+    }): boolean | undefined {
+      if (data.type === 'add') {
+        handleAddConfirm(data.name);
         return false;
       }
-      const musicDetail = JSON.parse(JSON.stringify(musicDetailOptions.value));
-      for (const value in musicDetail) {
-        musicDetail[value] = false;
-      }
-      musicDetail.playListDetail = true;
-      $store.commit('music/setMusicDetailOptions', musicDetail);
 
-      // 获取歌单详情
-      if (id !== songSheetId.value) {
-        getSongListDetail(id);
-      }
-
-      // 存储选中id
-      $store.commit('setSongSheetId', id);
+      handleDeleteConfirm(data.id);
     }
 
-    // 获取歌单详情
-    function getSongListDetail(id: number): void {
-      $store.commit('music/setSongSheetDetail', {});
-
-      playListDetail({ id })
+    // 创建歌单项
+    function handleAddConfirm(name: string): void {
+      addPlayList({ name })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            // 单独处理我喜欢的音乐
-            if (res?.playlist?.name.includes('喜欢的音乐')) {
-              res.playlist.name = '我喜欢的音乐';
-            }
-            $store.commit('music/setSongSheetDetail', res);
+            emit('handleOptions', {
+              type: 'songSheet',
+              data: {
+                visible: true,
+                createCount: songSheetList.createSongSheet.length + 1
+              }
+            });
+            songSheetList.createSongSheet.splice(1, 0, res.playlist);
+
+            $store.commit('setSongSheetId', res.id);
+          }
+        })
+        .catch(() => ({}));
+    }
+
+    // 删除歌单项
+    function handleDeleteConfirm(id: number): void {
+      deletePlayList({ id })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            songSheetList.createSongSheet.forEach(
+              (item: unknown, index: number) => {
+                const itemId = (item as { id: number }).id;
+
+                if (id === itemId) {
+                  $store.commit(
+                    'setSongSheetId',
+                    songSheetList.createSongSheet[index - 1].id
+                  );
+
+                  emit('handleOptions', {
+                    type: 'songSheet',
+                    data: {
+                      visible: true,
+                      createCount: songSheetList.createSongSheet.length - 1
+                    }
+                  });
+                  songSheetList.createSongSheet.splice(index, 1);
+                }
+              }
+            );
+            songSheetList.collectSongSheet.forEach(
+              (item: unknown, index: number) => {
+                const itemId = (item as { id: number }).id;
+
+                if (id === itemId) {
+                  if (songSheetList.collectSongSheet[index - 1]?.id) {
+                    $store.commit(
+                      'setSongSheetId',
+                      songSheetList.collectSongSheet[index - 1].id
+                    );
+                  } else {
+                    $store.commit(
+                      'setSongSheetId',
+                      songSheetList.createSongSheet[0].id
+                    );
+                  }
+
+                  emit('handleOptions', {
+                    type: 'songSheet',
+                    data: {
+                      visible: true,
+                      collectionCount: songSheetList.collectSongSheet.length - 1
+                    }
+                  });
+                  songSheetList.collectSongSheet.splice(index, 1);
+                }
+              }
+            );
           }
         })
         .catch(() => ({}));
     }
 
     return {
-      musicDetailOptions,
-      optionsCount,
+      handleMySinger,
+      handleMyVideo,
       songSheetList,
-      subPlayListClick,
-      MyVideoClick,
-      createListClick,
-      handleCollection
+      handleListChange,
+      handleConfirm
     };
   }
 });

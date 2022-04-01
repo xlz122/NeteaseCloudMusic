@@ -1,4 +1,4 @@
-import { State, MusicDetailOptions, PlayMusicItem } from '@store/music/state';
+import { State, PlayMusicItem } from '@store/music/state';
 import { LoopType } from '@/types/types';
 
 type Mutations<T, U> = {
@@ -6,10 +6,6 @@ type Mutations<T, U> = {
 };
 
 const mutations: Mutations<State, unknown> = {
-  // 我的音乐显示详情
-  setMusicDetailOptions(state, musicDetailOptions) {
-    state.musicDetailOptions = musicDetailOptions as MusicDetailOptions;
-  },
   // 歌单详情数据
   setSongSheetDetail(state, songSheetDetail) {
     state.songSheetDetail = songSheetDetail as unknown;
