@@ -121,7 +121,6 @@ export default defineComponent({
       list: []
     });
     function getCommentData(): void {
-      console.log(commentParams);
       const params = {
         id: songSheetId.value,
         limit: commentParams.limit
