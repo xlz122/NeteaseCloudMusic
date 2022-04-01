@@ -1,19 +1,24 @@
 <template>
   <div class="my-video">
     <div class="title">
-      <span class="text">我的视频({{ MyVideoCount }})</span>
+      <span class="text">我的视频({{ options?.myVideo?.count }})</span>
     </div>
     <ul class="list">
       <li
         class="item"
-        v-for="(item, index) in MyVideoList"
+        v-for="(item, index) in myVideoList"
         :key="index"
-        @click="jumpVideoDetail(item.type, item.vid)"
+        @click="jumpVideoDetail(item?.type, item?.vid)"
       >
         <div class="cover">
-          <img class="img" :src="item?.coverUrl" alt="" />
+          <template v-if="item?.coverUrl">
+            <img class="img" :src="item?.coverUrl" alt="" />
+          </template>
+          <template v-else>
+            <img class="img" src="" alt="" />
+          </template>
           <div class="play-volume">
-            <span class="icon-play"></span>
+            <i class="icon-play"></i>
             <span class="text">{{ item?.playTime }}</span>
           </div>
           <div class="duration">
@@ -44,27 +49,40 @@ import { ResponseType } from '@/types/types';
 import { timeStampToDuration } from '@utils/utils.ts';
 
 export default defineComponent({
-  setup() {
+  props: {
+    options: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  emits: ['handleOptions'],
+  setup(props, { emit }) {
     const $router = useRouter();
     const $store = useStore();
 
-    // 我的视频数量
-    const MyVideoCount = ref<number>(0);
-    // 获取我的视频列表
-    const MyVideoList = ref<unknown[]>([]);
-    function getMyVideoSbulist(): void {
+    const myVideoList = ref<unknown[]>([]);
+
+    // 获取视频列表
+    function getMyVideoList(): void {
       MyVideoSbulist()
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            MyVideoCount.value = res.count || 0;
-            MyVideoList.value = res.data;
+            myVideoList.value = res?.data || [];
+
+            emit('handleOptions', {
+              type: 'myVideo',
+              data: {
+                visible: true,
+                count: res?.count
+              }
+            });
           }
         })
         .catch(() => ({}));
     }
-    getMyVideoSbulist();
+    getMyVideoList();
 
-    // 播放
+    // 跳转视频详情
     function jumpVideoDetail(type: number, id: number): void {
       // type 0为mv, 1为视频
       if (type === 0) {
@@ -83,8 +101,7 @@ export default defineComponent({
 
     return {
       timeStampToDuration,
-      MyVideoCount,
-      MyVideoList,
+      myVideoList,
       jumpVideoDetail,
       jumpUserProfile
     };

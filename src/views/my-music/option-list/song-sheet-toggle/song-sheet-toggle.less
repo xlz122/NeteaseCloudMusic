@@ -1,0 +1,254 @@
+.music-play-list {
+  margin-top: 5px;
+
+  .title {
+    width: 100%;
+
+    .title-left {
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+      height: 36px;
+      line-height: 36px;
+      text-align: left;
+      cursor: pointer;
+
+      .icon-arrow {
+        position: absolute;
+        top: 11px;
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 2px 0 5px;
+        cursor: pointer;
+        font-size: 0;
+        height: 0;
+        line-height: 0;
+        border: 8px solid #ccc;
+        border-color: transparent transparent transparent #ccc;
+        border-style: dashed dashed dashed solid;
+      }
+
+      .icon-arrow-down {
+        top: 15px;
+        border-color: #ccc transparent transparent;
+        border-style: solid dashed dashed;
+        border-width: 8px 7px 0;
+      }
+
+      .text,
+      .text-num {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        text-align: left;
+        font-size: 14px;
+        color: #000;
+        font-family: simsun, \5b8b\4f53;
+      }
+
+      .text {
+        margin-left: 20px;
+      }
+
+      .text-num {
+        margin-left: 10px;
+      }
+
+      .text::after {
+        content: '';
+        position: absolute;
+        top: 11px;
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background: url(~@/assets/image/my-music/icon-my-music-r@3x.png) no-repeat;
+        background-size: cover;
+      }
+    }
+
+    .title-right {
+      visibility: hidden;
+      display: inline-block;
+      vertical-align: middle;
+      width: 52px;
+      height: 22px;
+      line-height: 22px;
+      padding-left: 5px;
+      margin-top: 5px;
+      margin-left: 30px;
+      background: url(~@/assets/image/my-music/icon-button.png) no-repeat;
+      background-position: 0 -96px;
+      color: #515151;
+      font-size: 12px;
+      font-weight: normal;
+      cursor: pointer;
+
+      &:hover {
+        background-position: -94px -39px;
+      }
+    }
+
+    .title-right-vertical {
+      visibility: visible;
+    }
+  }
+
+  .list {
+    .item {
+      position: relative;
+      zoom: 1;
+      height: 42px;
+      padding: 6px 0 6px 20px;
+      text-align: left;
+      cursor: pointer;
+
+      .item-left {
+        display: inline-block;
+        vertical-align: middle;
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+
+        .img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .item-right {
+        display: inline-block;
+        vertical-align: middle;
+
+        .name,
+        .num {
+          display: block;
+        }
+
+        .name {
+          width: 150px;
+          margin-top: 2px;
+          margin-bottom: 8px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          color: #000;
+        }
+
+        .num {
+          display: inline-block;
+          vertical-align: top;
+          color: #999;
+        }
+
+        .right-desc {
+          display: inline-block;
+          vertical-align: top;
+          width: 100px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          word-wrap: normal;
+        }
+      }
+
+      .item-operate {
+        display: none;
+        position: absolute;
+        right: 0;
+        bottom: 8px;
+
+        .operate-icon {
+          display: inline-block;
+          vertical-align: middle;
+          margin-right: 10px;
+          background: url(~@/assets/image/icon.png) no-repeat;
+          background-position: 0 -96px;
+          cursor: pointer;
+        }
+
+        .operate-edit {
+          width: 13px;
+          height: 13px;
+          background-position: 0 -270px;
+        }
+
+        .operate-delete {
+          width: 13px;
+          height: 14px;
+          background-position: 0 -284px;
+        }
+      }
+    }
+
+    .item:hover {
+      background-color: #f4f2f2;
+
+      .item-operate {
+        display: block;
+      }
+    }
+
+    .active-item {
+      background: #e6e6e6;
+    }
+
+    .active-item:hover {
+      background: #e6e6e6;
+    }
+  }
+}
+
+::v-deep(.my-dialog) {
+  .my_dialog_box {
+    width: 480px;
+  }
+
+  .content {
+    text-align: center;
+    color: #333;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}
+
+::v-deep(.my-dialog-add) {
+  .my_dialog_bottom {
+    margin-left: 86px;
+    text-align: left;
+  }
+
+  .content {
+    color: #333;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: left;
+
+    .form {
+      margin-left: 30px;
+
+      .name {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      .input {
+        display: inline-block;
+        vertical-align: middle;
+        width: 330px;
+        height: 19px;
+        margin: 0;
+        padding: 5px 6px 6px;
+        border: 1px solid #cdcdcd;
+        border-radius: 2px;
+        line-height: 19px;
+        box-sizing: content-box;
+        outline: none;
+      }
+    }
+
+    .desc {
+      margin: 8px 0 20px 86px;
+      color: #999;
+    }
+  }
+}

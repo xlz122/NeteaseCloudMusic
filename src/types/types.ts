@@ -22,14 +22,6 @@ export type ResponseType = Record<string, any>;
 // 循环类型，forEach map...
 export type LoopType = Record<string, any>;
 
-// 歌单选项列表统计数
-export type OptionsCount = {
-  subPlayListCount: number;
-  MyVideoCount: number;
-  createdPlayCount: number;
-  collectionPlayCount: number;
-};
-
 // 歌单选项列表数据
 export type SongList = {
   createSongList: unknown[];
