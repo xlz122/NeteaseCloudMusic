@@ -15,7 +15,7 @@
         class="td play-icon"
         :class="{ 'active-play': item.id === playMusicId }"
         title="播放"
-        @click="playSingleMusic(item)"
+        @click="songSheetToPlayList(item.id)"
       ></div>
       <div class="td td1">
         <img
@@ -41,7 +41,7 @@
           <i
             class="icon add"
             title="添加到播放列表"
-            @click="singleMusicToPlayList(item)"
+            @click="singleMusicToPlayList(item.id)"
           ></i>
           <i
             class="icon collect"
@@ -84,10 +84,11 @@
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { searchKeywords } from '@api/search';
-import { playlistSubscribe } from '@api/song-sheet-detail';
+import { playlistTrack, playlistSubscribe } from '@api/song-sheet-detail';
+import { PlayMusicItem } from '@store/music/state';
 import { bigNumberTransform } from '@utils/utils.ts';
 import Page from '@components/page/Page.vue';
-import { ResponseType } from '@/types/types';
+import { ResponseType, LoopType } from '@/types/types';
 
 type songSheetData = {
   loading: boolean;
@@ -165,6 +166,70 @@ export default defineComponent({
     }
     getSearchSongSheet();
 
+    // 歌单歌曲添加到播放器
+    function songSheetToPlayList(id: number): void {
+      playlistTrack({ id })
+        .then((res: ResponseType) => {
+          if (res?.code === 200) {
+            if (res?.songs.length === 0) {
+              return false;
+            }
+            // 播放第一项
+            const item = res?.songs[0];
+
+            // 处理播放器所需数据
+            const musicItem: PlayMusicItem = {
+              id: item.id,
+              name: item.name,
+              picUrl: item.al.picUrl,
+              time: item.dt,
+              mv: item.mv,
+              singerList: []
+            };
+
+            item?.ar?.forEach((item: LoopType) => {
+              musicItem.singerList.push({
+                id: item.id,
+                name: item.name
+              });
+            });
+
+            // 当前播放音乐id
+            $store.commit('music/setPlayMusicId', musicItem.id);
+            // 当前播放音乐数据
+            $store.commit('music/setPlayMusicItem', musicItem);
+            // 开始播放
+            $store.commit('music/setMusicPlayStatus', {
+              look: true,
+              refresh: true
+            });
+
+            // 添加播放列表
+            res?.songs.forEach((item: LoopType) => {
+              // 处理播放器所需数据
+              const musicItem: PlayMusicItem = {
+                id: item.id,
+                name: item.name,
+                picUrl: item.al.picUrl,
+                time: item.dt,
+                mv: item.mv,
+                singerList: []
+              };
+
+              item?.ar?.forEach((item: LoopType) => {
+                musicItem.singerList.push({
+                  id: item.id,
+                  name: item.name
+                });
+              });
+              // 播放音乐数据
+              $store.commit('music/setPlayMusicList', musicItem);
+            });
+          }
+        })
+        .catch(() => ({}));
+    }
+
     // 跳转歌单详情
     function jumpSongSheetDetail(id: number): void {
       $store.commit('jumpSongSheetDetail', id);
@@ -176,19 +241,62 @@ export default defineComponent({
     }
 
     // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
-    }
+    function singleMusicToPlayList(id: number): void {
+      playlistTrack({ id })
+        .then((res: ResponseType) => {
+          if (res?.code === 200) {
+            if (res?.songs.length === 0) {
+              return false;
+            }
+            // 播放第一项
+            const item = res?.songs[0];
 
-    // 播放单个歌曲
-    function playSingleMusic(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+            // 处理播放器所需数据
+            const musicItem: PlayMusicItem = {
+              id: item.id,
+              name: item.name,
+              picUrl: item.al.picUrl,
+              time: item.dt,
+              mv: item.mv,
+              singerList: []
+            };
+
+            item?.ar?.forEach((item: LoopType) => {
+              musicItem.singerList.push({
+                id: item.id,
+                name: item.name
+              });
+            });
+
+            // 当前播放音乐id
+            $store.commit('music/setPlayMusicId', musicItem.id);
+            // 当前播放音乐数据
+            $store.commit('music/setPlayMusicItem', musicItem);
+
+            // 添加播放列表
+            res?.songs.forEach((item: LoopType) => {
+              // 处理播放器所需数据
+              const musicItem: PlayMusicItem = {
+                id: item.id,
+                name: item.name,
+                picUrl: item.al.picUrl,
+                time: item.dt,
+                mv: item.mv,
+                singerList: []
+              };
+
+              item?.ar?.forEach((item: LoopType) => {
+                musicItem.singerList.push({
+                  id: item.id,
+                  name: item.name
+                });
+              });
+              // 播放音乐数据
+              $store.commit('music/setPlayMusicList', musicItem);
+            });
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 收藏歌单
@@ -254,10 +362,10 @@ export default defineComponent({
       playMusicId,
       userInfo,
       songSheetData,
+      songSheetToPlayList,
       jumpSongSheetDetail,
       jumpUserProfile,
       singleMusicToPlayList,
-      playSingleMusic,
       handleCollection,
       shareClick,
       changPage

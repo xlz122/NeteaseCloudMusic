@@ -30,7 +30,11 @@
             <div class="info">
               <i class="info-icon"></i>
               <span class="num">{{ item?.playCount }}</span>
-              <i class="info-icon-right"></i>
+              <i
+                class="info-icon-right"
+                title="播放"
+                @click="songSheetToPlayList(item.id)"
+              ></i>
             </div>
           </div>
           <div
@@ -59,7 +63,11 @@
               <div class="info">
                 <i class="info-icon"></i>
                 <span class="num">{{ item?.playcount }}</span>
-                <i class="info-icon-right"></i>
+                <i
+                  class="info-icon-right"
+                  title="播放"
+                  @click="songSheetToPlayList(item.id)"
+                ></i>
               </div>
             </div>
             <div
@@ -204,7 +212,9 @@ import {
   recommendDjprogram,
   recommendResource
 } from '@api/home';
+import { playlistTrack } from '@api/song-sheet-detail';
 import { LoopType, ResponseType } from '@/types/types';
+import { PlayMusicItem } from '@store/music/state';
 import { getWeekDate, formatDateTime, bigNumberTransform } from '@utils/utils';
 
 export default defineComponent({
@@ -238,6 +248,70 @@ export default defineComponent({
     // 热门推荐 - 跳转更多歌单
     function songSheetMore(): void {
       $router.push({ name: 'home-song-sheet' });
+    }
+
+    // 歌单歌曲添加到播放器
+    function songSheetToPlayList(id: number): void {
+      playlistTrack({ id })
+        .then((res: ResponseType) => {
+          if (res?.code === 200) {
+            if (res?.songs.length === 0) {
+              return false;
+            }
+            // 播放第一项
+            const item = res?.songs[0];
+
+            // 处理播放器所需数据
+            const musicItem: PlayMusicItem = {
+              id: item.id,
+              name: item.name,
+              picUrl: item.al.picUrl,
+              time: item.dt,
+              mv: item.mv,
+              singerList: []
+            };
+
+            item?.ar?.forEach((item: LoopType) => {
+              musicItem.singerList.push({
+                id: item.id,
+                name: item.name
+              });
+            });
+
+            // 当前播放音乐id
+            $store.commit('music/setPlayMusicId', musicItem.id);
+            // 当前播放音乐数据
+            $store.commit('music/setPlayMusicItem', musicItem);
+            // 开始播放
+            $store.commit('music/setMusicPlayStatus', {
+              look: true,
+              refresh: true
+            });
+
+            // 添加播放列表
+            res?.songs.forEach((item: LoopType) => {
+              // 处理播放器所需数据
+              const musicItem: PlayMusicItem = {
+                id: item.id,
+                name: item.name,
+                picUrl: item.al.picUrl,
+                time: item.dt,
+                mv: item.mv,
+                singerList: []
+              };
+
+              item?.ar?.forEach((item: LoopType) => {
+                musicItem.singerList.push({
+                  id: item.id,
+                  name: item.name
+                });
+              });
+              // 播放音乐数据
+              $store.commit('music/setPlayMusicList', musicItem);
+            });
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 跳转歌单详情
@@ -373,6 +447,7 @@ export default defineComponent({
       jumpSongSheet,
       songSheetMore,
       jumpSongSheetDetail,
+      songSheetToPlayList,
       songListData,
       jumpDjprogramDetail,
       djprogramData,
