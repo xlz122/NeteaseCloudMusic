@@ -2,7 +2,7 @@
   <ul class="user-nav-list">
     <li
       class="item"
-      v-for="(item, index) in navList"
+      v-for="(item, index) in list"
       :key="index"
       @click="jumpDetail(item)"
     >
@@ -20,7 +20,7 @@ import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
-type NavList = {
+type List = {
   title: string;
   link?: string;
   href?: string;
@@ -35,7 +35,7 @@ export default defineComponent({
 
     const userInfo = computed(() => $store.getters.userInfo);
 
-    const navList = ref<NavList[]>([
+    const list = ref<List[]>([
       {
         title: '我的主页',
         link: '/user-profile',
@@ -73,14 +73,11 @@ export default defineComponent({
       }
     ]);
 
-    // 详情跳转
-    function jumpDetail(item: NavList): boolean | undefined {
-      // 外部链接
+    function jumpDetail(item: List): boolean | undefined {
       if (!item?.link && item?.href) {
         return false;
       }
 
-      // 未开发
       if (!item?.link) {
         $store.commit('setMessage', {
           type: 'error',
@@ -95,25 +92,23 @@ export default defineComponent({
         return false;
       }
 
-      // 头部导航取消选中
+      // 一级导航取消选中
       $store.commit('setHeaderActiveIndex', -1);
 
-      // 我的主页
       if (item?.link === '/user-profile') {
-        $store.commit('jumpUserProfile', userInfo?.value.profile?.userId);
+        $store.commit('jumpUserProfile', userInfo.value?.profile?.userId);
         return false;
       }
 
       $router.push({ path: item?.link || '/' });
     }
 
-    // 退出登录
     function signOut(): void {
       $store.dispatch('setLogout');
     }
 
     return {
-      navList,
+      list,
       jumpDetail
     };
   }
