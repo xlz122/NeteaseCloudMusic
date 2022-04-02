@@ -3,40 +3,40 @@
     <ul class="category-list" v-show="mainListShow">
       <li
         class="item"
-        v-for="(item, index) in category.main"
+        v-for="(item, index) in category?.main"
         :key="index"
         :class="[
           { 'last-item': !(index % 9) },
           { 'active-item': item.id === categorId }
         ]"
-        @click="djCategorChange(item.id)"
+        @click="djCategorChange(item?.id)"
       >
         <div class="item-cover">
           <i
             class="icon"
-            :style="{ backgroundImage: `url(${item.picWebUrl})` }"
+            :style="{ backgroundImage: `url(${item?.picWebUrl})` }"
           ></i>
-          <span class="text">{{ item.name }}</span>
+          <span class="text">{{ item?.name }}</span>
         </div>
       </li>
     </ul>
     <ul class="category-list" v-show="!mainListShow">
       <li
         class="item"
-        v-for="(item, index) in category.second"
+        v-for="(item, index) in category?.second"
         :key="index"
         :class="[
           { 'last-item': !(index % 9) },
           { 'active-item': item.id === categorId }
         ]"
-        @click="djCategorChange(item.id)"
+        @click="djCategorChange(item?.id)"
       >
         <div class="item-cover">
           <i
             class="icon"
-            :style="{ backgroundImage: `url(${item.picWebUrl})` }"
+            :style="{ backgroundImage: `url(${item?.picWebUrl})` }"
           ></i>
-          <span class="text">{{ item.name }}</span>
+          <span class="text">{{ item?.name }}</span>
         </div>
       </li>
       <li class="item">

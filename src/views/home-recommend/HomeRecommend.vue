@@ -74,7 +74,6 @@ export default defineComponent({
       ''
     );
 
-    // 歌曲列表数据
     const recommendSong = ref();
 
     // 获取每日推荐歌曲列表
