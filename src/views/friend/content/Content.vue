@@ -69,14 +69,12 @@ export default defineComponent({
     const loading = ref<boolean>(false);
     // 是否继续加载
     const lock = ref<boolean>(true);
-    // 动态列表参数
     const firendEventParams = reactive<FirendEvent>({
       pagesize: 20,
       lasttime: -1
     });
-
-    // 列表数据
     const eventList = ref<LoopType[]>([]);
+
     // 获取动态列表数据
     function getFriendEvent(): void {
       loading.value = true;
@@ -173,6 +171,7 @@ export default defineComponent({
         eventList.value[likeIndex].info.liked = true;
         eventList.value[likeIndex].info.likedCount++;
       }
+
       // 接口修改
       dynamicLike({
         cid: id,
@@ -196,6 +195,7 @@ export default defineComponent({
     onUnmounted(() => {
       document.removeEventListener('scroll', () => ({}));
     });
+
     return {
       releaseDynamic,
       releaseVideo,

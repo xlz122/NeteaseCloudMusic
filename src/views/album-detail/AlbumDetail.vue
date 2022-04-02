@@ -129,14 +129,15 @@ export default defineComponent({
         id: albumId.value
       })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
-            albumData.userInfo = res.album;
-            albumData.songs = res.songs;
-            if (res.songs.length === 0) {
+          if (res?.code === 200) {
+            albumData.userInfo = res?.album;
+            albumData.songs = res?.songs;
+            if (res?.songs?.length === 0) {
               albumData.noData = true;
             }
+
             // 存储歌手id
-            $store.commit('setSingerId', res.album.artist.id);
+            $store.commit('setSingerId', res?.album?.artist?.id);
           } else {
             $store.commit('setMessage', {
               type: 'error',

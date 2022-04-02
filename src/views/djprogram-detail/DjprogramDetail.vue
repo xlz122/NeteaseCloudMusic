@@ -64,7 +64,7 @@ export default defineComponent({
 
     // 电台节目id
     const djprogramId = computed(() => $store.getters.djprogramId);
-    // 监听路由传参，获取歌曲详情
+
     watch(
       () => $route.params,
       curVal => {

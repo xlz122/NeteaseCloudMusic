@@ -26,7 +26,7 @@
           <span
             class="name"
             :title="item?.name"
-            @click="jumpSingerDetail(item.id)"
+            @click="jumpSingerDetail(item?.id)"
           >
             {{ item?.name }}
           </span>
@@ -121,6 +121,7 @@ export default defineComponent({
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
+
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       $store.commit('jumpSingerDetail', id);

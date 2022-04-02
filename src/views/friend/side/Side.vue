@@ -1,5 +1,4 @@
 <template>
-  <!-- 用户信息 -->
   <div class="user-profile">
     <div class="user-profile-container">
       <div class="user-info">
@@ -39,7 +38,6 @@
       </ul>
     </div>
   </div>
-  <!-- 明星列表 -->
   <div class="side-content">
     <h4 class="side-title">
       <span>明星用户</span>
@@ -67,7 +65,6 @@
       </li>
     </ul>
   </div>
-  <!-- 感兴趣的人 -->
   <div class="side-content">
     <h4 class="side-title">
       <span>感兴趣的人</span>
@@ -103,7 +100,6 @@
       </li>
     </ul>
   </div>
-  <!-- 绑定微博 -->
   <div class="side-footer">
     <p>添加微博好友，和他们分享音乐</p>
     <a
@@ -146,7 +142,6 @@ export default defineComponent({
       $store.commit('jumpUserProfile', id);
     }
 
-    // 明星列表
     const starList = ref<List[]>([
       {
         src: 'http://p1.music.126.net/RQT6l2Vd9mQ9bSA_9MdWBw==/109951163720144425.jpg?param=45y45',
@@ -168,7 +163,6 @@ export default defineComponent({
       }
     ]);
 
-    // 感兴趣的人
     const interestedList = ref<List[]>([
       {
         src: 'http://p1.music.126.net/cX7kFto1nsneNwo6jA9LfQ==/18531168976478340.jpg?param=30y30',
@@ -210,7 +204,7 @@ export default defineComponent({
       });
     }
 
-    // 明显列表 - 关注
+    // 明星 - 关注
     function starFollow(index: number): void {
       starList.value.forEach((item, ind) => {
         if (index === ind) {
@@ -223,12 +217,12 @@ export default defineComponent({
       }, 1000);
     }
 
-    // 明显列表 - 删除
+    // 明星 - 删除
     function deleteStar(index: number): void {
       starList.value.splice(index, 1);
     }
 
-    // 感兴趣列表 - 关注
+    // 感兴趣 - 关注
     function interestedFollow(index: number): void {
       interestedList.value.forEach((item, ind) => {
         if (index === ind) {
@@ -241,10 +235,11 @@ export default defineComponent({
       }, 1000);
     }
 
-    // 感兴趣列表 - 删除
+    // 感兴趣 - 删除
     function deleteInterested(index: number): void {
       interestedList.value.splice(index, 1);
     }
+
     return {
       userInfo,
       jumpUserProfile,

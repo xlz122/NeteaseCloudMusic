@@ -122,9 +122,7 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    // 搜索框背景文本
     const searchPlaceholder = ref<string>('音乐/视频/电台/用户');
-    // 搜索内容
     const searchValue = ref<string>('');
     // 搜索建议显隐
     const searchProposShow = ref<boolean>(false);
@@ -136,7 +134,6 @@ export default defineComponent({
       $store.getters.searchText.replace(/"/g, '')
     );
 
-    // 导航搜索回车
     watch(
       () => searchText.value,
       () => {
@@ -182,7 +179,7 @@ export default defineComponent({
       }
     );
 
-    // 搜索框监听回车键
+    // 搜索框回车
     function searchEnter(): boolean | undefined {
       searchProposShow.value = false;
       if (!searchValue.value) {
@@ -196,9 +193,9 @@ export default defineComponent({
         $store.commit('setSearchDetailText', searchValue.value);
         // 头部导航取消选中
         $store.commit('setHeaderActiveIndex', -1);
+
         // 搜索详情页导航选中
         $store.commit('setSearchIndex', 0);
-        // 跳转搜索详情页
         $router.push({
           name: 'search-details',
           query: { searchText: searchValue.value }
@@ -231,6 +228,7 @@ export default defineComponent({
       $store.commit('setSearchText', searchValue.value);
       // 头部导航取消选中
       $store.commit('setHeaderActiveIndex', -1);
+
       // 搜索详情页导航选中
       $store.commit('setSearchIndex', 7);
       // 跳转搜索详情页

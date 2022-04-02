@@ -4,7 +4,7 @@
       <i class="loading-icon"></i>
       加载中...
     </div>
-    <table class="play-list-table" v-if="songs.length > 0">
+    <table class="play-list-table" v-if="songs?.length > 0">
       <thead>
         <tr>
           <th class="th first-th">
@@ -32,30 +32,30 @@
               <span class="text">{{ index + 1 }}</span>
               <i
                 class="icon-play"
-                :class="{ 'active-play': item.id === playMusicId }"
+                :class="{ 'active-play': item?.id === playMusicId }"
                 @click="playSingleMusic(item)"
               ></i>
             </div>
           </td>
           <td class="tbody-td">
             <div class="hd">
-              <span class="text" @click="jumpSongDetail(item.id)">
-                <span class="title" :title="item.name">{{ item.name }}</span>
-                <span class="no-click" v-if="item.alia[0]">
-                  - {{ item.alia[0] }}
+              <span class="text" @click="jumpSongDetail(item?.id)">
+                <span class="title" :title="item.name">{{ item?.name }}</span>
+                <span class="no-click" v-if="item?.alia[0]">
+                  - {{ item?.alia[0] }}
                 </span>
               </span>
               <i
                 class="icon-mv"
-                v-if="item.mv > 0"
-                @click="jumpVideoDetail(item.mv)"
+                v-if="item?.mv > 0"
+                @click="jumpVideoDetail(item?.mv)"
               ></i>
             </div>
           </td>
           <td class="tbody-td">
             <div class="hd">
               <span class="text time">
-                {{ timeStampToDuration(item.dt / 1000) }}
+                {{ timeStampToDuration(item?.dt / 1000) }}
               </span>
               <div class="operate-btn">
                 <i
@@ -66,7 +66,7 @@
                 <i
                   class="icon collect"
                   title="收藏"
-                  @click="handleCollection(item.id)"
+                  @click="handleCollection(item?.id)"
                 ></i>
                 <i class="icon share" title="分享" @click="handleShare"></i>
                 <i
@@ -79,15 +79,15 @@
           </td>
           <td class="tbody-td singer">
             <div class="hd">
-              <div class="text" v-for="(i, ind) in item.ar" :key="ind">
+              <div class="text" v-for="(i, ind) in item?.ar" :key="ind">
                 <span
                   class="name"
-                  :title="i.name"
-                  @click="jumpSingerDetail(i.id)"
+                  :title="i?.name"
+                  @click="jumpSingerDetail(i?.id)"
                 >
-                  {{ i.name }}
+                  {{ i?.name }}
                 </span>
-                <span class="line" v-if="ind !== item.ar.length - 1">/</span>
+                <span class="line" v-if="ind !== item?.ar?.length - 1">/</span>
               </div>
             </div>
           </td>
