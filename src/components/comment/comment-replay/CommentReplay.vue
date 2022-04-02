@@ -91,7 +91,7 @@ type ExproessionPage = {
 
 export default defineComponent({
   props: {
-    clearText: {
+    isClearText: {
       type: Boolean,
       default: false
     },
@@ -106,7 +106,7 @@ export default defineComponent({
   },
   setup(
     props: {
-      clearText: boolean;
+      isClearText: boolean;
     },
     { emit }
   ) {
@@ -130,7 +130,7 @@ export default defineComponent({
 
     // 监听清除文本内容
     watch(
-      () => props.clearText,
+      () => props.isClearText,
       (curVal: boolean) => {
         if (curVal) {
           replay.text = '';
