@@ -6,7 +6,6 @@
     @mouseleave="bannerLeave"
   >
     <div class="banner-warp">
-      <!-- 两侧按钮及图片 -->
       <div class="banner-content">
         <div class="banner-img">
           <template v-for="(item, index) in banner?.list" :key="index">
@@ -34,7 +33,6 @@
           @mouseenter="bannerEnter"
         ></button>
       </div>
-      <!-- 底部小圆点 -->
       <ul class="warp-dots">
         <li
           class="dots-item"
@@ -44,7 +42,6 @@
           @click="dotChange(index)"
         ></li>
       </ul>
-      <!-- 下载部分 -->
       <div class="download">
         <div class="download-link">
           <router-link class="link" to="/download"></router-link>
@@ -87,7 +84,7 @@ export default defineComponent({
             if (res.banners.length > 0) {
               banner.list = res.banners;
               banner.currentUrl = res.banners[0].imageUrl;
-              // 自动轮播
+
               autoBanner();
             }
           }

@@ -37,9 +37,6 @@ import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue
 export default defineComponent({
   components: {
     SideDownload
-  },
-  setup() {
-    return {};
   }
 });
 </script>

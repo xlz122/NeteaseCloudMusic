@@ -18,14 +18,14 @@
           class="item"
           v-for="(item, index) in songListData"
           :key="index"
-          :class="{ 'last-item': songListData.length > 2 && index === 3 }"
+          :class="{ 'last-item': songListData?.length > 2 && index === 3 }"
         >
           <div class="item-top">
             <img
               class="img"
               :src="`${item?.picUrl}?param=140y140`"
               alt=""
-              @click="jumpSongSheetDetail(item.id)"
+              @click="jumpSongSheetDetail(item?.id)"
             />
             <div class="info">
               <i class="info-icon"></i>
@@ -33,14 +33,14 @@
               <i
                 class="info-icon-right"
                 title="播放"
-                @click="songSheetToPlayList(item.id)"
+                @click="songSheetToPlayList(item?.id)"
               ></i>
             </div>
           </div>
           <div
             class="item-bottom"
             :title="item?.name"
-            @click="jumpSongSheetDetail(item.id)"
+            @click="jumpSongSheetDetail(item?.id)"
           >
             {{ item?.name }}
           </div>
@@ -58,7 +58,7 @@
                 class="img"
                 :src="`${item?.picUrl}?param=140y140`"
                 alt=""
-                @click="jumpSongSheetDetail(item.id)"
+                @click="jumpSongSheetDetail(item?.id)"
               />
               <div class="info">
                 <i class="info-icon"></i>
@@ -66,14 +66,14 @@
                 <i
                   class="info-icon-right"
                   title="播放"
-                  @click="songSheetToPlayList(item.id)"
+                  @click="songSheetToPlayList(item?.id)"
                 ></i>
               </div>
             </div>
             <div
               class="item-bottom"
               :title="item?.name"
-              @click="jumpSongSheetDetail(item.id)"
+              @click="jumpSongSheetDetail(item?.id)"
             >
               {{ item?.name }}
             </div>
@@ -89,9 +89,9 @@
           <div class="item-top">
             <img
               class="img"
-              :src="`${item.picUrl}?param=140y140`"
+              :src="`${item?.picUrl}?param=140y140`"
               alt=""
-              @click="jumpDjprogramDetail(item.id)"
+              @click="jumpDjprogramDetail(item?.id)"
             />
             <div class="info">
               <i class="info-icon"></i>
@@ -101,8 +101,8 @@
           </div>
           <div
             class="item-bottom"
-            :title="item.name"
-            @click="jumpDjprogramDetail(item.id)"
+            :title="item?.name"
+            @click="jumpDjprogramDetail(item?.id)"
           >
             <span class="radio-station"></span>
             {{ item?.name }}
@@ -143,7 +143,7 @@
               class="img"
               :src="`${item?.picUrl}?param=140y140`"
               alt=""
-              @click="jumpSongSheetDetail(item.id)"
+              @click="jumpSongSheetDetail(item?.id)"
             />
             <div class="info">
               <i class="info-icon"></i>
@@ -154,7 +154,7 @@
           <div
             class="item-bottom"
             :title="item?.name"
-            @click="jumpSongSheetDetail(item.id)"
+            @click="jumpSongSheetDetail(item?.id)"
           >
             {{ item?.name }}
           </div>
@@ -229,7 +229,6 @@ export default defineComponent({
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
-    // 监听登录，重新获取各项数据
     watch(
       () => isLogin.value,
       (curVal: boolean) => {
@@ -422,12 +421,12 @@ export default defineComponent({
       individualizatData.value.splice(3, 1);
     }
 
-    // 新碟上架 - 跳转专辑
+    // 跳转专辑详情
     function jumpAlbumDetail(id: number): void {
       $store.commit('jumpAlbumDetail', id);
     }
 
-    // 新碟上架 - 跳转歌手详情
+    // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       $store.commit('jumpSingerDetail', id);
     }

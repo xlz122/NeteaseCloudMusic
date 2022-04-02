@@ -87,12 +87,10 @@ export default defineComponent({
     // 扫码/其他登录方式切换
     const qrcodeLoginShow = ref<boolean>(true);
 
-    // 切换扫码登录
     function qrcodeLogin(): void {
       qrcodeLoginShow.value = true;
     }
 
-    // 切换其他方式登录
     function otherLogin(): void {
       qrcodeLoginShow.value = false;
     }

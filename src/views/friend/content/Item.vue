@@ -402,6 +402,7 @@ export default defineComponent({
     function jumpAlbumDetail(id: number): void {
       emit('jumpAlbumDetail', id);
     }
+
     return {
       formatDate,
       jumpUserProfile,

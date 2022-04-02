@@ -2,13 +2,11 @@
   <!-- 登录展示 -->
   <div class="friend" v-if="isLogin">
     <div class="friend-container">
-      <!-- 主体内容 -->
       <div class="container-content">
-        <friend-content />
+        <FriendContent />
       </div>
-      <!-- 侧边栏 -->
       <div class="container-side">
-        <side />
+        <Side />
       </div>
     </div>
   </div>
@@ -43,6 +41,7 @@ export default defineComponent({
     function openLogin(): void {
       $store.commit('setLoginDialog', true);
     }
+
     return {
       isLogin,
       openLogin

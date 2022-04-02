@@ -230,7 +230,7 @@ export default defineComponent({
       downloadQrcode.value = true;
       isPcDownLoad.value = false;
     }
-    // 监听点击
+
     onMounted(() => {
       document.addEventListener('click', function (e: MouseEvent): void {
         const target = e.target as HTMLElement;
@@ -249,6 +249,7 @@ export default defineComponent({
     onUnmounted(() => {
       document.removeEventListener('click', () => ({}));
     });
+
     return {
       otherDownload,
       otherDownloadModal,

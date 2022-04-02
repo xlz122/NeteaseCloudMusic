@@ -7,7 +7,7 @@
         v-for="(item, index) in []"
         :key="index"
         :class="{ 'first-item': !(index % 4) }"
-        @click="jumpUserProfile(item.userId)"
+        @click="jumpUserProfile(item?.userId)"
       >
         <router-link class="item-link" to="" :title="item?.nickname">
           <img class="item-img" :src="`${item?.avatarUrl}?param=40y40`" />
@@ -77,7 +77,6 @@ export default defineComponent({
     // 歌手id
     const singerId = computed<number>(() => $store.getters.singerId);
 
-    // 监听歌手id改变
     watch(
       () => singerId.value,
       curVal => {
@@ -87,14 +86,13 @@ export default defineComponent({
       }
     );
 
-    // 专辑列表
     const albumList = ref();
-
-    // 获取歌手专辑
     const albumParams = reactive<AlbumParams>({
       offset: 1, // 页数
       limit: 5 // 条数
     });
+
+    // 获取歌手辑列表
     function getArtistAlbum(): void {
       artistAlbum({
         id: singerId.value,
@@ -120,10 +118,10 @@ export default defineComponent({
 
     // 跳转专辑详情
     function jumpAlbumDetail(id: number): boolean | undefined {
-      // 当前专辑id和跳转专辑id相同
       if (albumId.value === id) {
         return false;
       }
+
       $store.commit('jumpAlbumDetail', id);
     }
 
