@@ -48,18 +48,18 @@
           </td>
           <td class="tbody-td">
             <div class="hd">
-              <span class="text" @click="jumpSongDetail(item.id)">
-                <span class="title" :title="`${item.name}`">
-                  {{ item.name }}
+              <span class="text" @click="jumpSongDetail(item?.id)">
+                <span class="title" :title="`${item?.name}`">
+                  {{ item?.name }}
                 </span>
-                <span class="no-click" v-if="item.alia[0]">
-                  - {{ item.alia[0] }}
+                <span class="no-click" v-if="item?.alia[0]">
+                  - {{ item?.alia[0] }}
                 </span>
               </span>
               <i
                 class="icon-mv"
-                v-if="item.mv > 0"
-                @click="jumpVideoDetail(item.mv)"
+                v-if="item?.mv > 0"
+                @click="jumpVideoDetail(item?.mv)"
               ></i>
             </div>
           </td>
@@ -77,7 +77,7 @@
                 <i
                   class="icon collect"
                   title="收藏"
-                  @click="handleCollection(item.id)"
+                  @click="handleCollection(item?.id)"
                 ></i>
                 <i class="icon share" title="分享" @click="handleShare"></i>
                 <i
@@ -93,28 +93,30 @@
                     userInfo?.profile?.userId
                   "
                   title="删除"
-                  @click="deleteMusicShow(item.id)"
+                  @click="deleteMusicShow(item?.id)"
                 ></i>
               </div>
             </div>
           </td>
           <td class="tbody-td singer">
             <div class="hd">
-              <div class="text" v-for="(i, ind) in item.ar" :key="ind">
+              <div class="text" v-for="(i, ind) in item?.ar" :key="ind">
                 <span
                   class="name"
-                  :title="i.name"
-                  @click="jumpSingerDetail(i.id)"
+                  :title="i?.name"
+                  @click="jumpSingerDetail(i?.id)"
                 >
-                  {{ i.name }}
+                  {{ i?.name }}
                 </span>
-                <span class="line" v-if="ind !== item.ar.length - 1">/</span>
+                <span class="line" v-if="ind !== item?.ar?.length - 1">/</span>
               </div>
             </div>
           </td>
-          <td class="tbody-td" @click="jumpAlbumDetail(item.al.id)">
+          <td class="tbody-td" @click="jumpAlbumDetail(item?.al?.id)">
             <div class="hd">
-              <span class="text" :title="item.al.name">{{ item.al.name }}</span>
+              <span class="text" :title="item?.al?.name">
+                {{ item?.al?.name }}
+              </span>
             </div>
           </td>
         </tr>
@@ -363,6 +365,7 @@ export default defineComponent({
     function deleteMusicCancel(): void {
       deleteMusicDialog.value = false;
     }
+
     return {
       timeStampToDuration,
       userInfo,

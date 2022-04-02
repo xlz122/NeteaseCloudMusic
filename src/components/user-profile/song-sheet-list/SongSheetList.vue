@@ -1,7 +1,7 @@
 <template>
   <div class="song-sheet-container">
     <!-- 创建的歌单 -->
-    <template v-if="songSheetList?.createSongList.length > 0">
+    <template v-if="songSheetList?.createSongList?.length > 0">
       <div class="title">
         <span class="text">
           <span v-if="isLogOnUser">我创建的歌单</span>
@@ -10,7 +10,7 @@
           <i class="icon-r"></i>
         </span>
         <span class="text-length">
-          ({{ songSheetList?.createSongList.length }})
+          ({{ songSheetList?.createSongList?.length }})
         </span>
       </div>
       <ul class="song-sheet-list">
@@ -39,7 +39,7 @@
       </ul>
     </template>
     <!-- 收藏的歌单 -->
-    <template v-if="songSheetList?.collectionSongList.length > 0">
+    <template v-if="songSheetList?.collectionSongList?.length > 0">
       <div class="title">
         <span class="text">
           <span v-if="isLogOnUser">我收藏的歌单</span>
@@ -48,7 +48,7 @@
           <i class="icon-r"></i>
         </span>
         <span class="text-length">
-          ({{ songSheetList?.collectionSongList.length }})
+          ({{ songSheetList?.collectionSongList?.length }})
         </span>
       </div>
       <ul class="song-sheet-list">
@@ -94,7 +94,7 @@ export default defineComponent({
 
     // 用户uid
     const uid = computed<number>(() => $store.getters.userId);
-    // 监听路由传参，获取用户详情、歌单列表
+
     watch(
       () => $route.params,
       curVal => {
@@ -113,17 +113,20 @@ export default defineComponent({
       }
     );
 
-    // 传入的uid是否是当前登录用户
     const isLogOnUser = ref<boolean>(false);
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
+
+    // 获取传入的uid是否当前登录用户
     function getIsLoginUser(): boolean | undefined {
       if (!isLogin.value) {
         return false;
       }
+
       if ($store.getters.userInfo?.profile.userId === uid.value) {
         isLogOnUser.value = true;
         return false;
       }
+
       isLogOnUser.value = false;
     }
     getIsLoginUser();
@@ -142,18 +145,20 @@ export default defineComponent({
             // 清空歌单列表
             songSheetList.createSongList = [];
             songSheetList.collectionSongList = [];
+
             // 处理列表数据
             res.playlist.forEach((item: LoopType) => {
-              // 喜欢的音乐处理
               if (isLogOnUser.value && item.name.includes('喜欢的音乐')) {
                 item.name = '我喜欢的音乐';
               }
+
               // 收藏列表判断
               if (!item.subscribed) {
                 songSheetList.createSongList.push(item);
               } else {
                 songSheetList.collectionSongList.push(item);
               }
+
               // 统计处理
               item.playCount = bigNumberTransform(item.playCount);
             });

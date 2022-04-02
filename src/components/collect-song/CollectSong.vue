@@ -15,7 +15,7 @@
           class="item"
           v-for="(item, index) in songSheetList"
           :key="index"
-          @click="handleCollection(item.id)"
+          @click="handleCollection(item?.id)"
         >
           <div class="item-cover">
             <img class="item-cover-img" :src="item?.coverImgUrl" alt="" />
@@ -65,9 +65,9 @@ export default defineComponent({
       }
     );
 
-    // 获取歌单列表
     const songSheetList = ref<Record<string, any>[]>([]);
 
+    // 获取歌单列表
     function getUserPlayList(): void {
       userPlayList({
         uid: userInfo.value?.profile?.userId
@@ -78,10 +78,10 @@ export default defineComponent({
 
             // 处理列表数据
             res.playlist.forEach((item: LoopType) => {
-              // 喜欢的音乐处理
               if (item.name.includes('喜欢的音乐')) {
                 item.name = '我喜欢的音乐';
               }
+
               // 收藏列表判断
               if (!item.subscribed) {
                 songSheetList.value.push(item);

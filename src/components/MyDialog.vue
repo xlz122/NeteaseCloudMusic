@@ -1,18 +1,14 @@
 <template>
   <div class="my_dialog" v-if="visible">
-    <!-- 遮罩层 -->
     <div class="my_dialog_mask"></div>
     <div class="my_dialog_box" id="my_dialog_box" v-drag>
-      <!-- 标题 -->
       <div class="my_dialog_title">
         {{ title }}
         <span class="my_dialog_close" @click="cancel">x</span>
       </div>
-      <!-- 内容 -->
       <div class="my_dialog_content">
         <slot></slot>
       </div>
-      <!-- 底部按钮 -->
       <div class="my_dialog_bottom">
         <button
           class="btn confirmBtn"
