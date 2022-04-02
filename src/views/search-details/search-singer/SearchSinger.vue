@@ -1,14 +1,13 @@
 <template>
-  <!-- loading -->
-  <div class="loading" v-if="singerData.loading">
+  <div class="loading" v-if="singerData?.loading">
     <i class="loading-icon"></i>
     加载中...
   </div>
-  <div class="search-singer" v-if="!singerData.loading">
+  <div class="search-singer" v-if="!singerData?.loading">
     <ul class="search-singer-list">
       <li
         class="search-singer-item"
-        v-for="(item, index) in singerData.list"
+        v-for="(item, index) in singerData?.list"
         :key="index"
         :class="{ 'first-item': index % 6 }"
       >
@@ -95,7 +94,6 @@ export default defineComponent({
       list: []
     });
 
-    // 详情搜索回车
     watch(
       () => searchDetailText.value,
       () => {
@@ -112,7 +110,7 @@ export default defineComponent({
         type: 100
       })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
+          if (res?.code === 200) {
             singerData.total = res?.result?.artistCount;
             singerData.list = res?.result?.artists;
             emit('searchCountChange', res?.result?.artistCount);

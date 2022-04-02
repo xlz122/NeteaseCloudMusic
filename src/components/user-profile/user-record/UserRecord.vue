@@ -22,7 +22,6 @@
         </span>
       </div>
     </div>
-    <!-- loading -->
     <div class="loading" v-if="loading">
       <i class="loading-icon"></i>
       加载中...

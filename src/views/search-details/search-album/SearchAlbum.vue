@@ -1,5 +1,4 @@
 <template>
-  <!-- loading -->
   <div class="loading" v-if="albumData?.loading">
     <i class="loading-icon"></i>
     加载中...
@@ -15,13 +14,13 @@
           class="item-cover-img"
           :src="`${item?.picUrl}?param=130y130`"
           :title="item?.name"
-          @click="jumpAlbumDetail(item.id)"
+          @click="jumpAlbumDetail(item?.id)"
           alt=""
         />
         <i class="item-cover-bg"></i>
         <i class="item-cover-play" title="播放"></i>
       </div>
-      <p class="desc" :title="item?.name" @click="jumpAlbumDetail(item.id)">
+      <p class="desc" :title="item?.name" @click="jumpAlbumDetail(item?.id)">
         {{ item?.name }}
       </p>
       <p
@@ -80,6 +79,13 @@ export default defineComponent({
       $store.getters.searchText.replace(/"/g, '')
     );
 
+    watch(
+      () => searchDetailText.value,
+      () => {
+        getSearchAlbum();
+      }
+    );
+
     const albumData = reactive<AlbumData>({
       loading: true,
       offset: 1,
@@ -87,14 +93,6 @@ export default defineComponent({
       total: 0,
       list: []
     });
-
-    // 详情搜索回车
-    watch(
-      () => searchDetailText.value,
-      () => {
-        getSearchAlbum();
-      }
-    );
 
     // 获取专辑列表
     function getSearchAlbum(): void {

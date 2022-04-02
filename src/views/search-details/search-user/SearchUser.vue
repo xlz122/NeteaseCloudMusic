@@ -1,5 +1,4 @@
 <template>
-  <!-- loading -->
   <div class="loading" v-if="userData?.loading">
     <i class="loading-icon"></i>
     加载中...
@@ -31,7 +30,7 @@
       </div>
       <div class="item-follow">
         <template v-if="!item?.followed">
-          <button class="follow-btn" @click="follow(item.userId)">关注</button>
+          <button class="follow-btn" @click="follow(item?.userId)">关注</button>
         </template>
         <template v-if="item?.followed">
           <button class="follow-btn followed">已关注</button>
@@ -95,7 +94,6 @@ export default defineComponent({
       list: []
     });
 
-    // 详情搜索回车
     watch(
       () => searchDetailText.value,
       () => {
@@ -112,7 +110,7 @@ export default defineComponent({
         type: 1002
       })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
+          if (res?.code === 200) {
             userData.total = res?.result?.userprofileCount;
             userData.list = res?.result?.userprofiles;
             emit('searchCountChange', res?.result?.userprofileCount);
@@ -133,7 +131,6 @@ export default defineComponent({
       $store.commit('jumpUserProfile', id);
     }
 
-    // 关注
     function follow(userId: number): boolean | undefined {
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -142,7 +139,7 @@ export default defineComponent({
 
       followUser({ id: userId, t: 1 })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
+          if (res?.code === 200) {
             $store.commit('setMessage', {
               type: 'info',
               title: '关注成功'

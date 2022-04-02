@@ -13,6 +13,10 @@
         @click="releaseVideo"
       ></span>
     </div>
+    <div class="loading" v-if="loading">
+      <i class="loading-icon"></i>
+      加载中...
+    </div>
     <ul class="list">
       <li class="item" v-for="(item, index) in eventList" :key="index">
         <Item
@@ -25,11 +29,6 @@
         />
       </li>
     </ul>
-    <!-- loading -->
-    <div class="loading" v-if="loading">
-      <i class="loading-icon"></i>
-      加载中...
-    </div>
   </div>
 </template>
 

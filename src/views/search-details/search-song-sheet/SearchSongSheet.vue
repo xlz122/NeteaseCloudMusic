@@ -1,5 +1,4 @@
 <template>
-  <!-- loading -->
   <div class="loading" v-if="songSheetData?.loading">
     <i class="loading-icon"></i>
     加载中...
@@ -15,7 +14,7 @@
         class="td play-icon"
         :class="{ 'active-play': item.id === playMusicId }"
         title="播放"
-        @click="songSheetToPlayList(item.id)"
+        @click="songSheetToPlayList(item?.id)"
       ></div>
       <div class="td td1">
         <img
@@ -23,14 +22,14 @@
           :src="item?.coverImgUrl"
           :title="item?.name"
           alt=""
-          @click="jumpSongSheetDetail(item.id)"
+          @click="jumpSongSheetDetail(item?.id)"
         />
       </div>
       <div class="td td2">
         <span
           class="text"
           :title="item?.name"
-          @click="jumpSongSheetDetail(item.id)"
+          @click="jumpSongSheetDetail(item?.id)"
         >
           {{ item?.name }}
         </span>
@@ -41,13 +40,13 @@
           <i
             class="icon add"
             title="添加到播放列表"
-            @click="singleMusicToPlayList(item.id)"
+            @click="singleMusicToPlayList(item?.id)"
           ></i>
           <i
             class="icon collect"
             :class="`${item?.subscribed ? 'collectd' : ''}`"
             :title="`${item?.subscribed ? '已收藏' : '收藏'}`"
-            @click="handleCollection(item.id, item.subscribed)"
+            @click="handleCollection(item?.id, item?.subscribed)"
           ></i>
           <i class="icon share" title="分享" @click="shareClick"></i>
         </div>
@@ -59,7 +58,7 @@
           <span
             class="text"
             :title="item?.creator?.nickname"
-            @click="jump(item.userId)"
+            @click="jump(item?.userId)"
           >
             {{ item?.creator?.nickname }}
           </span>
@@ -133,7 +132,6 @@ export default defineComponent({
       list: []
     });
 
-    // 详情搜索回车
     watch(
       () => searchDetailText.value,
       () => {
@@ -150,7 +148,7 @@ export default defineComponent({
         type: 1000
       })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
+          if (res?.code === 200) {
             songSheetData.total = res?.result?.playlistCount;
             songSheetData.list = res?.result?.playlists;
             emit('searchCountChange', res?.result?.playlistCount);
