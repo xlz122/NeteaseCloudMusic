@@ -1,13 +1,13 @@
 <template>
   <div class="mv-detail">
-    <div class="mv-detail-container">
-      <div class="mv-detail-content">
+    <div class="detail-container">
+      <div class="detail-content">
         <div class="title">
-          <i class="icon"></i>
-          <h2 class="text" :title="mvDetailData?.name">
+          <i class="title-icon"></i>
+          <h2 class="title-text" :title="mvDetailData?.name">
             {{ mvDetailData?.name }}
           </h2>
-          <div class="desc">
+          <div class="title-info">
             <span class="by">by</span>
             <template
               v-for="(item, index) in mvDetailData?.artists"
@@ -15,8 +15,8 @@
             >
               <span
                 class="text"
-                :title="item.name"
-                @click="jumpSingerDetail(item.id)"
+                :title="item?.name"
+                @click="jumpSingerDetail(item?.id)"
               >
                 {{ item.name }}
               </span>
@@ -28,11 +28,9 @@
             </template>
           </div>
         </div>
-        <!-- 播放器 -->
         <div class="video-container">
           <VideoPlayer :videoDetailData="mvDetailData" />
         </div>
-        <!-- 操作项 -->
         <div class="operate-btn">
           <div class="other like" @click="handleLike">
             <template v-if="mvDetailData?.praisedCount > 0">
@@ -81,7 +79,7 @@
           @changPage="changPage"
         />
       </div>
-      <div class="mv-detail-side">
+      <div class="detail-side">
         <VideoDetailSide :mvDetailData="mvDetailData" />
       </div>
     </div>
@@ -154,9 +152,9 @@ export default defineComponent({
         mvid: video.value.id
       })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
-            mvDetailData.value = res.data;
-            mvsubed.value = res.subed;
+          if (res?.code === 200) {
+            mvDetailData.value = res?.data;
+            mvsubed.value = res?.subed;
           } else {
             $store.commit('setMessage', {
               type: 'error',
@@ -171,7 +169,9 @@ export default defineComponent({
     function getVideoSrc(): void {
       mvUrl({ id: video.value.id })
         .then((res: ResponseType) => {
-          $store.commit('setVideo', { ...video.value, url: res.data.url });
+          if (res?.code === 200) {
+            $store.commit('setVideo', { ...video.value, url: res?.data?.url });
+          }
         })
         .catch(() => ({}));
     }
@@ -184,7 +184,6 @@ export default defineComponent({
 
     // 喜欢
     function handleLike(): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -198,7 +197,6 @@ export default defineComponent({
 
     // 收藏
     function handleCollection(followed: boolean): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -209,7 +207,7 @@ export default defineComponent({
 
       mvSub({ mvid: video.value.id, t })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
+          if (res?.code === 200) {
             if (t === 1) {
               $store.commit('setMessage', {
                 type: 'info',
@@ -238,7 +236,6 @@ export default defineComponent({
 
     // 分享
     function handleShare(): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -297,9 +294,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      // 头部导航选中
       $store.commit('setHeaderActiveIndex', 0);
-      // 取消二级导航选中
       $store.commit('setSubActiveIndex', -1);
     });
 

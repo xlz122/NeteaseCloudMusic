@@ -14,7 +14,7 @@
         <div
           class="cover"
           :title="item?.title"
-          @click="jumpVideoDetail(item.vid)"
+          @click="jumpVideoDetail(item?.vid)"
         >
           <img class="cover-img" :src="item?.coverUrl" alt="" />
           <div class="play-volume">
@@ -26,7 +26,7 @@
           <p
             class="desc-title hide"
             :title="item?.title"
-            @click="jumpVideoDetail(item.vid)"
+            @click="jumpVideoDetail(item?.vid)"
           >
             {{ item?.title }}
           </p>
@@ -95,8 +95,8 @@ export default defineComponent({
     function getVideolist(): void {
       relatedVideo({ id: video.value.id })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
-            videoList.value = res.data;
+          if (res?.code === 200) {
+            videoList.value = res?.data;
           } else {
             $store.commit('setMessage', {
               type: 'error',
