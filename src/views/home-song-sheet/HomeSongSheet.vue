@@ -26,7 +26,7 @@
               class="img"
               :src="`${item?.coverImgUrl}?param=140y140`"
               alt=""
-              @click="jumpSongSheetDetail(item.id)"
+              @click="jumpSongSheetDetail(item?.id)"
             />
             <div class="info">
               <i class="info-icon"></i>
@@ -38,7 +38,7 @@
             <span
               class="text"
               :title="item.name"
-              @click="jumpSongSheetDetail(item.id)"
+              @click="jumpSongSheetDetail(item?.id)"
             >
               {{ item?.name }}
             </span>
@@ -47,7 +47,7 @@
               <span
                 class="text"
                 :title="item?.creator?.nickname"
-                @click="jumpUserProfile(item.creator.userId)"
+                @click="jumpUserProfile(item?.creator?.userId)"
               >
                 {{ item?.creator?.nickname }}
               </span>
@@ -131,7 +131,6 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
-    // 监听路由传参
     watch(
       () => $route.params,
       (curVal: { name: string }) => {
