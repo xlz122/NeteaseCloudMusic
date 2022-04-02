@@ -26,7 +26,7 @@
         <div
           class="item-cover"
           :title="`${item?.name}的音乐`"
-          @click="jumpSingerDetail(item.id)"
+          @click="jumpSingerDetail(item?.id)"
         >
           <img class="item-cover-img" :src="item?.picUrl" alt="" />
         </div>
@@ -34,7 +34,7 @@
           <span
             class="item-desc-text"
             :title="`${item?.name}的音乐`"
-            @click="jumpSingerDetail(item.id)"
+            @click="jumpSingerDetail(item?.id)"
           >
             {{ item?.name }}
           </span>
@@ -42,7 +42,7 @@
             class="item-desc-icon"
             v-if="item?.accountId"
             :title="`${item?.name}的个人主页`"
-            @click="jumpUserProfile(item.accountId)"
+            @click="jumpUserProfile(item?.accountId)"
           ></span>
         </div>
       </li>
@@ -53,16 +53,16 @@
         class="item"
         v-for="(item, index) in second"
         :key="index"
-        @click="jumpSingerDetail(item.id)"
+        @click="jumpSingerDetail(item?.id)"
       >
-        <span class="item-text" :title="`${item.name}的音乐`">
+        <span class="item-text" :title="`${item?.name}的音乐`">
           {{ item?.name }}
         </span>
         <span
           class="item-icon"
           v-if="item?.accountId"
-          :title="`${item.name}的个人主页`"
-          @click="jumpUserProfile(item.accountId)"
+          :title="`${item?.name}的个人主页`"
+          @click="jumpUserProfile(item?.accountId)"
         ></span>
       </li>
     </ul>
@@ -222,7 +222,6 @@ export default defineComponent({
       emit('screenChange', small);
     }
 
-    // 监听标题修改,重置字母选中
     watch(
       () => title.value,
       () => {

@@ -26,9 +26,9 @@
           <ul class="sub-list">
             <li
               class="sub-list-item"
-              v-for="(i, ind) in item.list"
+              v-for="(i, ind) in item?.list"
               :key="ind"
-              @click="catChange(i.name)"
+              @click="catChange(i?.name)"
             >
               <span class="text">{{ i?.name }}</span>
               <span class="line">|</span>
@@ -80,6 +80,7 @@ export default defineComponent({
       }
     ]);
 
+    // 获取分类标签列表
     function getCatlist(): void {
       playlistCatlist()
         .then((res: ResponseType) => {
