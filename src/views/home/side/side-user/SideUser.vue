@@ -9,7 +9,9 @@
         <div class="info">
           <h4 class="name">
             <span class="text">{{ userInfo?.profile?.nickname }}</span>
-            <i class="icon-info"></i>
+            <template v-if="vipInfo?.redVipLevelIcon">
+              <img class="vip-level" :src="vipInfo?.redVipLevelIcon" alt="" />
+            </template>
           </h4>
           <p class="lv">
             <i class="lv-icon-left">{{ userInfo?.level }}</i>
@@ -51,9 +53,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { dailySignin } from '@api/home';
+import { userVipInfo } from '@api/user';
 import { ResponseType } from '@/types/types';
 import { formatDateTime } from '@utils/utils';
 
@@ -63,6 +66,31 @@ export default defineComponent({
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
+
+    watch(
+      () => isLogin.value,
+      () => {
+        if (isLogin.value) {
+          getVipInfo();
+        }
+      },
+      {
+        immediate: true
+      }
+    );
+
+    const vipInfo = ref({});
+
+    // 获取登录用户vip信息
+    function getVipInfo() {
+      userVipInfo()
+        .then((res: ResponseType) => {
+          if (res?.code === 200) {
+            vipInfo.value = res?.data;
+          }
+        })
+        .catch(() => ({}));
+    }
 
     // 重置签到
     function resetSignIn(): boolean | undefined {
@@ -111,6 +139,7 @@ export default defineComponent({
     return {
       isLogin,
       userInfo,
+      vipInfo,
       isSignIn,
       signIn,
       openLogin
