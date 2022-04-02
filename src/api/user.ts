@@ -17,6 +17,21 @@ export const userAccount = (): AxiosRequest => {
 };
 
 /**
+ * @description 获取VIP信息（需登录）
+ * @param { Number } timestamp - 防止接口缓存
+ */
+export const userVipInfo = (): AxiosRequest => {
+  const params = {
+    timestamp: new Date().getTime()
+  };
+  return axios.request({
+    url: '/vip/info',
+    method: 'get',
+    params
+  });
+};
+
+/**
  * @description 获取用户播放记录
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } uid - 用户id
