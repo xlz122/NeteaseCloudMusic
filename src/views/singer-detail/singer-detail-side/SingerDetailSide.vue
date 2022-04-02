@@ -8,7 +8,7 @@
           v-for="(item, index) in hotSingerList"
           :key="index"
           :class="{ 'first-item': !(index % 3) }"
-          @click="jumpSingerDetail(item.id)"
+          @click="jumpSingerDetail(item?.id)"
         >
           <router-link class="item-link" to="" :title="item?.name">
             <img class="item-img" :src="`${item?.picUrl}?param=50y50`" />
@@ -25,7 +25,7 @@
           v-for="(item, index) in singerList"
           :key="index"
           :class="{ 'first-item': !(index % 3) }"
-          @click="jumpSingerDetail(item.id)"
+          @click="jumpSingerDetail(item?.id)"
         >
           <router-link class="item-link" to="" :title="item?.name">
             <img class="item-img" :src="`${item?.picUrl}?param=50y50`" />
@@ -77,8 +77,8 @@ export default defineComponent({
         limit: 6
       })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
-            hotSingerList.value = res.artists.slice(0, 6);
+          if (res?.code === 200) {
+            hotSingerList.value = res?.artists?.slice(0, 6);
           } else {
             $store.commit('setMessage', {
               type: 'error',
@@ -95,12 +95,12 @@ export default defineComponent({
     function getSimiArtist(): void {
       simiArtist({ id: singerId.value })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
+          if (res?.code === 200) {
             // 相似歌手为空时，获取热门歌手
             if (res.artists.length === 0) {
               getTopArtists();
             }
-            singerList.value = res.artists.slice(0, 6);
+            singerList.value = res?.artists?.slice(0, 6);
           } else {
             $store.commit('setMessage', {
               type: 'error',

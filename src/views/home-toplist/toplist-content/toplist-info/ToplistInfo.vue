@@ -38,7 +38,7 @@
               'disable-play': songSheetDetail?.playlist?.tracks.length === 0
             }"
             title="播放"
-            @click="playTitleMusic"
+            @click="playAllMusic"
           >
             <span class="icon-play">播放</span>
           </div>
@@ -48,7 +48,7 @@
               'disable-play-add': songSheetDetail?.playlist?.tracks.length === 0
             }"
             title="添加到播放列表"
-            @click="setAddPlayList"
+            @click="allMusicToPlayList"
           ></div>
           <div
             class="other collection"
@@ -150,8 +150,8 @@ export default defineComponent({
       }
     }
 
-    // 头部播放 - 默认播放列表第一项
-    const playTitleMusic = throttle(
+    // 播放全部- 默认播放列表第一项
+    const playAllMusic = throttle(
       function () {
         if (songSheetDetail.value?.playlist?.tracks.length === 0) {
           return false;
@@ -220,7 +220,7 @@ export default defineComponent({
     );
 
     // 全部音乐添加到播放列表
-    function setAddPlayList(): boolean | undefined {
+    function allMusicToPlayList(): boolean | undefined {
       if (songSheetDetail.value?.playlist?.tracks.length === 0) {
         return false;
       }
@@ -299,8 +299,8 @@ export default defineComponent({
     return {
       formatDateTime,
       isLogin,
-      playTitleMusic,
-      setAddPlayList,
+      playAllMusic,
+      allMusicToPlayList,
       handleCollection,
       handleShare,
       handleDownload,

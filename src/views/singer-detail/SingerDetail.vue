@@ -1,7 +1,7 @@
 <template>
   <div class="singer-detail">
-    <div class="singer-detail-container">
-      <div class="singer-content">
+    <div class="detail-container">
+      <div class="detail-content">
         <div class="singer-info">
           <h2
             class="singer-username"
@@ -60,7 +60,7 @@
           :singerDetail="singerDetail"
         ></component>
       </div>
-      <div class="singer-side">
+      <div class="detail-side">
         <SingerDetailSide />
       </div>
     </div>
@@ -93,7 +93,6 @@ export default defineComponent({
     // 歌手id
     const singerId = computed<number>(() => $store.getters.singerId);
 
-    // 监听歌手id改变
     watch(
       () => singerId.value,
       curVal => {
@@ -103,7 +102,6 @@ export default defineComponent({
       }
     );
 
-    // 歌手详情
     const singerDetail = ref<Record<string, any>>([]);
 
     // 获取歌手详情

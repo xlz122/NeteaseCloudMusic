@@ -16,7 +16,7 @@
             :class="{
               'disable-play': recommendSong?.length === 0
             }"
-            @click="playTitleMusic"
+            @click="playAllMusic"
           >
             <span class="icon-play">播放全部</span>
           </div>
@@ -25,7 +25,7 @@
             :class="{
               'disable-play-add': recommendSong?.length === 0
             }"
-            @click="setAddPlayList"
+            @click="allMusicToPlayList"
           ></div>
           <div class="other collection" @click="handleCollectAll">
             <span class="icon"> 收藏全部</span>
@@ -95,8 +95,8 @@ export default defineComponent({
     }
     getRecommendSong();
 
-    // 头部播放 - 默认播放列表第一项
-    const playTitleMusic = throttle(
+    // 播放全部- 默认播放列表第一项
+    const playAllMusic = throttle(
       function () {
         if (recommendSong.value?.length === 0) {
           return false;
@@ -145,7 +145,7 @@ export default defineComponent({
     );
 
     // 全部音乐添加到播放列表
-    function setAddPlayList(): boolean | undefined {
+    function allMusicToPlayList(): boolean | undefined {
       if (recommendSong.value?.length === 0) {
         return false;
       }
@@ -194,8 +194,8 @@ export default defineComponent({
       weekText,
       dateText,
       recommendSong,
-      playTitleMusic,
-      setAddPlayList,
+      playAllMusic,
+      allMusicToPlayList,
       handleCollectAll
     };
   }

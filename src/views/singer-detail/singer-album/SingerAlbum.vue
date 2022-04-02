@@ -16,15 +16,19 @@
             <i
               class="item-cover-bg"
               :title="item.name"
-              @click="jumpAlbumDetail(item.id)"
+              @click="jumpAlbumDetail(item?.id)"
             ></i>
             <i class="item-cover-play" title="播放"></i>
           </div>
-          <p class="desc" :title="item?.name" @click="jumpAlbumDetail(item.id)">
+          <p
+            class="desc"
+            :title="item?.name"
+            @click="jumpAlbumDetail(item?.id)"
+          >
             {{ item?.name }}
           </p>
           <p class="name">
-            {{ formatDateTime(item.publishTime / 1000, 'yyyy.MM.dd') }}
+            {{ formatDateTime(item?.publishTime / 1000, 'yyyy.MM.dd') }}
           </p>
         </li>
       </ul>
@@ -64,7 +68,6 @@ export default defineComponent({
     // 歌手id
     const singerId = computed<number>(() => $store.getters.singerId);
 
-    // 监听歌手id改变
     watch(
       () => singerId.value,
       curVal => {
@@ -74,15 +77,14 @@ export default defineComponent({
       }
     );
 
-    // 专辑列表
     const albumList = ref();
-
-    // 获取歌手专辑
     const albumParams = reactive<AlbumParams>({
       offset: 1, // 页数
       limit: 12, // 条数
       total: 0 // 总数
     });
+
+    // 获取歌手专辑
     function getArtistAlbum(): void {
       artistAlbum({
         id: singerId.value,
@@ -90,9 +92,9 @@ export default defineComponent({
         limit: albumParams.limit
       })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
+          if (res?.code === 200) {
             albumList.value = res;
-            albumParams.total = res.artist.albumSize;
+            albumParams.total = res?.artist?.albumSize;
           } else {
             $store.commit('setMessage', {
               type: 'error',

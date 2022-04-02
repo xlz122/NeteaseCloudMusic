@@ -7,7 +7,7 @@
           v-for="(item, index) in mvList?.mvs"
           :key="index"
         >
-          <div class="item-cover" @click="jumpMvDetail(item.id)">
+          <div class="item-cover" @click="jumpMvDetail(item?.id)">
             <img
               class="item-cover-img"
               :src="`${item?.imgurl}?param=137y103`"
@@ -16,7 +16,7 @@
             <i class="item-cover-bg"></i>
             <i class="item-cover-play"></i>
           </div>
-          <p class="desc" @click="jumpMvDetail(item.id)">{{ item?.name }}</p>
+          <p class="desc" @click="jumpMvDetail(item?.id)">{{ item?.name }}</p>
         </li>
       </ul>
       <!-- 参数从0开始，分页需从1开始 -->
@@ -63,7 +63,6 @@ export default defineComponent({
     // 歌手id
     const singerId = computed<number>(() => $store.getters.singerId);
 
-    // 监听歌手id改变
     watch(
       () => singerId.value,
       curVal => {
@@ -73,10 +72,7 @@ export default defineComponent({
       }
     );
 
-    // mv列表
     const mvList = ref();
-
-    // 获取歌手Mv
     const mvParams = reactive<MvParams>({
       offset: 1, // 页数
       limit: 12, // 条数
@@ -91,6 +87,7 @@ export default defineComponent({
       }
     );
 
+    // 获取歌手MV列表
     function getArtistMv(): void {
       artistMv({
         id: singerId.value,
@@ -98,7 +95,7 @@ export default defineComponent({
         limit: mvParams.limit
       })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
+          if (res?.code === 200) {
             mvList.value = res;
           } else {
             $store.commit('setMessage', {

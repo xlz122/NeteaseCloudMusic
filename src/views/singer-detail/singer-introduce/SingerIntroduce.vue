@@ -37,14 +37,13 @@ export default defineComponent({
     // 歌手id
     const singerId = computed<number>(() => $store.getters.singerId);
 
-    // 歌手描述
     const singerDesc = ref();
 
     // 获取歌手描述
     function getArtistDetail(): void {
       artistDesc({ id: singerId.value })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
+          if (res?.code === 200) {
             singerDesc.value = res;
           } else {
             $store.commit('setMessage', {

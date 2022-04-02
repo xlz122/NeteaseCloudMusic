@@ -201,7 +201,7 @@ export default defineComponent({
       $store.commit('jumpSingerDetail', id);
     }
 
-    // 收藏歌曲
+    // 收藏
     function handleCollection(id: number): boolean | undefined {
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);

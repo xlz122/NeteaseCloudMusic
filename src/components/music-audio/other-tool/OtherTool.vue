@@ -73,7 +73,7 @@ export default defineComponent({
       () => $store.getters['music/playMusicId']
     );
 
-    // 收藏歌曲
+    // 收藏
     function handleCollection(): boolean | undefined {
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
