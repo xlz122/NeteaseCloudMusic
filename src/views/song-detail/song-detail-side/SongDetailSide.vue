@@ -1,13 +1,13 @@
 <template>
-  <div class="song-detail-side-container">
-    <template v-if="songSheetList.length > 0">
+  <div class="detail-side-container">
+    <template v-if="songSheetList?.length > 0">
       <h3 class="title">包含这首歌的歌单</h3>
       <ul class="song-sheet-list">
         <li class="item" v-for="(item, index) in songSheetList" :key="index">
           <div
             class="item-cover"
             :title="item?.name"
-            @click="jumpSongSheetDetail(item.id)"
+            @click="jumpSongSheetDetail(item?.id)"
           >
             <img
               class="cover-img"
@@ -19,7 +19,7 @@
             <p
               class="info-title"
               :title="item?.name"
-              @click="jumpSongSheetDetail(item.id)"
+              @click="jumpSongSheetDetail(item?.id)"
             >
               {{ item?.name }}
             </p>
@@ -37,7 +37,7 @@
         </li>
       </ul>
     </template>
-    <template v-if="simiSongList.length > 0">
+    <template v-if="simiSongList?.length > 0">
       <h3 class="title">相似歌曲</h3>
       <ul class="simi-song-list">
         <li class="item" v-for="(item, index) in simiSongList" :key="index">
@@ -45,7 +45,7 @@
             <p
               class="info-title"
               :title="item?.name"
-              @click="jumpSongDetail(item.id)"
+              @click="jumpSongDetail(item?.id)"
             >
               <span class="text">{{ item?.name }}</span>
             </p>
@@ -98,12 +98,12 @@ export default defineComponent({
     const songId = computed<number>(() => $store.getters.songId);
 
     const songSheetList = ref<unknown[]>([]);
-    // 获取这首歌的歌单
+    // 获取歌曲的歌单
     function getSimiPlaylist(): void {
       simiPlaylist({ id: songId.value })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
-            songSheetList.value = res.playlists;
+          if (res?.code === 200) {
+            songSheetList.value = res?.playlists;
           } else {
             $store.commit('setMessage', {
               type: 'error',
@@ -125,14 +125,13 @@ export default defineComponent({
       $store.commit('jumpUserProfile', id);
     }
 
-    // 相似歌曲
     const simiSongList = ref<Record<string, any>>([]);
-    // 获取这首歌的歌单
+    // 获取歌曲的相似歌曲
     function getSimiSong(): void {
       simiSong({ id: songId.value })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
-            simiSongList.value = res.songs;
+          if (res?.code === 200) {
+            simiSongList.value = res?.songs;
           } else {
             $store.commit('setMessage', {
               type: 'error',

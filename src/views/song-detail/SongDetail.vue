@@ -1,7 +1,7 @@
 <template>
   <div class="song-sheet-detail">
-    <div class="song-sheet-detail-container">
-      <div class="song-sheet-content">
+    <div class="detail-container">
+      <div class="detail-content">
         <div class="song-user-info">
           <SongInfo
             :songDetailData="songDetailData"
@@ -10,7 +10,6 @@
             @jumpToComments="jumpToComments"
           />
         </div>
-        <!-- 操作项 -->
         <!--
           歌曲被翻译有transUser,没有lyricUser
           歌曲没被翻译有lyricUser,没有transUser
@@ -76,7 +75,7 @@
           @changPage="changPage"
         />
       </div>
-      <div class="song-sheet-side">
+      <div class="detail-side">
         <SongDateilSide />
       </div>
     </div>
@@ -131,7 +130,6 @@ export default defineComponent({
     // 歌曲id
     const songId = computed<number>(() => $store.getters.songId);
 
-    // 监听路由传参，获取歌曲详情
     watch(
       () => $route.params,
       curVal => {
@@ -155,7 +153,7 @@ export default defineComponent({
         ids: songId.value
       })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
+          if (res?.code === 200) {
             songDetailData.value = res;
           } else {
             $store.commit('setMessage', {
@@ -173,9 +171,18 @@ export default defineComponent({
       $store.commit('jumpUserProfile', id);
     }
 
+    // 跳转至评论
+    function jumpToComments(): void {
+      const commentDom = document.querySelector(
+        '.comment-component'
+      ) as HTMLElement;
+
+      const appwrap = document.querySelector('.app-wrap') as HTMLElement;
+      appwrap.scrollTo(0, Number(commentDom.offsetTop) + 20);
+    }
+
     // 求翻译
     function lyricTranslate(): boolean | undefined {
-      // 未登录打开登录对话框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
@@ -187,7 +194,6 @@ export default defineComponent({
       });
     }
 
-    // 歌词数据
     const lyric = reactive<Lyric>({
       lyricUser: {},
       transUser: {},
@@ -203,7 +209,7 @@ export default defineComponent({
           // 歌词作者
           lyric.lyricUser = res?.lyricUser;
           lyric.transUser = res?.transUser;
-          handlerLyric(res.lrc.lyric);
+          handlerLyric(res?.lrc?.lyric);
         })
         .catch(() => ({}));
     }
@@ -211,7 +217,6 @@ export default defineComponent({
 
     // 处理歌词数据
     function handlerLyric(lyricStr: string): void {
-      // 清空歌词
       lyric.list = [];
 
       const regNewLine = /\n/;
@@ -302,16 +307,6 @@ export default defineComponent({
       getCommentData();
     }
 
-    // 跳转至评论
-    function jumpToComments(): void {
-      const commentDom = document.querySelector(
-        '.comment-component'
-      ) as HTMLElement;
-
-      const appwrap = document.querySelector('.app-wrap') as HTMLElement;
-      appwrap.scrollTo(0, Number(commentDom.offsetTop) + 20);
-    }
-
     onMounted(() => {
       $store.commit('setHeaderActiveIndex', 0);
       $store.commit('setSubActiveIndex', -1);
@@ -321,12 +316,12 @@ export default defineComponent({
       songId,
       songDetailData,
       jumpUserProfile,
-      lyric,
+      jumpToComments,
       lyricTranslate,
+      lyric,
       commentParams,
       commentRefresh,
-      changPage,
-      jumpToComments
+      changPage
     };
   }
 });

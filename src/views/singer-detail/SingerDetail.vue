@@ -138,7 +138,6 @@ export default defineComponent({
 
     // 收藏/取消收藏歌手
     function setArtistSub(followed: boolean): boolean | undefined {
-      // 未登录打开登录框
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
