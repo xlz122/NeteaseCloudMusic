@@ -105,7 +105,6 @@ export default defineComponent({
 
     // 获取歌单详情
     function getSongDetail(): void {
-      // 清空歌单详情数据
       $store.commit('music/setSongSheetDetail', {});
 
       playlistDetail({
@@ -124,7 +123,7 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
-    // 评论
+    // 跳转至评论
     function jumpToComments(): void {
       const commentDom = document.querySelector(
         '.comment-component'

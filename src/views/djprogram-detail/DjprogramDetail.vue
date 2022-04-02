@@ -147,7 +147,7 @@ export default defineComponent({
       getCommentData();
     }
 
-    // 评论
+    // 跳转至评论
     function jumpToComments(): void {
       const commentDom = document.querySelector(
         '.comment-component'

@@ -361,7 +361,7 @@ export default defineComponent({
       });
     }
 
-    // 评论
+    // 跳转至评论
     function jumpToComments(): boolean | undefined {
       // 未登录打开登录框
       if (!isLogin.value) {
