@@ -1,5 +1,5 @@
 <template>
-  <div class="song-sheet-side-container">
+  <div class="detail-side-container">
     <template v-if="songSheetDetail?.playlist?.subscribers.length > 0">
       <h3 class="title">喜欢这个歌单的人</h3>
       <ul class="like-list">
@@ -8,7 +8,7 @@
           v-for="(item, index) in songSheetDetail?.playlist?.subscribers"
           :key="index"
           :class="{ 'first-item': !(index % 4) }"
-          @click="jumpUserProfile(item.userId)"
+          @click="jumpUserProfile(item?.userId)"
         >
           <router-link class="item-link" to="" :title="item?.nickname">
             <img class="item-img" :src="`${item?.avatarUrl}?param=40y40`" />
@@ -20,11 +20,11 @@
       <h3 class="title">热门歌单</h3>
       <ul class="song-sheet-list">
         <li class="item" v-for="(item, index) in songSheetList" :key="index">
-          <div class="item-cover" @click="jumpSongSheetDetail(item.id)">
+          <div class="item-cover" @click="jumpSongSheetDetail(item?.id)">
             <img
               class="cover-img"
               :src="`${item?.coverImgUrl}?param=50y50`"
-              :title="item.name"
+              :title="item?.name"
               alt=""
             />
           </div>
@@ -32,7 +32,7 @@
             <p
               class="info-title"
               :title="item?.name"
-              @click="jumpSongSheetDetail(item.id)"
+              @click="jumpSongSheetDetail(item?.id)"
             >
               {{ item?.name }}
             </p>
@@ -103,8 +103,8 @@ export default defineComponent({
         limit: songParams.pageSize
       })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
-            songSheetList.value = res.playlists;
+          if (res?.code === 200) {
+            songSheetList.value = res?.playlists;
           } else {
             $store.commit('setMessage', {
               type: 'error',
@@ -124,7 +124,7 @@ export default defineComponent({
     // 跳转歌单详情
     function jumpSongSheetDetail(id: number): void {
       $store.commit('jumpSongSheetDetail', id);
-      // 重新获取热门歌单
+
       getTopPlaylist();
     }
 
