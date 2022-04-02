@@ -1,3 +1,37 @@
+## [1.0.12](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.11...v1.0.12) (2022-04-02)
+
+
+### ♻ Code Refactoring | 代码重构
+
+* 重构我的音乐页面，修复一些已知bug [#879ea69](https://github.com/xlz122/NeteaseCloudMusic/commit/879ea69) 
+
+
+### ✨ Features | 新功能
+
+* 首页、搜索详情歌单播放按钮可将歌曲添加至播放列表 [#4ac0013](https://github.com/xlz122/NeteaseCloudMusic/commit/4ac0013) 
+* 完成用户资料-登录用户获取vip信息 [#e3e3961](https://github.com/xlz122/NeteaseCloudMusic/commit/e3e3961) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 歌单详情页面处理一些容错 [#3bf61ac](https://github.com/xlz122/NeteaseCloudMusic/commit/3bf61ac) 
+* 歌曲详情页面处理一些容错 [#bdfc8e9](https://github.com/xlz122/NeteaseCloudMusic/commit/bdfc8e9) 
+* 歌手、歌单页面处理一些容错 [#7269630](https://github.com/xlz122/NeteaseCloudMusic/commit/7269630) 
+* 歌手详情页面处理一些容错 [#fbe662b](https://github.com/xlz122/NeteaseCloudMusic/commit/fbe662b) 
+* 公共组件部分处理一些容错 [#3f5cf0d](https://github.com/xlz122/NeteaseCloudMusic/commit/3f5cf0d) 
+* 关注、创作者中心、专辑详情页面处理一些容错 [#d9a4cee](https://github.com/xlz122/NeteaseCloudMusic/commit/d9a4cee) 
+* 每日推荐、新碟上架、电台页面处理一些容错 [#fd1e33b](https://github.com/xlz122/NeteaseCloudMusic/commit/fd1e33b) 
+* 排行榜页面处理一些容错 [#30e711d](https://github.com/xlz122/NeteaseCloudMusic/commit/30e711d) 
+* 视频、MV详情页面处理一些容错 [#68899a0](https://github.com/xlz122/NeteaseCloudMusic/commit/68899a0) 
+* 首页签到部分的用户vip信息替换成动态数据 [#3b4b34b](https://github.com/xlz122/NeteaseCloudMusic/commit/3b4b34b) 
+* 搜索详情页面处理一些容错 [#cb6106c](https://github.com/xlz122/NeteaseCloudMusic/commit/cb6106c) 
+* 修复评论第二页显示标题的bug [#51d7f93](https://github.com/xlz122/NeteaseCloudMusic/commit/51d7f93) 
+* 修复搜索详情-跳转至别的页面，返回后导航不一致的bug [#d955287](https://github.com/xlz122/NeteaseCloudMusic/commit/d955287) 
+* 修复用户资料页面已知bug [#c0a165c](https://github.com/xlz122/NeteaseCloudMusic/commit/c0a165c) 
+* 用户等级、用户等级详情页面处理一些容错 [#bb46cc3](https://github.com/xlz122/NeteaseCloudMusic/commit/bb46cc3) 
+
+
+
 ## [1.0.11](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.10...v1.0.11) (2022-03-31)
 
 
