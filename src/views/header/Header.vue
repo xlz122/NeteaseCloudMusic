@@ -183,6 +183,7 @@ export default defineComponent({
         });
         return false;
       }
+
       $router.push({ path: item.link });
       $store.commit('setSubActiveIndex', index);
     }
@@ -198,6 +199,7 @@ export default defineComponent({
         if (index !== -1) {
           $store.commit('setHeaderActiveIndex', index);
         }
+
         // 二级导航
         const subIndex = subNavList.value.findIndex(
           (item: LoopType) => item.link === path
@@ -215,6 +217,7 @@ export default defineComponent({
     function openLogin(): void {
       $store.commit('setLoginDialog', true);
     }
+
     return {
       logoJump,
       isLogin,

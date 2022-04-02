@@ -29,9 +29,7 @@ export default defineComponent({
     const $store = useStore();
 
     onMounted(() => {
-      // 取消头部导航选中
       $store.commit('setHeaderActiveIndex', -1);
-      // 取消二级导航选中
       $store.commit('setSubActiveIndex', -1);
     });
   }
