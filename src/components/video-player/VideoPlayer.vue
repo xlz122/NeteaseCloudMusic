@@ -8,7 +8,7 @@
         <span class="text">重播</span>
       </i>
     </div>
-    <!-- 大屏显示，标题、操作 -->
+    <!-- 大屏显示 -->
     <div class="full-operate">
       <h2 class="title">
         {{ videoDetailData.title }} - by
@@ -26,7 +26,6 @@
         </li>
       </ul>
     </div>
-    <!-- 操作部分 -->
     <div class="wrap">
       <i
         class="icon play-btn"
@@ -44,7 +43,6 @@
       <div class="other">
         <i class="volume-btn"></i>
         <p class="mode">高清</p>
-        <!-- 放大/缩小 -->
         <i class="full" v-if="!fullscreen" @click="lanchFullscreen"></i>
         <i class="narrow" v-else @click="exitFullscreen"></i>
       </div>

@@ -174,6 +174,7 @@ export default defineComponent({
     function closePlayList(): void {
       playListShow.value = false;
     }
+
     return {
       playMusicList,
       playMusicId,

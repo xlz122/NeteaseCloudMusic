@@ -58,7 +58,7 @@ export default defineComponent({
 
     // 用户uid
     const uid = computed<number>(() => $store.getters.userId);
-    // 监听路由传参，获取用户详情、歌单列表
+
     watch(
       () => $route.params,
       curVal => {
@@ -77,17 +77,20 @@ export default defineComponent({
       }
     );
 
-    // 传入的uid是否是当前登录用户
     const isLogOnUser = ref<boolean>(false);
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
+
+    // 获取传入的uid是否当前登录用户
     function getIsLoginUser(): boolean | undefined {
       if (!isLogin.value) {
         return false;
       }
+
       if ($store.getters.userInfo?.profile.userId === uid.value) {
         isLogOnUser.value = true;
         return false;
       }
+
       isLogOnUser.value = false;
     }
     getIsLoginUser();
@@ -103,7 +106,7 @@ export default defineComponent({
     function getUserDetail() {
       userDetail({ uid: uid.value })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
+          if (res?.code === 200) {
             userInfo.value = res;
             if (res?.profile?.province) {
               provinceName.value = findCityZipCode(res?.profile?.province || 0);

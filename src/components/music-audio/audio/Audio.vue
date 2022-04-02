@@ -255,6 +255,7 @@ export default defineComponent({
         });
       }
     }
+
     return {
       musicAudio,
       musicVolume,
