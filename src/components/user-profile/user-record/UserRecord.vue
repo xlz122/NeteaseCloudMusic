@@ -37,23 +37,23 @@
           ></i>
         </div>
         <div class="song">
-          <div class="song-text">
-            <span
-              class="name"
-              :title="item?.song?.name"
-              @click="jumpSongDetail(item?.song?.id)"
-            >
-              <b>{{ item?.song?.name }}</b>
-            </span>
-            <span class="desc">
-              <em class="em">-</em>
-              <span
-                class="text"
-                @click="jumpSingerDetail(item?.song?.ar[0]?.id)"
-              >
-                {{ item?.song?.ar[0]?.name }}
+          <div
+            class="song-text"
+            :title="item?.song?.name"
+            @click="jumpSongDetail(item?.song?.id)"
+          >
+            <b class="text">
+              {{ item?.song?.name }}
+              <span class="desc">
+                <em class="em">-</em>
+                <span
+                  class="desc-text"
+                  @click="jumpSingerDetail(item?.song?.ar[0]?.id)"
+                >
+                  {{ item?.song?.ar[0]?.name }}
+                </span>
               </span>
-            </span>
+            </b>
           </div>
           <div class="operate-btn">
             <i
@@ -72,7 +72,9 @@
         </div>
         <div class="tops">
           <span class="bg" :style="{ width: `${item?.score}%` }"></span>
-          <span class="times">{{ item?.playCount }}次</span>
+          <span class="times" v-if="item?.playCount > 0">
+            {{ item?.playCount }}次
+          </span>
         </div>
       </li>
     </ul>
