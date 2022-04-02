@@ -101,7 +101,7 @@ export default defineComponent({
         if (recommendSong.value?.length === 0) {
           return false;
         }
-        // 播放第一项
+
         const item = recommendSong.value[0];
 
         // 处理播放器所需数据

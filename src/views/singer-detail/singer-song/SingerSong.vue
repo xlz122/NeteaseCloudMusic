@@ -181,7 +181,6 @@ export default defineComponent({
           return false;
         }
 
-        // 播放第一项
         const item = singerSong.value?.hotSongs[0];
 
         // 处理播放器所需数据

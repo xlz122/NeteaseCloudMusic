@@ -132,7 +132,7 @@ export default defineComponent({
         if (songs.value.length === 0) {
           return false;
         }
-        // 播放第一项
+
         const item = songs.value[0];
 
         // 处理播放器所需数据

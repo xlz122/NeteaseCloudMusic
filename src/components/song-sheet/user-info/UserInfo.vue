@@ -204,7 +204,7 @@ export default defineComponent({
         if (songSheetDetail.value?.playlist?.tracks.length === 0) {
           return false;
         }
-        // 播放第一项
+
         const item = songSheetDetail.value?.playlist?.tracks[0];
 
         // 处理播放器所需数据
