@@ -38,8 +38,12 @@
         <div class="item-operate">
           <span class="time">{{ formatDate(item?.time) }}</span>
           <div class="reply-operate">
-            <template v-if="isDelete(item?.user?.userId)">
-              <span class="delete" @click="deleteCommentList(item?.commentId)">
+            <!-- 登录用户才有删除 -->
+            <template v-if="userInfo?.profile.userId === item?.user?.userId">
+              <span
+                class="delete"
+                @click="handleDeleteComment(item?.commentId)"
+              >
                 删除
               </span>
               <span class="delete-line">|</span>
@@ -48,12 +52,12 @@
             <i
               class="like liked"
               v-if="item?.liked"
-              @click="songSheetLikeList(type, item?.commentId, 0)"
+              @click="handleLikeComment(type, item?.commentId, 0)"
             ></i>
             <i
               class="like no-like"
               v-else
-              @click="songSheetLikeList(type, item?.commentId, 1)"
+              @click="handleLikeComment(type, item?.commentId, 1)"
             ></i>
             <span class="like-num" v-if="item?.likedCount > 0">
               ({{ item?.likedCount }})
@@ -98,27 +102,15 @@ export default defineComponent({
     }
   },
   emits: [
-    'deleteCommentList',
-    'songSheetLikeList',
+    'handleDeleteComment',
+    'handleLikeComment',
     'setComments',
     'replySubmit'
   ],
   setup(props, { emit }) {
     const $store = useStore();
 
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
-
-    // 是否显示删除按钮
-    function isDelete(userId: number): boolean | undefined {
-      if (!isLogin.value) {
-        return false;
-      }
-      if (userInfo.value.profile.userId === userId) {
-        return true;
-      }
-      return false;
-    }
 
     // 跳转用户资料
     function jumpUserProfile(id: number): void {
@@ -126,17 +118,17 @@ export default defineComponent({
     }
 
     // 删除评论
-    function deleteCommentList(commentId: number): void {
-      emit('deleteCommentList', commentId);
+    function handleDeleteComment(commentId: number): void {
+      emit('handleDeleteComment', commentId);
     }
 
     // 点赞
-    function songSheetLikeList(
+    function handleLikeComment(
       t: number,
       commentId: number,
       type: number
     ): void {
-      emit('songSheetLikeList', t, commentId, type);
+      emit('handleLikeComment', t, commentId, type);
     }
 
     // 打开当前评论回复框
@@ -144,17 +136,17 @@ export default defineComponent({
       emit('setComments', props.type, index);
     }
 
-    // 回复提交（精彩评论、最新回复）
+    // 回复提交
     function replySubmit(replayText: string, commentId: number): void {
       emit('replySubmit', replayText, commentId);
     }
 
     return {
       formatDate,
-      isDelete,
+      userInfo,
       jumpUserProfile,
-      deleteCommentList,
-      songSheetLikeList,
+      handleDeleteComment,
+      handleLikeComment,
       setComments,
       replySubmit
     };
