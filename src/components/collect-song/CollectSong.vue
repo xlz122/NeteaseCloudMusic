@@ -100,7 +100,7 @@ export default defineComponent({
       });
     }
 
-    // 收藏歌曲
+    // 收藏
     function handleCollection(id: number): void {
       collectMusic({
         pid: id,

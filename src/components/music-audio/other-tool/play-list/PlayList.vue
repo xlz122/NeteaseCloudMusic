@@ -40,7 +40,7 @@
               <i
                 class="icon collect"
                 title="收藏"
-                @click="handleCollection(item?.id, $event)"
+                @click.stop="handleCollection(item?.id, $event)"
               ></i>
               <i class="icon share" title="分享" @click.stop="handleShare"></i>
               <i
@@ -149,17 +149,13 @@ export default defineComponent({
       $store.commit('music/emptyPlayMusicList');
     }
 
-    // 收藏歌曲
-    function handleCollection(
-      id: number,
-      event: MouseEvent
-    ): boolean | undefined {
+    // 收藏
+    function handleCollection(id: number): boolean | undefined {
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
         return false;
       }
 
-      event.stopPropagation();
       $store.commit('music/collectPlayMusic', {
         visible: true,
         songIds: id

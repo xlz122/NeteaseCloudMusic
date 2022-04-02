@@ -56,7 +56,7 @@
         </div>
         <!-- 操作项 -->
         <div class="operate-btn">
-          <div class="play" @click="playTitleMusic">
+          <div class="play" @click="playAllMusic">
             <span class="icon-mv" title="播放">播放</span>
           </div>
           <div
@@ -155,7 +155,7 @@ export default defineComponent({
     }
 
     // 播放单个歌曲
-    function playTitleMusic(): boolean | undefined {
+    function playAllMusic(): boolean | undefined {
       if (!props?.songDetailData?.songs.length) {
         return false;
       }
@@ -224,7 +224,7 @@ export default defineComponent({
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
-    // 收藏歌曲
+    // 收藏
     function handleCollection(id: number): boolean | undefined {
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -278,7 +278,7 @@ export default defineComponent({
       songId,
       jumpSingerDetail,
       jumpAlbumDetail,
-      playTitleMusic,
+      playAllMusic,
       singleMusicToPlayList,
       handleCollection,
       handleShare,
