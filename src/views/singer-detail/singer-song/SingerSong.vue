@@ -23,12 +23,10 @@
         <span class="icon"> 收藏热门{{ singerSong?.hotSongs.length }} </span>
       </div>
     </div>
-    <!-- loading -->
     <div class="loading" v-if="loading">
       <i class="loading-icon"></i>
       加载中...
     </div>
-    <!-- 歌曲列表部分 -->
     <table class="play-list-table" v-if="singerSong?.hotSongs.length > 0">
       <thead>
         <tr>

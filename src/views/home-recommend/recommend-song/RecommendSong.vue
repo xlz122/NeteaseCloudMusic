@@ -1,11 +1,9 @@
 <template>
   <div class="music-table-container">
-    <!-- loading -->
     <div class="loading" v-if="loading">
       <i class="loading-icon"></i>
       加载中...
     </div>
-    <!-- 歌曲列表部分 -->
     <table class="play-list-table" v-if="recommendSong.length > 0">
       <thead>
         <tr>

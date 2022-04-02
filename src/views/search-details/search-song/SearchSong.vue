@@ -1,13 +1,12 @@
 <template>
-  <!-- loading -->
-  <div class="loading" v-if="songData.loading">
+  <div class="loading" v-if="songData?.loading">
     <i class="loading-icon"></i>
     加载中...
   </div>
-  <ul class="search-song" v-if="!songData.loading">
+  <ul class="search-song" v-if="!songData?.loading">
     <li
       class="item"
-      v-for="(item, index) in songData.list"
+      v-for="(item, index) in songData?.list"
       :key="index"
       :class="{ 'even-item': index % 2 }"
     >
@@ -21,17 +20,17 @@
           <span
             class="name"
             :title="item?.name"
-            @click="jumpSongDetail(item.id)"
+            @click="jumpSongDetail(item?.id)"
           >
             {{ item?.name }}
           </span>
           <span class="desc" v-if="item?.tns?.length">
-            - ({{ item.tns[0] }})
+            - ({{ item?.tns[0] }})
           </span>
           <i
             class="icon-mv"
             v-if="item.mv > 0"
-            @click="jumpVideoDetail(item.mv)"
+            @click="jumpVideoDetail(item?.mv)"
           ></i>
         </div>
       </div>
@@ -46,7 +45,7 @@
           <i
             class="icon collect"
             title="收藏"
-            @click="handleCollection(item.id)"
+            @click="handleCollection(item?.id)"
           ></i>
           <i class="icon share" title="分享" @click="handleShare"></i>
           <i class="icon download" title="下载" @click="handleDownload"></i>
@@ -77,7 +76,7 @@
           </span>
         </div>
       </div>
-      <div class="td">{{ timeStampToDuration(item.dt / 1000) }}</div>
+      <div class="td">{{ timeStampToDuration(item?.dt / 1000) }}</div>
     </li>
   </ul>
   <Page
@@ -144,7 +143,6 @@ export default defineComponent({
       list: []
     });
 
-    // 详情搜索回车
     watch(
       () => searchDetailText.value,
       () => {
@@ -161,7 +159,7 @@ export default defineComponent({
         type: 1
       })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
+          if (res?.code === 200) {
             songData.total = res?.result?.songCount;
             songData.list = res?.result?.songs;
             emit('searchCountChange', res?.result?.songCount);
