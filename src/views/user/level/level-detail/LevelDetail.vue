@@ -3,7 +3,7 @@
     <div class="level-detail-container">
       <h2 class="title">
         等级特权
-        <span class="title-right-text" @click="jumpLevel">
+        <span class="title-right-text" @click="jumpUserLevel">
           查看我的等级
           <i class="icon"></i>
         </span>
@@ -14,7 +14,7 @@
           <span class="text">特权</span>
         </div>
         <ul class="list">
-          <li class="item" v-for="(item, index) in levelList" :key="index">
+          <li class="item" v-for="(item, index) in list" :key="index">
             <span class="n-level">
               <i class="icon"></i>
               {{ item?.level }}
@@ -46,8 +46,7 @@ export default defineComponent({
   setup() {
     const $router = useRouter();
 
-    // 等级列表
-    const levelList = ref([
+    const list = ref([
       {
         level: 1,
         capacity: '5G音乐云盘免费容量',
@@ -116,14 +115,13 @@ export default defineComponent({
       }
     ]);
 
-    // 跳转等级
-    function jumpLevel(): void {
+    function jumpUserLevel(): void {
       $router.push({ name: 'user-level' });
     }
 
     return {
-      levelList,
-      jumpLevel
+      list,
+      jumpUserLevel
     };
   }
 });
