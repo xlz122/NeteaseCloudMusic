@@ -104,9 +104,9 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      // 头部导航取消选中
       $store.commit('setHeaderActiveIndex', -1);
     });
+
     return {
       musicianSvg,
       talentSvg,
