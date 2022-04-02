@@ -132,7 +132,7 @@ export default defineComponent({
         if (listData[index].playlist?.tracks.length === 0) {
           return false;
         }
-        // 播放第一项
+
         const item = listData[index].playlist?.tracks[0];
 
         // 处理播放器所需数据

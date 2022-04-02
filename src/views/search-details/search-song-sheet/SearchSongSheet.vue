@@ -172,7 +172,7 @@ export default defineComponent({
             if (res?.songs.length === 0) {
               return false;
             }
-            // 播放第一项
+
             const item = res?.songs[0];
 
             // 处理播放器所需数据
@@ -246,7 +246,7 @@ export default defineComponent({
             if (res?.songs.length === 0) {
               return false;
             }
-            // 播放第一项
+
             const item = res?.songs[0];
 
             // 处理播放器所需数据
