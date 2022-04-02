@@ -33,16 +33,32 @@
       border-bottom: 1px solid #ddd;
 
       .title {
+        display: inline-block;
+        vertical-align: middle;
         font-size: 22px;
         font-weight: normal;
         line-height: 30px;
         color: #000;
       }
 
+      .vip-level {
+        display: inline-block;
+        vertical-align: middle;
+        width: 57px;
+        height: 21px;
+        margin-left: 10px;
+        background-size: 100% 20px;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
       .level {
-        margin: 8px 0 0 10px;
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 10px;
         height: 19px;
-        padding-left: 29px;
+        padding-left: 35px;
         line-height: 21px;
         color: #e03a24;
         font-size: 14px;
@@ -51,8 +67,13 @@
         background: url(~@/assets/image/icon2.png) no-repeat 0 9999px;
         background-position: -135px -190px;
 
+        .level-text {
+          position: absolute;
+          top: 0px;
+          right: 7px;
+        }
+
         .wei {
-          float: right;
           width: 9px;
           height: 19px;
           background: url(~@/assets/image/icon2.png) no-repeat 0 9999px;
@@ -61,9 +82,10 @@
       }
 
       .sex {
+        display: inline-block;
+        vertical-align: middle;
         margin-left: 9px;
         position: relative;
-        top: 2px;
         width: 21px;
         height: 20px;
         background: url(~@/assets/image/icon.png) no-repeat 0 9999px;

@@ -4,8 +4,11 @@
     <div class="info-right">
       <div class="info-1">
         <span class="title">{{ currentUserInfo?.profile?.nickname }}</span>
+        <template v-if="vipInfo?.redVipLevelIcon">
+          <img class="vip-level" :src="vipInfo?.redVipLevelIcon" alt="" />
+        </template>
         <span class="level display-overflow">
-          {{ currentUserInfo?.level || 0 }}
+          <span class="level-text">{{ currentUserInfo?.level }}</span>
           <i class="wei display-overflow"></i>
         </span>
         <i
@@ -49,7 +52,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
+import { userVipInfo } from '@api/user';
+import { ResponseType } from '@/types/types';
 
 export default defineComponent({
   name: 'UserInfoView',
@@ -74,6 +79,33 @@ export default defineComponent({
       type: String,
       default: ''
     }
+  },
+  setup(props) {
+    watch(
+      () => props.currentUserInfo,
+      () => {
+        if (props.userInfo?.profile?.userId === props?.userId) {
+          getVipInfo();
+        }
+      }
+    );
+
+    const vipInfo = ref({});
+
+    // 获取登录用户vip信息
+    function getVipInfo() {
+      userVipInfo()
+        .then((res: ResponseType) => {
+          if (res?.code === 200) {
+            vipInfo.value = res?.data;
+          }
+        })
+        .catch(() => ({}));
+    }
+
+    return {
+      vipInfo
+    };
   }
 });
 </script>

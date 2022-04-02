@@ -6,7 +6,7 @@
         :userInfo="userInfo"
         :currentUserInfo="currentUserInfo"
         :provinceName="provinceName"
-        :cityNamecityName="cityNamecityName"
+        :cityName="cityName"
       />
     </div>
     <div
