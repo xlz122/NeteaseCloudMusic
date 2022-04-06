@@ -102,7 +102,7 @@ export default defineComponent({
       () => $route.params,
       curVal => {
         // 传入
-        if (curVal.userId) {
+        if (curVal?.userId) {
           getUserPlayList();
           return false;
         }

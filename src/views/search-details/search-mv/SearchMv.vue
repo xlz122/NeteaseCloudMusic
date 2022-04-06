@@ -34,7 +34,7 @@
         <span
           class="name"
           :title="item?.creator[0]?.userName"
-          @click="jumpSingerDetail(item?.creator[0].userId)"
+          @click="jumpSingerDetail(item?.creator[0]?.userId)"
         >
           {{ item?.creator[0]?.userName }}
         </span>

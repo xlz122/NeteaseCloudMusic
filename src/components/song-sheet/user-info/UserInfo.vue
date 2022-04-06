@@ -23,12 +23,12 @@
           <img
             class="user-avatar"
             :src="songSheetDetail?.playlist?.creator?.avatarUrl"
-            @click="jumpUserProfile(songSheetDetail?.playlist.creator.userId)"
+            @click="jumpUserProfile(songSheetDetail?.playlist?.creator?.userId)"
             alt=""
           />
           <span
             class="user-name"
-            @click="jumpUserProfile(songSheetDetail?.playlist.creator.userId)"
+            @click="jumpUserProfile(songSheetDetail?.playlist?.creator?.userId)"
           >
             {{ songSheetDetail?.playlist?.creator?.nickname }}
           </span>

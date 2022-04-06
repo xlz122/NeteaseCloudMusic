@@ -39,7 +39,7 @@
           <span class="time">{{ formatDate(item?.time) }}</span>
           <div class="reply-operate">
             <!-- 登录用户才有删除 -->
-            <template v-if="userInfo?.profile.userId === item?.user?.userId">
+            <template v-if="userInfo?.profile?.userId === item?.user?.userId">
               <span
                 class="delete"
                 @click="handleDeleteComment(item?.commentId)"
