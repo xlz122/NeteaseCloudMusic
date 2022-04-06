@@ -80,7 +80,8 @@ export default defineComponent({
     watch(
       () => singerId.value,
       curVal => {
-        if (curVal) {
+        console.log(curVal);
+        if (curVal && Number(curVal) > 0) {
           getArtistAlbum();
         }
       }
