@@ -113,9 +113,6 @@ export default defineComponent({
             getCommentData();
           });
         }
-      },
-      {
-        immediate: true
       }
     );
 
