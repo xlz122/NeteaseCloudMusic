@@ -49,11 +49,9 @@ class HttpRequest {
 
   getInsideConfig(): AxiosRequestConfig {
     let config = {
-      // 基础路径
       baseURL: '',
       // 允许跨域带token,cookie
       withCredentials: true,
-      // 请求超时
       timeout: 60000,
       headers: {
         'Content-Type': 'application/json;charset=UTF-8'
@@ -85,13 +83,13 @@ class HttpRequest {
           pending[requestData] = cancel;
         });
 
-        if (config.method === 'get') {
+        if (store.getters.isLogin && config.method === 'get') {
           config.params = Object.assign(config.params, {
             cookie: encodeURIComponent(store.getters.cookie)
           });
         }
 
-        if (config.method === 'post') {
+        if (store.getters.isLogin && config.method === 'post') {
           config.params = Object.assign(config.data, {
             cookie: store.getters.cookie
           });
@@ -103,6 +101,7 @@ class HttpRequest {
         return Promise.reject(error);
       }
     );
+
     // 响应拦截
     instance.interceptors.response.use(
       (res: AxiosResponse) => {
