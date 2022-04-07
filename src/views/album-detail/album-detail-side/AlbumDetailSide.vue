@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed, watch } from 'vue';
+import { defineComponent, ref, reactive, computed, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
 import { artistAlbum } from '@api/album-detail';
 import { ResponseType } from '@/types/types';
@@ -80,10 +80,14 @@ export default defineComponent({
     watch(
       () => singerId.value,
       curVal => {
-        console.log(curVal);
         if (curVal && Number(curVal) > 0) {
-          getArtistAlbum();
+          nextTick(() => {
+            getArtistAlbum();
+          });
         }
+      },
+      {
+        immediate: true
       }
     );
 
@@ -112,7 +116,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getArtistAlbum();
 
     // 专辑id
     const albumId = computed(() => $store.getters.albumId);
