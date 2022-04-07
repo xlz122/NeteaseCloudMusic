@@ -147,6 +147,10 @@ export default defineComponent({
     watch(
       () => banner.currentUrl,
       () => {
+        if (!banner.currentUrl) {
+          return false;
+        }
+
         // 修复切换背景图时出现的“白色闪屏”现象
         const img = new Image();
         img.src = `${banner.currentUrl}?imageView&blur=40x20`;
