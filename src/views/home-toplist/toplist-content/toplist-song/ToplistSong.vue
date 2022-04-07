@@ -41,10 +41,10 @@
           </td>
           <td class="tbody-td" :class="{ song: index < 3 }">
             <div class="hd">
-              <template v-if="index < 3">
+              <template v-if="index < 3 && item?.al?.picUrl">
                 <img
                   class="song-img"
-                  :src="item?.al?.picUrl"
+                  :src="`${item?.al?.picUrl}?param=50y50&quality=100`"
                   alt=""
                   @click="jumpSongDetail(item?.id)"
                 />
