@@ -33,7 +33,7 @@
               <i
                 class="info-icon-right"
                 title="播放"
-                @click="songSheetToPlayList(item?.id)"
+                @click="songSheetToPlayListPlay(item?.id)"
               ></i>
             </div>
           </div>
@@ -66,7 +66,7 @@
                 <i
                   class="info-icon-right"
                   title="播放"
-                  @click="songSheetToPlayList(item?.id)"
+                  @click="songSheetToPlayListPlay(item?.id)"
                 ></i>
               </div>
             </div>
@@ -250,7 +250,7 @@ export default defineComponent({
     }
 
     // 歌单歌曲添加到播放器
-    function songSheetToPlayList(id: number): void {
+    function songSheetToPlayListPlay(id: number): void {
       playlistTrack({ id })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
@@ -446,7 +446,7 @@ export default defineComponent({
       jumpSongSheet,
       songSheetMore,
       jumpSongSheetDetail,
-      songSheetToPlayList,
+      songSheetToPlayListPlay,
       songListData,
       jumpDjprogramDetail,
       djprogramData,
