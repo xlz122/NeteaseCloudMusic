@@ -14,7 +14,7 @@
         class="td play-icon"
         :class="{ 'active-play': item.id === playMusicId }"
         title="播放"
-        @click="songSheetToPlayList(item?.id)"
+        @click="songSheetToPlayListPlay(item?.id)"
       ></div>
       <div class="td td1">
         <img
@@ -40,7 +40,7 @@
           <i
             class="icon add"
             title="添加到播放列表"
-            @click="singleMusicToPlayList(item?.id)"
+            @click="songSheetToPlayList(item?.id)"
           ></i>
           <i
             class="icon collect"
@@ -164,8 +164,8 @@ export default defineComponent({
     }
     getSearchSongSheet();
 
-    // 歌单歌曲添加到播放器
-    function songSheetToPlayList(id: number): void {
+    // 歌单歌曲添加到播放器并播放
+    function songSheetToPlayListPlay(id: number): void {
       playlistTrack({ id })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
@@ -238,8 +238,8 @@ export default defineComponent({
       $store.commit('jumpUserProfile', id);
     }
 
-    // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(id: number): void {
+    // 歌单歌曲添加到播放器
+    function songSheetToPlayList(id: number): void {
       playlistTrack({ id })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
@@ -358,10 +358,10 @@ export default defineComponent({
       playMusicId,
       userInfo,
       songSheetData,
-      songSheetToPlayList,
+      songSheetToPlayListPlay,
       jumpSongSheetDetail,
       jumpUserProfile,
-      singleMusicToPlayList,
+      songSheetToPlayList,
       handleCollection,
       shareClick,
       changPage
