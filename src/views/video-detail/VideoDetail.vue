@@ -18,7 +18,11 @@
           </div>
         </div>
         <div class="video-container">
-          <VideoPlayer :videoDetailData="videoDetailData" />
+          <VideoPlayer
+            :videoDetailData="videoDetailData"
+            :subed="videoSubed"
+            @handleCollection="handleCollection"
+          />
         </div>
         <div class="operate-btn">
           <div class="other like" @click="handleLike">

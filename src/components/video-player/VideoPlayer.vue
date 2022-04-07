@@ -18,8 +18,8 @@
         <li class="item" @click="handleLike">
           <i class="icon like"></i>
         </li>
-        <li class="item" @click="handleCollection">
-          <i class="icon collection"></i>
+        <li class="item" @click="handleCollection(subed)">
+          <i class="icon collection" :class="{ collectioned: subed }"></i>
         </li>
         <li class="item" @click="handleShare">
           <i class="icon share"></i>
@@ -72,9 +72,14 @@ export default defineComponent({
     videoDetailData: {
       type: Object,
       default: () => ({})
+    },
+    subed: {
+      type: Boolean,
+      default: false
     }
   },
-  setup() {
+  emits: ['handleCollection'],
+  setup(props, { emit }) {
     const $store = useStore();
 
     // 播放进度数据
@@ -171,11 +176,8 @@ export default defineComponent({
     }
 
     // 收藏
-    function handleCollection(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+    function handleCollection(followed: boolean): void {
+      emit('handleCollection', followed);
     }
 
     // 分享
