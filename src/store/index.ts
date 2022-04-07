@@ -5,6 +5,8 @@ import mutations from '@store/mutations';
 import actions from '@store/actions';
 // 音乐模块
 import music from '@store/music';
+// 视频模块
+import video from '@store/video';
 
 export default createStore({
   state,
@@ -12,6 +14,7 @@ export default createStore({
   mutations,
   actions,
   modules: {
-    music
+    music,
+    video
   }
 });

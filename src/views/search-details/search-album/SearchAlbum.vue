@@ -18,10 +18,27 @@
           alt=""
         />
         <i class="item-cover-bg"></i>
-        <i class="item-cover-play" title="播放"></i>
+        <i
+          class="item-cover-play"
+          title="播放"
+          @click="albumToPlayListPlay(item?.id)"
+        ></i>
       </div>
       <p class="desc" :title="item?.name" @click="jumpAlbumDetail(item?.id)">
-        {{ item?.name }}
+        <template
+          v-for="(item, index) in handleMatchString(
+            item?.name,
+            searchDetailText
+          )"
+          :key="index"
+        >
+          <span v-if="item.color" :style="{ color: item.color }">
+            {{ item.title }}
+          </span>
+          <span v-else>
+            {{ item.title }}
+          </span>
+        </template>
       </p>
       <p
         class="name"
@@ -44,10 +61,13 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
+import { handleAudioSong } from '@/common/audio.ts';
+import { timeStampToDuration, handleMatchString } from '@utils/utils.ts';
 import { searchKeywords } from '@api/search';
-import { timeStampToDuration } from '@utils/utils.ts';
+import { albumDetail } from '@api/album-detail';
+import { LoopType, ResponseType } from '@/types/types';
+import { PlayMusicItem } from '@store/music/state';
 import Page from '@components/page/Page.vue';
-import { ResponseType } from '@/types/types';
 
 type AlbumData = {
   loading: boolean;
@@ -73,6 +93,7 @@ export default defineComponent({
 
     const { searchDetailText } = toRefs(props);
 
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
     // 搜索关键词
     const searchText = computed<string>(() =>
@@ -99,25 +120,89 @@ export default defineComponent({
       searchKeywords({
         keywords: searchDetailText.value || searchText.value,
         offset: (albumData.offset - 1) * albumData.limit,
-        limit: albumData.limit,
+        limit: isLogin.value ? albumData.limit : 20,
         type: 10
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            albumData.total = res?.result?.albumCount;
+            const total = isLogin.value
+              ? res?.result?.albumCount
+              : res?.result?.albums.length;
+
+            albumData.total = total;
             albumData.list = res?.result?.albums;
-            emit('searchCountChange', res?.result?.albumCount);
+
+            emit('searchCountChange', total || 0);
           } else {
             $store.commit('setMessage', {
               type: 'error',
               title: res?.msg
             });
           }
+
           albumData.loading = false;
         })
         .catch(() => ({}));
     }
     getSearchAlbum();
+
+    // 专辑歌曲添加到播放器
+    function albumToPlayListPlay(id: number): void {
+      albumDetail({ id })
+        .then((res: ResponseType) => {
+          if (res?.code === 200) {
+            if (res?.songs.length === 0) {
+              return false;
+            }
+
+            // 歌曲是否全部无版权
+            let noCopyrightNum = 0;
+            res?.songs?.forEach((item: LoopType) => {
+              if (item.privilege?.cp === 0) {
+                noCopyrightNum += 1;
+              }
+            });
+
+            if (noCopyrightNum === res?.songs?.length) {
+              $store.commit('setCopyright', {
+                visible: true,
+                message: '由于版权保护，您所在的地区暂时无法使用。'
+              });
+              return false;
+            }
+
+            const songList: PlayMusicItem[] = [];
+
+            res?.songs.forEach((item: LoopType) => {
+              // 无版权过滤
+              if (item?.privilege?.cp === 0) {
+                return false;
+              }
+
+              const musicItem: PlayMusicItem = handleAudioSong(item);
+
+              songList.push(musicItem);
+            });
+
+            // 当前播放音乐
+            $store.commit('music/setPlayMusicItem', songList[0]);
+            // 添加到播放列表
+            $store.commit('music/setPlayMusicList', songList);
+            // 开始播放
+            $store.commit('music/setMusicPlayStatus', {
+              look: true,
+              refresh: true
+            });
+          }
+        })
+        .catch(() => ({}));
+    }
+
+    // 分页
+    function changPage(current: number): void {
+      albumData.offset = current;
+      getSearchAlbum();
+    }
 
     // 跳转专辑详情
     function jumpAlbumDetail(id: number): void {
@@ -129,19 +214,15 @@ export default defineComponent({
       $store.commit('jumpSingerDetail', id);
     }
 
-    // 分页
-    function changPage(current: number): void {
-      albumData.offset = current;
-      getSearchAlbum();
-    }
-
     return {
       timeStampToDuration,
+      handleMatchString,
       userInfo,
       albumData,
+      albumToPlayListPlay,
+      changPage,
       jumpAlbumDetail,
-      jumpSingerDetail,
-      changPage
+      jumpSingerDetail
     };
   }
 });

@@ -51,9 +51,9 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
+import { formatDateTime } from '@utils/utils.ts';
 import { artistAlbum } from '@api/album-detail';
 import { ResponseType } from '@/types/types';
-import { formatDateTime } from '@utils/utils.ts';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 type AlbumParams = {
@@ -74,8 +74,8 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 歌手id
     const singerId = computed<number>(() => $store.getters.singerId);
+    const albumId = computed(() => $store.getters.albumId);
 
     watch(
       () => singerId.value,
@@ -116,9 +116,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-
-    // 专辑id
-    const albumId = computed(() => $store.getters.albumId);
 
     // 跳转专辑详情
     function jumpAlbumDetail(id: number): boolean | undefined {

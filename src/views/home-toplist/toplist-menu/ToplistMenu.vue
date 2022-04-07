@@ -58,7 +58,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const $store = useStore();
 
-    // 歌单id
     const songSheetId = computed<number>(() => $store.getters.songSheetId);
 
     function menuChange(id: number, updateFrequency: string): void {

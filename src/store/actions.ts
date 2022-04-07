@@ -1,8 +1,8 @@
+import router from '@/router';
 import { State } from '@store/state';
 import { Getters } from '@store/getters';
-import router from '@/router';
 import { logout } from '@api/login';
-import { ResponseDataType } from '@/types/types';
+import { ResponseType } from '@/types/types';
 
 export type Store = {
   state: State;
@@ -20,7 +20,7 @@ type Actions<T, U> = {
 const actions: Actions<Store, unknown> = {
   setLogout({ commit }) {
     return new Promise(resolve => {
-      logout().then((res: ResponseDataType) => {
+      logout().then((res: ResponseType) => {
         if (res?.code === 200) {
           commit('setLogout', '');
           router.push('/');

@@ -1,3 +1,4 @@
+import { toRawType } from '@utils/tool';
 import { State, PlayMusicItem } from '@store/music/state';
 import { LoopType } from '@/types/types';
 
@@ -6,43 +7,38 @@ type Mutations<T, U> = {
 };
 
 const mutations: Mutations<State, unknown> = {
-  // 歌单详情数据
-  setSongSheetDetail(state, songSheetDetail) {
-    state.songSheetDetail = songSheetDetail as unknown;
-    localStorage.setItem('songSheetDetail', JSON.stringify(songSheetDetail));
-  },
-  // 收藏歌曲
-  collectPlayMusic(state, song) {
-    state.collectSong = song as { visible: boolean; songIds: string };
-  },
-  // 当前播放音乐id
-  setPlayMusicId(state, playMusicId) {
-    state.playMusicId = playMusicId as number;
-    localStorage.setItem('playMusicId', JSON.stringify(playMusicId));
-  },
-  // 当前播放音乐数据
+  // 当前播放音乐
   setPlayMusicItem(state, musicItem) {
+    state.playMusicId = (musicItem as PlayMusicItem).id;
+    localStorage.setItem(
+      'playMusicId',
+      JSON.stringify((musicItem as PlayMusicItem).id)
+    );
+
     state.playMusicItem = musicItem as PlayMusicItem;
     localStorage.setItem('playMusicItem', JSON.stringify(musicItem));
   },
-  // 播放列表数据
-  setPlayMusicList(state, musicItem) {
-    // 数据去重
-    const list = JSON.parse(JSON.stringify(state.playMusicList));
-    const index = list.findIndex(
-      (item: PlayMusicItem) => item.id === (musicItem as PlayMusicItem).id
-    );
-    // 数据替换
-    if (index !== -1) {
-      list.splice(index, 1, musicItem);
+  // 播放列表(新数据往最后面添加)
+  setPlayMusicList(state, music) {
+    if (toRawType(music) !== 'Object' && toRawType(music) !== 'Array') {
+      throw new Error('添加的播放数据类型错误');
     }
-    // 新数据添加
-    if (index === -1) {
-      list.push(musicItem);
+
+    if (toRawType(music) === 'Object') {
+      music = [music];
     }
-    // 保存数据
-    state.playMusicList = list as unknown[];
-    localStorage.setItem('playMusicList', JSON.stringify(list));
+
+    const musicList = JSON.parse(JSON.stringify(state.playMusicList));
+
+    (music as PlayMusicItem[]).forEach((item: PlayMusicItem) => {
+      const index = musicList.findIndex((f: PlayMusicItem) => f.id === item.id);
+      if (index === -1) {
+        musicList.push(item);
+      }
+    });
+
+    state.playMusicList = musicList;
+    localStorage.setItem('playMusicList', JSON.stringify(musicList));
   },
   // 当前播放音乐进度数据
   setMusicPlayProgress(state, playProgress) {
@@ -78,7 +74,7 @@ const mutations: Mutations<State, unknown> = {
     state.playLyrics = playLyrics as unknown[];
     localStorage.setItem('playLyrics', JSON.stringify(playLyrics));
   },
-  // 播放器 - 清空播放列表数据
+  // 播放器 - 清空播放列表
   emptyPlayMusicList(state) {
     state.playMusicList = [] as unknown[];
     localStorage.setItem('playMusicList', [] as never);

@@ -57,6 +57,12 @@
           @searchCountChange="searchCountChange"
         />
       </template>
+      <div class="no-list-data" v-if="searchCount === 0">
+        <div class="title">
+          <i class="icon"></i>
+          <h3 class="text">很抱歉，未能找到相关搜索结果！</h3>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -100,7 +106,7 @@ export default defineComponent({
       $store.commit('setSearchDetailText', searchValue);
     }
 
-    const searchCount = ref<number>(0);
+    const searchCount = ref<number | string>('');
     function searchCountChange(count: number): void {
       searchCount.value = count;
     }
@@ -109,7 +115,7 @@ export default defineComponent({
     function changeTab(item: string): void {
       tabTitle.value = item;
 
-      searchCount.value = 0;
+      searchCount.value = '';
     }
 
     const handleTitle = ref<string>('');

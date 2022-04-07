@@ -44,9 +44,9 @@
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { timeStampToDuration } from '@utils/utils.ts';
 import { MyVideoSbulist } from '@api/my-music';
 import { ResponseType } from '@/types/types';
-import { timeStampToDuration } from '@utils/utils.ts';
 
 export default defineComponent({
   props: {
@@ -91,7 +91,7 @@ export default defineComponent({
       if (type === 1) {
         $router.push({ name: 'video-detail', params: { id } });
       }
-      $store.commit('setVideo', { id, url: '' });
+      $store.commit('video/setVideo', { id, url: '' });
     }
 
     // 跳转用户资料

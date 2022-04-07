@@ -5,8 +5,8 @@ export type Getters<T> = {
 };
 
 const getters: Getters<State> = {
-  heaerActiveIndex: state => state.heaerActiveIndex,
-  subActiveIndex: state => state.subActiveIndex,
+  menuIndex: state => state.menuIndex,
+  subMenuIndex: state => state.subMenuIndex,
   loginDialog: state => state.loginDialog,
   userInfo: state => state.userInfo,
   cookie: state => state.cookie,
@@ -20,10 +20,11 @@ const getters: Getters<State> = {
   singerId: state => state.singerId,
   djprogramId: state => state.djprogramId,
   albumId: state => state.albumId,
-  video: state => state.video,
   singerTabIndex: state => state.singerTabIndex,
   searchIndex: state => state.searchIndex,
-  videoPlayProgress: state => state.videoPlayProgress
+  songSheetDetail: state => state.songSheetDetail,
+  collectSong: state => state.collectSong,
+  copyright: state => state.copyright
 };
 
 export default getters;

@@ -1,5 +1,5 @@
-import { ResponseType, LoopType } from '@/types/types';
 import { formatMixedText } from '@utils/formatMixedText';
+import { ResponseType, LoopType } from '@/types/types';
 
 type CommentReturn = {
   hotList: List[];
@@ -22,7 +22,7 @@ export function handleCommentData(data: ResponseType): CommentReturn {
     data.hotComments.forEach((item: LoopType) => {
       item.replyShow = false;
       item.content = formatMixedText(item.content);
-      // 他人回复也进行转换
+      // 他人回复进行转换
       if (item.beReplied[0]) {
         item.beReplied[0].content = formatMixedText(
           item?.beReplied[0]?.content
@@ -36,7 +36,7 @@ export function handleCommentData(data: ResponseType): CommentReturn {
   data?.comments.forEach((item: LoopType) => {
     item.replyShow = false;
     item.content = formatMixedText(item.content);
-    // 他人回复也进行转换
+    // 他人回复进行转换
     if (item.beReplied[0]) {
       item.beReplied[0].content = formatMixedText(item?.beReplied[0]?.content);
     }

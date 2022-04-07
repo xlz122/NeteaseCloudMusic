@@ -8,10 +8,13 @@
       class="item"
       v-for="(item, index) in songData?.list"
       :key="index"
-      :class="{ 'even-item': index % 2 }"
+      :class="[
+        { 'even-item': index % 2 },
+        { 'no-copyright': isCopyright(item.id) }
+      ]"
     >
       <div
-        class="td play-icon"
+        class="td icon-play"
         :class="{ 'active-play': item.id === playMusicId }"
         @click="playSingleMusic(item)"
       ></div>
@@ -22,7 +25,20 @@
             :title="item?.name"
             @click="jumpSongDetail(item?.id)"
           >
-            {{ item?.name }}
+            <template
+              v-for="(item, index) in handleMatchString(
+                item?.name,
+                searchDetailText
+              )"
+              :key="index"
+            >
+              <span v-if="item.color" :style="{ color: item.color }">
+                {{ item.title }}
+              </span>
+              <span v-else>
+                {{ item.title }}
+              </span>
+            </template>
           </span>
           <span class="desc" v-if="item?.tns?.length">
             - ({{ item?.tns[0] }})
@@ -30,11 +46,10 @@
           <i
             class="icon-mv"
             v-if="item.mv > 0"
-            @click="jumpVideoDetail(item?.mv)"
+            @click="jumpVideoDetail(item?.mv, item?.id)"
           ></i>
         </div>
       </div>
-      <!-- 操作项 -->
       <div class="td td2">
         <div class="operate-btn">
           <i
@@ -80,7 +95,7 @@
     </li>
   </ul>
   <Page
-    v-if="songData.total"
+    v-if="songData.total > songData.limit"
     :page="songData.offset"
     :pageSize="songData.limit"
     :total="songData.total"
@@ -92,19 +107,19 @@
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { handleAudioSong } from '@/common/audio.ts';
+import { timeStampToDuration, handleMatchString } from '@utils/utils.ts';
 import { searchKeywords } from '@api/search';
-import { timeStampToDuration } from '@utils/utils.ts';
-import Page from '@components/page/Page.vue';
-import { LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
 import { ResponseType } from '@/types/types';
+import Page from '@components/page/Page.vue';
 
 type SongData = {
   loading: boolean;
   offset: number;
   limit: number;
   total: number;
-  list: unknown[];
+  list: Record<string, any>[];
 };
 
 export default defineComponent({
@@ -126,7 +141,6 @@ export default defineComponent({
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
-    // 当前播放音乐id
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );
@@ -155,94 +169,55 @@ export default defineComponent({
       searchKeywords({
         keywords: searchDetailText.value || searchText.value,
         offset: (songData.offset - 1) * songData.limit,
-        limit: songData.limit,
+        limit: isLogin.value ? songData.limit : 20,
         type: 1
       })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
-            songData.total = res?.result?.songCount;
+            const total = isLogin.value
+              ? res?.result?.songCount
+              : res?.result?.songs.length;
+
+            songData.total = total;
             songData.list = res?.result?.songs;
-            emit('searchCountChange', res?.result?.songCount);
+
+            emit('searchCountChange', total || 0);
           } else {
             $store.commit('setMessage', {
               type: 'error',
               title: res?.msg
             });
           }
+
           songData.loading = false;
         })
         .catch(() => ({}));
     }
     getSearchSong();
 
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
-    }
-
-    // 跳转视频详情
-    function jumpVideoDetail(id: number): void {
-      $router.push({ name: 'mv-detail', params: { id } });
-      $store.commit('setVideo', { id, url: '' });
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    // 跳转专辑详情
-    function jumpAlbumDetail(id: number): void {
-      $store.commit('jumpAlbumDetail', id);
-    }
-
     // 单个歌曲添加到播放列表
     function singleMusicToPlayList(item: Record<string, any>): void {
-      // 处理播放器所需数据
-      const musicItem: PlayMusicItem = {
-        id: item.id,
-        name: item.name,
-        picUrl: item.al.picUrl,
-        time: item.dt,
-        mv: item.mv,
-        singerList: []
-      };
+      const musicItem: PlayMusicItem = handleAudioSong(item);
 
-      item?.ar?.forEach((item: LoopType) => {
-        musicItem.singerList.push({
-          id: item.id,
-          name: item.name
-        });
-      });
-
-      // 播放音乐数据
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
     // 播放单个歌曲
-    function playSingleMusic(item: Record<string, any>): void {
-      // 处理播放器所需数据
-      const musicItem: PlayMusicItem = {
-        id: item.id,
-        name: item.name,
-        picUrl: item.al.picUrl,
-        time: item.dt,
-        mv: item.mv,
-        singerList: []
-      };
-
-      item?.ar?.forEach((item: LoopType) => {
-        musicItem.singerList.push({
-          id: item.id,
-          name: item.name
+    function playSingleMusic(item: Record<string, any>): boolean | undefined {
+      // 无版权
+      if (isCopyright(item.id)) {
+        $store.commit('setCopyright', {
+          visible: true,
+          message: '由于版权保护，您所在的地区暂时无法使用。'
         });
-      });
+        return false;
+      }
 
-      // 当前播放音乐id
-      $store.commit('music/setPlayMusicId', musicItem.id);
-      // 当前播放音乐数据
+      const musicItem: PlayMusicItem = handleAudioSong(item);
+
+      // 当前播放音乐
       $store.commit('music/setPlayMusicItem', musicItem);
-      // 播放音乐数据
+      // 添加到播放列表
       $store.commit('music/setPlayMusicList', musicItem);
       // 开始播放
       $store.commit('music/setMusicPlayStatus', {
@@ -252,6 +227,17 @@ export default defineComponent({
       });
     }
 
+    // 歌曲是否有版权
+    function isCopyright(id: number): boolean | undefined {
+      const songItem = songData.list.find(item => item.id === id);
+
+      if (songItem?.privilege?.cp === 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
     // 收藏
     function handleCollection(id: number): boolean | undefined {
       if (!isLogin.value) {
@@ -259,7 +245,7 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('music/collectPlayMusic', {
+      $store.commit('collectPlayMusic', {
         visible: true,
         songIds: id
       });
@@ -292,21 +278,49 @@ export default defineComponent({
       getSearchSong();
     }
 
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      $store.commit('jumpSongDetail', id);
+    }
+
+    // 跳转视频详情
+    function jumpVideoDetail(id: number, songId: number): boolean | undefined {
+      // 无版权
+      if (isCopyright(songId)) {
+        return false;
+      }
+
+      $router.push({ name: 'mv-detail', params: { id } });
+      $store.commit('video/setVideo', { id, url: '' });
+    }
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      $store.commit('jumpSingerDetail', id);
+    }
+
+    // 跳转专辑详情
+    function jumpAlbumDetail(id: number): void {
+      $store.commit('jumpAlbumDetail', id);
+    }
+
     return {
       timeStampToDuration,
+      handleMatchString,
       playMusicId,
       userInfo,
       songData,
-      jumpSongDetail,
-      jumpVideoDetail,
-      jumpSingerDetail,
-      jumpAlbumDetail,
       singleMusicToPlayList,
       playSingleMusic,
+      isCopyright,
       handleCollection,
       handleShare,
       handleDownload,
-      changPage
+      changPage,
+      jumpSongDetail,
+      jumpVideoDetail,
+      jumpSingerDetail,
+      jumpAlbumDetail
     };
   }
 });

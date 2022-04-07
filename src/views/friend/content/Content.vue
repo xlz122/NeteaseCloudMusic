@@ -35,11 +35,12 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
+import { handleAudioSong } from '@/common/audio.ts';
+import { formatMixedText } from '@utils/formatMixedText';
+import { getPageBottomHeight } from '@utils/utils';
 import { friendEvent, dynamicLike, FirendEvent } from '@api/friend';
 import { LoopType, ResponseType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
-import { getPageBottomHeight } from '@utils/utils';
-import { formatMixedText } from '@utils/formatMixedText';
 import Item from './Item.vue';
 
 export default defineComponent({
@@ -105,35 +106,13 @@ export default defineComponent({
     }
     getFriendEvent();
 
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
     // 单个歌曲添加到播放列表
     function singleMusicToPlayList(item: Record<string, any>): void {
-      // 处理播放器所需数据
-      const musicItem: PlayMusicItem = {
-        id: item.id,
-        name: item.name,
-        picUrl: item.img80x80,
-        time: item.duration,
-        mv: item.mv || 0,
-        singerList: []
-      };
+      const musicItem: PlayMusicItem = handleAudioSong(item);
 
-      item?.artists?.forEach((item: LoopType) => {
-        musicItem.singerList.push({
-          id: item.id,
-          name: item.name
-        });
-      });
-
-      // 当前播放音乐id
-      $store.commit('music/setPlayMusicId', musicItem.id);
-      // 当前播放音乐数据
+      // 当前播放音乐
       $store.commit('music/setPlayMusicItem', musicItem);
-      // 播放音乐数据
+      // 添加到播放列表
       $store.commit('music/setPlayMusicList', musicItem);
       // 开始播放
       $store.commit('music/setMusicPlayStatus', {
@@ -141,21 +120,6 @@ export default defineComponent({
         loading: true,
         refresh: true
       });
-    }
-
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    // 跳转专辑详情
-    function jumpAlbumDetail(id: number): void {
-      $store.commit('jumpAlbumDetail', id);
     }
 
     // 动态点赞
@@ -180,6 +144,26 @@ export default defineComponent({
       });
     }
 
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      $store.commit('jumpSongDetail', id);
+    }
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      $store.commit('jumpSingerDetail', id);
+    }
+
+    // 跳转专辑详情
+    function jumpAlbumDetail(id: number): void {
+      $store.commit('jumpAlbumDetail', id);
+    }
+
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
     // 监听滚动
     onMounted(() => {
       document.addEventListener('scroll', function (e: Event): void {
@@ -201,12 +185,12 @@ export default defineComponent({
       releaseVideo,
       eventList,
       loading,
-      jumpUserProfile,
       singleMusicToPlayList,
+      setDynamicLike,
+      jumpUserProfile,
       jumpSongDetail,
       jumpSingerDetail,
-      jumpAlbumDetail,
-      setDynamicLike
+      jumpAlbumDetail
     };
   }
 });

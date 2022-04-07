@@ -1,6 +1,6 @@
 export type State = {
-  heaerActiveIndex: number;
-  subActiveIndex: number;
+  menuIndex: number;
+  subMenuIndex: number;
   loginDialog: boolean;
   userInfo: unknown;
   cookie: string;
@@ -14,13 +14,17 @@ export type State = {
   singerId: number;
   djprogramId: number;
   albumId: number;
-  video: {
-    id: number;
-    url: string;
-  };
   singerTabIndex: number;
   searchIndex: number;
-  videoPlayProgress: unknown;
+  songSheetDetail: unknown;
+  collectSong: {
+    visible: boolean;
+    songIds: string;
+  };
+  copyright: {
+    visible: boolean;
+    message: string;
+  };
 };
 
 // 本地存储容错处理
@@ -31,8 +35,8 @@ function faultTolerant(name: string) {
 }
 
 const state: State = {
-  heaerActiveIndex: Number(localStorage.getItem('heaerActiveIndex')) || 0, // 头部导航选中
-  subActiveIndex: Number(localStorage.getItem('subActiveIndex')) || 0, // 二级导航选中
+  menuIndex: Number(localStorage.getItem('menuIndex')) || 0, // 头部导航
+  subMenuIndex: Number(localStorage.getItem('subMenuIndex')) || 0, // 二级导航
   loginDialog: false, // 登录对话框显隐
   userInfo: faultTolerant('userInfo') || {}, // 用户信息
   cookie: localStorage.getItem('cookie') || '', // 用户cookie
@@ -46,10 +50,17 @@ const state: State = {
   singerId: Number(localStorage.getItem('singerId')) || 0, // 歌手id
   djprogramId: Number(localStorage.getItem('djprogramId')) || 0, // 电台节目id
   albumId: Number(localStorage.getItem('albumId')) || 0, // 专辑id
-  video: faultTolerant('video') || {}, // 视频/mv 数据
   singerTabIndex: Number(localStorage.getItem('singerTabIndex')) || 0, // 歌手详情导航
   searchIndex: Number(localStorage.getItem('searchIndex')) || 0, // 搜索详情导航
-  videoPlayProgress: {} // 当前播放视频进度数据
+  songSheetDetail: faultTolerant('songSheetDetail') || {}, // 歌单详情数据
+  collectSong: {
+    visible: false,
+    songIds: ''
+  }, // 收藏歌曲
+  copyright: {
+    visible: false,
+    message: ''
+  } // 版权提示
 };
 
 export default state;

@@ -86,14 +86,13 @@ export default defineComponent({
         return false;
       }
 
-      // 退出登录
       if (item?.link === '/logout') {
-        signOut();
+        $store.dispatch('setLogout');
         return false;
       }
 
       // 一级导航取消选中
-      $store.commit('setHeaderActiveIndex', -1);
+      $store.commit('setMenuIndex', -1);
 
       if (item?.link === '/user-profile') {
         $store.commit('jumpUserProfile', userInfo.value?.profile?.userId);
@@ -101,10 +100,6 @@ export default defineComponent({
       }
 
       $router.push({ path: item?.link || '/' });
-    }
-
-    function signOut(): void {
-      $store.dispatch('setLogout');
     }
 
     return {

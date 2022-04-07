@@ -25,11 +25,11 @@
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { handleCommentData } from '@components/comment/handleCommentData';
 import { playlistDetail } from '@api/song-sheet-detail';
 import { commentPlayList } from '@api/comment';
 import { topList } from '@api/home-toplist';
 import { ResponseType, CommentParams } from '@/types/types';
-import { handleCommentData } from '@components/comment/handleCommentData';
 import ToplistMenu from './toplist-menu/ToplistMenu.vue';
 import ToplistContent from './toplist-content/ToplistContent.vue';
 
@@ -48,7 +48,6 @@ export default defineComponent({
     const $route = useRoute();
     const $store = useStore();
 
-    // 歌单id
     const songSheetId = computed<number>(() => $store.getters.songSheetId);
 
     // 更新字符串
@@ -56,9 +55,13 @@ export default defineComponent({
 
     // 监听路由传参，获取歌单详情
     watch(
-      () => $route.params,
+      () => $route,
       curVal => {
-        if (curVal.id) {
+        if (curVal.path !== '/home-toplist') {
+          return false;
+        }
+
+        if (curVal.params?.id) {
           (async () => {
             const list: List[] = await getTopList();
             const ItemId = list.findIndex(

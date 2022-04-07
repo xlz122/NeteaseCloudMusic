@@ -63,13 +63,13 @@
 import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { relatedVideo } from '@api/video-detail';
-import { ResponseType } from '@/types/types';
 import {
   formatDateTime,
   bigNumberTransform,
   timeStampToDuration
 } from '@utils/utils.ts';
+import { relatedVideo } from '@api/video-detail';
+import { ResponseType } from '@/types/types';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 export default defineComponent({
@@ -87,12 +87,12 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    const video = computed(() => $store.getters.video);
+    const video = computed(() => $store.getters['video/video']);
 
     const videoList = ref<unknown[]>([]);
 
     // 获取相关推荐视频
-    function getVideolist(): void {
+    function getRelatedVideo(): void {
       relatedVideo({ id: video.value.id })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
@@ -106,7 +106,7 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getVideolist();
+    getRelatedVideo();
 
     // 跳转用户资料
     function jumpUserProfile(id: number): void {
@@ -116,9 +116,9 @@ export default defineComponent({
     // 跳转视频详情
     function jumpVideoDetail(id: number): void {
       $router.push({ name: 'video-detail', params: { id } });
-      $store.commit('setVideo', { id, url: '' });
+      $store.commit('video/setVideo', { id, url: '' });
 
-      getVideolist();
+      getRelatedVideo();
     }
 
     return {

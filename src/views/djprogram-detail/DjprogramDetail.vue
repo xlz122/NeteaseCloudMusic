@@ -7,14 +7,12 @@
           :commentTotal="commentParams.total"
           @jumpToComments="jumpToComments"
         />
-        <!-- 评论 -->
         <div class="comment-component">
           <Comment
             :commentParams="commentParams"
             @commentRefresh="commentRefresh"
           />
         </div>
-        <!-- 参数从0开始，分页需从1开始 -->
         <Page
           v-if="commentParams.total > commentParams.limit"
           :page="commentParams.offset"
@@ -40,12 +38,11 @@ import {
   onMounted,
   nextTick
 } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { handleCommentData } from '@components/comment/handleCommentData';
 import { djProgramDetail } from '@api/djprogram-detail';
 import { commentDjprogram } from '@api/comment';
 import { ResponseType, CommentParams } from '@/types/types';
-import { handleCommentData } from '@components/comment/handleCommentData';
 import Comment from '@components/comment/Comment.vue';
 import DjprogramInfo from './djprogram-info/DjprogramInfo.vue';
 import DjprogramSide from './djprogram-side/DjprogramSide.vue';
@@ -59,18 +56,16 @@ export default defineComponent({
     Page
   },
   setup() {
-    const $route = useRoute();
     const $store = useStore();
 
     // 电台节目id
-    const djprogramId = computed(() => $store.getters.djprogramId);
+    const djprogramId = computed<number>(() => $store.getters.djprogramId);
 
     watch(
-      () => $route.params,
+      () => djprogramId.value,
       curVal => {
-        if (curVal.djprogramId) {
+        if (curVal) {
           nextTick(() => {
-            $store.commit('setDjprogramId', Number(curVal.djprogramId));
             getDjProgramDetail();
             getCommentData();
           });
@@ -99,7 +94,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getDjProgramDetail();
 
     // 获取评论数据
     const commentParams = reactive<CommentParams>({
@@ -134,7 +128,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getCommentData();
 
     // 刷新评论
     function commentRefresh(): void {
@@ -158,8 +151,8 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      $store.commit('setHeaderActiveIndex', 0);
-      $store.commit('setSubActiveIndex', -1);
+      $store.commit('setMenuIndex', 0);
+      $store.commit('setSubMenuIndex', -1);
     });
 
     return {

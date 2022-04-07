@@ -1,19 +1,26 @@
 <template>
-  <!-- 登录展示 -->
   <div class="side-user" v-if="isLogin">
     <div class="side-user-container">
       <div class="user-info">
-        <div class="user-avatar">
+        <div
+          class="user-avatar"
+          @click="jumpUserProfile(userInfo?.profile?.userId)"
+        >
           <img class="user-avatar-img" :src="userInfo?.profile?.avatarUrl" />
         </div>
         <div class="info">
           <h4 class="name">
-            <span class="text">{{ userInfo?.profile?.nickname }}</span>
+            <span
+              class="text"
+              @click="jumpUserProfile(userInfo?.profile?.userId)"
+            >
+              {{ userInfo?.profile?.nickname }}
+            </span>
             <template v-if="vipInfo?.redVipLevelIcon">
               <img class="vip-level" :src="vipInfo?.redVipLevelIcon" alt="" />
             </template>
           </h4>
-          <p class="lv">
+          <p class="lv" @click="jumpLevel">
             <i class="lv-icon-left">{{ userInfo?.level }}</i>
             <i class="lv-icon-right"></i>
           </p>
@@ -41,7 +48,6 @@
       </ul>
     </div>
   </div>
-  <!-- 未登录展示 -->
   <div class="side-user" v-else>
     <div class="side-user-login">
       <p class="login-title">
@@ -54,14 +60,20 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { formatDateTime } from '@utils/utils';
 import { dailySignin } from '@api/home';
 import { userVipInfo } from '@api/user';
 import { ResponseType } from '@/types/types';
-import { formatDateTime } from '@utils/utils';
+
+type VipInfo = {
+  redVipLevelIcon?: string;
+};
 
 export default defineComponent({
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
@@ -79,7 +91,7 @@ export default defineComponent({
       }
     );
 
-    const vipInfo = ref({});
+    const vipInfo = ref<VipInfo>({});
 
     // 获取登录用户vip信息
     function getVipInfo() {
@@ -94,18 +106,17 @@ export default defineComponent({
 
     // 重置签到
     function resetSignIn(): boolean | undefined {
-      // 获取本地签到日期
       const signInTimestamp = localStorage.getItem('signInTimestamp') || 0;
       if (Number(signInTimestamp) === 0) {
         return false;
       }
+
       const signInDay = formatDateTime(
         Number(signInTimestamp) / 1000,
         'yyyyMMdd'
       );
-      // 获取今天日期
       const today = formatDateTime(new Date().getTime() / 1000, 'yyyyMMdd');
-      // 今天大于签到日期
+
       if (Number(today) > Number(signInDay)) {
         $store.commit('setSignIn', false);
       }
@@ -136,13 +147,25 @@ export default defineComponent({
       $store.commit('setLoginDialog', true);
     }
 
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
+    // 跳转等级
+    function jumpLevel(): void {
+      $router.push({ path: '/level' });
+    }
+
     return {
       isLogin,
       userInfo,
       vipInfo,
       isSignIn,
       signIn,
-      openLogin
+      openLogin,
+      jumpUserProfile,
+      jumpLevel
     };
   }
 });

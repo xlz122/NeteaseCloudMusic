@@ -1,5 +1,4 @@
 <template>
-  <!-- 播放器 -->
   <MusicAutioComponent />
   <div class="music-audio-container">
     <div
@@ -96,8 +95,8 @@
           </div>
           <div class="play-progress">
             <PlayProgress
-              :musicPlayStatus="musicPlayStatus"
-              :musicPlayProgress="musicPlayProgress"
+              :playStatus="musicPlayStatus"
+              :playProgress="musicPlayProgress"
               @progressChange="progressChange"
             />
           </div>
@@ -112,14 +111,10 @@
 import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { throttle } from 'lodash';
-// 播放器
-import MusicAutioComponent from './audio/Audio.vue';
-// 播放进度条
-import PlayProgress from './play-progress/PlayProgress.vue';
-// 其他工具
-import OtherTool from './other-tool/OtherTool.vue';
 import { getPrevMusicId, getNextMusicId } from './audio/methods';
+import MusicAutioComponent from './audio/Audio.vue';
+import PlayProgress from './play-progress/PlayProgress.vue';
+import OtherTool from './other-tool/OtherTool.vue';
 
 export default defineComponent({
   components: {
@@ -184,52 +179,38 @@ export default defineComponent({
       }
     }
 
-    // 当前播放音乐数据
+    // 当前播放音乐
     const playMusicItem = computed<number>(
       () => $store.getters['music/playMusicItem']
     );
 
     // 上一首
-    const prevPlayMusic = throttle(
-      function () {
-        getPrevMusicId()
-          .then(() => {
-            // 开始播放
-            $store.commit('music/setMusicPlayStatus', {
-              look: true,
-              loading: true,
-              refresh: true
-            });
-          })
-          .catch(() => ({}));
-      },
-      800,
-      {
-        leading: true, // 点击第一下是否执行
-        trailing: false // 节流时间内，多次点击，节流结束后，是否执行一次
-      }
-    );
+    function prevPlayMusic(): void {
+      getPrevMusicId()
+        .then(() => {
+          // 开始播放
+          $store.commit('music/setMusicPlayStatus', {
+            look: true,
+            loading: true,
+            refresh: true
+          });
+        })
+        .catch(() => ({}));
+    }
 
     // 下一首
-    const nextPlayMusic = throttle(
-      function () {
-        getNextMusicId()
-          .then(() => {
-            // 开始播放
-            $store.commit('music/setMusicPlayStatus', {
-              look: true,
-              loading: true,
-              refresh: true
-            });
-          })
-          .catch(() => ({}));
-      },
-      800,
-      {
-        leading: true, // 点击第一下是否执行
-        trailing: false // 节流时间内，多次点击，节流结束后，是否执行一次
-      }
-    );
+    function nextPlayMusic(): void {
+      getNextMusicId()
+        .then(() => {
+          // 开始播放
+          $store.commit('music/setMusicPlayStatus', {
+            look: true,
+            loading: true,
+            refresh: true
+          });
+        })
+        .catch(() => ({}));
+    }
 
     // 播放进度数据
     const musicPlayProgress = computed(
@@ -254,7 +235,7 @@ export default defineComponent({
     // 跳转视频详情
     function jumpVideoDetail(id: number): void {
       $router.push({ name: 'mv-detail', params: { id } });
-      $store.commit('setVideo', { id, url: '' });
+      $store.commit('video/setVideo', { id, url: '' });
     }
 
     // 跳转歌手详情
@@ -264,10 +245,6 @@ export default defineComponent({
 
     // 跳转歌曲位置
     function jumpSongPosition(): void {
-      // 该功能需要在歌曲数据中添加歌曲来源，targetType（歌单/专辑/单曲）
-      // targetId（歌单id/专辑id/单曲id）
-      // 单曲链接，不可点击，需要判断
-      // $router.push({ name: 'home-song-sheet', params: { songSheetId: id } });
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'

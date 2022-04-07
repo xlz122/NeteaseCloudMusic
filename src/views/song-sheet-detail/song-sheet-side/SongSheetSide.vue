@@ -83,9 +83,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌单详情数据
-    const songSheetDetail = computed(
-      () => $store.getters['music/songSheetDetail']
-    );
+    const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
     const songSheetList = ref<unknown[]>([]);
     const songParams = reactive<SongParams>({
@@ -94,6 +92,7 @@ export default defineComponent({
       page: 1,
       pageSize: 5
     });
+
     // 获取热门歌单数据
     function getTopPlaylist(): void {
       topPlaylist({

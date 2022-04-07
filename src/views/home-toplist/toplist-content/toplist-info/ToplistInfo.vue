@@ -30,7 +30,6 @@
           </span>
           <span class="desc">（{{ updateFrequency }}）</span>
         </div>
-        <!-- 操作项 -->
         <div class="operate-btn">
           <div
             class="play"
@@ -115,6 +114,7 @@
 import { defineComponent, computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
+import { handleAudioSong } from '@/common/audio.ts';
 import { formatDateTime } from '@utils/utils.ts';
 import { PlayMusicItem } from '@store/music/state';
 import { LoopType } from '@/types/types';
@@ -138,7 +138,7 @@ export default defineComponent({
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
-    // 计算歌曲是否有版权
+    // 歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
       const privilege = songSheetDetail.value?.privileges.find(
         (item: LoopType) => item.id === id
@@ -150,66 +150,29 @@ export default defineComponent({
       }
     }
 
-    // 播放全部- 默认播放列表第一项
+    // 播放全部 - 默认播放列表第一项
     const playAllMusic = throttle(
       function () {
         if (songSheetDetail.value?.playlist?.tracks.length === 0) {
           return false;
         }
 
-        const item = songSheetDetail.value?.playlist?.tracks[0];
+        const songList: PlayMusicItem[] = [];
 
-        // 处理播放器所需数据
-        const musicItem: PlayMusicItem = {
-          id: item.id,
-          name: item.name,
-          picUrl: item.al.picUrl,
-          time: item.dt,
-          mv: item.mv,
-          singerList: []
-        };
+        songSheetDetail.value?.playlist?.tracks.forEach((item: LoopType) => {
+          const musicItem: PlayMusicItem = handleAudioSong(item);
 
-        item?.ar?.forEach((item: LoopType) => {
-          musicItem.singerList.push({
-            id: item.id,
-            name: item.name
-          });
+          songList.push(musicItem);
         });
 
-        // 当前播放音乐id
-        $store.commit('music/setPlayMusicId', musicItem.id);
-        // 当前播放音乐数据
-        $store.commit('music/setPlayMusicItem', musicItem);
+        // 当前播放音乐
+        $store.commit('music/setPlayMusicItem', songList[0]);
+        // 添加到播放列表
+        $store.commit('music/setPlayMusicList', songList);
         // 开始播放
         $store.commit('music/setMusicPlayStatus', {
           look: true,
           refresh: true
-        });
-
-        // 添加播放列表
-        songSheetDetail.value?.playlist?.tracks.forEach((item: LoopType) => {
-          // 无版权歌曲不添加到播放列表
-          if (isCopyright(item.id)) {
-            return false;
-          }
-          // 处理播放器所需数据
-          const musicItem: PlayMusicItem = {
-            id: item.id,
-            name: item.name,
-            picUrl: item.al.picUrl,
-            time: item.dt,
-            mv: item.mv,
-            singerList: []
-          };
-
-          item?.ar?.forEach((item: LoopType) => {
-            musicItem.singerList.push({
-              id: item.id,
-              name: item.name
-            });
-          });
-          // 播放音乐数据
-          $store.commit('music/setPlayMusicList', musicItem);
         });
       },
       800,
@@ -224,32 +187,22 @@ export default defineComponent({
       if (songSheetDetail.value?.playlist?.tracks.length === 0) {
         return false;
       }
+
+      const songList: PlayMusicItem[] = [];
+
       songSheetDetail.value?.playlist?.tracks.forEach((item: LoopType) => {
-        // 无版权歌曲不添加到播放列表
+        // 无版权
         if (isCopyright(item.id)) {
           return false;
         }
 
-        // 处理播放器所需数据
-        const musicItem: PlayMusicItem = {
-          id: item.id,
-          name: item.name,
-          picUrl: item.al.picUrl,
-          time: item.dt,
-          mv: item.mv,
-          singerList: []
-        };
+        const musicItem: PlayMusicItem = handleAudioSong(item);
 
-        item?.ar?.forEach((item: LoopType) => {
-          musicItem.singerList.push({
-            id: item.id,
-            name: item.name
-          });
-        });
-
-        // 播放音乐数据
-        $store.commit('music/setPlayMusicList', musicItem);
+        songList.push(musicItem);
       });
+
+      // 添加到播放列表
+      $store.commit('music/setPlayMusicList', songList);
     }
 
     // 收藏

@@ -18,7 +18,11 @@
           </div>
         </div>
         <div class="video-container">
-          <VideoPlayer :videoDetailData="videoDetailData" />
+          <VideoPlayer
+            :videoDetailData="videoDetailData"
+            :subed="videoSubed"
+            @handleCollection="handleCollection"
+          />
         </div>
         <div class="operate-btn">
           <div class="other like" @click="handleLike">
@@ -54,14 +58,12 @@
             </template>
           </div>
         </div>
-        <!-- 评论 -->
         <div class="comment-component">
           <Comment
             :commentParams="commentParams"
             @commentRefresh="commentRefresh"
           />
         </div>
-        <!-- 参数从0开始，分页需从1开始 -->
         <Page
           v-if="commentParams.total > commentParams.limit"
           :page="commentParams.offset"
@@ -87,15 +89,14 @@ import {
   nextTick,
   onMounted
 } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { handleCommentData } from '@components/comment/handleCommentData';
 import { MyVideoSbulist } from '@api/my-music';
 import { videoDetail } from '@api/video-detail';
 import { commentVideo } from '@api/comment';
 import { videoUrl, videoSub } from '@api/video-detail';
 import { ResponseType, CommentParams, LoopType } from '@/types/types';
 import VideoPlayer from '@components/video-player/VideoPlayer.vue';
-import { handleCommentData } from '@components/comment/handleCommentData';
 import Comment from '@components/comment/Comment.vue';
 import VideoDetailSide from './video-detail-side/VideoDetailSide.vue';
 import Page from '@components/page/Page.vue';
@@ -109,25 +110,20 @@ export default defineComponent({
     Page
   },
   setup() {
-    const $route = useRoute();
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const video = computed(() => $store.getters.video);
+    const video = computed(() => $store.getters['video/video']);
 
     watch(
-      () => $route.params,
+      () => video.value.id,
       curVal => {
-        if (curVal.id) {
+        if (curVal) {
           nextTick(() => {
             getVideoDetail();
             getVideoSrc();
             getCommentData();
           });
-          return false;
-        }
-        if (video.value.id) {
-          getVideoDetail();
         }
       },
       {
@@ -160,19 +156,13 @@ export default defineComponent({
       videoUrl({ id: video.value.id })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
-            $store.commit('setVideo', {
+            $store.commit('video/setVideo', {
               ...video.value,
               url: res?.urls[0]?.url
             });
           }
         })
         .catch(() => ({}));
-    }
-    getVideoSrc();
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
     }
 
     // 喜欢
@@ -291,7 +281,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getCommentData();
 
     // 刷新评论
     function commentRefresh(): void {
@@ -304,21 +293,26 @@ export default defineComponent({
       getCommentData();
     }
 
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
     onMounted(() => {
-      $store.commit('setHeaderActiveIndex', 0);
-      $store.commit('setSubActiveIndex', -1);
+      $store.commit('setMenuIndex', 0);
+      $store.commit('setSubMenuIndex', -1);
     });
 
     return {
       videoDetailData,
-      jumpUserProfile,
       handleLike,
       videoSubed,
       handleCollection,
       handleShare,
       commentParams,
       commentRefresh,
-      changPage
+      changPage,
+      jumpUserProfile
     };
   }
 });

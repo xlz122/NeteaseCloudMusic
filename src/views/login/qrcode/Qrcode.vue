@@ -4,11 +4,9 @@
     <div class="qrcode-right">
       <p class="title">扫码登录</p>
       <div class="qrcode-img">
-        <!-- 二维码 -->
         <div class="img">
           <img :src="qrcodeImgSrc" alt="Scan me!" />
         </div>
-        <!-- 二维码失效 -->
         <div class="tip" v-if="qrcodeInvalid">
           <div class="text">二维码已失效</div>
           <span class="refresh" @click="refresh">点击刷新</span>
@@ -23,7 +21,6 @@
       </div>
     </div>
   </div>
-  <!-- 扫码成功 - 待确认 -->
   <div class="qrcode-authorized" v-else>
     <i class="icon-phone"></i>
     <p class="title">扫描成功</p>
@@ -42,7 +39,7 @@ import {
   accountInfo,
   userInfo
 } from '@api/login';
-import { ResponseDataType } from '@/types/types';
+import { ResponseType } from '@/types/types';
 
 export default defineComponent({
   name: 'LoginQrcode',
@@ -54,7 +51,7 @@ export default defineComponent({
     const qrcodeImgKey = ref<string>('');
     function getQrcodeImgKey() {
       qrcodeKey()
-        .then((res: ResponseDataType) => {
+        .then((res: ResponseType) => {
           if (res.code === 200) {
             qrcodeImgKey.value = res.data.unikey;
             getQrcodeImg();
@@ -71,7 +68,7 @@ export default defineComponent({
         key: qrcodeImgKey.value,
         qrimg: true
       })
-        .then((res: ResponseDataType) => {
+        .then((res: ResponseType) => {
           if (res.code === 200) {
             qrcodeImgSrc.value = res.data.qrimg;
             getQrcodeStatus();
@@ -89,7 +86,7 @@ export default defineComponent({
       qrcodeStatus({
         key: qrcodeImgKey.value
       })
-        .then((res: ResponseDataType) => {
+        .then((res: ResponseType) => {
           // 800失效，
           if (res.code === 800) {
             qrcodeInvalid.value = true;
@@ -132,7 +129,7 @@ export default defineComponent({
     // 获取账号信息
     function getAccount(): void {
       accountInfo()
-        .then((res: ResponseDataType) => {
+        .then((res: ResponseType) => {
           if (res.code === 200) {
             // 获取用户详情
             getUserInfo(res?.account?.id);
@@ -144,7 +141,7 @@ export default defineComponent({
     // 获取用户详情
     function getUserInfo(uid: number): void {
       userInfo({ uid })
-        .then((res: ResponseDataType) => {
+        .then((res: ResponseType) => {
           if (res.code === 200) {
             // 存储用户信息
             $store.commit('setUserInfo', res);

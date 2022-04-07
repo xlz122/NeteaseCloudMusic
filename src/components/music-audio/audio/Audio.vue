@@ -19,25 +19,23 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { getMusicUrl, getNextMusicId } from './methods';
+import { debounce } from 'lodash';
+import { getMusicUrl, getNextMusicId, randomPlay } from './methods';
+import { LoopType } from '@/types/types';
 
 export default defineComponent({
   name: 'AudioView',
   setup() {
     const $store = useStore();
 
-    // 播放列表
-    const playMusicList = computed(() => $store.getters['music/playMusicList']);
-    // 当前播放音乐id
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );
-    // 音量
+    const playMusicList = computed(() => $store.getters['music/playMusicList']);
     const musicVolume = computed<number>(
       () => $store.getters['music/musicVolume']
     );
 
-    // 播放地址
     const audioSrc = ref<string>('');
 
     // 初始获取播放地址
@@ -52,6 +50,35 @@ export default defineComponent({
     }
     initAudioSrc();
 
+    // 刷新播放链接
+    const refreshAudioSrc = debounce(
+      function () {
+        getMusicUrl(playMusicId.value)
+          .then((res: string) => {
+            audioSrc.value = res;
+
+            // 重置播放进度
+            $store.commit('music/setMusicPlayProgress', {
+              progress: 0,
+              currentTime: 0,
+              duration: 0
+            });
+            // 重置刷新
+            $store.commit('music/setMusicPlayStatus', {
+              refresh: false
+            });
+
+            setAudioStatus();
+          })
+          .catch(() => ({}));
+      },
+      500,
+      {
+        leading: false, // 点击第一下是否执行
+        trailing: true // 节流时间内，多次点击，节流结束后，是否执行一次
+      }
+    );
+
     // 播放状态
     const musicPlayStatus = computed(
       () => $store.getters['music/musicPlayStatus']
@@ -61,6 +88,10 @@ export default defineComponent({
     watch(
       () => musicPlayStatus.value.look,
       () => {
+        if (musicPlayStatus.value.refresh) {
+          return false;
+        }
+
         setAudioStatus();
       }
     );
@@ -70,22 +101,13 @@ export default defineComponent({
       () => musicPlayStatus.value.refresh,
       (curVal: boolean) => {
         if (curVal) {
-          getMusicUrl(playMusicId.value)
-            .then((res: string) => {
-              audioSrc.value = res;
-              // 重置播放进度
-              $store.commit('music/setMusicPlayProgress', {
-                progress: 0,
-                currentTime: 0,
-                duration: 0
-              });
-              // 重置刷新
-              $store.commit('music/setMusicPlayStatus', {
-                refresh: false
-              });
-              setAudioStatus();
-            })
-            .catch(() => ({}));
+          // 重置刷新
+          $store.commit('music/setMusicPlayStatus', {
+            refresh: false
+          });
+
+          // 刷新播放链接
+          refreshAudioSrc();
         }
       }
     );
@@ -97,10 +119,12 @@ export default defineComponent({
         startPlayMusic();
         return false;
       }
+
       // 不刷新播放
       if (musicPlayStatus.value.look && audioSrc.value) {
         startPlayMusic();
       }
+
       // 暂停
       if (!musicPlayStatus.value.look) {
         stopPlayMusic();
@@ -201,7 +225,7 @@ export default defineComponent({
 
     // 播放完成
     const musicModeType = computed(() => $store.getters['music/musicModeType']);
-    function musicPlayEnded(): boolean | undefined {
+    async function musicPlayEnded(): Promise<boolean | undefined> {
       // 播放列表没有音乐，或只有一首音乐，直接循环
       if (playMusicList.value.length <= 1) {
         $store.commit('music/setMusicPlayProgress', {
@@ -212,6 +236,7 @@ export default defineComponent({
         startPlayMusic();
         return false;
       }
+
       // 单曲循环
       if (musicModeType.value === 0) {
         // 重置播放进度
@@ -222,6 +247,7 @@ export default defineComponent({
         });
         startPlayMusic();
       }
+
       // 循环
       if (musicModeType.value === 1) {
         getNextMusicId()
@@ -235,18 +261,16 @@ export default defineComponent({
           })
           .catch(() => ({}));
       }
+
       // 随机播放
       if (musicModeType.value === 2) {
-        const musicItem = Math.floor(
-          Math.random() * playMusicList.value.length
+        const id = await randomPlay(playMusicList.value);
+        const musicItem = playMusicList.value.find(
+          (item: LoopType) => item.id === id
         );
-        // 当前播放音乐id
-        $store.commit(
-          'music/setPlayMusicId',
-          playMusicList.value[musicItem].id
-        );
-        // 当前播放音乐数据
-        $store.commit('music/setPlayMusicItem', playMusicList.value[musicItem]);
+
+        // 当前播放音乐
+        $store.commit('music/setPlayMusicItem', musicItem);
         // 开始播放
         $store.commit('music/setMusicPlayStatus', {
           look: true,

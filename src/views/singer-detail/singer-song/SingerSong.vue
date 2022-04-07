@@ -40,7 +40,10 @@
         <tr
           v-for="(item, index) in singerSong?.hotSongs"
           :key="index"
-          :class="[{ 'even-tr': (index + 1) % 2 }]"
+          :class="[
+            { 'even-item': (index + 1) % 2 },
+            { 'no-copyright': isCopyright(item.id) }
+          ]"
         >
           <td class="tbody-left">
             <div class="hd">
@@ -65,7 +68,7 @@
               <i
                 class="icon-mv"
                 v-if="item.mv > 0"
-                @click="jumpVideoDetail(item?.mv)"
+                @click="jumpVideoDetail(item?.mv, item?.id)"
               ></i>
             </div>
           </td>
@@ -104,7 +107,6 @@
         </tr>
       </tbody>
     </table>
-    <!-- 音乐列表空时展示 -->
     <div class="no-list-data" v-if="singerSong?.hotSongs.length === 0">
       <div class="title">
         <i class="icon"></i>
@@ -125,11 +127,12 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { artistSong } from '@api/singer-detail';
+import { throttle } from 'lodash';
+import { handleAudioSong } from '@/common/audio.ts';
 import { timeStampToDuration } from '@utils/utils.ts';
+import { artistSong } from '@api/singer-detail';
 import { ResponseType, LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
-import { throttle } from 'lodash';
 
 export default defineComponent({
   setup() {
@@ -137,11 +140,9 @@ export default defineComponent({
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    // 当前播放音乐id
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );
-    // 歌手id
     const singerId = computed<number>(() => $store.getters.singerId);
 
     watch(
@@ -155,7 +156,7 @@ export default defineComponent({
 
     const singerSong = ref();
 
-    // 获取歌手歌曲数据
+    // 获取歌手歌曲
     const loading = ref<boolean>(true);
     function getArtistSong(): void {
       artistSong({ id: singerId.value })
@@ -174,46 +175,34 @@ export default defineComponent({
     }
     getArtistSong();
 
-    // 播放全部- 默认播放列表第一项
+    // 播放全部 - 默认播放列表第一项
     const playAllMusic = throttle(
       function () {
         if (singerSong.value?.hotSongs?.length === 0) {
           return false;
         }
 
-        const item = singerSong.value?.hotSongs[0];
+        const songList: PlayMusicItem[] = [];
 
-        // 处理播放器所需数据
-        const musicItem: PlayMusicItem = {
-          id: item.id,
-          name: item.name,
-          picUrl: item.al.picUrl,
-          time: item.dt,
-          mv: item.mv,
-          singerList: []
-        };
+        singerSong.value?.hotSongs.forEach((item: LoopType) => {
+          // 无版权
+          if (isCopyright(item.id)) {
+            return false;
+          }
 
-        item?.ar?.forEach((item: LoopType) => {
-          musicItem.singerList.push({
-            id: item.id,
-            name: item.name
-          });
+          const musicItem: PlayMusicItem = handleAudioSong(item);
+
+          songList.push(musicItem);
         });
 
-        // 当前播放音乐id
-        $store.commit('music/setPlayMusicId', musicItem.id);
-        // 当前播放音乐数据
-        $store.commit('music/setPlayMusicItem', musicItem);
+        // 当前播放音乐
+        $store.commit('music/setPlayMusicItem', songList[0]);
+        // 添加到播放列表
+        $store.commit('music/setPlayMusicList', songList);
         // 开始播放
         $store.commit('music/setMusicPlayStatus', {
           look: true,
           refresh: true
-        });
-
-        // 添加播放列表
-        singerSong.value?.hotSongs.forEach((item: LoopType) => {
-          // 播放音乐数据
-          $store.commit('music/setPlayMusicList', item);
         });
       },
       800,
@@ -229,27 +218,21 @@ export default defineComponent({
         return false;
       }
 
+      const songList: PlayMusicItem[] = [];
+
       singerSong.value?.hotSongs?.forEach((item: LoopType) => {
-        // 处理播放器所需数据
-        const musicItem: PlayMusicItem = {
-          id: item.id,
-          name: item.name,
-          picUrl: item.al.picUrl,
-          time: item.dt,
-          mv: item.mv,
-          singerList: []
-        };
+        // 无版权
+        if (isCopyright(item.id)) {
+          return false;
+        }
 
-        item?.ar?.forEach((item: LoopType) => {
-          musicItem.singerList.push({
-            id: item.id,
-            name: item.name
-          });
-        });
+        const musicItem: PlayMusicItem = handleAudioSong(item);
 
-        // 播放音乐数据
-        $store.commit('music/setPlayMusicList', musicItem);
+        songList.push(musicItem);
       });
+
+      // 添加到播放列表
+      $store.commit('music/setPlayMusicList', songList);
     }
 
     // 收藏全部
@@ -261,39 +244,36 @@ export default defineComponent({
 
       let ids = '';
       singerSong.value?.hotSongs.forEach((item: LoopType) => {
+        // 无版权过滤
+        if (item?.privilege?.cp === 0) {
+          return false;
+        }
+
         ids += `${item.id},`;
       });
 
-      $store.commit('music/collectPlayMusic', {
+      $store.commit('collectPlayMusic', {
         visible: true,
         songIds: ids
       });
     }
 
     // 播放单个歌曲
-    function playSingleMusic(item: Record<string, any>): void {
-      // 处理播放器所需数据
-      const musicItem: PlayMusicItem = {
-        id: item.id,
-        name: item.name,
-        picUrl: item.al.picUrl,
-        time: item.dt,
-        mv: item.mv,
-        singerList: []
-      };
-
-      item?.ar?.forEach((item: LoopType) => {
-        musicItem.singerList.push({
-          id: item.id,
-          name: item.name
+    function playSingleMusic(item: Record<string, any>): boolean | undefined {
+      // 无版权
+      if (isCopyright(item.id)) {
+        $store.commit('setCopyright', {
+          visible: true,
+          message: '由于版权保护，您所在的地区暂时无法使用。'
         });
-      });
+        return false;
+      }
 
-      // 当前播放音乐id
-      $store.commit('music/setPlayMusicId', musicItem.id);
-      // 当前播放音乐数据
+      const musicItem: PlayMusicItem = handleAudioSong(item);
+
+      // 当前播放音乐
       $store.commit('music/setPlayMusicItem', musicItem);
-      // 播放音乐数据
+      // 添加到播放列表
       $store.commit('music/setPlayMusicList', musicItem);
       // 开始播放
       $store.commit('music/setMusicPlayStatus', {
@@ -305,25 +285,22 @@ export default defineComponent({
 
     // 单个歌曲添加到播放列表
     function singleMusicToPlayList(item: Record<string, any>): void {
-      // 处理播放器所需数据
-      const musicItem: PlayMusicItem = {
-        id: item.id,
-        name: item.name,
-        picUrl: item.al.picUrl,
-        time: item.dt,
-        mv: item.mv,
-        singerList: []
-      };
+      const musicItem: PlayMusicItem = handleAudioSong(item);
 
-      item?.ar?.forEach((item: LoopType) => {
-        musicItem.singerList.push({
-          id: item.id,
-          name: item.name
-        });
-      });
-
-      // 播放音乐数据
       $store.commit('music/setPlayMusicList', musicItem);
+    }
+
+    // 歌曲是否有版权
+    function isCopyright(id: number): boolean | undefined {
+      const songItem = singerSong.value?.hotSongs.find(
+        (item: LoopType) => item.id === id
+      );
+
+      if (songItem?.privilege?.cp === 0) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     // 收藏
@@ -333,7 +310,7 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('music/collectPlayMusic', {
+      $store.commit('collectPlayMusic', {
         visible: true,
         songIds: id
       });
@@ -366,9 +343,18 @@ export default defineComponent({
     }
 
     // 跳转视频详情
-    function jumpVideoDetail(id: number): void {
+    function jumpVideoDetail(id: number, songId: number): boolean | undefined {
+      // 无版权
+      if (isCopyright(songId)) {
+        $store.commit('setCopyright', {
+          visible: true,
+          message: '由于版权保护，您所在的地区暂时无法使用。'
+        });
+        return false;
+      }
+
       $router.push({ name: 'mv-detail', params: { id } });
-      $store.commit('setVideo', { id, url: '' });
+      $store.commit('video/setVideo', { id, url: '' });
     }
 
     // 跳转专辑详情
@@ -386,6 +372,7 @@ export default defineComponent({
       handleCollectAll,
       playSingleMusic,
       singleMusicToPlayList,
+      isCopyright,
       handleCollection,
       handleShare,
       handleDownload,

@@ -47,11 +47,12 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import { throttle } from 'lodash';
+import { handleAudioSong } from '@/common/audio.ts';
+import { getWeekDate, formatDateTime } from '@utils/utils';
 import { recommendSongs } from '@api/home-recommend';
 import { ResponseType, LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
-import { getWeekDate, formatDateTime } from '@utils/utils';
-import { throttle } from 'lodash';
 import RecommendSong from './recommend-song/RecommendSong.vue';
 import RecommendSide from './recommend-side/RecommendSide.vue';
 
@@ -83,57 +84,40 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res.code === 200) {
             recommendSong.value = res.data.dailySongs;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));
     }
     getRecommendSong();
 
-    // 播放全部- 默认播放列表第一项
+    // 播放全部 - 默认播放列表第一项
     const playAllMusic = throttle(
       function () {
         if (recommendSong.value?.length === 0) {
           return false;
         }
 
-        const item = recommendSong.value[0];
+        const songList: PlayMusicItem[] = [];
 
-        // 处理播放器所需数据
-        const musicItem: PlayMusicItem = {
-          id: item.id,
-          name: item.name,
-          picUrl: item.al.picUrl,
-          time: item.dt,
-          mv: item.mv,
-          singerList: []
-        };
+        recommendSong.value?.forEach((item: LoopType) => {
+          // 无版权过滤
+          if (item?.privilege?.cp === 0) {
+            return false;
+          }
 
-        item?.ar?.forEach((item: LoopType) => {
-          musicItem.singerList.push({
-            id: item.id,
-            name: item.name
-          });
+          const musicItem: PlayMusicItem = handleAudioSong(item);
+
+          songList.push(musicItem);
         });
 
-        // 当前播放音乐id
-        $store.commit('music/setPlayMusicId', musicItem.id);
-        // 当前播放音乐数据
-        $store.commit('music/setPlayMusicItem', musicItem);
+        // 当前播放音乐
+        $store.commit('music/setPlayMusicItem', songList[0]);
+        // 添加到播放列表
+        $store.commit('music/setPlayMusicList', songList);
         // 开始播放
         $store.commit('music/setMusicPlayStatus', {
           look: true,
           refresh: true
-        });
-
-        // 添加播放列表
-        recommendSong.value?.forEach((item: LoopType) => {
-          // 播放音乐数据
-          $store.commit('music/setPlayMusicList', item);
         });
       },
       800,
@@ -148,45 +132,45 @@ export default defineComponent({
       if (recommendSong.value?.length === 0) {
         return false;
       }
+
+      const songList: PlayMusicItem[] = [];
+
       recommendSong.value?.forEach((item: LoopType) => {
-        // 处理播放器所需数据
-        const musicItem: PlayMusicItem = {
-          id: item.id,
-          name: item.name,
-          picUrl: item.al.picUrl,
-          time: item.dt,
-          mv: item.mv,
-          singerList: []
-        };
+        // 无版权过滤
+        if (item?.privilege?.cp === 0) {
+          return false;
+        }
 
-        item?.ar?.forEach((item: LoopType) => {
-          musicItem.singerList.push({
-            id: item.id,
-            name: item.name
-          });
-        });
+        const musicItem: PlayMusicItem = handleAudioSong(item);
 
-        // 播放音乐数据
-        $store.commit('music/setPlayMusicList', musicItem);
+        songList.push(musicItem);
       });
+
+      // 添加到播放列表
+      $store.commit('music/setPlayMusicList', songList);
     }
 
     // 收藏全部
     function handleCollectAll(): void {
       let ids = '';
       recommendSong.value.forEach((item: LoopType) => {
+        // 无版权过滤
+        if (item?.privilege?.cp === 0) {
+          return false;
+        }
+
         ids += `${item.id},`;
       });
 
-      $store.commit('music/collectPlayMusic', {
+      $store.commit('collectPlayMusic', {
         visible: true,
         songIds: ids
       });
     }
 
     onMounted(() => {
-      $store.commit('setHeaderActiveIndex', 0);
-      $store.commit('setSubActiveIndex', -1);
+      $store.commit('setMenuIndex', 0);
+      $store.commit('setSubMenuIndex', -1);
     });
 
     return {

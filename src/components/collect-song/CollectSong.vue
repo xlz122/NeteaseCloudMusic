@@ -40,7 +40,7 @@ import { ResponseType, LoopType } from '@/types/types';
 import MyDialog from '@/components/MyDialog.vue';
 
 export default defineComponent({
-  name: 'AddSongSheet',
+  name: 'CollectSong',
   components: {
     MyDialog
   },
@@ -49,7 +49,7 @@ export default defineComponent({
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
-    const collectSong = computed(() => $store.getters['music/collectSong']);
+    const collectSong = computed(() => $store.getters.collectSong);
 
     watch(
       () => collectSong.value.visible,
@@ -76,7 +76,6 @@ export default defineComponent({
           if (res.code === 200) {
             songSheetList.value = [];
 
-            // 处理列表数据
             res.playlist.forEach((item: LoopType) => {
               if (item.name.includes('喜欢的音乐')) {
                 item.name = '我喜欢的音乐';
@@ -108,7 +107,7 @@ export default defineComponent({
       })
         .then((res: ResponseType) => {
           if (res.body.code === 200) {
-            $store.commit('music/collectPlayMusic', {
+            $store.commit('collectPlayMusic', {
               visible: false,
               songIds: ''
             });
@@ -128,7 +127,7 @@ export default defineComponent({
 
     // 关闭弹框
     function collectCancel(): void {
-      $store.commit('music/collectPlayMusic', {
+      $store.commit('collectPlayMusic', {
         visible: false,
         songIds: ''
       });

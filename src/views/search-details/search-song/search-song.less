@@ -72,7 +72,7 @@
       }
     }
 
-    .play-icon {
+    .icon-play {
       display: inline-block;
       vertical-align: middle;
       width: 17px;
@@ -206,5 +206,46 @@
   .even-item {
     background: #f7f7f7;
     border-color: #f7f7f7;
+  }
+
+  .no-copyright {
+    &:hover {
+      .td2 {
+        .operate-btn {
+          visibility: hidden;
+        }
+      }
+    }
+
+    .icon-play {
+      opacity: 0.5;
+
+      &:hover {
+        background-position: 0px -103px;
+        opacity: 0.5;
+      }
+    }
+
+    .td {
+      color: #bbb;
+    }
+
+    .td1 {
+      .text {
+        .icon-mv {
+          cursor: default;
+        }
+      }
+    }
+
+    .td1,
+    .td3,
+    .td4 {
+      .text {
+        .name {
+          color: #bbb;
+        }
+      }
+    }
   }
 }

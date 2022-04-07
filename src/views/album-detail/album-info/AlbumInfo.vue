@@ -47,7 +47,6 @@
           {{ userInfo?.company }}
         </span>
       </div>
-      <!-- 操作项 -->
       <div class="operate-btn">
         <div class="play" @click="playAllMusic">
           <span class="icon-play" title="播放">播放</span>
@@ -98,10 +97,11 @@
 <script lang="ts">
 import { defineComponent, computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
+import { throttle } from 'lodash';
+import { handleAudioSong } from '@/common/audio.ts';
 import { formatDateTime } from '@utils/utils.ts';
 import { LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
-import { throttle } from 'lodash';
 
 export default defineComponent({
   props: {
@@ -122,67 +122,50 @@ export default defineComponent({
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    // 播放全部- 默认播放列表第一项
+    // 播放全部 - 默认播放列表第一项
     const playAllMusic = throttle(
       function () {
         if (songs.value.length === 0) {
           return false;
         }
 
-        const item = songs.value[0];
-
-        // 处理播放器所需数据
-        const musicItem: PlayMusicItem = {
-          id: item.id,
-          name: item.name,
-          picUrl: item.al.picUrl,
-          time: item.dt,
-          mv: item.mv,
-          singerList: []
-        };
-
-        item?.ar?.forEach((item: LoopType) => {
-          musicItem.singerList.push({
-            id: item.id,
-            name: item.name
-          });
+        // 歌曲是否全部无版权
+        let noCopyrightNum = 0;
+        props?.songs?.forEach((item: LoopType) => {
+          if (item.privilege?.cp === 0) {
+            noCopyrightNum += 1;
+          }
         });
 
-        // 当前播放音乐id
-        $store.commit('music/setPlayMusicId', musicItem.id);
-        // 当前播放音乐数据
-        $store.commit('music/setPlayMusicItem', musicItem);
+        if (noCopyrightNum === props?.songs?.length) {
+          $store.commit('setCopyright', {
+            visible: true,
+            message: '由于版权保护，您所在的地区暂时无法使用。'
+          });
+          return false;
+        }
+
+        const songList: PlayMusicItem[] = [];
+
+        songs.value.forEach((item: LoopType) => {
+          // 无版权过滤
+          if (item?.privilege?.cp === 0) {
+            return false;
+          }
+
+          const musicItem: PlayMusicItem = handleAudioSong(item);
+
+          songList.push(musicItem);
+        });
+
+        // 当前播放音乐
+        $store.commit('music/setPlayMusicItem', songList[0]);
+        // 添加到播放列表
+        $store.commit('music/setPlayMusicList', songList);
         // 开始播放
         $store.commit('music/setMusicPlayStatus', {
           look: true,
           refresh: true
-        });
-
-        // 添加播放列表
-        songs.value.forEach((item: LoopType) => {
-          // 处理播放器所需数据
-          const musicItem: PlayMusicItem = {
-            id: item.id,
-            name: item.name,
-            picUrl: item.al.picUrl,
-            time: item.dt,
-            mv: item.mv,
-            singerList: []
-          };
-
-          item?.ar?.forEach((item: LoopType) => {
-            musicItem.singerList.push({
-              id: item.id,
-              name: item.name
-            });
-          });
-          // 播放音乐数据
-          $store.commit('music/setPlayMusicList', musicItem);
         });
       },
       800,
@@ -197,27 +180,38 @@ export default defineComponent({
       if (songs.value.length === 0) {
         return false;
       }
-      songs.value.forEach((item: LoopType) => {
-        // 处理播放器所需数据
-        const musicItem: PlayMusicItem = {
-          id: item.id,
-          name: item.name,
-          picUrl: item.al.picUrl,
-          time: item.dt,
-          mv: item.mv,
-          singerList: []
-        };
 
-        item?.ar?.forEach((item: LoopType) => {
-          musicItem.singerList.push({
-            id: item.id,
-            name: item.name
-          });
-        });
-
-        // 播放音乐数据
-        $store.commit('music/setPlayMusicList', musicItem);
+      // 歌曲是否全部无版权
+      let noCopyrightNum = 0;
+      props?.songs?.forEach((item: LoopType) => {
+        if (item.privilege?.cp === 0) {
+          noCopyrightNum += 1;
+        }
       });
+
+      if (noCopyrightNum === props?.songs?.length) {
+        $store.commit('setCopyright', {
+          visible: true,
+          message: '由于版权保护，您所在的地区暂时无法使用。'
+        });
+        return false;
+      }
+
+      const songList: PlayMusicItem[] = [];
+
+      songs.value.forEach((item: LoopType) => {
+        // 无版权过滤
+        if (item?.privilege?.cp === 0) {
+          return false;
+        }
+
+        const musicItem: PlayMusicItem = handleAudioSong(item);
+
+        songList.push(musicItem);
+      });
+
+      // 添加到播放列表
+      $store.commit('music/setPlayMusicList', songList);
     }
 
     // 收藏全部
@@ -227,12 +221,33 @@ export default defineComponent({
         return false;
       }
 
+      // 歌曲是否全部无版权
+      let noCopyrightNum = 0;
+      props?.songs?.forEach((item: LoopType) => {
+        if (item.privilege?.cp === 0) {
+          noCopyrightNum += 1;
+        }
+      });
+
+      if (noCopyrightNum === props?.songs?.length) {
+        $store.commit('setCopyright', {
+          visible: true,
+          message: '由于版权保护，您所在的地区暂时无法使用。'
+        });
+        return false;
+      }
+
       let ids = '';
       songs.value.forEach((item: LoopType) => {
+        // 无版权过滤
+        if (item?.privilege?.cp === 0) {
+          return false;
+        }
+
         ids += `${item.id},`;
       });
 
-      $store.commit('music/collectPlayMusic', {
+      $store.commit('collectPlayMusic', {
         visible: true,
         songIds: ids
       });
@@ -242,6 +257,22 @@ export default defineComponent({
     function handleShare(): boolean | undefined {
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      // 歌曲是否全部无版权
+      let noCopyrightNum = 0;
+      props?.songs?.forEach((item: LoopType) => {
+        if (item.privilege?.cp === 0) {
+          noCopyrightNum += 1;
+        }
+      });
+
+      if (noCopyrightNum === props?.songs?.length) {
+        $store.commit('setCopyright', {
+          visible: true,
+          message: '由于版权保护，您所在的地区暂时无法使用。'
+        });
         return false;
       }
 
@@ -269,15 +300,20 @@ export default defineComponent({
       emit('jumpToComments');
     }
 
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      $store.commit('jumpSingerDetail', id);
+    }
+
     return {
       formatDateTime,
-      jumpSingerDetail,
       playAllMusic,
       allMusicToPlayList,
       handleCollectAll,
       handleShare,
       handleDownload,
-      jumpToComments
+      jumpToComments,
+      jumpSingerDetail
     };
   }
 });

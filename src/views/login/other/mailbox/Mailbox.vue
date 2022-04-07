@@ -46,7 +46,7 @@
 import { defineComponent, onUnmounted, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { mailboxLogin, userInfo } from '@api/login';
-import { ResponseDataType } from '@/types/types';
+import { ResponseType } from '@/types/types';
 
 type MailboxFormData = {
   mailbox: string;
@@ -103,7 +103,7 @@ export default defineComponent({
         email: mailboxFormData.mailbox,
         password: mailboxFormData.password
       })
-        .then((res: ResponseDataType) => {
+        .then((res: ResponseType) => {
           // 账号或密码错误
           if (res.code === 502) {
             verifyMethod({ text: '帐号或密码错误' });
@@ -132,7 +132,7 @@ export default defineComponent({
     // 获取用户详情
     function getUserInfo(uid: number): void {
       userInfo({ uid })
-        .then((res: ResponseDataType) => {
+        .then((res: ResponseType) => {
           if (res.code === 200) {
             // 存储用户信息
             $store.commit('setUserInfo', res);

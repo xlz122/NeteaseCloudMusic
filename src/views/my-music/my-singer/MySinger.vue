@@ -27,9 +27,9 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
+import { timeStampToDuration } from '@utils/utils.ts';
 import { subPlayList } from '@api/my-music';
 import { ResponseType } from '@/types/types';
-import { timeStampToDuration } from '@utils/utils.ts';
 
 export default defineComponent({
   props: {

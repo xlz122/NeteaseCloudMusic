@@ -35,14 +35,12 @@
           <div class="text">查看更多内容，请下载客户端</div>
           <router-link class="link" to="/download">立即下载</router-link>
         </div>
-        <!-- 评论 -->
         <div class="comment-component">
           <Comment
             :commentParams="commentParams"
             @commentRefresh="commentRefresh"
           />
         </div>
-        <!-- 参数从0开始，分页需从1开始 -->
         <Page
           v-if="commentParams.total > commentParams.limit"
           :page="commentParams.offset"
@@ -59,13 +57,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, watch, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import {
+  defineComponent,
+  reactive,
+  computed,
+  watch,
+  onMounted,
+  nextTick
+} from 'vue';
 import { useStore } from 'vuex';
+import { handleCommentData } from '@components/comment/handleCommentData';
 import { playlistDetail } from '@api/song-sheet-detail';
 import { commentPlayList } from '@api/comment';
 import { ResponseType, CommentParams } from '@/types/types';
-import { handleCommentData } from '@components/comment/handleCommentData';
 import UserInfo from '@components/song-sheet/user-info/UserInfo.vue';
 import MusicTable from '@components/song-sheet/music-table/MusicTable.vue';
 import Comment from '@components/comment/Comment.vue';
@@ -81,21 +85,20 @@ export default defineComponent({
     Page
   },
   setup() {
-    const $route = useRoute();
     const $store = useStore();
 
-    // 歌单id
     const songSheetId = computed<number>(() => $store.getters.songSheetId);
     // 歌单详情数据
-    const songSheetDetail = computed(
-      () => $store.getters['music/songSheetDetail']
-    );
+    const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
     watch(
-      () => $route.params,
+      () => songSheetId.value,
       curVal => {
-        if (curVal?.songSheetId) {
-          getSongDetail();
+        if (curVal) {
+          nextTick(() => {
+            getSongDetail();
+            getCommentData();
+          });
         }
       },
       {
@@ -105,14 +108,14 @@ export default defineComponent({
 
     // 获取歌单详情
     function getSongDetail(): void {
-      $store.commit('music/setSongSheetDetail', {});
+      $store.commit('setSongSheetDetail', {});
 
       playlistDetail({
         id: songSheetId.value
       })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
-            $store.commit('music/setSongSheetDetail', res);
+            $store.commit('setSongSheetDetail', res);
           } else {
             $store.commit('setMessage', {
               type: 'error',
@@ -166,7 +169,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getCommentData();
 
     // 刷新评论
     function commentRefresh(): void {
@@ -180,13 +182,13 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      $store.commit('setHeaderActiveIndex', 0);
-      $store.commit('setSubActiveIndex', -1);
+      $store.commit('setMenuIndex', 0);
+      $store.commit('setSubMenuIndex', -1);
     });
 
     return {
-      songSheetDetail,
       songSheetId,
+      songSheetDetail,
       jumpToComments,
       commentParams,
       commentRefresh,

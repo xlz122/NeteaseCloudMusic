@@ -9,6 +9,7 @@
     class="video"
     ref="videoRef"
     :src="videoSrc"
+    :volume="videoVolume"
     @play="videoPlay"
     @pause="videoPause"
     @timeupdate="updateTime"
@@ -32,8 +33,9 @@ export default defineComponent({
   setup(props, { emit }) {
     const $store = useStore();
 
+    const videoVolume = computed(() => $store.getters['video/videoVolume']);
     // 视频/mv
-    const video = computed(() => $store.getters.video);
+    const video = computed(() => $store.getters['video/video']);
 
     watch(
       () => video.value.url,
@@ -81,10 +83,40 @@ export default defineComponent({
     // 播放暂停
     // function videoPause(): void {}
 
+    // 播放进度数据
+    const videoPlayProgress = computed(
+      () => $store.getters['video/videoPlayProgress']
+    );
+
+    // 监听手动更新时间
+    watch(
+      () => videoPlayProgress.value.timeChange,
+      (curVal: boolean) => {
+        if (curVal) {
+          // 设置播放时间
+          const videoMp3 = videoRef.value as HTMLVideoElement;
+
+          // 当前时间是NaN,不进行更新
+          if (isNaN(videoPlayProgress.value.currentTime)) {
+            return false;
+          }
+
+          videoMp3.currentTime = videoPlayProgress.value.currentTime;
+          // 重置手动更新
+          $store.commit('video/setVideoPlayProgress', {
+            timeChange: false
+          });
+        }
+      },
+      {
+        deep: true
+      }
+    );
+
     // 播放进度
     function updateTime(e: any): void {
       const progress = e.target.currentTime / e.target.duration;
-      $store.commit('setVideoPlayProgress', {
+      $store.commit('video/setVideoPlayProgress', {
         progress: progress * 100,
         currentTime: e.target.currentTime || 0,
         duration: e.target.duration || 0
@@ -97,6 +129,7 @@ export default defineComponent({
     }
 
     return {
+      videoVolume,
       videoSrc,
       videoRef,
       // videoPlay,

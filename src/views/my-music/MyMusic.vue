@@ -1,5 +1,4 @@
 <template>
-  <!-- 登录展示 -->
   <div class="my-music" v-if="isLogin">
     <div class="my-music-container">
       <div class="my-music-scroll">
@@ -20,7 +19,6 @@
       </div>
     </div>
   </div>
-  <!-- 未登录展示 -->
   <div class="my-music" v-else>
     <div class="my-music-login">
       <div class="login-content">
@@ -31,14 +29,8 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  reactive,
-  computed,
-  watch,
-  onUnmounted,
-  onMounted
-} from 'vue';
+import { defineComponent, reactive, computed, watch, nextTick } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { userSubcount } from '@api/my-music';
 import { ResponseType } from '@/types/types';
@@ -56,6 +48,7 @@ export default defineComponent({
     SongSheetDetail
   },
   setup() {
+    const $route = useRoute();
     const $store = useStore();
 
     const isLogin = computed(() => $store.getters.isLogin);
@@ -87,7 +80,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getUserSubcount();
 
     function handleOptions(params: Record<string, any>): void {
       for (const value in options) {
@@ -101,33 +93,40 @@ export default defineComponent({
       $store.commit('setLoginDialog', true);
     }
 
-    // 登录后样式设置
     watch(
-      () => isLogin.value,
-      (curVal: boolean) => {
-        if (curVal) {
-          const appDom = document.getElementById('app') as HTMLElement;
+      () => $route.path,
+      () => {
+        // 处理样式
+        nextTick(() => {
           const footerDom = document.querySelector('.footer') as HTMLElement;
-          if (appDom && footerDom) {
+          if (isLogin.value) {
             footerDom.style.display = 'none';
+            getUserSubcount();
+          } else {
+            footerDom.style.display = 'block';
           }
-        }
+        });
+      },
+      {
+        immediate: true
       }
     );
 
-    onMounted(() => {
-      if (isLogin.value) {
-        const footerDom = document.querySelector('.footer') as HTMLElement;
-        footerDom.style.display = 'none';
+    watch(
+      () => isLogin.value,
+      () => {
+        // 处理样式
+        nextTick(() => {
+          const footerDom = document.querySelector('.footer') as HTMLElement;
+          if (isLogin.value) {
+            footerDom.style.display = 'none';
+            getUserSubcount();
+          } else {
+            footerDom.style.display = 'block';
+          }
+        });
       }
-    });
-
-    onUnmounted(() => {
-      if (isLogin.value) {
-        const footerDom = document.querySelector('.footer') as HTMLElement;
-        footerDom.style.display = 'block';
-      }
-    });
+    );
 
     return {
       isLogin,

@@ -35,11 +35,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed } from 'vue';
+import { defineComponent, reactive, computed, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import SongSheetToggle from './song-sheet-toggle/SongSheetToggle.vue';
 import { userPlayList, addPlayList, deletePlayList } from '@api/my-music';
 import { ResponseType, LoopType } from '@/types/types';
+import SongSheetToggle from './song-sheet-toggle/SongSheetToggle.vue';
 
 type SongSheetList = {
   createSongSheet: Record<string, any>;
@@ -58,9 +59,12 @@ export default defineComponent({
   },
   emits: ['handleOptions'],
   setup(props, { emit }) {
+    const $route = useRoute();
     const $store = useStore();
 
+    const isLogin = computed(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
+    const songSheetId = computed(() => $store.getters.songSheetId);
 
     // 我的歌手
     function handleMySinger(): void {
@@ -88,37 +92,74 @@ export default defineComponent({
     });
 
     // 获取用户歌单列表
-    function getUserPlayList(): void {
+    function getUserPlayList(): Promise<Record<string, any>> {
       songSheetList.createSongSheet = [];
       songSheetList.collectSongSheet = [];
 
-      userPlayList({
-        uid: userInfo.value?.profile?.userId
-      })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            res?.playlist.forEach((item: LoopType) => {
-              if (item?.name?.includes('喜欢的音乐')) {
-                item.name = '我喜欢的音乐';
-                item.cannotEdit = true;
-                item.cannotDelete = true;
-              }
-
-              // 收藏列表判断
-              if (!item.subscribed) {
-                songSheetList.createSongSheet.push(item);
-              } else {
-                item.cannotEdit = true;
-                songSheetList.collectSongSheet.push(item);
-              }
-
-              $store.commit('setSongSheetId', res?.playlist[0].id);
-            });
-          }
+      return new Promise(resolve => {
+        userPlayList({
+          uid: userInfo.value?.profile?.userId
         })
-        .catch(() => ({}));
+          .then((res: ResponseType) => {
+            if (res.code === 200) {
+              res?.playlist.forEach((item: LoopType) => {
+                if (item?.name?.includes('喜欢的音乐')) {
+                  item.name = '我喜欢的音乐';
+                  item.cannotEdit = true;
+                  item.cannotDelete = true;
+                }
+
+                // 收藏列表判断
+                if (!item.subscribed) {
+                  songSheetList.createSongSheet.push(item);
+                } else {
+                  item.cannotEdit = true;
+                  songSheetList.collectSongSheet.push(item);
+                }
+
+                resolve(res?.playlist);
+              });
+            }
+          })
+          .catch(() => ({}));
+      });
     }
-    getUserPlayList();
+
+    watch(
+      () => $route.path,
+      (to, from) => {
+        if (!isLogin.value) {
+          return false;
+        }
+
+        (async () => {
+          // 刷新
+          if (to && !from) {
+            const playlist = await getUserPlayList();
+            const isExist = playlist.find(
+              (item: LoopType) => item.id === songSheetId.value
+            );
+
+            if (isExist) {
+              $store.commit('setSongSheetId', songSheetId.value);
+            } else {
+              $store.commit('setSongSheetId', playlist[0].id);
+            }
+          }
+
+          // 离开当前路由
+          if (to && from) {
+            $store.commit(
+              'setSongSheetId',
+              songSheetList.createSongSheet[0]?.id || 0
+            );
+          }
+        })();
+      },
+      {
+        immediate: true
+      }
+    );
 
     // 创建/收藏歌单点击
     function handleListChange(id: number): void {

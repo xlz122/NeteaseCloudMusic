@@ -1,3 +1,168 @@
+## [1.1.3](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.1.2...v1.1.3) (2022-06-13)
+
+
+### ✨ Features | 新功能
+
+* 歌曲、歌单、专辑、歌手、搜索详情等页面无版权完善 [#58f6084](https://github.com/xlz122/NeteaseCloudMusic/commit/58f6084) 
+
+
+### 🎫 Chores | 其他更新
+
+* 电台详情相关组件ts类型补充 [#d93f5b1](https://github.com/xlz122/NeteaseCloudMusic/commit/d93f5b1) 
+* 更新项目所需插件 [#9afae29](https://github.com/xlz122/NeteaseCloudMusic/commit/9afae29) 
+* 更新项目所需依赖项 [#8db0bb9](https://github.com/xlz122/NeteaseCloudMusic/commit/8db0bb9) 
+* 更新commitlint依赖项 [#842d166](https://github.com/xlz122/NeteaseCloudMusic/commit/842d166) 
+* 将开发环境所需依赖放置在devDependencies [#1d3e0db](https://github.com/xlz122/NeteaseCloudMusic/commit/1d3e0db) 
+* 轮播图组件ts类型补充 [#05e38d7](https://github.com/xlz122/NeteaseCloudMusic/commit/05e38d7) 
+* 删除部分组件接口请求失败提示 [#f6c7bf1](https://github.com/xlz122/NeteaseCloudMusic/commit/f6c7bf1) 
+* 首页侧边栏组件ts类型补充 [#199aeed](https://github.com/xlz122/NeteaseCloudMusic/commit/199aeed) 
+* cdn引入改成生产构建版本 [#488363d](https://github.com/xlz122/NeteaseCloudMusic/commit/488363d) 
+* Header组件ts类型补充 [#d3e0521](https://github.com/xlz122/NeteaseCloudMusic/commit/d3e0521) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 获取数组最后一项改用新语法(Array.prototype.at) [#461d39b](https://github.com/xlz122/NeteaseCloudMusic/commit/461d39b) 
+* 收藏多个歌曲时，过滤无版权歌曲 [#d9def86](https://github.com/xlz122/NeteaseCloudMusic/commit/d9def86) 
+* 修改input全局背景色(chrome浏览器最新版修改了input默认背景色) [#08aeb94](https://github.com/xlz122/NeteaseCloudMusic/commit/08aeb94) 
+* 修改textarea全局背景色(chrome浏览器最新版修改了textarea默认背景色) [#ca94d97](https://github.com/xlz122/NeteaseCloudMusic/commit/ca94d97) 
+* 专辑无版权修改(区分部分无版权、全部无版权) [#07c081d](https://github.com/xlz122/NeteaseCloudMusic/commit/07c081d) 
+* 专辑详情区分部分无版权、全部无版权 [#715fc15](https://github.com/xlz122/NeteaseCloudMusic/commit/715fc15) 
+
+
+
+## [1.1.2](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.1.0...v1.1.2) (2022-05-17)
+
+
+### ⚡ Performance Improvements | 性能优化
+
+* 抽离数据处理成播放器所需数据的逻辑代码 [#330cec9](https://github.com/xlz122/NeteaseCloudMusic/commit/330cec9) 
+* 优化播放数据逻辑代码 [#8896c4a](https://github.com/xlz122/NeteaseCloudMusic/commit/8896c4a) 
+* 优化播放完成随机播放逻辑(和上、下首切换一致) [#d22092f](https://github.com/xlz122/NeteaseCloudMusic/commit/d22092f) 
+* 优化添加到播放列表逻辑代码 [#e92b15d](https://github.com/xlz122/NeteaseCloudMusic/commit/e92b15d) 
+
+
+### ✨ Features | 新功能
+
+* 歌单播放按钮可将歌曲添加至播放列表代码简化 [#507a803](https://github.com/xlz122/NeteaseCloudMusic/commit/507a803) 
+* 视频播放器增加音量控制 [#28fe483](https://github.com/xlz122/NeteaseCloudMusic/commit/28fe483) 
+* 视频vuex数据分单独的视频模块 [#e6e294e](https://github.com/xlz122/NeteaseCloudMusic/commit/e6e294e) 
+* 无关音乐模块的数据防止在外层 [#ed21c81](https://github.com/xlz122/NeteaseCloudMusic/commit/ed21c81) 
+* 页面底部更新，意见反馈代码去除 [#53bc9f3](https://github.com/xlz122/NeteaseCloudMusic/commit/53bc9f3) 
+* 专辑播放按钮可将歌曲添加至播放列表 [#6bec405](https://github.com/xlz122/NeteaseCloudMusic/commit/6bec405) 
+
+
+### 🎫 Chores | 其他更新
+
+* 调整部分方法顺序 [#0eb5e3b](https://github.com/xlz122/NeteaseCloudMusic/commit/0eb5e3b) 
+* 调整引入顺序 [#5ec2ec9](https://github.com/xlz122/NeteaseCloudMusic/commit/5ec2ec9) 
+* 更新husky依赖项 [#15ed8f2](https://github.com/xlz122/NeteaseCloudMusic/commit/15ed8f2) 
+* 添加common文件夹 [#e3cce2a](https://github.com/xlz122/NeteaseCloudMusic/commit/e3cce2a) 
+* release 1.1.1 [#86bb158](https://github.com/xlz122/NeteaseCloudMusic/commit/86bb158) 
+* release 1.1.2 [#293792c](https://github.com/xlz122/NeteaseCloudMusic/commit/293792c) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 部分页面跳转修改，去除多余代码 [#0c51a77](https://github.com/xlz122/NeteaseCloudMusic/commit/0c51a77) 
+* 调整首页新碟上架执行动画时间由原来的1500ms为1200ms [#221d662](https://github.com/xlz122/NeteaseCloudMusic/commit/221d662) 
+* 歌手详情侧边改为优先获取热门歌手 [#d638aca](https://github.com/xlz122/NeteaseCloudMusic/commit/d638aca) 
+* 删除跳转歌曲位置相关代码 [#62997a3](https://github.com/xlz122/NeteaseCloudMusic/commit/62997a3) 
+* 修复各页面将歌单歌曲添加到播放器，时间NaN的bug [#a397702](https://github.com/xlz122/NeteaseCloudMusic/commit/a397702) 
+* 修复音乐播放器音量控制已知bug [#d0629a9](https://github.com/xlz122/NeteaseCloudMusic/commit/d0629a9) 
+
+
+
+# [1.1.0](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.14...v1.1.0) (2022-05-09)
+
+
+### ✨ Features | 新功能
+
+* 视频增加可拖动进度条 [#1d01e7c](https://github.com/xlz122/NeteaseCloudMusic/commit/1d01e7c) 
+* 首页(登陆后)补充跳转等级详情 [#452d67d](https://github.com/xlz122/NeteaseCloudMusic/commit/452d67d) 
+* 首页(登陆后)个人资料补充跳转详情 [#406910f](https://github.com/xlz122/NeteaseCloudMusic/commit/406910f) 
+* 完善搜索详情无数据展示 [#f853c9c](https://github.com/xlz122/NeteaseCloudMusic/commit/f853c9c) 
+
+
+### 🎫 Chores | 其他更新
+
+* 模板（template）删除部分多余注释 [#a3e2820](https://github.com/xlz122/NeteaseCloudMusic/commit/a3e2820) 
+* 移除rimraf插件 [#43ba77c](https://github.com/xlz122/NeteaseCloudMusic/commit/43ba77c) 
+* 中文空格符替换成英文空格符 [#b1ff30a](https://github.com/xlz122/NeteaseCloudMusic/commit/b1ff30a) 
+* css样式文件删除多余注释 [#43131d6](https://github.com/xlz122/NeteaseCloudMusic/commit/43131d6) 
+* modify changelog config [#193dcd2](https://github.com/xlz122/NeteaseCloudMusic/commit/193dcd2) 
+* modify changelog config [#8b5d754](https://github.com/xlz122/NeteaseCloudMusic/commit/8b5d754) 
+* modify eslint config [#de8e2cb](https://github.com/xlz122/NeteaseCloudMusic/commit/de8e2cb) 
+* modify prettier config [#8967c04](https://github.com/xlz122/NeteaseCloudMusic/commit/8967c04) 
+* release 1.1.0 [#2eb96e8](https://github.com/xlz122/NeteaseCloudMusic/commit/2eb96e8) 
+* update .env config [#41c13cb](https://github.com/xlz122/NeteaseCloudMusic/commit/41c13cb) 
+* update tsconfig.json [#020aff4](https://github.com/xlz122/NeteaseCloudMusic/commit/020aff4) 
+* update tsconfig.json [#032f19c](https://github.com/xlz122/NeteaseCloudMusic/commit/032f19c) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 修复歌曲切换进度条回弹bug [#b6ab0c5](https://github.com/xlz122/NeteaseCloudMusic/commit/b6ab0c5) 
+* 修复歌曲切换瞬间会短暂播放器里歌曲的bug [#dae65f4](https://github.com/xlz122/NeteaseCloudMusic/commit/dae65f4) 
+* 修复生命周期函数使用错误导致报错的bug [#a72d4d3](https://github.com/xlz122/NeteaseCloudMusic/commit/a72d4d3) 
+
+
+
+## [1.0.14](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.13...v1.0.14) (2022-05-05)
+
+
+### ⚡ Performance Improvements | 性能优化
+
+* 优化上/下一首切换逻辑 [#5b1d95e](https://github.com/xlz122/NeteaseCloudMusic/commit/5b1d95e) 
+* 优化随机播放逻辑，播放列表大于5首时，后续5次切换不会被播放 [#81b9c5b](https://github.com/xlz122/NeteaseCloudMusic/commit/81b9c5b) 
+
+
+### ✨ Features | 新功能
+
+* 调整导航部分的样式 [#bf1dcd1](https://github.com/xlz122/NeteaseCloudMusic/commit/bf1dcd1) 
+* 搜索详情-未登录时只显示20条数据 [#1c3cac0](https://github.com/xlz122/NeteaseCloudMusic/commit/1c3cac0) 
+* 搜索详情各页面搜索关键字匹配 [#0304681](https://github.com/xlz122/NeteaseCloudMusic/commit/0304681) 
+
+
+### 🎫 Chores | 其他更新
+
+* 升级部分依赖项 [#b850d83](https://github.com/xlz122/NeteaseCloudMusic/commit/b850d83) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 修复从排行榜页面进入我的音乐页面显示不正确bug [#b3feb9e](https://github.com/xlz122/NeteaseCloudMusic/commit/b3feb9e) 
+* 修复从其他页面进入我的音乐页面，歌单不是选中第一项的bug [#5b43391](https://github.com/xlz122/NeteaseCloudMusic/commit/5b43391) 
+* 修复从我的音乐页面登录，登录后侧边菜单显示不全的bug [#4a8d4c6](https://github.com/xlz122/NeteaseCloudMusic/commit/4a8d4c6) 
+* 修复随机播放bug [#86276c1](https://github.com/xlz122/NeteaseCloudMusic/commit/86276c1) 
+* 修复我的音乐-歌单详情，页面加载评论接口被请求两次的bug [#e304019](https://github.com/xlz122/NeteaseCloudMusic/commit/e304019) 
+
+
+
+## [1.0.13](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.12...v1.0.13) (2022-04-17)
+
+
+### ✨ Features | 新功能
+
+* 歌单可播放歌单内歌曲 [#590a2e5](https://github.com/xlz122/NeteaseCloudMusic/commit/590a2e5) 
+* 视频、MV大屏收藏按钮可用 [#9ae814d](https://github.com/xlz122/NeteaseCloudMusic/commit/9ae814d) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 未登录时请求不再携带cookie字段 [#c7e347a](https://github.com/xlz122/NeteaseCloudMusic/commit/c7e347a) 
+* 修复进入专辑详情，接口被触发两次的bug [#513b5c0](https://github.com/xlz122/NeteaseCloudMusic/commit/513b5c0) 
+* 修复轮播图图片未加载时控制台报的404报错 [#4ea8da9](https://github.com/xlz122/NeteaseCloudMusic/commit/4ea8da9) 
+* 修复评论组件userId报错的bug [#8ad5193](https://github.com/xlz122/NeteaseCloudMusic/commit/8ad5193) 
+* 修复首页-热门推荐样式bug [#c471fe0](https://github.com/xlz122/NeteaseCloudMusic/commit/c471fe0) 
+* 修复首页排行榜图片未加载报错 [#00e7f9e](https://github.com/xlz122/NeteaseCloudMusic/commit/00e7f9e) 
+* 修复专辑详情-其他热门专辑接口404的bug [#4859c8f](https://github.com/xlz122/NeteaseCloudMusic/commit/4859c8f) 
+* 修复专辑详情-热门专辑接口404报错 [#5b56329](https://github.com/xlz122/NeteaseCloudMusic/commit/5b56329) 
+* 修复资源警告未判断环境的bug [#0c40630](https://github.com/xlz122/NeteaseCloudMusic/commit/0c40630) 
+* 修复https中请求http接口或引入http资源时控制台出现的警告 [#a64e1d2](https://github.com/xlz122/NeteaseCloudMusic/commit/a64e1d2) 
+
+
+
 ## [1.0.12](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.11...v1.0.12) (2022-04-02)
 
 

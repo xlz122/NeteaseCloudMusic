@@ -4,7 +4,7 @@
       <i class="loading-icon"></i>
       加载中...
     </div>
-    <table class="play-list-table" v-if="songs?.length > 0">
+    <table class="play-list-table" v-if="!loading && songs?.length > 0">
       <thead>
         <tr>
           <th class="th first-th">
@@ -25,7 +25,10 @@
         <tr
           v-for="(item, index) in songs"
           :key="index"
-          :class="[{ 'even-tr': (index + 1) % 2 }]"
+          :class="[
+            { 'even-item': (index + 1) % 2 },
+            { 'no-copyright': isCopyright(item.id) }
+          ]"
         >
           <td class="tbody-left">
             <div class="hd">
@@ -48,7 +51,7 @@
               <i
                 class="icon-mv"
                 v-if="item?.mv > 0"
-                @click="jumpVideoDetail(item?.mv)"
+                @click="jumpVideoDetail(item?.mv, item?.id)"
               ></i>
             </div>
           </td>
@@ -94,8 +97,7 @@
         </tr>
       </tbody>
     </table>
-    <!-- 音乐列表空时展示 -->
-    <div class="no-list-data" v-if="noData">
+    <div class="no-list-data" v-if="!loading && songs.length === 0">
       <div class="title">
         <i class="icon"></i>
         <h3 class="text">暂无音乐！</h3>
@@ -115,8 +117,8 @@
 import { defineComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { handleAudioSong } from '@/common/audio.ts';
 import { timeStampToDuration } from '@utils/utils.ts';
-import { LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({
@@ -125,55 +127,61 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    noData: {
-      type: Boolean,
-      default: false
-    },
     songs: {
       type: Array,
       default: () => []
     }
   },
-  setup() {
+  setup(props) {
     const $router = useRouter();
     const $store = useStore();
 
     const isLogin = computed(() => $store.getters.isLogin);
-    // 当前播放音乐id
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
-
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
-    }
-
-    // 跳转视频详情
-    function jumpVideoDetail(id: number): void {
-      $router.push({ name: 'mv-detail', params: { id } });
-      $store.commit('setVideo', { id, url: '' });
-    }
 
     // 单个歌曲添加到播放列表
     function singleMusicToPlayList(item: Record<string, any>): void {
-      // 处理播放器所需数据
-      const musicItem: PlayMusicItem = {
-        id: item.id,
-        name: item.name,
-        picUrl: item.al.picUrl,
-        time: item.dt,
-        mv: item.mv,
-        singerList: []
-      };
+      const musicItem: PlayMusicItem = handleAudioSong(item);
 
-      item?.ar?.forEach((item: LoopType) => {
-        musicItem.singerList.push({
-          id: item.id,
-          name: item.name
-        });
-      });
-
-      // 播放音乐数据
       $store.commit('music/setPlayMusicList', musicItem);
+    }
+
+    // 播放单个歌曲
+    function playSingleMusic(item: Record<string, any>): boolean | undefined {
+      // 无版权
+      if (isCopyright(item.id)) {
+        $store.commit('setCopyright', {
+          visible: true,
+          message: '由于版权保护，您所在的地区暂时无法使用。'
+        });
+        return false;
+      }
+
+      const musicItem: PlayMusicItem = handleAudioSong(item);
+
+      // 当前播放音乐
+      $store.commit('music/setPlayMusicItem', musicItem);
+      // 添加到播放列表
+      $store.commit('music/setPlayMusicList', musicItem);
+      // 开始播放
+      $store.commit('music/setMusicPlayStatus', {
+        look: true,
+        loading: true,
+        refresh: true
+      });
+    }
+
+    // 歌曲是否有版权
+    function isCopyright(id: number): boolean | undefined {
+      const songItem = props.songs.find(
+        item => (item as { id: number }).id === id
+      );
+
+      if ((songItem as Record<string, any>)?.privilege?.cp === 0) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     // 收藏
@@ -183,7 +191,7 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('music/collectPlayMusic', {
+      $store.commit('collectPlayMusic', {
         visible: true,
         songIds: id
       });
@@ -210,55 +218,43 @@ export default defineComponent({
       });
     }
 
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      $store.commit('jumpSongDetail', id);
+    }
+
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       $store.commit('jumpSingerDetail', id);
     }
 
-    // 播放单个歌曲
-    function playSingleMusic(item: Record<string, any>): void {
-      // 处理播放器所需数据
-      const musicItem: PlayMusicItem = {
-        id: item.id,
-        name: item.name,
-        picUrl: item.al.picUrl,
-        time: item.dt,
-        mv: item.mv,
-        singerList: []
-      };
-
-      item?.ar?.forEach((item: LoopType) => {
-        musicItem.singerList.push({
-          id: item.id,
-          name: item.name
+    // 跳转视频详情
+    function jumpVideoDetail(id: number, songId: number): boolean | undefined {
+      // 无版权
+      if (isCopyright(songId)) {
+        $store.commit('setCopyright', {
+          visible: true,
+          message: '由于版权保护，您所在的地区暂时无法使用。'
         });
-      });
+        return false;
+      }
 
-      // 当前播放音乐id
-      $store.commit('music/setPlayMusicId', musicItem.id);
-      // 当前播放音乐数据
-      $store.commit('music/setPlayMusicItem', musicItem);
-      // 播放音乐数据
-      $store.commit('music/setPlayMusicList', musicItem);
-      // 开始播放
-      $store.commit('music/setMusicPlayStatus', {
-        look: true,
-        loading: true,
-        refresh: true
-      });
+      $router.push({ name: 'mv-detail', params: { id } });
+      $store.commit('video/setVideo', { id, url: '' });
     }
 
     return {
       timeStampToDuration,
       playMusicId,
-      jumpSongDetail,
-      jumpVideoDetail,
-      jumpSingerDetail,
       singleMusicToPlayList,
+      playSingleMusic,
+      isCopyright,
       handleCollection,
       handleShare,
       handleDownload,
-      playSingleMusic
+      jumpSongDetail,
+      jumpSingerDetail,
+      jumpVideoDetail
     };
   }
 });

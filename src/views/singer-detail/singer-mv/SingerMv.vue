@@ -19,7 +19,6 @@
           <p class="desc" @click="jumpMvDetail(item?.id)">{{ item?.name }}</p>
         </li>
       </ul>
-      <!-- 参数从0开始，分页需从1开始 -->
       <Page
         v-if="mvParams.total > mvParams.limit"
         :page="mvParams.offset"
@@ -35,8 +34,8 @@
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { artistMv } from '@api/singer-detail';
 import { formatDateTime } from '@utils/utils.ts';
+import { artistMv } from '@api/singer-detail';
 import { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
 
@@ -60,7 +59,6 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    // 歌手id
     const singerId = computed<number>(() => $store.getters.singerId);
 
     watch(
@@ -79,7 +77,7 @@ export default defineComponent({
       total: props.singerDetail?.artist?.mvSize // 总数
     });
 
-    // 监听歌手详情，获取mv总数
+    // 获取mv总数
     watch(
       () => props.singerDetail,
       () => {
@@ -108,24 +106,24 @@ export default defineComponent({
     }
     getArtistMv();
 
-    // 跳转Mv详情
-    function jumpMvDetail(id: number): void {
-      $router.push({ name: 'mv-detail', params: { id } });
-      $store.commit('setVideo', { id, url: '' });
-    }
-
     // 分页
     function changPage(current: number): void {
       mvParams.offset = current;
       getArtistMv();
     }
 
+    // 跳转Mv详情
+    function jumpMvDetail(id: number): void {
+      $router.push({ name: 'mv-detail', params: { id } });
+      $store.commit('video/setVideo', { id, url: '' });
+    }
+
     return {
       formatDateTime,
       mvList,
       mvParams,
-      jumpMvDetail,
-      changPage
+      changPage,
+      jumpMvDetail
     };
   }
 });

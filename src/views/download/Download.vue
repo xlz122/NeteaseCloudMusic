@@ -1,6 +1,5 @@
 <template>
   <div class="download-container">
-    <!-- 右下角二维码 -->
     <div class="qrcode">
       <img
         class="qrcode-img"
@@ -9,7 +8,6 @@
       />
       <p class="text">扫描二维码下载</p>
     </div>
-    <!-- 下载部分 -->
     <div class="content">
       <div class="main">
         <div class="other-download" @click="otherDownload">
@@ -111,7 +109,6 @@
         </div>
       </div>
     </div>
-    <!-- 列表部分 -->
     <div class="group quku">
       <div class="group-container">
         <div class="content">

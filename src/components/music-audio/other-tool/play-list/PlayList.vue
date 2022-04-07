@@ -1,6 +1,5 @@
 <template>
   <div class="play-list" v-if="playListShow">
-    <!-- 头部部分 -->
     <div class="play-list-title">
       <h4 class="title">播放列表({{ playMusicList.length }})</h4>
       <div class="add-all" @click="collectAll">
@@ -15,7 +14,6 @@
       <div class="song-title">{{ playMusicItem?.name || '' }}</div>
       <i class="clear-icon" @click="closePlayList"></i>
     </div>
-    <!-- 内容部分 -->
     <div class="play-list-content">
       <img
         class="play-list-content-bg"
@@ -70,7 +68,6 @@
             <i class="share" @click.stop="jumpSongPosition"></i>
           </li>
         </ul>
-        <!-- 列表空时展示 -->
         <div class="no-list-data" v-else>
           <div class="title">
             <i class="icon"></i>
@@ -96,10 +93,9 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
-import { LoopType } from '@/types/types';
-// 歌词组件
-import Lyric from '../lyric/Lyric.vue';
 import { timeStampToDuration } from '@utils/utils';
+import { LoopType } from '@/types/types';
+import Lyric from '../lyric/Lyric.vue';
 
 export default defineComponent({
   components: {
@@ -115,16 +111,13 @@ export default defineComponent({
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    // 播放列表数据
-    const playMusicList = computed(() => $store.getters['music/playMusicList']);
-    // 当前播放音乐id
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );
-    // 当前播放音乐数据
     const playMusicItem = computed<number>(
       () => $store.getters['music/playMusicItem']
     );
+    const playMusicList = computed(() => $store.getters['music/playMusicList']);
 
     // 收藏全部歌曲
     function collectAll(): boolean | undefined {
@@ -138,7 +131,7 @@ export default defineComponent({
         ids += `${item.id},`;
       });
 
-      $store.commit('music/collectPlayMusic', {
+      $store.commit('collectPlayMusic', {
         visible: true,
         songIds: ids
       });
@@ -156,7 +149,7 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('music/collectPlayMusic', {
+      $store.commit('collectPlayMusic', {
         visible: true,
         songIds: id
       });
@@ -191,8 +184,6 @@ export default defineComponent({
 
     // 列表项点击
     function playlistItem(id: number, item: unknown): void {
-      // 当前播放音乐id
-      $store.commit('music/setPlayMusicId', id);
       // 播放音乐数据
       $store.commit('music/setPlayMusicItem', item);
       // 开始播放
@@ -203,6 +194,11 @@ export default defineComponent({
       });
     }
 
+    // 关闭列表
+    function closePlayList(): void {
+      emit('closePlayList');
+    }
+
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       $store.commit('jumpSongDetail', id);
@@ -211,26 +207,17 @@ export default defineComponent({
 
     // 跳转歌曲位置
     function jumpSongPosition(): void {
-      // 该功能需要在歌曲数据中添加歌曲来源，targetType（歌单/专辑/单曲）
-      // targetId（歌单id/专辑id/单曲id）
-      // 单曲链接，不可点击，需要判断
-      // $router.push({ name: 'home-song-sheet', params: { songSheetId: id } });
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
       });
     }
 
-    // 关闭列表
-    function closePlayList(): void {
-      emit('closePlayList');
-    }
-
     return {
-      playMusicList,
+      timeStampToDuration,
       playMusicId,
       playMusicItem,
-      timeStampToDuration,
+      playMusicList,
       collectAll,
       emptyMusicList,
       handleCollection,
@@ -238,9 +225,9 @@ export default defineComponent({
       handleDownload,
       deleteMusic,
       playlistItem,
+      closePlayList,
       jumpSingerDetail,
-      jumpSongPosition,
-      closePlayList
+      jumpSongPosition
     };
   }
 });

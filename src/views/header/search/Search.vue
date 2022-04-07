@@ -1,5 +1,4 @@
 <template>
-  <!-- 搜索 -->
   <div class="search">
     <span class="icon"></span>
     <input
@@ -130,7 +129,7 @@ export default defineComponent({
     const searchPropos = ref<unknown>({});
 
     // 搜索关键词
-    const searchText = computed(() =>
+    const searchText = computed<string>(() =>
       $store.getters.searchText.replace(/"/g, '')
     );
 
@@ -192,7 +191,7 @@ export default defineComponent({
         // 搜索详情关键字
         $store.commit('setSearchDetailText', searchValue.value);
         // 头部导航取消选中
-        $store.commit('setHeaderActiveIndex', -1);
+        $store.commit('setMenuIndex', -1);
 
         // 搜索详情页导航选中
         $store.commit('setSearchIndex', 0);
@@ -227,7 +226,7 @@ export default defineComponent({
       // 存储关键字
       $store.commit('setSearchText', searchValue.value);
       // 头部导航取消选中
-      $store.commit('setHeaderActiveIndex', -1);
+      $store.commit('setMenuIndex', -1);
 
       // 搜索详情页导航选中
       $store.commit('setSearchIndex', 7);

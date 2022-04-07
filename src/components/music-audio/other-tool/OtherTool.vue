@@ -8,9 +8,9 @@
     <button class="btn share-btn" title="分享" @click="handleShare"></button>
   </div>
   <div class="other">
-    <!-- 音量控制 -->
     <button
       class="btn volume-btn"
+      :class="{ 'no-volume': Number(musicVolume) === 0 }"
       title="音量"
       @click="setVolumeProgress"
     ></button>
@@ -51,9 +51,7 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-// 音量
 import VolumeProgress from '../volume-progress/VolumeProgress.vue';
-// 播放列表
 import PlayList from './play-list/PlayList.vue';
 
 export default defineComponent({
@@ -66,12 +64,11 @@ export default defineComponent({
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    // 播放列表数据
-    const playMusicList = computed(() => $store.getters['music/playMusicList']);
-    // 当前播放id
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );
+    const playMusicList = computed(() => $store.getters['music/playMusicList']);
+    const musicVolume = computed(() => $store.getters['music/musicVolume']);
 
     // 收藏
     function handleCollection(): boolean | undefined {
@@ -80,7 +77,7 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('music/collectPlayMusic', {
+      $store.commit('collectPlayMusic', {
         visible: true,
         songIds: playMusicId.value
       });
@@ -162,7 +159,7 @@ export default defineComponent({
       }
     );
 
-    // 监听路由切换，关闭播放列表
+    // 路由切换，关闭播放列表
     watch(
       () => $route.params,
       () => {
@@ -176,8 +173,9 @@ export default defineComponent({
     }
 
     return {
-      playMusicList,
       playMusicId,
+      playMusicList,
+      musicVolume,
       handleCollection,
       handleShare,
       volumeProgressShow,

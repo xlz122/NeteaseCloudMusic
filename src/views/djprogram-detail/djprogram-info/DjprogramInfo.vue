@@ -35,9 +35,8 @@
       </div>
     </div>
     <div class="info-bottom">
-      <!-- 操作项 -->
       <div class="operate-btn">
-        <div class="play" @click="playAllMusic">
+        <div class="play">
           <span class="icon-play">播放 </span>
         </div>
         <div class="other like" @click="handleLike">
@@ -131,7 +130,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 电台节目id
-    const djprogramId = computed(() => $store.getters.djprogramId);
+    const djprogramId = computed<number>(() => $store.getters.djprogramId);
 
     // 喜欢
     function handleLike(): void {

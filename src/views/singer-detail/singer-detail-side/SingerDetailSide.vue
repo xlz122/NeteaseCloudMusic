@@ -66,7 +66,6 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 歌手id
     const singerId = computed<number>(() => $store.getters.singerId);
 
     const hotSingerList = ref<unknown[]>([]);
@@ -78,6 +77,11 @@ export default defineComponent({
       })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
+            // 热门歌手为空时，获取相似歌手
+            if (res?.artists?.length === 0) {
+              getSimiArtist();
+            }
+
             hotSingerList.value = res?.artists?.slice(0, 6);
           } else {
             $store.commit('setMessage', {
@@ -88,6 +92,7 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
+    getTopArtists();
 
     const singerList = ref<unknown[]>([]);
 
@@ -96,10 +101,6 @@ export default defineComponent({
       simiArtist({ id: singerId.value })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
-            // 相似歌手为空时，获取热门歌手
-            if (res.artists.length === 0) {
-              getTopArtists();
-            }
             singerList.value = res?.artists?.slice(0, 6);
           } else {
             $store.commit('setMessage', {
@@ -110,12 +111,10 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getSimiArtist();
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       $store.commit('jumpSingerDetail', id);
-      getSimiArtist();
     }
 
     return {

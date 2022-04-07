@@ -26,7 +26,20 @@
           :title="item?.title"
           @click="jumpVideoDetail(item?.type, item?.vid)"
         >
-          {{ item?.title }}
+          <template
+            v-for="(item, index) in handleMatchString(
+              item?.title,
+              searchDetailText
+            )"
+            :key="index"
+          >
+            <span v-if="item.color" :style="{ color: item.color }">
+              {{ item.title }}
+            </span>
+            <span v-else>
+              {{ item.title }}
+            </span>
+          </template>
         </span>
       </div>
       <div class="item-name">
@@ -54,10 +67,14 @@
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import {
+  bigNumberTransform,
+  timeStampToDuration,
+  handleMatchString
+} from '@utils/utils.ts';
 import { searchKeywords } from '@api/search';
-import { bigNumberTransform, timeStampToDuration } from '@utils/utils.ts';
-import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
+import Page from '@components/page/Page.vue';
 
 type MvData = {
   loading: boolean;
@@ -84,6 +101,7 @@ export default defineComponent({
 
     const { searchDetailText } = toRefs(props);
 
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
     // 搜索关键词
     const searchText = computed<string>(() =>
@@ -110,43 +128,31 @@ export default defineComponent({
       searchKeywords({
         keywords: searchDetailText.value || searchText.value,
         offset: (mvData.offset - 1) * mvData.limit,
-        limit: mvData.limit,
+        limit: isLogin.value ? mvData.limit : 20,
         type: 1014
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            mvData.total = res?.result?.videoCount;
+            const total = isLogin.value
+              ? res?.result?.videoCount
+              : res?.result?.videos.length;
+
+            mvData.total = total;
             mvData.list = res?.result?.videos;
-            emit('searchCountChange', res?.result?.videoCount);
+
+            emit('searchCountChange', total || 0);
           } else {
             $store.commit('setMessage', {
               type: 'error',
               title: res?.msg
             });
           }
+
           mvData.loading = false;
         })
         .catch(() => ({}));
     }
     getSearchMv();
-
-    // 跳转视频详情
-    function jumpVideoDetail(type: number, id: number): void {
-      // type 0为mv, 1为视频
-      if (type === 0) {
-        $router.push({ name: 'mv-detail', params: { id } });
-      }
-      if (type === 1) {
-        $router.push({ name: 'video-detail', params: { id } });
-      }
-
-      $store.commit('setVideo', { id, url: '' });
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
 
     // 分页
     function changPage(current: number): void {
@@ -154,14 +160,34 @@ export default defineComponent({
       getSearchMv();
     }
 
+    // 跳转视频详情
+    function jumpVideoDetail(type: number, id: number): void {
+      // type 0为mv, 1为视频
+      if (type === 0) {
+        $router.push({ name: 'mv-detail', params: { id } });
+      }
+
+      if (type === 1) {
+        $router.push({ name: 'video-detail', params: { id } });
+      }
+
+      $store.commit('video/setVideo', { id, url: '' });
+    }
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      $store.commit('jumpSingerDetail', id);
+    }
+
     return {
       bigNumberTransform,
       timeStampToDuration,
+      handleMatchString,
       userInfo,
       mvData,
+      changPage,
       jumpVideoDetail,
-      jumpSingerDetail,
-      changPage
+      jumpSingerDetail
     };
   }
 });

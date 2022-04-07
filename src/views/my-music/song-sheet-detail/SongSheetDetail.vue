@@ -17,14 +17,12 @@
         次
       </div>
     </div>
-    <!-- 音乐列表 -->
     <MusicTable class="music-table" />
     <div class="comment-component">
       <Comment
         :commentParams="commentParams"
         @commentRefresh="commentRefresh"
       />
-      <!-- 参数从0开始，分页需从1开始 -->
       <Page
         v-if="commentParams.total > commentParams.limit"
         :page="commentParams.offset"
@@ -39,10 +37,10 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
+import { handleCommentData } from '@components/comment/handleCommentData';
 import { playListDetail } from '@api/my-music';
 import { commentPlayList } from '@api/comment';
 import { ResponseType, CommentParams } from '@/types/types';
-import { handleCommentData } from '@components/comment/handleCommentData';
 import UserInfo from '@components/song-sheet/user-info/UserInfo.vue';
 import MusicTable from '@components/song-sheet/music-table/MusicTable.vue';
 import Comment from '@components/comment/Comment.vue';
@@ -58,12 +56,9 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 歌单id
     const songSheetId = computed<number>(() => $store.getters.songSheetId);
     // 歌单详情
-    const songSheetDetail = computed(
-      () => $store.getters['music/songSheetDetail']
-    );
+    const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
     watch(
       () => songSheetId.value,
@@ -72,16 +67,11 @@ export default defineComponent({
           getSongSheetDetail();
           getCommentData();
         });
-      },
-      {
-        immediate: true
       }
     );
 
     // 获取歌单详情
     function getSongSheetDetail(): void {
-      $store.commit('music/setSongSheetDetail', {});
-
       playListDetail({
         id: songSheetId.value
       })
@@ -90,7 +80,7 @@ export default defineComponent({
             if (res?.playlist?.name.includes('喜欢的音乐')) {
               res.playlist.name = '我喜欢的音乐';
             }
-            $store.commit('music/setSongSheetDetail', res);
+            $store.commit('setSongSheetDetail', res);
           } else {
             $store.commit('setMessage', {
               type: 'error',
@@ -143,7 +133,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getCommentData();
 
     // 刷新评论
     function commentRefresh(): void {

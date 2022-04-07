@@ -28,7 +28,20 @@
             :title="item?.name"
             @click="jumpSingerDetail(item?.id)"
           >
-            {{ item?.name }}
+            <template
+              v-for="(item, index) in handleMatchString(
+                item?.name,
+                searchDetailText
+              )"
+              :key="index"
+            >
+              <span v-if="item.color" :style="{ color: item.color }">
+                {{ item.title }}
+              </span>
+              <span v-else>
+                {{ item.title }}
+              </span>
+            </template>
           </span>
           <span
             class="item-info-icon"
@@ -39,7 +52,7 @@
       </li>
     </ul>
     <Page
-      v-if="singerData.total"
+      v-if="singerData.total > singerData.limit"
       :page="singerData.offset"
       :pageSize="singerData.limit"
       :total="singerData.total"
@@ -51,10 +64,10 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
+import { timeStampToDuration, handleMatchString } from '@utils/utils.ts';
 import { searchKeywords } from '@api/search';
-import { timeStampToDuration } from '@utils/utils.ts';
-import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
+import Page from '@components/page/Page.vue';
 
 type SingerData = {
   loading: boolean;
@@ -80,6 +93,7 @@ export default defineComponent({
 
     const { searchDetailText } = toRefs(props);
 
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
     // 搜索关键词
     const searchText = computed<string>(() =>
@@ -106,25 +120,37 @@ export default defineComponent({
       searchKeywords({
         keywords: searchDetailText.value || searchText.value,
         offset: (singerData.offset - 1) * singerData.limit,
-        limit: singerData.limit,
+        limit: isLogin.value ? singerData.limit : 20,
         type: 100
       })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
-            singerData.total = res?.result?.artistCount;
+            const total = isLogin.value
+              ? res?.result?.artistCount
+              : res?.result?.artists.length;
+
+            singerData.total = total;
             singerData.list = res?.result?.artists;
-            emit('searchCountChange', res?.result?.artistCount);
+
+            emit('searchCountChange', total || 0);
           } else {
             $store.commit('setMessage', {
               type: 'error',
               title: res?.msg
             });
           }
+
           singerData.loading = false;
         })
         .catch(() => ({}));
     }
     getSearchSinger();
+
+    // 分页
+    function changPage(current: number): void {
+      singerData.offset = current;
+      getSearchSinger();
+    }
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
@@ -136,19 +162,14 @@ export default defineComponent({
       $store.commit('jumpUserProfile', id);
     }
 
-    // 分页
-    function changPage(current: number): void {
-      singerData.offset = current;
-      getSearchSinger();
-    }
-
     return {
       timeStampToDuration,
+      handleMatchString,
       userInfo,
       singerData,
+      changPage,
       jumpSingerDetail,
-      jumpUserProfile,
-      changPage
+      jumpUserProfile
     };
   }
 });

@@ -82,8 +82,9 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
+import { handleAudioSong } from '@/common/audio.ts';
 import { simiPlaylist, simiSong } from '@api/song-detail';
-import { ResponseType, LoopType } from '@/types/types';
+import { ResponseType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
 
@@ -94,7 +95,6 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 歌曲id
     const songId = computed<number>(() => $store.getters.songId);
 
     const songSheetList = ref<unknown[]>([]);
@@ -115,16 +115,6 @@ export default defineComponent({
     }
     getSimiPlaylist();
 
-    // 跳转歌单详情
-    function jumpSongSheetDetail(id: number): void {
-      $store.commit('jumpSongSheetDetail', id);
-    }
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
     const simiSongList = ref<Record<string, any>>([]);
     // 获取歌曲的相似歌曲
     function getSimiSong(): void {
@@ -143,6 +133,51 @@ export default defineComponent({
     }
     getSimiSong();
 
+    // 播放单个歌曲
+    function playSingleMusic(item: Record<string, any>): boolean | undefined {
+      // 无版权过滤
+      if (item?.privilege?.cp === 0) {
+        return false;
+      }
+
+      const musicItem: PlayMusicItem = handleAudioSong(item);
+
+      // 当前播放音乐
+      $store.commit('music/setPlayMusicItem', musicItem);
+      // 添加到播放列表
+      $store.commit('music/setPlayMusicList', musicItem);
+      // 开始播放
+      $store.commit('music/setMusicPlayStatus', {
+        look: true,
+        loading: true,
+        refresh: true
+      });
+    }
+
+    // 单个歌曲添加到播放列表
+    function singleMusicToPlayList(
+      item: Record<string, any>
+    ): boolean | undefined {
+      // 无版权过滤
+      if (item?.privilege?.cp === 0) {
+        return false;
+      }
+
+      const musicItem: PlayMusicItem = handleAudioSong(item);
+
+      $store.commit('music/setPlayMusicList', musicItem);
+    }
+
+    // 跳转歌单详情
+    function jumpSongSheetDetail(id: number): void {
+      $store.commit('jumpSongSheetDetail', id);
+    }
+
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
       getSimiPlaylist();
@@ -156,73 +191,15 @@ export default defineComponent({
       $store.commit('jumpSingerDetail', id);
     }
 
-    // 播放单个歌曲
-    function playSingleMusic(item: Record<string, any>): void {
-      // 处理播放器所需数据
-      const musicItem: PlayMusicItem = {
-        id: item.id,
-        name: item.name,
-        picUrl: item.album.picUrl,
-        time: item.duration,
-        mv: item.mv,
-        singerList: [],
-        targetType: 'song'
-      };
-
-      item?.ar?.forEach((item: LoopType) => {
-        musicItem.singerList.push({
-          id: item.id,
-          name: item.name
-        });
-      });
-
-      // 当前播放音乐id
-      $store.commit('music/setPlayMusicId', musicItem.id);
-      // 当前播放音乐数据
-      $store.commit('music/setPlayMusicItem', musicItem);
-      // 播放音乐数据
-      $store.commit('music/setPlayMusicList', musicItem);
-      // 开始播放
-      $store.commit('music/setMusicPlayStatus', {
-        look: true,
-        loading: true,
-        refresh: true
-      });
-    }
-
-    // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(item: Record<string, any>): void {
-      // 处理播放器所需数据
-      const musicItem: PlayMusicItem = {
-        id: item.id,
-        name: item.name,
-        picUrl: item.album.picUrl,
-        time: item.duration,
-        mv: item.mv,
-        singerList: [],
-        targetType: 'song'
-      };
-
-      item?.ar?.forEach((item: LoopType) => {
-        musicItem.singerList.push({
-          id: item.id,
-          name: item.name
-        });
-      });
-
-      // 播放音乐数据
-      $store.commit('music/setPlayMusicList', musicItem);
-    }
-
     return {
       songSheetList,
+      simiSongList,
+      playSingleMusic,
+      singleMusicToPlayList,
       jumpSongSheetDetail,
       jumpUserProfile,
-      simiSongList,
       jumpSongDetail,
-      jumpSingerDetail,
-      playSingleMusic,
-      singleMusicToPlayList
+      jumpSingerDetail
     };
   }
 });

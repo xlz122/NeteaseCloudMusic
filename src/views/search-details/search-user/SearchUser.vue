@@ -23,7 +23,20 @@
           :title="item?.nickname"
           @click="jumpUserProfile(item?.userId)"
         >
-          {{ item?.nickname }}
+          <template
+            v-for="(item, index) in handleMatchString(
+              item?.nickname,
+              searchDetailText
+            )"
+            :key="index"
+          >
+            <span v-if="item.color" :style="{ color: item.color }">
+              {{ item.title }}
+            </span>
+            <span v-else>
+              {{ item.title }}
+            </span>
+          </template>
         </span>
         <i class="icon-sex male" v-if="item?.gender === 1"></i>
         <i class="icon-sex female" v-if="item?.gender === 2"></i>
@@ -52,9 +65,10 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
+import { handleMatchString } from '@utils/utils.ts';
 import { searchKeywords, followUser } from '@api/search';
-import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
+import Page from '@components/page/Page.vue';
 
 type AlbumData = {
   loading: boolean;
@@ -106,30 +120,30 @@ export default defineComponent({
       searchKeywords({
         keywords: searchDetailText.value || searchText.value,
         offset: (userData.offset - 1) * userData.limit,
-        limit: userData.limit,
+        limit: isLogin.value ? userData.limit : 20,
         type: 1002
       })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
-            userData.total = res?.result?.userprofileCount;
+            const total = isLogin.value
+              ? res?.result?.userprofileCount
+              : res?.result?.userprofiles.length;
+
+            userData.total = total;
             userData.list = res?.result?.userprofiles;
-            emit('searchCountChange', res?.result?.userprofileCount);
+            emit('searchCountChange', total || 0);
           } else {
             $store.commit('setMessage', {
               type: 'error',
               title: res?.msg
             });
           }
+
           userData.loading = false;
         })
         .catch(() => ({}));
     }
     getSearchUser();
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
 
     function follow(userId: number): boolean | undefined {
       if (!isLogin.value) {
@@ -160,11 +174,17 @@ export default defineComponent({
       getSearchUser();
     }
 
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
     return {
+      handleMatchString,
       userData,
-      jumpUserProfile,
       follow,
-      changPage
+      changPage,
+      jumpUserProfile
     };
   }
 });

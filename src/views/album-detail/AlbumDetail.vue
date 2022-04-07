@@ -28,17 +28,14 @@
         <AlbumSong
           class="music-table"
           :loading="albumData.loading"
-          :noData="albumData.noData"
           :songs="albumData.songs"
         />
-        <!-- 评论 -->
         <div class="comment-component">
           <Comment
             :commentParams="commentParams"
             @commentRefresh="commentRefresh"
           />
         </div>
-        <!-- 参数从0开始，分页需从1开始 -->
         <Page
           v-if="commentParams.total > commentParams.limit"
           :page="commentParams.offset"
@@ -63,7 +60,6 @@ import {
   nextTick,
   onMounted
 } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { albumDetail } from '@api/album-detail';
 import { commentAlbum } from '@api/comment';
@@ -77,7 +73,6 @@ import Page from '@components/page/Page.vue';
 
 type AlbumData = {
   loading: boolean;
-  noData: boolean;
   userInfo: unknown;
   songs: unknown[];
 };
@@ -91,35 +86,34 @@ export default defineComponent({
     Page
   },
   setup() {
-    const $route = useRoute();
     const $store = useStore();
 
-    // 专辑id
     const albumId = computed<number>(() => $store.getters.albumId);
 
     const albumData = reactive<AlbumData>({
-      loading: false,
-      noData: false,
+      loading: true,
       userInfo: {},
       songs: []
     });
 
     watch(
-      () => $route.params,
+      () => albumId.value,
       curVal => {
-        if (curVal.albumId) {
+        if (curVal) {
           nextTick(() => {
             getAlbumDetail();
             getCommentData();
           });
         }
+      },
+      {
+        immediate: true
       }
     );
 
-    // 获取歌单详情
+    // 获取专辑详情
     function getAlbumDetail(): void {
       albumData.loading = true;
-      albumData.noData = false;
       albumData.songs = [];
 
       albumDetail({
@@ -129,9 +123,6 @@ export default defineComponent({
           if (res?.code === 200) {
             albumData.userInfo = res?.album;
             albumData.songs = res?.songs;
-            if (res?.songs?.length === 0) {
-              albumData.noData = true;
-            }
 
             // 存储歌手id
             $store.commit('setSingerId', res?.album?.artist?.id);
@@ -145,7 +136,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getAlbumDetail();
 
     // 跳转至评论
     function jumpToComments(): void {
@@ -190,7 +180,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getCommentData();
 
     // 刷新评论
     function commentRefresh(): void {
@@ -204,8 +193,8 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      $store.commit('setHeaderActiveIndex', 0);
-      $store.commit('setSubActiveIndex', -1);
+      $store.commit('setMenuIndex', 0);
+      $store.commit('setSubMenuIndex', -1);
     });
 
     return {

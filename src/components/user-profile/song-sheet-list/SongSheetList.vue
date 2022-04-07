@@ -83,31 +83,22 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { bigNumberTransform } from '@utils/utils';
 import { userPlayList } from '@api/my-music';
 import { SongList, ResponseType, LoopType } from '@/types/types';
-import { bigNumberTransform } from '@utils/utils';
 
 export default defineComponent({
   setup() {
-    const $route = useRoute();
     const $store = useStore();
 
     const userInfo = computed(() => $store.getters.userInfo);
-    // 用户id
     const userId = computed<number>(() => $store.getters.userId);
 
     watch(
-      () => $route.params,
+      () => userId.value,
       curVal => {
-        // 传入
-        if (curVal?.userId) {
-          getUserPlayList();
-          return false;
-        }
-        // 刷新
-        if (userId.value) {
+        if (curVal) {
           getUserPlayList();
         }
       },
@@ -131,7 +122,6 @@ export default defineComponent({
             songSheetList.createSongList = [];
             songSheetList.collectionSongList = [];
 
-            // 处理列表数据
             res.playlist.forEach((item: LoopType) => {
               if (
                 userInfo.value?.profile?.userId === userId.value &&
@@ -140,14 +130,13 @@ export default defineComponent({
                 item.name = '我喜欢的音乐';
               }
 
-              // 歌单是否收藏
+              // 收藏列表判断
               if (!item.subscribed) {
                 songSheetList.createSongList.push(item);
               } else {
                 songSheetList.collectionSongList.push(item);
               }
 
-              // 统计处理
               item.playCount = bigNumberTransform(item?.playCount);
             });
           } else {

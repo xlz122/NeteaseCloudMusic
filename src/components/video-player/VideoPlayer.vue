@@ -1,7 +1,6 @@
 <template>
   <div class="video-player" :class="{ 'video-player-fullscreen': fullscreen }">
-    <!-- 播放器 -->
-    <Video :videoStatus="videoStatus" @videoEnded="videoEnded" />
+    <VideoView :videoStatus="videoStatus" @videoEnded="videoEnded" />
     <div class="play" @click="togglePlayStatus">
       <i class="icon pause-icon" v-if="videoStatus === 'pause'"></i>
       <i class="icon replay-icon" v-if="videoStatus === 'ended'">
@@ -18,8 +17,8 @@
         <li class="item" @click="handleLike">
           <i class="icon like"></i>
         </li>
-        <li class="item" @click="handleCollection">
-          <i class="icon collection"></i>
+        <li class="item" @click="handleCollection(subed)">
+          <i class="icon collection" :class="{ collectioned: subed }"></i>
         </li>
         <li class="item" @click="handleShare">
           <i class="icon share"></i>
@@ -36,12 +35,22 @@
       <span class="time">
         {{ timeStampToDuration(videoPlayProgress.currentTime || 0) || '00:00' }}
       </span>
-      <div class="progress"></div>
+      <div class="progress">
+        <PlayProgress
+          :playProgress="videoPlayProgress"
+          @progressChange="progressChange"
+        />
+      </div>
       <span class="time">
         {{ timeStampToDuration(videoPlayProgress.duration || 0) || '00:00' }}
       </span>
       <div class="other">
-        <i class="volume-btn"></i>
+        <i
+          class="volume-btn"
+          :class="{ 'no-volume': Number(videoVolume) === 0 }"
+          @click="setVolumeProgress"
+        ></i>
+        <volume-progress v-if="volumeProgressShow" />
         <p class="mode">高清</p>
         <i class="full" v-if="!fullscreen" @click="lanchFullscreen"></i>
         <i class="narrow" v-else @click="exitFullscreen"></i>
@@ -61,25 +70,34 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils';
-// 播放器
-import Video from './video/Video.vue';
+import VideoView from './video/Video.vue';
+import PlayProgress from './play-progress/PlayProgress.vue';
+import VolumeProgress from './volume-progress/VolumeProgress.vue';
 
 export default defineComponent({
   components: {
-    Video
+    VideoView,
+    PlayProgress,
+    VolumeProgress
   },
   props: {
     videoDetailData: {
       type: Object,
       default: () => ({})
+    },
+    subed: {
+      type: Boolean,
+      default: false
     }
   },
-  setup() {
+  emits: ['handleCollection'],
+  setup(props, { emit }) {
     const $store = useStore();
 
+    const videoVolume = computed(() => $store.getters['video/videoVolume']);
     // 播放进度数据
     const videoPlayProgress = computed(
-      () => $store.getters['videoPlayProgress']
+      () => $store.getters['video/videoPlayProgress']
     );
     // 播放状态
     const musicPlayStatus = computed(
@@ -125,6 +143,16 @@ export default defineComponent({
       videoStatus.value = 'replay';
     }
 
+    // 视频进度更改
+    function progressChange(value: number): void {
+      const currentTime = videoPlayProgress.value.duration * value;
+      $store.commit('video/setVideoPlayProgress', {
+        progress: value * 100,
+        currentTime,
+        timeChange: true
+      });
+    }
+
     // 全屏切换
     const fullscreen = ref<boolean>(false);
 
@@ -141,6 +169,33 @@ export default defineComponent({
       fullscreen.value = false;
 
       document.exitFullscreen && document.exitFullscreen();
+    }
+
+    // 音量条显隐
+    const volumeProgressShow = ref<boolean>(false);
+    function setVolumeProgress(): void {
+      volumeProgressShow.value = !volumeProgressShow.value;
+    }
+
+    // 喜欢
+    function handleLike(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
+    }
+
+    // 收藏
+    function handleCollection(followed: boolean): void {
+      emit('handleCollection', followed);
+    }
+
+    // 分享
+    function handleShare(): void {
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能暂未开发'
+      });
     }
 
     onMounted(() => {
@@ -162,30 +217,6 @@ export default defineComponent({
       });
     });
 
-    // 喜欢
-    function handleLike(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
-    }
-
-    // 收藏
-    function handleCollection(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
-    }
-
-    // 分享
-    function handleShare(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
-    }
-
     onUnmounted(() => {
       window.removeEventListener('keydown', () => ({}));
       window.removeEventListener('fullscreenchange', () => ({}));
@@ -193,14 +224,18 @@ export default defineComponent({
 
     return {
       timeStampToDuration,
+      videoVolume,
       videoPlayProgress,
       videoStatus,
       togglePlayStatus,
       videoEnded,
       videoReplay,
+      progressChange,
       fullscreen,
       lanchFullscreen,
       exitFullscreen,
+      volumeProgressShow,
+      setVolumeProgress,
       handleLike,
       handleCollection,
       handleShare

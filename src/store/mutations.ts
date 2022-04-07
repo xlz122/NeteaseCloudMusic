@@ -13,15 +13,15 @@ type Message = {
 };
 
 const mutations: Mutations<State> = {
-  // 头部导航选中
-  setHeaderActiveIndex(state, index: number) {
-    state.heaerActiveIndex = index;
-    localStorage.setItem('heaerActiveIndex', index.toString());
+  // 头部导航
+  setMenuIndex(state, index: number) {
+    state.menuIndex = index;
+    localStorage.setItem('menuIndex', String(index));
   },
-  // 二级导航选中
-  setSubActiveIndex(state, index: number) {
-    state.subActiveIndex = index;
-    localStorage.setItem('subActiveIndex', index.toString());
+  // 二级导航
+  setSubMenuIndex(state, index: number) {
+    state.subMenuIndex = index;
+    localStorage.setItem('subMenuIndex', String(index));
   },
   // 登录对话框
   setLoginDialog(state, bool: boolean) {
@@ -75,16 +75,11 @@ const mutations: Mutations<State> = {
     state.djprogramId = djprogramId;
     localStorage.setItem('djprogramId', JSON.stringify(djprogramId));
   },
-  // 视频/mv 数据
-  setVideo(state, video) {
-    state.video = video;
-    localStorage.setItem('video', JSON.stringify(video));
-  },
   // 跳转歌曲详情
   jumpSongDetail(state, songId: number) {
     // 取消二级导航选中
-    state.subActiveIndex = -1;
-    localStorage.setItem('subActiveIndex', '-1');
+    state.subMenuIndex = -1;
+    localStorage.setItem('subMenuIndex', '-1');
 
     state.songId = songId;
     localStorage.setItem('songId', JSON.stringify(songId));
@@ -101,8 +96,8 @@ const mutations: Mutations<State> = {
   // 跳转歌手详情
   jumpSingerDetail(state, singerId: number) {
     // 取消二级导航选中
-    state.subActiveIndex = -1;
-    localStorage.setItem('subActiveIndex', '-1');
+    state.subMenuIndex = -1;
+    localStorage.setItem('subMenuIndex', '-1');
 
     state.singerId = singerId;
     localStorage.setItem('singerId', JSON.stringify(singerId));
@@ -122,8 +117,8 @@ const mutations: Mutations<State> = {
   // 跳转用户资料
   jumpUserProfile(state, userId: number) {
     // 头部导航取消选中
-    state.heaerActiveIndex = -1;
-    localStorage.setItem('heaerActiveIndex', '-1');
+    state.menuIndex = -1;
+    localStorage.setItem('menuIndex', '-1');
 
     state.userId = userId;
     localStorage.setItem('userId', JSON.stringify(userId));
@@ -157,13 +152,18 @@ const mutations: Mutations<State> = {
     // 清除所有cookie
     clearAllCookie();
   },
-  // 当前播放音乐进度数据
-  setVideoPlayProgress(state, playProgress) {
-    const videoPlayProgress = JSON.parse(
-      JSON.stringify(state.videoPlayProgress)
-    );
-    const progress = Object.assign(videoPlayProgress, playProgress);
-    state.videoPlayProgress = progress as unknown;
+  // 歌单详情数据
+  setSongSheetDetail(state, songSheetDetail) {
+    state.songSheetDetail = songSheetDetail as unknown;
+    localStorage.setItem('songSheetDetail', JSON.stringify(songSheetDetail));
+  },
+  // 收藏歌曲
+  collectPlayMusic(state, song) {
+    state.collectSong = song as { visible: boolean; songIds: string };
+  },
+  // 版权提示
+  setCopyright(state, data) {
+    state.copyright = data;
   }
 };
 

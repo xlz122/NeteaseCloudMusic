@@ -1,12 +1,10 @@
 <template>
   <i class="icon-doubt"></i>
   <div class="lyric" v-if="playMusicId">
-    <!-- 没有歌词 -->
     <div class="not-lyric" v-if="lyric.noData">
       <span>暂时没有歌词</span>
       <span class="feed-lyric">求歌词</span>
     </div>
-    <!-- 歌词列表 -->
     <ul class="lyric-list">
       <!-- 可滚动 -->
       <template v-if="lyric.isScroll">
@@ -56,7 +54,6 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 当前播放音乐id
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );

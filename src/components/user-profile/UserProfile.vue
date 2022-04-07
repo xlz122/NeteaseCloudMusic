@@ -26,10 +26,9 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import { userDetail } from '@api/user';
 import findCityZipCode from './city';
+import { userDetail } from '@api/user';
 import { ResponseType } from '@/types/types';
 import UserInfo from '@/components/user-profile/user-info/UserInfo.vue';
 import UserRecord from '@components/user-profile/user-record/UserRecord.vue';
@@ -42,23 +41,15 @@ export default defineComponent({
     SongSheetList
   },
   setup() {
-    const $route = useRoute();
     const $store = useStore();
 
     const userInfo = computed(() => $store.getters.userInfo);
-    // 用户id
     const userId = computed<number>(() => $store.getters.userId);
 
     watch(
-      () => $route.params,
+      () => userId.value,
       curVal => {
-        // 传入
-        if (curVal?.userId) {
-          getUserDetail();
-          return false;
-        }
-        // 刷新
-        if (userId.value) {
+        if (curVal) {
           getUserDetail();
         }
       },
@@ -93,8 +84,8 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      $store.commit('setHeaderActiveIndex', -1);
-      $store.commit('setSubActiveIndex', -1);
+      $store.commit('setMenuIndex', -1);
+      $store.commit('setSubMenuIndex', -1);
     });
 
     return {

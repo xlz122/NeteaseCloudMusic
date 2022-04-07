@@ -18,7 +18,11 @@
               :title="item.name"
               @click="jumpAlbumDetail(item?.id)"
             ></i>
-            <i class="item-cover-play" title="播放"></i>
+            <i
+              class="item-cover-play"
+              title="播放"
+              @click="albumToPlayListPlay(item?.id)"
+            ></i>
           </div>
           <p
             class="desc"
@@ -32,7 +36,6 @@
           </p>
         </li>
       </ul>
-      <!-- 参数从0开始，分页需从1开始 -->
       <Page
         v-if="albumParams.total > albumParams.limit"
         :page="albumParams.offset"
@@ -47,9 +50,12 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { artistAlbum } from '@api/album-detail';
+import { handleAudioSong } from '@/common/audio.ts';
 import { formatDateTime } from '@utils/utils.ts';
-import { ResponseType } from '@/types/types';
+import { artistAlbum } from '@api/album-detail';
+import { albumDetail } from '@api/album-detail';
+import { LoopType, ResponseType } from '@/types/types';
+import { PlayMusicItem } from '@store/music/state';
 import Page from '@components/page/Page.vue';
 
 type AlbumParams = {
@@ -65,7 +71,6 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 歌手id
     const singerId = computed<number>(() => $store.getters.singerId);
 
     watch(
@@ -106,9 +111,57 @@ export default defineComponent({
     }
     getArtistAlbum();
 
-    // 跳转专辑详情
-    function jumpAlbumDetail(id: number): void {
-      $store.commit('jumpAlbumDetail', id);
+    // 专辑歌曲添加到播放器
+    function albumToPlayListPlay(id: number): void {
+      albumDetail({ id })
+        .then((res: ResponseType) => {
+          if (res?.code === 200) {
+            if (res?.songs.length === 0) {
+              return false;
+            }
+
+            // 歌曲是否全部无版权
+            let noCopyrightNum = 0;
+            res?.songs?.forEach((item: LoopType) => {
+              if (item.privilege?.cp === 0) {
+                noCopyrightNum += 1;
+              }
+            });
+
+            if (noCopyrightNum === res?.songs?.length) {
+              $store.commit('setCopyright', {
+                visible: true,
+                message:
+                  '版权方要求，当前专辑需单独付费，购买数字专辑即可无限畅享'
+              });
+              return false;
+            }
+
+            const songList: PlayMusicItem[] = [];
+
+            res?.songs.forEach((item: LoopType) => {
+              // 无版权过滤
+              if (item?.privilege?.cp === 0) {
+                return false;
+              }
+
+              const musicItem: PlayMusicItem = handleAudioSong(item);
+
+              songList.push(musicItem);
+            });
+
+            // 当前播放音乐
+            $store.commit('music/setPlayMusicItem', songList[0]);
+            // 添加到播放列表
+            $store.commit('music/setPlayMusicList', songList);
+            // 开始播放
+            $store.commit('music/setMusicPlayStatus', {
+              look: true,
+              refresh: true
+            });
+          }
+        })
+        .catch(() => ({}));
     }
 
     // 分页
@@ -117,12 +170,18 @@ export default defineComponent({
       getArtistAlbum();
     }
 
+    // 跳转专辑详情
+    function jumpAlbumDetail(id: number): void {
+      $store.commit('jumpAlbumDetail', id);
+    }
+
     return {
       formatDateTime,
       albumList,
       albumParams,
-      jumpAlbumDetail,
-      changPage
+      albumToPlayListPlay,
+      changPage,
+      jumpAlbumDetail
     };
   }
 });
