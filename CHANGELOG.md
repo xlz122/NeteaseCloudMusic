@@ -1,3 +1,27 @@
+## [1.0.13](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.12...v1.0.13) (2022-04-17)
+
+
+### ✨ Features | 新功能
+
+* 歌单可播放歌单内歌曲 [#590a2e5](https://github.com/xlz122/NeteaseCloudMusic/commit/590a2e5) 
+* 视频、MV大屏收藏按钮可用 [#9ae814d](https://github.com/xlz122/NeteaseCloudMusic/commit/9ae814d) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 未登录时请求不再携带cookie字段 [#c7e347a](https://github.com/xlz122/NeteaseCloudMusic/commit/c7e347a) 
+* 修复进入专辑详情，接口被触发两次的bug [#513b5c0](https://github.com/xlz122/NeteaseCloudMusic/commit/513b5c0) 
+* 修复轮播图图片未加载时控制台报的404报错 [#4ea8da9](https://github.com/xlz122/NeteaseCloudMusic/commit/4ea8da9) 
+* 修复评论组件userId报错的bug [#8ad5193](https://github.com/xlz122/NeteaseCloudMusic/commit/8ad5193) 
+* 修复首页-热门推荐样式bug [#c471fe0](https://github.com/xlz122/NeteaseCloudMusic/commit/c471fe0) 
+* 修复首页排行榜图片未加载报错 [#00e7f9e](https://github.com/xlz122/NeteaseCloudMusic/commit/00e7f9e) 
+* 修复专辑详情-其他热门专辑接口404的bug [#4859c8f](https://github.com/xlz122/NeteaseCloudMusic/commit/4859c8f) 
+* 修复专辑详情-热门专辑接口404报错 [#5b56329](https://github.com/xlz122/NeteaseCloudMusic/commit/5b56329) 
+* 修复资源警告未判断环境的bug [#0c40630](https://github.com/xlz122/NeteaseCloudMusic/commit/0c40630) 
+* 修复https中请求http接口或引入http资源时控制台出现的警告 [#a64e1d2](https://github.com/xlz122/NeteaseCloudMusic/commit/a64e1d2) 
+
+
+
 ## [1.0.12](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.11...v1.0.12) (2022-04-02)
 
 
