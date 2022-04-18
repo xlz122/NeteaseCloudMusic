@@ -203,7 +203,7 @@ export default defineComponent({
           })
           .catch(() => ({}));
       },
-      800,
+      500,
       {
         leading: true, // 点击第一下是否执行
         trailing: false // 节流时间内，多次点击，节流结束后，是否执行一次
@@ -224,7 +224,7 @@ export default defineComponent({
           })
           .catch(() => ({}));
       },
-      800,
+      500,
       {
         leading: true, // 点击第一下是否执行
         trailing: false // 节流时间内，多次点击，节流结束后，是否执行一次

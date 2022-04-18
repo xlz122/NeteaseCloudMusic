@@ -140,12 +140,7 @@ function randomPlay(list: Record<string, any>[]): Promise<number> {
     const musicItem: number = Math.floor(Math.random() * list.length);
     const id: number = list[musicItem].id;
 
-    if (list.length <= 5) {
-      resolve(id);
-      return false;
-    }
-
-    if (musicId.includes(list[musicItem].id)) {
+    if (list.length >= 6 && musicId.includes(list[musicItem].id)) {
       randomPlay(list);
       return false;
     }
