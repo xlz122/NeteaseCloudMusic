@@ -112,7 +112,6 @@
 import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { throttle } from 'lodash';
 // 播放器
 import MusicAutioComponent from './audio/Audio.vue';
 // 播放进度条
@@ -190,46 +189,32 @@ export default defineComponent({
     );
 
     // 上一首
-    const prevPlayMusic = throttle(
-      function () {
-        getPrevMusicId()
-          .then(() => {
-            // 开始播放
-            $store.commit('music/setMusicPlayStatus', {
-              look: true,
-              loading: true,
-              refresh: true
-            });
-          })
-          .catch(() => ({}));
-      },
-      500,
-      {
-        leading: true, // 点击第一下是否执行
-        trailing: false // 节流时间内，多次点击，节流结束后，是否执行一次
-      }
-    );
+    function prevPlayMusic(): void {
+      getPrevMusicId()
+        .then(() => {
+          // 开始播放
+          $store.commit('music/setMusicPlayStatus', {
+            look: true,
+            loading: true,
+            refresh: true
+          });
+        })
+        .catch(() => ({}));
+    }
 
     // 下一首
-    const nextPlayMusic = throttle(
-      function () {
-        getNextMusicId()
-          .then(() => {
-            // 开始播放
-            $store.commit('music/setMusicPlayStatus', {
-              look: true,
-              loading: true,
-              refresh: true
-            });
-          })
-          .catch(() => ({}));
-      },
-      500,
-      {
-        leading: true, // 点击第一下是否执行
-        trailing: false // 节流时间内，多次点击，节流结束后，是否执行一次
-      }
-    );
+    function nextPlayMusic(): void {
+      getNextMusicId()
+        .then(() => {
+          // 开始播放
+          $store.commit('music/setMusicPlayStatus', {
+            look: true,
+            loading: true,
+            refresh: true
+          });
+        })
+        .catch(() => ({}));
+    }
 
     // 播放进度数据
     const musicPlayProgress = computed(
