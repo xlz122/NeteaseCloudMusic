@@ -86,6 +86,7 @@ export default defineComponent({
 
     const { searchDetailText } = toRefs(props);
 
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
     // 搜索关键词
     const searchText = computed<string>(() =>
@@ -112,20 +113,26 @@ export default defineComponent({
       searchKeywords({
         keywords: searchDetailText.value || searchText.value,
         offset: (albumData.offset - 1) * albumData.limit,
-        limit: albumData.limit,
+        limit: isLogin.value ? albumData.limit : 20,
         type: 10
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            albumData.total = res?.result?.albumCount;
+            const total = isLogin.value
+              ? res?.result?.albumCount
+              : res?.result?.albums.length;
+
+            albumData.total = total;
             albumData.list = res?.result?.albums;
-            emit('searchCountChange', res?.result?.albumCount);
+
+            emit('searchCountChange', total);
           } else {
             $store.commit('setMessage', {
               type: 'error',
               title: res?.msg
             });
           }
+
           albumData.loading = false;
         })
         .catch(() => ({}));

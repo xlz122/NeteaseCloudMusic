@@ -70,10 +70,6 @@
       margin-bottom: 40px;
       font-size: 12px;
       color: #333;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      word-wrap: normal;
 
       &:hover {
         text-decoration: underline;
@@ -88,7 +84,12 @@
       .text {
         display: inline-block;
         vertical-align: middle;
+        max-width: 70%;
         margin: 0 3px 0 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: normal;
 
         &:hover {
           text-decoration: underline;

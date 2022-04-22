@@ -52,7 +52,7 @@
       </li>
     </ul>
     <Page
-      v-if="singerData.total"
+      v-if="singerData.total > singerData.limit"
       :page="singerData.offset"
       :pageSize="singerData.limit"
       :total="singerData.total"
@@ -93,6 +93,7 @@ export default defineComponent({
 
     const { searchDetailText } = toRefs(props);
 
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
     // 搜索关键词
     const searchText = computed<string>(() =>
@@ -119,20 +120,26 @@ export default defineComponent({
       searchKeywords({
         keywords: searchDetailText.value || searchText.value,
         offset: (singerData.offset - 1) * singerData.limit,
-        limit: singerData.limit,
+        limit: isLogin.value ? singerData.limit : 20,
         type: 100
       })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
-            singerData.total = res?.result?.artistCount;
+            const total = isLogin.value
+              ? res?.result?.artistCount
+              : res?.result?.artists.length;
+
+            singerData.total = total;
             singerData.list = res?.result?.artists;
-            emit('searchCountChange', res?.result?.artistCount);
+
+            emit('searchCountChange', total);
           } else {
             $store.commit('setMessage', {
               type: 'error',
               title: res?.msg
             });
           }
+
           singerData.loading = false;
         })
         .catch(() => ({}));

@@ -35,7 +35,22 @@
       </p>
       <p class="name" @click="jumpUserProfile(item?.dj?.userId)">
         <span class="by">by</span>
-        <span class="text">{{ item?.dj?.nickname }}</span>
+        <span class="text">
+          <template
+            v-for="(item, index) in handleMatchString(
+              item?.dj?.nickname,
+              searchDetailText
+            )"
+            :key="index"
+          >
+            <span v-if="item.color" :style="{ color: item.color }">
+              {{ item.title }}
+            </span>
+            <span v-else>
+              {{ item.title }}
+            </span>
+          </template>
+        </span>
         <i class="icon-sex male" v-if="item?.dj?.gender === 1"></i>
         <i class="icon-sex female" v-if="item?.dj?.gender === 2"></i>
       </p>
@@ -82,6 +97,7 @@ export default defineComponent({
 
     const { searchDetailText } = toRefs(props);
 
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
     // 搜索关键词
     const searchText = computed<string>(() =>
@@ -108,20 +124,26 @@ export default defineComponent({
       searchKeywords({
         keywords: searchDetailText.value || searchText.value,
         offset: (anchorData.offset - 1) * anchorData.limit,
-        limit: anchorData.limit,
+        limit: isLogin.value ? anchorData.limit : 20,
         type: 1009
       })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
-            anchorData.total = res?.result?.djRadiosCount;
+            const total = isLogin.value
+              ? res?.result?.djRadiosCount
+              : res?.result?.djRadios.length;
+
+            anchorData.total = total;
             anchorData.list = res?.result?.djRadios;
-            emit('searchCountChange', res?.result?.djRadiosCount);
+
+            emit('searchCountChange', total);
           } else {
             $store.commit('setMessage', {
               type: 'error',
               title: res?.msg
             });
           }
+
           anchorData.loading = false;
         })
         .catch(() => ({}));
