@@ -119,7 +119,7 @@ export default defineComponent({
       list: []
     });
 
-    // 获取专辑列表
+    // 获取声音主播列表
     function getSearchAnchor(): void {
       searchKeywords({
         keywords: searchDetailText.value || searchText.value,
