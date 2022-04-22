@@ -120,20 +120,25 @@ export default defineComponent({
       searchKeywords({
         keywords: searchDetailText.value || searchText.value,
         offset: (userData.offset - 1) * userData.limit,
-        limit: userData.limit,
+        limit: isLogin.value ? userData.limit : 20,
         type: 1002
       })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
-            userData.total = res?.result?.userprofileCount;
+            const total = isLogin.value
+              ? res?.result?.userprofileCount
+              : res?.result?.userprofiles.length;
+
+            userData.total = total;
             userData.list = res?.result?.userprofiles;
-            emit('searchCountChange', res?.result?.userprofileCount);
+            emit('searchCountChange', total);
           } else {
             $store.commit('setMessage', {
               type: 'error',
               title: res?.msg
             });
           }
+
           userData.loading = false;
         })
         .catch(() => ({}));

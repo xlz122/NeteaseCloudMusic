@@ -93,7 +93,7 @@
     </li>
   </ul>
   <Page
-    v-if="songData.total"
+    v-if="songData.total > songData.limit"
     :page="songData.offset"
     :pageSize="songData.limit"
     :total="songData.total"
@@ -168,20 +168,26 @@ export default defineComponent({
       searchKeywords({
         keywords: searchDetailText.value || searchText.value,
         offset: (songData.offset - 1) * songData.limit,
-        limit: songData.limit,
+        limit: isLogin.value ? songData.limit : 20,
         type: 1
       })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
-            songData.total = res?.result?.songCount;
+            const total = isLogin.value
+              ? res?.result?.songCount
+              : res?.result?.songs.length;
+
+            songData.total = total;
             songData.list = res?.result?.songs;
-            emit('searchCountChange', res?.result?.songCount);
+
+            emit('searchCountChange', total);
           } else {
             $store.commit('setMessage', {
               type: 'error',
               title: res?.msg
             });
           }
+
           songData.loading = false;
         })
         .catch(() => ({}));

@@ -101,6 +101,7 @@ export default defineComponent({
 
     const { searchDetailText } = toRefs(props);
 
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
     // 搜索关键词
     const searchText = computed<string>(() =>
@@ -127,20 +128,26 @@ export default defineComponent({
       searchKeywords({
         keywords: searchDetailText.value || searchText.value,
         offset: (mvData.offset - 1) * mvData.limit,
-        limit: mvData.limit,
+        limit: isLogin.value ? mvData.limit : 20,
         type: 1014
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            mvData.total = res?.result?.videoCount;
+            const total = isLogin.value
+              ? res?.result?.videoCount
+              : res?.result?.videos.length;
+
+            mvData.total = total;
             mvData.list = res?.result?.videos;
-            emit('searchCountChange', res?.result?.videoCount);
+
+            emit('searchCountChange', total);
           } else {
             $store.commit('setMessage', {
               type: 'error',
               title: res?.msg
             });
           }
+
           mvData.loading = false;
         })
         .catch(() => ({}));
