@@ -31,7 +31,20 @@
           :title="item?.name"
           @click="jumpSongSheetDetail(item?.id)"
         >
-          {{ item?.name }}
+          <template
+            v-for="(item, index) in handleMatchString(
+              item?.name,
+              searchDetailText
+            )"
+            :key="index"
+          >
+            <span v-if="item.color" :style="{ color: item.color }">
+              {{ item.title }}
+            </span>
+            <span v-else>
+              {{ item.title }}
+            </span>
+          </template>
         </span>
       </div>
       <!-- 操作项 -->
@@ -85,7 +98,7 @@ import { useStore } from 'vuex';
 import { searchKeywords } from '@api/search';
 import { playlistTrack, playlistSubscribe } from '@api/song-sheet-detail';
 import { PlayMusicItem } from '@store/music/state';
-import { bigNumberTransform } from '@utils/utils.ts';
+import { bigNumberTransform, handleMatchString } from '@utils/utils.ts';
 import Page from '@components/page/Page.vue';
 import { ResponseType, LoopType } from '@/types/types';
 
@@ -355,6 +368,7 @@ export default defineComponent({
 
     return {
       bigNumberTransform,
+      handleMatchString,
       playMusicId,
       userInfo,
       songSheetData,

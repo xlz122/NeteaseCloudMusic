@@ -264,3 +264,39 @@ export function getPageBottomHeight(e: Event): number {
 
   return bottomHeight;
 }
+
+/**
+ * @description 字符串匹配
+ * @param { String } str - 原始字符串
+ * @param { String } value - 匹配值
+ */
+
+type HandleMatchString = {
+  title: string;
+  color?: string;
+};
+
+export function handleMatchString(
+  str: string,
+  value: string
+): HandleMatchString[] {
+  const stringArr = str.split('');
+
+  const result: HandleMatchString[] = [];
+
+  stringArr.forEach((item: string) => {
+    if (value.includes(item)) {
+      result.push({
+        title: item,
+        color: '#0c73c2'
+      });
+      return false;
+    }
+
+    result.push({
+      title: item
+    });
+  });
+
+  return result;
+}

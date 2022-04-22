@@ -26,7 +26,20 @@
           :title="item?.title"
           @click="jumpVideoDetail(item?.type, item?.vid)"
         >
-          {{ item?.title }}
+          <template
+            v-for="(item, index) in handleMatchString(
+              item?.title,
+              searchDetailText
+            )"
+            :key="index"
+          >
+            <span v-if="item.color" :style="{ color: item.color }">
+              {{ item.title }}
+            </span>
+            <span v-else>
+              {{ item.title }}
+            </span>
+          </template>
         </span>
       </div>
       <div class="item-name">
@@ -55,7 +68,11 @@ import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { searchKeywords } from '@api/search';
-import { bigNumberTransform, timeStampToDuration } from '@utils/utils.ts';
+import {
+  bigNumberTransform,
+  timeStampToDuration,
+  handleMatchString
+} from '@utils/utils.ts';
 import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
 
@@ -157,6 +174,7 @@ export default defineComponent({
     return {
       bigNumberTransform,
       timeStampToDuration,
+      handleMatchString,
       userInfo,
       mvData,
       jumpVideoDetail,

@@ -23,7 +23,20 @@
           :title="item?.nickname"
           @click="jumpUserProfile(item?.userId)"
         >
-          {{ item?.nickname }}
+          <template
+            v-for="(item, index) in handleMatchString(
+              item?.nickname,
+              searchDetailText
+            )"
+            :key="index"
+          >
+            <span v-if="item.color" :style="{ color: item.color }">
+              {{ item.title }}
+            </span>
+            <span v-else>
+              {{ item.title }}
+            </span>
+          </template>
         </span>
         <i class="icon-sex male" v-if="item?.gender === 1"></i>
         <i class="icon-sex female" v-if="item?.gender === 2"></i>
@@ -53,6 +66,7 @@
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { searchKeywords, followUser } from '@api/search';
+import { handleMatchString } from '@utils/utils.ts';
 import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
 
@@ -161,6 +175,7 @@ export default defineComponent({
     }
 
     return {
+      handleMatchString,
       userData,
       jumpUserProfile,
       follow,

@@ -22,7 +22,20 @@
             :title="item?.name"
             @click="jumpSongDetail(item?.id)"
           >
-            {{ item?.name }}
+            <template
+              v-for="(item, index) in handleMatchString(
+                item?.name,
+                searchDetailText
+              )"
+              :key="index"
+            >
+              <span v-if="item.color" :style="{ color: item.color }">
+                {{ item.title }}
+              </span>
+              <span v-else>
+                {{ item.title }}
+              </span>
+            </template>
           </span>
           <span class="desc" v-if="item?.tns?.length">
             - ({{ item?.tns[0] }})
@@ -93,7 +106,7 @@ import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { searchKeywords } from '@api/search';
-import { timeStampToDuration } from '@utils/utils.ts';
+import { timeStampToDuration, handleMatchString } from '@utils/utils.ts';
 import Page from '@components/page/Page.vue';
 import { LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
@@ -294,6 +307,7 @@ export default defineComponent({
 
     return {
       timeStampToDuration,
+      handleMatchString,
       playMusicId,
       userInfo,
       songData,
