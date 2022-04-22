@@ -152,7 +152,7 @@ export default defineComponent({
       }
     );
 
-    // 获取单曲列表
+    // 获取歌单列表
     function getSearchSongSheet(): void {
       searchKeywords({
         keywords: searchDetailText.value || searchText.value,
