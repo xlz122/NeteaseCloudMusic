@@ -28,7 +28,20 @@
             :title="item?.name"
             @click="jumpSingerDetail(item?.id)"
           >
-            {{ item?.name }}
+            <template
+              v-for="(item, index) in handleMatchString(
+                item?.name,
+                searchDetailText
+              )"
+              :key="index"
+            >
+              <span v-if="item.color" :style="{ color: item.color }">
+                {{ item.title }}
+              </span>
+              <span v-else>
+                {{ item.title }}
+              </span>
+            </template>
           </span>
           <span
             class="item-info-icon"
@@ -52,7 +65,7 @@
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { searchKeywords } from '@api/search';
-import { timeStampToDuration } from '@utils/utils.ts';
+import { timeStampToDuration, handleMatchString } from '@utils/utils.ts';
 import Page from '@components/page/Page.vue';
 import { ResponseType } from '@/types/types';
 
@@ -144,6 +157,7 @@ export default defineComponent({
 
     return {
       timeStampToDuration,
+      handleMatchString,
       userInfo,
       singerData,
       jumpSingerDetail,
