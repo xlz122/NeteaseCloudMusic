@@ -145,7 +145,7 @@ export default defineComponent({
         link: '/'
       },
       {
-        title: '排行',
+        title: '排行榜',
         link: '/home-toplist'
       },
       {
