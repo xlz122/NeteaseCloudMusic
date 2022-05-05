@@ -1,3 +1,34 @@
+## [1.0.14](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.13...v1.0.14) (2022-05-05)
+
+
+### ⚡ Performance Improvements | 性能优化
+
+* 优化上/下一首切换逻辑 [#5b1d95e](https://github.com/xlz122/NeteaseCloudMusic/commit/5b1d95e) 
+* 优化随机播放逻辑，播放列表大于5首时，后续5次切换不会被播放 [#81b9c5b](https://github.com/xlz122/NeteaseCloudMusic/commit/81b9c5b) 
+
+
+### ✨ Features | 新功能
+
+* 调整导航部分的样式 [#bf1dcd1](https://github.com/xlz122/NeteaseCloudMusic/commit/bf1dcd1) 
+* 搜索详情-未登录时只显示20条数据 [#1c3cac0](https://github.com/xlz122/NeteaseCloudMusic/commit/1c3cac0) 
+* 搜索详情各页面搜索关键字匹配 [#0304681](https://github.com/xlz122/NeteaseCloudMusic/commit/0304681) 
+
+
+### 🎫 Chores | 其他更新
+
+* 升级部分依赖项 [#b850d83](https://github.com/xlz122/NeteaseCloudMusic/commit/b850d83) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 修复从排行榜页面进入我的音乐页面显示不正确bug [#b3feb9e](https://github.com/xlz122/NeteaseCloudMusic/commit/b3feb9e) 
+* 修复从其他页面进入我的音乐页面，歌单不是选中第一项的bug [#5b43391](https://github.com/xlz122/NeteaseCloudMusic/commit/5b43391) 
+* 修复从我的音乐页面登录，登录后侧边菜单显示不全的bug [#4a8d4c6](https://github.com/xlz122/NeteaseCloudMusic/commit/4a8d4c6) 
+* 修复随机播放bug [#86276c1](https://github.com/xlz122/NeteaseCloudMusic/commit/86276c1) 
+* 修复我的音乐-歌单详情，页面加载评论接口被请求两次的bug [#e304019](https://github.com/xlz122/NeteaseCloudMusic/commit/e304019) 
+
+
+
 ## [1.0.13](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.12...v1.0.13) (2022-04-17)
 
 
