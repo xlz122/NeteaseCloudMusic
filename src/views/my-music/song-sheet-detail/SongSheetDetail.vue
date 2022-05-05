@@ -72,16 +72,11 @@ export default defineComponent({
           getSongSheetDetail();
           getCommentData();
         });
-      },
-      {
-        immediate: true
       }
     );
 
     // 获取歌单详情
     function getSongSheetDetail(): void {
-      $store.commit('music/setSongSheetDetail', {});
-
       playListDetail({
         id: songSheetId.value
       })

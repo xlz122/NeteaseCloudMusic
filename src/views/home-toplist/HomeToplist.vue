@@ -56,9 +56,13 @@ export default defineComponent({
 
     // 监听路由传参，获取歌单详情
     watch(
-      () => $route.params,
+      () => $route,
       curVal => {
-        if (curVal.id) {
+        if (curVal.path !== '/home-toplist') {
+          return false;
+        }
+
+        if (curVal.params?.id) {
           (async () => {
             const list: List[] = await getTopList();
             const ItemId = list.findIndex(
