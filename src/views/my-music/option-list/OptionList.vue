@@ -92,7 +92,7 @@ export default defineComponent({
     });
 
     // 获取用户歌单列表
-    function getUserPlayList(): Promise<void> {
+    function getUserPlayList(): Promise<Record<string, any>> {
       songSheetList.createSongSheet = [];
       songSheetList.collectSongSheet = [];
 
@@ -135,31 +135,24 @@ export default defineComponent({
         (async () => {
           // 刷新
           if (to && !from) {
-            await getUserPlayList();
-            $store.commit('setSongSheetId', songSheetId.value);
+            const playlist = await getUserPlayList();
+            const isExist = playlist.find(
+              (item: LoopType) => item.id === songSheetId.value
+            );
+
+            if (isExist) {
+              $store.commit('setSongSheetId', songSheetId.value);
+            } else {
+              $store.commit('setSongSheetId', playlist[0].id);
+            }
           }
 
           // 离开当前路由
           if (to && from) {
             $store.commit(
               'setSongSheetId',
-              songSheetList.createSongSheet[0].id
+              songSheetList.createSongSheet[0]?.id || 0
             );
-          }
-        })();
-      },
-      {
-        immediate: true
-      }
-    );
-
-    watch(
-      () => isLogin.value,
-      () => {
-        (async () => {
-          if (isLogin.value) {
-            const playlist = await getUserPlayList();
-            $store.commit('setSongSheetId', playlist[0].id);
           }
         })();
       },
