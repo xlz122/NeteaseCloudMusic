@@ -1,11 +1,6 @@
 const path = require('path');
 
-// 设置文件路径别名
-function resolve(dir) {
-  return path.join(__dirname, dir);
-}
-
-// 配置不进行webpack打包的文件
+// 不进行webpack打包的文件
 const externals = {
   'vue': 'Vue',
   'vue-router': 'VueRouter',
@@ -27,44 +22,30 @@ const cdn = {
 
 // gzip压缩
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
-// 配置需要进行压缩的文件
+// 需要进行压缩的文件
 const productionGzipExtensions = ['js', 'css', 'json'];
 
 module.exports = {
   // 基础路径
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
-  // 打包生成文件目录，默认dist
+  // 打包生成文件目录(默认dist)
   outputDir: 'dist',
-  // 静态资源放置路径，默认为空，css/js/img文件夹都将放置在根目录下
+  // 静态资源放置路径(默认为空,静态资源放置在根目录)
   assetsDir: '',
-  // 打包生成的index.html放置的路径 例：xlz/index.html，index.html将被放置在dist/xlz/index.html
+  // 打包生成的index.html放置路径(例: xlz/index.html,将被放置在dist/xlz/index.html)
   indexPath: 'index.html',
-  // 是否开启eslint检测，有效值：ture | false | 'error'
+  // 是否开启eslint(ture/false/'error')
   lintOnSave: true,
-  // 设置为true的时候,打包完成后生成一些js.map文件,如果有报错,可以精确的输出哪一个文件、哪一行报错
+  // 是否生成js.map文件(生产环境下,可以精确的输出哪一个文件、哪一行报错)
   productionSourceMap: false,
   css: {
-    // 设置为true的时候 打包完成后会生成一些css.map文件,如果有报错,可以精确的输出哪一个文件、哪一行报错
-    sourceMap: false,
-    // 共享的全局变量
-    loaderOptions: {
-      // 给 less-loader 传递选项
-      less: {
-        // 若 less-loader 版本小于 6.0，请移除 lessOptions 这一级，直接配置选项。
-        lessOptions: {
-          javascriptEnabled: true,
-          modifyVars: {
-            // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
-            // hack: 'true; @import "@/assets/common.less";',
-          },
-        },
-      },
-    },
+    // 是否生成css.map文件
+    sourceMap: false
   },
   devServer: {
-    // 启动后是否自动打开浏览器
+    // 是否自动打开浏览器
     open: false,
-    // 启动服务端口号
+    // 启动端口号
     port: 8018,
     proxy: {
       api: {
@@ -79,7 +60,6 @@ module.exports = {
     }
   },
   configureWebpack: config => {
-    // 环境判断
     if (process.env.NODE_ENV === 'production') {
       // 为生产环境修改配置...
       // 配置删除console.*函数调用
@@ -92,15 +72,15 @@ module.exports = {
         }
       );
 
-      // webpack4 版本支持
+      // webpack4.x版本支持
       // config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true;
 
       // 打包文件大小配置
       config.performance = {
         hints: 'warning',
-        // 入口起点的最大体积 整数类型（以字节为单位）
+        // 入口起点的最大体积 整数类型(以字节为单位)
         maxEntrypointSize: 50000000,
-        // 生成文件的最大体积 整数类型（以字节为单位 300k）
+        // 生成文件的最大体积 整数类型(以字节为单位 300k)
         maxAssetSize: 30000000,
         // 只给出 js 文件的性能提示
         assetFilter: function (assetFilename) {
@@ -113,7 +93,6 @@ module.exports = {
         externals: externals,
         // 配置gzip压缩
         plugins: [
-          // 6版本后需修改为[path].gz[query]
           new CompressionWebpackPlugin({
             filename: '[path][base].gz',
             algorithm: 'gzip',
@@ -122,7 +101,7 @@ module.exports = {
             ),
             // 对超过10k的数据进行压缩
             threshold: 10240,
-            // 压缩比例，值为0 ~ 1
+            // 压缩比例,值为0 ~ 1
             minRatio: 0.6
           })
         ]
@@ -159,29 +138,30 @@ module.exports = {
     // }
   },
   chainWebpack: config => {
-    // 设置文件路径别名(需要配合顶部的方法)
+    // 配置文件路径别名
     config.resolve.alias
-      .set('@', resolve('src'))
-      .set('@api', resolve('src/api'))
-      .set('@assets', resolve('src/assets'))
-      .set('@components', resolve('src/components'))
-      .set('@router', resolve('src/router'))
-      .set('@store', resolve('src/store'))
-      .set('@types', resolve('src/types'))
-      .set('@utils', resolve('src/utils'))
-      .set('@views', resolve('src/views'));
+      .set('@', path.join(__dirname, 'src'))
+      .set('@api', path.join(__dirname, 'src/api'))
+      .set('@assets', path.join(__dirname, 'src/assets'))
+      .set('@components', path.join(__dirname, 'src/components'))
+      .set('@router', path.join(__dirname, 'src/router'))
+      .set('@store', path.join(__dirname, 'src/store'))
+      .set('@types', path.join(__dirname, 'src/types'))
+      .set('@utils', path.join(__dirname, 'src/utils'))
+      .set('@views', path.join(__dirname, 'src/views'));
 
-    // 配置index.html title、cdn引入
+    // 配置index.html(title、cdn引入)
     config.plugin('html').tap(args => {
       args[0].title = '网易云音乐';
 
       if (process.env.NODE_ENV === 'production') {
         args[0].cdn = cdn;
       }
+
       return args;
     });
 
-    // 小图片配置base64（v5版本：url-loader、file-loader被移除）
+    // 配置小图片base64(webpack5.x版本: url-loader、file-loader被移除)
     config.module
       .rule('images')
       .test(/\.(jpg|png|gif)$/)
@@ -191,7 +171,7 @@ module.exports = {
         }
       })
 
-    // webpack4 版本支持
+    // webpack4.x 版本支持
     // config.module
     //   .rule('images')
     //   .test(/\.(jpg|png|gif)$/)
