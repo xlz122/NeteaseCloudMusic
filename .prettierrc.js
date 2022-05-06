@@ -1,18 +1,18 @@
 module.exports = {
-  // 强制使用单引号
+  // 是否使用单引号
   singleQuote: true,
-  // 字符串使用单引号
+  // 字符串是否使用单引号
   singleQuote: true,
-  // 大括号内的首尾需要空格
+  // 大括号首尾是否需要空格
   bracketSpacing: true,
-  // 末尾不需要逗号
+  // 对象末尾是否需要逗号
   trailingComma: 'none',
-  // 箭头函数参数括号
+  // 箭头函数参数括号(1个参数不需要,1个以上需要)
   arrowParens: 'avoid',
-  // 使用默认的折行标准
+  // 折行标准(默认)
   proseWrap: 'preserve',
-  // 根据显示样式决定 html 要不要折行
+  // 根据显示样式决定 html 是否折行
   htmlWhitespaceSensitivity: 'css',
-  // 换行符使用 crlf/lf/auto
+  // 换行符(crlf/lf/auto)
   endOfLine: 'auto'
 };
