@@ -125,7 +125,7 @@ export default defineComponent({
             albumData.total = total;
             albumData.list = res?.result?.albums;
 
-            emit('searchCountChange', total);
+            emit('searchCountChange', total || 0);
           } else {
             $store.commit('setMessage', {
               type: 'error',

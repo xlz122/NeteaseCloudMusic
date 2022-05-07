@@ -140,7 +140,7 @@ export default defineComponent({
             mvData.total = total;
             mvData.list = res?.result?.videos;
 
-            emit('searchCountChange', total);
+            emit('searchCountChange', total || 0);
           } else {
             $store.commit('setMessage', {
               type: 'error',

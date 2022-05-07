@@ -136,7 +136,7 @@ export default defineComponent({
             anchorData.total = total;
             anchorData.list = res?.result?.djRadios;
 
-            emit('searchCountChange', total);
+            emit('searchCountChange', total || 0);
           } else {
             $store.commit('setMessage', {
               type: 'error',
