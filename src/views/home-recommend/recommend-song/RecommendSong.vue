@@ -102,7 +102,6 @@
         </tr>
       </tbody>
     </table>
-    <!-- 音乐列表空时展示 -->
     <div class="no-list-data" v-if="!loading && recommendSong?.length === 0">
       <div class="title">
         <i class="icon"></i>

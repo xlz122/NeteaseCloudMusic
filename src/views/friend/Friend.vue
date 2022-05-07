@@ -1,5 +1,4 @@
 <template>
-  <!-- 登录展示 -->
   <div class="friend" v-if="isLogin">
     <div class="friend-container">
       <div class="container-content">
@@ -10,7 +9,6 @@
       </div>
     </div>
   </div>
-  <!-- 未登录展示 -->
   <div class="friend" v-else>
     <div class="friend-login">
       <div class="login-content">

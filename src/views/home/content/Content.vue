@@ -110,7 +110,6 @@
         </li>
       </ul>
     </div>
-    <!-- 个性化推荐 -->
     <div class="group" v-if="isLogin">
       <div class="list-title">
         <span class="title individualization-title">个性化推荐</span>

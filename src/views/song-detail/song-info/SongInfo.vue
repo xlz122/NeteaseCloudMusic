@@ -54,7 +54,6 @@
             {{ songDetailData?.songs[0]?.al?.name }}
           </span>
         </div>
-        <!-- 操作项 -->
         <div class="operate-btn">
           <div class="play" @click="playAllMusic">
             <span class="icon-mv" title="播放">播放</span>
@@ -85,7 +84,6 @@
             </template>
           </div>
         </div>
-        <!-- 歌词列表 -->
         <ul
           class="lyric-list"
           :class="[

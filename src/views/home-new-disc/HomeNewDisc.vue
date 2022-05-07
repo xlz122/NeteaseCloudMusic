@@ -88,7 +88,6 @@
           </template>
         </li>
       </ul>
-      <!-- 参数从0开始，分页需从1开始 -->
       <Page
         v-if="pageTotal > newDiscFormData.limit"
         :page="newDiscFormData.offset"

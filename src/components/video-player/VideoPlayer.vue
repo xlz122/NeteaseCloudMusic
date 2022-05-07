@@ -1,6 +1,5 @@
 <template>
   <div class="video-player" :class="{ 'video-player-fullscreen': fullscreen }">
-    <!-- 播放器 -->
     <Video :videoStatus="videoStatus" @videoEnded="videoEnded" />
     <div class="play" @click="togglePlayStatus">
       <i class="icon pause-icon" v-if="videoStatus === 'pause'"></i>
@@ -61,7 +60,6 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils';
-// 播放器
 import Video from './video/Video.vue';
 
 export default defineComponent({

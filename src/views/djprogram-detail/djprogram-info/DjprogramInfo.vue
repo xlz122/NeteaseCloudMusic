@@ -35,7 +35,6 @@
       </div>
     </div>
     <div class="info-bottom">
-      <!-- 操作项 -->
       <div class="operate-btn">
         <div class="play" @click="playAllMusic">
           <span class="icon-play">播放 </span>

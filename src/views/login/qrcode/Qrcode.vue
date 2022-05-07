@@ -4,11 +4,9 @@
     <div class="qrcode-right">
       <p class="title">扫码登录</p>
       <div class="qrcode-img">
-        <!-- 二维码 -->
         <div class="img">
           <img :src="qrcodeImgSrc" alt="Scan me!" />
         </div>
-        <!-- 二维码失效 -->
         <div class="tip" v-if="qrcodeInvalid">
           <div class="text">二维码已失效</div>
           <span class="refresh" @click="refresh">点击刷新</span>
@@ -23,7 +21,6 @@
       </div>
     </div>
   </div>
-  <!-- 扫码成功 - 待确认 -->
   <div class="qrcode-authorized" v-else>
     <i class="icon-phone"></i>
     <p class="title">扫描成功</p>

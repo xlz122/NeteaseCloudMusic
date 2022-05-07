@@ -32,7 +32,6 @@
           </p>
         </li>
       </ul>
-      <!-- 参数从0开始，分页需从1开始 -->
       <Page
         v-if="albumParams.total > albumParams.limit"
         :page="albumParams.offset"

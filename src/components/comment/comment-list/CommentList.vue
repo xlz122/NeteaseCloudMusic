@@ -48,7 +48,6 @@
               </span>
               <span class="delete-line">|</span>
             </template>
-            <!-- 点赞 -->
             <i
               class="like liked"
               v-if="item?.liked"

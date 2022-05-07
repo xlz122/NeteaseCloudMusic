@@ -119,7 +119,6 @@
         </tr>
       </tbody>
     </table>
-    <!-- 音乐列表空时展示 -->
     <div
       class="no-list-data"
       v-if="!loading && songSheetDetail?.playlist?.tracks.length === 0"
@@ -136,7 +135,6 @@
         <router-link class="link" to="/">发现音乐</router-link>
       </p>
     </div>
-    <!-- 无版权弹框 -->
     <my-dialog
       class="no-copyright-dialog"
       :visible="noCopyrightDialog"
@@ -146,7 +144,6 @@
     >
       <p class="content">由于版权保护，您所在的地区暂时无法使用。</p>
     </my-dialog>
-    <!-- 删除歌曲弹框 -->
     <my-dialog
       class="delete-music-dialog"
       :visible="deleteMusicDialog"

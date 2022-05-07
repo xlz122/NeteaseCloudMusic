@@ -35,14 +35,12 @@
           <div class="text">查看更多内容，请下载客户端</div>
           <router-link class="link" to="/download">立即下载</router-link>
         </div>
-        <!-- 评论 -->
         <div class="comment-component">
           <Comment
             :commentParams="commentParams"
             @commentRefresh="commentRefresh"
           />
         </div>
-        <!-- 参数从0开始，分页需从1开始 -->
         <Page
           v-if="commentParams.total > commentParams.limit"
           :page="commentParams.offset"
