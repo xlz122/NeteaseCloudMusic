@@ -1,5 +1,4 @@
 <template>
-  <!-- 登录展示 -->
   <div class="side-user" v-if="isLogin">
     <div class="side-user-container">
       <div class="user-info">
@@ -21,7 +20,7 @@
               <img class="vip-level" :src="vipInfo?.redVipLevelIcon" alt="" />
             </template>
           </h4>
-          <p class="lv">
+          <p class="lv" @click="jumpLevelDetail">
             <i class="lv-icon-left">{{ userInfo?.level }}</i>
             <i class="lv-icon-right"></i>
           </p>
@@ -49,7 +48,6 @@
       </ul>
     </div>
   </div>
-  <!-- 未登录展示 -->
   <div class="side-user" v-else>
     <div class="side-user-login">
       <p class="login-title">
@@ -62,6 +60,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { dailySignin } from '@api/home';
 import { userVipInfo } from '@api/user';
@@ -70,6 +69,7 @@ import { formatDateTime } from '@utils/utils';
 
 export default defineComponent({
   setup() {
+    const $router = useRouter();
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
@@ -103,6 +103,11 @@ export default defineComponent({
     // 跳转用户资料
     function jumpUserProfile(id: number): void {
       $store.commit('jumpUserProfile', id);
+    }
+
+    // 跳转等级详情
+    function jumpLevelDetail(): void {
+      $router.push({ path: '/level' });
     }
 
     // 重置签到
@@ -153,6 +158,7 @@ export default defineComponent({
       isLogin,
       userInfo,
       jumpUserProfile,
+      jumpLevelDetail,
       vipInfo,
       isSignIn,
       signIn,
