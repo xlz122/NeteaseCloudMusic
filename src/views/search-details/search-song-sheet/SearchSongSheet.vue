@@ -169,7 +169,7 @@ export default defineComponent({
             songSheetData.total = total;
             songSheetData.list = res?.result?.playlists;
 
-            emit('searchCountChange', total);
+            emit('searchCountChange', total || 0);
           } else {
             $store.commit('setMessage', {
               type: 'error',

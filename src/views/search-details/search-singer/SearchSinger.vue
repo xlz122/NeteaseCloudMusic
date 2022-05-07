@@ -132,7 +132,7 @@ export default defineComponent({
             singerData.total = total;
             singerData.list = res?.result?.artists;
 
-            emit('searchCountChange', total);
+            emit('searchCountChange', total || 0);
           } else {
             $store.commit('setMessage', {
               type: 'error',

@@ -131,7 +131,7 @@ export default defineComponent({
 
             userData.total = total;
             userData.list = res?.result?.userprofiles;
-            emit('searchCountChange', total);
+            emit('searchCountChange', total || 0);
           } else {
             $store.commit('setMessage', {
               type: 'error',

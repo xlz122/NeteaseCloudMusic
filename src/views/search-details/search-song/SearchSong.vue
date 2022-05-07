@@ -180,7 +180,7 @@ export default defineComponent({
             songData.total = total;
             songData.list = res?.result?.songs;
 
-            emit('searchCountChange', total);
+            emit('searchCountChange', total || 0);
           } else {
             $store.commit('setMessage', {
               type: 'error',
