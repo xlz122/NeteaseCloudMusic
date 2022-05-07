@@ -1,13 +1,10 @@
 <template>
   <div class="home">
-    <!-- 轮播图 -->
     <banner />
     <div class="home-container">
-      <!-- 主体内容 -->
       <div class="container-content">
         <home-content />
       </div>
-      <!-- 侧边栏 -->
       <div class="container-side">
         <home-side />
       </div>

@@ -59,7 +59,6 @@
           </div>
         </li>
       </ul>
-      <!-- 参数从0开始，分页需从1开始 -->
       <Page
         v-if="songParams.total > songParams.limit"
         :page="songParams.offset"

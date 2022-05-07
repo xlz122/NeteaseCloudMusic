@@ -31,7 +31,6 @@
       >
         <i class="apply-icon">申请成为网易音乐人</i>
       </a>
-      <!-- 热门主播 -->
       <h3 class="side-title anchor-title">
         <span>热门主播</span>
       </h3>

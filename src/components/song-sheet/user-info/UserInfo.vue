@@ -42,7 +42,6 @@
             创建
           </span>
         </div>
-        <!-- 操作项 -->
         <div class="operate-btn">
           <div
             class="play"

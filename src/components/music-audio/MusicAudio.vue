@@ -1,5 +1,4 @@
 <template>
-  <!-- 播放器 -->
   <MusicAutioComponent />
   <div class="music-audio-container">
     <div

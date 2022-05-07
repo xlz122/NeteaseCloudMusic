@@ -1,6 +1,5 @@
 <template>
   <div class="header">
-    <!-- 一级导航 -->
     <div class="h-top">
       <div class="h-warp">
         <div class="logo" @click="logoJump"></div>
@@ -25,7 +24,6 @@
           </li>
         </ul>
         <div class="other">
-          <!-- 搜索 -->
           <Search />
           <div class="create">
             <router-link class="link" to="/creator-center" target="_blank">
@@ -40,7 +38,6 @@
         </div>
       </div>
     </div>
-    <!-- 二级导航 -->
     <div class="h-bottom">
       <div class="h-warp subnav" v-if="heaerActiveIndex === 0">
         <ul class="nav">

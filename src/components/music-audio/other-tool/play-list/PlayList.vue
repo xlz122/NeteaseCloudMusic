@@ -1,6 +1,5 @@
 <template>
   <div class="play-list" v-if="playListShow">
-    <!-- 头部部分 -->
     <div class="play-list-title">
       <h4 class="title">播放列表({{ playMusicList.length }})</h4>
       <div class="add-all" @click="collectAll">
@@ -15,7 +14,6 @@
       <div class="song-title">{{ playMusicItem?.name || '' }}</div>
       <i class="clear-icon" @click="closePlayList"></i>
     </div>
-    <!-- 内容部分 -->
     <div class="play-list-content">
       <img
         class="play-list-content-bg"
@@ -70,7 +68,6 @@
             <i class="share" @click.stop="jumpSongPosition"></i>
           </li>
         </ul>
-        <!-- 列表空时展示 -->
         <div class="no-list-data" v-else>
           <div class="title">
             <i class="icon"></i>

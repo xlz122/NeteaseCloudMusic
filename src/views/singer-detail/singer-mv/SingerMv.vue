@@ -19,7 +19,6 @@
           <p class="desc" @click="jumpMvDetail(item?.id)">{{ item?.name }}</p>
         </li>
       </ul>
-      <!-- 参数从0开始，分页需从1开始 -->
       <Page
         v-if="mvParams.total > mvParams.limit"
         :page="mvParams.offset"

@@ -45,7 +45,6 @@
         @replySubmit="replySubmit"
       />
     </template>
-    <!-- 删除歌曲弹框 -->
     <my-dialog
       class="delete-comment-dialog"
       :visible="deleteCommentDialog"

@@ -6,7 +6,6 @@
         <i class="level-icon"></i>
         <p class="num">{{ level?.current }}</p>
       </div>
-      <!-- 进度 -->
       <div class="sub">
         <div class="subbg">
           <div :style="`width:${(25 + 81) * level?.current * 0.835 || 0}px;`">

@@ -17,14 +17,12 @@
         次
       </div>
     </div>
-    <!-- 音乐列表 -->
     <MusicTable class="music-table" />
     <div class="comment-component">
       <Comment
         :commentParams="commentParams"
         @commentRefresh="commentRefresh"
       />
-      <!-- 参数从0开始，分页需从1开始 -->
       <Page
         v-if="commentParams.total > commentParams.limit"
         :page="commentParams.offset"

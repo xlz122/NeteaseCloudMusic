@@ -47,7 +47,6 @@
           {{ userInfo?.company }}
         </span>
       </div>
-      <!-- 操作项 -->
       <div class="operate-btn">
         <div class="play" @click="playAllMusic">
           <span class="icon-play" title="播放">播放</span>

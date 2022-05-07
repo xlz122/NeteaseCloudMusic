@@ -58,14 +58,12 @@
             </template>
           </div>
         </div>
-        <!-- 评论 -->
         <div class="comment-component">
           <Comment
             :commentParams="commentParams"
             @commentRefresh="commentRefresh"
           />
         </div>
-        <!-- 参数从0开始，分页需从1开始 -->
         <Page
           v-if="commentParams.total > commentParams.limit"
           :page="commentParams.offset"
