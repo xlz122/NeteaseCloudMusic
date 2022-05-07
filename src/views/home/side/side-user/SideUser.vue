@@ -3,12 +3,20 @@
   <div class="side-user" v-if="isLogin">
     <div class="side-user-container">
       <div class="user-info">
-        <div class="user-avatar">
+        <div
+          class="user-avatar"
+          @click="jumpUserProfile(userInfo?.profile?.userId)"
+        >
           <img class="user-avatar-img" :src="userInfo?.profile?.avatarUrl" />
         </div>
         <div class="info">
           <h4 class="name">
-            <span class="text">{{ userInfo?.profile?.nickname }}</span>
+            <span
+              class="text"
+              @click="jumpUserProfile(userInfo?.profile?.userId)"
+            >
+              {{ userInfo?.profile?.nickname }}
+            </span>
             <template v-if="vipInfo?.redVipLevelIcon">
               <img class="vip-level" :src="vipInfo?.redVipLevelIcon" alt="" />
             </template>
@@ -92,6 +100,11 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
     // 重置签到
     function resetSignIn(): boolean | undefined {
       // 获取本地签到日期
@@ -139,6 +152,7 @@ export default defineComponent({
     return {
       isLogin,
       userInfo,
+      jumpUserProfile,
       vipInfo,
       isSignIn,
       signIn,
