@@ -95,8 +95,8 @@
           </div>
           <div class="play-progress">
             <PlayProgress
-              :musicPlayStatus="musicPlayStatus"
-              :musicPlayProgress="musicPlayProgress"
+              :playStatus="musicPlayStatus"
+              :playProgress="musicPlayProgress"
               @progressChange="progressChange"
             />
           </div>
