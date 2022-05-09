@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, onMounted, onBeforeMount } from 'vue';
+import { defineComponent, ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import { timeStampToDuration } from '@utils/utils';
 import { LoopType } from '@/types/types';
 
@@ -141,7 +141,7 @@ export default defineComponent({
       progressContainer.addEventListener('mouseup', mouseup);
     });
 
-    onBeforeMount(() => {
+    onBeforeUnmount(() => {
       const progressContainer = document.querySelector(
         '#musicAudio .wrap'
       ) as HTMLAudioElement;
