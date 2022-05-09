@@ -1,0 +1,63 @@
+.video-progress {
+  position: relative;
+  flex: 1;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  cursor: pointer;
+
+  .current-progress {
+    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 4px;
+    background-color: #b2072a;
+    border-radius: 2px;
+
+    .icon {
+      position: absolute;
+      top: -10px;
+      right: -14px;
+      z-index: 10;
+      width: 24px;
+      height: 24px;
+      margin-left: -11px;
+      background: url(~@/assets/image/video/video-play-btn.png) no-repeat center;
+    }
+
+    .icon:hover {
+      background: url(~@/assets/image/video/video-play-btn-hover.png) no-repeat center;
+    }
+
+    .icon-loading {
+      position: absolute;
+      z-index: 10;
+      top: -2px;
+      right: -4px;
+      width: 12px;
+      height: 12px;
+      background: url(~@/assets/image/music-audio/loading.gif);
+    }
+  }
+
+  .total-progress {
+    width: 0%;
+    height: 9px;
+    background: url(~@/assets/image/music-audio/progress.png);
+    background-position: right -30px;
+  }
+}
+
+.time {
+  position: absolute;
+  top: -3px;
+  right: -84px;
+  color: #797979;
+  text-shadow: 0 1px 0 #121212;
+
+  .duration {
+    color: #a1a1a1;
+  }
+}
