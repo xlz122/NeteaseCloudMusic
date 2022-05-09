@@ -81,6 +81,36 @@ export default defineComponent({
     // 播放暂停
     // function videoPause(): void {}
 
+    // 播放进度数据
+    const videoPlayProgress = computed(
+      () => $store.getters['videoPlayProgress']
+    );
+
+    // 监听手动更新时间
+    watch(
+      () => videoPlayProgress.value.timeChange,
+      (curVal: boolean) => {
+        if (curVal) {
+          // 设置播放时间
+          const videoMp3 = videoRef.value as HTMLVideoElement;
+
+          // 当前时间是NaN,不进行更新
+          if (isNaN(videoPlayProgress.value.currentTime)) {
+            return false;
+          }
+
+          videoMp3.currentTime = videoPlayProgress.value.currentTime;
+          // 重置手动更新
+          $store.commit('setVideoPlayProgress', {
+            timeChange: false
+          });
+        }
+      },
+      {
+        deep: true
+      }
+    );
+
     // 播放进度
     function updateTime(e: any): void {
       const progress = e.target.currentTime / e.target.duration;

@@ -35,7 +35,12 @@
       <span class="time">
         {{ timeStampToDuration(videoPlayProgress.currentTime || 0) || '00:00' }}
       </span>
-      <div class="progress"></div>
+      <div class="progress">
+        <PlayProgress
+          :playProgress="videoPlayProgress"
+          @progressChange="progressChange"
+        />
+      </div>
       <span class="time">
         {{ timeStampToDuration(videoPlayProgress.duration || 0) || '00:00' }}
       </span>
@@ -61,10 +66,13 @@ import {
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils';
 import Video from './video/Video.vue';
+// 播放进度条
+import PlayProgress from './play-progress/PlayProgress.vue';
 
 export default defineComponent({
   components: {
-    Video
+    Video,
+    PlayProgress
   },
   props: {
     videoDetailData: {
@@ -126,6 +134,16 @@ export default defineComponent({
     // 重播
     function videoReplay(): void {
       videoStatus.value = 'replay';
+    }
+
+    // 视频进度更改
+    function progressChange(value: number): void {
+      const currentTime = videoPlayProgress.value.duration * value;
+      $store.commit('setVideoPlayProgress', {
+        progress: value * 100,
+        currentTime,
+        timeChange: true
+      });
     }
 
     // 全屏切换
@@ -198,6 +216,7 @@ export default defineComponent({
       togglePlayStatus,
       videoEnded,
       videoReplay,
+      progressChange,
       fullscreen,
       lanchFullscreen,
       exitFullscreen,
