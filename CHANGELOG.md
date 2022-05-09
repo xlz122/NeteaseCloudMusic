@@ -1,3 +1,37 @@
+# [1.1.0](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.14...v1.1.0) (2022-05-09)
+
+
+### ✨ Features | 新功能
+
+* 视频增加可拖动进度条 [#1d01e7c](https://github.com/xlz122/NeteaseCloudMusic/commit/1d01e7c) 
+* 首页(登陆后)补充跳转等级详情 [#452d67d](https://github.com/xlz122/NeteaseCloudMusic/commit/452d67d) 
+* 首页(登陆后)个人资料补充跳转详情 [#406910f](https://github.com/xlz122/NeteaseCloudMusic/commit/406910f) 
+* 完善搜索详情无数据展示 [#f853c9c](https://github.com/xlz122/NeteaseCloudMusic/commit/f853c9c) 
+
+
+### 🎫 Chores | 其他更新
+
+* 模板（template）删除部分多余注释 [#a3e2820](https://github.com/xlz122/NeteaseCloudMusic/commit/a3e2820) 
+* 移除rimraf插件 [#43ba77c](https://github.com/xlz122/NeteaseCloudMusic/commit/43ba77c) 
+* 中文空格符替换成英文空格符 [#b1ff30a](https://github.com/xlz122/NeteaseCloudMusic/commit/b1ff30a) 
+* css样式文件删除多余注释 [#43131d6](https://github.com/xlz122/NeteaseCloudMusic/commit/43131d6) 
+* modify changelog config [#193dcd2](https://github.com/xlz122/NeteaseCloudMusic/commit/193dcd2) 
+* modify changelog config [#8b5d754](https://github.com/xlz122/NeteaseCloudMusic/commit/8b5d754) 
+* modify eslint config [#de8e2cb](https://github.com/xlz122/NeteaseCloudMusic/commit/de8e2cb) 
+* modify prettier config [#8967c04](https://github.com/xlz122/NeteaseCloudMusic/commit/8967c04) 
+* update .env config [#41c13cb](https://github.com/xlz122/NeteaseCloudMusic/commit/41c13cb) 
+* update tsconfig.json [#020aff4](https://github.com/xlz122/NeteaseCloudMusic/commit/020aff4) 
+* update tsconfig.json [#032f19c](https://github.com/xlz122/NeteaseCloudMusic/commit/032f19c) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 修复歌曲切换进度条回弹bug [#b6ab0c5](https://github.com/xlz122/NeteaseCloudMusic/commit/b6ab0c5) 
+* 修复歌曲切换瞬间会短暂播放器里歌曲的bug [#dae65f4](https://github.com/xlz122/NeteaseCloudMusic/commit/dae65f4) 
+* 修复生命周期函数使用错误导致报错的bug [#a72d4d3](https://github.com/xlz122/NeteaseCloudMusic/commit/a72d4d3) 
+
+
+
 ## [1.0.14](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.13...v1.0.14) (2022-05-05)
 
 
