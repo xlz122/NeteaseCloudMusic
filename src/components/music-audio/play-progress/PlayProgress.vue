@@ -2,38 +2,38 @@
   <div class="progress" ref="progressRef" @click="handleProgressClick">
     <div class="current-progress" ref="currentProgressRef">
       <i class="icon icon-audio" ref="progressIconRef"></i>
-      <i class="icon-loading" v-if="musicPlayStatus.loading"></i>
+      <i class="icon-loading" v-if="playStatus?.loading"></i>
     </div>
     <div class="total-progress" ref="cacheProgressRef"></div>
   </div>
   <div class="time">
     <span class="duration">
-      {{ timeStampToDuration(musicPlayProgress.currentTime || 0) || '00:00' }}
+      {{ timeStampToDuration(playProgress.currentTime || 0) || '00:00' }}
     </span>
     <span class="total-duration">
-      / {{ timeStampToDuration(musicPlayProgress.duration || 0) || '00:00' }}
+      / {{ timeStampToDuration(playProgress.duration || 0) || '00:00' }}
     </span>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch, onMounted, onUnmounted } from 'vue';
+import { defineComponent, ref, watch, onMounted, onBeforeMount } from 'vue';
 import { timeStampToDuration } from '@utils/utils';
 import { LoopType } from '@/types/types';
 
 export default defineComponent({
   props: {
-    musicPlayStatus: {
+    playStatus: {
       typs: Object,
       default: {}
     },
-    musicPlayProgress: {
+    playProgress: {
       typs: Object,
       default: {}
     }
   },
   emits: ['progressChange'],
-  setup(props: { musicPlayProgress: LoopType }, { emit }) {
+  setup(props: { playProgress: LoopType }, { emit }) {
     // 当前进度距离左边距离
     const currentLeft = ref<number>(0);
     // 总进度 当前进度 进度图标
@@ -52,7 +52,7 @@ export default defineComponent({
 
     // 监听进度数据
     watch(
-      () => props.musicPlayProgress,
+      () => props.playProgress,
       curVal => {
         // 拖动时停止更新进度条
         if (isDrag.value) {
@@ -129,29 +129,29 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      const audioProgress = document.querySelector(
+      const progressContainer = document.querySelector(
         '#musicAudio .wrap'
       ) as HTMLAudioElement;
 
       // 监听鼠标按下事件
-      audioProgress.addEventListener('mousedown', mousedown);
+      progressContainer.addEventListener('mousedown', mousedown);
       // 监听鼠标移动事件
-      audioProgress.addEventListener('mousemove', mousemove);
+      progressContainer.addEventListener('mousemove', mousemove);
       // 监听鼠标放开事件
-      audioProgress.addEventListener('mouseup', mouseup);
+      progressContainer.addEventListener('mouseup', mouseup);
     });
 
-    onUnmounted(() => {
-      const audioProgress = document.querySelector(
+    onBeforeMount(() => {
+      const progressContainer = document.querySelector(
         '#musicAudio .wrap'
       ) as HTMLAudioElement;
 
       // 移除监听鼠标按下事件
-      audioProgress.removeEventListener('mousedown', mousedown);
+      progressContainer.removeEventListener('mousedown', mousedown);
       // 移除监听鼠标移动事件
-      audioProgress.removeEventListener('mousemove', mousemove);
+      progressContainer.removeEventListener('mousemove', mousemove);
       // 移除监听鼠标放开事件
-      audioProgress.removeEventListener('mouseup', mouseup);
+      progressContainer.removeEventListener('mouseup', mouseup);
     });
 
     return {
