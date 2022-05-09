@@ -104,12 +104,6 @@ export default defineComponent({
       () => musicPlayStatus.value.refresh,
       (curVal: boolean) => {
         if (curVal) {
-          // 重置播放进度
-          $store.commit('music/setMusicPlayProgress', {
-            progress: 0,
-            currentTime: 0,
-            duration: 0
-          });
           // 重置刷新
           $store.commit('music/setMusicPlayStatus', {
             refresh: false
