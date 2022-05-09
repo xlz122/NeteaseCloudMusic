@@ -11,10 +11,6 @@
 <script lang="ts">
 import { defineComponent, ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import { LoopType } from '@/types/types';
-// props变量名更改
-// 右侧时间去除
-// progress class更改
-// omMounted class更改
 
 export default defineComponent({
   props: {
@@ -124,29 +120,29 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      const audioProgress = document.querySelector(
+      const progressContainer = document.querySelector(
         '.video-container .wrap'
       ) as HTMLAudioElement;
 
       // 监听鼠标按下事件
-      audioProgress.addEventListener('mousedown', mousedown);
+      progressContainer.addEventListener('mousedown', mousedown);
       // 监听鼠标移动事件
-      audioProgress.addEventListener('mousemove', mousemove);
+      progressContainer.addEventListener('mousemove', mousemove);
       // 监听鼠标放开事件
-      audioProgress.addEventListener('mouseup', mouseup);
+      progressContainer.addEventListener('mouseup', mouseup);
     });
 
     onBeforeUnmount(() => {
-      const audioProgress = document.querySelector(
+      const progressContainer = document.querySelector(
         '.video-container .wrap'
       ) as HTMLAudioElement;
 
       // 移除监听鼠标按下事件
-      audioProgress.removeEventListener('mousedown', mousedown);
+      progressContainer.removeEventListener('mousedown', mousedown);
       // 移除监听鼠标移动事件
-      audioProgress.removeEventListener('mousemove', mousemove);
+      progressContainer.removeEventListener('mousemove', mousemove);
       // 移除监听鼠标放开事件
-      audioProgress.removeEventListener('mouseup', mouseup);
+      progressContainer.removeEventListener('mouseup', mouseup);
     });
 
     return {
