@@ -91,6 +91,10 @@ export default defineComponent({
     watch(
       () => musicPlayStatus.value.look,
       () => {
+        if (musicPlayStatus.value.refresh) {
+          return false;
+        }
+
         setAudioStatus();
       }
     );
