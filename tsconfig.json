@@ -8,7 +8,6 @@
     "moduleResolution": "node",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    // 关闭 key[value] 报错
     "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
