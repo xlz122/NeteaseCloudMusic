@@ -20,7 +20,8 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { debounce } from 'lodash';
-import { getMusicUrl, getNextMusicId } from './methods';
+import { getMusicUrl, getNextMusicId, randomPlay } from './methods';
+import { LoopType } from '@/types/types';
 
 export default defineComponent({
   name: 'AudioView',
@@ -226,7 +227,7 @@ export default defineComponent({
 
     // 播放完成
     const musicModeType = computed(() => $store.getters['music/musicModeType']);
-    function musicPlayEnded(): boolean | undefined {
+    async function musicPlayEnded(): Promise<boolean | undefined> {
       // 播放列表没有音乐，或只有一首音乐，直接循环
       if (playMusicList.value.length <= 1) {
         $store.commit('music/setMusicPlayProgress', {
@@ -265,16 +266,15 @@ export default defineComponent({
 
       // 随机播放
       if (musicModeType.value === 2) {
-        const musicItem = Math.floor(
-          Math.random() * playMusicList.value.length
+        const id = await randomPlay(playMusicList.value);
+        const musicItem = playMusicList.value.find(
+          (item: LoopType) => item.id === id
         );
+
         // 当前播放音乐id
-        $store.commit(
-          'music/setPlayMusicId',
-          playMusicList.value[musicItem].id
-        );
+        $store.commit('music/setPlayMusicId', id);
         // 当前播放音乐数据
-        $store.commit('music/setPlayMusicItem', playMusicList.value[musicItem]);
+        $store.commit('music/setPlayMusicItem', musicItem);
         // 开始播放
         $store.commit('music/setMusicPlayStatus', {
           look: true,
