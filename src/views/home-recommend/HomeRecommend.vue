@@ -101,39 +101,40 @@ export default defineComponent({
           return false;
         }
 
-        const item = recommendSong.value[0];
+        const songList: Record<string, any> = [];
 
-        // 处理播放器所需数据
-        const musicItem: PlayMusicItem = {
-          id: item.id,
-          name: item.name,
-          picUrl: item.al.picUrl,
-          time: item.dt,
-          mv: item.mv,
-          singerList: []
-        };
-
-        item?.ar?.forEach((item: LoopType) => {
-          musicItem.singerList.push({
+        recommendSong.value?.forEach((item: LoopType) => {
+          // 处理播放器所需数据
+          const musicItem: PlayMusicItem = {
             id: item.id,
-            name: item.name
+            name: item.name,
+            picUrl: item.al.picUrl,
+            time: item.dt,
+            mv: item.mv,
+            singerList: []
+          };
+
+          item?.ar?.forEach((item: LoopType) => {
+            musicItem.singerList.push({
+              id: item.id,
+              name: item.name
+            });
           });
+
+          songList.push(musicItem);
+
+          // 添加播放列表
+          $store.commit('music/setPlayMusicList', musicItem);
         });
 
         // 当前播放音乐id
-        $store.commit('music/setPlayMusicId', musicItem.id);
+        $store.commit('music/setPlayMusicId', songList[0].id);
         // 当前播放音乐数据
-        $store.commit('music/setPlayMusicItem', musicItem);
+        $store.commit('music/setPlayMusicItem', songList[0]);
         // 开始播放
         $store.commit('music/setMusicPlayStatus', {
           look: true,
           refresh: true
-        });
-
-        // 添加播放列表
-        recommendSong.value?.forEach((item: LoopType) => {
-          // 播放音乐数据
-          $store.commit('music/setPlayMusicList', item);
         });
       },
       800,
