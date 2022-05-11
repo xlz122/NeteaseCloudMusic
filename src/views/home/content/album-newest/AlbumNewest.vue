@@ -11,12 +11,12 @@
                 @click="jumpAlbumDetail"
                 alt=""
               />
-              <i class="icon"></i>
+              <i class="icon" @click="albumToPlayListPlay(item?.id)"></i>
             </div>
             <div
               class="title"
               :title="item?.name"
-              @click="jumpAlbumDetail(item.id)"
+              @click="jumpAlbumDetail(item?.id)"
             >
               {{ item?.name }}
             </div>
@@ -25,7 +25,7 @@
                 <span
                   class="name"
                   :title="i?.name"
-                  @click="jumpSingerDetail(i.id)"
+                  @click="jumpSingerDetail(i?.id)"
                 >
                   {{ i?.name }}
                 </span>
@@ -56,7 +56,7 @@ type ListOffest = {
 };
 
 export default defineComponent({
-  emits: ['jumpAlbumDetail', 'jumpSingerDetail'],
+  emits: ['albumToPlayListPlay', 'jumpAlbumDetail', 'jumpSingerDetail'],
   setup(props, { emit }) {
     const listData = ref<unknown[]>([]);
     // 获取新碟上架数据
@@ -148,6 +148,11 @@ export default defineComponent({
       }
     );
 
+    // 专辑歌曲添加到播放器
+    function albumToPlayListPlay(id: number): void {
+      emit('albumToPlayListPlay', id);
+    }
+
     // 跳转专辑详情
     function jumpAlbumDetail(id: number): void {
       emit('jumpAlbumDetail', id);
@@ -164,6 +169,7 @@ export default defineComponent({
       listStyle,
       albumPrev,
       albumNext,
+      albumToPlayListPlay,
       jumpAlbumDetail,
       jumpSingerDetail
     };

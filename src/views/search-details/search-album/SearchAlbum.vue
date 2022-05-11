@@ -18,7 +18,11 @@
           alt=""
         />
         <i class="item-cover-bg"></i>
-        <i class="item-cover-play" title="播放"></i>
+        <i
+          class="item-cover-play"
+          title="播放"
+          @click="albumToPlayListPlay(item?.id)"
+        ></i>
       </div>
       <p class="desc" :title="item?.name" @click="jumpAlbumDetail(item?.id)">
         <template
@@ -58,9 +62,11 @@
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { searchKeywords } from '@api/search';
+import { albumDetail } from '@api/album-detail';
+import { LoopType, ResponseType } from '@/types/types';
+import { PlayMusicItem } from '@store/music/state';
 import { timeStampToDuration, handleMatchString } from '@utils/utils.ts';
 import Page from '@components/page/Page.vue';
-import { ResponseType } from '@/types/types';
 
 type AlbumData = {
   loading: boolean;
@@ -139,6 +145,64 @@ export default defineComponent({
     }
     getSearchAlbum();
 
+    // 专辑歌曲添加到播放器
+    function albumToPlayListPlay(id: number): void {
+      albumDetail({ id })
+        .then((res: ResponseType) => {
+          if (res?.code === 200) {
+            if (res?.songs.length === 0) {
+              return false;
+            }
+
+            // 无版权
+            if (res?.songs[0].privilege.cp === 0) {
+              $store.commit('setMessage', {
+                type: 'info',
+                title: '该专辑需单独付费'
+              });
+              return false;
+            }
+
+            const songList: Record<string, any> = [];
+
+            res?.songs.forEach((item: LoopType) => {
+              // 处理播放器所需数据
+              const musicItem: PlayMusicItem = {
+                id: item.id,
+                name: item.name,
+                picUrl: item.al.picUrl,
+                time: item.dt,
+                mv: item.mv,
+                singerList: []
+              };
+
+              item?.ar?.forEach((item: LoopType) => {
+                musicItem.singerList.push({
+                  id: item.id,
+                  name: item.name
+                });
+              });
+
+              songList.push(musicItem);
+
+              // 添加播放列表
+              $store.commit('music/setPlayMusicList', musicItem);
+            });
+
+            // 当前播放音乐id
+            $store.commit('music/setPlayMusicId', songList[0].id);
+            // 当前播放音乐数据
+            $store.commit('music/setPlayMusicItem', songList[0]);
+            // 开始播放
+            $store.commit('music/setMusicPlayStatus', {
+              look: true,
+              refresh: true
+            });
+          }
+        })
+        .catch(() => ({}));
+    }
+
     // 跳转专辑详情
     function jumpAlbumDetail(id: number): void {
       $store.commit('jumpAlbumDetail', id);
@@ -160,6 +224,7 @@ export default defineComponent({
       handleMatchString,
       userInfo,
       albumData,
+      albumToPlayListPlay,
       jumpAlbumDetail,
       jumpSingerDetail,
       changPage

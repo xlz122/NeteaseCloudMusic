@@ -176,6 +176,7 @@
         <span class="more" @click="albumNewestMore">更多</span>
       </div>
       <album-newest
+        @albumToPlayListPlay="albumToPlayListPlay"
         @jumpAlbumDetail="jumpAlbumDetail"
         @jumpSingerDetail="jumpSingerDetail"
       />
@@ -212,6 +213,7 @@ import {
   recommendResource
 } from '@api/home';
 import { playlistTrack } from '@api/song-sheet-detail';
+import { albumDetail } from '@api/album-detail';
 import { LoopType, ResponseType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
 import { getWeekDate, formatDateTime, bigNumberTransform } from '@utils/utils';
@@ -420,6 +422,64 @@ export default defineComponent({
       individualizatData.value.splice(3, 1);
     }
 
+    // 专辑歌曲添加到播放器
+    function albumToPlayListPlay(id: number): void {
+      albumDetail({ id })
+        .then((res: ResponseType) => {
+          if (res?.code === 200) {
+            if (res?.songs.length === 0) {
+              return false;
+            }
+
+            // 无版权
+            if (res?.songs[0].privilege.cp === 0) {
+              $store.commit('setMessage', {
+                type: 'info',
+                title: '该专辑需单独付费'
+              });
+              return false;
+            }
+
+            const songList: Record<string, any> = [];
+
+            res?.songs.forEach((item: LoopType) => {
+              // 处理播放器所需数据
+              const musicItem: PlayMusicItem = {
+                id: item.id,
+                name: item.name,
+                picUrl: item.al.picUrl,
+                time: item.dt,
+                mv: item.mv,
+                singerList: []
+              };
+
+              item?.ar?.forEach((item: LoopType) => {
+                musicItem.singerList.push({
+                  id: item.id,
+                  name: item.name
+                });
+              });
+
+              songList.push(musicItem);
+
+              // 添加播放列表
+              $store.commit('music/setPlayMusicList', musicItem);
+            });
+
+            // 当前播放音乐id
+            $store.commit('music/setPlayMusicId', songList[0].id);
+            // 当前播放音乐数据
+            $store.commit('music/setPlayMusicItem', songList[0]);
+            // 开始播放
+            $store.commit('music/setMusicPlayStatus', {
+              look: true,
+              refresh: true
+            });
+          }
+        })
+        .catch(() => ({}));
+    }
+
     // 跳转专辑详情
     function jumpAlbumDetail(id: number): void {
       $store.commit('jumpAlbumDetail', id);
@@ -455,6 +515,7 @@ export default defineComponent({
       dateText,
       jumpRecommend,
       uninterested,
+      albumToPlayListPlay,
       jumpAlbumDetail,
       jumpSingerDetail,
       albumNewestMore,
