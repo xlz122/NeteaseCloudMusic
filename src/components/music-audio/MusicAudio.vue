@@ -248,10 +248,6 @@ export default defineComponent({
 
     // 跳转歌曲位置
     function jumpSongPosition(): void {
-      // 该功能需要在歌曲数据中添加歌曲来源，targetType（歌单/专辑/单曲）
-      // targetId（歌单id/专辑id/单曲id）
-      // 单曲链接，不可点击，需要判断
-      // $router.push({ name: 'home-song-sheet', params: { songSheetId: id } });
       $store.commit('setMessage', {
         type: 'error',
         title: '该功能暂未开发'
