@@ -28,7 +28,6 @@
         <AlbumSong
           class="music-table"
           :loading="albumData.loading"
-          :noData="albumData.noData"
           :songs="albumData.songs"
         />
         <div class="comment-component">
@@ -75,7 +74,6 @@ import Page from '@components/page/Page.vue';
 
 type AlbumData = {
   loading: boolean;
-  noData: boolean;
   userInfo: unknown;
   songs: unknown[];
 };
@@ -96,8 +94,7 @@ export default defineComponent({
     const albumId = computed<number>(() => $store.getters.albumId);
 
     const albumData = reactive<AlbumData>({
-      loading: false,
-      noData: false,
+      loading: true,
       userInfo: {},
       songs: []
     });
@@ -114,10 +111,9 @@ export default defineComponent({
       }
     );
 
-    // 获取歌单详情
+    // 获取专辑详情
     function getAlbumDetail(): void {
       albumData.loading = true;
-      albumData.noData = false;
       albumData.songs = [];
 
       albumDetail({
@@ -127,9 +123,6 @@ export default defineComponent({
           if (res?.code === 200) {
             albumData.userInfo = res?.album;
             albumData.songs = res?.songs;
-            if (res?.songs?.length === 0) {
-              albumData.noData = true;
-            }
 
             // 存储歌手id
             $store.commit('setSingerId', res?.album?.artist?.id);

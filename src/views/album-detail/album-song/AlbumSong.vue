@@ -4,7 +4,7 @@
       <i class="loading-icon"></i>
       加载中...
     </div>
-    <table class="play-list-table" v-if="songs?.length > 0">
+    <table class="play-list-table" v-if="!loading && songs?.length > 0">
       <thead>
         <tr>
           <th class="th first-th">
@@ -94,7 +94,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="no-list-data" v-if="noData">
+    <div class="no-list-data" v-if="!loading && songs.length === 0">
       <div class="title">
         <i class="icon"></i>
         <h3 class="text">暂无音乐！</h3>
@@ -124,10 +124,6 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    noData: {
-      type: Boolean,
-      default: false
-    },
     songs: {
       type: Array,
       default: () => []
@@ -141,19 +137,29 @@ export default defineComponent({
     // 当前播放音乐id
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
 
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
-    }
-
-    // 跳转视频详情
-    function jumpVideoDetail(id: number): void {
-      $router.push({ name: 'mv-detail', params: { id } });
-      $store.commit('video/setVideo', { id, url: '' });
-    }
-
     // 单个歌曲添加到播放列表
     function singleMusicToPlayList(item: Record<string, any>): void {
+      const musicItem: PlayMusicItem = {
+        id: item.id,
+        name: item.name,
+        picUrl: item.al.picUrl,
+        time: item.dt,
+        mv: item.mv,
+        singerList: []
+      };
+
+      item?.ar?.forEach((item: LoopType) => {
+        musicItem.singerList.push({
+          id: item.id,
+          name: item.name
+        });
+      });
+
+      $store.commit('music/setPlayMusicList', musicItem);
+    }
+
+    // 播放单个歌曲
+    function playSingleMusic(item: Record<string, any>): void {
       // 处理播放器所需数据
       const musicItem: PlayMusicItem = {
         id: item.id,
@@ -171,8 +177,18 @@ export default defineComponent({
         });
       });
 
+      // 当前播放音乐id
+      $store.commit('music/setPlayMusicId', musicItem.id);
+      // 当前播放音乐数据
+      $store.commit('music/setPlayMusicItem', musicItem);
       // 播放音乐数据
       $store.commit('music/setPlayMusicList', musicItem);
+      // 开始播放
+      $store.commit('music/setMusicPlayStatus', {
+        look: true,
+        loading: true,
+        refresh: true
+      });
     }
 
     // 收藏
@@ -209,55 +225,33 @@ export default defineComponent({
       });
     }
 
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      $store.commit('jumpSongDetail', id);
+    }
+
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       $store.commit('jumpSingerDetail', id);
     }
 
-    // 播放单个歌曲
-    function playSingleMusic(item: Record<string, any>): void {
-      // 处理播放器所需数据
-      const musicItem: PlayMusicItem = {
-        id: item.id,
-        name: item.name,
-        picUrl: item.al.picUrl,
-        time: item.dt,
-        mv: item.mv,
-        singerList: []
-      };
-
-      item?.ar?.forEach((item: LoopType) => {
-        musicItem.singerList.push({
-          id: item.id,
-          name: item.name
-        });
-      });
-
-      // 当前播放音乐id
-      $store.commit('music/setPlayMusicId', musicItem.id);
-      // 当前播放音乐数据
-      $store.commit('music/setPlayMusicItem', musicItem);
-      // 播放音乐数据
-      $store.commit('music/setPlayMusicList', musicItem);
-      // 开始播放
-      $store.commit('music/setMusicPlayStatus', {
-        look: true,
-        loading: true,
-        refresh: true
-      });
+    // 跳转视频详情
+    function jumpVideoDetail(id: number): void {
+      $router.push({ name: 'mv-detail', params: { id } });
+      $store.commit('video/setVideo', { id, url: '' });
     }
 
     return {
       timeStampToDuration,
       playMusicId,
-      jumpSongDetail,
-      jumpVideoDetail,
-      jumpSingerDetail,
       singleMusicToPlayList,
+      playSingleMusic,
       handleCollection,
       handleShare,
       handleDownload,
-      playSingleMusic
+      jumpSongDetail,
+      jumpSingerDetail,
+      jumpVideoDetail
     };
   }
 });

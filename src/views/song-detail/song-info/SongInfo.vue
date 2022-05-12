@@ -200,7 +200,6 @@ export default defineComponent({
 
       const item = props?.songDetailData?.songs[0];
 
-      // 处理播放器所需数据
       const musicItem: PlayMusicItem = {
         id: item.id,
         name: item.name,
@@ -218,7 +217,6 @@ export default defineComponent({
         });
       });
 
-      // 播放音乐数据
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
