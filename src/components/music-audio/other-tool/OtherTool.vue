@@ -66,7 +66,7 @@ export default defineComponent({
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    // 播放列表数据
+    // 播放列表
     const playMusicList = computed(() => $store.getters['music/playMusicList']);
     // 当前播放id
     const playMusicId = computed<number>(

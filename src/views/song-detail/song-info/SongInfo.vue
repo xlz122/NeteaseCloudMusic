@@ -167,8 +167,7 @@ export default defineComponent({
         picUrl: item.al.picUrl,
         time: item.dt,
         mv: item.mv,
-        singerList: [],
-        targetType: 'song'
+        singerList: []
       };
 
       item?.ar?.forEach((item: LoopType) => {
@@ -204,8 +203,7 @@ export default defineComponent({
         picUrl: item.al.picUrl,
         time: item.dt,
         mv: item.mv,
-        singerList: [],
-        targetType: 'song'
+        singerList: []
       };
 
       item?.ar?.forEach((item: LoopType) => {

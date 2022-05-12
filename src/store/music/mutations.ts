@@ -18,7 +18,7 @@ const mutations: Mutations<State, unknown> = {
     state.playMusicItem = musicItem as PlayMusicItem;
     localStorage.setItem('playMusicItem', JSON.stringify(musicItem));
   },
-  // 播放列表数据(新数据往最后面添加)
+  // 播放列表(新数据往最后面添加)
   setPlayMusicList(state, music) {
     if (toRawType(music) !== 'Object' && toRawType(music) !== 'Array') {
       throw new Error('添加的播放数据类型错误');
@@ -74,7 +74,7 @@ const mutations: Mutations<State, unknown> = {
     state.playLyrics = playLyrics as unknown[];
     localStorage.setItem('playLyrics', JSON.stringify(playLyrics));
   },
-  // 播放器 - 清空播放列表数据
+  // 播放器 - 清空播放列表
   emptyPlayMusicList(state) {
     state.playMusicList = [] as unknown[];
     localStorage.setItem('playMusicList', [] as never);
