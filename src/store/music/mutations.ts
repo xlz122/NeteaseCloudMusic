@@ -6,13 +6,14 @@ type Mutations<T, U> = {
 };
 
 const mutations: Mutations<State, unknown> = {
-  // 当前播放音乐id
-  setPlayMusicId(state, playMusicId) {
-    state.playMusicId = playMusicId as number;
-    localStorage.setItem('playMusicId', JSON.stringify(playMusicId));
-  },
   // 当前播放音乐数据
   setPlayMusicItem(state, musicItem) {
+    state.playMusicId = (musicItem as PlayMusicItem).id;
+    localStorage.setItem(
+      'playMusicId',
+      JSON.stringify((musicItem as PlayMusicItem).id)
+    );
+
     state.playMusicItem = musicItem as PlayMusicItem;
     localStorage.setItem('playMusicItem', JSON.stringify(musicItem));
   },
