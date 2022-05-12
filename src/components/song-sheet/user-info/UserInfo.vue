@@ -202,7 +202,7 @@ export default defineComponent({
           return false;
         }
 
-        const songList: Record<string, any> = [];
+        const songList: PlayMusicItem[] = [];
 
         songSheetDetail.value?.playlist?.tracks.forEach((item: LoopType) => {
           // 无版权歌曲不添加到播放列表
@@ -228,13 +228,12 @@ export default defineComponent({
           });
 
           songList.push(musicItem);
-
-          // 添加播放列表
-          $store.commit('music/setPlayMusicList', musicItem);
         });
 
         // 当前播放音乐数据
         $store.commit('music/setPlayMusicItem', songList[0]);
+        // 添加到播放列表
+        $store.commit('music/setPlayMusicList', songList);
         // 开始播放
         $store.commit('music/setMusicPlayStatus', {
           look: true,
@@ -253,6 +252,9 @@ export default defineComponent({
       if (songSheetDetail.value?.playlist?.tracks.length === 0) {
         return false;
       }
+
+      const songList: PlayMusicItem[] = [];
+
       songSheetDetail.value?.playlist?.tracks.forEach((item: LoopType) => {
         // 无版权歌曲不添加到播放列表
         if (isCopyright(item.id)) {
@@ -276,9 +278,11 @@ export default defineComponent({
           });
         });
 
-        // 播放音乐数据
-        $store.commit('music/setPlayMusicList', musicItem);
+        songList.push(musicItem);
       });
+
+      // 添加到播放列表
+      $store.commit('music/setPlayMusicList', songList);
     }
 
     // 收藏

@@ -101,7 +101,7 @@ export default defineComponent({
           return false;
         }
 
-        const songList: Record<string, any> = [];
+        const songList: PlayMusicItem[] = [];
 
         recommendSong.value?.forEach((item: LoopType) => {
           // 处理播放器所需数据
@@ -122,13 +122,12 @@ export default defineComponent({
           });
 
           songList.push(musicItem);
-
-          // 添加播放列表
-          $store.commit('music/setPlayMusicList', musicItem);
         });
 
         // 当前播放音乐数据
         $store.commit('music/setPlayMusicItem', songList[0]);
+        // 添加到播放列表
+        $store.commit('music/setPlayMusicList', songList);
         // 开始播放
         $store.commit('music/setMusicPlayStatus', {
           look: true,
@@ -147,6 +146,9 @@ export default defineComponent({
       if (recommendSong.value?.length === 0) {
         return false;
       }
+
+      const songList: PlayMusicItem[] = [];
+
       recommendSong.value?.forEach((item: LoopType) => {
         // 处理播放器所需数据
         const musicItem: PlayMusicItem = {
@@ -165,9 +167,11 @@ export default defineComponent({
           });
         });
 
-        // 播放音乐数据
-        $store.commit('music/setPlayMusicList', musicItem);
+        songList.push(musicItem);
       });
+
+      // 添加到播放列表
+      $store.commit('music/setPlayMusicList', songList);
     }
 
     // 收藏全部

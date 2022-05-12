@@ -256,7 +256,7 @@ export default defineComponent({
 
       // 当前播放音乐数据
       $store.commit('music/setPlayMusicItem', musicItem);
-      // 播放音乐数据
+      // 添加到播放列表
       $store.commit('music/setPlayMusicList', musicItem);
       // 开始播放
       $store.commit('music/setMusicPlayStatus', {

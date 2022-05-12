@@ -1,6 +1,6 @@
 export type State = {
   playMusicId: number;
-  playMusicList: unknown;
+  playMusicList: unknown[];
   playMusicItem: PlayMusicItem;
   musicPlayProgress: unknown;
   musicPlayStatus: unknown;

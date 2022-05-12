@@ -133,7 +133,7 @@ export default defineComponent({
           return false;
         }
 
-        const songList: Record<string, any> = [];
+        const songList: PlayMusicItem[] = [];
 
         listData[index].playlist?.tracks.forEach((item: LoopType) => {
           // 处理播放器所需数据
@@ -154,13 +154,12 @@ export default defineComponent({
           });
 
           songList.push(musicItem);
-
-          // 添加播放列表
-          $store.commit('music/setPlayMusicList', musicItem);
         });
 
         // 当前播放音乐数据
         $store.commit('music/setPlayMusicItem', songList[0]);
+        // 添加到播放列表
+        $store.commit('music/setPlayMusicList', songList);
         // 开始播放
         $store.commit('music/setMusicPlayStatus', {
           look: true,
@@ -231,7 +230,7 @@ export default defineComponent({
 
       // 当前播放音乐数据
       $store.commit('music/setPlayMusicItem', musicItem);
-      // 播放音乐数据
+      // 添加到播放列表
       $store.commit('music/setPlayMusicList', musicItem);
       // 开始播放
       $store.commit('music/setMusicPlayStatus', {
@@ -260,7 +259,7 @@ export default defineComponent({
         });
       });
 
-      // 播放音乐数据
+      // 添加到播放列表
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
