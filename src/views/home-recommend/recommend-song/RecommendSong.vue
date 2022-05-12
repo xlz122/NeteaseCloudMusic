@@ -158,7 +158,6 @@ export default defineComponent({
 
     // 单个歌曲添加到播放列表
     function singleMusicToPlayList(item: Record<string, any>): void {
-      // 处理播放器所需数据
       const musicItem: PlayMusicItem = {
         id: item.id,
         name: item.name,
@@ -175,7 +174,6 @@ export default defineComponent({
         });
       });
 
-      // 播放音乐数据
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
