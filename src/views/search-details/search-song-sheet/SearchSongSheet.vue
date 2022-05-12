@@ -217,8 +217,6 @@ export default defineComponent({
               $store.commit('music/setPlayMusicList', musicItem);
             });
 
-            // 当前播放音乐id
-            $store.commit('music/setPlayMusicId', songList[0].id);
             // 当前播放音乐数据
             $store.commit('music/setPlayMusicItem', songList[0]);
             // 开始播放
@@ -276,8 +274,6 @@ export default defineComponent({
               $store.commit('music/setPlayMusicList', musicItem);
             });
 
-            // 当前播放音乐id
-            $store.commit('music/setPlayMusicId', songList[0].id);
             // 当前播放音乐数据
             $store.commit('music/setPlayMusicItem', songList[0]);
           }

@@ -275,8 +275,6 @@ export default defineComponent({
         });
       });
 
-      // 当前播放音乐id
-      $store.commit('music/setPlayMusicId', musicItem.id);
       // 当前播放音乐数据
       $store.commit('music/setPlayMusicItem', musicItem);
       // 播放音乐数据

@@ -271,8 +271,6 @@ export default defineComponent({
           (item: LoopType) => item.id === id
         );
 
-        // 当前播放音乐id
-        $store.commit('music/setPlayMusicId', id);
         // 当前播放音乐数据
         $store.commit('music/setPlayMusicItem', musicItem);
         // 开始播放

@@ -188,8 +188,6 @@ export default defineComponent({
 
     // 列表项点击
     function playlistItem(id: number, item: unknown): void {
-      // 当前播放音乐id
-      $store.commit('music/setPlayMusicId', id);
       // 播放音乐数据
       $store.commit('music/setPlayMusicItem', item);
       // 开始播放
