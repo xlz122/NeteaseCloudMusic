@@ -238,7 +238,7 @@ export default defineComponent({
     // 跳转视频详情
     function jumpVideoDetail(id: number): void {
       $router.push({ name: 'mv-detail', params: { id } });
-      $store.commit('setVideo', { id, url: '' });
+      $store.commit('video/setVideo', { id, url: '' });
     }
 
     // 跳转歌手详情

@@ -20,10 +20,8 @@ const getters: Getters<State> = {
   singerId: state => state.singerId,
   djprogramId: state => state.djprogramId,
   albumId: state => state.albumId,
-  video: state => state.video,
   singerTabIndex: state => state.singerTabIndex,
-  searchIndex: state => state.searchIndex,
-  videoPlayProgress: state => state.videoPlayProgress
+  searchIndex: state => state.searchIndex
 };
 
 export default getters;

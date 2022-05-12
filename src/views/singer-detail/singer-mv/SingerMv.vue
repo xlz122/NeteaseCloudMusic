@@ -110,7 +110,7 @@ export default defineComponent({
     // 跳转Mv详情
     function jumpMvDetail(id: number): void {
       $router.push({ name: 'mv-detail', params: { id } });
-      $store.commit('setVideo', { id, url: '' });
+      $store.commit('video/setVideo', { id, url: '' });
     }
 
     // 分页

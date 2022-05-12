@@ -87,7 +87,7 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    const video = computed(() => $store.getters.video);
+    const video = computed(() => $store.getters['video/video']);
 
     const videoList = ref<unknown[]>([]);
 
@@ -116,7 +116,7 @@ export default defineComponent({
     // 跳转视频详情
     function jumpVideoDetail(id: number): void {
       $router.push({ name: 'video-detail', params: { id } });
-      $store.commit('setVideo', { id, url: '' });
+      $store.commit('video/setVideo', { id, url: '' });
 
       getVideolist();
     }

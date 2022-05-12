@@ -90,7 +90,7 @@ export default defineComponent({
 
     // 播放进度数据
     const videoPlayProgress = computed(
-      () => $store.getters['videoPlayProgress']
+      () => $store.getters['video/videoPlayProgress']
     );
     // 播放状态
     const musicPlayStatus = computed(
@@ -139,7 +139,7 @@ export default defineComponent({
     // 视频进度更改
     function progressChange(value: number): void {
       const currentTime = videoPlayProgress.value.duration * value;
-      $store.commit('setVideoPlayProgress', {
+      $store.commit('video/setVideoPlayProgress', {
         progress: value * 100,
         currentTime,
         timeChange: true

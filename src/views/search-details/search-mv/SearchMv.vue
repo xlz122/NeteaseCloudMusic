@@ -164,7 +164,7 @@ export default defineComponent({
         $router.push({ name: 'video-detail', params: { id } });
       }
 
-      $store.commit('setVideo', { id, url: '' });
+      $store.commit('video/setVideo', { id, url: '' });
     }
 
     // 跳转歌手详情
