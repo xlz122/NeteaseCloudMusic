@@ -5,8 +5,6 @@ export type Getters<T> = {
 };
 
 const getters: Getters<State> = {
-  songSheetDetail: state => state.songSheetDetail,
-  collectSong: state => state.collectSong,
   playMusicId: state => state.playMusicId,
   playMusicItem: state => state.playMusicItem,
   playMusicList: state => state.playMusicList,

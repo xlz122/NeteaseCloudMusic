@@ -85,9 +85,7 @@ export default defineComponent({
     // 歌单id
     const songSheetId = computed<number>(() => $store.getters.songSheetId);
     // 歌单详情数据
-    const songSheetDetail = computed(
-      () => $store.getters['music/songSheetDetail']
-    );
+    const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
     watch(
       () => $route.params,
@@ -103,14 +101,14 @@ export default defineComponent({
 
     // 获取歌单详情
     function getSongDetail(): void {
-      $store.commit('music/setSongSheetDetail', {});
+      $store.commit('setSongSheetDetail', {});
 
       playlistDetail({
         id: songSheetId.value
       })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
-            $store.commit('music/setSongSheetDetail', res);
+            $store.commit('setSongSheetDetail', res);
           } else {
             $store.commit('setMessage', {
               type: 'error',

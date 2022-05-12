@@ -16,6 +16,11 @@ export type State = {
   albumId: number;
   singerTabIndex: number;
   searchIndex: number;
+  songSheetDetail: unknown;
+  collectSong: {
+    visible: boolean;
+    songIds: string;
+  };
 };
 
 // 本地存储容错处理
@@ -42,7 +47,12 @@ const state: State = {
   djprogramId: Number(localStorage.getItem('djprogramId')) || 0, // 电台节目id
   albumId: Number(localStorage.getItem('albumId')) || 0, // 专辑id
   singerTabIndex: Number(localStorage.getItem('singerTabIndex')) || 0, // 歌手详情导航
-  searchIndex: Number(localStorage.getItem('searchIndex')) || 0 // 搜索详情导航
+  searchIndex: Number(localStorage.getItem('searchIndex')) || 0, // 搜索详情导航
+  songSheetDetail: faultTolerant('songSheetDetail') || {}, // 歌单详情数据
+  collectSong: {
+    visible: false,
+    songIds: ''
+  } // 收藏歌曲
 };
 
 export default state;

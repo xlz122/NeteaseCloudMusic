@@ -83,9 +83,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 歌单详情数据
-    const songSheetDetail = computed(
-      () => $store.getters['music/songSheetDetail']
-    );
+    const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
     const songSheetList = ref<unknown[]>([]);
     const songParams = reactive<SongParams>({

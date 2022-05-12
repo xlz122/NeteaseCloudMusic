@@ -6,15 +6,6 @@ type Mutations<T, U> = {
 };
 
 const mutations: Mutations<State, unknown> = {
-  // 歌单详情数据
-  setSongSheetDetail(state, songSheetDetail) {
-    state.songSheetDetail = songSheetDetail as unknown;
-    localStorage.setItem('songSheetDetail', JSON.stringify(songSheetDetail));
-  },
-  // 收藏歌曲
-  collectPlayMusic(state, song) {
-    state.collectSong = song as { visible: boolean; songIds: string };
-  },
   // 当前播放音乐id
   setPlayMusicId(state, playMusicId) {
     state.playMusicId = playMusicId as number;

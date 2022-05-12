@@ -49,7 +49,7 @@ export default defineComponent({
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
-    const collectSong = computed(() => $store.getters['music/collectSong']);
+    const collectSong = computed(() => $store.getters.collectSong);
 
     watch(
       () => collectSong.value.visible,
@@ -108,7 +108,7 @@ export default defineComponent({
       })
         .then((res: ResponseType) => {
           if (res.body.code === 200) {
-            $store.commit('music/collectPlayMusic', {
+            $store.commit('collectPlayMusic', {
               visible: false,
               songIds: ''
             });
@@ -128,7 +128,7 @@ export default defineComponent({
 
     // 关闭弹框
     function collectCancel(): void {
-      $store.commit('music/collectPlayMusic', {
+      $store.commit('collectPlayMusic', {
         visible: false,
         songIds: ''
       });

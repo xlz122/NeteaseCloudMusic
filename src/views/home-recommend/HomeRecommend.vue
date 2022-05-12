@@ -179,7 +179,7 @@ export default defineComponent({
         ids += `${item.id},`;
       });
 
-      $store.commit('music/collectPlayMusic', {
+      $store.commit('collectPlayMusic', {
         visible: true,
         songIds: ids
       });

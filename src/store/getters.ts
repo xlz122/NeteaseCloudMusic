@@ -21,7 +21,9 @@ const getters: Getters<State> = {
   djprogramId: state => state.djprogramId,
   albumId: state => state.albumId,
   singerTabIndex: state => state.singerTabIndex,
-  searchIndex: state => state.searchIndex
+  searchIndex: state => state.searchIndex,
+  songSheetDetail: state => state.songSheetDetail,
+  collectSong: state => state.collectSong
 };
 
 export default getters;

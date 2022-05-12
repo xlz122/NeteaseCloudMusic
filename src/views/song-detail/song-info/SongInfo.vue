@@ -229,7 +229,7 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('music/collectPlayMusic', {
+      $store.commit('collectPlayMusic', {
         visible: true,
         songIds: id
       });

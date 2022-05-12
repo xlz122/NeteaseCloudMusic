@@ -264,7 +264,7 @@ export default defineComponent({
         ids += `${item.id},`;
       });
 
-      $store.commit('music/collectPlayMusic', {
+      $store.commit('collectPlayMusic', {
         visible: true,
         songIds: ids
       });
@@ -333,7 +333,7 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('music/collectPlayMusic', {
+      $store.commit('collectPlayMusic', {
         visible: true,
         songIds: id
       });
