@@ -91,7 +91,7 @@ export default defineComponent({
       if (type === 1) {
         $router.push({ name: 'video-detail', params: { id } });
       }
-      $store.commit('setVideo', { id, url: '' });
+      $store.commit('video/setVideo', { id, url: '' });
     }
 
     // 跳转用户资料

@@ -123,7 +123,7 @@ export default defineComponent({
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const video = computed(() => $store.getters.video);
+    const video = computed(() => $store.getters['video/video']);
 
     watch(
       () => $route.params,
@@ -172,7 +172,10 @@ export default defineComponent({
       mvUrl({ id: video.value.id })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
-            $store.commit('setVideo', { ...video.value, url: res?.data?.url });
+            $store.commit('video/setVideo', {
+              ...video.value,
+              url: res?.data?.url
+            });
           }
         })
         .catch(() => ({}));
