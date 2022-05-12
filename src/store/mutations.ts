@@ -151,6 +151,15 @@ const mutations: Mutations<State> = {
     localStorage.clear();
     // 清除所有cookie
     clearAllCookie();
+  },
+  // 歌单详情数据
+  setSongSheetDetail(state, songSheetDetail) {
+    state.songSheetDetail = songSheetDetail as unknown;
+    localStorage.setItem('songSheetDetail', JSON.stringify(songSheetDetail));
+  },
+  // 收藏歌曲
+  collectPlayMusic(state, song) {
+    state.collectSong = song as { visible: boolean; songIds: string };
   }
 };
 

@@ -1,9 +1,4 @@
 export type State = {
-  songSheetDetail: unknown;
-  collectSong: {
-    visible: boolean;
-    songIds: string;
-  };
   playMusicId: number;
   playMusicList: unknown;
   playMusicItem: PlayMusicItem;
@@ -37,11 +32,6 @@ function faultTolerant(name: string) {
 }
 
 const state: State = {
-  songSheetDetail: faultTolerant('songSheetDetail') || {}, // 歌单详情数据
-  collectSong: {
-    visible: false,
-    songIds: ''
-  }, // 收藏歌曲
   playMusicId: Number(localStorage.getItem('playMusicId')) || 0, // 当前播放音乐id
   playMusicItem: faultTolerant('playMusicItem') || {}, // 当前播放音乐数据
   playMusicList: faultTolerant('playMusicList') || [], // 播放列表数据
@@ -50,7 +40,7 @@ const state: State = {
     look: false,
     loading: false,
     refresh: false
-  }, // 我的音乐 - 播放状态
+  }, // 当前播放音乐播放状态
   musicAudioLock: faultTolerant('musicAudioLock') || false, // 播放器锁定在底部
   musicModeType: Number(localStorage.getItem('musicModeType')) || 0, // 播放器 - 播放模式
   musicVolume: Number(localStorage.getItem('musicVolume')) || 1, // 播放器 - 音量

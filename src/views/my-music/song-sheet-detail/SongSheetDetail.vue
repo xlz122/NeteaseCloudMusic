@@ -59,9 +59,7 @@ export default defineComponent({
     // 歌单id
     const songSheetId = computed<number>(() => $store.getters.songSheetId);
     // 歌单详情
-    const songSheetDetail = computed(
-      () => $store.getters['music/songSheetDetail']
-    );
+    const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
     watch(
       () => songSheetId.value,
@@ -83,7 +81,7 @@ export default defineComponent({
             if (res?.playlist?.name.includes('喜欢的音乐')) {
               res.playlist.name = '我喜欢的音乐';
             }
-            $store.commit('music/setSongSheetDetail', res);
+            $store.commit('setSongSheetDetail', res);
           } else {
             $store.commit('setMessage', {
               type: 'error',

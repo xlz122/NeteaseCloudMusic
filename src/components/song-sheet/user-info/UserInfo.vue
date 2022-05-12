@@ -179,9 +179,7 @@ export default defineComponent({
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
     // 歌单详情数据
-    const songSheetDetail = computed(
-      () => $store.getters['music/songSheetDetail']
-    );
+    const songSheetDetail = computed(() => $store.getters.songSheetDetail);
     // 当前播放音乐id
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
 
@@ -312,7 +310,7 @@ export default defineComponent({
             songSheetDetail.value.playlist.subscribed = true;
 
             // 更新歌单详情
-            $store.commit('music/setSongSheetDetail', songSheetDetail.value);
+            $store.commit('setSongSheetDetail', songSheetDetail.value);
           } else {
             $store.commit('setMessage', {
               type: 'error',
