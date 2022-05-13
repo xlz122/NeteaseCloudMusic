@@ -34,10 +34,9 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 歌手id
     const singerId = computed<number>(() => $store.getters.singerId);
 
-    const singerDesc = ref();
+    const singerDesc = ref({});
 
     // 获取歌手描述
     function getArtistDetail(): void {

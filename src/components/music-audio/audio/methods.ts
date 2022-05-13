@@ -25,11 +25,8 @@ export function getMusicUrl(id: number): Promise<string> {
 export function getPrevMusicId(): Promise<number> {
   return new Promise(resolve => {
     (async () => {
-      // 播放列表
-      const playMusicList = store.getters['music/playMusicList'];
-
-      // 当前播放音乐id
       const playMusicId = store.getters['music/playMusicId'];
+      const playMusicList = store.getters['music/playMusicList'];
 
       if (playMusicList.length === 0) {
         return false;
@@ -78,11 +75,8 @@ export function getPrevMusicId(): Promise<number> {
 export function getNextMusicId(): Promise<number> {
   return new Promise(resolve => {
     (async () => {
-      // 播放列表
-      const playMusicList = store.getters['music/playMusicList'];
-
-      // 当前播放音乐id
       const playMusicId = store.getters['music/playMusicId'];
+      const playMusicList = store.getters['music/playMusicList'];
 
       if (playMusicList.length === 0) {
         return false;

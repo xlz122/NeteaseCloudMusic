@@ -28,12 +28,10 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 播放列表
-    const playMusicList = computed(() => $store.getters['music/playMusicList']);
-    // 当前播放音乐id
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );
+    const playMusicList = computed(() => $store.getters['music/playMusicList']);
     // 音量
     const musicVolume = computed<number>(
       () => $store.getters['music/musicVolume']
@@ -123,10 +121,12 @@ export default defineComponent({
         startPlayMusic();
         return false;
       }
+
       // 不刷新播放
       if (musicPlayStatus.value.look && audioSrc.value) {
         startPlayMusic();
       }
+
       // 暂停
       if (!musicPlayStatus.value.look) {
         stopPlayMusic();

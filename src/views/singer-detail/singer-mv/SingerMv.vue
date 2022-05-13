@@ -59,7 +59,6 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    // 歌手id
     const singerId = computed<number>(() => $store.getters.singerId);
 
     watch(

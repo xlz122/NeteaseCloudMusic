@@ -111,12 +111,10 @@ export default defineComponent({
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    // 播放列表
-    const playMusicList = computed(() => $store.getters['music/playMusicList']);
-    // 当前播放音乐id
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );
+    const playMusicList = computed(() => $store.getters['music/playMusicList']);
     // 当前播放音乐数据
     const playMusicItem = computed<number>(
       () => $store.getters['music/playMusicItem']
@@ -217,8 +215,8 @@ export default defineComponent({
     }
 
     return {
-      playMusicList,
       playMusicId,
+      playMusicList,
       playMusicItem,
       timeStampToDuration,
       collectAll,

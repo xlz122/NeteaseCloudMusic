@@ -54,7 +54,6 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 当前播放音乐id
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );

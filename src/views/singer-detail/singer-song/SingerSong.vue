@@ -137,11 +137,9 @@ export default defineComponent({
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    // 当前播放音乐id
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );
-    // 歌手id
     const singerId = computed<number>(() => $store.getters.singerId);
 
     watch(

@@ -74,8 +74,8 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 歌手id
     const singerId = computed<number>(() => $store.getters.singerId);
+    const albumId = computed(() => $store.getters.albumId);
 
     watch(
       () => singerId.value,
@@ -116,9 +116,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-
-    // 专辑id
-    const albumId = computed(() => $store.getters.albumId);
 
     // 跳转专辑详情
     function jumpAlbumDetail(id: number): boolean | undefined {
