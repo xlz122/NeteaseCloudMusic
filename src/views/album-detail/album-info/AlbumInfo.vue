@@ -97,11 +97,11 @@
 <script lang="ts">
 import { defineComponent, computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
+import { throttle } from 'lodash';
 import { handleAudioSong } from '@/common/audio.ts';
 import { formatDateTime } from '@utils/utils.ts';
 import { LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
-import { throttle } from 'lodash';
 
 export default defineComponent({
   props: {

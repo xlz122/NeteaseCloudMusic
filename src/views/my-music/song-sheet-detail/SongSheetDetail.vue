@@ -37,10 +37,10 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
+import { handleCommentData } from '@components/comment/handleCommentData';
 import { playListDetail } from '@api/my-music';
 import { commentPlayList } from '@api/comment';
 import { ResponseType, CommentParams } from '@/types/types';
-import { handleCommentData } from '@components/comment/handleCommentData';
 import UserInfo from '@components/song-sheet/user-info/UserInfo.vue';
 import MusicTable from '@components/song-sheet/music-table/MusicTable.vue';
 import Comment from '@components/comment/Comment.vue';

@@ -74,12 +74,12 @@
 import { defineComponent, ref, reactive, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { handleAudioSong } from '@/common/audio.ts';
+import { bigNumberTransform } from '@utils/utils';
 import { topPlaylist } from '@api/home-song-sheet';
 import { playlistTrack } from '@api/song-sheet-detail';
 import { ResponseType, LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
-import { handleAudioSong } from '@/common/audio.ts';
-import { bigNumberTransform } from '@utils/utils';
 import ClassifyModal from './classify-modal/ClassifyModal.vue';
 import Page from '@components/page/Page.vue';
 

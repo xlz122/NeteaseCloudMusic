@@ -40,10 +40,10 @@ import {
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { handleCommentData } from '@components/comment/handleCommentData';
 import { djProgramDetail } from '@api/djprogram-detail';
 import { commentDjprogram } from '@api/comment';
 import { ResponseType, CommentParams } from '@/types/types';
-import { handleCommentData } from '@components/comment/handleCommentData';
 import Comment from '@components/comment/Comment.vue';
 import DjprogramInfo from './djprogram-info/DjprogramInfo.vue';
 import DjprogramSide from './djprogram-side/DjprogramSide.vue';

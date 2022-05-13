@@ -50,10 +50,10 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { artistAlbum } from '@api/album-detail';
-import { albumDetail } from '@api/album-detail';
 import { handleAudioSong } from '@/common/audio.ts';
 import { formatDateTime } from '@utils/utils.ts';
+import { artistAlbum } from '@api/album-detail';
+import { albumDetail } from '@api/album-detail';
 import { LoopType, ResponseType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
 import Page from '@components/page/Page.vue';

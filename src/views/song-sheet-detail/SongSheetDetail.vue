@@ -60,10 +60,10 @@
 import { defineComponent, reactive, computed, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { handleCommentData } from '@components/comment/handleCommentData';
 import { playlistDetail } from '@api/song-sheet-detail';
 import { commentPlayList } from '@api/comment';
 import { ResponseType, CommentParams } from '@/types/types';
-import { handleCommentData } from '@components/comment/handleCommentData';
 import UserInfo from '@components/song-sheet/user-info/UserInfo.vue';
 import MusicTable from '@components/song-sheet/music-table/MusicTable.vue';
 import Comment from '@components/comment/Comment.vue';

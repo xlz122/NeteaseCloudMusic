@@ -84,8 +84,8 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { userRecord } from '@api/user';
 import { handleAudioSong } from '@/common/audio.ts';
+import { userRecord } from '@api/user';
 import { ResponseType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
 

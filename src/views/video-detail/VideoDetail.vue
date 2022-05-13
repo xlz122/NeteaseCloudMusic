@@ -91,13 +91,13 @@ import {
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { handleCommentData } from '@components/comment/handleCommentData';
 import { MyVideoSbulist } from '@api/my-music';
 import { videoDetail } from '@api/video-detail';
 import { commentVideo } from '@api/comment';
 import { videoUrl, videoSub } from '@api/video-detail';
 import { ResponseType, CommentParams, LoopType } from '@/types/types';
 import VideoPlayer from '@components/video-player/VideoPlayer.vue';
-import { handleCommentData } from '@components/comment/handleCommentData';
 import Comment from '@components/comment/Comment.vue';
 import VideoDetailSide from './video-detail-side/VideoDetailSide.vue';
 import Page from '@components/page/Page.vue';

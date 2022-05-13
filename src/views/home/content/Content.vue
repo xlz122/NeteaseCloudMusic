@@ -201,12 +201,8 @@ import {
 } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-// 新碟上架
-const AlbumNewest = defineAsyncComponent(
-  () => import('./album-newest/AlbumNewest.vue')
-);
-// 榜单
-const SongList = defineAsyncComponent(() => import('./song-list/SongList.vue'));
+import { handleAudioSong } from '@/common/audio.ts';
+import { getWeekDate, formatDateTime, bigNumberTransform } from '@utils/utils';
 import {
   recommendSongList,
   recommendDjprogram,
@@ -216,8 +212,12 @@ import { playlistTrack } from '@api/song-sheet-detail';
 import { albumDetail } from '@api/album-detail';
 import { LoopType, ResponseType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
-import { handleAudioSong } from '@/common/audio.ts';
-import { getWeekDate, formatDateTime, bigNumberTransform } from '@utils/utils';
+// 新碟上架
+const AlbumNewest = defineAsyncComponent(
+  () => import('./album-newest/AlbumNewest.vue')
+);
+// 榜单
+const SongList = defineAsyncComponent(() => import('./song-list/SongList.vue'));
 
 export default defineComponent({
   name: 'HomeContent',

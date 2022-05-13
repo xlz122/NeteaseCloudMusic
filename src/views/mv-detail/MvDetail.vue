@@ -100,12 +100,12 @@ import {
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { handleCommentData } from '@components/comment/handleCommentData';
 import { mvDetail } from '@api/mv-detail';
 import { mvUrl, mvSub } from '@api/mv-detail';
 import { commentMv } from '@api/comment';
 import { ResponseType, CommentParams } from '@/types/types';
 import VideoPlayer from '@components/video-player/VideoPlayer.vue';
-import { handleCommentData } from '@components/comment/handleCommentData';
 import Comment from '@components/comment/Comment.vue';
 import VideoDetailSide from './mv-detail-side/MvDetailSide.vue';
 import Page from '@components/page/Page.vue';

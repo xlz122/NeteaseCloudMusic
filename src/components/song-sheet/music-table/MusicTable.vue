@@ -166,12 +166,12 @@
 import { defineComponent, ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import MyDialog from '@/components/MyDialog.vue';
 import { handleAudioSong } from '@/common/audio.ts';
 import { timeStampToDuration } from '@utils/utils.ts';
 import { deleteMusic } from '@api/my-music';
 import { LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
+import MyDialog from '@/components/MyDialog.vue';
 
 export default defineComponent({
   components: {

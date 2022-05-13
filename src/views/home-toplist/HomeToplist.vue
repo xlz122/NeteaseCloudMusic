@@ -25,11 +25,11 @@
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { handleCommentData } from '@components/comment/handleCommentData';
 import { playlistDetail } from '@api/song-sheet-detail';
 import { commentPlayList } from '@api/comment';
 import { topList } from '@api/home-toplist';
 import { ResponseType, CommentParams } from '@/types/types';
-import { handleCommentData } from '@components/comment/handleCommentData';
 import ToplistMenu from './toplist-menu/ToplistMenu.vue';
 import ToplistContent from './toplist-content/ToplistContent.vue';
 

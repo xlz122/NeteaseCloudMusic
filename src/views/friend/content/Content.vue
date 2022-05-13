@@ -35,12 +35,12 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
+import { handleAudioSong } from '@/common/audio.ts';
+import { formatMixedText } from '@utils/formatMixedText';
+import { getPageBottomHeight } from '@utils/utils';
 import { friendEvent, dynamicLike, FirendEvent } from '@api/friend';
 import { LoopType, ResponseType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
-import { handleAudioSong } from '@/common/audio.ts';
-import { getPageBottomHeight } from '@utils/utils';
-import { formatMixedText } from '@utils/formatMixedText';
 import Item from './Item.vue';
 
 export default defineComponent({

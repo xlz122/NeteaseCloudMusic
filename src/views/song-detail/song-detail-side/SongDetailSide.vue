@@ -82,10 +82,10 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
+import { handleAudioSong } from '@/common/audio.ts';
 import { simiPlaylist, simiSong } from '@api/song-detail';
 import { ResponseType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
-import { handleAudioSong } from '@/common/audio.ts';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 export default defineComponent({
