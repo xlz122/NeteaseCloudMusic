@@ -97,6 +97,7 @@ import { useStore } from 'vuex';
 import { searchKeywords } from '@api/search';
 import { playlistTrack, playlistSubscribe } from '@api/song-sheet-detail';
 import { PlayMusicItem } from '@store/music/state';
+import { handleAudioSong } from '@/common/audio.ts';
 import { bigNumberTransform, handleMatchString } from '@utils/utils.ts';
 import Page from '@components/page/Page.vue';
 import { ResponseType, LoopType } from '@/types/types';
@@ -194,22 +195,7 @@ export default defineComponent({
             const songList: PlayMusicItem[] = [];
 
             res?.songs.forEach((item: LoopType) => {
-              // 处理播放器所需数据
-              const musicItem: PlayMusicItem = {
-                id: item.id,
-                name: item.name,
-                picUrl: item.al.picUrl,
-                time: item.dt,
-                mv: item.mv,
-                singerList: []
-              };
-
-              item?.ar?.forEach((item: LoopType) => {
-                musicItem.singerList.push({
-                  id: item.id,
-                  name: item.name
-                });
-              });
+              const musicItem: PlayMusicItem = handleAudioSong(item);
 
               songList.push(musicItem);
             });
@@ -250,22 +236,7 @@ export default defineComponent({
             const songList: PlayMusicItem[] = [];
 
             res?.songs.forEach((item: LoopType) => {
-              // 处理播放器所需数据
-              const musicItem: PlayMusicItem = {
-                id: item.id,
-                name: item.name,
-                picUrl: item.al.picUrl,
-                time: item.dt,
-                mv: item.mv,
-                singerList: []
-              };
-
-              item?.ar?.forEach((item: LoopType) => {
-                musicItem.singerList.push({
-                  id: item.id,
-                  name: item.name
-                });
-              });
+              const musicItem: PlayMusicItem = handleAudioSong(item);
 
               songList.push(musicItem);
             });

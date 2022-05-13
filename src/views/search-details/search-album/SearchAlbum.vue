@@ -65,6 +65,7 @@ import { searchKeywords } from '@api/search';
 import { albumDetail } from '@api/album-detail';
 import { LoopType, ResponseType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
+import { handleAudioSong } from '@/common/audio.ts';
 import { timeStampToDuration, handleMatchString } from '@utils/utils.ts';
 import Page from '@components/page/Page.vue';
 
@@ -166,22 +167,7 @@ export default defineComponent({
             const songList: PlayMusicItem[] = [];
 
             res?.songs.forEach((item: LoopType) => {
-              // 处理播放器所需数据
-              const musicItem: PlayMusicItem = {
-                id: item.id,
-                name: item.name,
-                picUrl: item.al.picUrl,
-                time: item.dt,
-                mv: item.mv,
-                singerList: []
-              };
-
-              item?.ar?.forEach((item: LoopType) => {
-                musicItem.singerList.push({
-                  id: item.id,
-                  name: item.name
-                });
-              });
+              const musicItem: PlayMusicItem = handleAudioSong(item);
 
               songList.push(musicItem);
             });

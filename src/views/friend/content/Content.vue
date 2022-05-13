@@ -38,6 +38,7 @@ import { useStore } from 'vuex';
 import { friendEvent, dynamicLike, FirendEvent } from '@api/friend';
 import { LoopType, ResponseType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
+import { handleAudioSong } from '@/common/audio.ts';
 import { getPageBottomHeight } from '@utils/utils';
 import { formatMixedText } from '@utils/formatMixedText';
 import Item from './Item.vue';
@@ -112,22 +113,7 @@ export default defineComponent({
 
     // 单个歌曲添加到播放列表
     function singleMusicToPlayList(item: Record<string, any>): void {
-      // 处理播放器所需数据
-      const musicItem: PlayMusicItem = {
-        id: item.id,
-        name: item.name,
-        picUrl: item.img80x80,
-        time: item.duration,
-        mv: item.mv || 0,
-        singerList: []
-      };
-
-      item?.artists?.forEach((item: LoopType) => {
-        musicItem.singerList.push({
-          id: item.id,
-          name: item.name
-        });
-      });
+      const musicItem: PlayMusicItem = handleAudioSong(item);
 
       // 当前播放音乐数据
       $store.commit('music/setPlayMusicItem', musicItem);

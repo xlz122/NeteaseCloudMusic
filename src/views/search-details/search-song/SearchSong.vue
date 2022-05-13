@@ -105,9 +105,9 @@ import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { searchKeywords } from '@api/search';
+import { handleAudioSong } from '@/common/audio.ts';
 import { timeStampToDuration, handleMatchString } from '@utils/utils.ts';
 import Page from '@components/page/Page.vue';
-import { LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
 import { ResponseType } from '@/types/types';
 
@@ -216,43 +216,14 @@ export default defineComponent({
 
     // 单个歌曲添加到播放列表
     function singleMusicToPlayList(item: Record<string, any>): void {
-      const musicItem: PlayMusicItem = {
-        id: item.id,
-        name: item.name,
-        picUrl: item.al.picUrl,
-        time: item.dt,
-        mv: item.mv,
-        singerList: []
-      };
-
-      item?.ar?.forEach((item: LoopType) => {
-        musicItem.singerList.push({
-          id: item.id,
-          name: item.name
-        });
-      });
+      const musicItem: PlayMusicItem = handleAudioSong(item);
 
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
     // 播放单个歌曲
     function playSingleMusic(item: Record<string, any>): void {
-      // 处理播放器所需数据
-      const musicItem: PlayMusicItem = {
-        id: item.id,
-        name: item.name,
-        picUrl: item.al.picUrl,
-        time: item.dt,
-        mv: item.mv,
-        singerList: []
-      };
-
-      item?.ar?.forEach((item: LoopType) => {
-        musicItem.singerList.push({
-          id: item.id,
-          name: item.name
-        });
-      });
+      const musicItem: PlayMusicItem = handleAudioSong(item);
 
       // 当前播放音乐数据
       $store.commit('music/setPlayMusicItem', musicItem);

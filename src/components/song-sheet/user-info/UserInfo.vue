@@ -166,6 +166,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { playlistSubscribe } from '@api/song-sheet-detail';
+import { handleAudioSong } from '@/common/audio.ts';
 import { formatDateTime } from '@utils/utils.ts';
 import { ResponseType, LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
@@ -210,22 +211,7 @@ export default defineComponent({
             return false;
           }
 
-          // 处理播放器所需数据
-          const musicItem: PlayMusicItem = {
-            id: item.id,
-            name: item.name,
-            picUrl: item.al.picUrl,
-            time: item.dt,
-            mv: item.mv,
-            singerList: []
-          };
-
-          item?.ar?.forEach((item: LoopType) => {
-            musicItem.singerList.push({
-              id: item.id,
-              name: item.name
-            });
-          });
+          const musicItem: PlayMusicItem = handleAudioSong(item);
 
           songList.push(musicItem);
         });
@@ -261,22 +247,7 @@ export default defineComponent({
           return false;
         }
 
-        // 处理播放器所需数据
-        const musicItem: PlayMusicItem = {
-          id: item.id,
-          name: item.name,
-          picUrl: item.al.picUrl,
-          time: item.dt,
-          mv: item.mv,
-          singerList: []
-        };
-
-        item?.ar?.forEach((item: LoopType) => {
-          musicItem.singerList.push({
-            id: item.id,
-            name: item.name
-          });
-        });
+        const musicItem: PlayMusicItem = handleAudioSong(item);
 
         songList.push(musicItem);
       });

@@ -52,6 +52,7 @@ import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { artistAlbum } from '@api/album-detail';
 import { albumDetail } from '@api/album-detail';
+import { handleAudioSong } from '@/common/audio.ts';
 import { formatDateTime } from '@utils/utils.ts';
 import { LoopType, ResponseType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
@@ -132,22 +133,7 @@ export default defineComponent({
             const songList: PlayMusicItem[] = [];
 
             res?.songs.forEach((item: LoopType) => {
-              // 处理播放器所需数据
-              const musicItem: PlayMusicItem = {
-                id: item.id,
-                name: item.name,
-                picUrl: item.al.picUrl,
-                time: item.dt,
-                mv: item.mv,
-                singerList: []
-              };
-
-              item?.ar?.forEach((item: LoopType) => {
-                musicItem.singerList.push({
-                  id: item.id,
-                  name: item.name
-                });
-              });
+              const musicItem: PlayMusicItem = handleAudioSong(item);
 
               songList.push(musicItem);
             });
