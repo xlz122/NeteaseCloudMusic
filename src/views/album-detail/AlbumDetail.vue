@@ -90,7 +90,6 @@ export default defineComponent({
     const $route = useRoute();
     const $store = useStore();
 
-    // 专辑id
     const albumId = computed<number>(() => $store.getters.albumId);
 
     const albumData = reactive<AlbumData>({

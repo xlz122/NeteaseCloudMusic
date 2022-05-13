@@ -95,7 +95,6 @@ export default defineComponent({
     const $store = useStore();
 
     const userInfo = computed(() => $store.getters.userInfo);
-    // 用户id
     const userId = computed<number>(() => $store.getters.userId);
 
     watch(

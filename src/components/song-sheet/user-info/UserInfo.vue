@@ -179,10 +179,9 @@ export default defineComponent({
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
+    const playMusicId = computed(() => $store.getters['music/playMusicId']);
     // 歌单详情数据
     const songSheetDetail = computed(() => $store.getters.songSheetDetail);
-    // 当前播放音乐id
-    const playMusicId = computed(() => $store.getters['music/playMusicId']);
 
     // 计算歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
@@ -338,8 +337,8 @@ export default defineComponent({
     return {
       formatDateTime,
       userInfo,
-      songSheetDetail,
       playMusicId,
+      songSheetDetail,
       isCopyright,
       playAllMusic,
       allMusicToPlayList,

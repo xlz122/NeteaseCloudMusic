@@ -183,10 +183,9 @@ export default defineComponent({
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
+    const playMusicId = computed(() => $store.getters['music/playMusicId']);
     // 歌单详情数据
     const songSheetDetail = computed(() => $store.getters.songSheetDetail);
-    // 当前播放音乐id
-    const playMusicId = computed(() => $store.getters['music/playMusicId']);
 
     const loading = ref<boolean>(true);
 
@@ -332,8 +331,8 @@ export default defineComponent({
     return {
       timeStampToDuration,
       userInfo,
-      songSheetDetail,
       playMusicId,
+      songSheetDetail,
       loading,
       jumpSongDetail,
       jumpVideoDetail,

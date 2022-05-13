@@ -134,7 +134,6 @@ export default defineComponent({
     const $store = useStore();
 
     const isLogin = computed(() => $store.getters.isLogin);
-    // 当前播放音乐id
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
 
     // 单个歌曲添加到播放列表

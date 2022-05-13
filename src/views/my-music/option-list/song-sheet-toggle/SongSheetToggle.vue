@@ -125,7 +125,6 @@ export default defineComponent({
   setup(props, { emit }) {
     const $store = useStore();
 
-    // 歌单id
     const songSheetId = computed<number>(() => $store.getters.songSheetId);
 
     // 列表显隐切换

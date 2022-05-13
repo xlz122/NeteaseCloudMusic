@@ -212,11 +212,9 @@ import { playlistTrack } from '@api/song-sheet-detail';
 import { albumDetail } from '@api/album-detail';
 import { LoopType, ResponseType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
-// 新碟上架
 const AlbumNewest = defineAsyncComponent(
   () => import('./album-newest/AlbumNewest.vue')
 );
-// 榜单
 const SongList = defineAsyncComponent(() => import('./song-list/SongList.vue'));
 
 export default defineComponent({
@@ -246,7 +244,7 @@ export default defineComponent({
       $router.push({ name: 'home-song-sheet', params: { name } });
     }
 
-    // 热门推荐 - 跳转更多歌单
+    // 热门推荐 - 更多
     function songSheetMore(): void {
       $router.push({ name: 'home-song-sheet' });
     }
@@ -287,7 +285,7 @@ export default defineComponent({
       $store.commit('jumpSongSheetDetail', id);
     }
 
-    // 获取热门推荐 - 推荐歌单数据
+    // 获取热门推荐 - 推荐歌单
     const songListData = ref<unknown[]>([]);
     function getSongList() {
       // 已登录只获取两条，未登录获取5条
@@ -315,7 +313,7 @@ export default defineComponent({
       $router.push({ name: 'djprogram-detail', params: { djprogramId: id } });
     }
 
-    // 获取热门推荐 - 推荐电台数据
+    // 获取热门推荐 - 推荐电台
     const djprogramData = ref<unknown[]>([]);
     function getDjprogram() {
       recommendDjprogram()
@@ -336,7 +334,7 @@ export default defineComponent({
 
     const individualizatSongSheet = ref<unknown[]>([]);
     const individualizatData = ref<unknown[]>([]);
-    // 获取个性化推荐歌单数据
+    // 获取个性化推荐歌单
     function getIndividualizat(): boolean | undefined {
       if (!isLogin.value) {
         return false;

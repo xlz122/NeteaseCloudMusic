@@ -82,7 +82,6 @@ export default defineComponent({
     const $route = useRoute();
     const $store = useStore();
 
-    // 歌单id
     const songSheetId = computed<number>(() => $store.getters.songSheetId);
     // 歌单详情数据
     const songSheetDetail = computed(() => $store.getters.songSheetDetail);

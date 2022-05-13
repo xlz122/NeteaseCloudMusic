@@ -90,7 +90,6 @@ export default defineComponent({
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    // 歌手id
     const singerId = computed<number>(() => $store.getters.singerId);
 
     watch(
