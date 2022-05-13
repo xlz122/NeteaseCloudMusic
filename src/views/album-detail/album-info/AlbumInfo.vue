@@ -97,6 +97,7 @@
 <script lang="ts">
 import { defineComponent, computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
+import { handleAudioSong } from '@/common/audio.ts';
 import { formatDateTime } from '@utils/utils.ts';
 import { LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
@@ -136,22 +137,7 @@ export default defineComponent({
         const songList: PlayMusicItem[] = [];
 
         songs.value.forEach((item: LoopType) => {
-          // 处理播放器所需数据
-          const musicItem: PlayMusicItem = {
-            id: item.id,
-            name: item.name,
-            picUrl: item.al.picUrl,
-            time: item.dt,
-            mv: item.mv,
-            singerList: []
-          };
-
-          item?.ar?.forEach((item: LoopType) => {
-            musicItem.singerList.push({
-              id: item.id,
-              name: item.name
-            });
-          });
+          const musicItem: PlayMusicItem = handleAudioSong(item);
 
           songList.push(musicItem);
         });
@@ -182,22 +168,7 @@ export default defineComponent({
       const songList: PlayMusicItem[] = [];
 
       songs.value.forEach((item: LoopType) => {
-        // 处理播放器所需数据
-        const musicItem: PlayMusicItem = {
-          id: item.id,
-          name: item.name,
-          picUrl: item.al.picUrl,
-          time: item.dt,
-          mv: item.mv,
-          singerList: []
-        };
-
-        item?.ar?.forEach((item: LoopType) => {
-          musicItem.singerList.push({
-            id: item.id,
-            name: item.name
-          });
-        });
+        const musicItem: PlayMusicItem = handleAudioSong(item);
 
         songList.push(musicItem);
       });

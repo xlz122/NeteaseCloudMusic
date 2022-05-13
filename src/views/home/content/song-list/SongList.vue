@@ -80,6 +80,7 @@ import { soaringList, newSongs, originalList } from '@api/home';
 import { playlistSubscribe } from '@api/song-sheet-detail';
 import { ResponseType, LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
+import { handleAudioSong } from '@/common/audio.ts';
 import { throttle } from 'lodash';
 
 export default defineComponent({
@@ -136,22 +137,7 @@ export default defineComponent({
         const songList: PlayMusicItem[] = [];
 
         listData[index].playlist?.tracks.forEach((item: LoopType) => {
-          // 处理播放器所需数据
-          const musicItem: PlayMusicItem = {
-            id: item.id,
-            name: item.name,
-            picUrl: item.al.picUrl,
-            time: item.dt,
-            mv: item.mv,
-            singerList: []
-          };
-
-          item?.ar?.forEach((item: LoopType) => {
-            musicItem.singerList.push({
-              id: item.id,
-              name: item.name
-            });
-          });
+          const musicItem: PlayMusicItem = handleAudioSong(item);
 
           songList.push(musicItem);
         });
@@ -211,22 +197,7 @@ export default defineComponent({
 
     // 播放单个歌曲
     function playSingleMusic(item: Record<string, any>): void {
-      // 处理播放器所需数据
-      const musicItem: PlayMusicItem = {
-        id: item.id,
-        name: item.name,
-        picUrl: item.al.picUrl,
-        time: item.dt,
-        mv: item.mv,
-        singerList: []
-      };
-
-      item?.ar?.forEach((item: LoopType) => {
-        musicItem.singerList.push({
-          id: item.id,
-          name: item.name
-        });
-      });
+      const musicItem: PlayMusicItem = handleAudioSong(item);
 
       // 当前播放音乐数据
       $store.commit('music/setPlayMusicItem', musicItem);
@@ -242,22 +213,7 @@ export default defineComponent({
 
     // 单个音乐添加到播放列表
     function setAddSinglePlayList(item: Record<string, any>): void {
-      // 处理播放器所需数据
-      const musicItem: PlayMusicItem = {
-        id: item.id,
-        name: item.name,
-        picUrl: item.al.picUrl,
-        time: item.dt,
-        mv: item.mv,
-        singerList: []
-      };
-
-      item?.ar?.forEach((item: LoopType) => {
-        musicItem.singerList.push({
-          id: item.id,
-          name: item.name
-        });
-      });
+      const musicItem: PlayMusicItem = handleAudioSong(item);
 
       // 添加到播放列表
       $store.commit('music/setPlayMusicList', musicItem);

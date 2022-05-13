@@ -50,6 +50,7 @@ import { useStore } from 'vuex';
 import { recommendSongs } from '@api/home-recommend';
 import { ResponseType, LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
+import { handleAudioSong } from '@/common/audio.ts';
 import { getWeekDate, formatDateTime } from '@utils/utils';
 import { throttle } from 'lodash';
 import RecommendSong from './recommend-song/RecommendSong.vue';
@@ -104,22 +105,7 @@ export default defineComponent({
         const songList: PlayMusicItem[] = [];
 
         recommendSong.value?.forEach((item: LoopType) => {
-          // 处理播放器所需数据
-          const musicItem: PlayMusicItem = {
-            id: item.id,
-            name: item.name,
-            picUrl: item.al.picUrl,
-            time: item.dt,
-            mv: item.mv,
-            singerList: []
-          };
-
-          item?.ar?.forEach((item: LoopType) => {
-            musicItem.singerList.push({
-              id: item.id,
-              name: item.name
-            });
-          });
+          const musicItem: PlayMusicItem = handleAudioSong(item);
 
           songList.push(musicItem);
         });
@@ -150,22 +136,7 @@ export default defineComponent({
       const songList: PlayMusicItem[] = [];
 
       recommendSong.value?.forEach((item: LoopType) => {
-        // 处理播放器所需数据
-        const musicItem: PlayMusicItem = {
-          id: item.id,
-          name: item.name,
-          picUrl: item.al.picUrl,
-          time: item.dt,
-          mv: item.mv,
-          singerList: []
-        };
-
-        item?.ar?.forEach((item: LoopType) => {
-          musicItem.singerList.push({
-            id: item.id,
-            name: item.name
-          });
-        });
+        const musicItem: PlayMusicItem = handleAudioSong(item);
 
         songList.push(musicItem);
       });

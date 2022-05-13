@@ -117,7 +117,7 @@
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { PlayMusicItem } from '@store/music/state';
-import { LoopType } from '@/types/types';
+import { handleAudioSong } from '@/common/audio.ts';
 
 export default defineComponent({
   props: {
@@ -160,22 +160,7 @@ export default defineComponent({
 
       const item = props?.songDetailData?.songs[0];
 
-      // 处理播放器所需数据
-      const musicItem: PlayMusicItem = {
-        id: item.id,
-        name: item.name,
-        picUrl: item.al.picUrl,
-        time: item.dt,
-        mv: item.mv,
-        singerList: []
-      };
-
-      item?.ar?.forEach((item: LoopType) => {
-        musicItem.singerList.push({
-          id: item.id,
-          name: item.name
-        });
-      });
+      const musicItem: PlayMusicItem = handleAudioSong(item);
 
       // 当前播放音乐数据
       $store.commit('music/setPlayMusicItem', musicItem);
@@ -197,21 +182,7 @@ export default defineComponent({
 
       const item = props?.songDetailData?.songs[0];
 
-      const musicItem: PlayMusicItem = {
-        id: item.id,
-        name: item.name,
-        picUrl: item.al.picUrl,
-        time: item.dt,
-        mv: item.mv,
-        singerList: []
-      };
-
-      item?.ar?.forEach((item: LoopType) => {
-        musicItem.singerList.push({
-          id: item.id,
-          name: item.name
-        });
-      });
+      const musicItem: PlayMusicItem = handleAudioSong(item);
 
       $store.commit('music/setPlayMusicList', musicItem);
     }

@@ -1,33 +1,31 @@
 import { ResponseType, LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
+import { toRawType } from '@utils/tool';
 
 /**
  * @description 歌曲数据处理成音乐播放器所需数据
  * @param { Array | Object } songs 歌曲数据
  */
+export function handleAudioSong(song: ResponseType): PlayMusicItem {
+  if (toRawType(song) !== 'Object') {
+    throw new Error('添加的歌曲数据类型错误');
+  }
 
-export function handleAudioSongs(songs: ResponseType): PlayMusicItem[] {
-  const audioSongs: PlayMusicItem[] = [];
+  const musicItem: PlayMusicItem = {
+    id: song?.id,
+    name: song?.name,
+    picUrl: song?.al?.picUrl || song?.album?.picUrl || song?.img80x80,
+    time: song?.dt || song?.duration,
+    mv: song?.mv,
+    singerList: []
+  };
 
-  songs.forEach((item: ResponseType) => {
-    const musicItem: PlayMusicItem = {
+  (song?.ar || song?.artists).forEach((item: LoopType) => {
+    musicItem.singerList.push({
       id: item.id,
-      name: item.name,
-      picUrl: item.al.picUrl,
-      time: item.dt,
-      mv: item.mv,
-      singerList: []
-    };
-
-    item?.ar?.forEach((item: LoopType) => {
-      musicItem.singerList.push({
-        id: item.id,
-        name: item.name
-      });
+      name: item.name
     });
-
-    audioSongs.push(musicItem);
   });
 
-  return audioSongs;
+  return musicItem;
 }
