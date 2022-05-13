@@ -66,7 +66,6 @@ import {
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils';
 import Video from './video/Video.vue';
-// 播放进度条
 import PlayProgress from './play-progress/PlayProgress.vue';
 
 export default defineComponent({

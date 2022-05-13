@@ -92,11 +92,11 @@ import {
 } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { handleCommentData } from '@components/comment/handleCommentData';
 import { songDetail } from '@api/song-detail';
 import { getLyric } from '@api/my-music';
 import { commentMusic } from '@api/comment';
 import { ResponseType, CommentParams } from '@/types/types';
-import { handleCommentData } from '@components/comment/handleCommentData';
 import Comment from '@components/comment/Comment.vue';
 import SongInfo from './song-info/SongInfo.vue';
 import SongDateilSide from './song-detail-side/SongDetailSide.vue';

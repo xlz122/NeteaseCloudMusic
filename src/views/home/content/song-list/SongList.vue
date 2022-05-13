@@ -76,12 +76,12 @@
 import { defineComponent, reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { throttle } from 'lodash';
+import { handleAudioSong } from '@/common/audio.ts';
 import { soaringList, newSongs, originalList } from '@api/home';
 import { playlistSubscribe } from '@api/song-sheet-detail';
 import { ResponseType, LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
-import { handleAudioSong } from '@/common/audio.ts';
-import { throttle } from 'lodash';
 
 export default defineComponent({
   setup() {

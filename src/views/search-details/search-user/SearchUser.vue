@@ -65,10 +65,10 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
-import { searchKeywords, followUser } from '@api/search';
 import { handleMatchString } from '@utils/utils.ts';
-import Page from '@components/page/Page.vue';
+import { searchKeywords, followUser } from '@api/search';
 import { ResponseType } from '@/types/types';
+import Page from '@components/page/Page.vue';
 
 type AlbumData = {
   loading: boolean;

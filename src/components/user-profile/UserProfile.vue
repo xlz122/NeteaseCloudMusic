@@ -28,8 +28,8 @@
 import { defineComponent, ref, computed, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import { userDetail } from '@api/user';
 import findCityZipCode from './city';
+import { userDetail } from '@api/user';
 import { ResponseType } from '@/types/types';
 import UserInfo from '@/components/user-profile/user-info/UserInfo.vue';
 import UserRecord from '@components/user-profile/user-record/UserRecord.vue';

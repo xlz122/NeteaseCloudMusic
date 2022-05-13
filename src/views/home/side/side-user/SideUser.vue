@@ -62,10 +62,10 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { formatDateTime } from '@utils/utils';
 import { dailySignin } from '@api/home';
 import { userVipInfo } from '@api/user';
 import { ResponseType } from '@/types/types';
-import { formatDateTime } from '@utils/utils';
 
 export default defineComponent({
   setup() {

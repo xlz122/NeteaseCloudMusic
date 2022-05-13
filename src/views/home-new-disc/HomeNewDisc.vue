@@ -110,11 +110,11 @@
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue';
 import { useStore } from 'vuex';
+import { handleAudioSong } from '@/common/audio.ts';
 import { hotNewDisc, nweDiscAlbum, NweDiscAlbum } from '@api/home-new-disc';
 import { albumDetail } from '@api/album-detail';
 import { LoopType, ResponseType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
-import { handleAudioSong } from '@/common/audio.ts';
 import Page from '@components/page/Page.vue';
 
 export default defineComponent({

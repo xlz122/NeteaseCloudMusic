@@ -104,12 +104,12 @@
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { searchKeywords } from '@api/search';
 import { handleAudioSong } from '@/common/audio.ts';
 import { timeStampToDuration, handleMatchString } from '@utils/utils.ts';
-import Page from '@components/page/Page.vue';
+import { searchKeywords } from '@api/search';
 import { PlayMusicItem } from '@store/music/state';
 import { ResponseType } from '@/types/types';
+import Page from '@components/page/Page.vue';
 
 type SongData = {
   loading: boolean;

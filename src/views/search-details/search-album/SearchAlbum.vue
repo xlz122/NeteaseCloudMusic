@@ -61,12 +61,12 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
+import { handleAudioSong } from '@/common/audio.ts';
+import { timeStampToDuration, handleMatchString } from '@utils/utils.ts';
 import { searchKeywords } from '@api/search';
 import { albumDetail } from '@api/album-detail';
 import { LoopType, ResponseType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
-import { handleAudioSong } from '@/common/audio.ts';
-import { timeStampToDuration, handleMatchString } from '@utils/utils.ts';
 import Page from '@components/page/Page.vue';
 
 type AlbumData = {

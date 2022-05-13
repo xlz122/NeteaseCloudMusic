@@ -63,13 +63,13 @@
 import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { relatedVideo } from '@api/video-detail';
-import { ResponseType } from '@/types/types';
 import {
   formatDateTime,
   bigNumberTransform,
   timeStampToDuration
 } from '@utils/utils.ts';
+import { relatedVideo } from '@api/video-detail';
+import { ResponseType } from '@/types/types';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 export default defineComponent({

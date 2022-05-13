@@ -1,6 +1,6 @@
+import router from '@/router';
 import { State } from '@store/state';
 import { Getters } from '@store/getters';
-import router from '@/router';
 import { logout } from '@api/login';
 import { ResponseDataType } from '@/types/types';
 

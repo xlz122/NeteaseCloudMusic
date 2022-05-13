@@ -165,9 +165,9 @@ import { defineComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
-import { playlistSubscribe } from '@api/song-sheet-detail';
 import { handleAudioSong } from '@/common/audio.ts';
 import { formatDateTime } from '@utils/utils.ts';
+import { playlistSubscribe } from '@api/song-sheet-detail';
 import { ResponseType, LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
 

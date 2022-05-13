@@ -93,10 +93,9 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
-import { LoopType } from '@/types/types';
-// 歌词组件
-import Lyric from '../lyric/Lyric.vue';
 import { timeStampToDuration } from '@utils/utils';
+import { LoopType } from '@/types/types';
+import Lyric from '../lyric/Lyric.vue';
 
 export default defineComponent({
   components: {

@@ -47,12 +47,12 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import { throttle } from 'lodash';
+import { handleAudioSong } from '@/common/audio.ts';
+import { getWeekDate, formatDateTime } from '@utils/utils';
 import { recommendSongs } from '@api/home-recommend';
 import { ResponseType, LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
-import { handleAudioSong } from '@/common/audio.ts';
-import { getWeekDate, formatDateTime } from '@utils/utils';
-import { throttle } from 'lodash';
 import RecommendSong from './recommend-song/RecommendSong.vue';
 import RecommendSide from './recommend-side/RecommendSide.vue';
 

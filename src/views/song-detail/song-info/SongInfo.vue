@@ -116,8 +116,8 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
-import { PlayMusicItem } from '@store/music/state';
 import { handleAudioSong } from '@/common/audio.ts';
+import { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({
   props: {

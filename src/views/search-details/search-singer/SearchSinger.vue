@@ -64,10 +64,10 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
-import { searchKeywords } from '@api/search';
 import { timeStampToDuration, handleMatchString } from '@utils/utils.ts';
-import Page from '@components/page/Page.vue';
+import { searchKeywords } from '@api/search';
 import { ResponseType } from '@/types/types';
+import Page from '@components/page/Page.vue';
 
 type SingerData = {
   loading: boolean;

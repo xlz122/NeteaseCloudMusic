@@ -67,14 +67,14 @@
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { searchKeywords } from '@api/search';
 import {
   bigNumberTransform,
   timeStampToDuration,
   handleMatchString
 } from '@utils/utils.ts';
-import Page from '@components/page/Page.vue';
+import { searchKeywords } from '@api/search';
 import { ResponseType } from '@/types/types';
+import Page from '@components/page/Page.vue';
 
 type MvData = {
   loading: boolean;

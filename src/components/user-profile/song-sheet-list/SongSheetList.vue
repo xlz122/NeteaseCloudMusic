@@ -85,9 +85,9 @@
 import { defineComponent, reactive, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { bigNumberTransform } from '@utils/utils';
 import { userPlayList } from '@api/my-music';
 import { SongList, ResponseType, LoopType } from '@/types/types';
-import { bigNumberTransform } from '@utils/utils';
 
 export default defineComponent({
   setup() {
