@@ -1,3 +1,36 @@
+## [1.1.1](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.1.0...v1.1.1) (2022-05-13)
+
+
+### ⚡ Performance Improvements | 性能优化
+
+* 抽离数据处理成播放器所需数据的逻辑代码 [#330cec9](https://github.com/xlz122/NeteaseCloudMusic/commit/330cec9) 
+* 优化播放数据逻辑代码 [#8896c4a](https://github.com/xlz122/NeteaseCloudMusic/commit/8896c4a) 
+* 优化播放完成随机播放逻辑(和上、下首切换一致) [#d22092f](https://github.com/xlz122/NeteaseCloudMusic/commit/d22092f) 
+* 优化添加到播放列表逻辑代码 [#e92b15d](https://github.com/xlz122/NeteaseCloudMusic/commit/e92b15d) 
+
+
+### ✨ Features | 新功能
+
+* 歌单播放按钮可将歌曲添加至播放列表代码简化 [#507a803](https://github.com/xlz122/NeteaseCloudMusic/commit/507a803) 
+* 视频vuex数据分单独的视频模块 [#e6e294e](https://github.com/xlz122/NeteaseCloudMusic/commit/e6e294e) 
+* 无关音乐模块的数据防止在外层 [#ed21c81](https://github.com/xlz122/NeteaseCloudMusic/commit/ed21c81) 
+* 页面底部更新，意见反馈代码去除 [#53bc9f3](https://github.com/xlz122/NeteaseCloudMusic/commit/53bc9f3) 
+* 专辑播放按钮可将歌曲添加至播放列表 [#6bec405](https://github.com/xlz122/NeteaseCloudMusic/commit/6bec405) 
+
+
+### 🎫 Chores | 其他更新
+
+* 调整引入顺序 [#5ec2ec9](https://github.com/xlz122/NeteaseCloudMusic/commit/5ec2ec9) 
+* 添加common文件夹 [#e3cce2a](https://github.com/xlz122/NeteaseCloudMusic/commit/e3cce2a) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 删除跳转歌曲位置相关代码 [#62997a3](https://github.com/xlz122/NeteaseCloudMusic/commit/62997a3) 
+* 修复各页面将歌单歌曲添加到播放器，时间NaN的bug [#a397702](https://github.com/xlz122/NeteaseCloudMusic/commit/a397702) 
+
+
+
 # [1.1.0](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.0.14...v1.1.0) (2022-05-09)
 
 
@@ -19,6 +52,7 @@
 * modify changelog config [#8b5d754](https://github.com/xlz122/NeteaseCloudMusic/commit/8b5d754) 
 * modify eslint config [#de8e2cb](https://github.com/xlz122/NeteaseCloudMusic/commit/de8e2cb) 
 * modify prettier config [#8967c04](https://github.com/xlz122/NeteaseCloudMusic/commit/8967c04) 
+* release 1.1.0 [#2eb96e8](https://github.com/xlz122/NeteaseCloudMusic/commit/2eb96e8) 
 * update .env config [#41c13cb](https://github.com/xlz122/NeteaseCloudMusic/commit/41c13cb) 
 * update tsconfig.json [#020aff4](https://github.com/xlz122/NeteaseCloudMusic/commit/020aff4) 
 * update tsconfig.json [#032f19c](https://github.com/xlz122/NeteaseCloudMusic/commit/032f19c) 
