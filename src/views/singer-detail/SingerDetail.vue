@@ -91,6 +91,7 @@ export default defineComponent({
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const singerId = computed<number>(() => $store.getters.singerId);
+    const singerTabIndex = computed(() => $store.getters.singerTabIndex);
 
     watch(
       () => singerId.value,
@@ -98,6 +99,9 @@ export default defineComponent({
         if (curVal) {
           getArtistDetail();
         }
+      },
+      {
+        immediate: true
       }
     );
 
@@ -125,12 +129,6 @@ export default defineComponent({
           }
         })
         .catch(() => ({}));
-    }
-    getArtistDetail();
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
     }
 
     // 收藏/取消收藏歌手
@@ -192,18 +190,22 @@ export default defineComponent({
       }
     ]);
 
-    const singerTabIndex = computed(() => $store.getters.singerTabIndex);
     function tabChange(index: number): void {
       $store.commit('setSingerTabIndex', index);
     }
 
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
     return {
       singerDetail,
-      jumpUserProfile,
       setArtistSub,
       singerTabs,
       singerTabIndex,
-      tabChange
+      tabChange,
+      jumpUserProfile
     };
   }
 });

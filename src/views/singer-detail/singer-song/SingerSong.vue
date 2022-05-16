@@ -153,7 +153,7 @@ export default defineComponent({
 
     const singerSong = ref();
 
-    // 获取歌手歌曲数据
+    // 获取歌手歌曲
     const loading = ref<boolean>(true);
     function getArtistSong(): void {
       artistSong({ id: singerId.value })
@@ -172,7 +172,7 @@ export default defineComponent({
     }
     getArtistSong();
 
-    // 播放全部- 默认播放列表第一项
+    // 播放全部 - 默认播放列表第一项
     const playAllMusic = throttle(
       function () {
         if (singerSong.value?.hotSongs?.length === 0) {
@@ -187,7 +187,7 @@ export default defineComponent({
           songList.push(musicItem);
         });
 
-        // 当前播放音乐数据
+        // 当前播放音乐
         $store.commit('music/setPlayMusicItem', songList[0]);
         // 添加到播放列表
         $store.commit('music/setPlayMusicList', songList);
@@ -244,7 +244,7 @@ export default defineComponent({
     function playSingleMusic(item: Record<string, any>): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
-      // 当前播放音乐数据
+      // 当前播放音乐
       $store.commit('music/setPlayMusicItem', musicItem);
       // 添加到播放列表
       $store.commit('music/setPlayMusicList', musicItem);

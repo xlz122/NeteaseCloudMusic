@@ -160,6 +160,7 @@ export default defineComponent({
         } else {
           searchProposShow.value = false;
         }
+
         // 存储旧搜索内容
         if (oldVal) {
           oldSearchValue.value = oldVal;
@@ -173,6 +174,7 @@ export default defineComponent({
       if (!searchValue.value) {
         return false;
       }
+
       // 搜索内容变化
       if (searchValue.value !== oldSearchValue.value) {
         emit('searchEnter', searchValue.value);
@@ -201,10 +203,9 @@ export default defineComponent({
     function jumpSearchUser(): void {
       // 存储关键字
       $store.commit('setSearchText', searchValue.value);
-      // 头部导航取消选中
       $store.commit('setHeaderActiveIndex', -1);
-
       $store.commit('setSearchIndex', 7);
+
       $router.push({
         name: 'search-details',
         query: { searchText: searchValue.value }

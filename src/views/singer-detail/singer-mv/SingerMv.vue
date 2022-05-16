@@ -77,7 +77,7 @@ export default defineComponent({
       total: props.singerDetail?.artist?.mvSize // 总数
     });
 
-    // 监听歌手详情，获取mv总数
+    // 获取mv总数
     watch(
       () => props.singerDetail,
       () => {

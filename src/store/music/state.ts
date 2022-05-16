@@ -31,7 +31,7 @@ function faultTolerant(name: string) {
 
 const state: State = {
   playMusicId: Number(localStorage.getItem('playMusicId')) || 0, // 当前播放音乐id
-  playMusicItem: faultTolerant('playMusicItem') || {}, // 当前播放音乐数据
+  playMusicItem: faultTolerant('playMusicItem') || {}, // 当前播放音乐
   playMusicList: faultTolerant('playMusicList') || [], // 播放列表
   musicPlayProgress: {}, // 当前播放音乐进度数据
   musicPlayStatus: {
