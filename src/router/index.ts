@@ -59,7 +59,7 @@ const routes: Array<RouteRecordRaw> = [
       // 个人中心 - 我的等级
       {
         path: '/level',
-        name: 'user-level',
+        name: 'level',
         component: () =>
           import(
             /* webpackChunkName: "user-level" */ '../views/user/level/Level.vue'
@@ -170,7 +170,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'album-detail',
         component: () =>
           import(
-            /* webpackChunkName: "singer-detail" */ '../views/album-detail/AlbumDetail.vue'
+            /* webpackChunkName: "album-detail" */ '../views/album-detail/AlbumDetail.vue'
           )
       },
       // 用户资料
@@ -179,7 +179,7 @@ const routes: Array<RouteRecordRaw> = [
         name: 'user-profile',
         component: () =>
           import(
-            /* webpackChunkName: "song-sheet-detail" */ '../components/user-profile/UserProfile.vue'
+            /* webpackChunkName: "user-profile" */ '../components/user-profile/UserProfile.vue'
           )
       },
       // 视频详情

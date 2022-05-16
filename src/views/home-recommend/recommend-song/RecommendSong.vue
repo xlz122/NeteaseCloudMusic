@@ -150,11 +150,6 @@ export default defineComponent({
       }
     );
 
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
-    }
-
     // 单个歌曲添加到播放列表
     function singleMusicToPlayList(item: Record<string, any>): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
@@ -212,6 +207,11 @@ export default defineComponent({
       });
     }
 
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      $store.commit('jumpSongDetail', id);
+    }
+
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       $store.commit('jumpSingerDetail', id);
@@ -226,12 +226,12 @@ export default defineComponent({
       timeStampToDuration,
       playMusicId,
       loading,
-      jumpSongDetail,
       playSingleMusic,
       singleMusicToPlayList,
       handleCollection,
       handleShare,
       handleDownload,
+      jumpSongDetail,
       jumpSingerDetail,
       jumpAlbumDetail
     };

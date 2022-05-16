@@ -128,8 +128,13 @@ export default defineComponent({
           });
           return false;
         }
+
         if (video.value.id) {
-          getVideoDetail();
+          nextTick(() => {
+            getVideoDetail();
+            getVideoSrc();
+            getCommentData();
+          });
         }
       },
       {
@@ -169,12 +174,6 @@ export default defineComponent({
           }
         })
         .catch(() => ({}));
-    }
-    getVideoSrc();
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
     }
 
     // 喜欢
@@ -293,7 +292,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getCommentData();
 
     // 刷新评论
     function commentRefresh(): void {
@@ -306,6 +304,11 @@ export default defineComponent({
       getCommentData();
     }
 
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
     onMounted(() => {
       $store.commit('setHeaderActiveIndex', 0);
       $store.commit('setSubActiveIndex', -1);
@@ -313,14 +316,14 @@ export default defineComponent({
 
     return {
       videoDetailData,
-      jumpUserProfile,
       handleLike,
       videoSubed,
       handleCollection,
       handleShare,
       commentParams,
       commentRefresh,
-      changPage
+      changPage,
+      jumpUserProfile
     };
   }
 });

@@ -106,11 +106,6 @@ export default defineComponent({
     }
     getFriendEvent();
 
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
     // 单个歌曲添加到播放列表
     function singleMusicToPlayList(item: Record<string, any>): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
@@ -125,21 +120,6 @@ export default defineComponent({
         loading: true,
         refresh: true
       });
-    }
-
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    // 跳转专辑详情
-    function jumpAlbumDetail(id: number): void {
-      $store.commit('jumpAlbumDetail', id);
     }
 
     // 动态点赞
@@ -164,6 +144,26 @@ export default defineComponent({
       });
     }
 
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      $store.commit('jumpSongDetail', id);
+    }
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      $store.commit('jumpSingerDetail', id);
+    }
+
+    // 跳转专辑详情
+    function jumpAlbumDetail(id: number): void {
+      $store.commit('jumpAlbumDetail', id);
+    }
+
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
     // 监听滚动
     onMounted(() => {
       document.addEventListener('scroll', function (e: Event): void {
@@ -185,12 +185,12 @@ export default defineComponent({
       releaseVideo,
       eventList,
       loading,
-      jumpUserProfile,
       singleMusicToPlayList,
+      setDynamicLike,
+      jumpUserProfile,
       jumpSongDetail,
       jumpSingerDetail,
-      jumpAlbumDetail,
-      setDynamicLike
+      jumpAlbumDetail
     };
   }
 });

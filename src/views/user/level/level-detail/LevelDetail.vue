@@ -3,7 +3,7 @@
     <div class="level-detail-container">
       <h2 class="title">
         等级特权
-        <span class="title-right-text" @click="jumpUserLevel">
+        <span class="title-right-text" @click="jumpLevel">
           查看我的等级
           <i class="icon"></i>
         </span>
@@ -115,13 +115,14 @@ export default defineComponent({
       }
     ]);
 
-    function jumpUserLevel(): void {
-      $router.push({ name: 'user-level' });
+    // 跳转等级
+    function jumpLevel(): void {
+      $router.push({ name: 'level' });
     }
 
     return {
       list,
-      jumpUserLevel
+      jumpLevel
     };
   }
 });

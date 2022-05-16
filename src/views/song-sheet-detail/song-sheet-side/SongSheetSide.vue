@@ -92,6 +92,7 @@ export default defineComponent({
       page: 1,
       pageSize: 5
     });
+
     // 获取热门歌单数据
     function getTopPlaylist(): void {
       topPlaylist({

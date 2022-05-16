@@ -150,6 +150,12 @@ export default defineComponent({
     }
     getSearchAnchor();
 
+    // 分页
+    function changPage(current: number): void {
+      anchorData.offset = current;
+      getSearchAnchor();
+    }
+
     // 跳转电台
     function jumpDjradioDetail(): void {
       $store.commit('setMessage', {
@@ -163,20 +169,14 @@ export default defineComponent({
       $store.commit('jumpUserProfile', id);
     }
 
-    // 分页
-    function changPage(current: number): void {
-      anchorData.offset = current;
-      getSearchAnchor();
-    }
-
     return {
       timeStampToDuration,
       handleMatchString,
       userInfo,
       anchorData,
+      changPage,
       jumpDjradioDetail,
-      jumpUserProfile,
-      changPage
+      jumpUserProfile
     };
   }
 });

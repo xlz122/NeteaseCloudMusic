@@ -187,25 +187,6 @@ export default defineComponent({
     // 歌单详情数据
     const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
-    const loading = ref<boolean>(true);
-
-    onMounted(() => {
-      setTimeout(() => {
-        loading.value = false;
-      }, 200);
-    });
-
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
-    }
-
-    // 跳转视频详情
-    function jumpVideoDetail(id: number): void {
-      $router.push({ name: 'mv-detail', params: { id } });
-      $store.commit('video/setVideo', { id, url: '' });
-    }
-
     // 计算歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
       const privilege = songSheetDetail.value?.privileges.find(
@@ -238,11 +219,6 @@ export default defineComponent({
       });
     }
 
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
     // 播放单个歌曲
     const noCopyrightDialog = ref<boolean>(false);
     function playSingleMusic(item: Record<string, any>): boolean | undefined {
@@ -264,11 +240,6 @@ export default defineComponent({
         loading: true,
         refresh: true
       });
-    }
-
-    // 跳转专辑详情
-    function jumpAlbumDetail(id: number): void {
-      $store.commit('jumpAlbumDetail', id);
     }
 
     // 分享
@@ -328,19 +299,43 @@ export default defineComponent({
       deleteMusicDialog.value = false;
     }
 
+    // 跳转专辑详情
+    function jumpAlbumDetail(id: number): void {
+      $store.commit('jumpAlbumDetail', id);
+    }
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      $store.commit('jumpSingerDetail', id);
+    }
+
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      $store.commit('jumpSongDetail', id);
+    }
+
+    // 跳转视频详情
+    function jumpVideoDetail(id: number): void {
+      $router.push({ name: 'mv-detail', params: { id } });
+      $store.commit('video/setVideo', { id, url: '' });
+    }
+
+    const loading = ref<boolean>(true);
+
+    onMounted(() => {
+      setTimeout(() => {
+        loading.value = false;
+      }, 200);
+    });
+
     return {
       timeStampToDuration,
       userInfo,
       playMusicId,
       songSheetDetail,
-      loading,
-      jumpSongDetail,
-      jumpVideoDetail,
       isCopyright,
-      jumpSingerDetail,
       singleMusicToPlayList,
       handleCollection,
-      jumpAlbumDetail,
       noCopyrightDialog,
       noCopyrightConfirm,
       playSingleMusic,
@@ -349,7 +344,12 @@ export default defineComponent({
       deleteMusicDialog,
       deleteMusicShow,
       deleteMusicConfirm,
-      deleteMusicCancel
+      deleteMusicCancel,
+      jumpAlbumDetail,
+      jumpSingerDetail,
+      jumpSongDetail,
+      jumpVideoDetail,
+      loading
     };
   }
 });

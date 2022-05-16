@@ -190,11 +190,6 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
-    }
-
     // 播放单个歌曲
     function playSingleMusic(item: Record<string, any>): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
@@ -238,15 +233,20 @@ export default defineComponent({
       $router.push({ name: 'home-toplist', params: { id } });
     }
 
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      $store.commit('jumpSongDetail', id);
+    }
+
     return {
       listData,
       playAllMusic,
-      jumpSongDetail,
       playSingleMusic,
       handleCollectAll,
       setAddSinglePlayList,
       handleCollection,
-      songListMore
+      songListMore,
+      jumpSongDetail
     };
   }
 });

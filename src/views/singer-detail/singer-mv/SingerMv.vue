@@ -106,24 +106,24 @@ export default defineComponent({
     }
     getArtistMv();
 
-    // 跳转Mv详情
-    function jumpMvDetail(id: number): void {
-      $router.push({ name: 'mv-detail', params: { id } });
-      $store.commit('video/setVideo', { id, url: '' });
-    }
-
     // 分页
     function changPage(current: number): void {
       mvParams.offset = current;
       getArtistMv();
     }
 
+    // 跳转Mv详情
+    function jumpMvDetail(id: number): void {
+      $router.push({ name: 'mv-detail', params: { id } });
+      $store.commit('video/setVideo', { id, url: '' });
+    }
+
     return {
       formatDateTime,
       mvList,
       mvParams,
-      jumpMvDetail,
-      changPage
+      changPage,
+      jumpMvDetail
     };
   }
 });

@@ -20,7 +20,7 @@
               <img class="vip-level" :src="vipInfo?.redVipLevelIcon" alt="" />
             </template>
           </h4>
-          <p class="lv" @click="jumpLevelDetail">
+          <p class="lv" @click="jumpLevel">
             <i class="lv-icon-left">{{ userInfo?.level }}</i>
             <i class="lv-icon-right"></i>
           </p>
@@ -100,16 +100,6 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
-    // 跳转等级详情
-    function jumpLevelDetail(): void {
-      $router.push({ path: '/level' });
-    }
-
     // 重置签到
     function resetSignIn(): boolean | undefined {
       // 获取本地签到日期
@@ -154,15 +144,25 @@ export default defineComponent({
       $store.commit('setLoginDialog', true);
     }
 
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
+    // 跳转等级
+    function jumpLevel(): void {
+      $router.push({ path: '/level' });
+    }
+
     return {
       isLogin,
       userInfo,
-      jumpUserProfile,
-      jumpLevelDetail,
       vipInfo,
       isSignIn,
       signIn,
-      openLogin
+      openLogin,
+      jumpUserProfile,
+      jumpLevel
     };
   }
 });

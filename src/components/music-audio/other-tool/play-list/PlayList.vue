@@ -195,6 +195,11 @@ export default defineComponent({
       });
     }
 
+    // 关闭列表
+    function closePlayList(): void {
+      emit('closePlayList');
+    }
+
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       $store.commit('jumpSongDetail', id);
@@ -209,11 +214,6 @@ export default defineComponent({
       });
     }
 
-    // 关闭列表
-    function closePlayList(): void {
-      emit('closePlayList');
-    }
-
     return {
       playMusicId,
       playMusicList,
@@ -226,9 +226,9 @@ export default defineComponent({
       handleDownload,
       deleteMusic,
       playlistItem,
+      closePlayList,
       jumpSingerDetail,
-      jumpSongPosition,
-      closePlayList
+      jumpSongPosition
     };
   }
 });

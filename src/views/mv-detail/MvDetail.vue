@@ -182,11 +182,6 @@ export default defineComponent({
     }
     getVideoSrc();
 
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
     // 喜欢
     function handleLike(): boolean | undefined {
       if (!isLogin.value) {
@@ -298,6 +293,11 @@ export default defineComponent({
       getCommentData();
     }
 
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      $store.commit('jumpSingerDetail', id);
+    }
+
     onMounted(() => {
       $store.commit('setHeaderActiveIndex', 0);
       $store.commit('setSubActiveIndex', -1);
@@ -306,13 +306,13 @@ export default defineComponent({
     return {
       mvDetailData,
       mvsubed,
-      jumpSingerDetail,
       handleLike,
       handleCollection,
       handleShare,
       commentParams,
       commentRefresh,
-      changPage
+      changPage,
+      jumpSingerDetail
     };
   }
 });

@@ -146,6 +146,12 @@ export default defineComponent({
     }
     getSearchSinger();
 
+    // 分页
+    function changPage(current: number): void {
+      singerData.offset = current;
+      getSearchSinger();
+    }
+
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       $store.commit('jumpSingerDetail', id);
@@ -156,20 +162,14 @@ export default defineComponent({
       $store.commit('jumpUserProfile', id);
     }
 
-    // 分页
-    function changPage(current: number): void {
-      singerData.offset = current;
-      getSearchSinger();
-    }
-
     return {
       timeStampToDuration,
       handleMatchString,
       userInfo,
       singerData,
+      changPage,
       jumpSingerDetail,
-      jumpUserProfile,
-      changPage
+      jumpUserProfile
     };
   }
 });

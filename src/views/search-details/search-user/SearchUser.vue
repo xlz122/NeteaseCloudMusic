@@ -145,11 +145,6 @@ export default defineComponent({
     }
     getSearchUser();
 
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
     function follow(userId: number): boolean | undefined {
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
@@ -179,12 +174,17 @@ export default defineComponent({
       getSearchUser();
     }
 
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
     return {
       handleMatchString,
       userData,
-      jumpUserProfile,
       follow,
-      changPage
+      changPage,
+      jumpUserProfile
     };
   }
 });

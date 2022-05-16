@@ -164,16 +164,6 @@ export default defineComponent({
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
     // 收藏
     function handleCollection(id: number): boolean | undefined {
       if (!isLogin.value) {
@@ -208,6 +198,16 @@ export default defineComponent({
       });
     }
 
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      $store.commit('jumpSongDetail', id);
+    }
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      $store.commit('jumpSingerDetail', id);
+    }
+
     return {
       playMusicId,
       type,
@@ -216,11 +216,11 @@ export default defineComponent({
       recordList,
       playSingleMusic,
       singleMusicToPlayList,
-      jumpSongDetail,
-      jumpSingerDetail,
       handleCollection,
       handleShare,
-      handleDownload
+      handleDownload,
+      jumpSongDetail,
+      jumpSingerDetail
     };
   }
 });

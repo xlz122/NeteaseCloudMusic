@@ -200,17 +200,6 @@ export default defineComponent({
       }
     );
 
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
-    }
-
-    // 跳转视频详情
-    function jumpVideoDetail(id: number): void {
-      $router.push({ name: 'mv-detail', params: { id } });
-      $store.commit('video/setVideo', { id, url: '' });
-    }
-
     // 计算歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
       const privilege = songSheetDetail.value?.privileges.find(
@@ -228,11 +217,6 @@ export default defineComponent({
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       $store.commit('music/setPlayMusicList', musicItem);
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
     }
 
     // 播放单个歌曲
@@ -334,15 +318,28 @@ export default defineComponent({
       deleteMusicDialog.value = false;
     }
 
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      $store.commit('jumpSongDetail', id);
+    }
+
+    // 跳转视频详情
+    function jumpVideoDetail(id: number): void {
+      $router.push({ name: 'mv-detail', params: { id } });
+      $store.commit('video/setVideo', { id, url: '' });
+    }
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      $store.commit('jumpSingerDetail', id);
+    }
+
     return {
       timeStampToDuration,
       userInfo,
       playMusicId,
       loading,
-      jumpSongDetail,
-      jumpVideoDetail,
       isCopyright,
-      jumpSingerDetail,
       singleMusicToPlayList,
       handleCollection,
       handleShare,
@@ -353,7 +350,10 @@ export default defineComponent({
       deleteMusicDialog,
       deleteMusicShow,
       deleteMusicConfirm,
-      deleteMusicCancel
+      deleteMusicCancel,
+      jumpSongDetail,
+      jumpVideoDetail,
+      jumpSingerDetail
     };
   }
 });

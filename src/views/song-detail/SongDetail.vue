@@ -125,7 +125,6 @@ export default defineComponent({
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    // 歌曲id
     const songId = computed<number>(() => $store.getters.songId);
 
     watch(
@@ -134,8 +133,17 @@ export default defineComponent({
         if (curVal.songId) {
           nextTick(() => {
             getSongDetail();
-            getCommentData();
             getLyricData();
+            getCommentData();
+          });
+          return false;
+        }
+
+        if (songId.value) {
+          nextTick(() => {
+            getSongDetail();
+            getLyricData();
+            getCommentData();
           });
         }
       },
@@ -147,9 +155,7 @@ export default defineComponent({
     const songDetailData = ref({});
     // 获取歌曲详情
     function getSongDetail(): void {
-      songDetail({
-        ids: songId.value
-      })
+      songDetail({ ids: songId.value })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
             songDetailData.value = res;
@@ -161,35 +167,6 @@ export default defineComponent({
           }
         })
         .catch(() => ({}));
-    }
-    getSongDetail();
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
-    // 跳转至评论
-    function jumpToComments(): void {
-      const commentDom = document.querySelector(
-        '.comment-component'
-      ) as HTMLElement;
-
-      const appwrap = document.querySelector('.app-wrap') as HTMLElement;
-      appwrap.scrollTo(0, Number(commentDom.offsetTop) + 20);
-    }
-
-    // 求翻译
-    function lyricTranslate(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能未开发'
-      });
     }
 
     const lyric = reactive<Lyric>({
@@ -211,7 +188,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getLyricData();
 
     // 处理歌词数据
     function handlerLyric(lyricStr: string): void {
@@ -292,7 +268,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getCommentData();
 
     // 刷新评论
     function commentRefresh(): void {
@@ -305,6 +280,34 @@ export default defineComponent({
       getCommentData();
     }
 
+    // 跳转至评论
+    function jumpToComments(): void {
+      const commentDom = document.querySelector(
+        '.comment-component'
+      ) as HTMLElement;
+
+      const appwrap = document.querySelector('.app-wrap') as HTMLElement;
+      appwrap.scrollTo(0, Number(commentDom.offsetTop) + 20);
+    }
+
+    // 求翻译
+    function lyricTranslate(): boolean | undefined {
+      if (!isLogin.value) {
+        $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      $store.commit('setMessage', {
+        type: 'error',
+        title: '该功能未开发'
+      });
+    }
+
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
     onMounted(() => {
       $store.commit('setHeaderActiveIndex', 0);
       $store.commit('setSubActiveIndex', -1);
@@ -313,13 +316,13 @@ export default defineComponent({
     return {
       songId,
       songDetailData,
-      jumpUserProfile,
-      jumpToComments,
-      lyricTranslate,
       lyric,
       commentParams,
       commentRefresh,
-      changPage
+      changPage,
+      jumpToComments,
+      lyricTranslate,
+      jumpUserProfile
     };
   }
 });
