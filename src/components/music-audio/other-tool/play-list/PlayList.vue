@@ -115,7 +115,7 @@ export default defineComponent({
       () => $store.getters['music/playMusicId']
     );
     const playMusicList = computed(() => $store.getters['music/playMusicList']);
-    // 当前播放音乐数据
+    // 当前播放音乐
     const playMusicItem = computed<number>(
       () => $store.getters['music/playMusicItem']
     );

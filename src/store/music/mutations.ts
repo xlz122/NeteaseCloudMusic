@@ -7,7 +7,7 @@ type Mutations<T, U> = {
 };
 
 const mutations: Mutations<State, unknown> = {
-  // 当前播放音乐数据
+  // 当前播放音乐
   setPlayMusicItem(state, musicItem) {
     state.playMusicId = (musicItem as PlayMusicItem).id;
     localStorage.setItem(

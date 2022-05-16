@@ -61,7 +61,7 @@ export function getPrevMusicId(): Promise<number> {
         id = await randomPlay(playMusicList);
       }
 
-      // 当前播放音乐数据
+      // 当前播放音乐
       const musicItem = playMusicList.find((item: LoopType) => item.id === id);
       store.commit('music/setPlayMusicItem', musicItem);
       resolve(id);
@@ -111,7 +111,7 @@ export function getNextMusicId(): Promise<number> {
         id = await randomPlay(playMusicList);
       }
 
-      // 当前播放音乐数据
+      // 当前播放音乐
       const musicItem = playMusicList.find((item: LoopType) => item.id === id);
       store.commit('music/setPlayMusicItem', musicItem);
       resolve(id);

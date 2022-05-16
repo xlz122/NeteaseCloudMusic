@@ -230,7 +230,7 @@ export default defineComponent({
 
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
-      // 当前播放音乐数据
+      // 当前播放音乐
       $store.commit('music/setPlayMusicItem', musicItem);
       // 添加到播放列表
       $store.commit('music/setPlayMusicList', musicItem);

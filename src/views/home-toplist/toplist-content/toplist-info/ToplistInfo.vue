@@ -150,7 +150,7 @@ export default defineComponent({
       }
     }
 
-    // 播放全部- 默认播放列表第一项
+    // 播放全部 - 默认播放列表第一项
     const playAllMusic = throttle(
       function () {
         if (songSheetDetail.value?.playlist?.tracks.length === 0) {
@@ -165,7 +165,7 @@ export default defineComponent({
           songList.push(musicItem);
         });
 
-        // 当前播放音乐数据
+        // 当前播放音乐
         $store.commit('music/setPlayMusicItem', songList[0]);
         // 添加到播放列表
         $store.commit('music/setPlayMusicList', songList);

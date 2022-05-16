@@ -166,6 +166,7 @@ export default defineComponent({
       if (type === 0) {
         $router.push({ name: 'mv-detail', params: { id } });
       }
+
       if (type === 1) {
         $router.push({ name: 'video-detail', params: { id } });
       }
