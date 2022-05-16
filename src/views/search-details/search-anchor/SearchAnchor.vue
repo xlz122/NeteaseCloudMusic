@@ -156,7 +156,7 @@ export default defineComponent({
       getSearchAnchor();
     }
 
-    // 跳转电台
+    // 跳转电台详情
     function jumpDjradioDetail(): void {
       $store.commit('setMessage', {
         type: 'error',

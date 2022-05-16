@@ -160,7 +160,7 @@ export default defineComponent({
       }
     );
 
-    // 监听路由切换，关闭播放列表
+    // 路由切换，关闭播放列表
     watch(
       () => $route.params,
       () => {

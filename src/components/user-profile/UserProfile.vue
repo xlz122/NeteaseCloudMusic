@@ -26,7 +26,6 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, watch, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import findCityZipCode from './city';
 import { userDetail } from '@api/user';
@@ -42,22 +41,15 @@ export default defineComponent({
     SongSheetList
   },
   setup() {
-    const $route = useRoute();
     const $store = useStore();
 
     const userInfo = computed(() => $store.getters.userInfo);
     const userId = computed<number>(() => $store.getters.userId);
 
     watch(
-      () => $route.params,
+      () => userId.value,
       curVal => {
-        // 传入
-        if (curVal?.userId) {
-          getUserDetail();
-          return false;
-        }
-        // 刷新
-        if (userId.value) {
+        if (curVal) {
           getUserDetail();
         }
       },

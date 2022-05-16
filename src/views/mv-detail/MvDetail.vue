@@ -98,7 +98,6 @@ import {
   nextTick,
   onMounted
 } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import { mvDetail } from '@api/mv-detail';
@@ -119,25 +118,20 @@ export default defineComponent({
     Page
   },
   setup() {
-    const $route = useRoute();
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const video = computed(() => $store.getters['video/video']);
 
     watch(
-      () => $route.params,
+      () => video.value.id,
       curVal => {
-        if (curVal.id) {
+        if (curVal) {
           nextTick(() => {
             getMvDetail();
             getVideoSrc();
             getCommentData();
           });
-          return false;
-        }
-        if (video.value.id) {
-          getMvDetail();
         }
       },
       {
@@ -180,7 +174,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getVideoSrc();
 
     // 喜欢
     function handleLike(): boolean | undefined {
@@ -280,7 +273,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getCommentData();
 
     // 刷新评论
     function commentRefresh(): void {

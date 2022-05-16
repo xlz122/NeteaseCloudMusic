@@ -38,7 +38,6 @@ import {
   onMounted,
   nextTick
 } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import { djProgramDetail } from '@api/djprogram-detail';
@@ -57,18 +56,16 @@ export default defineComponent({
     Page
   },
   setup() {
-    const $route = useRoute();
     const $store = useStore();
 
     // 电台节目id
     const djprogramId = computed(() => $store.getters.djprogramId);
 
     watch(
-      () => $route.params,
+      () => djprogramId.value,
       curVal => {
-        if (curVal.djprogramId) {
+        if (curVal) {
           nextTick(() => {
-            $store.commit('setDjprogramId', Number(curVal.djprogramId));
             getDjProgramDetail();
             getCommentData();
           });
@@ -97,7 +94,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getDjProgramDetail();
 
     // 获取评论数据
     const commentParams = reactive<CommentParams>({
@@ -132,7 +128,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getCommentData();
 
     // 刷新评论
     function commentRefresh(): void {

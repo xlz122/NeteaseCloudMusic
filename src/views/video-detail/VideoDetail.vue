@@ -89,7 +89,6 @@ import {
   nextTick,
   onMounted
 } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import { MyVideoSbulist } from '@api/my-music';
@@ -111,25 +110,15 @@ export default defineComponent({
     Page
   },
   setup() {
-    const $route = useRoute();
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const video = computed(() => $store.getters['video/video']);
 
     watch(
-      () => $route.params,
+      () => video.value.id,
       curVal => {
-        if (curVal.id) {
-          nextTick(() => {
-            getVideoDetail();
-            getVideoSrc();
-            getCommentData();
-          });
-          return false;
-        }
-
-        if (video.value.id) {
+        if (curVal) {
           nextTick(() => {
             getVideoDetail();
             getVideoSrc();

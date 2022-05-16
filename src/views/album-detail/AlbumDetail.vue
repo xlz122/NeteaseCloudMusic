@@ -60,7 +60,6 @@ import {
   nextTick,
   onMounted
 } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { albumDetail } from '@api/album-detail';
 import { commentAlbum } from '@api/comment';
@@ -87,7 +86,6 @@ export default defineComponent({
     Page
   },
   setup() {
-    const $route = useRoute();
     const $store = useStore();
 
     const albumId = computed<number>(() => $store.getters.albumId);
@@ -99,14 +97,17 @@ export default defineComponent({
     });
 
     watch(
-      () => $route.params,
+      () => albumId.value,
       curVal => {
-        if (curVal.albumId) {
+        if (curVal) {
           nextTick(() => {
             getAlbumDetail();
             getCommentData();
           });
         }
+      },
+      {
+        immediate: true
       }
     );
 
@@ -135,7 +136,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getAlbumDetail();
 
     // 跳转至评论
     function jumpToComments(): void {
@@ -180,7 +180,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getCommentData();
 
     // 刷新评论
     function commentRefresh(): void {
