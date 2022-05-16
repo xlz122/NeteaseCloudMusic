@@ -104,16 +104,16 @@ export default defineComponent({
           listOffest.duration = 0;
           setTimeout(() => {
             listOffest.index--;
-            listOffest.duration = 1.5;
+            listOffest.duration = 1.2;
             listOffest.transform = li.clientWidth * listOffest.index * 5;
           });
         } else {
           listOffest.index--;
-          listOffest.duration = 1.5;
+          listOffest.duration = 1.2;
         }
         listOffest.transform = li.clientWidth * listOffest.index * 5;
       },
-      1500,
+      1200,
       {
         leading: true, // 点击第一下是否执行
         trailing: false // 节流时间内，多次点击，节流结束后，是否执行一次
@@ -132,16 +132,16 @@ export default defineComponent({
           listOffest.duration = 0;
           setTimeout(() => {
             listOffest.index++;
-            listOffest.duration = 1.5;
+            listOffest.duration = 1.2;
             listOffest.transform = li.clientWidth * listOffest.index * 5;
           });
         } else {
           listOffest.index++;
-          listOffest.duration = 1.5;
+          listOffest.duration = 1.2;
         }
         listOffest.transform = li.clientWidth * listOffest.index * 5;
       },
-      1500,
+      1200,
       {
         leading: true, // 点击第一下是否执行
         trailing: false // 节流时间内，多次点击，节流结束后，是否执行一次
