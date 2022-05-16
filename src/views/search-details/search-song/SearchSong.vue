@@ -192,27 +192,6 @@ export default defineComponent({
     }
     getSearchSong();
 
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
-    }
-
-    // 跳转视频详情
-    function jumpVideoDetail(id: number): void {
-      $router.push({ name: 'mv-detail', params: { id } });
-      $store.commit('video/setVideo', { id, url: '' });
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    // 跳转专辑详情
-    function jumpAlbumDetail(id: number): void {
-      $store.commit('jumpAlbumDetail', id);
-    }
-
     // 单个歌曲添加到播放列表
     function singleMusicToPlayList(item: Record<string, any>): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
@@ -276,22 +255,43 @@ export default defineComponent({
       getSearchSong();
     }
 
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      $store.commit('jumpSongDetail', id);
+    }
+
+    // 跳转视频详情
+    function jumpVideoDetail(id: number): void {
+      $router.push({ name: 'mv-detail', params: { id } });
+      $store.commit('video/setVideo', { id, url: '' });
+    }
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      $store.commit('jumpSingerDetail', id);
+    }
+
+    // 跳转专辑详情
+    function jumpAlbumDetail(id: number): void {
+      $store.commit('jumpAlbumDetail', id);
+    }
+
     return {
       timeStampToDuration,
       handleMatchString,
       playMusicId,
       userInfo,
       songData,
-      jumpSongDetail,
-      jumpVideoDetail,
-      jumpSingerDetail,
-      jumpAlbumDetail,
       singleMusicToPlayList,
       playSingleMusic,
       handleCollection,
       handleShare,
       handleDownload,
-      changPage
+      changPage,
+      jumpSongDetail,
+      jumpVideoDetail,
+      jumpSingerDetail,
+      jumpAlbumDetail
     };
   }
 });

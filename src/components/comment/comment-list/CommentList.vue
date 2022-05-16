@@ -111,11 +111,6 @@ export default defineComponent({
 
     const userInfo = computed(() => $store.getters.userInfo);
 
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
     // 删除评论
     function handleDeleteComment(commentId: number): void {
       emit('handleDeleteComment', commentId);
@@ -140,14 +135,19 @@ export default defineComponent({
       emit('replySubmit', replayText, commentId);
     }
 
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
     return {
       formatDate,
       userInfo,
-      jumpUserProfile,
       handleDeleteComment,
       handleLikeComment,
       setComments,
-      replySubmit
+      replySubmit,
+      jumpUserProfile
     };
   }
 });

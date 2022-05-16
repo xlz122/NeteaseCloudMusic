@@ -139,18 +139,7 @@ export default defineComponent({
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    // 歌曲id
     const songId = computed(() => $store.getters.songId);
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    // 跳转专辑详情
-    function jumpAlbumDetail(id: number): void {
-      $store.commit('jumpAlbumDetail', id);
-    }
 
     // 播放单个歌曲
     function playAllMusic(): boolean | undefined {
@@ -237,10 +226,18 @@ export default defineComponent({
       toggleShow.value = !toggleShow.value;
     }
 
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      $store.commit('jumpSingerDetail', id);
+    }
+
+    // 跳转专辑详情
+    function jumpAlbumDetail(id: number): void {
+      $store.commit('jumpAlbumDetail', id);
+    }
+
     return {
       songId,
-      jumpSingerDetail,
-      jumpAlbumDetail,
       playAllMusic,
       singleMusicToPlayList,
       handleCollection,
@@ -248,7 +245,9 @@ export default defineComponent({
       handleDownload,
       jumpToComments,
       toggleShow,
-      toggle
+      toggle,
+      jumpSingerDetail,
+      jumpAlbumDetail
     };
   }
 });

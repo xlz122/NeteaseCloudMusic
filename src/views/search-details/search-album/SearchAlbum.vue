@@ -186,6 +186,12 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
+    // 分页
+    function changPage(current: number): void {
+      albumData.offset = current;
+      getSearchAlbum();
+    }
+
     // 跳转专辑详情
     function jumpAlbumDetail(id: number): void {
       $store.commit('jumpAlbumDetail', id);
@@ -196,21 +202,15 @@ export default defineComponent({
       $store.commit('jumpSingerDetail', id);
     }
 
-    // 分页
-    function changPage(current: number): void {
-      albumData.offset = current;
-      getSearchAlbum();
-    }
-
     return {
       timeStampToDuration,
       handleMatchString,
       userInfo,
       albumData,
       albumToPlayListPlay,
+      changPage,
       jumpAlbumDetail,
-      jumpSingerDetail,
-      changPage
+      jumpSingerDetail
     };
   }
 });

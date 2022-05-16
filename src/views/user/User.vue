@@ -86,9 +86,8 @@ export default defineComponent({
         return false;
       }
 
-      // 退出登录
       if (item?.link === '/logout') {
-        signOut();
+        $store.dispatch('setLogout');
         return false;
       }
 
@@ -101,10 +100,6 @@ export default defineComponent({
       }
 
       $router.push({ path: item?.link || '/' });
-    }
-
-    function signOut(): void {
-      $store.dispatch('setLogout');
     }
 
     return {

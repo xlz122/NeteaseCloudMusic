@@ -280,11 +280,6 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
-    // 跳转歌单详情
-    function jumpSongSheetDetail(id: number): void {
-      $store.commit('jumpSongSheetDetail', id);
-    }
-
     // 获取热门推荐 - 推荐歌单
     const songListData = ref<unknown[]>([]);
     function getSongList() {
@@ -307,11 +302,6 @@ export default defineComponent({
         .catch(() => ({}));
     }
     getSongList();
-
-    // 跳转电台节目详情
-    function jumpDjprogramDetail(id: number): void {
-      $router.push({ name: 'djprogram-detail', params: { djprogramId: id } });
-    }
 
     // 获取热门推荐 - 推荐电台
     const djprogramData = ref<unknown[]>([]);
@@ -428,16 +418,6 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
-    // 跳转专辑详情
-    function jumpAlbumDetail(id: number): void {
-      $store.commit('jumpAlbumDetail', id);
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
     // 新碟上架 - 更多
     function albumNewestMore(): void {
       $router.push({ name: 'home-new-disc' });
@@ -448,14 +428,32 @@ export default defineComponent({
       $router.push({ name: 'home-toplist' });
     }
 
+    // 跳转歌单详情
+    function jumpSongSheetDetail(id: number): void {
+      $store.commit('jumpSongSheetDetail', id);
+    }
+
+    // 跳转专辑详情
+    function jumpAlbumDetail(id: number): void {
+      $store.commit('jumpAlbumDetail', id);
+    }
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      $store.commit('jumpSingerDetail', id);
+    }
+
+    // 跳转电台节目详情
+    function jumpDjprogramDetail(id: number): void {
+      $router.push({ name: 'djprogram-detail', params: { djprogramId: id } });
+    }
+
     return {
       isLogin,
       jumpSongSheet,
       songSheetMore,
-      jumpSongSheetDetail,
       songSheetToPlayListPlay,
       songListData,
-      jumpDjprogramDetail,
       djprogramData,
       individualizatSongSheet,
       individualizatData,
@@ -464,10 +462,12 @@ export default defineComponent({
       jumpRecommend,
       uninterested,
       albumToPlayListPlay,
+      albumNewestMore,
+      songListMore,
+      jumpSongSheetDetail,
       jumpAlbumDetail,
       jumpSingerDetail,
-      albumNewestMore,
-      songListMore
+      jumpDjprogramDetail
     };
   }
 });

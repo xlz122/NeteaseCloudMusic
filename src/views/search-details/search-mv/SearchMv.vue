@@ -154,6 +154,12 @@ export default defineComponent({
     }
     getSearchMv();
 
+    // 分页
+    function changPage(current: number): void {
+      mvData.offset = current;
+      getSearchMv();
+    }
+
     // 跳转视频详情
     function jumpVideoDetail(type: number, id: number): void {
       // type 0为mv, 1为视频
@@ -172,21 +178,15 @@ export default defineComponent({
       $store.commit('jumpSingerDetail', id);
     }
 
-    // 分页
-    function changPage(current: number): void {
-      mvData.offset = current;
-      getSearchMv();
-    }
-
     return {
       bigNumberTransform,
       timeStampToDuration,
       handleMatchString,
       userInfo,
       mvData,
+      changPage,
       jumpVideoDetail,
-      jumpSingerDetail,
-      changPage
+      jumpSingerDetail
     };
   }
 });

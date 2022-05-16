@@ -95,7 +95,6 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    // 歌曲id
     const songId = computed<number>(() => $store.getters.songId);
 
     const songSheetList = ref<unknown[]>([]);
@@ -116,16 +115,6 @@ export default defineComponent({
     }
     getSimiPlaylist();
 
-    // 跳转歌单详情
-    function jumpSongSheetDetail(id: number): void {
-      $store.commit('jumpSongSheetDetail', id);
-    }
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
     const simiSongList = ref<Record<string, any>>([]);
     // 获取歌曲的相似歌曲
     function getSimiSong(): void {
@@ -143,19 +132,6 @@ export default defineComponent({
         .catch(() => ({}));
     }
     getSimiSong();
-
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      getSimiPlaylist();
-      getSimiSong();
-
-      $store.commit('jumpSongDetail', id);
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
 
     // 播放单个歌曲
     function playSingleMusic(item: Record<string, any>): void {
@@ -180,15 +156,38 @@ export default defineComponent({
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
+    // 跳转歌单详情
+    function jumpSongSheetDetail(id: number): void {
+      $store.commit('jumpSongSheetDetail', id);
+    }
+
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
+    // 跳转歌曲详情
+    function jumpSongDetail(id: number): void {
+      getSimiPlaylist();
+      getSimiSong();
+
+      $store.commit('jumpSongDetail', id);
+    }
+
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      $store.commit('jumpSingerDetail', id);
+    }
+
     return {
       songSheetList,
+      simiSongList,
+      playSingleMusic,
+      singleMusicToPlayList,
       jumpSongSheetDetail,
       jumpUserProfile,
-      simiSongList,
       jumpSongDetail,
-      jumpSingerDetail,
-      playSingleMusic,
-      singleMusicToPlayList
+      jumpSingerDetail
     };
   }
 });

@@ -122,11 +122,6 @@ export default defineComponent({
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
     // 播放全部- 默认播放列表第一项
     const playAllMusic = throttle(
       function () {
@@ -226,15 +221,20 @@ export default defineComponent({
       emit('jumpToComments');
     }
 
+    // 跳转歌手详情
+    function jumpSingerDetail(id: number): void {
+      $store.commit('jumpSingerDetail', id);
+    }
+
     return {
       formatDateTime,
-      jumpSingerDetail,
       playAllMusic,
       allMusicToPlayList,
       handleCollectAll,
       handleShare,
       handleDownload,
-      jumpToComments
+      jumpToComments,
+      jumpSingerDetail
     };
   }
 });

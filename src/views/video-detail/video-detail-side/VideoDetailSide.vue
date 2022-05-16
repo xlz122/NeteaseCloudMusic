@@ -92,7 +92,7 @@ export default defineComponent({
     const videoList = ref<unknown[]>([]);
 
     // 获取相关推荐视频
-    function getVideolist(): void {
+    function getRelatedVideo(): void {
       relatedVideo({ id: video.value.id })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
@@ -106,7 +106,7 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getVideolist();
+    getRelatedVideo();
 
     // 跳转用户资料
     function jumpUserProfile(id: number): void {
@@ -118,7 +118,7 @@ export default defineComponent({
       $router.push({ name: 'video-detail', params: { id } });
       $store.commit('video/setVideo', { id, url: '' });
 
-      getVideolist();
+      getRelatedVideo();
     }
 
     return {

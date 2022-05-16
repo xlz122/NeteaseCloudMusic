@@ -55,7 +55,7 @@
           </ul>
         </div>
       </div>
-      <div class="aboutmore" @click="understand">了解等级特权></div>
+      <div class="aboutmore" @click="jumpLevelDetail">了解等级特权></div>
       <div class="next-level-title">
         距离下一个等级:
         <i class="level-icon"></i>
@@ -93,7 +93,6 @@
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 import { userLevel } from '@api/user';
 import { ResponseType } from '@/types/types';
 
@@ -108,7 +107,6 @@ export default defineComponent({
   name: 'UserLevel',
   setup() {
     const $router = useRouter();
-    const $store = useStore();
 
     const level = reactive({
       list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -124,7 +122,7 @@ export default defineComponent({
       playProgress: 0
     });
 
-    // 获取等级数据
+    // 获取用户等级
     function getUserLevel(): void {
       userLevel()
         .then((res: ResponseType) => {
@@ -141,18 +139,14 @@ export default defineComponent({
               res.data.nowLoginCount / res?.data?.nextLoginCount.toFixed(3);
             nextLevel.playProgress =
               res.data.nowPlayCount / res?.data?.nextPlayCount.toFixed(3);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));
     }
     getUserLevel();
 
-    function understand(): void {
+    // 跳转等级详情
+    function jumpLevelDetail(): void {
       $router.push({ name: 'level-detail' });
     }
 
@@ -160,7 +154,7 @@ export default defineComponent({
       level,
       privilegeList,
       nextLevel,
-      understand
+      jumpLevelDetail
     };
   }
 });

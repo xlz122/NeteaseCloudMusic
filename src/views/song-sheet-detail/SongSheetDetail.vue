@@ -57,7 +57,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, watch, onMounted } from 'vue';
+import {
+  defineComponent,
+  reactive,
+  computed,
+  watch,
+  onMounted,
+  nextTick
+} from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { handleCommentData } from '@components/comment/handleCommentData';
@@ -90,7 +97,18 @@ export default defineComponent({
       () => $route.params,
       curVal => {
         if (curVal?.songSheetId) {
-          getSongDetail();
+          nextTick(() => {
+            getSongDetail();
+            getCommentData();
+          });
+          return false;
+        }
+
+        if (songSheetId.value) {
+          nextTick(() => {
+            getSongDetail();
+            getCommentData();
+          });
         }
       },
       {
@@ -161,7 +179,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getCommentData();
 
     // 刷新评论
     function commentRefresh(): void {
@@ -180,8 +197,8 @@ export default defineComponent({
     });
 
     return {
-      songSheetDetail,
       songSheetId,
+      songSheetDetail,
       jumpToComments,
       commentParams,
       commentRefresh,

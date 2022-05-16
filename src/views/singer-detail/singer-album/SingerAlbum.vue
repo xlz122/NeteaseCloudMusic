@@ -151,15 +151,15 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
-    // 跳转专辑详情
-    function jumpAlbumDetail(id: number): void {
-      $store.commit('jumpAlbumDetail', id);
-    }
-
     // 分页
     function changPage(current: number): void {
       albumParams.offset = current;
       getArtistAlbum();
+    }
+
+    // 跳转专辑详情
+    function jumpAlbumDetail(id: number): void {
+      $store.commit('jumpAlbumDetail', id);
     }
 
     return {
@@ -167,8 +167,8 @@ export default defineComponent({
       albumList,
       albumParams,
       albumToPlayListPlay,
-      jumpAlbumDetail,
-      changPage
+      changPage,
+      jumpAlbumDetail
     };
   }
 });

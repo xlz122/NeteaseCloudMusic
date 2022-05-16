@@ -210,6 +210,12 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
+    // 分页
+    function changPage(current: number): void {
+      songParams.offset = current;
+      getTopPlaylist();
+    }
+
     // 跳转歌单详情
     function jumpSongSheetDetail(id: number): void {
       $store.commit('jumpSongSheetDetail', id);
@@ -218,12 +224,6 @@ export default defineComponent({
     // 跳转用户资料
     function jumpUserProfile(id: number): void {
       $store.commit('jumpUserProfile', id);
-    }
-
-    // 分页
-    function changPage(current: number): void {
-      songParams.offset = current;
-      getTopPlaylist();
     }
 
     onMounted(() => {
@@ -239,9 +239,9 @@ export default defineComponent({
       classifyModal,
       catChange,
       songSheetToPlayListPlay,
+      changPage,
       jumpSongSheetDetail,
-      jumpUserProfile,
-      changPage
+      jumpUserProfile
     };
   }
 });

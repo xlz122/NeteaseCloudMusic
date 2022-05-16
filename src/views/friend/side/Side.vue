@@ -137,11 +137,6 @@ export default defineComponent({
 
     const userInfo = computed(() => $store.getters.userInfo);
 
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
     const starList = ref<List[]>([
       {
         src: 'http://p1.music.126.net/RQT6l2Vd9mQ9bSA_9MdWBw==/109951163720144425.jpg?param=45y45',
@@ -240,16 +235,21 @@ export default defineComponent({
       interestedList.value.splice(index, 1);
     }
 
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
     return {
       userInfo,
-      jumpUserProfile,
       starList,
       interestedList,
       changeABatch,
       starFollow,
       deleteStar,
       interestedFollow,
-      deleteInterested
+      deleteInterested,
+      jumpUserProfile
     };
   }
 });

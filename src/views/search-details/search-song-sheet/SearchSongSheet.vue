@@ -213,16 +213,6 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
-    // 跳转歌单详情
-    function jumpSongSheetDetail(id: number): void {
-      $store.commit('jumpSongSheetDetail', id);
-    }
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
     // 歌单歌曲添加到播放器
     function songSheetToPlayList(id: number): void {
       playlistTrack({ id })
@@ -305,6 +295,16 @@ export default defineComponent({
       getSearchSongSheet();
     }
 
+    // 跳转歌单详情
+    function jumpSongSheetDetail(id: number): void {
+      $store.commit('jumpSongSheetDetail', id);
+    }
+
+    // 跳转用户资料
+    function jumpUserProfile(id: number): void {
+      $store.commit('jumpUserProfile', id);
+    }
+
     return {
       bigNumberTransform,
       handleMatchString,
@@ -312,12 +312,12 @@ export default defineComponent({
       userInfo,
       songSheetData,
       songSheetToPlayListPlay,
-      jumpSongSheetDetail,
-      jumpUserProfile,
       songSheetToPlayList,
       handleCollection,
       shareClick,
-      changPage
+      changPage,
+      jumpSongSheetDetail,
+      jumpUserProfile
     };
   }
 });
