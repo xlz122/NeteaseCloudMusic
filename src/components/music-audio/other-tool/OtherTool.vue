@@ -8,9 +8,10 @@
     <button class="btn share-btn" title="分享" @click="handleShare"></button>
   </div>
   <div class="other">
-    <!-- 音量控制 -->
+    <!-- 音量 -->
     <button
       class="btn volume-btn"
+      :class="{ 'no-volume': Number(musicVolume) === 0 }"
       title="音量"
       @click="setVolumeProgress"
     ></button>
@@ -70,6 +71,7 @@ export default defineComponent({
       () => $store.getters['music/playMusicId']
     );
     const playMusicList = computed(() => $store.getters['music/playMusicList']);
+    const musicVolume = computed(() => $store.getters['music/musicVolume']);
 
     // 收藏
     function handleCollection(): boolean | undefined {
@@ -176,6 +178,7 @@ export default defineComponent({
     return {
       playMusicId,
       playMusicList,
+      musicVolume,
       handleCollection,
       handleShare,
       volumeProgressShow,
