@@ -1,13 +1,15 @@
 <template>
-  <div
-    class="volume-progress-bar"
-    ref="progressRef"
-    @click="handleProgressClick"
-  >
-    <div class="current-progress" ref="currentProgressRef"></div>
-    <div class="volume-icon" ref="progressIconRef"></div>
+  <div class="volume-progress">
+    <div
+      class="volume-progress-bar"
+      ref="progressRef"
+      @click="handleProgressClick"
+    >
+      <div class="current-progress" ref="currentProgressRef"></div>
+      <div class="volume-icon" ref="progressIconRef"></div>
+    </div>
+    <div class="volume-progress-bar-bg"></div>
   </div>
-  <div class="volume-progress-bar-bg"></div>
 </template>
 
 <script lang="ts">
@@ -17,13 +19,16 @@ import {
   computed,
   watch,
   onMounted,
-  onUnmounted
+  onBeforeUnmount
 } from 'vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({
   emits: ['volumeChange'],
   setup() {
+    const $store = useStore();
+    const musicVolume = computed(() => $store.getters['music/musicVolume']);
+
     // 总进度 当前进度 进度图标
     const progressRef = ref<HTMLElement>();
     const currentProgressRef = ref<HTMLElement>();
@@ -34,8 +39,6 @@ export default defineComponent({
     const isMouseDown = ref<boolean>(false);
 
     // 初始化音量进度条
-    const $store = useStore();
-    const musicVolume = computed(() => $store.getters['music/musicVolume']);
     onMounted(() => {
       // 设置当前高度
       (currentProgressRef.value as HTMLElement).style.height =
@@ -54,6 +57,7 @@ export default defineComponent({
       if (iconTop <= 0) {
         iconTop = 0;
       }
+
       progressIcon.style.top = iconTop + 'px';
     });
 
@@ -78,6 +82,7 @@ export default defineComponent({
       if (target.className === 'volume-icon') {
         return false;
       }
+
       const progressHeight = (progressRef.value as HTMLElement).offsetHeight;
       const iconOffsetHeight = (progressIconRef.value as HTMLElement)
         .offsetHeight;
@@ -88,6 +93,7 @@ export default defineComponent({
       // 设置滑块的top
       const progressIcon = progressIconRef.value as HTMLElement;
       progressIcon.style.top = e.offsetY - iconOffsetHeight / 2 + 'px';
+
       // 存储音量百分比
       volumePer.value = ((progressHeight - e.offsetY) / progressHeight) * 100;
     }
@@ -105,7 +111,8 @@ export default defineComponent({
 
     // 监听鼠标移动事件
     function mousemove(e: MouseEvent): void {
-      if (isMouseDown.value) {
+      // buttons 1为鼠标左键按下移动
+      if (e.buttons === 1 && isMouseDown.value) {
         // 获取移动的距离
         let moveY = e.clientY - currentTop.value;
         const progressHeight = (progressRef.value as HTMLElement).offsetHeight;
@@ -129,6 +136,7 @@ export default defineComponent({
         // 设置滑块的top
         const progressIcon = progressIconRef.value as HTMLElement;
         progressIcon.style.top = moveY + 'px';
+
         // 存储音量百分比
         volumePer.value =
           ((progressHeight - iconOffsetHeight - moveY) /
@@ -143,20 +151,29 @@ export default defineComponent({
     }
 
     onMounted(() => {
+      const progressContainer = document.querySelector(
+        '.volume-progress'
+      ) as HTMLAudioElement;
+
       // 监听鼠标按下事件
-      document.addEventListener('mousedown', mousedown);
+      progressContainer.addEventListener('mousedown', mousedown);
       // 监听鼠标移动事件
-      document.addEventListener('mousemove', mousemove);
+      progressContainer.addEventListener('mousemove', mousemove);
       // 监听鼠标放开事件
-      document.addEventListener('mouseup', mouseup);
+      progressContainer.addEventListener('mouseup', mouseup);
     });
-    onUnmounted(() => {
+
+    onBeforeUnmount(() => {
+      const progressContainer = document.querySelector(
+        '.volume-progress'
+      ) as HTMLAudioElement;
+
       // 移除监听鼠标按下事件
-      document.removeEventListener('mousedown', mousedown);
+      progressContainer.removeEventListener('mousedown', mousedown);
       // 移除监听鼠标移动事件
-      document.removeEventListener('mousemove', mousemove);
+      progressContainer.removeEventListener('mousemove', mousemove);
       // 移除监听鼠标放开事件
-      document.removeEventListener('mouseup', mouseup);
+      progressContainer.removeEventListener('mouseup', mouseup);
     });
 
     return {
