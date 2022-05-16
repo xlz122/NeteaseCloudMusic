@@ -83,7 +83,6 @@
 
 <script lang="ts">
 import { defineComponent, reactive, computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { bigNumberTransform } from '@utils/utils';
 import { userPlayList } from '@api/my-music';
@@ -91,22 +90,15 @@ import { SongList, ResponseType, LoopType } from '@/types/types';
 
 export default defineComponent({
   setup() {
-    const $route = useRoute();
     const $store = useStore();
 
     const userInfo = computed(() => $store.getters.userInfo);
     const userId = computed<number>(() => $store.getters.userId);
 
     watch(
-      () => $route.params,
+      () => userId.value,
       curVal => {
-        // 传入
-        if (curVal?.userId) {
-          getUserPlayList();
-          return false;
-        }
-        // 刷新
-        if (userId.value) {
+        if (curVal) {
           getUserPlayList();
         }
       },

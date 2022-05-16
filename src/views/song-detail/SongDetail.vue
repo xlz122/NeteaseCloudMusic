@@ -90,7 +90,6 @@ import {
   onMounted,
   nextTick
 } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import { songDetail } from '@api/song-detail';
@@ -121,25 +120,15 @@ export default defineComponent({
     Page
   },
   setup() {
-    const $route = useRoute();
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const songId = computed<number>(() => $store.getters.songId);
 
     watch(
-      () => $route.params,
+      () => songId.value,
       curVal => {
-        if (curVal.songId) {
-          nextTick(() => {
-            getSongDetail();
-            getLyricData();
-            getCommentData();
-          });
-          return false;
-        }
-
-        if (songId.value) {
+        if (curVal) {
           nextTick(() => {
             getSongDetail();
             getLyricData();

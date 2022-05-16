@@ -65,7 +65,6 @@ import {
   onMounted,
   nextTick
 } from 'vue';
-import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import { playlistDetail } from '@api/song-sheet-detail';
@@ -86,7 +85,6 @@ export default defineComponent({
     Page
   },
   setup() {
-    const $route = useRoute();
     const $store = useStore();
 
     const songSheetId = computed<number>(() => $store.getters.songSheetId);
@@ -94,17 +92,9 @@ export default defineComponent({
     const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
     watch(
-      () => $route.params,
+      () => songSheetId.value,
       curVal => {
-        if (curVal?.songSheetId) {
-          nextTick(() => {
-            getSongDetail();
-            getCommentData();
-          });
-          return false;
-        }
-
-        if (songSheetId.value) {
+        if (curVal) {
           nextTick(() => {
             getSongDetail();
             getCommentData();
