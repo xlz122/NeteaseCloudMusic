@@ -187,7 +187,7 @@ export default defineComponent({
     // 歌单详情数据
     const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
-    // 计算歌曲是否有版权
+    // 歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
       const privilege = songSheetDetail.value?.privileges.find(
         (item: LoopType) => item.id === id

@@ -97,7 +97,6 @@ export default defineComponent({
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );
-    // 用户uid
     const uid = computed<number>(() => $store.getters.userId);
 
     const loading = ref<boolean>(false);

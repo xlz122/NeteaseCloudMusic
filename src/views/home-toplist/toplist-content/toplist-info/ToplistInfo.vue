@@ -138,7 +138,7 @@ export default defineComponent({
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
-    // 计算歌曲是否有版权
+    // 歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
       const privilege = songSheetDetail.value?.privileges.find(
         (item: LoopType) => item.id === id
@@ -191,7 +191,7 @@ export default defineComponent({
       const songList: PlayMusicItem[] = [];
 
       songSheetDetail.value?.playlist?.tracks.forEach((item: LoopType) => {
-        // 无版权歌曲不添加到播放列表
+        // 无版权
         if (isCopyright(item.id)) {
           return false;
         }

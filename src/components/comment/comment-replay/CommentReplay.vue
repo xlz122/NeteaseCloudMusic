@@ -171,6 +171,7 @@ export default defineComponent({
         exproessionPage.current--;
         exproessionPage.list = expressionList.slice(0, 50);
       }
+
       // 下一页
       if (type === 'next') {
         if (exproessionPage.current === exproessionPage.total) {
@@ -195,11 +196,10 @@ export default defineComponent({
       emit('submit', replay.text);
     }
 
-    // 监听点击
+    // 点击表情以外得地方，关闭表情弹框
     onMounted(() => {
       document.addEventListener('click', function (e: MouseEvent): void {
         const target = e.target as HTMLElement;
-        // 点击表情以外得地方，关闭表情弹框
         if (
           target.className !== 'icon expression' &&
           target.className !== 'page' &&

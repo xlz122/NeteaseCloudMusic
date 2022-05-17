@@ -114,11 +114,10 @@ export default defineComponent({
     const playMusicId = computed<number>(
       () => $store.getters['music/playMusicId']
     );
-    const playMusicList = computed(() => $store.getters['music/playMusicList']);
-    // 当前播放音乐
     const playMusicItem = computed<number>(
       () => $store.getters['music/playMusicItem']
     );
+    const playMusicList = computed(() => $store.getters['music/playMusicList']);
 
     // 收藏全部歌曲
     function collectAll(): boolean | undefined {
@@ -215,10 +214,10 @@ export default defineComponent({
     }
 
     return {
-      playMusicId,
-      playMusicList,
-      playMusicItem,
       timeStampToDuration,
+      playMusicId,
+      playMusicItem,
+      playMusicList,
       collectAll,
       emptyMusicList,
       handleCollection,

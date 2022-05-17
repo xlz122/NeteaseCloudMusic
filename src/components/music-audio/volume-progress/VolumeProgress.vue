@@ -1,5 +1,5 @@
 <template>
-  <div class="volume-progress">
+  <div class="music-volume-progress">
     <div
       class="volume-progress-bar"
       ref="progressRef"

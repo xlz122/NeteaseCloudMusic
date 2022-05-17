@@ -40,7 +40,7 @@ import { ResponseType, LoopType } from '@/types/types';
 import MyDialog from '@/components/MyDialog.vue';
 
 export default defineComponent({
-  name: 'AddSongSheet',
+  name: 'CollectSong',
   components: {
     MyDialog
   },
@@ -76,7 +76,6 @@ export default defineComponent({
           if (res.code === 200) {
             songSheetList.value = [];
 
-            // 处理列表数据
             res.playlist.forEach((item: LoopType) => {
               if (item.name.includes('喜欢的音乐')) {
                 item.name = '我喜欢的音乐';
