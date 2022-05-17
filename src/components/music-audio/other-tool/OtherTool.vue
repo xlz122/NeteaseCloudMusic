@@ -51,9 +51,7 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-// 音量
 import VolumeProgress from '../volume-progress/VolumeProgress.vue';
-// 播放列表
 import PlayList from './play-list/PlayList.vue';
 
 export default defineComponent({

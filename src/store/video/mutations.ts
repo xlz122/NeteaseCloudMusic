@@ -17,6 +17,11 @@ const mutations: Mutations<State, unknown> = {
     );
     const progress = Object.assign(videoPlayProgress, playProgress);
     state.videoPlayProgress = progress as unknown;
+  },
+  // 音量控制
+  setVideoVolume(state, videoVolume) {
+    state.videoVolume = videoVolume as number;
+    localStorage.setItem('videoVolume', JSON.stringify(videoVolume));
   }
 };
 

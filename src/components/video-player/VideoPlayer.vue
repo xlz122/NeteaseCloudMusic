@@ -45,7 +45,12 @@
         {{ timeStampToDuration(videoPlayProgress.duration || 0) || '00:00' }}
       </span>
       <div class="other">
-        <i class="volume-btn"></i>
+        <i
+          class="volume-btn"
+          :class="{ 'no-volume': Number(videoVolume) === 0 }"
+          @click="setVolumeProgress"
+        ></i>
+        <volume-progress v-if="volumeProgressShow" />
         <p class="mode">高清</p>
         <i class="full" v-if="!fullscreen" @click="lanchFullscreen"></i>
         <i class="narrow" v-else @click="exitFullscreen"></i>
@@ -67,11 +72,13 @@ import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils';
 import Video from './video/Video.vue';
 import PlayProgress from './play-progress/PlayProgress.vue';
+import VolumeProgress from './volume-progress/VolumeProgress.vue';
 
 export default defineComponent({
   components: {
     Video,
-    PlayProgress
+    PlayProgress,
+    VolumeProgress
   },
   props: {
     videoDetailData: {
@@ -87,6 +94,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const $store = useStore();
 
+    const videoVolume = computed(() => $store.getters['video/videoVolume']);
     // 播放进度数据
     const videoPlayProgress = computed(
       () => $store.getters['video/videoPlayProgress']
@@ -163,24 +171,11 @@ export default defineComponent({
       document.exitFullscreen && document.exitFullscreen();
     }
 
-    onMounted(() => {
-      window.addEventListener('keydown', (e: KeyboardEvent) => {
-        const key = e.key;
-        if (key === 'F11') {
-          // 阻止默认的键盘事件
-          e.preventDefault();
-        }
-      });
-
-      window.addEventListener('fullscreenchange', () => {
-        if (document.fullscreenElement) {
-          // 进入大屏
-        } else {
-          // 退出大屏
-          fullscreen.value = false;
-        }
-      });
-    });
+    // 音量条显隐
+    const volumeProgressShow = ref<boolean>(false);
+    function setVolumeProgress(): void {
+      volumeProgressShow.value = !volumeProgressShow.value;
+    }
 
     // 喜欢
     function handleLike(): void {
@@ -203,6 +198,25 @@ export default defineComponent({
       });
     }
 
+    onMounted(() => {
+      window.addEventListener('keydown', (e: KeyboardEvent) => {
+        const key = e.key;
+        if (key === 'F11') {
+          // 阻止默认的键盘事件
+          e.preventDefault();
+        }
+      });
+
+      window.addEventListener('fullscreenchange', () => {
+        if (document.fullscreenElement) {
+          // 进入大屏
+        } else {
+          // 退出大屏
+          fullscreen.value = false;
+        }
+      });
+    });
+
     onUnmounted(() => {
       window.removeEventListener('keydown', () => ({}));
       window.removeEventListener('fullscreenchange', () => ({}));
@@ -210,6 +224,7 @@ export default defineComponent({
 
     return {
       timeStampToDuration,
+      videoVolume,
       videoPlayProgress,
       videoStatus,
       togglePlayStatus,
@@ -219,6 +234,8 @@ export default defineComponent({
       fullscreen,
       lanchFullscreen,
       exitFullscreen,
+      volumeProgressShow,
+      setVolumeProgress,
       handleLike,
       handleCollection,
       handleShare

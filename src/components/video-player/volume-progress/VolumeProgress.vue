@@ -1,5 +1,5 @@
 <template>
-  <div class="music-volume-progress">
+  <div class="video-volume-progress">
     <div
       class="volume-progress-bar"
       ref="progressRef"
@@ -8,7 +8,9 @@
       <div class="current-progress" ref="currentProgressRef"></div>
       <div class="volume-icon" ref="progressIconRef"></div>
     </div>
-    <div class="volume-progress-bar-bg"></div>
+    <div class="volume-progress-bar-bg">
+      <i class="volume-progress-bar-arrow"></i>
+    </div>
   </div>
 </template>
 
@@ -27,7 +29,7 @@ export default defineComponent({
   emits: ['volumeChange'],
   setup() {
     const $store = useStore();
-    const musicVolume = computed(() => $store.getters['music/musicVolume']);
+    const videoVolume = computed(() => $store.getters['video/videoVolume']);
 
     // 总进度 当前进度 进度图标
     const progressRef = ref<HTMLElement>();
@@ -42,12 +44,12 @@ export default defineComponent({
     onMounted(() => {
       // 设置当前高度
       (currentProgressRef.value as HTMLElement).style.height =
-        musicVolume.value * 100 + '%';
+        videoVolume.value * 100 + '%';
       // 设置滑块的top
       const progressHeight = (progressRef.value as HTMLElement).offsetHeight;
       const progressIcon = progressIconRef.value as HTMLElement;
       let iconTop =
-        (1 - musicVolume.value) * progressHeight -
+        (1 - videoVolume.value) * progressHeight -
         progressIcon.offsetHeight / 2;
       // 底部
       if (iconTop >= progressHeight - progressIcon.offsetHeight) {
@@ -69,7 +71,7 @@ export default defineComponent({
       () => volumePer.value,
       (curVal: number) => {
         $store.commit(
-          'music/setMusicVolume',
+          'video/setVideoVolume',
           Number((curVal / 100).toFixed(2))
         );
       }
@@ -152,7 +154,7 @@ export default defineComponent({
 
     onMounted(() => {
       const progressContainer = document.querySelector(
-        '.music-volume-progress'
+        '.video-volume-progress'
       ) as HTMLAudioElement;
 
       // 监听鼠标按下事件
@@ -165,7 +167,7 @@ export default defineComponent({
 
     onBeforeUnmount(() => {
       const progressContainer = document.querySelector(
-        '.music-volume-progress'
+        '.video-volume-progress'
       ) as HTMLAudioElement;
 
       // 移除监听鼠标按下事件
