@@ -34,8 +34,7 @@ export default defineComponent({
       () => message.value,
       () => {
         messageShow.value = true;
-        // 提示在定时后隐藏
-        // 有新的进来，清除定时器，重新设置
+        // 有新消息时,重新计时
         if (timer.value) {
           clearTimeout(timer.value);
           timer.value = setTimeout(() => {

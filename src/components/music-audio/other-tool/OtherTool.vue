@@ -8,7 +8,6 @@
     <button class="btn share-btn" title="分享" @click="handleShare"></button>
   </div>
   <div class="other">
-    <!-- 音量 -->
     <button
       class="btn volume-btn"
       :class="{ 'no-volume': Number(musicVolume) === 0 }"

@@ -122,7 +122,6 @@ export default defineComponent({
             songSheetList.createSongList = [];
             songSheetList.collectionSongList = [];
 
-            // 处理列表数据
             res.playlist.forEach((item: LoopType) => {
               if (
                 userInfo.value?.profile?.userId === userId.value &&
@@ -131,14 +130,13 @@ export default defineComponent({
                 item.name = '我喜欢的音乐';
               }
 
-              // 歌单是否收藏
+              // 收藏列表判断
               if (!item.subscribed) {
                 songSheetList.createSongList.push(item);
               } else {
                 songSheetList.collectionSongList.push(item);
               }
 
-              // 统计处理
               item.playCount = bigNumberTransform(item?.playCount);
             });
           } else {

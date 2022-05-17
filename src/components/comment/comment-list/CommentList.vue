@@ -111,7 +111,7 @@ export default defineComponent({
 
     const userInfo = computed(() => $store.getters.userInfo);
 
-    // 删除评论
+    // 删除
     function handleDeleteComment(commentId: number): void {
       emit('handleDeleteComment', commentId);
     }

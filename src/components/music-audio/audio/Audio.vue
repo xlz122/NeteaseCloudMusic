@@ -32,12 +32,10 @@ export default defineComponent({
       () => $store.getters['music/playMusicId']
     );
     const playMusicList = computed(() => $store.getters['music/playMusicList']);
-    // 音量
     const musicVolume = computed<number>(
       () => $store.getters['music/musicVolume']
     );
 
-    // 播放地址
     const audioSrc = ref<string>('');
 
     // 初始获取播放地址

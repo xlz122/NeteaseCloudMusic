@@ -183,7 +183,7 @@ export default defineComponent({
     // 歌单详情数据
     const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
-    // 计算歌曲是否有版权
+    // 歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
       const privilege = songSheetDetail.value?.privileges.find(
         (item: LoopType) => item.id === id
@@ -205,7 +205,7 @@ export default defineComponent({
         const songList: PlayMusicItem[] = [];
 
         songSheetDetail.value?.playlist?.tracks.forEach((item: LoopType) => {
-          // 无版权歌曲不添加到播放列表
+          // 无版权
           if (isCopyright(item.id)) {
             return false;
           }
@@ -241,7 +241,7 @@ export default defineComponent({
       const songList: PlayMusicItem[] = [];
 
       songSheetDetail.value?.playlist?.tracks.forEach((item: LoopType) => {
-        // 无版权歌曲不添加到播放列表
+        // 无版权
         if (isCopyright(item.id)) {
           return false;
         }

@@ -112,11 +112,8 @@ import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { getPrevMusicId, getNextMusicId } from './audio/methods';
-// 播放器
 import MusicAutioComponent from './audio/Audio.vue';
-// 播放进度条
 import PlayProgress from './play-progress/PlayProgress.vue';
-// 其他工具
 import OtherTool from './other-tool/OtherTool.vue';
 
 export default defineComponent({

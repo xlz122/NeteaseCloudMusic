@@ -4,7 +4,7 @@ import { toRawType } from '@utils/tool';
 
 /**
  * @description 歌曲数据处理成音乐播放器所需数据
- * @param { Array | Object } songs 歌曲数据
+ * @param { Object } song 歌曲数据
  */
 export function handleAudioSong(song: ResponseType): PlayMusicItem {
   if (toRawType(song) !== 'Object') {
