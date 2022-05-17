@@ -1,4 +1,4 @@
-## [1.1.1](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.1.0...v1.1.1) (2022-05-13)
+## [1.1.2](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.1.0...v1.1.2) (2022-05-17)
 
 
 ### ⚡ Performance Improvements | 性能优化
@@ -12,6 +12,7 @@
 ### ✨ Features | 新功能
 
 * 歌单播放按钮可将歌曲添加至播放列表代码简化 [#507a803](https://github.com/xlz122/NeteaseCloudMusic/commit/507a803) 
+* 视频播放器增加音量控制 [#28fe483](https://github.com/xlz122/NeteaseCloudMusic/commit/28fe483) 
 * 视频vuex数据分单独的视频模块 [#e6e294e](https://github.com/xlz122/NeteaseCloudMusic/commit/e6e294e) 
 * 无关音乐模块的数据防止在外层 [#ed21c81](https://github.com/xlz122/NeteaseCloudMusic/commit/ed21c81) 
 * 页面底部更新，意见反馈代码去除 [#53bc9f3](https://github.com/xlz122/NeteaseCloudMusic/commit/53bc9f3) 
@@ -20,14 +21,21 @@
 
 ### 🎫 Chores | 其他更新
 
+* 调整部分方法顺序 [#0eb5e3b](https://github.com/xlz122/NeteaseCloudMusic/commit/0eb5e3b) 
 * 调整引入顺序 [#5ec2ec9](https://github.com/xlz122/NeteaseCloudMusic/commit/5ec2ec9) 
+* 更新husky依赖项 [#15ed8f2](https://github.com/xlz122/NeteaseCloudMusic/commit/15ed8f2) 
 * 添加common文件夹 [#e3cce2a](https://github.com/xlz122/NeteaseCloudMusic/commit/e3cce2a) 
+* release 1.1.1 [#86bb158](https://github.com/xlz122/NeteaseCloudMusic/commit/86bb158) 
 
 
 ### 🐛 Bug Fixes | Bug 修复
 
+* 部分页面跳转修改，去除多余代码 [#0c51a77](https://github.com/xlz122/NeteaseCloudMusic/commit/0c51a77) 
+* 调整首页新碟上架执行动画时间由原来的1500ms为1200ms [#221d662](https://github.com/xlz122/NeteaseCloudMusic/commit/221d662) 
+* 歌手详情侧边改为优先获取热门歌手 [#d638aca](https://github.com/xlz122/NeteaseCloudMusic/commit/d638aca) 
 * 删除跳转歌曲位置相关代码 [#62997a3](https://github.com/xlz122/NeteaseCloudMusic/commit/62997a3) 
 * 修复各页面将歌单歌曲添加到播放器，时间NaN的bug [#a397702](https://github.com/xlz122/NeteaseCloudMusic/commit/a397702) 
+* 修复音乐播放器音量控制已知bug [#d0629a9](https://github.com/xlz122/NeteaseCloudMusic/commit/d0629a9) 
 
 
 
