@@ -9,6 +9,7 @@
     class="video"
     ref="videoRef"
     :src="videoSrc"
+    :volume="videoVolume"
     @play="videoPlay"
     @pause="videoPause"
     @timeupdate="updateTime"
@@ -32,6 +33,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const $store = useStore();
 
+    const videoVolume = computed(() => $store.getters['video/videoVolume']);
     // 视频/mv
     const video = computed(() => $store.getters['video/video']);
 
@@ -127,6 +129,7 @@ export default defineComponent({
     }
 
     return {
+      videoVolume,
       videoSrc,
       videoRef,
       // videoPlay,

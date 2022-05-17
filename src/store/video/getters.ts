@@ -6,7 +6,8 @@ export type Getters<T> = {
 
 const getters: Getters<State> = {
   video: state => state.video,
-  videoPlayProgress: state => state.videoPlayProgress
+  videoPlayProgress: state => state.videoPlayProgress,
+  videoVolume: state => state.videoVolume
 };
 
 export default getters;
