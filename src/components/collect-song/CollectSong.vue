@@ -116,7 +116,6 @@ export default defineComponent({
               title: '收藏成功'
             });
           } else {
-            console.log('dddd');
             $store.commit('setMessage', {
               type: 'error',
               title: res.body.message
