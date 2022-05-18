@@ -92,7 +92,7 @@
       background-color: #fff;
     }
 
-    .even-tr td {
+    .even-item td {
       background-color: #f7f7f7;
     }
 
@@ -284,16 +284,33 @@
     }
 
     .no-copyright {
+      &:hover {
+        .tbody-td {
+          .hd {
+
+            .time {
+              display: inline-block !important;
+              vertical-align: middle;
+              text-decoration: none !important;
+              cursor: auto;
+            }
+          }
+        }
+      }
+
       .tbody-left {
         .hd {
           .icon-play {
             opacity: 0.5;
+            cursor: default;
           }
         }
       }
 
       .tbody-td {
         .hd {
+          color: #bbb;
+
           .text {
             color: #bbb;
           }
@@ -301,6 +318,7 @@
           .icon-mv {
             background: url(~@/assets/image/my-music/my-music-table.png);
             background-position: -60px -151px;
+            cursor: default;
           }
 
           .operate-btn {
@@ -405,19 +423,6 @@
         margin-right: 5px;
       }
     }
-  }
-}
-
-::v-deep(.no-copyright-dialog) {
-  .my_dialog_box {
-    width: 480px;
-  }
-
-  .content {
-    text-align: center;
-    color: #333;
-    font-size: 14px;
-    font-family: Arial, Helvetica, sans-serif;
   }
 }
 

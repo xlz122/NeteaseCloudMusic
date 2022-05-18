@@ -25,7 +25,10 @@
         <tr
           v-for="(item, index) in songs"
           :key="index"
-          :class="[{ 'even-tr': (index + 1) % 2 }]"
+          :class="[
+            { 'even-item': (index + 1) % 2 },
+            { 'no-copyright': isCopyright(item.id) }
+          ]"
         >
           <td class="tbody-left">
             <div class="hd">
@@ -48,7 +51,7 @@
               <i
                 class="icon-mv"
                 v-if="item?.mv > 0"
-                @click="jumpVideoDetail(item?.mv)"
+                @click="jumpVideoDetail(item?.mv, item?.id)"
               ></i>
             </div>
           </td>
@@ -129,7 +132,7 @@ export default defineComponent({
       default: () => []
     }
   },
-  setup() {
+  setup(props) {
     const $router = useRouter();
     const $store = useStore();
 
@@ -144,7 +147,16 @@ export default defineComponent({
     }
 
     // 播放单个歌曲
-    function playSingleMusic(item: Record<string, any>): void {
+    function playSingleMusic(item: Record<string, any>): boolean | undefined {
+      // 无版权
+      if (isCopyright(item.id)) {
+        $store.commit('setCopyright', {
+          visible: true,
+          message: '由于版权保护，您所在的地区暂时无法使用。'
+        });
+        return false;
+      }
+
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       // 当前播放音乐
@@ -157,6 +169,19 @@ export default defineComponent({
         loading: true,
         refresh: true
       });
+    }
+
+    // 歌曲是否有版权
+    function isCopyright(id: number): boolean | undefined {
+      const songItem = props.songs.find(
+        item => (item as { id: number }).id === id
+      );
+
+      if ((songItem as Record<string, any>)?.privilege?.cp === 0) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     // 收藏
@@ -204,7 +229,16 @@ export default defineComponent({
     }
 
     // 跳转视频详情
-    function jumpVideoDetail(id: number): void {
+    function jumpVideoDetail(id: number, songId: number): boolean | undefined {
+      // 无版权
+      if (isCopyright(songId)) {
+        $store.commit('setCopyright', {
+          visible: true,
+          message: '由于版权保护，您所在的地区暂时无法使用。'
+        });
+        return false;
+      }
+
       $router.push({ name: 'mv-detail', params: { id } });
       $store.commit('video/setVideo', { id, url: '' });
     }
@@ -214,6 +248,7 @@ export default defineComponent({
       playMusicId,
       singleMusicToPlayList,
       playSingleMusic,
+      isCopyright,
       handleCollection,
       handleShare,
       handleDownload,

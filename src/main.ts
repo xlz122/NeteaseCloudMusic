@@ -6,6 +6,7 @@ import login from '@components/login/index';
 import musicAudio from '@components/music-audio/index';
 import message from '@components/message/index';
 import collectSong from '@/components/collect-song/index';
+import copyright from '@/components/copyright/index';
 import '@/index.less';
 
 const app = createApp(App);
@@ -16,4 +17,5 @@ app.use(login);
 app.use(musicAudio);
 app.use(message);
 app.use(collectSong);
+app.use(copyright);
 app.mount('#app');

@@ -8,10 +8,13 @@
       class="item"
       v-for="(item, index) in songData?.list"
       :key="index"
-      :class="{ 'even-item': index % 2 }"
+      :class="[
+        { 'even-item': index % 2 },
+        { 'no-copyright': isCopyright(item.id) }
+      ]"
     >
       <div
-        class="td play-icon"
+        class="td icon-play"
         :class="{ 'active-play': item.id === playMusicId }"
         @click="playSingleMusic(item)"
       ></div>
@@ -43,7 +46,7 @@
           <i
             class="icon-mv"
             v-if="item.mv > 0"
-            @click="jumpVideoDetail(item?.mv)"
+            @click="jumpVideoDetail(item?.mv, item?.id)"
           ></i>
         </div>
       </div>
@@ -116,7 +119,7 @@ type SongData = {
   offset: number;
   limit: number;
   total: number;
-  list: unknown[];
+  list: Record<string, any>[];
 };
 
 export default defineComponent({
@@ -200,7 +203,16 @@ export default defineComponent({
     }
 
     // 播放单个歌曲
-    function playSingleMusic(item: Record<string, any>): void {
+    function playSingleMusic(item: Record<string, any>): boolean | undefined {
+      // 无版权
+      if (isCopyright(item.id)) {
+        $store.commit('setCopyright', {
+          visible: true,
+          message: '由于版权保护，您所在的地区暂时无法使用。'
+        });
+        return false;
+      }
+
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       // 当前播放音乐
@@ -213,6 +225,17 @@ export default defineComponent({
         loading: true,
         refresh: true
       });
+    }
+
+    // 歌曲是否有版权
+    function isCopyright(id: number): boolean | undefined {
+      const songItem = songData.list.find(item => item.id === id);
+
+      if (songItem?.privilege?.cp === 0) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     // 收藏
@@ -261,7 +284,12 @@ export default defineComponent({
     }
 
     // 跳转视频详情
-    function jumpVideoDetail(id: number): void {
+    function jumpVideoDetail(id: number, songId: number): boolean | undefined {
+      // 无版权
+      if (isCopyright(songId)) {
+        return false;
+      }
+
       $router.push({ name: 'mv-detail', params: { id } });
       $store.commit('video/setVideo', { id, url: '' });
     }
@@ -284,6 +312,7 @@ export default defineComponent({
       songData,
       singleMusicToPlayList,
       playSingleMusic,
+      isCopyright,
       handleCollection,
       handleShare,
       handleDownload,
