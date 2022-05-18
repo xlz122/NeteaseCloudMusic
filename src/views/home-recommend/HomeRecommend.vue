@@ -149,6 +149,11 @@ export default defineComponent({
     function handleCollectAll(): void {
       let ids = '';
       recommendSong.value.forEach((item: LoopType) => {
+        // 无版权过滤
+        if (item?.privilege?.cp === 0) {
+          return false;
+        }
+
         ids += `${item.id},`;
       });
 

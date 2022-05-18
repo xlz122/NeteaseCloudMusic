@@ -61,7 +61,7 @@ export default defineComponent({
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 20001009;
+  z-index: 20220405;
   width: 280px;
   border: 1px solid #c0c0c0;
   background-color: #fff;

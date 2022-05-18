@@ -244,6 +244,11 @@ export default defineComponent({
 
       let ids = '';
       singerSong.value?.hotSongs.forEach((item: LoopType) => {
+        // 无版权过滤
+        if (item?.privilege?.cp === 0) {
+          return false;
+        }
+
         ids += `${item.id},`;
       });
 

@@ -5,6 +5,7 @@
     :confirmtext="'知道了'"
     showConfirmButton
     @confirm="confirm"
+    @cancel="cancel"
   >
     <p class="content">
       {{ copyright.message || '由于版权保护，您所在的地区暂时无法使用。' }}
@@ -34,9 +35,17 @@ export default defineComponent({
       });
     }
 
+    function cancel(): void {
+      $store.commit('setCopyright', {
+        visible: false,
+        message: ''
+      });
+    }
+
     return {
       copyright,
-      confirm
+      confirm,
+      cancel
     };
   }
 });
