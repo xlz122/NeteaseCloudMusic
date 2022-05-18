@@ -60,8 +60,8 @@ module.exports = {
     }
   },
   configureWebpack: config => {
+    // 环境判断
     if (process.env.NODE_ENV === 'production') {
-      // 为生产环境修改配置...
       // 配置删除console.*函数调用
       config.optimization.minimizer[0].options.minimizer.options.compress = Object.assign(
         config.optimization.minimizer[0].options.minimizer.options.compress,
@@ -107,7 +107,6 @@ module.exports = {
         ]
       };
     } else {
-      // 为开发环境修改配置...
       return {
         devtool: 'source-map'
       }
