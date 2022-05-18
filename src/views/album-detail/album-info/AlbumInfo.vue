@@ -129,6 +129,15 @@ export default defineComponent({
           return false;
         }
 
+        // 无版权
+        if (props?.songs[0]?.privilege?.cp === 0) {
+          $store.commit('setCopyright', {
+            visible: true,
+            message: '由于版权保护，您所在的地区暂时无法使用。'
+          });
+          return false;
+        }
+
         const songList: PlayMusicItem[] = [];
 
         songs.value.forEach((item: LoopType) => {
@@ -160,6 +169,15 @@ export default defineComponent({
         return false;
       }
 
+      // 无版权
+      if (props?.songs[0]?.privilege?.cp === 0) {
+        $store.commit('setCopyright', {
+          visible: true,
+          message: '由于版权保护，您所在的地区暂时无法使用。'
+        });
+        return false;
+      }
+
       const songList: PlayMusicItem[] = [];
 
       songs.value.forEach((item: LoopType) => {
@@ -179,6 +197,15 @@ export default defineComponent({
         return false;
       }
 
+      // 无版权
+      if (props?.songs[0]?.privilege?.cp === 0) {
+        $store.commit('setCopyright', {
+          visible: true,
+          message: '由于版权保护，您所在的地区暂时无法使用。'
+        });
+        return false;
+      }
+
       let ids = '';
       songs.value.forEach((item: LoopType) => {
         ids += `${item.id},`;
@@ -194,6 +221,15 @@ export default defineComponent({
     function handleShare(): boolean | undefined {
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      // 无版权
+      if (props.songs[0]?.privilege?.cp === 0) {
+        $store.commit('setCopyright', {
+          visible: true,
+          message: '由于版权保护，您所在的地区暂时无法使用。'
+        });
         return false;
       }
 

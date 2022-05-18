@@ -120,7 +120,7 @@
         background: url(~@/assets/image/icon-button.png) no-repeat;
         background-position: right -428px;
 
-        .icon-mv {
+        .icon-play {
           display: inline-block;
           vertical-align: middle;
           width: 100%;
@@ -134,7 +134,7 @@
           cursor: pointer;
         }
 
-        .icon-mv::before {
+        .icon-play::before {
           content: '';
           display: inline-block;
           vertical-align: middle;
@@ -149,11 +149,11 @@
       .play:hover {
         background-position: right -510px;
 
-        .icon-mv {
+        .icon-play {
           background-position: 0 -469px;
         }
 
-        .icon-mv::before {
+        .icon-play::before {
           background-position: -28px -1622px;
         }
       }
@@ -174,6 +174,34 @@
 
       .play-add:hover {
         background-position: -40px -1588px;
+      }
+
+      .no-copyright {
+        display: inline-block;
+        vertical-align: top;
+        width: 39px;
+        height: 31px;
+        padding: 0 0px 0 36px;
+        margin-right: 8px;
+        background: url(~@/assets/image/icon-button.png) no-repeat;
+        background-position: 0 -891px;
+        cursor: default;
+
+        .icon-play {
+          display: inline-block;
+          vertical-align: middle;
+          width: 100%;
+          height: 31px;
+          line-height: 31px;
+          background: url(~@/assets/image/icon-button.png) no-repeat;
+          background-position: right -934px;
+          color: #bebebe;
+          text-align: center;
+
+          .text {
+            padding-right: 7px;
+          }
+        }
       }
 
       .other {

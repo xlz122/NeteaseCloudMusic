@@ -55,14 +55,26 @@
           </span>
         </div>
         <div class="operate-btn">
-          <div class="play" @click="playAllMusic">
-            <span class="icon-mv" title="播放">播放</span>
-          </div>
-          <div
-            class="play-add"
-            title="添加到播放列表"
-            @click="singleMusicToPlayList"
-          ></div>
+          <template v-if="songDetailData?.privileges[0]?.cp !== 0">
+            <div class="play" @click="playAllMusic">
+              <span class="icon-play" title="播放">播放</span>
+            </div>
+            <div
+              class="play-add"
+              title="添加到播放列表"
+              @click="singleMusicToPlayList"
+            ></div>
+          </template>
+          <template v-else>
+            <div
+              class="no-copyright"
+              title="由于版权保护，您所在的地区暂时无法使用。"
+            >
+              <span class="icon-play">
+                <span class="text">播放</span>
+              </span>
+            </div>
+          </template>
           <div
             class="other collection"
             @click="handleCollection(songDetailData?.songs[0]?.id)"
@@ -183,6 +195,14 @@ export default defineComponent({
         return false;
       }
 
+      if (props?.songDetailData?.privileges[0]?.cp === 0) {
+        $store.commit('setCopyright', {
+          visible: true,
+          message: '由于版权保护，您所在的地区暂时无法使用。'
+        });
+        return false;
+      }
+
       $store.commit('collectPlayMusic', {
         visible: true,
         songIds: id
@@ -193,6 +213,14 @@ export default defineComponent({
     function handleShare(): boolean | undefined {
       if (!isLogin.value) {
         $store.commit('setLoginDialog', true);
+        return false;
+      }
+
+      if (props?.songDetailData?.privileges[0]?.cp === 0) {
+        $store.commit('setCopyright', {
+          visible: true,
+          message: '由于版权保护，您所在的地区暂时无法使用。'
+        });
         return false;
       }
 

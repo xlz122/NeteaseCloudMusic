@@ -21,6 +21,10 @@ export type State = {
     visible: boolean;
     songIds: string;
   };
+  copyright: {
+    visible: boolean;
+    message: string;
+  };
 };
 
 // 本地存储容错处理
@@ -52,7 +56,11 @@ const state: State = {
   collectSong: {
     visible: false,
     songIds: ''
-  } // 收藏歌曲
+  }, // 收藏歌曲
+  copyright: {
+    visible: false,
+    message: ''
+  } // 版权提示
 };
 
 export default state;

@@ -160,6 +160,10 @@ const mutations: Mutations<State> = {
   // 收藏歌曲
   collectPlayMusic(state, song) {
     state.collectSong = song as { visible: boolean; songIds: string };
+  },
+  // 版权提示
+  setCopyright(state, data) {
+    state.copyright = data;
   }
 };
 

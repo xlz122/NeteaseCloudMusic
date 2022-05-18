@@ -156,10 +156,10 @@ export default defineComponent({
             }
 
             // 无版权
-            if (res?.songs[0].privilege.cp === 0) {
-              $store.commit('setMessage', {
-                type: 'info',
-                title: '该专辑需单独付费'
+            if (res?.songs[0]?.privilege?.cp === 0) {
+              $store.commit('setCopyright', {
+                visible: true,
+                message: '由于版权保护，您所在的地区暂时无法使用。'
               });
               return false;
             }

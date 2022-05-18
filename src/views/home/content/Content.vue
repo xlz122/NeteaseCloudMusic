@@ -388,10 +388,11 @@ export default defineComponent({
             }
 
             // 无版权
-            if (res?.songs[0].privilege.cp === 0) {
-              $store.commit('setMessage', {
-                type: 'info',
-                title: '该专辑需单独付费'
+            if (res?.songs[0]?.privilege?.cp === 0) {
+              $store.commit('setCopyright', {
+                visible: true,
+                message:
+                  '版权方要求，当前专辑需单独付费，购买数字专辑即可无限畅享'
               });
               return false;
             }

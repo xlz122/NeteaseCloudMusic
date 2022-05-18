@@ -28,7 +28,7 @@
         <tr
           v-for="(item, index) in recommendSong"
           :key="index"
-          :class="[{ 'even-tr': (index + 1) % 2 }]"
+          :class="[{ 'even-item': (index + 1) % 2 }]"
         >
           <td class="tbody-left">
             <div class="hd">
