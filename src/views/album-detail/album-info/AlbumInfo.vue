@@ -129,8 +129,15 @@ export default defineComponent({
           return false;
         }
 
-        // 无版权
-        if (props?.songs[0]?.privilege?.cp === 0) {
+        // 歌曲是否全部无版权
+        let noCopyrightNum = 0;
+        props?.songs?.forEach((item: LoopType) => {
+          if (item.privilege?.cp === 0) {
+            noCopyrightNum += 1;
+          }
+        });
+
+        if (noCopyrightNum === props?.songs?.length) {
           $store.commit('setCopyright', {
             visible: true,
             message: '由于版权保护，您所在的地区暂时无法使用。'
@@ -141,6 +148,11 @@ export default defineComponent({
         const songList: PlayMusicItem[] = [];
 
         songs.value.forEach((item: LoopType) => {
+          // 无版权过滤
+          if (item?.privilege?.cp === 0) {
+            return false;
+          }
+
           const musicItem: PlayMusicItem = handleAudioSong(item);
 
           songList.push(musicItem);
@@ -169,8 +181,15 @@ export default defineComponent({
         return false;
       }
 
-      // 无版权
-      if (props?.songs[0]?.privilege?.cp === 0) {
+      // 歌曲是否全部无版权
+      let noCopyrightNum = 0;
+      props?.songs?.forEach((item: LoopType) => {
+        if (item.privilege?.cp === 0) {
+          noCopyrightNum += 1;
+        }
+      });
+
+      if (noCopyrightNum === props?.songs?.length) {
         $store.commit('setCopyright', {
           visible: true,
           message: '由于版权保护，您所在的地区暂时无法使用。'
@@ -181,6 +200,11 @@ export default defineComponent({
       const songList: PlayMusicItem[] = [];
 
       songs.value.forEach((item: LoopType) => {
+        // 无版权过滤
+        if (item?.privilege?.cp === 0) {
+          return false;
+        }
+
         const musicItem: PlayMusicItem = handleAudioSong(item);
 
         songList.push(musicItem);
@@ -197,8 +221,15 @@ export default defineComponent({
         return false;
       }
 
-      // 无版权
-      if (props?.songs[0]?.privilege?.cp === 0) {
+      // 歌曲是否全部无版权
+      let noCopyrightNum = 0;
+      props?.songs?.forEach((item: LoopType) => {
+        if (item.privilege?.cp === 0) {
+          noCopyrightNum += 1;
+        }
+      });
+
+      if (noCopyrightNum === props?.songs?.length) {
         $store.commit('setCopyright', {
           visible: true,
           message: '由于版权保护，您所在的地区暂时无法使用。'
@@ -229,8 +260,15 @@ export default defineComponent({
         return false;
       }
 
-      // 无版权
-      if (props.songs[0]?.privilege?.cp === 0) {
+      // 歌曲是否全部无版权
+      let noCopyrightNum = 0;
+      props?.songs?.forEach((item: LoopType) => {
+        if (item.privilege?.cp === 0) {
+          noCopyrightNum += 1;
+        }
+      });
+
+      if (noCopyrightNum === props?.songs?.length) {
         $store.commit('setCopyright', {
           visible: true,
           message: '由于版权保护，您所在的地区暂时无法使用。'

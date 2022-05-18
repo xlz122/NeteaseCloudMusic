@@ -105,6 +105,11 @@ export default defineComponent({
         const songList: PlayMusicItem[] = [];
 
         recommendSong.value?.forEach((item: LoopType) => {
+          // 无版权过滤
+          if (item?.privilege?.cp === 0) {
+            return false;
+          }
+
           const musicItem: PlayMusicItem = handleAudioSong(item);
 
           songList.push(musicItem);
@@ -136,6 +141,11 @@ export default defineComponent({
       const songList: PlayMusicItem[] = [];
 
       recommendSong.value?.forEach((item: LoopType) => {
+        // 无版权过滤
+        if (item?.privilege?.cp === 0) {
+          return false;
+        }
+
         const musicItem: PlayMusicItem = handleAudioSong(item);
 
         songList.push(musicItem);

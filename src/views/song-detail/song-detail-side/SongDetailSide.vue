@@ -134,7 +134,12 @@ export default defineComponent({
     getSimiSong();
 
     // 播放单个歌曲
-    function playSingleMusic(item: Record<string, any>): void {
+    function playSingleMusic(item: Record<string, any>): boolean | undefined {
+      // 无版权过滤
+      if (item?.privilege?.cp === 0) {
+        return false;
+      }
+
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       // 当前播放音乐
@@ -150,7 +155,14 @@ export default defineComponent({
     }
 
     // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(item: Record<string, any>): void {
+    function singleMusicToPlayList(
+      item: Record<string, any>
+    ): boolean | undefined {
+      // 无版权过滤
+      if (item?.privilege?.cp === 0) {
+        return false;
+      }
+
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       $store.commit('music/setPlayMusicList', musicItem);
