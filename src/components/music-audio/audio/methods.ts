@@ -39,7 +39,7 @@ export function getPrevMusicId(): Promise<number> {
       let id = 0;
       // 播放数据不在播放列表（清空播放列表后，重新添加出现这种情况）,播放最后一项
       if (index === -1) {
-        id = playMusicList[playMusicList.length - 1].id;
+        id = playMusicList.at(-1).id;
       }
 
       // 播放数据在播放列表
@@ -50,7 +50,7 @@ export function getPrevMusicId(): Promise<number> {
         }
         // 列表回到最后一项
         if (index === 0) {
-          id = playMusicList[playMusicList.length - 1].id;
+          id = playMusicList.at(-1).id;
         }
       }
 
