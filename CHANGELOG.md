@@ -1,3 +1,36 @@
+## [1.1.3](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.1.2...v1.1.3) (2022-06-13)
+
+
+### ✨ Features | 新功能
+
+* 歌曲、歌单、专辑、歌手、搜索详情等页面无版权完善 [#58f6084](https://github.com/xlz122/NeteaseCloudMusic/commit/58f6084) 
+
+
+### 🎫 Chores | 其他更新
+
+* 电台详情相关组件ts类型补充 [#d93f5b1](https://github.com/xlz122/NeteaseCloudMusic/commit/d93f5b1) 
+* 更新项目所需插件 [#9afae29](https://github.com/xlz122/NeteaseCloudMusic/commit/9afae29) 
+* 更新项目所需依赖项 [#8db0bb9](https://github.com/xlz122/NeteaseCloudMusic/commit/8db0bb9) 
+* 更新commitlint依赖项 [#842d166](https://github.com/xlz122/NeteaseCloudMusic/commit/842d166) 
+* 将开发环境所需依赖放置在devDependencies [#1d3e0db](https://github.com/xlz122/NeteaseCloudMusic/commit/1d3e0db) 
+* 轮播图组件ts类型补充 [#05e38d7](https://github.com/xlz122/NeteaseCloudMusic/commit/05e38d7) 
+* 删除部分组件接口请求失败提示 [#f6c7bf1](https://github.com/xlz122/NeteaseCloudMusic/commit/f6c7bf1) 
+* 首页侧边栏组件ts类型补充 [#199aeed](https://github.com/xlz122/NeteaseCloudMusic/commit/199aeed) 
+* cdn引入改成生产构建版本 [#488363d](https://github.com/xlz122/NeteaseCloudMusic/commit/488363d) 
+* Header组件ts类型补充 [#d3e0521](https://github.com/xlz122/NeteaseCloudMusic/commit/d3e0521) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 获取数组最后一项改用新语法(Array.prototype.at) [#461d39b](https://github.com/xlz122/NeteaseCloudMusic/commit/461d39b) 
+* 收藏多个歌曲时，过滤无版权歌曲 [#d9def86](https://github.com/xlz122/NeteaseCloudMusic/commit/d9def86) 
+* 修改input全局背景色(chrome浏览器最新版修改了input默认背景色) [#08aeb94](https://github.com/xlz122/NeteaseCloudMusic/commit/08aeb94) 
+* 修改textarea全局背景色(chrome浏览器最新版修改了textarea默认背景色) [#ca94d97](https://github.com/xlz122/NeteaseCloudMusic/commit/ca94d97) 
+* 专辑无版权修改(区分部分无版权、全部无版权) [#07c081d](https://github.com/xlz122/NeteaseCloudMusic/commit/07c081d) 
+* 专辑详情区分部分无版权、全部无版权 [#715fc15](https://github.com/xlz122/NeteaseCloudMusic/commit/715fc15) 
+
+
+
 ## [1.1.2](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.1.0...v1.1.2) (2022-05-17)
 
 
@@ -26,6 +59,7 @@
 * 更新husky依赖项 [#15ed8f2](https://github.com/xlz122/NeteaseCloudMusic/commit/15ed8f2) 
 * 添加common文件夹 [#e3cce2a](https://github.com/xlz122/NeteaseCloudMusic/commit/e3cce2a) 
 * release 1.1.1 [#86bb158](https://github.com/xlz122/NeteaseCloudMusic/commit/86bb158) 
+* release 1.1.2 [#293792c](https://github.com/xlz122/NeteaseCloudMusic/commit/293792c) 
 
 
 ### 🐛 Bug Fixes | Bug 修复
