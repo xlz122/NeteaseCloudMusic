@@ -84,11 +84,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res.code === 200) {
             recommendSong.value = res.data.dailySongs;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));
