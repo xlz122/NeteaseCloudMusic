@@ -67,6 +67,10 @@ import { dailySignin } from '@api/home';
 import { userVipInfo } from '@api/user';
 import { ResponseType } from '@/types/types';
 
+type VipInfo = {
+  redVipLevelIcon?: string;
+};
+
 export default defineComponent({
   setup() {
     const $router = useRouter();
@@ -87,7 +91,7 @@ export default defineComponent({
       }
     );
 
-    const vipInfo = ref({});
+    const vipInfo = ref<VipInfo>({});
 
     // 获取登录用户vip信息
     function getVipInfo() {
@@ -102,18 +106,17 @@ export default defineComponent({
 
     // 重置签到
     function resetSignIn(): boolean | undefined {
-      // 获取本地签到日期
       const signInTimestamp = localStorage.getItem('signInTimestamp') || 0;
       if (Number(signInTimestamp) === 0) {
         return false;
       }
+
       const signInDay = formatDateTime(
         Number(signInTimestamp) / 1000,
         'yyyyMMdd'
       );
-      // 获取今天日期
       const today = formatDateTime(new Date().getTime() / 1000, 'yyyyMMdd');
-      // 今天大于签到日期
+
       if (Number(today) > Number(signInDay)) {
         $store.commit('setSignIn', false);
       }
