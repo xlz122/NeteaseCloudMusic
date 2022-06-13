@@ -61,9 +61,16 @@ import { bannerImgUrl } from '@api/home';
 import { ResponseType } from '@/types/types';
 
 type Banner = {
-  list: unknown[];
+  list: BannerItem[];
   currentUrl: string;
   index: number;
+};
+
+type BannerItem = {
+  imageUrl: string;
+  targetType: number;
+  targetId: number;
+  url: string;
 };
 
 export default defineComponent({
@@ -73,8 +80,8 @@ export default defineComponent({
 
     const banner = reactive<Banner>({
       list: [],
-      currentUrl: '', // 当前图片url
-      index: 0 // 当前索引
+      currentUrl: '',
+      index: 0
     });
 
     function getbannerList() {
@@ -98,17 +105,13 @@ export default defineComponent({
       if (banner.list.length === 0) {
         return false;
       }
-      // 图片切换
+
       if (banner.index === 0) {
         banner.index = banner.list.length - 1;
       } else {
         banner.index--;
       }
-      banner.currentUrl = (
-        banner.list[banner.index] as {
-          imageUrl: string;
-        }
-      ).imageUrl;
+      banner.currentUrl = banner.list[banner.index].imageUrl;
     }
 
     // 下一张
@@ -116,16 +119,13 @@ export default defineComponent({
       if (banner.list.length === 0) {
         return false;
       }
+
       if (banner.index === banner.list.length - 1) {
         banner.index = 0;
       } else {
         banner.index++;
       }
-      banner.currentUrl = (
-        banner.list[banner.index] as {
-          imageUrl: string;
-        }
-      ).imageUrl;
+      banner.currentUrl = banner.list[banner.index].imageUrl;
     }
 
     // 小圆点切换
@@ -133,13 +133,9 @@ export default defineComponent({
       if (banner.list.length === 0) {
         return false;
       }
-      // 图片切换
+
       banner.index = index;
-      banner.currentUrl = (
-        banner.list[banner.index] as {
-          imageUrl: string;
-        }
-      ).imageUrl;
+      banner.currentUrl = banner.list[banner.index].imageUrl;
     }
 
     // 监听轮播图片切换
@@ -169,15 +165,15 @@ export default defineComponent({
     const bannerImgSwitching = ref<boolean>(false);
 
     // 自动轮播
-    const bannerTimer = ref<number | null>(null);
+    const bannerTimer = ref<number>();
     function autoBanner(): boolean | undefined {
       if (banner.list.length === 0) {
         return false;
       }
       if (bannerTimer.value) {
-        // 清除定时器
-        clearInterval(bannerTimer.value as number);
+        clearInterval(bannerTimer.value);
       }
+
       bannerTimer.value = setInterval(() => {
         // 图片切换增加动画，1s后清除动画并显示下一张图片
         bannerImgSwitching.value = true;
@@ -188,31 +184,24 @@ export default defineComponent({
         }
         setTimeout(() => {
           bannerImgSwitching.value = false;
-          banner.currentUrl = (
-            banner.list[banner.index] as {
-              imageUrl: string;
-            }
-          ).imageUrl;
+          banner.currentUrl = banner.list[banner.index].imageUrl;
         }, 1000);
       }, 4000);
     }
 
     // 轮播区域鼠标移入
     function bannerEnter(): void {
-      // 清除定时器
-      clearInterval(bannerTimer.value as number);
+      clearInterval(bannerTimer.value);
     }
+
     // 轮播区域鼠标移出
     function bannerLeave(): void {
-      // 重新轮播
       autoBanner();
     }
 
     // 跳转详情
-    function jumpDetail(item: unknown): void {
-      const targetType = (item as { targetType: number }).targetType;
-      const targetId = (item as { targetId: number }).targetId;
-      const targetUrl = (item as { url: string })?.url;
+    function jumpDetail(item: BannerItem): void {
+      const { targetType, targetId, url } = item;
 
       // 跳转歌曲详情
       if (targetType === 1) {
@@ -231,14 +220,14 @@ export default defineComponent({
 
       // 跳转外部链接
       if (targetType === 3000) {
-        window.open(targetUrl, '', '');
+        window.open(url, '', '');
       }
     }
 
     onUnmounted(() => {
+      // 清除定时器
       if (bannerTimer.value) {
-        // 清除定时器
-        clearInterval(bannerTimer.value as number);
+        clearInterval(bannerTimer.value);
       }
     });
 
