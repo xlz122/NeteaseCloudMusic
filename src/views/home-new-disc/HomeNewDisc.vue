@@ -132,11 +132,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res.code === 200) {
             hotNewDiscList.value = res.albums.slice(0, 10);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));
