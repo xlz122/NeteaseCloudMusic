@@ -67,8 +67,8 @@ export default defineComponent({
             // 前五项和后五项位置替换
             const first = res?.albums.slice(0, 5);
             const last = res?.albums.slice(5, 10);
-            // 存储前十项，并复制为二倍模板
             listData.value = [...last, ...first];
+            // 复制为二倍模板
             listData.value.unshift(...listData.value);
           }
         })
@@ -99,9 +99,10 @@ export default defineComponent({
         const li = ul.children[0];
 
         if (listOffest.index === 0) {
-          // 瞬间返回二倍模板，并在短暂延迟后执行动画
+          // 返回二倍模板
           listOffest.index = 2;
           listOffest.duration = 0;
+
           setTimeout(() => {
             listOffest.index--;
             listOffest.duration = 1.2;
@@ -111,6 +112,7 @@ export default defineComponent({
           listOffest.index--;
           listOffest.duration = 1.2;
         }
+
         listOffest.transform = li.clientWidth * listOffest.index * 5;
       },
       1200,
@@ -126,10 +128,11 @@ export default defineComponent({
         const ul = listRef.value as HTMLElement;
         const li = ul.children[0];
 
-        // 瞬间返回二倍模板，并在短暂延迟后执行动画
+        // 返回二倍模板
         if (listOffest.index === 2) {
           listOffest.index = 0;
           listOffest.duration = 0;
+
           setTimeout(() => {
             listOffest.index++;
             listOffest.duration = 1.2;
@@ -139,6 +142,7 @@ export default defineComponent({
           listOffest.index++;
           listOffest.duration = 1.2;
         }
+
         listOffest.transform = li.clientWidth * listOffest.index * 5;
       },
       1200,

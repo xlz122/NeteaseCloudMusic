@@ -61,6 +61,13 @@ import { defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 import SideUser from './side-user/SideUser.vue';
 
+type SingerList = {
+  src: string;
+  name: string;
+  desc: string;
+  userId: number;
+};
+
 export default defineComponent({
   name: 'HomeSide',
   components: {
@@ -70,7 +77,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 入驻歌手无接口(服务器渲染)
-    const singerList = ref<unknown[]>([
+    const singerList = ref<SingerList[]>([
       {
         src: 'http://p1.music.126.net/rCsLFXha6SLis0tV7yZ5fA==/109951165588539704.jpg?param=62y62',
         name: '张惠妹aMEI',
@@ -103,7 +110,7 @@ export default defineComponent({
       }
     ]);
     // 热门主播无接口(服务器渲染)
-    const anchorList = ref<unknown[]>([
+    const anchorList = ref<SingerList[]>([
       {
         src: 'http://p1.music.126.net/H3QxWdf0eUiwmhJvA4vrMQ==/1407374893913311.jpg?param=40y40',
         name: '陈立',
