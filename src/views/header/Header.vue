@@ -6,11 +6,11 @@
         <ul class="nav">
           <li
             class="item"
-            v-for="(item, index) in navList"
+            v-for="(item, index) in NavItem"
             :key="index"
             :class="[
               { 'active-item': index === heaerActiveIndex },
-              { 'last-item': index === navList.length - 1 }
+              { 'last-item': index === NavItem.length - 1 }
             ]"
             @click="navChange(index)"
           >
@@ -20,7 +20,7 @@
             <a class="link" target="_blank" v-else :href="item?.href">
               {{ item?.title }}
             </a>
-            <i class="hot" v-if="index === navList.length - 1"></i>
+            <i class="hot" v-if="index === NavItem.length - 1"></i>
           </li>
         </ul>
         <div class="other">
@@ -43,7 +43,7 @@
         <ul class="nav">
           <li
             class="item"
-            v-for="(item, index) in subNavList"
+            v-for="(item, index) in subNavItem"
             :key="index"
             :class="[
               { 'active-item': index === subActiveIndex },
@@ -66,11 +66,10 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { LoopType } from '@/types/types';
 import Search from '@views/header/search/Search.vue';
 import User from '@views/user/User.vue';
 
-type NavList = {
+type NavItem = {
   title: string;
   link?: string;
   href?: string;
@@ -87,16 +86,16 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
+    const userInfo = computed(() => $store.getters.userInfo);
+
     function logoJump(): void {
       if ($route.path !== '/') {
         $router.push({ name: 'home' });
       }
     }
 
-    const isLogin = computed(() => $store.getters.isLogin);
-    const userInfo = computed(() => $store.getters.userInfo);
-
-    const navList = ref<NavList[]>([
+    const NavItem = ref<NavItem[]>([
       {
         title: '发现音乐',
         link: '/'
@@ -128,7 +127,7 @@ export default defineComponent({
     );
 
     // 一级导航更改
-    function navChange(item: NavList, index: number): boolean | undefined {
+    function navChange(item: NavItem, index: number): boolean | undefined {
       if (!item.link) {
         return false;
       }
@@ -136,7 +135,7 @@ export default defineComponent({
       $store.commit('setHeaderActiveIndex', index);
     }
 
-    const subNavList = ref<NavList[]>([
+    const subNavItem = ref<NavItem[]>([
       {
         title: '推荐',
         link: '/'
@@ -168,7 +167,7 @@ export default defineComponent({
     );
 
     // 二级导航更改
-    function subNavChange(item: NavList, index: number): boolean | undefined {
+    function subNavChange(item: NavItem, index: number): boolean | undefined {
       if (!item.link) {
         $store.commit('setMessage', {
           type: 'error',
@@ -186,16 +185,16 @@ export default defineComponent({
       () => $route.path,
       (path: string) => {
         // 一级导航
-        const index = navList.value.findIndex(
-          (item: LoopType) => item.link === path
+        const index = NavItem.value.findIndex(
+          (item: NavItem) => item.link === path
         );
         if (index !== -1) {
           $store.commit('setHeaderActiveIndex', index);
         }
 
         // 二级导航
-        const subIndex = subNavList.value.findIndex(
-          (item: LoopType) => item.link === path
+        const subIndex = subNavItem.value.findIndex(
+          (item: NavItem) => item.link === path
         );
         if (subIndex !== -1) {
           $store.commit('setSubActiveIndex', subIndex);
@@ -215,10 +214,10 @@ export default defineComponent({
       logoJump,
       isLogin,
       userInfo,
-      navList,
+      NavItem,
       heaerActiveIndex,
       navChange,
-      subNavList,
+      subNavItem,
       subActiveIndex,
       subNavChange,
       openLogin

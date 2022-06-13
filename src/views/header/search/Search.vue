@@ -1,5 +1,4 @@
 <template>
-  <!-- 搜索 -->
   <div class="search">
     <span class="icon"></span>
     <input
@@ -130,7 +129,7 @@ export default defineComponent({
     const searchPropos = ref<unknown>({});
 
     // 搜索关键词
-    const searchText = computed(() =>
+    const searchText = computed<string>(() =>
       $store.getters.searchText.replace(/"/g, '')
     );
 
