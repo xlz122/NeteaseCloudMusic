@@ -130,7 +130,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 电台节目id
-    const djprogramId = computed(() => $store.getters.djprogramId);
+    const djprogramId = computed<number>(() => $store.getters.djprogramId);
 
     // 喜欢
     function handleLike(): void {
