@@ -82,7 +82,7 @@ export default defineComponent({
   setup() {
     const $store = useStore();
 
-    const isLogin = computed(() => $store.getters.isLogin);
+    const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
     // 扫码/其他登录方式切换
     const qrcodeLoginShow = ref<boolean>(true);
