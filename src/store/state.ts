@@ -1,6 +1,6 @@
 export type State = {
-  heaerActiveIndex: number;
-  subActiveIndex: number;
+  menuIndex: number;
+  subMenuIndex: number;
   loginDialog: boolean;
   userInfo: unknown;
   cookie: string;
@@ -35,8 +35,8 @@ function faultTolerant(name: string) {
 }
 
 const state: State = {
-  heaerActiveIndex: Number(localStorage.getItem('heaerActiveIndex')) || 0, // 头部导航选中
-  subActiveIndex: Number(localStorage.getItem('subActiveIndex')) || 0, // 二级导航选中
+  menuIndex: Number(localStorage.getItem('menuIndex')) || 0, // 头部导航
+  subMenuIndex: Number(localStorage.getItem('subMenuIndex')) || 0, // 二级导航
   loginDialog: false, // 登录对话框显隐
   userInfo: faultTolerant('userInfo') || {}, // 用户信息
   cookie: localStorage.getItem('cookie') || '', // 用户cookie

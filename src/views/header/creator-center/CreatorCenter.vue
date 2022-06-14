@@ -102,7 +102,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      $store.commit('setHeaderActiveIndex', -1);
+      $store.commit('setMenuIndex', -1);
     });
 
     return {

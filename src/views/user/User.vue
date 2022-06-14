@@ -92,7 +92,7 @@ export default defineComponent({
       }
 
       // 一级导航取消选中
-      $store.commit('setHeaderActiveIndex', -1);
+      $store.commit('setMenuIndex', -1);
 
       if (item?.link === '/user-profile') {
         $store.commit('jumpUserProfile', userInfo.value?.profile?.userId);

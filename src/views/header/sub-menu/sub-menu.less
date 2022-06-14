@@ -1,0 +1,59 @@
+.sub-menu {
+  position: relative;
+  min-height: 5px;
+  box-sizing: border-box;
+  background-color: #C20C0C;
+  border-bottom: 1px solid #a40011;
+
+  .sub-menu-warp {
+    height: 34px;
+  }
+
+  .nav {
+    position: absolute;
+    left: 184px;
+
+    .item {
+      position: relative;
+      display: inline-block;
+      min-width: 84px;
+      height: 34px;
+      line-height: 34px;
+      text-align: center;
+      cursor: pointer;
+
+      .link {
+        padding: 3px 13px 4px 13px;
+        margin: 0 20px 0 14px;
+        color: #fff;
+        border-radius: 20px;
+      }
+    }
+
+    .item:hover {
+      .link {
+        background: #9B0909;
+      }
+    }
+
+    .active-item {
+      .link {
+        background: #9B0909;
+      }
+    }
+
+    .song-sheet {
+      .white-icon {
+        position: absolute;
+        top: 8px;
+        right: 26px;
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background: url(~@/assets/image/header/white-r-icon@3x.png) no-repeat;
+        background-size: cover;
+        color: red;
+      }
+    }
+  }
+}
