@@ -1,6 +1,6 @@
 import store from '@store/index';
 import { getPlayMusicUrl } from '@api/my-music';
-import { ResponseDataType, LoopType } from '@/types/types';
+import { ResponseType, LoopType } from '@/types/types';
 
 /**
  * @description 获取音乐播放链接
@@ -10,7 +10,7 @@ import { ResponseDataType, LoopType } from '@/types/types';
 export function getMusicUrl(id: number): Promise<string> {
   return new Promise(resolve => {
     getPlayMusicUrl({ id })
-      .then((res: ResponseDataType) => {
+      .then((res: ResponseType) => {
         if (res.code === 200) {
           resolve(res.data[0].url);
         }

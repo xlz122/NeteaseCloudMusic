@@ -4,7 +4,7 @@ import { AxiosPromise, AxiosRequestConfig } from 'axios';
 export type AxiosRequest = AxiosPromise<AxiosRequestConfig>;
 
 // 接口返回值类型
-export type ResponseDataType<T = any> = {
+export type ResponseType<T = any> = {
   msg?: string;
   message?: string;
   code?: number;
@@ -14,10 +14,8 @@ export type ResponseDataType<T = any> = {
   token?: string;
   account?: T;
   result?: T;
+  [index: string]: any;
 };
-
-// 不固定接口返回值类型
-export type ResponseType = Record<string, any>;
 
 // 循环类型，forEach map...
 export type LoopType = Record<string, any>;
