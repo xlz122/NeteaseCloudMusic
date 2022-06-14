@@ -69,7 +69,7 @@ import {
   cellphoneLogin,
   userInfo
 } from '@api/login';
-import { LoopType, ResponseDataType, ResponseType } from '@/types/types';
+import { LoopType, ResponseType } from '@/types/types';
 
 type MobileFormData = {
   code: string;
@@ -176,7 +176,8 @@ export default defineComponent({
             }
             // 登录成功
             if (res.code === 200 && res.account.status === 0) {
-              const cookieArr: string[] = res.cookie.split(';;');
+              const cookie = res.cookie as string;
+              const cookieArr: string[] = cookie.split(';;');
               cookieArr.forEach(item => {
                 document.cookie = item;
               });
@@ -220,7 +221,7 @@ export default defineComponent({
     // 获取用户详情
     function getUserInfo(uid: number): void {
       userInfo({ uid })
-        .then((res: ResponseDataType) => {
+        .then((res: ResponseType) => {
           if (res.code === 200) {
             // 存储用户信息
             $store.commit('setUserInfo', res);
