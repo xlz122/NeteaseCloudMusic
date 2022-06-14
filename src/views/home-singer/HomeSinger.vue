@@ -137,7 +137,7 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      $store.commit('setHeaderActiveIndex', 0);
+      $store.commit('setMenuIndex', 0);
     });
 
     return {

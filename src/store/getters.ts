@@ -5,8 +5,8 @@ export type Getters<T> = {
 };
 
 const getters: Getters<State> = {
-  heaerActiveIndex: state => state.heaerActiveIndex,
-  subActiveIndex: state => state.subActiveIndex,
+  menuIndex: state => state.menuIndex,
+  subMenuIndex: state => state.subMenuIndex,
   loginDialog: state => state.loginDialog,
   userInfo: state => state.userInfo,
   cookie: state => state.cookie,

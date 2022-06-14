@@ -6,13 +6,13 @@
         <ul class="nav">
           <li
             class="item"
-            v-for="(item, index) in NavItem"
+            v-for="(item, index) in menu"
             :key="index"
             :class="[
-              { 'active-item': index === heaerActiveIndex },
-              { 'last-item': index === NavItem.length - 1 }
+              { 'active-item': index === menuIndex },
+              { 'last-item': index === menu.length - 1 }
             ]"
-            @click="navChange(index)"
+            @click="menuChange(index)"
           >
             <router-link class="link" v-if="item?.link" :to="item?.link">
               {{ item?.title }}
@@ -20,7 +20,7 @@
             <a class="link" target="_blank" v-else :href="item?.href">
               {{ item?.title }}
             </a>
-            <i class="hot" v-if="index === NavItem.length - 1"></i>
+            <i class="hot" v-if="index === menu.length - 1"></i>
           </li>
         </ul>
         <div class="other">
@@ -38,27 +38,7 @@
         </div>
       </div>
     </div>
-    <div class="h-bottom">
-      <div class="h-warp subnav" v-if="heaerActiveIndex === 0">
-        <ul class="nav">
-          <li
-            class="item"
-            v-for="(item, index) in subNavItem"
-            :key="index"
-            :class="[
-              { 'active-item': index === subActiveIndex },
-              { 'song-sheet': index === 2 }
-            ]"
-            @click="subNavChange(item, index)"
-          >
-            <span class="link">
-              {{ item?.title }}
-            </span>
-            <i class="white-icon" v-if="index === 2"></i>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <SubMenu />
   </div>
 </template>
 
@@ -66,10 +46,11 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import SubMenu from '@views/header/sub-menu/SubMenu.vue';
 import Search from '@views/header/search/Search.vue';
 import User from '@views/user/User.vue';
 
-type NavItem = {
+type MenuItem = {
   title: string;
   link?: string;
   href?: string;
@@ -78,6 +59,7 @@ type NavItem = {
 export default defineComponent({
   name: 'HeaderView',
   components: {
+    SubMenu,
     Search,
     User
   },
@@ -88,14 +70,9 @@ export default defineComponent({
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
     const userInfo = computed(() => $store.getters.userInfo);
+    const menuIndex = computed<number>(() => $store.getters.menuIndex);
 
-    function logoJump(): void {
-      if ($route.path !== '/') {
-        $router.push({ name: 'home' });
-      }
-    }
-
-    const NavItem = ref<NavItem[]>([
+    const menu = ref<MenuItem[]>([
       {
         title: '发现音乐',
         link: '/'
@@ -122,82 +99,22 @@ export default defineComponent({
       }
     ]);
 
-    const heaerActiveIndex = computed<number>(
-      () => $store.getters.heaerActiveIndex
-    );
-
-    // 一级导航更改
-    function navChange(item: NavItem, index: number): boolean | undefined {
+    function menuChange(item: MenuItem, index: number): boolean | undefined {
       if (!item.link) {
         return false;
       }
 
-      $store.commit('setHeaderActiveIndex', index);
+      $store.commit('setMenuIndex', index);
     }
 
-    const subNavItem = ref<NavItem[]>([
-      {
-        title: '推荐',
-        link: '/'
-      },
-      {
-        title: '排行榜',
-        link: '/home-toplist'
-      },
-      {
-        title: '歌单',
-        link: '/home-song-sheet'
-      },
-      {
-        title: '主播电台',
-        link: '/home-djprogram'
-      },
-      {
-        title: '歌手',
-        link: '/home-singer'
-      },
-      {
-        title: '新碟上架',
-        link: '/home-new-disc'
-      }
-    ]);
-
-    const subActiveIndex = computed<number>(
-      () => $store.getters.subActiveIndex
-    );
-
-    // 二级导航更改
-    function subNavChange(item: NavItem, index: number): boolean | undefined {
-      if (!item.link) {
-        $store.commit('setMessage', {
-          type: 'error',
-          title: '该功能暂未开发'
-        });
-        return false;
-      }
-
-      $router.push({ path: item.link });
-      $store.commit('setSubActiveIndex', index);
-    }
-
-    // 监听导航变化
     watch(
       () => $route.path,
       (path: string) => {
-        // 一级导航
-        const index = NavItem.value.findIndex(
-          (item: NavItem) => item.link === path
+        const index = menu.value.findIndex(
+          (item: MenuItem) => item.link === path
         );
         if (index !== -1) {
-          $store.commit('setHeaderActiveIndex', index);
-        }
-
-        // 二级导航
-        const subIndex = subNavItem.value.findIndex(
-          (item: NavItem) => item.link === path
-        );
-        if (subIndex !== -1) {
-          $store.commit('setSubActiveIndex', subIndex);
+          $store.commit('setMenuIndex', index);
         }
       },
       {
@@ -205,22 +122,19 @@ export default defineComponent({
       }
     );
 
-    // 打开登录对话框
-    function openLogin(): void {
-      $store.commit('setLoginDialog', true);
+    function logoJump(): void {
+      if ($route.path !== '/') {
+        $router.push({ name: 'home' });
+      }
     }
 
     return {
-      logoJump,
       isLogin,
       userInfo,
-      NavItem,
-      heaerActiveIndex,
-      navChange,
-      subNavItem,
-      subActiveIndex,
-      subNavChange,
-      openLogin
+      menuIndex,
+      menu,
+      menuChange,
+      logoJump
     };
   }
 });

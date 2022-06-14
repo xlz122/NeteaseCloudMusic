@@ -203,7 +203,7 @@ export default defineComponent({
     function jumpSearchUser(): void {
       // 存储关键字
       $store.commit('setSearchText', searchValue.value);
-      $store.commit('setHeaderActiveIndex', -1);
+      $store.commit('setMenuIndex', -1);
       $store.commit('setSearchIndex', 7);
 
       $router.push({
