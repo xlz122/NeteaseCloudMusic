@@ -1,6 +1,6 @@
 <template>
   <div class="video-player" :class="{ 'video-player-fullscreen': fullscreen }">
-    <Video :videoStatus="videoStatus" @videoEnded="videoEnded" />
+    <VideoView :videoStatus="videoStatus" @videoEnded="videoEnded" />
     <div class="play" @click="togglePlayStatus">
       <i class="icon pause-icon" v-if="videoStatus === 'pause'"></i>
       <i class="icon replay-icon" v-if="videoStatus === 'ended'">
@@ -70,13 +70,13 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils';
-import Video from './video/Video.vue';
+import VideoView from './video/Video.vue';
 import PlayProgress from './play-progress/PlayProgress.vue';
 import VolumeProgress from './volume-progress/VolumeProgress.vue';
 
 export default defineComponent({
   components: {
-    Video,
+    VideoView,
     PlayProgress,
     VolumeProgress
   },

@@ -1,28 +1,28 @@
 <template>
   <div class="app-wrap">
-    <Header />
+    <HeaderView />
     <router-view v-slot="{ Component }" v-if="$route.meta.keepAlive">
       <keep-alive :include="['DownloadView']">
         <component :is="Component" />
       </keep-alive>
     </router-view>
     <router-view v-if="!$route.meta.keepAlive"></router-view>
-    <Footer />
+    <FooterView />
     <JumpTop />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, nextTick } from 'vue';
-import Header from '@views/header/Header.vue';
-import Footer from '@views/footer/Footer.vue';
+import HeaderView from '@views/header/Header.vue';
+import FooterView from '@views/footer/Footer.vue';
 import JumpTop from '@components/jump-top/JumpTop.vue';
 
 export default defineComponent({
   name: 'MainView',
   components: {
-    Header,
-    Footer,
+    HeaderView,
+    FooterView,
     JumpTop
   },
   setup() {
