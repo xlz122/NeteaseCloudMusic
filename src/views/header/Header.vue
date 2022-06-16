@@ -128,13 +128,19 @@ export default defineComponent({
       }
     }
 
+    // 打开登录对话框
+    function openLogin(): void {
+      $store.commit('setLoginDialog', true);
+    }
+
     return {
       isLogin,
       userInfo,
       menuIndex,
       menu,
       menuChange,
-      logoJump
+      logoJump,
+      openLogin
     };
   }
 });
