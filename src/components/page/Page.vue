@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, toRefs, watch } from '@vue/runtime-core';
+import { defineComponent, ref, toRefs, watch } from 'vue';
 
 export default defineComponent({
   name: 'PageView',

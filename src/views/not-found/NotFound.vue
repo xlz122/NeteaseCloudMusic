@@ -1,6 +1,6 @@
 <template>
   <div class="not-found">
-    <Header />
+    <HeaderView />
     <div class="content">
       <i class="img"></i>
       <p class="text">很抱歉，你要查找的网页找不到</p>
@@ -10,12 +10,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import Header from '@views/header/Header.vue';
+import HeaderView from '@views/header/Header.vue';
 
 export default defineComponent({
   name: 'NotFound',
   components: {
-    Header
+    HeaderView
   }
 });
 </script>

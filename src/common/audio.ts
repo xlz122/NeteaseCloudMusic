@@ -20,7 +20,9 @@ export function handleAudioSong(song: ResponseType): PlayMusicItem {
     singerList: []
   };
 
-  (song?.ar || song?.artists).forEach((item: LoopType) => {
+  const artists = song?.ar || song?.artists;
+
+  artists.forEach((item: LoopType) => {
     musicItem.singerList.push({
       id: item.id,
       name: item.name

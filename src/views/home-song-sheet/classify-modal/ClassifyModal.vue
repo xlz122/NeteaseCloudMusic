@@ -85,7 +85,7 @@ export default defineComponent({
       playlistCatlist()
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            for (let value in res.categories) {
+            for (const value in res.categories) {
               catlist[value].title = res.categories[value];
             }
             res?.sub.forEach((item: LoopType) => {
