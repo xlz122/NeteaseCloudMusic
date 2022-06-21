@@ -205,7 +205,7 @@ export default defineComponent({
         })
           .then((res: ResponseType) => {
             // 未设置密码
-            if (res.code === 200 && res.hasPassword) {
+            if (res.code === 200 && !res.hasPassword) {
               verifyMethod({ text: '该手机号未设置密码，请先设置密码' });
               mobileSubmitText.value = '登 录';
               return false;
