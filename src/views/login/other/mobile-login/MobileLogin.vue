@@ -204,14 +204,21 @@ export default defineComponent({
           phone: mobileFormData.phone
         })
           .then((res: ResponseType) => {
-            // 手机号存在
-            if (res.code === 200 && res.exist === 1) {
-              resolve();
+            // 未设置密码
+            if (res.code === 200 && res.hasPassword) {
+              verifyMethod({ text: '该手机号未设置密码，请先设置密码' });
+              mobileSubmitText.value = '登 录';
+              return false;
             }
             // 手机号不存在
             if (res.code === 200 && res.exist === -1) {
               verifyMethod({ text: '手机号未注册，点击右下角前往注册' });
               mobileSubmitText.value = '登 录';
+              return false;
+            }
+            // 手机号存在
+            if (res.code === 200 && res.exist === 1) {
+              resolve();
             }
           })
           .catch(() => ({}));
