@@ -1,12 +1,12 @@
 import axios from '@utils/axios';
-import { AxiosRequest } from '@/types/types';
+import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取mv详情
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } mvid - mv id
  */
-export const mvDetail = ({ mvid }: { mvid: number }): AxiosRequest => {
+export const mvDetail = ({ mvid }: { mvid: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     mvid
@@ -23,7 +23,7 @@ export const mvDetail = ({ mvid }: { mvid: number }): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - mv id
  */
-export const mvUrl = ({ id }: { id: number }): AxiosRequest => {
+export const mvUrl = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id
@@ -47,7 +47,7 @@ type MvSub = {
   t: number;
 };
 
-export const mvSub = ({ mvid, t }: MvSub): AxiosRequest => {
+export const mvSub = ({ mvid, t }: MvSub): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     mvid,

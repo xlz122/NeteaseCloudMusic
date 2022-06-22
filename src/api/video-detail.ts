@@ -1,12 +1,12 @@
 import axios from '@utils/axios';
-import { AxiosRequest } from '@/types/types';
+import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取视频详情
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 视频id
  */
-export const videoDetail = ({ id }: { id: number }): AxiosRequest => {
+export const videoDetail = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id
@@ -23,7 +23,7 @@ export const videoDetail = ({ id }: { id: number }): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 视频id
  */
-export const relatedVideo = ({ id }: { id: number }): AxiosRequest => {
+export const relatedVideo = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id
@@ -40,7 +40,7 @@ export const relatedVideo = ({ id }: { id: number }): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 视频id
  */
-export const videoUrl = ({ id }: { id: number }): AxiosRequest => {
+export const videoUrl = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id
@@ -64,7 +64,7 @@ type VideoSub = {
   t: number;
 };
 
-export const videoSub = ({ id, t }: VideoSub): AxiosRequest => {
+export const videoSub = ({ id, t }: VideoSub): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,

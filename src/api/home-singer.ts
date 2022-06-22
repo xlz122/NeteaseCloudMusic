@@ -1,5 +1,5 @@
 import axios from '@utils/axios';
-import { AxiosRequest } from '@/types/types';
+import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取热门歌手列表
@@ -13,7 +13,7 @@ type TopArtists = {
   limit: number;
 };
 
-export const topArtists = ({ offset, limit }: TopArtists): AxiosRequest => {
+export const topArtists = ({ offset, limit }: TopArtists): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     offset,
@@ -44,7 +44,7 @@ export const artistList = ({
   area,
   type,
   initial
-}: ArtistList): AxiosRequest => {
+}: ArtistList): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     area,

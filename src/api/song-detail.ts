@@ -1,12 +1,12 @@
 import axios from '@utils/axios';
-import { AxiosRequest } from '@/types/types';
+import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取歌曲详情
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } ids - 歌曲id
  */
-export const songDetail = ({ ids }: { ids: number }): AxiosRequest => {
+export const songDetail = ({ ids }: { ids: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     ids
@@ -23,7 +23,7 @@ export const songDetail = ({ ids }: { ids: number }): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌曲id
  */
-export const simiPlaylist = ({ id }: { id: number }): AxiosRequest => {
+export const simiPlaylist = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id
@@ -40,7 +40,7 @@ export const simiPlaylist = ({ id }: { id: number }): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌曲id
  */
-export const simiSong = ({ id }: { id: number }): AxiosRequest => {
+export const simiSong = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id
