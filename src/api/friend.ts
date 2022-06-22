@@ -1,5 +1,5 @@
 import axios from '@utils/axios';
-import { AxiosRequest } from '@/types/types';
+import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取朋友动态
@@ -16,7 +16,7 @@ export type FirendEvent = {
 export const friendEvent = ({
   pagesize,
   lasttime
-}: FirendEvent): AxiosRequest => {
+}: FirendEvent): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     pagesize,
@@ -46,7 +46,7 @@ export const dynamicLike = ({
   cid,
   threadId,
   t
-}: DynamicLike): AxiosRequest => {
+}: DynamicLike): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     tpye: 6, // type 6为动态

@@ -1,5 +1,5 @@
 import axios from '@utils/axios';
-import { AxiosRequest } from '@/types/types';
+import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取搜索建议
@@ -10,7 +10,7 @@ export const searchPropose = ({
   keywords
 }: {
   keywords: string;
-}): AxiosRequest => {
+}): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     keywords
@@ -44,7 +44,7 @@ export const searchKeywords = ({
   offset,
   limit,
   type
-}: SearchKeywords): AxiosRequest => {
+}: SearchKeywords): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     keywords,
@@ -71,7 +71,7 @@ type Follow = {
   t: number;
 };
 
-export const followUser = ({ id, t }: Follow): AxiosRequest => {
+export const followUser = ({ id, t }: Follow): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,

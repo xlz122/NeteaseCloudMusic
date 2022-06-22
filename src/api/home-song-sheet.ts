@@ -1,11 +1,11 @@
 import axios from '@utils/axios';
-import { AxiosRequest } from '@/types/types';
+import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取歌单分类
  * @param { Number } timestamp - 防止接口缓存
  */
-export const playlistCatlist = (): AxiosRequest => {
+export const playlistCatlist = (): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime()
   };
@@ -37,7 +37,7 @@ export const topPlaylist = ({
   cat,
   offset,
   limit
-}: TopPlaylist): AxiosRequest => {
+}: TopPlaylist): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     order,
