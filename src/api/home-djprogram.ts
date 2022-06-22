@@ -1,11 +1,11 @@
 import axios from '@utils/axios';
-import { AxiosRequest } from '@/types/types';
+import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取电台分类列表
  * @param { Number } timestamp - 防止接口缓存
  */
-export const djCatelist = (): AxiosRequest => {
+export const djCatelist = (): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime()
   };

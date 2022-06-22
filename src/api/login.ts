@@ -1,11 +1,11 @@
 import axios from '@utils/axios';
-import { AxiosRequest } from '@/types/types';
+import type { AxiosPromise } from 'axios';
 
 /**
  * @description 二维码登录 - 获取key
  * @param { Number } timestamp - 防止接口缓存
  */
-export const qrcodeKey = (): AxiosRequest => {
+export const qrcodeKey = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
   return axios.request({
     url: '/login/qr/key',
@@ -26,7 +26,7 @@ type GetQrcodeImg = {
   qrimg?: boolean;
 };
 
-export const qrcodeImg = ({ key, qrimg }: GetQrcodeImg): AxiosRequest => {
+export const qrcodeImg = ({ key, qrimg }: GetQrcodeImg): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     key,
@@ -44,7 +44,7 @@ export const qrcodeImg = ({ key, qrimg }: GetQrcodeImg): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } key - 二维码登录key
  */
-export const qrcodeStatus = ({ key }: { key: string }): AxiosRequest => {
+export const qrcodeStatus = ({ key }: { key: string }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     key
@@ -60,7 +60,7 @@ export const qrcodeStatus = ({ key }: { key: string }): AxiosRequest => {
  * @description 手机号登录 - 获取国家编码列表
  * @param { Number } timestamp - 防止接口缓存
  */
-export const countryCode = (): AxiosRequest => {
+export const countryCode = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
   return axios.request({
     url: '/countries/code/list',
@@ -84,7 +84,7 @@ type TestCellphone = {
 export const testCellphone = ({
   phone,
   countrycode
-}: TestCellphone): AxiosRequest => {
+}: TestCellphone): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     phone,
@@ -115,7 +115,7 @@ export const cellphoneLogin = ({
   phone,
   password,
   countrycode
-}: CellphoneLogin): AxiosRequest => {
+}: CellphoneLogin): AxiosPromise => {
   const data = {
     timestamp: new Date().getTime(),
     phone,
@@ -141,7 +141,7 @@ type CaptchaSent = {
   ctcode?: string;
 };
 
-export const captchaSent = ({ phone, ctcode }: CaptchaSent): AxiosRequest => {
+export const captchaSent = ({ phone, ctcode }: CaptchaSent): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     phone,
@@ -171,7 +171,7 @@ export const captchaVerify = ({
   captcha,
   phone,
   ctcode
-}: CaptchaVerify): AxiosRequest => {
+}: CaptchaVerify): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     captcha,
@@ -203,7 +203,7 @@ export const mailboxLogin = ({
   email,
   password,
   md5Password
-}: MailboxLogin): AxiosRequest => {
+}: MailboxLogin): AxiosPromise => {
   const data = {
     timestamp: new Date().getTime(),
     email,
@@ -221,7 +221,7 @@ export const mailboxLogin = ({
  * @description 获取账号信息
  * @param { Number } timestamp - 防止接口缓存
  */
-export const accountInfo = (): AxiosRequest => {
+export const accountInfo = (): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime()
   };
@@ -237,7 +237,7 @@ export const accountInfo = (): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } uid - 账号id
  */
-export const userInfo = ({ uid }: { uid: number }): AxiosRequest => {
+export const userInfo = ({ uid }: { uid: number }): AxiosPromise => {
   const data = {
     timestamp: new Date().getTime(),
     uid
@@ -253,7 +253,7 @@ export const userInfo = ({ uid }: { uid: number }): AxiosRequest => {
  * @description 退出登录
  * @param { Number } timestamp - 防止接口缓存
  */
-export const logout = (): AxiosRequest => {
+export const logout = (): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime()
   };
