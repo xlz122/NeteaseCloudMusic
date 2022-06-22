@@ -1,8 +1,3 @@
-import { AxiosPromise, AxiosRequestConfig } from 'axios';
-
-// axios接口方法返回类型
-export type AxiosRequest = AxiosPromise<AxiosRequestConfig>;
-
 // 接口返回值类型
 export type ResponseType<T = any> = {
   msg?: string;

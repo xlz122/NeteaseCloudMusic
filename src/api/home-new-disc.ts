@@ -1,11 +1,11 @@
 import axios from '@utils/axios';
-import { AxiosRequest } from '@/types/types';
+import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取新碟上架
  * @param { Number } timestamp - 防止接口缓存
  */
-export const hotNewDisc = (): AxiosRequest => {
+export const hotNewDisc = (): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime()
   };
@@ -34,7 +34,7 @@ export const nweDiscAlbum = ({
   limit,
   offset,
   area
-}: NweDiscAlbum): AxiosRequest => {
+}: NweDiscAlbum): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     limit,

@@ -1,11 +1,11 @@
 import axios from '@utils/axios';
-import { AxiosRequest } from '@/types/types';
+import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取账号信息（需登录）
  * @param { Number } timestamp - 防止接口缓存
  */
-export const userAccount = (): AxiosRequest => {
+export const userAccount = (): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime()
   };
@@ -20,7 +20,7 @@ export const userAccount = (): AxiosRequest => {
  * @description 获取VIP信息（需登录）
  * @param { Number } timestamp - 防止接口缓存
  */
-export const userVipInfo = (): AxiosRequest => {
+export const userVipInfo = (): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime()
   };
@@ -43,7 +43,7 @@ type UserRecord = {
   type?: number;
 };
 
-export const userRecord = ({ uid, type }: UserRecord): AxiosRequest => {
+export const userRecord = ({ uid, type }: UserRecord): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     uid,
@@ -60,7 +60,7 @@ export const userRecord = ({ uid, type }: UserRecord): AxiosRequest => {
  * @description 获取用户等级信息
  * @param { Number } timestamp - 防止接口缓存
  */
-export const userLevel = (): AxiosRequest => {
+export const userLevel = (): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime()
   };
@@ -76,7 +76,7 @@ export const userLevel = (): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } uid - 用户id
  */
-export const userDetail = ({ uid }: { uid: number }): AxiosRequest => {
+export const userDetail = ({ uid }: { uid: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     uid

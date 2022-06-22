@@ -1,12 +1,12 @@
 import axios from '@utils/axios';
-import { AxiosRequest } from '@/types/types';
+import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取 banner ( 轮播图 )
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type - 资源类型，0为pc
  */
-export const bannerImgUrl = (): AxiosRequest => {
+export const bannerImgUrl = (): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     type: 0
@@ -27,7 +27,7 @@ export const recommendSongList = ({
   limit
 }: {
   limit?: number;
-}): AxiosRequest => {
+}): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     limit
@@ -43,7 +43,7 @@ export const recommendSongList = ({
  * @description 获取热门推荐 - 推荐电台
  * @param { Number } timestamp - 防止接口缓存
  */
-export const recommendDjprogram = (): AxiosRequest => {
+export const recommendDjprogram = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
   return axios.request({
     url: '/personalized/djprogram',
@@ -56,7 +56,7 @@ export const recommendDjprogram = (): AxiosRequest => {
  * @description 获取个性化推荐
  * @param { Number } timestamp - 防止接口缓存
  */
-export const recommendResource = (): AxiosRequest => {
+export const recommendResource = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
   return axios.request({
     url: '/recommend/resource',
@@ -69,7 +69,7 @@ export const recommendResource = (): AxiosRequest => {
  * @description 获取新碟上架
  * @param { Number } timestamp - 防止接口缓存
  */
-export const albumNewest = (): AxiosRequest => {
+export const albumNewest = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
   return axios.request({
     url: '/album/newest',
@@ -82,7 +82,7 @@ export const albumNewest = (): AxiosRequest => {
  * @description 获取用户动态
  * @param { Number } timestamp - 防止接口缓存
  */
-export const userEvent = (): AxiosRequest => {
+export const userEvent = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
   return axios.request({
     url: '/user/event',
@@ -95,7 +95,7 @@ export const userEvent = (): AxiosRequest => {
  * @description 获取用户关注列表
  * @param { Number } timestamp - 防止接口缓存
  */
-export const userFollows = (): AxiosRequest => {
+export const userFollows = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
   return axios.request({
     url: '/user/follows',
@@ -108,7 +108,7 @@ export const userFollows = (): AxiosRequest => {
  * @description 获取用户粉丝列表
  * @param { Number } timestamp - 防止接口缓存
  */
-export const userFolloweds = (): AxiosRequest => {
+export const userFolloweds = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
   return axios.request({
     url: '/user/followeds',
@@ -122,7 +122,7 @@ export const userFolloweds = (): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } type - 签到类型 , 默认 0, 其中 0 为安卓端签到 ,1 为 web/PC 签到
  */
-export const dailySignin = (): AxiosRequest => {
+export const dailySignin = (): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     type: 1
@@ -139,7 +139,7 @@ export const dailySignin = (): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 飙升榜id
  */
-export const soaringList = ({ id }: { id: number }): AxiosRequest => {
+export const soaringList = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id
@@ -156,7 +156,7 @@ export const soaringList = ({ id }: { id: number }): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 新歌榜id
  */
-export const newSongs = ({ id }: { id: number }): AxiosRequest => {
+export const newSongs = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id
@@ -173,7 +173,7 @@ export const newSongs = ({ id }: { id: number }): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 飙升榜id
  */
-export const originalList = ({ id }: { id: number }): AxiosRequest => {
+export const originalList = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id

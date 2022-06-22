@@ -1,12 +1,12 @@
 import axios from '@utils/axios';
-import { AxiosRequest } from '@/types/types';
+import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取专辑详情
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 专辑id
  */
-export const albumDetail = ({ id }: { id: number }): AxiosRequest => {
+export const albumDetail = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id
@@ -36,7 +36,7 @@ export const artistAlbum = ({
   id,
   offset,
   limit
-}: ArtistAlbum): AxiosRequest => {
+}: ArtistAlbum): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
