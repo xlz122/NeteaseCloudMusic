@@ -10,6 +10,9 @@
       <span class="title" v-if="item?.link">{{ item?.title }}</span>
       <a class="link" target="_blank" v-else :href="item?.href">
         {{ item?.title }}
+        <span class="msg-tag" v-show="item.icon === 'message' && msgCode !== 0">
+          {{ msgCode }}
+        </span>
       </a>
     </li>
   </ul>
@@ -29,6 +32,12 @@ type List = {
 
 export default defineComponent({
   name: 'UserView',
+  props: {
+    msgCode: {
+      type: Number,
+      required: true
+    }
+  },
   setup() {
     const $router = useRouter();
     const $store = useStore();
