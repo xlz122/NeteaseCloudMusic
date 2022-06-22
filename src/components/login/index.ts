@@ -1,18 +1,18 @@
-import { createVNode, render } from 'vue';
-import LoginComponent from '@views/login/Login.vue';
+import { AppContext, createVNode, render } from 'vue';
+import Component from '@views/login/Login.vue';
 
 const Login = {
-  install: (app: Record<string, any>): void => {
+  install: (app: { _context: AppContext | null }): void => {
     // 创建虚拟dom
-    const vm = createVNode(LoginComponent, {});
+    const vm = createVNode(Component, {});
 
     // 关联数据
     vm.appContext = app._context;
 
-    const login = document.getElementById('login') as HTMLElement;
+    const element = document.getElementById('login') as HTMLDivElement;
 
-    // 容器挂载
-    render(vm, login);
+    // 挂载
+    render(vm, element);
   }
 };
 
