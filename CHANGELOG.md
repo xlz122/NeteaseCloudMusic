@@ -1,3 +1,46 @@
+## [1.1.4](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.1.3...v1.1.4) (2022-06-22)
+
+
+### ♻ Code Refactoring | 代码重构
+
+* 重构导航组件 [#763375f](https://github.com/xlz122/NeteaseCloudMusic/commit/763375f) 
+
+
+### ✨ Features | 新功能
+
+* 添加消息角标功能 [#1628338](https://github.com/xlz122/NeteaseCloudMusic/commit/1628338) 
+
+
+### 🎫 Chores | 其他更新
+
+* 部分文件类型为Record<string, any>给定具体类型 [#9c2eb53](https://github.com/xlz122/NeteaseCloudMusic/commit/9c2eb53) 
+* 更新项目所需插件 [#93468c9](https://github.com/xlz122/NeteaseCloudMusic/commit/93468c9) 
+* 更新axios返回值类型 [#bbc4460](https://github.com/xlz122/NeteaseCloudMusic/commit/bbc4460) 
+* 还原被删除的.env文件 [#d2adac3](https://github.com/xlz122/NeteaseCloudMusic/commit/d2adac3) 
+* 删除无用文件 [#dad1efa](https://github.com/xlz122/NeteaseCloudMusic/commit/dad1efa) 
+* 删除无用id节点 [#b65b6cb](https://github.com/xlz122/NeteaseCloudMusic/commit/b65b6cb) 
+* 修改容器挂载类型 [#570a243](https://github.com/xlz122/NeteaseCloudMusic/commit/570a243) 
+* 修改ResponseType类型 [#c4fc665](https://github.com/xlz122/NeteaseCloudMusic/commit/c4fc665) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 删除无用css [#041fca9](https://github.com/xlz122/NeteaseCloudMusic/commit/041fca9) 
+* 修复不同情况显隐页面底部已知bug [#d729d16](https://github.com/xlz122/NeteaseCloudMusic/commit/d729d16) 
+* 修复回到顶部按钮不显示的bug [#557e7a1](https://github.com/xlz122/NeteaseCloudMusic/commit/557e7a1) 
+* 修复角标样式问题 [#9963747](https://github.com/xlz122/NeteaseCloudMusic/commit/9963747) 
+* 修复偶现进入我的音乐页面，未加载歌单详情的bug [#1c15fe6](https://github.com/xlz122/NeteaseCloudMusic/commit/1c15fe6) 
+* 修复手机号未设置密码时使用手机号登录，无提示的bug [#8a81b59](https://github.com/xlz122/NeteaseCloudMusic/commit/8a81b59) 
+* 修复首页侧边栏个人信息部分样式bug [#4975900](https://github.com/xlz122/NeteaseCloudMusic/commit/4975900) 
+* 修复未登录时也触发消息接口的bug [#2f430a9](https://github.com/xlz122/NeteaseCloudMusic/commit/2f430a9) 
+* 修复未登录时也触发消息接口的bug [#76d9764](https://github.com/xlz122/NeteaseCloudMusic/commit/76d9764) 
+* 修复未设置密码bug [#288b63e](https://github.com/xlz122/NeteaseCloudMusic/commit/288b63e) 
+* 修复无法打开登录框的bug [#e75cdc2](https://github.com/xlz122/NeteaseCloudMusic/commit/e75cdc2) 
+* 修复eslint升级后，组件使用时保留字的报错 [#fcdf35d](https://github.com/xlz122/NeteaseCloudMusic/commit/fcdf35d) 
+* 修改setCookie方法的设置过期时间为Max-age [#b507b8d](https://github.com/xlz122/NeteaseCloudMusic/commit/b507b8d) 
+
+
+
 ## [1.1.3](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.1.2...v1.1.3) (2022-06-13)
 
 
@@ -18,6 +61,7 @@
 * 首页侧边栏组件ts类型补充 [#199aeed](https://github.com/xlz122/NeteaseCloudMusic/commit/199aeed) 
 * cdn引入改成生产构建版本 [#488363d](https://github.com/xlz122/NeteaseCloudMusic/commit/488363d) 
 * Header组件ts类型补充 [#d3e0521](https://github.com/xlz122/NeteaseCloudMusic/commit/d3e0521) 
+* release 1.1.3 [#38c8069](https://github.com/xlz122/NeteaseCloudMusic/commit/38c8069) 
 
 
 ### 🐛 Bug Fixes | Bug 修复
