@@ -143,7 +143,11 @@ export default defineComponent({
     }
 
     const msgCode = ref<number>(0);
-    function loadMessage(): void {
+    function loadMessage(): boolean | undefined {
+      if (isLogin.value) {
+        return false;
+      }
+
       messageEv({ limit: 1, offset: 100 }).then((res: ResponseType) => {
         if (res?.code === 200) {
           msgCode.value = res?.newMsgCount;
