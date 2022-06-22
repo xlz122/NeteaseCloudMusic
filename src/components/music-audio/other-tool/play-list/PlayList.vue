@@ -94,7 +94,7 @@
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils';
-import { LoopType } from '@/types/types';
+import type { LoopType } from '@/types/types';
 import Lyric from '../lyric/Lyric.vue';
 
 export default defineComponent({

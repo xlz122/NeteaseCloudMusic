@@ -43,9 +43,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
-import { useStore } from 'vuex';
 import { playlistCatlist } from '@api/home-song-sheet';
-import { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType, LoopType } from '@/types/types';
 
 type CatList = {
   title: string;
@@ -55,8 +54,6 @@ type CatList = {
 export default defineComponent({
   emits: ['catChange'],
   setup(props, { emit }) {
-    const $store = useStore();
-
     const catlist = reactive<CatList[]>([
       {
         title: '',
@@ -104,11 +101,6 @@ export default defineComponent({
               if (item.category === 4) {
                 catlist[4].list.push(item);
               }
-            });
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
             });
           }
         })

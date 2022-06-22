@@ -1,5 +1,5 @@
 import { formatMixedText } from '@utils/formatMixedText';
-import { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType, LoopType } from '@/types/types';
 
 type CommentReturn = {
   hotList: List[];

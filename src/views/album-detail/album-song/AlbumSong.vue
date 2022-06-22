@@ -119,7 +119,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { handleAudioSong } from '@/common/audio.ts';
 import { timeStampToDuration } from '@utils/utils.ts';
-import { PlayMusicItem } from '@store/music/state';
+import type { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({
   props: {

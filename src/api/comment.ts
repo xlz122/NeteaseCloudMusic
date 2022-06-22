@@ -1,5 +1,5 @@
 import axios from '@utils/axios';
-import { AxiosRequest } from '@/types/types';
+import type { AxiosPromise } from 'axios';
 
 export type CommentParams = {
   id: number;
@@ -21,7 +21,7 @@ export const commentMusic = ({
   offset,
   limit,
   before
-}: CommentParams): AxiosRequest => {
+}: CommentParams): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -49,7 +49,7 @@ export const commentPlayList = ({
   offset,
   limit,
   before
-}: CommentParams): AxiosRequest => {
+}: CommentParams): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -77,7 +77,7 @@ export const commentAlbum = ({
   offset,
   limit,
   before
-}: CommentParams): AxiosRequest => {
+}: CommentParams): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -105,7 +105,7 @@ export const commentDjprogram = ({
   offset,
   limit,
   before
-}: CommentParams): AxiosRequest => {
+}: CommentParams): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -133,7 +133,7 @@ export const commentVideo = ({
   offset,
   limit,
   before
-}: CommentParams): AxiosRequest => {
+}: CommentParams): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -161,7 +161,7 @@ export const commentMv = ({
   offset,
   limit,
   before
-}: CommentParams): AxiosRequest => {
+}: CommentParams): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -190,7 +190,7 @@ type AddComment = {
   content: string;
 };
 
-export const addComment = ({ type, id, content }: AddComment): AxiosRequest => {
+export const addComment = ({ type, id, content }: AddComment): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     t: 1, // t 1为新增评论
@@ -228,7 +228,7 @@ export const replyComment = ({
   id,
   content,
   commentId
-}: ReplyComment): AxiosRequest => {
+}: ReplyComment): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     t: 2, // t 2为回复评论
@@ -264,7 +264,7 @@ export const deleteComment = ({
   type,
   id,
   commentId
-}: DeleteComment): AxiosRequest => {
+}: DeleteComment): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     t: 0, // t 0为删除
@@ -302,7 +302,7 @@ export const commentLike = ({
   id,
   cid,
   t
-}: SongSheetLike): AxiosRequest => {
+}: SongSheetLike): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     type,

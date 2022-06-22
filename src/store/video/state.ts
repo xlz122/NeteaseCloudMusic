@@ -1,10 +1,12 @@
 export type State = {
-  video: {
-    id: number;
-    url: string;
-  };
+  video: Video;
   videoPlayProgress: unknown;
   videoVolume: number;
+};
+
+export type Video = {
+  id: number;
+  url: string;
 };
 
 // 本地存储容错处理

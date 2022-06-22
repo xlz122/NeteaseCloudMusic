@@ -67,7 +67,7 @@ import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { handleMatchString } from '@utils/utils.ts';
 import { searchKeywords, followUser } from '@api/search';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
 
 type AlbumData = {
@@ -132,11 +132,6 @@ export default defineComponent({
             userData.total = total;
             userData.list = res?.result?.userprofiles;
             emit('searchCountChange', total || 0);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
 
           userData.loading = false;

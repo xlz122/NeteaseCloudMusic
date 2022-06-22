@@ -50,7 +50,7 @@
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { topArtists, simiArtist } from '@api/singer-detail';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 export default defineComponent({
@@ -83,11 +83,6 @@ export default defineComponent({
             }
 
             hotSingerList.value = res?.artists?.slice(0, 6);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));
@@ -102,11 +97,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res?.code === 200) {
             singerList.value = res?.artists?.slice(0, 6);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

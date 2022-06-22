@@ -69,7 +69,7 @@ import { useStore } from 'vuex';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import { playlistDetail } from '@api/song-sheet-detail';
 import { commentPlayList } from '@api/comment';
-import { ResponseType, CommentParams } from '@/types/types';
+import type { ResponseType, CommentParams } from '@/types/types';
 import UserInfo from '@components/song-sheet/user-info/UserInfo.vue';
 import MusicTable from '@components/song-sheet/music-table/MusicTable.vue';
 import Comment from '@components/comment/Comment.vue';
@@ -116,11 +116,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res?.code === 200) {
             $store.commit('setSongSheetDetail', res);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

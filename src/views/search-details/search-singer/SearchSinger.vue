@@ -66,7 +66,7 @@ import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration, handleMatchString } from '@utils/utils.ts';
 import { searchKeywords } from '@api/search';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
 
 type SingerData = {
@@ -133,11 +133,6 @@ export default defineComponent({
             singerData.list = res?.result?.artists;
 
             emit('searchCountChange', total || 0);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
 
           singerData.loading = false;

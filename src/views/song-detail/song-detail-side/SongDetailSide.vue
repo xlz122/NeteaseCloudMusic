@@ -84,8 +84,8 @@ import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { handleAudioSong } from '@/common/audio.ts';
 import { simiPlaylist, simiSong } from '@api/song-detail';
-import { ResponseType } from '@/types/types';
-import { PlayMusicItem } from '@store/music/state';
+import type { ResponseType } from '@/types/types';
+import type { PlayMusicItem } from '@store/music/state';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 export default defineComponent({
@@ -104,11 +104,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res?.code === 200) {
             songSheetList.value = res?.playlists;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));
@@ -122,11 +117,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res?.code === 200) {
             simiSongList.value = res?.songs;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

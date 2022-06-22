@@ -39,7 +39,7 @@ import {
   accountInfo,
   userInfo
 } from '@api/login';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 
 export default defineComponent({
   name: 'LoginQrcode',
@@ -147,11 +147,6 @@ export default defineComponent({
             $store.commit('setUserInfo', res);
             // 关闭登录对话框
             $store.commit('setLoginDialog', false);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

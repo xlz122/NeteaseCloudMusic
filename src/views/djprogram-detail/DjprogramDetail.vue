@@ -42,7 +42,7 @@ import { useStore } from 'vuex';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import { djProgramDetail } from '@api/djprogram-detail';
 import { commentDjprogram } from '@api/comment';
-import { ResponseType, CommentParams } from '@/types/types';
+import type { ResponseType, CommentParams } from '@/types/types';
 import Comment from '@components/comment/Comment.vue';
 import DjprogramInfo from './djprogram-info/DjprogramInfo.vue';
 import DjprogramSide from './djprogram-side/DjprogramSide.vue';
@@ -85,11 +85,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res.code === 200) {
             djProgramDetailData.value = res.program;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

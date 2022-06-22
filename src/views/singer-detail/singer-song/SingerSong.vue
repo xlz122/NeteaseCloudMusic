@@ -131,8 +131,8 @@ import { throttle } from 'lodash';
 import { handleAudioSong } from '@/common/audio.ts';
 import { timeStampToDuration } from '@utils/utils.ts';
 import { artistSong } from '@api/singer-detail';
-import { ResponseType, LoopType } from '@/types/types';
-import { PlayMusicItem } from '@store/music/state';
+import type { ResponseType, LoopType } from '@/types/types';
+import type { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({
   setup() {
@@ -164,11 +164,6 @@ export default defineComponent({
           loading.value = false;
           if (res?.code === 200) {
             singerSong.value = res;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

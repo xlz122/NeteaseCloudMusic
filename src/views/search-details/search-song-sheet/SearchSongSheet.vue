@@ -98,8 +98,8 @@ import { handleAudioSong } from '@/common/audio.ts';
 import { bigNumberTransform, handleMatchString } from '@utils/utils.ts';
 import { searchKeywords } from '@api/search';
 import { playlistTrack, playlistSubscribe } from '@api/song-sheet-detail';
-import { PlayMusicItem } from '@store/music/state';
-import { ResponseType, LoopType } from '@/types/types';
+import type { PlayMusicItem } from '@store/music/state';
+import type { ResponseType, LoopType } from '@/types/types';
 import Page from '@components/page/Page.vue';
 
 type songSheetData = {
@@ -169,11 +169,6 @@ export default defineComponent({
             songSheetData.list = res?.result?.playlists;
 
             emit('searchCountChange', total || 0);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
 
           songSheetData.loading = false;
@@ -269,7 +264,7 @@ export default defineComponent({
           } else {
             $store.commit('setMessage', {
               type: 'error',
-              title: res?.msg
+              title: '收藏失败'
             });
           }
         })

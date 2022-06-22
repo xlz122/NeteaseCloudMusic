@@ -53,7 +53,7 @@ import { defineComponent, ref, reactive, computed, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
 import { formatDateTime } from '@utils/utils.ts';
 import { artistAlbum } from '@api/album-detail';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 type AlbumParams = {
@@ -107,11 +107,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res.code === 200) {
             albumList.value = res.hotAlbums;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

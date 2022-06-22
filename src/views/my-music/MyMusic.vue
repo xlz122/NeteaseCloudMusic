@@ -29,11 +29,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed, watch, nextTick } from 'vue';
-import { useRoute } from 'vue-router';
+import {
+  defineComponent,
+  reactive,
+  computed,
+  watch,
+  onMounted,
+  onUnmounted,
+  nextTick
+} from 'vue';
 import { useStore } from 'vuex';
 import { userSubcount } from '@api/my-music';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import OptionList from '@views/my-music/option-list/OptionList.vue';
 import MySinger from '@/views/my-music/my-singer/MySinger.vue';
 import MyVideo from '@/views/my-music/my-video/MyVideo.vue';
@@ -48,7 +55,6 @@ export default defineComponent({
     SongSheetDetail
   },
   setup() {
-    const $route = useRoute();
     const $store = useStore();
 
     const isLogin = computed(() => $store.getters.isLogin);
@@ -94,25 +100,6 @@ export default defineComponent({
     }
 
     watch(
-      () => $route.path,
-      () => {
-        // 处理样式
-        nextTick(() => {
-          const footerDom = document.querySelector('.footer') as HTMLElement;
-          if (isLogin.value) {
-            footerDom.style.display = 'none';
-            getUserSubcount();
-          } else {
-            footerDom.style.display = 'block';
-          }
-        });
-      },
-      {
-        immediate: true
-      }
-    );
-
-    watch(
       () => isLogin.value,
       () => {
         // 处理样式
@@ -127,6 +114,21 @@ export default defineComponent({
         });
       }
     );
+
+    onMounted(() => {
+      const footerDom = document.querySelector('.footer') as HTMLElement;
+      if (isLogin.value) {
+        footerDom.style.display = 'none';
+        getUserSubcount();
+      } else {
+        footerDom.style.display = 'block';
+      }
+    });
+
+    onUnmounted(() => {
+      const footerDom = document.querySelector('.footer') as HTMLElement;
+      footerDom.style.display = 'block';
+    });
 
     return {
       isLogin,

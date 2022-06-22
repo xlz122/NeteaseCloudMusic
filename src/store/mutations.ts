@@ -1,5 +1,5 @@
 import Router from '@router/index';
-import { State } from '@store/state';
+import type { State } from '@store/state';
 import { clearAllCookie } from '@utils/cookie';
 
 type Mutations<T, U = any> = {

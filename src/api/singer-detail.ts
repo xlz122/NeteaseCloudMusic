@@ -1,12 +1,12 @@
 import axios from '@utils/axios';
-import { AxiosRequest } from '@/types/types';
+import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取歌手详情
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌手id
  */
-export const artistDetail = ({ id }: { id: number }): AxiosRequest => {
+export const artistDetail = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id
@@ -30,7 +30,7 @@ type ArtistSub = {
   t: number;
 };
 
-export const artistSub = ({ id, t }: ArtistSub): AxiosRequest => {
+export const artistSub = ({ id, t }: ArtistSub): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -48,7 +48,7 @@ export const artistSub = ({ id, t }: ArtistSub): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌手id
  */
-export const artistSong = ({ id }: { id: number }): AxiosRequest => {
+export const artistSong = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id
@@ -74,7 +74,7 @@ export type ArtistMv = {
   limit: number;
 };
 
-export const artistMv = ({ id, offset, limit }: ArtistMv): AxiosRequest => {
+export const artistMv = ({ id, offset, limit }: ArtistMv): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -93,7 +93,7 @@ export const artistMv = ({ id, offset, limit }: ArtistMv): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌手id
  */
-export const artistDesc = ({ id }: { id: number }): AxiosRequest => {
+export const artistDesc = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id
@@ -117,7 +117,7 @@ type TopArtists = {
   limit?: number;
 };
 
-export const topArtists = ({ offset, limit }: TopArtists): AxiosRequest => {
+export const topArtists = ({ offset, limit }: TopArtists): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     offset,
@@ -135,7 +135,7 @@ export const topArtists = ({ offset, limit }: TopArtists): AxiosRequest => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌手id
  */
-export const simiArtist = ({ id }: { id: number }): AxiosRequest => {
+export const simiArtist = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id

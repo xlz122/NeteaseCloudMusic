@@ -19,7 +19,7 @@
         </div>
         <div class="video-container">
           <VideoPlayer
-            :videoDetailData="videoDetailData"
+            :detail="videoDetailData"
             :subed="videoSubed"
             @handleCollection="handleCollection"
           />
@@ -73,7 +73,7 @@
         />
       </div>
       <div class="detail-side">
-        <VideoDetailSide :videoDetailData="videoDetailData" />
+        <VideoDetailSide :detail="videoDetailData" />
       </div>
     </div>
   </div>
@@ -95,7 +95,8 @@ import { MyVideoSbulist } from '@api/my-music';
 import { videoDetail } from '@api/video-detail';
 import { commentVideo } from '@api/comment';
 import { videoUrl, videoSub } from '@api/video-detail';
-import { ResponseType, CommentParams, LoopType } from '@/types/types';
+import type { ResponseType, CommentParams, LoopType } from '@/types/types';
+import type { Video } from '@store/video/state';
 import VideoPlayer from '@components/video-player/VideoPlayer.vue';
 import Comment from '@components/comment/Comment.vue';
 import VideoDetailSide from './video-detail-side/VideoDetailSide.vue';
@@ -113,7 +114,7 @@ export default defineComponent({
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const video = computed(() => $store.getters['video/video']);
+    const video = computed<Video>(() => $store.getters['video/video']);
 
     watch(
       () => video.value.id,
@@ -122,6 +123,7 @@ export default defineComponent({
           nextTick(() => {
             getVideoDetail();
             getVideoSrc();
+            getVideoSbulist();
             getCommentData();
           });
         }
@@ -141,11 +143,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res?.code === 200) {
             videoDetailData.value = res?.data;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));
@@ -194,7 +191,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getVideoSbulist();
 
     // 收藏
     function handleCollection(followed: boolean): boolean | undefined {
@@ -228,7 +224,7 @@ export default defineComponent({
           } else {
             $store.commit('setMessage', {
               type: 'error',
-              title: res?.msg
+              title: res?.message
             });
           }
         })

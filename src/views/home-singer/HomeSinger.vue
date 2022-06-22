@@ -23,7 +23,7 @@
 import { defineComponent, reactive, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { topArtists, artistList, ArtistList } from '@api/home-singer';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import SingerMenu from './singer-menu/SingerMenu.vue';
 import SingerContent from './singer-content/SingerContent.vue';
 
@@ -90,11 +90,6 @@ export default defineComponent({
             if (res.artists.length > 10) {
               singerList.second = res.artists.slice(10);
             }
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));
@@ -116,11 +111,6 @@ export default defineComponent({
             if (res.artists.length > 10) {
               singerList.second = res.artists.slice(10);
             }
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

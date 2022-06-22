@@ -113,7 +113,7 @@ import { defineComponent, ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { searchPropose } from '@api/search';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 
 export default defineComponent({
   name: 'HeaderSearch',
@@ -211,11 +211,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res.code === 200) {
             searchPropos.value = res.result;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

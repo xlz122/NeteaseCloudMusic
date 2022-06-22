@@ -186,30 +186,12 @@ export default defineComponent({
 
     // 上一首
     function prevPlayMusic(): void {
-      getPrevMusicId()
-        .then(() => {
-          // 开始播放
-          $store.commit('music/setMusicPlayStatus', {
-            look: true,
-            loading: true,
-            refresh: true
-          });
-        })
-        .catch(() => ({}));
+      getPrevMusicId();
     }
 
     // 下一首
     function nextPlayMusic(): void {
-      getNextMusicId()
-        .then(() => {
-          // 开始播放
-          $store.commit('music/setMusicPlayStatus', {
-            look: true,
-            loading: true,
-            refresh: true
-          });
-        })
-        .catch(() => ({}));
+      getNextMusicId();
     }
 
     // 播放进度数据

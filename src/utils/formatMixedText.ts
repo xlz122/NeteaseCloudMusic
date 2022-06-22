@@ -1,4 +1,4 @@
-import { LoopType } from '@/types/types';
+import type { LoopType } from '@/types/types';
 import { expressionList } from '@/components/comment/comment-replay/comment-replay';
 
 /**

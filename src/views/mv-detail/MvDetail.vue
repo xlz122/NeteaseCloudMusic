@@ -30,7 +30,7 @@
         </div>
         <div class="video-container">
           <VideoPlayer
-            :videoDetailData="mvDetailData"
+            :detail="mvDetailData"
             :subed="mvsubed"
             @handleCollection="handleCollection"
           />
@@ -82,7 +82,7 @@
         />
       </div>
       <div class="detail-side">
-        <VideoDetailSide :mvDetailData="mvDetailData" />
+        <MvDetailSide :detail="mvDetailData" />
       </div>
     </div>
   </div>
@@ -103,10 +103,11 @@ import { handleCommentData } from '@components/comment/handleCommentData';
 import { mvDetail } from '@api/mv-detail';
 import { mvUrl, mvSub } from '@api/mv-detail';
 import { commentMv } from '@api/comment';
-import { ResponseType, CommentParams } from '@/types/types';
+import type { ResponseType, CommentParams } from '@/types/types';
+import type { Video } from '@store/video/state';
 import VideoPlayer from '@components/video-player/VideoPlayer.vue';
 import Comment from '@components/comment/Comment.vue';
-import VideoDetailSide from './mv-detail-side/MvDetailSide.vue';
+import MvDetailSide from './mv-detail-side/MvDetailSide.vue';
 import Page from '@components/page/Page.vue';
 
 export default defineComponent({
@@ -114,14 +115,14 @@ export default defineComponent({
   components: {
     VideoPlayer,
     Comment,
-    VideoDetailSide,
+    MvDetailSide,
     Page
   },
   setup() {
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const video = computed(() => $store.getters['video/video']);
+    const video = computed<Video>(() => $store.getters['video/video']);
 
     watch(
       () => video.value.id,
@@ -151,11 +152,6 @@ export default defineComponent({
           if (res?.code === 200) {
             mvDetailData.value = res?.data;
             mvsubed.value = res?.subed;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));
@@ -217,11 +213,6 @@ export default defineComponent({
 
               mvsubed.value = false;
             }
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

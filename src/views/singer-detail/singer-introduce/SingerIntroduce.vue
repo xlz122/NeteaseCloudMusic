@@ -22,7 +22,7 @@
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { artistDesc } from '@api/singer-detail';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 
 export default defineComponent({
   props: {
@@ -44,11 +44,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res?.code === 200) {
             singerDesc.value = res;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

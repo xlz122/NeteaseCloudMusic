@@ -110,8 +110,8 @@ import { useStore } from 'vuex';
 import { handleAudioSong } from '@/common/audio.ts';
 import { timeStampToDuration, handleMatchString } from '@utils/utils.ts';
 import { searchKeywords } from '@api/search';
-import { PlayMusicItem } from '@store/music/state';
-import { ResponseType } from '@/types/types';
+import type { PlayMusicItem } from '@store/music/state';
+import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
 
 type SongData = {
@@ -182,11 +182,6 @@ export default defineComponent({
             songData.list = res?.result?.songs;
 
             emit('searchCountChange', total || 0);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
 
           songData.loading = false;

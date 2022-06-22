@@ -95,7 +95,7 @@ import { handleCommentData } from '@components/comment/handleCommentData';
 import { songDetail } from '@api/song-detail';
 import { getLyric } from '@api/my-music';
 import { commentMusic } from '@api/comment';
-import { ResponseType, CommentParams } from '@/types/types';
+import type { ResponseType, CommentParams } from '@/types/types';
 import Comment from '@components/comment/Comment.vue';
 import SongInfo from './song-info/SongInfo.vue';
 import SongDateilSide from './song-detail-side/SongDetailSide.vue';
@@ -148,11 +148,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res?.code === 200) {
             songDetailData.value = res;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

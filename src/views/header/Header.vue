@@ -39,7 +39,7 @@
               />
               <div class="msg-tag">{{ msgCode }}</div>
             </div>
-            <User class="user-list" v-model:msgCode="msgCode" />
+            <User class="user-list" :msgCode="msgCode" />
           </div>
           <div v-else class="login" @click="openLogin">登录</div>
         </div>
@@ -56,7 +56,7 @@ import { useStore } from 'vuex';
 import SubMenu from '@views/header/sub-menu/SubMenu.vue';
 import Search from '@views/header/search/Search.vue';
 import User from '@views/user/User.vue';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import { messageEv } from '@api/my-message';
 
 type MenuItem = {
@@ -143,11 +143,14 @@ export default defineComponent({
     }
 
     const msgCode = ref<number>(0);
-    function loadMessage(): void {
+    function loadMessage(): boolean | undefined {
+      if (!isLogin.value) {
+        return false;
+      }
+
       messageEv({ limit: 1, offset: 100 }).then((res: ResponseType) => {
         if (res?.code === 200) {
           msgCode.value = res?.newMsgCount;
-          console.log('msgCode.value1', msgCode.value);
         }
       });
     }

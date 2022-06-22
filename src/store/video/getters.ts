@@ -1,4 +1,4 @@
-import { State } from '@store/video/state';
+import type { State } from '@store/video/state';
 
 export type Getters<T> = {
   [key: string]: (state: T) => void;

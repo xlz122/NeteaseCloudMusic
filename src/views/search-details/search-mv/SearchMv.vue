@@ -73,7 +73,7 @@ import {
   handleMatchString
 } from '@utils/utils.ts';
 import { searchKeywords } from '@api/search';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
 
 type MvData = {
@@ -141,11 +141,6 @@ export default defineComponent({
             mvData.list = res?.result?.videos;
 
             emit('searchCountChange', total || 0);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
 
           mvData.loading = false;

@@ -63,7 +63,7 @@ import {
 import { useStore } from 'vuex';
 import { albumDetail } from '@api/album-detail';
 import { commentAlbum } from '@api/comment';
-import { ResponseType, CommentParams } from '@/types/types';
+import type { ResponseType, CommentParams } from '@/types/types';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import AlbumInfo from './album-info/AlbumInfo.vue';
 import AlbumSong from './album-song/AlbumSong.vue';
@@ -126,11 +126,6 @@ export default defineComponent({
 
             // 存储歌手id
             $store.commit('setSingerId', res?.album?.artist?.id);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
           albumData.loading = false;
         })

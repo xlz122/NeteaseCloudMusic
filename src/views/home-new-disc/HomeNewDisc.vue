@@ -113,8 +113,8 @@ import { useStore } from 'vuex';
 import { handleAudioSong } from '@/common/audio.ts';
 import { hotNewDisc, nweDiscAlbum, NweDiscAlbum } from '@api/home-new-disc';
 import { albumDetail } from '@api/album-detail';
-import { LoopType, ResponseType } from '@/types/types';
-import { PlayMusicItem } from '@store/music/state';
+import type { LoopType, ResponseType } from '@/types/types';
+import type { PlayMusicItem } from '@store/music/state';
 import Page from '@components/page/Page.vue';
 
 export default defineComponent({
@@ -219,11 +219,6 @@ export default defineComponent({
           if (res.code === 200) {
             pageTotal.value = res.total;
             newDiscAlbumList.value = res.albums;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

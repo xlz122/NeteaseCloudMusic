@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch, onMounted, onBeforeUnmount } from 'vue';
-import { LoopType } from '@/types/types';
+import type { LoopType } from '@/types/types';
 
 export default defineComponent({
   props: {

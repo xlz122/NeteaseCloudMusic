@@ -65,7 +65,7 @@ import { useStore } from 'vuex';
 import { formatDateTime } from '@utils/utils';
 import { dailySignin } from '@api/home';
 import { userVipInfo } from '@api/user';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 
 type VipInfo = {
   redVipLevelIcon?: string;

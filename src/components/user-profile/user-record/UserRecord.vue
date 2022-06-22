@@ -86,8 +86,8 @@ import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { handleAudioSong } from '@/common/audio.ts';
 import { userRecord } from '@api/user';
-import { ResponseType } from '@/types/types';
-import { PlayMusicItem } from '@store/music/state';
+import type { ResponseType } from '@/types/types';
+import type { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({
   setup() {
@@ -130,11 +130,6 @@ export default defineComponent({
             }
 
             loading.value = false;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));
