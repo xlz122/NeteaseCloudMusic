@@ -144,7 +144,7 @@ export default defineComponent({
 
     const msgCode = ref<number>(0);
     function loadMessage(): boolean | undefined {
-      if (isLogin.value) {
+      if (!isLogin.value) {
         return false;
       }
 
