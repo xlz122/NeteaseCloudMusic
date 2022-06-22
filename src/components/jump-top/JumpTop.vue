@@ -17,7 +17,7 @@ export default defineComponent({
 
     function setJumpTopShow(e: Event): void {
       const target = e.target as Record<string, any>;
-      const scrollTop = target.scrollTop;
+      const scrollTop = target.scrollingElement.scrollTop;
 
       if (!jumpTopShow.value && scrollTop >= 20) {
         jumpTopShow.value = true;
@@ -29,14 +29,11 @@ export default defineComponent({
     }
 
     function jumpTop(): void {
-      const appwrap = document.querySelector('.app-wrap') as HTMLElement;
-      appwrap.scrollTo(0, 0);
+      window.scrollTo(0, 0);
     }
 
     onMounted(() => {
-      const appwrap = document.querySelector('.app-wrap') as HTMLElement;
-
-      appwrap.addEventListener('scroll', debounce(setJumpTopShow, 100), false);
+      document.addEventListener('scroll', debounce(setJumpTopShow, 100), false);
     });
 
     onUnmounted(() => {
