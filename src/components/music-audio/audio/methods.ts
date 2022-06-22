@@ -1,6 +1,7 @@
 import store from '@store/index';
 import { getPlayMusicUrl } from '@api/my-music';
 import { ResponseType, LoopType } from '@/types/types';
+import { PlayMusicItem } from '@store/music/state';
 
 /**
  * @description 获取音乐播放链接
@@ -125,7 +126,7 @@ const musicId: number[] = [];
  * @description 获取随机播放id
  * @param { Array } list 播放列表
  */
-export function randomPlay(list: Record<string, any>[]): Promise<number> {
+export function randomPlay(list: PlayMusicItem[]): Promise<number> {
   return new Promise(resolve => {
     const musicItem: number = Math.floor(Math.random() * list.length);
     const id: number = list[musicItem].id;

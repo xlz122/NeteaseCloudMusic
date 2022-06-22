@@ -246,7 +246,7 @@ export function bigNumberTransform(value: number): number | string {
  * @param { MouseEvent } event 滚动条事件对象
  */
 export function getPageBottomHeight(e: Event): number {
-  const target = e.target as Record<string, any>;
+  const target = e.target as Document;
   // 总的滚动的高度
   const scrollHeight =
     (target ? target.documentElement.scrollHeight : false) ||
