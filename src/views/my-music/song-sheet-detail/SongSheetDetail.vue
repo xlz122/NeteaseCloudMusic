@@ -67,6 +67,9 @@ export default defineComponent({
           getSongSheetDetail();
           getCommentData();
         });
+      },
+      {
+        immediate: true
       }
     );
 
