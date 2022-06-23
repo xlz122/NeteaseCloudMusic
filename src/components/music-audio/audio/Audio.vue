@@ -55,6 +55,13 @@ export default defineComponent({
         .then((res: string) => {
           audioSrc.value = res;
 
+          // 重置播放进度
+          $store.commit('music/setMusicPlayProgress', {
+            progress: 0,
+            currentTime: 0,
+            duration: 0
+          });
+
           setAudioStatus();
         })
         .catch(() => ({}));
