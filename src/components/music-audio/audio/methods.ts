@@ -1,10 +1,7 @@
-/* eslint-disable */
 import store from '@store/index';
 import { getPlayMusicUrl } from '@api/my-music';
 import { ResponseType, LoopType } from '@/types/types';
 import { PlayMusicItem } from '@store/music/state';
-
-// 歌曲未播放，直接点进度，在点播放，播放进度从零开始而不是从进度开始
 
 /**
  * @description 获取音乐播放链接
@@ -173,7 +170,7 @@ export async function getNextMusicId(): Promise<boolean | undefined> {
   }, 1000);
 }
 
-const musicId: number[] = [];
+const cacheId: number[] = [];
 
 /**
  * @description 获取随机播放id
@@ -181,21 +178,37 @@ const musicId: number[] = [];
  */
 export function randomPlay(list: PlayMusicItem[]): Promise<number> {
   return new Promise(resolve => {
-    const musicItem: number = Math.floor(Math.random() * list.length);
-    const id: number = list[musicItem].id;
-
-    if (list.length >= 6 && musicId.includes(list[musicItem].id)) {
-      randomPlay(list);
-      return false;
+    // 缓存当前播放
+    const playMusicId = store.getters['music/playMusicId'];
+    if (!cacheId.includes(playMusicId)) {
+      cacheId.push(playMusicId);
     }
 
-    if (musicId.length >= 5) {
-      musicId.splice(0, 1);
-      musicId.push(id);
-    } else {
-      musicId.push(id);
+    // 筛选缓存数组
+    const filterMusic = list.filter(item => !cacheId.includes(item.id));
+
+    // 随机id
+    const musicId = filterMusic.map(item => item.id);
+    const playId: number = musicId[Math.floor(Math.random() * musicId.length)];
+
+    // 歌曲列表小于5项，缓存数比列表数少一
+    if (list.length <= 5 && cacheId.length === list.length - 1) {
+      cacheId.splice(0, 1);
+      cacheId.push(playId);
+    }
+    if (list.length <= 5 && cacheId.length < list.length - 1) {
+      cacheId.push(playId);
     }
 
-    resolve(id);
+    // 歌曲列表大于5项，最大缓存5项
+    if (list.length > 5 && cacheId.length > 5) {
+      cacheId.splice(0, 1);
+      cacheId.push(playId);
+    }
+    if (list.length > 5 && cacheId.length <= 5) {
+      cacheId.push(playId);
+    }
+
+    resolve(cacheId[cacheId.length - 1]);
   });
 }
