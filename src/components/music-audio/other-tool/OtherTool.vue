@@ -14,7 +14,7 @@
       title="音量"
       @click="setVolumeProgress"
     ></button>
-    <volume-progress v-if="volumeProgressShow" />
+    <volume-progress v-if="volumeShow" />
     <!-- 模式切换 -->
     <button
       class="btn"
@@ -97,9 +97,9 @@ export default defineComponent({
     }
 
     // 音量条显隐
-    const volumeProgressShow = ref<boolean>(false);
+    const volumeShow = ref<boolean>(false);
     function setVolumeProgress(): void {
-      volumeProgressShow.value = !volumeProgressShow.value;
+      volumeShow.value = !volumeShow.value;
     }
 
     // 模式切换
@@ -178,7 +178,7 @@ export default defineComponent({
       musicVolume,
       handleCollection,
       handleShare,
-      volumeProgressShow,
+      volumeShow,
       setVolumeProgress,
       musicModeType,
       modeTipShow,
