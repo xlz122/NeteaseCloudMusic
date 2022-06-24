@@ -1,4 +1,4 @@
-import { State } from '@store/music/state';
+import type { State } from '@store/music/state';
 
 export type Getters<T> = {
   [key: string]: (state: T) => void;

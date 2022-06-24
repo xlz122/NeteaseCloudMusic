@@ -210,8 +210,8 @@ import {
 } from '@api/home';
 import { playlistTrack } from '@api/song-sheet-detail';
 import { albumDetail } from '@api/album-detail';
-import { LoopType, ResponseType } from '@/types/types';
-import { PlayMusicItem } from '@store/music/state';
+import type { LoopType, ResponseType } from '@/types/types';
+import type { PlayMusicItem } from '@store/music/state';
 const AlbumNewest = defineAsyncComponent(
   () => import('./album-newest/AlbumNewest.vue')
 );

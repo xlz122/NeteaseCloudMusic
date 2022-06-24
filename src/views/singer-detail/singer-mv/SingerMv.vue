@@ -36,7 +36,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { formatDateTime } from '@utils/utils.ts';
 import { artistMv } from '@api/singer-detail';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
 
 type MvParams = {

@@ -23,7 +23,7 @@
 import { defineComponent, reactive, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { topArtists, artistList, ArtistList } from '@api/home-singer';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import SingerMenu from './singer-menu/SingerMenu.vue';
 import SingerContent from './singer-content/SingerContent.vue';
 

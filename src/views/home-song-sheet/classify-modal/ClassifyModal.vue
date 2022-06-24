@@ -44,7 +44,7 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
 import { playlistCatlist } from '@api/home-song-sheet';
-import { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType, LoopType } from '@/types/types';
 
 type CatList = {
   title: string;

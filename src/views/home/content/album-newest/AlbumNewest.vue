@@ -47,7 +47,7 @@
 import { defineComponent, ref, reactive, computed } from 'vue';
 import { throttle } from 'lodash';
 import { albumNewest } from '@api/home';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 
 type ListOffest = {
   index: number;

@@ -1,7 +1,7 @@
 import store from '@store/index';
 import { getPlayMusicUrl } from '@api/my-music';
-import { ResponseType, LoopType } from '@/types/types';
-import { PlayMusicItem } from '@store/music/state';
+import type { ResponseType, LoopType } from '@/types/types';
+import type { PlayMusicItem } from '@store/music/state';
 
 /**
  * @description 获取音乐播放链接

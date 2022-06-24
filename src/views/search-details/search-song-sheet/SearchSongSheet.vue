@@ -98,8 +98,8 @@ import { handleAudioSong } from '@/common/audio.ts';
 import { bigNumberTransform, handleMatchString } from '@utils/utils.ts';
 import { searchKeywords } from '@api/search';
 import { playlistTrack, playlistSubscribe } from '@api/song-sheet-detail';
-import { PlayMusicItem } from '@store/music/state';
-import { ResponseType, LoopType } from '@/types/types';
+import type { PlayMusicItem } from '@store/music/state';
+import type { ResponseType, LoopType } from '@/types/types';
 import Page from '@components/page/Page.vue';
 
 type songSheetData = {

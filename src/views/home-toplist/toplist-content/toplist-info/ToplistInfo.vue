@@ -116,8 +116,8 @@ import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { handleAudioSong } from '@/common/audio.ts';
 import { formatDateTime } from '@utils/utils.ts';
-import { PlayMusicItem } from '@store/music/state';
-import { LoopType } from '@/types/types';
+import type { PlayMusicItem } from '@store/music/state';
+import type { LoopType } from '@/types/types';
 
 export default defineComponent({
   props: {

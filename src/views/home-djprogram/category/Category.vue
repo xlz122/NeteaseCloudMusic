@@ -88,7 +88,7 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
 import { djCatelist } from '@api/home-djprogram';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 
 export default defineComponent({
   name: 'HomeDjprogramCategory',
