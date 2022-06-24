@@ -155,6 +155,11 @@ export default defineComponent({
 
               singerDetail.value.user.followed = false;
             }
+          } else {
+            $store.commit('setMessage', {
+              type: 'error',
+              title: res?.message
+            });
           }
         })
         .catch(() => ({}));
