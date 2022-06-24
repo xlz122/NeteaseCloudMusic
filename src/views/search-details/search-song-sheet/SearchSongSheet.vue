@@ -264,7 +264,7 @@ export default defineComponent({
           } else {
             $store.commit('setMessage', {
               type: 'error',
-              title: res?.msg
+              title: '收藏失败'
             });
           }
         })

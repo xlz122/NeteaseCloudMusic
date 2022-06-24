@@ -2,9 +2,9 @@
   <div class="mv-detail-side">
     <h3 class="title">MV简介</h3>
     <div class="video-desc">
-      <p class="publish-time">发布时间：{{ mvDetailData?.publishTime }}</p>
-      <p class="play-time">播放次数：{{ mvDetailData?.playCount }}次</p>
-      <p class="text">{{ mvDetailData?.desc }}</p>
+      <p class="publish-time">发布时间：{{ detail?.publishTime }}</p>
+      <p class="play-time">播放次数：{{ detail?.playCount }}次</p>
+      <p class="text">{{ detail?.desc }}</p>
     </div>
     <h3 class="title">相关推荐</h3>
     <h3 class="title">网易云音乐多端下载</h3>
@@ -42,7 +42,7 @@ export default defineComponent({
     SideDownload
   },
   props: {
-    mvDetailData: {
+    detail: {
       type: Object,
       default: () => ({})
     }

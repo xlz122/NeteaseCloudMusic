@@ -3,10 +3,10 @@
     <h3 class="title">视频简介</h3>
     <div class="video-desc">
       <p class="publish-time">
-        发布时间：{{ formatDateTime(videoDetailData?.publishTime / 1000) }}
+        发布时间：{{ formatDateTime(detail?.publishTime / 1000) }}
       </p>
-      <p class="play-time">播放次数：{{ videoDetailData?.playTime }}次</p>
-      <p class="text">{{ videoDetailData?.description }}</p>
+      <p class="play-time">播放次数：{{ detail?.playTime }}次</p>
+      <p class="text">{{ detail?.description }}</p>
     </div>
     <h3 class="title">相关推荐</h3>
     <ul class="like-list">
@@ -69,7 +69,7 @@ import {
   timeStampToDuration
 } from '@utils/utils.ts';
 import { relatedVideo } from '@api/video-detail';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 export default defineComponent({
@@ -78,7 +78,7 @@ export default defineComponent({
     SideDownload
   },
   props: {
-    videoDetailData: {
+    detail: {
       type: Object,
       default: () => ({})
     }

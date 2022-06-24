@@ -10,8 +10,8 @@
     <!-- 大屏显示 -->
     <div class="full-operate">
       <h2 class="title">
-        {{ videoDetailData.title }} - by
-        {{ videoDetailData?.creator?.nickname }}
+        {{ detail.title }} - by
+        {{ detail?.creator?.nickname }}
       </h2>
       <ul class="list">
         <li class="item" @click="handleLike">
@@ -81,7 +81,7 @@ export default defineComponent({
     VolumeProgress
   },
   props: {
-    videoDetailData: {
+    detail: {
       type: Object,
       default: () => ({})
     },
