@@ -182,11 +182,6 @@ export default defineComponent({
             songData.list = res?.result?.songs;
 
             emit('searchCountChange', total || 0);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
 
           songData.loading = false;

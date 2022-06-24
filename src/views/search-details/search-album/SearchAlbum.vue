@@ -133,11 +133,6 @@ export default defineComponent({
             albumData.list = res?.result?.albums;
 
             emit('searchCountChange', total || 0);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
 
           albumData.loading = false;

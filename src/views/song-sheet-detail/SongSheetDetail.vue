@@ -116,11 +116,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res?.code === 200) {
             $store.commit('setSongSheetDetail', res);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

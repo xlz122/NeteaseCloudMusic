@@ -132,18 +132,12 @@ export default defineComponent({
 
     // 获取歌单详情
     function getSongDetail(): void {
-      // 清空歌单详情数据
       playlistDetail({
         id: songSheetId.value
       })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
             songSheetDetail.value = res;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

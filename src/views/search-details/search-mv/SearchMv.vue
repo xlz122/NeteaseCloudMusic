@@ -141,11 +141,6 @@ export default defineComponent({
             mvData.list = res?.result?.videos;
 
             emit('searchCountChange', total || 0);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
 
           mvData.loading = false;

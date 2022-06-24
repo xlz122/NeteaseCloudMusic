@@ -141,11 +141,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res?.code === 200) {
             videoDetailData.value = res?.data;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));
@@ -225,11 +220,6 @@ export default defineComponent({
 
               videoSubed.value = false;
             }
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

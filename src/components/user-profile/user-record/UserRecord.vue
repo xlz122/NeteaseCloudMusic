@@ -130,11 +130,6 @@ export default defineComponent({
             }
 
             loading.value = false;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

@@ -211,11 +211,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res.code === 200) {
             searchPropos.value = res.result;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

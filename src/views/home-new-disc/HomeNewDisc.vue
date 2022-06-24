@@ -219,11 +219,6 @@ export default defineComponent({
           if (res.code === 200) {
             pageTotal.value = res.total;
             newDiscAlbumList.value = res.albums;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

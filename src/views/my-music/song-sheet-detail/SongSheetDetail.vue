@@ -84,11 +84,6 @@ export default defineComponent({
               res.playlist.name = '我喜欢的音乐';
             }
             $store.commit('setSongSheetDetail', res);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

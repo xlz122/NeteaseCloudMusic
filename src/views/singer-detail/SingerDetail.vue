@@ -121,11 +121,6 @@ export default defineComponent({
               );
             }
             singerDetail.value = res.data;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));
@@ -160,11 +155,6 @@ export default defineComponent({
 
               singerDetail.value.user.followed = false;
             }
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

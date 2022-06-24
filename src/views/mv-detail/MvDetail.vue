@@ -151,11 +151,6 @@ export default defineComponent({
           if (res?.code === 200) {
             mvDetailData.value = res?.data;
             mvsubed.value = res?.subed;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));
@@ -217,11 +212,6 @@ export default defineComponent({
 
               mvsubed.value = false;
             }
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

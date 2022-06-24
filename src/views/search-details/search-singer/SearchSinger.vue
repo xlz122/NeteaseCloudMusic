@@ -133,11 +133,6 @@ export default defineComponent({
             singerData.list = res?.result?.artists;
 
             emit('searchCountChange', total || 0);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
 
           singerData.loading = false;
