@@ -52,18 +52,17 @@ export const videoUrl = ({ id }: { id: number }): AxiosPromise => {
   });
 };
 
+type VideoSub = {
+  id: number;
+  t: number;
+};
+
 /**
  * @description 收藏/取消收藏视频
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 视频id
  * @param { Number } t - t : 1 为收藏,其他为取消收藏
  */
-
-type VideoSub = {
-  id: number;
-  t: number;
-};
-
 export const videoSub = ({ id, t }: VideoSub): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),

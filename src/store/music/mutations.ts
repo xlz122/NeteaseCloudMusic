@@ -1,21 +1,23 @@
 import { toRawType } from '@utils/tool';
-import type { State, PlayMusicItem } from '@store/music/state';
-import type { LoopType } from '@/types/types';
+import type {
+  State,
+  PlayMusicItem,
+  MusicPlayProgress,
+  MusicPlayStatus,
+  PlayLyrics
+} from '@store/music/state';
 
-type Mutations<T, U> = {
+type Mutations<T, U = any> = {
   [key: string]: (state: T, payload: U) => void;
 };
 
-const mutations: Mutations<State, unknown> = {
+const mutations: Mutations<State> = {
   // 当前播放音乐
-  setPlayMusicItem(state, musicItem) {
-    state.playMusicId = (musicItem as PlayMusicItem).id;
-    localStorage.setItem(
-      'playMusicId',
-      JSON.stringify((musicItem as PlayMusicItem).id)
-    );
+  setPlayMusicItem(state, musicItem: PlayMusicItem) {
+    state.playMusicId = musicItem.id;
+    localStorage.setItem('playMusicId', JSON.stringify(musicItem.id));
 
-    state.playMusicItem = musicItem as PlayMusicItem;
+    state.playMusicItem = musicItem;
     localStorage.setItem('playMusicItem', JSON.stringify(musicItem));
   },
   // 播放列表(新数据往最后面添加)
@@ -41,60 +43,62 @@ const mutations: Mutations<State, unknown> = {
     localStorage.setItem('playMusicList', JSON.stringify(musicList));
   },
   // 当前播放音乐进度数据
-  setMusicPlayProgress(state, playProgress) {
+  setMusicPlayProgress(state, playProgress: MusicPlayProgress) {
     const musicPlayProgress = JSON.parse(
       JSON.stringify(state.musicPlayProgress)
     );
     const progress = Object.assign(musicPlayProgress, playProgress);
-    state.musicPlayProgress = progress as unknown;
+    state.musicPlayProgress = progress;
   },
   // 音乐播放状态
-  setMusicPlayStatus(state, playStatus) {
-    const musicPlayStatus = JSON.parse(JSON.stringify(state.musicPlayStatus));
-    const status = Object.assign(musicPlayStatus, playStatus);
-    state.musicPlayStatus = status as unknown;
+  setMusicPlayStatus(state, playStatus: MusicPlayStatus) {
+    const keys = Object.keys(playStatus);
+
+    for (const key of keys) {
+      state.musicPlayStatus[key] = playStatus[key];
+    }
   },
   // 播放器锁定在底部
-  setMsicAudioLock(state, musicAudioLock) {
-    state.musicAudioLock = musicAudioLock as boolean;
+  setMsicAudioLock(state, musicAudioLock: boolean) {
+    state.musicAudioLock = musicAudioLock;
     localStorage.setItem('musicAudioLock', JSON.stringify(musicAudioLock));
   },
   // 播放类型
-  setMusicModeType(state, modeType) {
-    state.musicModeType = modeType as number;
+  setMusicModeType(state, modeType: number) {
+    state.musicModeType = modeType;
     localStorage.setItem('musicModeType', JSON.stringify(modeType));
   },
   // 音量控制
-  setMusicVolume(state, musicVolume) {
-    state.musicVolume = musicVolume as number;
+  setMusicVolume(state, musicVolume: number) {
+    state.musicVolume = musicVolume;
     localStorage.setItem('musicVolume', JSON.stringify(musicVolume));
   },
   // 播放器 - 歌词
-  setLyrics(state, playLyrics) {
-    state.playLyrics = playLyrics as unknown[];
+  setLyrics(state, playLyrics: PlayLyrics[]) {
+    state.playLyrics = playLyrics;
     localStorage.setItem('playLyrics', JSON.stringify(playLyrics));
   },
   // 播放器 - 清空播放列表
   emptyPlayMusicList(state) {
-    state.playMusicList = [] as unknown[];
+    state.playMusicList = [];
     localStorage.setItem('playMusicList', [] as never);
     // 清除歌词
-    state.playLyrics = [] as unknown[];
+    state.playLyrics = [];
     localStorage.setItem('playLyrics', [] as never);
     // 清除本地当前播放数据(清除后刷新)
     localStorage.setItem('playMusicId', '');
     localStorage.setItem('playMusicItem', '');
   },
   // 播放器 - 删除播放列表单项数据
-  deletePlayMusicList(state, id) {
+  deletePlayMusicList(state, id: number) {
     // 查找索引
     const list = JSON.parse(JSON.stringify(state.playMusicList));
-    const index = list.findIndex((item: LoopType) => item.id === id);
+    const index = list.findIndex((item: PlayMusicItem) => item.id === id);
     if (index !== -1) {
       list.splice(index, 1);
     }
     // 保存数据
-    state.playMusicList = list as unknown[];
+    state.playMusicList = list as PlayMusicItem[];
     localStorage.setItem('playMusicList', JSON.stringify(list));
   }
 };

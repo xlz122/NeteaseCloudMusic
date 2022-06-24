@@ -112,7 +112,8 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
-import { formatDateTime } from '@utils/utils.ts';
+import { setMessage } from '@/components/message/useMessage';
+import { formatDateTime } from '@utils/utils';
 
 export default defineComponent({
   props: {
@@ -134,10 +135,7 @@ export default defineComponent({
 
     // 喜欢
     function handleLike(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 评论
@@ -147,18 +145,12 @@ export default defineComponent({
 
     // 分享
     function handleShare(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 下载
     function handleDownload(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     return {

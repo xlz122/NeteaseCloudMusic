@@ -15,9 +15,14 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    // 关闭any类型时的警告
-    '@typescript-eslint/no-explicit-any': 'off',
-    // 组件name ignores数组为忽略（string[]）
+    // any类型
+    // fixToUnknown: 提供自动修复,其中“any”类型转换为“unknown”类型
+    // ignoreRestArgs: 允许 rest 运算符数组
+    '@typescript-eslint/no-explicit-any': [0, {
+      fixToUnknown: true,
+      ignoreRestArgs: true
+    }],
+    // 组件name ignores数组为忽略(string[])
     'vue/multi-word-component-names': ['error', {
       'ignores': []
     }],
@@ -39,7 +44,7 @@ module.exports = {
     'semi': [2, 'always'],
     // 强制文件末尾换行
     'eol-last': 2,
-    // 箭头函数参数括号(1个参数不需要,1个以上需要)
+    // 箭头函数参数括号(1个参数不需要, 1个以上需要)
     'arrow-parens': [2, 'as-needed'],
     // 箭头函数(箭头前后空格)
     'arrow-spacing': [2, { before: true, after: true }],

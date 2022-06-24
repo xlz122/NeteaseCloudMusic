@@ -154,11 +154,12 @@
 import { defineComponent, ref, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio.ts';
-import { timeStampToDuration } from '@utils/utils.ts';
+import { setMessage } from '@/components/message/useMessage';
+import { handleAudioSong } from '@/common/audio';
+import { timeStampToDuration } from '@utils/utils';
 import { deleteMusic } from '@api/my-music';
-import type { LoopType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 import MyDialog from '@/components/MyDialog.vue';
 
 export default defineComponent({
@@ -194,7 +195,7 @@ export default defineComponent({
     // 歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
       const privilege = songSheetDetail.value?.privileges.find(
-        (item: LoopType) => item.id === id
+        (item: { id: number }) => item.id === id
       );
       if (privilege?.cp === 0) {
         return true;
@@ -204,14 +205,14 @@ export default defineComponent({
     }
 
     // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(item: Record<string, any>): void {
+    function singleMusicToPlayList(item: Partial<SongType>): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
     // 播放单个歌曲
-    function playSingleMusic(item: Record<string, any>): boolean | undefined {
+    function playSingleMusic(item: { id: number }): boolean | undefined {
       // 无版权
       if (isCopyright(item.id)) {
         $store.commit('setCopyright', {
@@ -264,18 +265,12 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 下载
     function handleDownload(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 删除歌曲弹框
@@ -297,7 +292,7 @@ export default defineComponent({
       })
         .then(() => {
           const index = songSheetDetail.value?.playlist?.tracks?.findIndex(
-            (item: LoopType) => item.id === deleteMuiscId.value
+            (item: { id: number }) => item.id === deleteMuiscId.value
           );
           songSheetDetail.value?.playlist?.tracks?.splice(index, 1);
         })

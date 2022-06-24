@@ -14,7 +14,7 @@
       title="音量"
       @click="setVolumeProgress"
     ></button>
-    <volume-progress v-if="volumeProgressShow" />
+    <volume-progress v-if="volumeShow" />
     <!-- 模式切换 -->
     <button
       class="btn"
@@ -51,6 +51,7 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import VolumeProgress from '../volume-progress/VolumeProgress.vue';
 import PlayList from './play-list/PlayList.vue';
 
@@ -90,16 +91,13 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 音量条显隐
-    const volumeProgressShow = ref<boolean>(false);
+    const volumeShow = ref<boolean>(false);
     function setVolumeProgress(): void {
-      volumeProgressShow.value = !volumeProgressShow.value;
+      volumeShow.value = !volumeShow.value;
     }
 
     // 模式切换
@@ -178,7 +176,7 @@ export default defineComponent({
       musicVolume,
       handleCollection,
       handleShare,
-      volumeProgressShow,
+      volumeShow,
       setVolumeProgress,
       musicModeType,
       modeTipShow,

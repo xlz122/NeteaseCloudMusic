@@ -94,12 +94,14 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio.ts';
-import { bigNumberTransform, handleMatchString } from '@utils/utils.ts';
+import { setMessage } from '@/components/message/useMessage';
+import { handleAudioSong } from '@/common/audio';
+import { bigNumberTransform, handleMatchString } from '@utils/utils';
 import { searchKeywords } from '@api/search';
 import { playlistTrack, playlistSubscribe } from '@api/song-sheet-detail';
 import type { PlayMusicItem } from '@store/music/state';
-import type { ResponseType, LoopType } from '@/types/types';
+import type { SongType } from '@/common/audio';
+import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
 
 type songSheetData = {
@@ -188,7 +190,7 @@ export default defineComponent({
 
             const songList: PlayMusicItem[] = [];
 
-            res?.songs.forEach((item: LoopType) => {
+            res?.songs.forEach((item: Partial<SongType>) => {
               const musicItem: PlayMusicItem = handleAudioSong(item);
 
               songList.push(musicItem);
@@ -219,7 +221,7 @@ export default defineComponent({
 
             const songList: PlayMusicItem[] = [];
 
-            res?.songs.forEach((item: LoopType) => {
+            res?.songs.forEach((item: Partial<SongType>) => {
               const musicItem: PlayMusicItem = handleAudioSong(item);
 
               songList.push(musicItem);
@@ -251,10 +253,7 @@ export default defineComponent({
       playlistSubscribe({ id, t: 1 })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            $store.commit('setMessage', {
-              type: 'info',
-              title: '收藏成功'
-            });
+            setMessage({ type: 'info', title: '收藏成功' });
 
             songSheetData.list.forEach((item: unknown) => {
               if (id === (item as { id: number }).id) {
@@ -262,10 +261,7 @@ export default defineComponent({
               }
             });
           } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: '收藏失败'
-            });
+            setMessage({ type: 'error', title: '收藏失败' });
           }
         })
         .catch(() => ({}));
@@ -278,10 +274,7 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 分页

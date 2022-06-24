@@ -107,10 +107,12 @@
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio.ts';
-import { timeStampToDuration, handleMatchString } from '@utils/utils.ts';
+import { handleAudioSong } from '@/common/audio';
+import { timeStampToDuration, handleMatchString } from '@utils/utils';
+import { setMessage } from '@/components/message/useMessage';
 import { searchKeywords } from '@api/search';
 import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
 
@@ -119,7 +121,7 @@ type SongData = {
   offset: number;
   limit: number;
   total: number;
-  list: Record<string, any>[];
+  list: Record<string, unknown>[];
 };
 
 export default defineComponent({
@@ -191,14 +193,14 @@ export default defineComponent({
     getSearchSong();
 
     // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(item: Record<string, any>): void {
+    function singleMusicToPlayList(item: Partial<SongType>): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
     // 播放单个歌曲
-    function playSingleMusic(item: Record<string, any>): boolean | undefined {
+    function playSingleMusic(item: { id: number }): boolean | undefined {
       // 无版权
       if (isCopyright(item.id)) {
         $store.commit('setCopyright', {
@@ -226,7 +228,7 @@ export default defineComponent({
     function isCopyright(id: number): boolean | undefined {
       const songItem = songData.list.find(item => item.id === id);
 
-      if (songItem?.privilege?.cp === 0) {
+      if ((songItem?.privilege as { cp: number })?.cp === 0) {
         return true;
       } else {
         return false;
@@ -253,18 +255,12 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 下载
     function handleDownload(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 分页

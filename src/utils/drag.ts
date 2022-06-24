@@ -2,7 +2,7 @@
 export const drag = {
   beforeMount: (
     el: HTMLElement,
-    binding: Record<string, any>,
+    binding: unknown,
     vnode: { el: HTMLElement }
   ): void => {
     const vnodeEl = vnode.el;

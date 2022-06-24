@@ -90,12 +90,14 @@ import {
   onMounted
 } from 'vue';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import { MyVideoSbulist } from '@api/my-music';
 import { videoDetail } from '@api/video-detail';
 import { commentVideo } from '@api/comment';
 import { videoUrl, videoSub } from '@api/video-detail';
-import type { ResponseType, CommentParams, LoopType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
+import type { CommentParams } from '@components/comment/Comment.vue';
 import type { Video } from '@store/video/state';
 import VideoPlayer from '@components/video-player/VideoPlayer.vue';
 import Comment from '@components/comment/Comment.vue';
@@ -169,10 +171,7 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     const videoSubed = ref<boolean>(false);
@@ -182,7 +181,7 @@ export default defineComponent({
       MyVideoSbulist()
         .then((res: ResponseType) => {
           if (res?.code === 200) {
-            res?.data?.forEach((item: LoopType) => {
+            res?.data?.forEach((item: { vid: number }) => {
               if (item?.vid === video.value.id) {
                 videoSubed.value = true;
               }
@@ -206,26 +205,17 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res?.code === 200) {
             if (t === 1) {
-              $store.commit('setMessage', {
-                type: 'info',
-                title: '收藏成功'
-              });
+              setMessage({ type: 'info', title: '收藏成功' });
 
               videoSubed.value = true;
             }
             if (t === 2) {
-              $store.commit('setMessage', {
-                type: 'info',
-                title: '取消收藏成功'
-              });
+              setMessage({ type: 'info', title: '取消收藏成功' });
 
               videoSubed.value = false;
             }
           } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.message
-            });
+            setMessage({ type: 'error', title: res?.message });
           }
         })
         .catch(() => ({}));
@@ -238,10 +228,7 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 获取评论数据

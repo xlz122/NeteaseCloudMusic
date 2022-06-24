@@ -71,7 +71,7 @@ import {
   bigNumberTransform,
   timeStampToDuration,
   handleMatchString
-} from '@utils/utils.ts';
+} from '@utils/utils';
 import { searchKeywords } from '@api/search';
 import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';

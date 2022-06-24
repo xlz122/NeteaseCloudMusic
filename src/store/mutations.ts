@@ -6,12 +6,6 @@ type Mutations<T, U = any> = {
   [key: string]: (state: T, payload: U) => void;
 };
 
-type Message = {
-  type: string;
-  title: string;
-  time?: number;
-};
-
 const mutations: Mutations<State> = {
   // 头部导航
   setMenuIndex(state, index: number) {
@@ -28,25 +22,17 @@ const mutations: Mutations<State> = {
     state.loginDialog = bool;
   },
   // 用户信息
-  setUserInfo(state, userInfo) {
-    state.userInfo = userInfo as unknown;
+  setUserInfo(state, userInfo: unknown) {
+    state.userInfo = userInfo;
     localStorage.setItem('userInfo', JSON.stringify(userInfo));
     // 是否登录
     state.isLogin = true;
     localStorage.setItem('isLogin', JSON.stringify(true));
   },
   // 用户cookie
-  setCookie(state, cookie) {
-    state.cookie = cookie as string;
+  setCookie(state, cookie: string) {
+    state.cookie = cookie;
     localStorage.setItem('cookie', JSON.stringify(cookie));
-  },
-  // 消息提示
-  setMessage(state, message: Message) {
-    return new Promise(resolve => {
-      const params = Object.assign({ time: 1000 }, message);
-      state.message = params;
-      resolve('');
-    });
   },
   // 搜索关键字
   setSearchText(state, searchText: string) {
@@ -153,16 +139,16 @@ const mutations: Mutations<State> = {
     clearAllCookie();
   },
   // 歌单详情数据
-  setSongSheetDetail(state, songSheetDetail) {
-    state.songSheetDetail = songSheetDetail as unknown;
+  setSongSheetDetail(state, songSheetDetail: unknown) {
+    state.songSheetDetail = songSheetDetail;
     localStorage.setItem('songSheetDetail', JSON.stringify(songSheetDetail));
   },
   // 收藏歌曲
-  collectPlayMusic(state, song) {
-    state.collectSong = song as { visible: boolean; songIds: string };
+  collectPlayMusic(state, song: State['collectSong']) {
+    state.collectSong = song;
   },
   // 版权提示
-  setCopyright(state, data) {
+  setCopyright(state, data: State['copyright']) {
     state.copyright = data;
   }
 };

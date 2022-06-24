@@ -128,7 +128,8 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio.ts';
+import { setMessage } from '@/components/message/useMessage';
+import { handleAudioSong } from '@/common/audio';
 import type { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({
@@ -224,18 +225,12 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 下载
     function handleDownload(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 跳转至评论

@@ -65,7 +65,8 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
-import { handleMatchString } from '@utils/utils.ts';
+import { setMessage } from '@/components/message/useMessage';
+import { handleMatchString } from '@utils/utils';
 import { searchKeywords, followUser } from '@api/search';
 import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
@@ -149,15 +150,9 @@ export default defineComponent({
       followUser({ id: userId, t: 1 })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
-            $store.commit('setMessage', {
-              type: 'info',
-              title: '关注成功'
-            });
+            setMessage({ type: 'info', title: '关注成功' });
           } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
+            setMessage({ type: 'error', title: res?.msg });
           }
         })
         .catch(() => ({}));

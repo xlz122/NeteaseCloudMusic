@@ -98,9 +98,9 @@
 import { defineComponent, computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
-import { handleAudioSong } from '@/common/audio.ts';
-import { formatDateTime } from '@utils/utils.ts';
-import type { LoopType } from '@/types/types';
+import { setMessage } from '@/components/message/useMessage';
+import { handleAudioSong } from '@/common/audio';
+import { formatDateTime } from '@utils/utils';
 import type { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({
@@ -131,7 +131,7 @@ export default defineComponent({
 
         // 歌曲是否全部无版权
         let noCopyrightNum = 0;
-        props?.songs?.forEach((item: LoopType) => {
+        props?.songs?.forEach((item: Record<string, { cp: number }>) => {
           if (item.privilege?.cp === 0) {
             noCopyrightNum += 1;
           }
@@ -147,7 +147,7 @@ export default defineComponent({
 
         const songList: PlayMusicItem[] = [];
 
-        songs.value.forEach((item: LoopType) => {
+        songs.value.forEach((item: Record<string, { cp: number }>) => {
           // 无版权过滤
           if (item?.privilege?.cp === 0) {
             return false;
@@ -183,7 +183,7 @@ export default defineComponent({
 
       // 歌曲是否全部无版权
       let noCopyrightNum = 0;
-      props?.songs?.forEach((item: LoopType) => {
+      props?.songs?.forEach((item: Record<string, { cp: number }>) => {
         if (item.privilege?.cp === 0) {
           noCopyrightNum += 1;
         }
@@ -199,7 +199,7 @@ export default defineComponent({
 
       const songList: PlayMusicItem[] = [];
 
-      songs.value.forEach((item: LoopType) => {
+      songs.value.forEach((item: Record<string, { cp: number }>) => {
         // 无版权过滤
         if (item?.privilege?.cp === 0) {
           return false;
@@ -223,7 +223,7 @@ export default defineComponent({
 
       // 歌曲是否全部无版权
       let noCopyrightNum = 0;
-      props?.songs?.forEach((item: LoopType) => {
+      props?.songs?.forEach((item: Record<string, { cp: number }>) => {
         if (item.privilege?.cp === 0) {
           noCopyrightNum += 1;
         }
@@ -238,7 +238,7 @@ export default defineComponent({
       }
 
       let ids = '';
-      songs.value.forEach((item: LoopType) => {
+      songs.value.forEach((item: Record<string, { cp: number }>) => {
         // 无版权过滤
         if (item?.privilege?.cp === 0) {
           return false;
@@ -262,7 +262,7 @@ export default defineComponent({
 
       // 歌曲是否全部无版权
       let noCopyrightNum = 0;
-      props?.songs?.forEach((item: LoopType) => {
+      props?.songs?.forEach((item: Record<string, { cp: number }>) => {
         if (item.privilege?.cp === 0) {
           noCopyrightNum += 1;
         }
@@ -276,18 +276,12 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 下载
     function handleDownload(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 跳转至评论

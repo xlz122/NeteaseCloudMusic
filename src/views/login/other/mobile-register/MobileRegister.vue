@@ -117,9 +117,9 @@
 
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted, onUnmounted } from 'vue';
-import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { countryCode, captchaSent, captchaVerify } from '@api/login';
-import type { LoopType, ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 
 type MobileFormData = {
   code: string;
@@ -148,8 +148,6 @@ type VerificationCodeVerify = {
 
 export default defineComponent({
   setup() {
-    const $store = useStore();
-
     // 表单数据
     const mobileFormData = reactive<MobileFormData>({
       code: '86',
@@ -163,8 +161,8 @@ export default defineComponent({
       countryCode()
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            res.data.forEach((item: LoopType) => {
-              item?.countryList.forEach((i: LoopType) => {
+            res.data.forEach((item: { countryList: unknown[] }) => {
+              item?.countryList.forEach((i: unknown) => {
                 countryCodeList.value.push(i);
               });
             });
@@ -285,17 +283,11 @@ export default defineComponent({
         .catch(err => {
           // 发送超过限制次数
           if (err.response.status === 400) {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: err.response.data.message
-            });
+            setMessage({ type: 'error', title: err.response.data.message });
           }
           // 发送时间间隔太短
           if (err.response.status === 405) {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: err.response.data.message
-            });
+            setMessage({ type: 'error', title: err.response.data.message });
           }
         });
     }
@@ -330,10 +322,7 @@ export default defineComponent({
 
       getCaptchaVerify()
         .then(() => {
-          $store.commit('setMessage', {
-            type: 'error',
-            title: '很抱歉，余下功能未开发'
-          });
+          setMessage({ type: 'info', title: '很抱歉，余下功能未开发' });
         })
         .catch(() => ({}));
     }

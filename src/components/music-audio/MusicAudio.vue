@@ -1,12 +1,12 @@
 <template>
-  <MusicAutioComponent />
+  <AudioView />
   <div class="music-audio-container">
     <div
       class="music-audio-playbar"
       :class="[
-        { 'music-audio-playbar-enter': isMusicAudioEnter },
-        { 'music-audio-playbar-leave': !isMusicAudioEnter },
-        { 'music-audio-playbar-lock': musicAudioLock }
+        { 'audio-playbar-enter': audioEnter },
+        { 'audio-playbar-leave': !audioEnter },
+        { 'audio-playbar-lock': musicAudioLock }
       ]"
       @mouseenter="musicAudioEnter"
       @mouseleave="musicAudioLeave"
@@ -27,24 +27,7 @@
       <div class="playbar-bg"></div>
       <div class="hand" title="展开播放条" @mouseenter="musicAudioEnter"></div>
       <div class="wrap">
-        <div class="operate-btn">
-          <button
-            class="btn prev-btn"
-            title="上一首(ctrl+←)"
-            @click="prevPlayMusic"
-          ></button>
-          <button
-            class="btn look-btn"
-            :class="{ 'look-play-btn': musicPlayStatus?.look }"
-            title="播放/暂停(p)"
-            @click="lookPlayMusic"
-          ></button>
-          <button
-            class="btn down-btn"
-            title="下一首(ctrl+→)"
-            @click="nextPlayMusic"
-          ></button>
-        </div>
+        <PlayAction />
         <div class="music-img">
           <img
             class="img"
@@ -111,14 +94,16 @@
 import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { getPrevMusicId, getNextMusicId } from './audio/methods';
-import MusicAutioComponent from './audio/Audio.vue';
+import { setMessage } from '@/components/message/useMessage';
+import AudioView from './audio/Audio.vue';
+import PlayAction from './play-action/PlayAction.vue';
 import PlayProgress from './play-progress/PlayProgress.vue';
 import OtherTool from './other-tool/OtherTool.vue';
 
 export default defineComponent({
   components: {
-    MusicAutioComponent,
+    AudioView,
+    PlayAction,
     PlayProgress,
     OtherTool
   },
@@ -126,7 +111,19 @@ export default defineComponent({
     const $router = useRouter();
     const $store = useStore();
 
-    // 播放器锁定在底部
+    // 当前播放音乐
+    const playMusicItem = computed<number>(
+      () => $store.getters['music/playMusicItem']
+    );
+    // 播放状态
+    const musicPlayStatus = computed(
+      () => $store.getters['music/musicPlayStatus']
+    );
+    // 播放进度数据
+    const musicPlayProgress = computed(
+      () => $store.getters['music/musicPlayProgress']
+    );
+    // 播放器锁定
     const musicAudioLock = computed<boolean>(
       () => $store.getters['music/musicAudioLock']
     );
@@ -140,64 +137,23 @@ export default defineComponent({
     }
 
     // 播放器鼠标移入事件
-    const isMusicAudioEnter = ref<boolean>(false);
+    const audioEnter = ref<boolean>(false);
     function musicAudioEnter(): boolean | undefined {
-      // 锁定之后不触发
       if (musicAudioLock.value) {
         return false;
       }
-      isMusicAudioEnter.value = true;
+
+      audioEnter.value = true;
     }
 
     // 播放器鼠标移出事件
     function musicAudioLeave(): boolean | undefined {
-      // 锁定之后不触发
       if (musicAudioLock.value) {
         return false;
       }
-      isMusicAudioEnter.value = false;
+
+      audioEnter.value = false;
     }
-
-    // 播放/暂停切换
-    const musicPlayStatus = computed(
-      () => $store.getters['music/musicPlayStatus']
-    );
-
-    function lookPlayMusic(): void {
-      if (musicPlayStatus.value.look) {
-        $store.commit('music/setMusicPlayStatus', {
-          look: false,
-          loading: false,
-          refresh: false
-        });
-      } else {
-        $store.commit('music/setMusicPlayStatus', {
-          look: true,
-          loading: true,
-          refresh: false
-        });
-      }
-    }
-
-    // 当前播放音乐
-    const playMusicItem = computed<number>(
-      () => $store.getters['music/playMusicItem']
-    );
-
-    // 上一首
-    function prevPlayMusic(): void {
-      getPrevMusicId();
-    }
-
-    // 下一首
-    function nextPlayMusic(): void {
-      getNextMusicId();
-    }
-
-    // 播放进度数据
-    const musicPlayProgress = computed(
-      () => $store.getters['music/musicPlayProgress']
-    );
 
     // 音乐进度更改
     function progressChange(value: number): void {
@@ -227,24 +183,18 @@ export default defineComponent({
 
     // 跳转歌曲位置
     function jumpSongPosition(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     return {
+      playMusicItem,
+      musicPlayStatus,
+      musicPlayProgress,
       musicAudioLock,
+      audioEnter,
       audioLock,
-      isMusicAudioEnter,
       musicAudioEnter,
       musicAudioLeave,
-      musicPlayStatus,
-      lookPlayMusic,
-      playMusicItem,
-      prevPlayMusic,
-      nextPlayMusic,
-      musicPlayProgress,
       progressChange,
       jumpSongDetail,
       jumpVideoDetail,

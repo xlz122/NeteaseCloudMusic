@@ -91,11 +91,13 @@ import {
   nextTick
 } from 'vue';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import { songDetail } from '@api/song-detail';
 import { getLyric } from '@api/my-music';
 import { commentMusic } from '@api/comment';
-import type { ResponseType, CommentParams } from '@/types/types';
+import type { ResponseType } from '@/types/types';
+import type { CommentParams } from '@components/comment/Comment.vue';
 import Comment from '@components/comment/Comment.vue';
 import SongInfo from './song-info/SongInfo.vue';
 import SongDateilSide from './song-detail-side/SongDetailSide.vue';
@@ -213,9 +215,11 @@ export default defineComponent({
         time.match(regMs).index + 1,
         time.match(regMs).index + 3
       );
+
       if (min !== 0) {
         sec += min * 60;
       }
+
       return Number(sec + '.' + ms);
     }
 
@@ -270,8 +274,7 @@ export default defineComponent({
         '.comment-component'
       ) as HTMLElement;
 
-      const appwrap = document.querySelector('.app-wrap') as HTMLElement;
-      appwrap.scrollTo(0, Number(commentDom.offsetTop) + 20);
+      window.scrollTo(0, Number(commentDom.offsetTop) + 20);
     }
 
     // 求翻译
@@ -281,10 +284,7 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 跳转用户资料

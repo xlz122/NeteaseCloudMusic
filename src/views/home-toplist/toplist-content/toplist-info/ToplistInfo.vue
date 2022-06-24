@@ -114,10 +114,11 @@
 import { defineComponent, computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
-import { handleAudioSong } from '@/common/audio.ts';
-import { formatDateTime } from '@utils/utils.ts';
+import { setMessage } from '@/components/message/useMessage';
+import { handleAudioSong } from '@/common/audio';
+import { formatDateTime } from '@utils/utils';
 import type { PlayMusicItem } from '@store/music/state';
-import type { LoopType } from '@/types/types';
+import type { SongType } from '@/common/audio';
 
 export default defineComponent({
   props: {
@@ -141,7 +142,7 @@ export default defineComponent({
     // 歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
       const privilege = songSheetDetail.value?.privileges.find(
-        (item: LoopType) => item.id === id
+        (item: { id: number }) => item.id === id
       );
       if (privilege?.cp === 0) {
         return true;
@@ -159,11 +160,13 @@ export default defineComponent({
 
         const songList: PlayMusicItem[] = [];
 
-        songSheetDetail.value?.playlist?.tracks.forEach((item: LoopType) => {
-          const musicItem: PlayMusicItem = handleAudioSong(item);
+        songSheetDetail.value?.playlist?.tracks.forEach(
+          (item: Partial<SongType>) => {
+            const musicItem: PlayMusicItem = handleAudioSong(item);
 
-          songList.push(musicItem);
-        });
+            songList.push(musicItem);
+          }
+        );
 
         // 当前播放音乐
         $store.commit('music/setPlayMusicItem', songList[0]);
@@ -190,16 +193,18 @@ export default defineComponent({
 
       const songList: PlayMusicItem[] = [];
 
-      songSheetDetail.value?.playlist?.tracks.forEach((item: LoopType) => {
-        // 无版权
-        if (isCopyright(item.id)) {
-          return false;
+      songSheetDetail.value?.playlist?.tracks.forEach(
+        (item: { id: number }) => {
+          // 无版权
+          if (isCopyright(item.id)) {
+            return false;
+          }
+
+          const musicItem: PlayMusicItem = handleAudioSong(item);
+
+          songList.push(musicItem);
         }
-
-        const musicItem: PlayMusicItem = handleAudioSong(item);
-
-        songList.push(musicItem);
-      });
+      );
 
       // 添加到播放列表
       $store.commit('music/setPlayMusicList', songList);
@@ -220,18 +225,12 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 下载
     function handleDownload(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 跳转至评论
@@ -245,8 +244,7 @@ export default defineComponent({
         '.comment-component'
       ) as HTMLElement;
 
-      const appwrap = document.querySelector('.app-wrap') as HTMLElement;
-      appwrap.scrollTo(0, Number(commentDom.offsetTop) + 120);
+      window.scrollTo(0, Number(commentDom.offsetTop) + 120);
     }
 
     return {

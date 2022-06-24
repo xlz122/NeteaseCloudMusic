@@ -117,9 +117,11 @@
 import { defineComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio.ts';
-import { timeStampToDuration } from '@utils/utils.ts';
+import { setMessage } from '@/components/message/useMessage';
+import { handleAudioSong } from '@/common/audio';
+import { timeStampToDuration } from '@utils/utils';
 import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 
 export default defineComponent({
   props: {
@@ -140,14 +142,14 @@ export default defineComponent({
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
 
     // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(item: Record<string, any>): void {
+    function singleMusicToPlayList(item: Partial<SongType>): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
     // 播放单个歌曲
-    function playSingleMusic(item: Record<string, any>): boolean | undefined {
+    function playSingleMusic(item: { id: number }): boolean | undefined {
       // 无版权
       if (isCopyright(item.id)) {
         $store.commit('setCopyright', {
@@ -177,7 +179,7 @@ export default defineComponent({
         item => (item as { id: number }).id === id
       );
 
-      if ((songItem as Record<string, any>)?.privilege?.cp === 0) {
+      if ((songItem as Record<string, { cp: number }>)?.privilege?.cp === 0) {
         return true;
       } else {
         return false;
@@ -204,18 +206,12 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 下载
     function handleDownload(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 跳转歌曲详情

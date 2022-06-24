@@ -39,7 +39,7 @@ import { defineComponent, reactive, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { userPlayList, addPlayList, deletePlayList } from '@api/my-music';
-import type { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import SongSheetToggle from './song-sheet-toggle/SongSheetToggle.vue';
 
 type SongSheetList = {
@@ -102,23 +102,30 @@ export default defineComponent({
         })
           .then((res: ResponseType) => {
             if (res.code === 200) {
-              res?.playlist.forEach((item: LoopType) => {
-                if (item?.name?.includes('喜欢的音乐')) {
-                  item.name = '我喜欢的音乐';
-                  item.cannotEdit = true;
-                  item.cannotDelete = true;
-                }
+              res?.playlist.forEach(
+                (item: {
+                  name: string;
+                  cannotEdit: boolean;
+                  cannotDelete: boolean;
+                  subscribed: boolean;
+                }) => {
+                  if (item?.name?.includes('喜欢的音乐')) {
+                    item.name = '我喜欢的音乐';
+                    item.cannotEdit = true;
+                    item.cannotDelete = true;
+                  }
 
-                // 收藏列表判断
-                if (!item.subscribed) {
-                  songSheetList.createSongSheet.push(item);
-                } else {
-                  item.cannotEdit = true;
-                  songSheetList.collectSongSheet.push(item);
-                }
+                  // 收藏列表判断
+                  if (!item.subscribed) {
+                    songSheetList.createSongSheet.push(item);
+                  } else {
+                    item.cannotEdit = true;
+                    songSheetList.collectSongSheet.push(item);
+                  }
 
-                resolve(res?.playlist);
-              });
+                  resolve(res?.playlist);
+                }
+              );
             }
           })
           .catch(() => ({}));
@@ -137,7 +144,7 @@ export default defineComponent({
           if (to && !from) {
             const playlist = await getUserPlayList();
             const isExist = playlist.find(
-              (item: LoopType) => item.id === songSheetId.value
+              (item: { id: number }) => item.id === songSheetId.value
             );
 
             if (isExist) {

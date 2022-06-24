@@ -201,7 +201,8 @@ import {
 } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio.ts';
+import { setMessage } from '@/components/message/useMessage';
+import { handleAudioSong } from '@/common/audio';
 import { getWeekDate, formatDateTime, bigNumberTransform } from '@utils/utils';
 import {
   recommendSongList,
@@ -210,8 +211,9 @@ import {
 } from '@api/home';
 import { playlistTrack } from '@api/song-sheet-detail';
 import { albumDetail } from '@api/album-detail';
-import type { LoopType, ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 const AlbumNewest = defineAsyncComponent(
   () => import('./album-newest/AlbumNewest.vue')
 );
@@ -260,7 +262,7 @@ export default defineComponent({
 
             const songList: PlayMusicItem[] = [];
 
-            res?.songs.forEach((item: LoopType) => {
+            res?.songs.forEach((item: Partial<SongType>) => {
               const musicItem: PlayMusicItem = handleAudioSong(item);
 
               songList.push(musicItem);
@@ -293,7 +295,7 @@ export default defineComponent({
       recommendSongList({ limit })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            res?.result.forEach((item: LoopType) => {
+            res?.result.forEach((item: { playCount: number | string }) => {
               item.playCount = bigNumberTransform(item?.playCount);
             });
             songListData.value = res?.result;
@@ -309,11 +311,15 @@ export default defineComponent({
       recommendDjprogram()
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            res?.result.forEach((item: LoopType) => {
-              item.program.adjustedPlayCount = bigNumberTransform(
-                item?.program?.adjustedPlayCount
-              );
-            });
+            res?.result.forEach(
+              (
+                item: Record<string, { adjustedPlayCount: number | string }>
+              ) => {
+                item.program.adjustedPlayCount = bigNumberTransform(
+                  item?.program?.adjustedPlayCount
+                );
+              }
+            );
             // 截取前三项
             djprogramData.value = res?.result.slice(0, 3);
           }
@@ -332,7 +338,7 @@ export default defineComponent({
       recommendResource()
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            res?.recommend.forEach((item: LoopType) => {
+            res?.recommend.forEach((item: { playcount: number | string }) => {
               item.playcount = bigNumberTransform(item.playcount);
             });
             // 截取前三项
@@ -367,10 +373,7 @@ export default defineComponent({
     // 个性化推荐 - 不感兴趣
     function uninterested(index: number): boolean | undefined {
       if (individualizatData.value.length <= 3) {
-        $store.commit('setMessage', {
-          type: 'info',
-          title: '暂无更多推荐'
-        });
+        setMessage({ type: 'info', title: '暂无更多推荐' });
         return false;
       }
 
@@ -389,7 +392,7 @@ export default defineComponent({
 
             // 歌曲是否全部无版权
             let noCopyrightNum = 0;
-            res?.songs?.forEach((item: LoopType) => {
+            res?.songs?.forEach((item: Record<string, { cp: number }>) => {
               if (item.privilege?.cp === 0) {
                 noCopyrightNum += 1;
               }
@@ -406,7 +409,7 @@ export default defineComponent({
 
             const songList: PlayMusicItem[] = [];
 
-            res?.songs.forEach((item: LoopType) => {
+            res?.songs.forEach((item: Record<string, { cp: number }>) => {
               // 无版权过滤
               if (item?.privilege?.cp === 0) {
                 return false;

@@ -1,41 +1,20 @@
 import store from '@store/index';
-import { getPlayMusicUrl } from '@api/my-music';
-import type { ResponseType, LoopType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
 
-/**
- * @description 获取音乐播放链接
- * @param { Number } id - 音乐id
- * @return { String } 音乐播放链接
- */
-export function getMusicUrl(id: number): Promise<string> {
-  return new Promise(resolve => {
-    getPlayMusicUrl({ id })
-      .then((res: ResponseType) => {
-        if (res.code === 200) {
-          if (!res?.data[0]?.url) {
-            store.commit('setMessage', {
-              type: 'error',
-              title: '播放链接获取失败'
-            });
-            resolve('');
-          }
-
-          resolve(res.data[0].url);
-        }
-      })
-      .catch(() => ({}));
-  });
-}
-
-let timer: number | null = null;
+const audio = {
+  timer: 0,
+  look: false
+};
 
 /**
- * @description 上一首歌曲
+ * @description 播放上一首歌曲
  */
-export async function getPrevMusicId(): Promise<boolean | undefined> {
+export async function playPrevMusic(): Promise<boolean | undefined> {
   const playMusicId = store.getters['music/playMusicId'];
   const playMusicList = store.getters['music/playMusicList'];
+
+  // 存储播放状态
+  audio.look = store.getters['music/musicPlayStatus'].look;
 
   if (playMusicList.length === 0) {
     return false;
@@ -55,7 +34,7 @@ export async function getPrevMusicId(): Promise<boolean | undefined> {
 
   // 获取当前id索引
   const index: number = playMusicList.findIndex(
-    (item: LoopType) => item.id === playMusicId
+    (item: PlayMusicItem) => item.id === playMusicId
   );
 
   let id = 0;
@@ -76,24 +55,23 @@ export async function getPrevMusicId(): Promise<boolean | undefined> {
     }
   }
 
-  // 播放模式
-  const musicModeType = store.getters['music/musicModeType'];
   // 随机播放
+  const musicModeType = store.getters['music/musicModeType'];
   if (musicModeType === 2) {
-    id = await randomPlay(playMusicList);
+    id = await getRandomPlayId(playMusicList);
   }
 
   // 当前播放音乐
-  const musicItem = playMusicList.find((item: LoopType) => item.id === id);
+  const musicItem = playMusicList.find((item: PlayMusicItem) => item.id === id);
   store.commit('music/setPlayMusicItem', musicItem);
 
   // 停止切换后开始播放
-  if (timer) {
-    clearTimeout(timer);
+  if (audio.timer) {
+    clearTimeout(audio.timer);
   }
-  timer = setTimeout(() => {
+  audio.timer = setTimeout(() => {
     store.commit('music/setMusicPlayStatus', {
-      look: true,
+      look: audio.look,
       loading: false,
       refresh: true
     });
@@ -101,11 +79,14 @@ export async function getPrevMusicId(): Promise<boolean | undefined> {
 }
 
 /**
- * @description 下一首歌曲
+ * @description 播放下一首歌曲
  */
-export async function getNextMusicId(): Promise<boolean | undefined> {
+export async function playNextMusic(): Promise<boolean | undefined> {
   const playMusicId = store.getters['music/playMusicId'];
   const playMusicList = store.getters['music/playMusicList'];
+
+  // 存储播放状态
+  audio.look = store.getters['music/musicPlayStatus'].look;
 
   if (playMusicList.length === 0) {
     return false;
@@ -125,7 +106,7 @@ export async function getNextMusicId(): Promise<boolean | undefined> {
 
   // 获取当前id索引
   const index: number = playMusicList.findIndex(
-    (item: LoopType) => item.id === playMusicId
+    (item: PlayMusicItem) => item.id === playMusicId
   );
 
   let id = 0;
@@ -146,24 +127,23 @@ export async function getNextMusicId(): Promise<boolean | undefined> {
     }
   }
 
-  // 播放模式
-  const musicModeType = store.getters['music/musicModeType'];
   // 随机播放
+  const musicModeType = store.getters['music/musicModeType'];
   if (musicModeType === 2) {
-    id = await randomPlay(playMusicList);
+    id = await getRandomPlayId(playMusicList);
   }
 
   // 当前播放音乐
-  const musicItem = playMusicList.find((item: LoopType) => item.id === id);
+  const musicItem = playMusicList.find((item: PlayMusicItem) => item.id === id);
   store.commit('music/setPlayMusicItem', musicItem);
 
   // 停止切换后开始播放
-  if (timer) {
-    clearTimeout(timer);
+  if (audio.timer) {
+    clearTimeout(audio.timer);
   }
-  timer = setTimeout(() => {
+  audio.timer = setTimeout(() => {
     store.commit('music/setMusicPlayStatus', {
-      look: true,
+      look: audio.look,
       loading: false,
       refresh: true
     });
@@ -176,7 +156,7 @@ const cacheId: number[] = [];
  * @description 获取随机播放id
  * @param { Array } list 播放列表
  */
-export function randomPlay(list: PlayMusicItem[]): Promise<number> {
+export function getRandomPlayId(list: PlayMusicItem[]): Promise<number> {
   return new Promise(resolve => {
     // 缓存当前播放
     const playMusicId = store.getters['music/playMusicId'];

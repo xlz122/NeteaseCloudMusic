@@ -22,12 +22,12 @@
         alt=""
       />
       <div class="left-content">
-        <ul class="list" v-if="playMusicList.length > 0">
+        <ul class="p-list" v-if="playMusicList.length > 0">
           <li
             class="item"
             v-for="(item, index) in playMusicList"
             :key="index"
-            :class="{ 'active-item': item.id === playMusicId }"
+            :class="{ 'p-active-item': item.id === playMusicId }"
             @click="playlistItem(item?.id, item)"
           >
             <i class="play-icon"></i>
@@ -91,10 +91,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { timeStampToDuration } from '@utils/utils';
-import type { LoopType } from '@/types/types';
+import type { PlayMusicItem } from '@store/music/state';
 import Lyric from '../lyric/Lyric.vue';
 
 export default defineComponent({
@@ -119,6 +120,34 @@ export default defineComponent({
     );
     const playMusicList = computed(() => $store.getters['music/playMusicList']);
 
+    watch(
+      () => props.playListShow,
+      () => {
+        if (props.playListShow) {
+          playSongPosition();
+        }
+      }
+    );
+
+    // 列表播放歌曲定位
+    function playSongPosition(): boolean | undefined {
+      const isExist = playMusicList.value.find(
+        (item: PlayMusicItem) => item.id === playMusicId.value
+      );
+      if (!isExist) {
+        return false;
+      }
+
+      nextTick(() => {
+        const listDom = document.querySelector('.p-list') as HTMLElement;
+        const activeItem = document.querySelector(
+          '.p-active-item'
+        ) as HTMLElement;
+
+        listDom.scrollTo(0, activeItem.offsetTop - activeItem.clientHeight * 4);
+      });
+    }
+
     // 收藏全部歌曲
     function collectAll(): boolean | undefined {
       if (!isLogin.value) {
@@ -127,7 +156,7 @@ export default defineComponent({
       }
 
       let ids = '';
-      playMusicList.value.forEach((item: LoopType) => {
+      playMusicList.value.forEach((item: PlayMusicItem) => {
         ids += `${item.id},`;
       });
 
@@ -162,18 +191,12 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 下载
     function handleDownload(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 列表项删除
@@ -183,7 +206,7 @@ export default defineComponent({
     }
 
     // 列表项点击
-    function playlistItem(id: number, item: unknown): void {
+    function playlistItem(id: number, item: PlayMusicItem): void {
       // 播放音乐数据
       $store.commit('music/setPlayMusicItem', item);
       // 开始播放
@@ -207,10 +230,7 @@ export default defineComponent({
 
     // 跳转歌曲位置
     function jumpSongPosition(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     return {

@@ -69,7 +69,8 @@ import { useStore } from 'vuex';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import { playlistDetail } from '@api/song-sheet-detail';
 import { commentPlayList } from '@api/comment';
-import type { ResponseType, CommentParams } from '@/types/types';
+import type { ResponseType } from '@/types/types';
+import type { CommentParams } from '@components/comment/Comment.vue';
 import UserInfo from '@components/song-sheet/user-info/UserInfo.vue';
 import MusicTable from '@components/song-sheet/music-table/MusicTable.vue';
 import Comment from '@components/comment/Comment.vue';
@@ -127,8 +128,7 @@ export default defineComponent({
         '.comment-component'
       ) as HTMLElement;
 
-      const appwrap = document.querySelector('.app-wrap') as HTMLElement;
-      appwrap.scrollTo(0, Number(commentDom.offsetTop) + 20);
+      window.scrollTo(0, Number(commentDom.offsetTop) + 20);
     }
 
     // 获取评论数据

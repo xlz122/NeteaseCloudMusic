@@ -77,10 +77,11 @@ import { defineComponent, reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
-import { handleAudioSong } from '@/common/audio.ts';
+import { setMessage } from '@/components/message/useMessage';
+import { handleAudioSong, SongType } from '@/common/audio';
 import { soaringList, newSongs, originalList } from '@api/home';
 import { playlistSubscribe } from '@api/song-sheet-detail';
-import type { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({
@@ -136,7 +137,7 @@ export default defineComponent({
 
         const songList: PlayMusicItem[] = [];
 
-        listData[index].playlist?.tracks.forEach((item: LoopType) => {
+        listData[index].playlist?.tracks.forEach((item: Partial<SongType>) => {
           const musicItem: PlayMusicItem = handleAudioSong(item);
 
           songList.push(musicItem);
@@ -170,28 +171,24 @@ export default defineComponent({
       playlistSubscribe({ id, t: 1 })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            listData.forEach((item: LoopType) => {
-              if (item.playlist.id === id) {
-                item.playlist.subscribed = true;
+            listData.forEach(
+              (item: Record<string, { id: number; subscribed: boolean }>) => {
+                if (item.playlist.id === id) {
+                  item.playlist.subscribed = true;
+                }
               }
-            });
+            );
 
-            $store.commit('setMessage', {
-              type: 'info',
-              title: '收藏成功'
-            });
+            setMessage({ type: 'info', title: '收藏成功' });
           } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: '收藏失败'
-            });
+            setMessage({ type: 'error', title: '收藏失败' });
           }
         })
         .catch(() => ({}));
     }
 
     // 播放单个歌曲
-    function playSingleMusic(item: Record<string, any>): void {
+    function playSingleMusic(item: Partial<SongType>): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       // 当前播放音乐
@@ -207,7 +204,7 @@ export default defineComponent({
     }
 
     // 单个音乐添加到播放列表
-    function setAddSinglePlayList(item: Record<string, any>): void {
+    function setAddSinglePlayList(item: Partial<SongType>): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       // 添加到播放列表

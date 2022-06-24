@@ -8,9 +8,9 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/',
         name: 'home',
-        meta: {
-          keepAlive: true
-        },
+        // meta: {
+        //   keepAlive: true
+        // },
         component: () => import('../views/home/Home.vue')
       },
       {
@@ -30,9 +30,9 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/download',
         name: 'download',
-        meta: {
-          keepAlive: true
-        },
+        // meta: {
+        //   keepAlive: true
+        // },
         component: () =>
           import(
             /* webpackChunkName: "download" */ '../views/download/Download.vue'
@@ -72,6 +72,15 @@ const routes: Array<RouteRecordRaw> = [
         component: () =>
           import(
             /* webpackChunkName: "level-detail" */ '../views/user/level/level-detail/LevelDetail.vue'
+          )
+      },
+      // 个人中心 - VIP会员
+      {
+        path: '/member',
+        name: 'member',
+        component: () =>
+          import(
+            /* webpackChunkName: "user-level" */ '../views/user/member/Member.vue'
           )
       },
       // 首页 - 每日推荐

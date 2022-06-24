@@ -35,8 +35,9 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { userPlayList, collectMusic } from '@api/my-music';
-import type { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import MyDialog from '@/components/MyDialog.vue';
 
 export default defineComponent({
@@ -65,7 +66,7 @@ export default defineComponent({
       }
     );
 
-    const songSheetList = ref<Record<string, any>[]>([]);
+    const songSheetList = ref<unknown[]>([]);
 
     // 获取歌单列表
     function getUserPlayList(): void {
@@ -76,16 +77,18 @@ export default defineComponent({
           if (res.code === 200) {
             songSheetList.value = [];
 
-            res.playlist.forEach((item: LoopType) => {
-              if (item.name.includes('喜欢的音乐')) {
-                item.name = '我喜欢的音乐';
-              }
+            res.playlist.forEach(
+              (item: { name: string; subscribed: boolean }) => {
+                if (item.name.includes('喜欢的音乐')) {
+                  item.name = '我喜欢的音乐';
+                }
 
-              // 收藏列表判断
-              if (!item.subscribed) {
-                songSheetList.value.push(item);
+                // 收藏列表判断
+                if (!item.subscribed) {
+                  songSheetList.value.push(item);
+                }
               }
-            });
+            );
           }
         })
         .catch(() => ({}));
@@ -93,10 +96,7 @@ export default defineComponent({
 
     // 新歌单
     function addSongSheet(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 收藏
@@ -111,15 +111,10 @@ export default defineComponent({
               visible: false,
               songIds: ''
             });
-            $store.commit('setMessage', {
-              type: 'info',
-              title: '收藏成功'
-            });
+
+            setMessage({ type: 'info', title: '收藏成功' });
           } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res.body.message
-            });
+            setMessage({ type: 'error', title: res.body.message });
           }
         })
         .catch(() => ({}));

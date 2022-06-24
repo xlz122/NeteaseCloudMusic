@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import Category from './category/Category.vue';
 
 export default defineComponent({
@@ -17,14 +17,9 @@ export default defineComponent({
     Category
   },
   setup() {
-    const $store = useStore();
-
     // 分类点击
     function djCategorChange(id: number): void {
-      $store.commit('setMessage', {
-        type: 'info',
-        title: `分类id:${id}`
-      });
+      setMessage({ type: 'info', title: `分类id:${id}` });
     }
 
     return {

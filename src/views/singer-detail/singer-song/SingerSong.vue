@@ -128,11 +128,13 @@ import { defineComponent, ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
-import { handleAudioSong } from '@/common/audio.ts';
-import { timeStampToDuration } from '@utils/utils.ts';
+import { setMessage } from '@/components/message/useMessage';
+import { handleAudioSong } from '@/common/audio';
+import { timeStampToDuration } from '@utils/utils';
 import { artistSong } from '@api/singer-detail';
-import type { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 
 export default defineComponent({
   setup() {
@@ -179,7 +181,7 @@ export default defineComponent({
 
         const songList: PlayMusicItem[] = [];
 
-        singerSong.value?.hotSongs.forEach((item: LoopType) => {
+        singerSong.value?.hotSongs.forEach((item: { id: number }) => {
           // 无版权
           if (isCopyright(item.id)) {
             return false;
@@ -215,7 +217,7 @@ export default defineComponent({
 
       const songList: PlayMusicItem[] = [];
 
-      singerSong.value?.hotSongs?.forEach((item: LoopType) => {
+      singerSong.value?.hotSongs?.forEach((item: { id: number }) => {
         // 无版权
         if (isCopyright(item.id)) {
           return false;
@@ -238,14 +240,16 @@ export default defineComponent({
       }
 
       let ids = '';
-      singerSong.value?.hotSongs.forEach((item: LoopType) => {
-        // 无版权过滤
-        if (item?.privilege?.cp === 0) {
-          return false;
-        }
+      singerSong.value?.hotSongs.forEach(
+        (item: Record<string, { cp: number }>) => {
+          // 无版权过滤
+          if (item?.privilege?.cp === 0) {
+            return false;
+          }
 
-        ids += `${item.id},`;
-      });
+          ids += `${item.id},`;
+        }
+      );
 
       $store.commit('collectPlayMusic', {
         visible: true,
@@ -254,7 +258,7 @@ export default defineComponent({
     }
 
     // 播放单个歌曲
-    function playSingleMusic(item: Record<string, any>): boolean | undefined {
+    function playSingleMusic(item: { id: number }): boolean | undefined {
       // 无版权
       if (isCopyright(item.id)) {
         $store.commit('setCopyright', {
@@ -279,7 +283,7 @@ export default defineComponent({
     }
 
     // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(item: Record<string, any>): void {
+    function singleMusicToPlayList(item: Partial<SongType>): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       $store.commit('music/setPlayMusicList', musicItem);
@@ -288,7 +292,7 @@ export default defineComponent({
     // 歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
       const songItem = singerSong.value?.hotSongs.find(
-        (item: LoopType) => item.id === id
+        (item: { id: number }) => item.id === id
       );
 
       if (songItem?.privilege?.cp === 0) {
@@ -318,18 +322,12 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 下载
     function handleDownload(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 跳转歌曲详情

@@ -22,6 +22,7 @@
 <script lang="ts">
 import { defineComponent, reactive, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { topArtists, artistList, ArtistList } from '@api/home-singer';
 import type { ResponseType } from '@/types/types';
 import SingerMenu from './singer-menu/SingerMenu.vue';
@@ -65,10 +66,8 @@ export default defineComponent({
         singerList.sort = false;
         singerList.main = [];
         singerList.second = [];
-        $store.commit('setMessage', {
-          type: 'error',
-          title: '入驻歌手暂无接口'
-        });
+
+        setMessage({ type: 'error', title: '入驻歌手暂无接口' });
         return false;
       }
 

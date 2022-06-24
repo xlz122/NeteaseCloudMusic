@@ -19,8 +19,10 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { getMusicUrl, getNextMusicId, randomPlay } from './methods';
-import type { PlayMusicItem } from '@store/music/state';
+import { setMessage } from '@/components/message/useMessage';
+import { getPlayMusicUrl } from '@api/my-music';
+import type { ResponseType } from '@/types/types';
+import { playNextMusic } from '@components/music-audio/play-action/play-action';
 
 export default defineComponent({
   name: 'AudioView',
@@ -34,104 +36,106 @@ export default defineComponent({
     const musicVolume = computed<number>(
       () => $store.getters['music/musicVolume']
     );
-
-    const audioSrc = ref<string>('');
-
-    // 初始获取播放地址
-    function initAudioSrc(): void {
-      if (playMusicId.value > 0) {
-        getMusicUrl(playMusicId.value)
-          .then((res: string) => {
-            audioSrc.value = res;
-          })
-          .catch(() => ({}));
-      }
-    }
-    initAudioSrc();
-
-    // 刷新播放链接
-    function refreshAudioSrc() {
-      getMusicUrl(playMusicId.value)
-        .then((res: string) => {
-          audioSrc.value = res;
-
-          // 重置播放进度
-          $store.commit('music/setMusicPlayProgress', {
-            progress: 0,
-            currentTime: 0,
-            duration: 0
-          });
-
-          setAudioStatus();
-        })
-        .catch(() => ({}));
-    }
-
     // 播放状态
     const musicPlayStatus = computed(
       () => $store.getters['music/musicPlayStatus']
     );
-
-    // 监听是否播放
-    watch(
-      () => musicPlayStatus.value.look,
-      () => {
-        if (musicPlayStatus.value.refresh) {
-          return false;
-        }
-
-        setAudioStatus();
-      }
+    // 播放进度
+    const musicPlayProgress = computed(
+      () => $store.getters['music/musicPlayProgress']
     );
-
-    // 监听播放刷新
-    watch(
-      () => musicPlayStatus.value.refresh,
-      (curVal: boolean) => {
-        if (curVal) {
-          // 重置刷新
-          $store.commit('music/setMusicPlayStatus', {
-            refresh: false
-          });
-
-          // 刷新播放链接
-          refreshAudioSrc();
-        }
-      }
-    );
-
-    // 播放/暂停
-    function setAudioStatus(): boolean | undefined {
-      // 刷新播放
-      if (musicPlayStatus.value.look && musicPlayStatus.value.refresh) {
-        startPlayMusic();
-        return false;
-      }
-
-      // 不刷新播放
-      if (musicPlayStatus.value.look && audioSrc.value) {
-        startPlayMusic();
-      }
-
-      // 暂停
-      if (!musicPlayStatus.value.look) {
-        stopPlayMusic();
-        $store.commit('music/setMusicPlayStatus', {
-          look: false
-        });
-      }
-    }
 
     // 播放器实例
     const musicAudio = ref<HTMLVideoElement>();
 
-    const playTimer = ref<number | null>(null);
+    watch(
+      () => musicPlayStatus.value.look,
+      () => {
+        // 播放(不是刷新播放)
+        if (musicPlayStatus.value.look && !musicPlayStatus.value.refresh) {
+          startPlayMusic();
+        }
+
+        // 暂停
+        if (!musicPlayStatus.value.look) {
+          stopPlayMusic();
+        }
+      }
+    );
+
+    watch(
+      () => musicPlayStatus.value.refresh,
+      () => {
+        // 刷新
+        if (musicPlayStatus.value.refresh) {
+          $store.commit('music/setMusicPlayStatus', {
+            refresh: false
+          });
+
+          getAudioSrc();
+        }
+      }
+    );
+
+    // 监听手动更新进度
+    watch(
+      () => musicPlayProgress.value.timeChange,
+      (curVal: boolean) => {
+        if (curVal) {
+          if (isNaN(musicPlayProgress.value.currentTime)) {
+            return false;
+          }
+
+          // 设置播放器进度
+          const audio = musicAudio.value as HTMLVideoElement;
+          audio.currentTime = musicPlayProgress.value.currentTime;
+
+          // 重置手动更新
+          $store.commit('music/setMusicPlayProgress', {
+            timeChange: false
+          });
+        }
+      }
+    );
+
+    const audioSrc = ref<string>('');
+
+    // 初始获取播放地址
+    function getAudioSrc(): boolean | undefined {
+      if (!playMusicId.value) {
+        return false;
+      }
+
+      getPlayMusicUrl({ id: playMusicId.value })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            if (!res?.data[0]?.url) {
+              setMessage({ type: 'error', title: '音乐播放链接获取失败' });
+            }
+
+            // 重置播放进度
+            $store.commit('music/setMusicPlayProgress', {
+              progress: 0,
+              currentTime: 0,
+              duration: 0
+            });
+
+            audioSrc.value = res.data[0]?.url;
+
+            if (musicPlayStatus.value.look) {
+              startPlayMusic();
+            }
+          }
+        })
+        .catch(() => ({}));
+    }
+    getAudioSrc();
+
+    const playTimer = ref<number>();
 
     // 播放音乐
     function startPlayMusic(): void {
-      // 开始播放
       $store.commit('music/setMusicPlayStatus', {
-        look: true,
         loading: false
       });
 
@@ -140,132 +144,86 @@ export default defineComponent({
 
     // 停止播放
     function stopPlayMusic(): void {
-      (musicAudio.value as HTMLVideoElement).pause();
-      // 清除已存在定时器
       if (playTimer.value) {
-        clearInterval(playTimer.value as number);
+        clearInterval(playTimer.value);
       }
+
+      (musicAudio.value as HTMLVideoElement).pause();
     }
 
-    // 播放进度数据
-    const musicPlayProgress = computed(
-      () => $store.getters['music/musicPlayProgress']
-    );
-
-    // 监听手动更新时间
-    watch(
-      () => musicPlayProgress.value.timeChange,
-      (curVal: boolean) => {
-        if (curVal) {
-          // 设置播放时间
-          const musicMp3 = musicAudio.value as HTMLVideoElement;
-          // 当前时间是NaN,不进行更新
-          if (isNaN(musicPlayProgress.value.currentTime)) {
-            return false;
-          }
-          musicMp3.currentTime = musicPlayProgress.value.currentTime;
-          // 重置手动更新
-          $store.commit('music/setMusicPlayProgress', {
-            timeChange: false
-          });
-        }
-      },
-      {
-        deep: true
-      }
-    );
-
-    // 播放触发
-    function musicPlaying(): void {
-      // 关闭加载loading
-      $store.commit('music/setMusicPlayStatus', {
-        loading: false
-      });
-      // 计算播放进度
-      const musicMp3 = musicAudio.value as HTMLVideoElement;
-      // 清除已存在定时器
+    // 开始播放
+    function musicPlaying(): boolean | undefined {
       if (playTimer.value) {
-        clearInterval(playTimer.value as number);
+        clearInterval(playTimer.value);
       }
+
+      if (!musicPlayStatus.value.look) {
+        clearInterval(playTimer.value);
+        return false;
+      }
+
+      if (musicPlayProgress.value.progress >= 100) {
+        clearInterval(playTimer.value);
+      }
+
+      const audio = musicAudio.value as HTMLVideoElement;
+
       // 继续播放
       if (musicPlayProgress.value.currentTime > 0) {
-        musicMp3.currentTime = musicPlayProgress.value.currentTime;
+        audio.currentTime = musicPlayProgress.value.currentTime;
       }
-      playTimer.value = setInterval(() => {
-        // 播放停止清除定时器
-        if (!musicPlayStatus.value.look) {
-          clearInterval(playTimer.value as number);
-          return false;
-        }
 
-        const progress = musicMp3.currentTime / musicMp3.duration;
+      playTimer.value = setInterval(() => {
+        const progress = audio.currentTime / audio.duration;
         $store.commit('music/setMusicPlayProgress', {
           progress: progress * 100,
-          currentTime: musicMp3.currentTime || 0,
-          duration: musicMp3.duration || 0
+          currentTime: audio.currentTime || 0,
+          duration: audio.duration || 0
         });
-        if (musicPlayProgress.value.progress >= 100) {
-          clearInterval(playTimer.value as number);
-        }
       }, 500);
     }
 
     // 音乐加载缓存进度
     function musicUpdateTime(): void {
-      const musicMp3 = musicAudio.value as HTMLVideoElement;
-      // 获取.buffered.end(0)前，先判断一下.buffered.length是不是大于0
+      const audio = musicAudio.value as HTMLVideoElement;
+
       let cache = 0;
-      if (musicMp3.buffered.length !== 0) {
-        cache += musicMp3.buffered.end(0);
+      if (audio?.buffered && audio?.buffered?.length > 0) {
+        cache += audio.buffered.end(0);
       }
       $store.commit('music/setMusicPlayProgress', {
-        cacheProgress: (cache / musicMp3.duration) * 100
+        cacheProgress: (cache / audio?.duration) * 100 || 0
       });
     }
 
     // 播放完成
     const musicModeType = computed(() => $store.getters['music/musicModeType']);
-    async function musicPlayEnded(): Promise<boolean | undefined> {
-      // 重置播放状态
-      $store.commit('music/setMusicPlayStatus', {
-        look: false,
-        loading: true
-      });
-      // 重置播放进度
-      $store.commit('music/setMusicPlayProgress', {
-        progress: 0,
-        currentTime: 0,
-        duration: 0
-      });
-
+    function musicPlayEnded(): boolean | undefined {
       // 单曲循环
       // 播放列表没有音乐，或只有一首音乐
       if (musicModeType.value === 0 || playMusicList.value.length <= 1) {
-        startPlayMusic();
+        // 重置播放进度
+        $store.commit('music/setMusicPlayProgress', {
+          progress: 0,
+          currentTime: 0,
+          duration: 0
+        });
+
+        $store.commit('music/setMusicPlayStatus', {
+          look: false,
+          loading: true
+        });
+
+        setTimeout(() => {
+          $store.commit('music/setMusicPlayStatus', {
+            look: true,
+            loading: false
+          });
+        }, 100);
         return false;
       }
 
-      // 循环
-      if (musicModeType.value === 1) {
-        getNextMusicId();
-      }
-
-      // 随机播放
-      if (musicModeType.value === 2) {
-        const id = await randomPlay(playMusicList.value);
-        const musicItem = playMusicList.value.find(
-          (item: PlayMusicItem) => item.id === id
-        );
-
-        // 当前播放音乐
-        $store.commit('music/setPlayMusicItem', musicItem);
-        // 开始播放
-        $store.commit('music/setMusicPlayStatus', {
-          look: true,
-          loading: false,
-          refresh: true
-        });
-      }
+      playNextMusic();
     }
 
     return {

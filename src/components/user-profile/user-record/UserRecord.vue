@@ -84,10 +84,12 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio.ts';
+import { setMessage } from '@/components/message/useMessage';
+import { handleAudioSong } from '@/common/audio';
 import { userRecord } from '@api/user';
 import type { ResponseType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 
 export default defineComponent({
   setup() {
@@ -136,7 +138,7 @@ export default defineComponent({
     }
 
     // 播放单个歌曲
-    function playSingleMusic(item: Record<string, any>): void {
+    function playSingleMusic(item: Partial<SongType>): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       // 当前播放音乐
@@ -152,7 +154,7 @@ export default defineComponent({
     }
 
     // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(item: Record<string, any>): void {
+    function singleMusicToPlayList(item: Partial<SongType>): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       $store.commit('music/setPlayMusicList', musicItem);
@@ -178,18 +180,12 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 下载
     function handleDownload(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 跳转歌曲详情

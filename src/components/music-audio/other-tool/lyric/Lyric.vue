@@ -36,17 +36,13 @@ import { defineComponent, reactive, watch, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { getLyric } from '@api/my-music';
 import type { ResponseType } from '@/types/types';
+import type { PlayLyrics } from '@store/music/state';
 
 type Lyric = {
   noData: boolean;
   isScroll: boolean;
-  list: List[];
+  list: PlayLyrics[];
   index: number;
-};
-
-type List = {
-  lyric: string;
-  time: number;
 };
 
 export default defineComponent({
@@ -67,7 +63,9 @@ export default defineComponent({
     });
 
     // 初始化获取歌词
-    const playLyrics = computed(() => $store.getters['music/playLyrics']);
+    const playLyrics = computed<PlayLyrics[]>(
+      () => $store.getters['music/playLyrics']
+    );
     onMounted(() => {
       // 当前播放id不存在
       if (!playMusicId.value) {
@@ -176,15 +174,18 @@ export default defineComponent({
       const regMin = /.*:/;
       const regSec = /:.*\./;
       const regMs = /\./;
+
       const min = parseInt(time.match(regMin)[0].slice(0, 2));
       let sec = parseInt(time.match(regSec)[0].slice(1, 3));
       const ms = time.slice(
         time.match(regMs).index + 1,
         time.match(regMs).index + 3
       );
+
       if (min !== 0) {
         sec += min * 60;
       }
+
       return Number(sec + '.' + ms);
     }
 
@@ -220,7 +221,7 @@ export default defineComponent({
         // 获取当前播放索引
         lyric.list.forEach((item, index) => {
           // 大于当前时间
-          const itemTime = Math.floor(item.time);
+          const itemTime = Math.floor(item.time || 0);
           if (lyric.list[index + 1] && itemTime <= currentTime) {
             lyric.index = index;
           }
