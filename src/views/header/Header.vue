@@ -39,7 +39,7 @@
               />
               <div class="msg-tag">{{ msgCode }}</div>
             </div>
-            <User class="user-list" v-model:msgCode="msgCode" />
+            <User class="user-list" :msgCode="msgCode" />
           </div>
           <div v-else class="login" @click="openLogin">登录</div>
         </div>
@@ -151,7 +151,6 @@ export default defineComponent({
       messageEv({ limit: 1, offset: 100 }).then((res: ResponseType) => {
         if (res?.code === 200) {
           msgCode.value = res?.newMsgCount;
-          console.log('msgCode.value1', msgCode.value);
         }
       });
     }

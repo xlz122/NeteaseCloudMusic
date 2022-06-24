@@ -35,7 +35,7 @@ export default defineComponent({
   props: {
     msgCode: {
       type: Number,
-      required: true
+      default: 0
     }
   },
   setup() {
@@ -62,7 +62,7 @@ export default defineComponent({
       },
       {
         title: 'VIP会员',
-        link: '',
+        link: '/member',
         icon: 'member'
       },
       {
