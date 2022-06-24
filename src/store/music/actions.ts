@@ -1,5 +1,5 @@
-import { State } from '@store/music/state';
-import { Getters } from '@store/music/getters';
+import type { State } from '@store/music/state';
+import type { Getters } from '@store/music/getters';
 
 export type Store = {
   state: State;

@@ -73,7 +73,7 @@ import {
   handleMatchString
 } from '@utils/utils.ts';
 import { searchKeywords } from '@api/search';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
 
 type MvData = {

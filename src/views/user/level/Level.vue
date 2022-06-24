@@ -94,7 +94,7 @@
 import { defineComponent, ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { userLevel } from '@api/user';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 
 type NextLevel = {
   loginCount: number;

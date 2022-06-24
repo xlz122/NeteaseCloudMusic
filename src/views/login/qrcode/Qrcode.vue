@@ -39,7 +39,7 @@ import {
   accountInfo,
   userInfo
 } from '@api/login';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 
 export default defineComponent({
   name: 'LoginQrcode',

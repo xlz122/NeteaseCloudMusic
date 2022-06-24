@@ -67,7 +67,7 @@ import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { handleMatchString } from '@utils/utils.ts';
 import { searchKeywords, followUser } from '@api/search';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
 
 type AlbumData = {

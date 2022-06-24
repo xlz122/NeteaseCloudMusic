@@ -51,8 +51,8 @@ import { throttle } from 'lodash';
 import { handleAudioSong } from '@/common/audio.ts';
 import { getWeekDate, formatDateTime } from '@utils/utils';
 import { recommendSongs } from '@api/home-recommend';
-import { ResponseType, LoopType } from '@/types/types';
-import { PlayMusicItem } from '@store/music/state';
+import type { ResponseType, LoopType } from '@/types/types';
+import type { PlayMusicItem } from '@store/music/state';
 import RecommendSong from './recommend-song/RecommendSong.vue';
 import RecommendSide from './recommend-side/RecommendSide.vue';
 

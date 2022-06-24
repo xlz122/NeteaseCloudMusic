@@ -1,6 +1,6 @@
 import { toRawType } from '@utils/tool';
-import { State, PlayMusicItem } from '@store/music/state';
-import { LoopType } from '@/types/types';
+import type { State, PlayMusicItem } from '@store/music/state';
+import type { LoopType } from '@/types/types';
 
 type Mutations<T, U> = {
   [key: string]: (state: T, payload: U) => void;

@@ -1,5 +1,5 @@
-import { State } from '@store/video/state';
-import { Getters } from '@store/video/getters';
+import type { State } from '@store/video/state';
+import type { Getters } from '@store/video/getters';
 
 export type Store = {
   state: State;

@@ -1,5 +1,5 @@
-import { ResponseType, LoopType } from '@/types/types';
-import { PlayMusicItem } from '@store/music/state';
+import type { ResponseType, LoopType } from '@/types/types';
+import type { PlayMusicItem } from '@store/music/state';
 import { toRawType } from '@utils/tool';
 
 /**

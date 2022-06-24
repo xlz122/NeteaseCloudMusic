@@ -29,7 +29,7 @@ import { defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils.ts';
 import { subPlayList } from '@api/my-music';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 
 export default defineComponent({
   props: {

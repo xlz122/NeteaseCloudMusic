@@ -50,7 +50,7 @@
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { topArtists, simiArtist } from '@api/singer-detail';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 export default defineComponent({

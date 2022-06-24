@@ -69,7 +69,7 @@ import {
   commentLike,
   replyComment
 } from '@api/comment';
-import { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType, LoopType } from '@/types/types';
 import CommentReplay from '@/components/comment/comment-replay/CommentReplay.vue';
 import CommentList from '@/components/comment/comment-list/CommentList.vue';
 import MyDialog from '@/components/MyDialog.vue';

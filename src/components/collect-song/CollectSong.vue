@@ -36,7 +36,7 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { userPlayList, collectMusic } from '@api/my-music';
-import { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType, LoopType } from '@/types/types';
 import MyDialog from '@/components/MyDialog.vue';
 
 export default defineComponent({

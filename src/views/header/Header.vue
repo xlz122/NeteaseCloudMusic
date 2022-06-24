@@ -56,7 +56,7 @@ import { useStore } from 'vuex';
 import SubMenu from '@views/header/sub-menu/SubMenu.vue';
 import Search from '@views/header/search/Search.vue';
 import User from '@views/user/User.vue';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import { messageEv } from '@api/my-message';
 
 type MenuItem = {

@@ -69,7 +69,7 @@ import {
   cellphoneLogin,
   userInfo
 } from '@api/login';
-import { LoopType, ResponseType } from '@/types/types';
+import type { LoopType, ResponseType } from '@/types/types';
 
 type MobileFormData = {
   code: string;

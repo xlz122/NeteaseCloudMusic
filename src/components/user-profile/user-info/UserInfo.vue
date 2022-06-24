@@ -54,7 +54,7 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
 import { userVipInfo } from '@api/user';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 
 export default defineComponent({
   name: 'UserInfoView',

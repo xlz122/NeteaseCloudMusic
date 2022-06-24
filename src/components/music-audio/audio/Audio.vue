@@ -20,7 +20,7 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { getMusicUrl, getNextMusicId, randomPlay } from './methods';
-import { PlayMusicItem } from '@store/music/state';
+import type { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({
   name: 'AudioView',

@@ -58,7 +58,7 @@
 import { defineComponent, ref, reactive, watch, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { bannerImgUrl } from '@api/home';
-import { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 
 type Banner = {
   list: BannerItem[];

@@ -54,8 +54,8 @@ import { handleAudioSong } from '@/common/audio.ts';
 import { formatDateTime } from '@utils/utils.ts';
 import { artistAlbum } from '@api/album-detail';
 import { albumDetail } from '@api/album-detail';
-import { LoopType, ResponseType } from '@/types/types';
-import { PlayMusicItem } from '@store/music/state';
+import type { LoopType, ResponseType } from '@/types/types';
+import type { PlayMusicItem } from '@store/music/state';
 import Page from '@components/page/Page.vue';
 
 type AlbumParams = {
