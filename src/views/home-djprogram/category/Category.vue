@@ -87,7 +87,6 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
-import { useStore } from 'vuex';
 import { djCatelist } from '@api/home-djprogram';
 import { ResponseType } from '@/types/types';
 
@@ -95,8 +94,6 @@ export default defineComponent({
   name: 'HomeDjprogramCategory',
   emits: ['djCategorChange'],
   setup(props, { emit }) {
-    const $store = useStore();
-
     const category = reactive({
       main: [],
       second: []
@@ -110,11 +107,6 @@ export default defineComponent({
             if (res.categories.length > 18) {
               category.second = res.categories.slice(18, 34);
             }
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

@@ -137,11 +137,6 @@ export default defineComponent({
             anchorData.list = res?.result?.djRadios;
 
             emit('searchCountChange', total || 0);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
 
           anchorData.loading = false;

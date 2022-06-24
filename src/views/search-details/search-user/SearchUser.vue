@@ -132,11 +132,6 @@ export default defineComponent({
             userData.total = total;
             userData.list = res?.result?.userprofiles;
             emit('searchCountChange', total || 0);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
 
           userData.loading = false;

@@ -90,11 +90,6 @@ export default defineComponent({
             if (res.artists.length > 10) {
               singerList.second = res.artists.slice(10);
             }
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));
@@ -116,11 +111,6 @@ export default defineComponent({
             if (res.artists.length > 10) {
               singerList.second = res.artists.slice(10);
             }
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

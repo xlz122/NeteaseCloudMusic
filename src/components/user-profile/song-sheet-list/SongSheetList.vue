@@ -139,11 +139,6 @@ export default defineComponent({
 
               item.playCount = bigNumberTransform(item?.playCount);
             });
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

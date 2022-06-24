@@ -104,11 +104,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res?.code === 200) {
             songSheetList.value = res?.playlists;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));
@@ -122,11 +117,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res?.code === 200) {
             simiSongList.value = res?.songs;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

@@ -73,11 +73,6 @@ export default defineComponent({
               provinceName.value = findCityZipCode(res?.profile?.province || 0);
               cityName.value = findCityZipCode(res?.profile?.city || 0);
             }
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

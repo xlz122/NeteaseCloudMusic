@@ -127,11 +127,6 @@ export default defineComponent({
             });
             songSheetList.value = res.playlists;
             songParams.total = res.total;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

@@ -164,11 +164,6 @@ export default defineComponent({
           loading.value = false;
           if (res?.code === 200) {
             singerSong.value = res;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));

@@ -126,11 +126,6 @@ export default defineComponent({
 
             // 存储歌手id
             $store.commit('setSingerId', res?.album?.artist?.id);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
           albumData.loading = false;
         })

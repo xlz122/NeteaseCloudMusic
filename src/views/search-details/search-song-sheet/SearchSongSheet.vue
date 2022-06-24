@@ -169,11 +169,6 @@ export default defineComponent({
             songSheetData.list = res?.result?.playlists;
 
             emit('searchCountChange', total || 0);
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
 
           songSheetData.loading = false;

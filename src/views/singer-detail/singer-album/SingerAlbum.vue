@@ -100,11 +100,6 @@ export default defineComponent({
           if (res?.code === 200) {
             albumList.value = res;
             albumParams.total = res?.artist?.albumSize;
-          } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.msg
-            });
           }
         })
         .catch(() => ({}));
