@@ -3,7 +3,7 @@ export type State = {
   playMusicList: unknown[];
   playMusicItem: PlayMusicItem;
   musicPlayProgress: unknown;
-  musicPlayStatus: unknown;
+  musicPlayStatus: object;
   musicAudioLock: boolean;
   musicModeType: number;
   musicVolume: number;

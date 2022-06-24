@@ -50,9 +50,11 @@ const mutations: Mutations<State, unknown> = {
   },
   // 音乐播放状态
   setMusicPlayStatus(state, playStatus) {
-    const musicPlayStatus = JSON.parse(JSON.stringify(state.musicPlayStatus));
-    const status = Object.assign(musicPlayStatus, playStatus);
-    state.musicPlayStatus = status as unknown;
+    const keys = Object.keys(playStatus as object);
+
+    for (const key of keys) {
+      state.musicPlayStatus[key] = (playStatus as object)[key];
+    }
   },
   // 播放器锁定在底部
   setMsicAudioLock(state, musicAudioLock) {
