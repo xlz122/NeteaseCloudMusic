@@ -20,15 +20,81 @@
               alt="头像"
             />
           </div>
-          <div class="user-content">
-            <div class="dis-flex align-center">
-              <div class="f22">{{ userInfo?.profile?.nickname }}</div>
-              <template v-if="vipInfo?.redVipLevelIcon">
-                <img class="vip-level" :src="vipInfo?.redVipLevelIcon" alt="" />
-              </template>
+          <div class="user-content dis-flex direction-column justify-between">
+            <div>
+              <div class="dis-flex align-center">
+                <div class="f22">{{ userInfo?.profile?.nickname }}</div>
+                <template v-if="vipInfo?.redVipLevelIcon">
+                  <img
+                    class="vip-level"
+                    :src="vipInfo?.redVipLevelIcon"
+                    alt="等级"
+                  />
+                </template>
+              </div>
+              <div class="mt6">当前未开通</div>
             </div>
-            <div class="mt6">当前未开通</div>
+            <div class="dis-flex">
+              <div class="text-gray6 f14 btn-gray">买会员赠好友</div>
+              <div class="text-gray6 f14 btn-gray">使用兑换码</div>
+            </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene-card">
+      <div class="vip-tab dis-flex">
+        <div
+          class="f14 text-gray9 pointer lia"
+          :class="{ active: tabInd === 0 }"
+          @click="changeTab(0)"
+        >
+          黑胶VIP
+          <img src="../../../assets/image/user/member-vip.png" />
+        </div>
+        <div
+          class="f14 text-gray9 pointer lia"
+          :class="{ active: tabInd === 1 }"
+          @click="changeTab(1)"
+        >
+          音乐包
+          <img src="../../../assets/image/user/member-music.png" />
+        </div>
+      </div>
+      <div class="vip-product">
+        <ul class="dis-flex flex-wrap">
+          <li
+            class="lia"
+            :class="{ active: index === itemInd }"
+            v-for="(item, index) in listData"
+            :key="index"
+            @click="changeItem(index)"
+          >
+            <div class="corner" v-show="item.desc">{{ item.desc }}</div>
+            <div class="name">{{ item.name }}</div>
+            <div class="origin">
+              ￥<span class="f30">{{ item.price }}</span>
+            </div>
+            <div class="price">
+              <template v-if="item.type === 1">
+                折合￥{{ item.amount }}/月
+              </template>
+              <span class="line-through" v-else-if="item.type === 2">
+                ￥{{ item.amount }}
+              </span>
+            </div>
+            <div class="discount" v-show="item.discount">
+              限时{{ item.discount }}折
+            </div>
+          </li>
+        </ul>
+        <div class="text-gray9 ml10">
+          <template v-if="tabInd === 0">
+            到期自动续费13元，可取消，芒果月卡限领1次
+            <span class="help pointer inline-block"></span>
+          </template>
+          <template v-else>到期自动续费，可随时取消</template>
         </div>
       </div>
     </div>
@@ -41,20 +107,24 @@ import { useStore } from 'vuex';
 import { userVipInfo } from '@api/user';
 import type { ResponseType } from '@/types/types';
 
+type listType = {
+  name: string;
+  desc: string;
+  price: number;
+  amount: number;
+  type: number;
+  discount: string;
+}[];
+
 export default defineComponent({
-  name: 'UserView',
-  props: {
-    msgCode: {
-      type: Number,
-      required: true
-    }
-  },
+  name: 'MemberView',
   setup() {
     const $store = useStore();
 
     const userInfo = computed(() => $store.getters.userInfo);
 
     const vipInfo = ref({});
+
     // 获取登录用户vip信息
     function getVipInfo() {
       userVipInfo()
@@ -66,9 +136,128 @@ export default defineComponent({
         .catch(() => ({}));
     }
     getVipInfo();
+
+    // 黑胶VIP列表
+    const vip = [
+      {
+        name: '连续包月',
+        desc: '免费送芒果月卡',
+        price: 13,
+        amount: 13,
+        type: 1,
+        discount: ''
+      },
+      {
+        name: '连续包年',
+        desc: '私信领爱奇艺季卡',
+        price: 128,
+        amount: 138,
+        type: 2,
+        discount: '9.3'
+      },
+      {
+        name: '连续包季',
+        desc: '私信领喜马月卡',
+        price: 30,
+        amount: 10,
+        type: 1,
+        discount: '7.7'
+      },
+      {
+        name: '12个月',
+        desc: '私信领严选年卡',
+        price: 158,
+        amount: 216,
+        type: 2,
+        discount: ''
+      },
+      {
+        name: '6个月',
+        desc: '',
+        price: 88,
+        amount: 108,
+        type: 2,
+        discount: ''
+      },
+      {
+        name: '3个月',
+        desc: '',
+        price: 45,
+        amount: 54,
+        type: 2,
+        discount: ''
+      },
+      {
+        name: '1个月',
+        desc: '',
+        price: 16,
+        amount: 18,
+        type: 2,
+        discount: ''
+      }
+    ];
+    // 音乐包
+    const music = [
+      {
+        name: '连续包月',
+        desc: '推荐',
+        price: 8,
+        amount: 8,
+        type: 1,
+        discount: ''
+      },
+      {
+        name: '12个月',
+        desc: '',
+        price: 88,
+        amount: 7.33,
+        type: 1,
+        discount: ''
+      },
+      {
+        name: '6个月',
+        desc: '',
+        price: 45,
+        amount: 7.5,
+        type: 1,
+        discount: ''
+      },
+      {
+        name: '1个月',
+        desc: '',
+        price: 8,
+        amount: 8,
+        type: 1,
+        discount: ''
+      }
+    ];
+    // 页面显示列表
+    const listData = ref<listType>(vip);
+
+    const tabInd = ref(0);
+    const itemInd = ref(0);
+
+    // tab切换
+    function changeTab(ind: number) {
+      tabInd.value = ind;
+      itemInd.value = 0;
+      if (ind === 0) listData.value = vip;
+      else listData.value = music;
+    }
+
+    // 充值模块选择
+    function changeItem(index: number) {
+      itemInd.value = index;
+    }
+
     return {
       userInfo,
-      vipInfo
+      vipInfo,
+      tabInd,
+      listData,
+      itemInd,
+      changeTab,
+      changeItem
     };
   }
 });
