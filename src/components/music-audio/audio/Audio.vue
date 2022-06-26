@@ -48,10 +48,10 @@ export default defineComponent({
     const musicAudio = ref<HTMLVideoElement>();
 
     watch(
-      () => musicPlayStatus.value,
+      () => musicPlayStatus.value.look,
       () => {
-        // 播放
-        if (musicPlayStatus.value.look) {
+        // 播放(不是刷新播放)
+        if (musicPlayStatus.value.look && !musicPlayStatus.value.refresh) {
           startPlayMusic();
         }
 
@@ -59,20 +59,20 @@ export default defineComponent({
         if (!musicPlayStatus.value.look) {
           stopPlayMusic();
         }
+      }
+    );
 
+    watch(
+      () => musicPlayStatus.value.refresh,
+      () => {
         // 刷新
         if (musicPlayStatus.value.refresh) {
-          // 重置刷新
           $store.commit('music/setMusicPlayStatus', {
             refresh: false
           });
 
-          // 刷新播放链接
           getAudioSrc();
         }
-      },
-      {
-        deep: true
       }
     );
 
