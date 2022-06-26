@@ -96,6 +96,82 @@
           </template>
           <template v-else>到期自动续费，可随时取消</template>
         </div>
+        <div class="mt10">
+          <span class="f14 text-gray3 ml10">选择优惠券</span>
+          <span
+            class="f12 text-blued4 ml10 pointer"
+            @click="exchange = !exchange"
+          >
+            {{ exchange ? '兑换优惠券' : '取消兑换优惠券' }}
+          </span>
+        </div>
+        <div class="coupon" v-show="exchange">
+          <div
+            class="coupon-form-select mt20 ml10 pointer"
+            @click="dropdown = true"
+          >
+            <input
+              class="select-placeholder f12 ml10"
+              type="text"
+              autocomplete="off"
+              placeholder="该活动价不支持使用优惠券"
+              @blur="dropdown = false"
+              v-model="couponValue"
+            />
+            <span class="select-arrow"></span>
+          </div>
+          <div class="select-dropdown" v-show="dropdown">
+            <ul>
+              <li
+                class="dropdown-menu not-allowed text-grayC"
+                v-if="couponList.length === 0"
+              >
+                无可用优惠券
+              </li>
+              <li
+                class="dropdown-menu pointer"
+                v-for="(item, index) in couponList"
+                :key="index"
+                @click="chooseCoupon(item)"
+              >
+                {{ item }}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="exchange dis-flex align-center ml10 mt20"
+          v-show="!exchange"
+        >
+          <input
+            type="text"
+            placeholder="请输入优惠券兑换码"
+            class="f12 text-grayA"
+            v-model="exchangeCode"
+          />
+          <button type="button" class="pointer">兑换</button>
+        </div>
+        <div class="payment mt20 ml10">
+          <div class="f14 text-gray3">支付方式</div>
+          <div class="scan dis-flex">
+            <div class="scanImg"></div>
+            <div class="ml20">
+              <div class="f14 text-gray3">使用支付宝、微信扫码支付</div>
+              <div class="pay-img mt10">
+                <img
+                  src="../../../assets/image/user/pay-zfb.png"
+                  alt="支付宝"
+                />
+                <img
+                  src="../../../assets/image/user/pay-wx.png"
+                  alt="微信"
+                  class="ml10"
+                />
+              </div>
+              <div class="text-gray3"><span class="f45">13</span>元</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -120,9 +196,7 @@ export default defineComponent({
   name: 'MemberView',
   setup() {
     const $store = useStore();
-
     const userInfo = computed(() => $store.getters.userInfo);
-
     const vipInfo = ref({});
 
     // 获取登录用户vip信息
@@ -236,7 +310,6 @@ export default defineComponent({
 
     const tabInd = ref(0);
     const itemInd = ref(0);
-
     // tab切换
     function changeTab(ind: number) {
       tabInd.value = ind;
@@ -244,11 +317,26 @@ export default defineComponent({
       if (ind === 0) listData.value = vip;
       else listData.value = music;
     }
-
     // 充值模块选择
     function changeItem(index: number) {
       itemInd.value = index;
     }
+
+    // 优惠券兑换选择
+    const exchange = ref(true);
+    // 优惠券选择
+    const dropdown = ref(false);
+    // 优惠券列表
+    const couponList = ref(['优惠券1', '优惠券2', '优惠券3']);
+    // 优惠券选择
+    const couponValue = ref('');
+    // 优惠券选择
+    function chooseCoupon(item: string) {
+      couponValue.value = item;
+      dropdown.value = false;
+    }
+    // 兑换码
+    const exchangeCode = ref('');
 
     return {
       userInfo,
@@ -256,8 +344,14 @@ export default defineComponent({
       tabInd,
       listData,
       itemInd,
+      exchange,
+      dropdown,
+      couponList,
+      couponValue,
+      chooseCoupon,
       changeTab,
-      changeItem
+      changeItem,
+      exchangeCode
     };
   }
 });
