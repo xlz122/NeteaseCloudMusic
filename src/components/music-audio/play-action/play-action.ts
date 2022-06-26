@@ -2,7 +2,10 @@ import store from '@store/index';
 import type { LoopType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
 
-let timer: number | null = null;
+const audio = {
+  timer: 0,
+  look: false
+};
 
 /**
  * @description 播放上一首歌曲
@@ -10,6 +13,9 @@ let timer: number | null = null;
 export async function playPrevMusic(): Promise<boolean | undefined> {
   const playMusicId = store.getters['music/playMusicId'];
   const playMusicList = store.getters['music/playMusicList'];
+
+  // 存储播放状态
+  audio.look = store.getters['music/musicPlayStatus'].look;
 
   if (playMusicList.length === 0) {
     return false;
@@ -61,12 +67,12 @@ export async function playPrevMusic(): Promise<boolean | undefined> {
   store.commit('music/setPlayMusicItem', musicItem);
 
   // 停止切换后开始播放
-  if (timer) {
-    clearTimeout(timer);
+  if (audio.timer) {
+    clearTimeout(audio.timer);
   }
-  timer = setTimeout(() => {
+  audio.timer = setTimeout(() => {
     store.commit('music/setMusicPlayStatus', {
-      look: true,
+      look: audio.look,
       loading: false,
       refresh: true
     });
@@ -79,6 +85,9 @@ export async function playPrevMusic(): Promise<boolean | undefined> {
 export async function playNextMusic(): Promise<boolean | undefined> {
   const playMusicId = store.getters['music/playMusicId'];
   const playMusicList = store.getters['music/playMusicList'];
+
+  // 存储播放状态
+  audio.look = store.getters['music/musicPlayStatus'].look;
 
   if (playMusicList.length === 0) {
     return false;
@@ -130,12 +139,12 @@ export async function playNextMusic(): Promise<boolean | undefined> {
   store.commit('music/setPlayMusicItem', musicItem);
 
   // 停止切换后开始播放
-  if (timer) {
-    clearTimeout(timer);
+  if (audio.timer) {
+    clearTimeout(audio.timer);
   }
-  timer = setTimeout(() => {
+  audio.timer = setTimeout(() => {
     store.commit('music/setMusicPlayStatus', {
-      look: true,
+      look: audio.look,
       loading: false,
       refresh: true
     });
