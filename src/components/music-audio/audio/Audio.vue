@@ -201,22 +201,27 @@ export default defineComponent({
     // 播放完成
     const musicModeType = computed(() => $store.getters['music/musicModeType']);
     function musicPlayEnded(): boolean | undefined {
-      // 重置播放状态
-      $store.commit('music/setMusicPlayStatus', {
-        look: false,
-        loading: true
-      });
-      // 重置播放进度
-      $store.commit('music/setMusicPlayProgress', {
-        progress: 0,
-        currentTime: 0,
-        duration: 0
-      });
-
       // 单曲循环
       // 播放列表没有音乐，或只有一首音乐
       if (musicModeType.value === 0 || playMusicList.value.length <= 1) {
-        startPlayMusic();
+        // 重置播放进度
+        $store.commit('music/setMusicPlayProgress', {
+          progress: 0,
+          currentTime: 0,
+          duration: 0
+        });
+
+        $store.commit('music/setMusicPlayStatus', {
+          look: false,
+          loading: true
+        });
+
+        setTimeout(() => {
+          $store.commit('music/setMusicPlayStatus', {
+            look: true,
+            loading: false
+          });
+        }, 100);
         return false;
       }
 
