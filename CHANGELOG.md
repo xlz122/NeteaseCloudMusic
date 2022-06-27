@@ -1,3 +1,43 @@
+## [1.1.5](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.1.4...v1.1.5) (2022-06-27)
+
+
+### ♻ Code Refactoring | 代码重构
+
+* 重构歌曲上下首切换播放逻辑 [#50cee18](https://github.com/xlz122/NeteaseCloudMusic/commit/50cee18) 
+* 重构随机播放逻辑 [#c12e2b5](https://github.com/xlz122/NeteaseCloudMusic/commit/c12e2b5) 
+* 重构音乐播放器 [#dd7501d](https://github.com/xlz122/NeteaseCloudMusic/commit/dd7501d) 
+
+
+### ✨ Features | 新功能
+
+* 打开播放列表自动定位到当前播放歌曲所在位置 [#8154473](https://github.com/xlz122/NeteaseCloudMusic/commit/8154473) 
+* 切换歌曲根据当前播放状态，控制切换完成是否播放 [#b7e4073](https://github.com/xlz122/NeteaseCloudMusic/commit/b7e4073) 
+* 新增我的-VIP会员 [#a9dc4ff](https://github.com/xlz122/NeteaseCloudMusic/commit/a9dc4ff) 
+* 新增我的-VIP会员 [#d887783](https://github.com/xlz122/NeteaseCloudMusic/commit/d887783) 
+
+
+### 🎫 Chores | 其他更新
+
+* 更新项目所需插件 [#8e6de9f](https://github.com/xlz122/NeteaseCloudMusic/commit/8e6de9f) 
+* 判断pc/移动端写法修改 [#2e9b744](https://github.com/xlz122/NeteaseCloudMusic/commit/2e9b744) 
+* import引入类型语句增加type [#d99b707](https://github.com/xlz122/NeteaseCloudMusic/commit/d99b707) 
+* update vue.config.js [#3d345c4](https://github.com/xlz122/NeteaseCloudMusic/commit/3d345c4) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 删除一些接口异常提示 [#118d8d6](https://github.com/xlz122/NeteaseCloudMusic/commit/118d8d6) 
+* 修复部分收藏接口返回的是messag而不是msg的bug [#4138714](https://github.com/xlz122/NeteaseCloudMusic/commit/4138714) 
+* 修复歌曲播放完成不会继续播放歌曲的bug [#4384753](https://github.com/xlz122/NeteaseCloudMusic/commit/4384753) 
+* 修复歌曲切换，播放进度没有重置的bug [#082ad84](https://github.com/xlz122/NeteaseCloudMusic/commit/082ad84) 
+* 修复角标传值问题 [#f93494e](https://github.com/xlz122/NeteaseCloudMusic/commit/f93494e) 
+* 修复watch使用不当，造成音乐播放器执行两次load的bug [#62a02bf](https://github.com/xlz122/NeteaseCloudMusic/commit/62a02bf) 
+* 修改两个滚动条问题以及vip未上传图片 [#fb70118](https://github.com/xlz122/NeteaseCloudMusic/commit/fb70118) 
+* 制作剩余部分 [#c09eb8d](https://github.com/xlz122/NeteaseCloudMusic/commit/c09eb8d) 
+* vip会员优惠券选择以及支付模块 [#f0bf873](https://github.com/xlz122/NeteaseCloudMusic/commit/f0bf873) 
+
+
+
 ## [1.1.4](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.1.3...v1.1.4) (2022-06-22)
 
 
@@ -21,6 +61,7 @@
 * 删除无用id节点 [#b65b6cb](https://github.com/xlz122/NeteaseCloudMusic/commit/b65b6cb) 
 * 修改容器挂载类型 [#570a243](https://github.com/xlz122/NeteaseCloudMusic/commit/570a243) 
 * 修改ResponseType类型 [#c4fc665](https://github.com/xlz122/NeteaseCloudMusic/commit/c4fc665) 
+* release 1.1.4 [#2912288](https://github.com/xlz122/NeteaseCloudMusic/commit/2912288) 
 
 
 ### 🐛 Bug Fixes | Bug 修复
