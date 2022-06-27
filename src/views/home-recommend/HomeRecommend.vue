@@ -51,7 +51,7 @@ import { throttle } from 'lodash';
 import { handleAudioSong } from '@/common/audio.ts';
 import { getWeekDate, formatDateTime } from '@utils/utils';
 import { recommendSongs } from '@api/home-recommend';
-import type { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
 import RecommendSong from './recommend-song/RecommendSong.vue';
 import RecommendSide from './recommend-side/RecommendSide.vue';
@@ -99,7 +99,7 @@ export default defineComponent({
 
         const songList: PlayMusicItem[] = [];
 
-        recommendSong.value?.forEach((item: LoopType) => {
+        recommendSong.value?.forEach((item: Record<string, { cp: number }>) => {
           // 无版权过滤
           if (item?.privilege?.cp === 0) {
             return false;
@@ -135,7 +135,7 @@ export default defineComponent({
 
       const songList: PlayMusicItem[] = [];
 
-      recommendSong.value?.forEach((item: LoopType) => {
+      recommendSong.value?.forEach((item: Record<string, { cp: number }>) => {
         // 无版权过滤
         if (item?.privilege?.cp === 0) {
           return false;
@@ -153,7 +153,7 @@ export default defineComponent({
     // 收藏全部
     function handleCollectAll(): void {
       let ids = '';
-      recommendSong.value.forEach((item: LoopType) => {
+      recommendSong.value.forEach((item: Record<string, { cp: number }>) => {
         // 无版权过滤
         if (item?.privilege?.cp === 0) {
           return false;

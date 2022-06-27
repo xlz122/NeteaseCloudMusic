@@ -147,7 +147,7 @@ export default defineComponent({
 
         const songList: PlayMusicItem[] = [];
 
-        songs.value.forEach((item: LoopType) => {
+        songs.value.forEach((item: Record<string, { cp: number }>) => {
           // 无版权过滤
           if (item?.privilege?.cp === 0) {
             return false;
@@ -199,7 +199,7 @@ export default defineComponent({
 
       const songList: PlayMusicItem[] = [];
 
-      songs.value.forEach((item: LoopType) => {
+      songs.value.forEach((item: Record<string, { cp: number }>) => {
         // 无版权过滤
         if (item?.privilege?.cp === 0) {
           return false;
@@ -238,7 +238,7 @@ export default defineComponent({
       }
 
       let ids = '';
-      songs.value.forEach((item: LoopType) => {
+      songs.value.forEach((item: Record<string, { cp: number }>) => {
         // 无版权过滤
         if (item?.privilege?.cp === 0) {
           return false;

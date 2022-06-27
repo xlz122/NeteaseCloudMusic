@@ -166,7 +166,7 @@ export default defineComponent({
 
             const songList: PlayMusicItem[] = [];
 
-            res?.songs.forEach((item: LoopType) => {
+            res?.songs.forEach((item: Record<string, { cp: number }>) => {
               // 无版权过滤
               if (item?.privilege?.cp === 0) {
                 return false;
