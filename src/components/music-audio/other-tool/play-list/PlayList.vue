@@ -22,12 +22,12 @@
         alt=""
       />
       <div class="left-content">
-        <ul class="list" v-if="playMusicList.length > 0">
+        <ul class="p-list" v-if="playMusicList.length > 0">
           <li
             class="item"
             v-for="(item, index) in playMusicList"
             :key="index"
-            :class="{ 'active-item': item.id === playMusicId }"
+            :class="{ 'p-active-item': item.id === playMusicId }"
             @click="playlistItem(item?.id, item)"
           >
             <i class="play-icon"></i>
@@ -91,10 +91,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils';
 import type { LoopType } from '@/types/types';
+import type { PlayMusicItem } from '@store/music/state';
 import Lyric from '../lyric/Lyric.vue';
 
 export default defineComponent({
@@ -118,6 +119,34 @@ export default defineComponent({
       () => $store.getters['music/playMusicItem']
     );
     const playMusicList = computed(() => $store.getters['music/playMusicList']);
+
+    watch(
+      () => props.playListShow,
+      () => {
+        if (props.playListShow) {
+          playSongPosition();
+        }
+      }
+    );
+
+    // 列表播放歌曲定位
+    function playSongPosition() {
+      const isExist = playMusicList.value.find(
+        (item: PlayMusicItem) => item.id === playMusicId.value
+      );
+      if (!isExist) {
+        return false;
+      }
+
+      nextTick(() => {
+        const listDom = document.querySelector('.p-list') as HTMLElement;
+        const activeItem = document.querySelector(
+          '.p-active-item'
+        ) as HTMLElement;
+
+        listDom.scrollTo(0, activeItem.offsetTop - activeItem.clientHeight * 4);
+      });
+    }
 
     // 收藏全部歌曲
     function collectAll(): boolean | undefined {
