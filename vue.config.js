@@ -101,7 +101,7 @@ module.exports = {
             ),
             // 对超过10k的数据进行压缩
             threshold: 10240,
-            // 压缩比例,值为0 ~ 1
+            // 压缩比例(0 ~ 1)
             minRatio: 0.6
           })
         ]
@@ -178,12 +178,8 @@ module.exports = {
     //   .loader('url-loader')
     //   .tap(options => Object.assign(options, { limit: 10240 }));
 
-    // 移除 prefetch 插件
+    // 移除 prefetch、preload 插件
     config.plugins.delete('prefetch');
-    // 移除 preload 插件
     config.plugins.delete('preload');
-  },
-  pluginOptions: {
-    // 第三方插件配置
   }
 };
