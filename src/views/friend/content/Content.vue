@@ -107,7 +107,7 @@ export default defineComponent({
     getFriendEvent();
 
     // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(item: Record<string, any>): void {
+    function singleMusicToPlayList(item: unknown): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       // 当前播放音乐

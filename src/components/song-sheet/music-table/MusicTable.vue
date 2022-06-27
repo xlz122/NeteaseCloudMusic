@@ -191,14 +191,14 @@ export default defineComponent({
     }
 
     // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(item: Record<string, any>): void {
+    function singleMusicToPlayList(item: unknown): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       $store.commit('music/setPlayMusicList', musicItem);
     }
 
     // 播放单个歌曲
-    function playSingleMusic(item: Record<string, any>): boolean | undefined {
+    function playSingleMusic(item: { id: number }): boolean | undefined {
       // 无版权
       if (isCopyright(item.id)) {
         $store.commit('setCopyright', {

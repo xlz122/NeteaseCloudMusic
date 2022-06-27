@@ -65,7 +65,7 @@ export default defineComponent({
       }
     );
 
-    const songSheetList = ref<Record<string, any>[]>([]);
+    const songSheetList = ref<unknown[]>([]);
 
     // 获取歌单列表
     function getUserPlayList(): void {

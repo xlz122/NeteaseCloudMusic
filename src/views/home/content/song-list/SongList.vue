@@ -191,7 +191,7 @@ export default defineComponent({
     }
 
     // 播放单个歌曲
-    function playSingleMusic(item: Record<string, any>): void {
+    function playSingleMusic(item: unknown): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       // 当前播放音乐
@@ -207,7 +207,7 @@ export default defineComponent({
     }
 
     // 单个音乐添加到播放列表
-    function setAddSinglePlayList(item: Record<string, any>): void {
+    function setAddSinglePlayList(item: unknown): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       // 添加到播放列表

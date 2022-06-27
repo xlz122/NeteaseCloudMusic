@@ -387,7 +387,7 @@ export default defineComponent({
       emit('jumpUserProfile', userId);
     }
 
-    function singleMusicToPlayList(item: Record<string, any>): void {
+    function singleMusicToPlayList(item: unknown): void {
       emit('singleMusicToPlayList', item);
     }
 

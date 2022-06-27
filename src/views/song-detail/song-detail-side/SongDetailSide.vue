@@ -110,7 +110,7 @@ export default defineComponent({
     }
     getSimiPlaylist();
 
-    const simiSongList = ref<Record<string, any>>([]);
+    const simiSongList = ref<unknown[]>([]);
     // 获取歌曲的相似歌曲
     function getSimiSong(): void {
       simiSong({ id: songId.value })
@@ -124,7 +124,9 @@ export default defineComponent({
     getSimiSong();
 
     // 播放单个歌曲
-    function playSingleMusic(item: Record<string, any>): boolean | undefined {
+    function playSingleMusic(
+      item: Record<string, { cp: number }>
+    ): boolean | undefined {
       // 无版权过滤
       if (item?.privilege?.cp === 0) {
         return false;
@@ -146,7 +148,7 @@ export default defineComponent({
 
     // 单个歌曲添加到播放列表
     function singleMusicToPlayList(
-      item: Record<string, any>
+      item: Record<string, { cp: number }>
     ): boolean | undefined {
       // 无版权过滤
       if (item?.privilege?.cp === 0) {
