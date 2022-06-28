@@ -1,15 +1,13 @@
 <template>
-  <div class="app-wrap">
-    <HeaderView />
-    <router-view v-slot="{ Component }" v-if="$route.meta.keepAlive">
-      <keep-alive :include="['DownloadView']">
-        <component :is="Component" />
-      </keep-alive>
-    </router-view>
-    <router-view v-if="!$route.meta.keepAlive"></router-view>
-    <FooterView />
-    <JumpTop />
-  </div>
+  <HeaderView />
+  <router-view v-slot="{ Component }" v-if="$route.meta.keepAlive">
+    <keep-alive :include="['DownloadView']">
+      <component :is="Component" />
+    </keep-alive>
+  </router-view>
+  <router-view v-if="!$route.meta.keepAlive"></router-view>
+  <FooterView />
+  <JumpTop />
 </template>
 
 <script lang="ts">

@@ -246,8 +246,7 @@ export default defineComponent({
         '.comment-component'
       ) as HTMLElement;
 
-      const appwrap = document.querySelector('.app-wrap') as HTMLElement;
-      appwrap.scrollTo(0, Number(commentDom.offsetTop) + 120);
+      window.scrollTo(0, Number(commentDom.offsetTop) + 120);
     }
 
     return {
