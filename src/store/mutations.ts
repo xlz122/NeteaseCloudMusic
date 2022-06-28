@@ -1,15 +1,9 @@
 import Router from '@router/index';
-import type { State } from '@store/state';
+import type { State, Message } from '@store/state';
 import { clearAllCookie } from '@utils/cookie';
 
 type Mutations<T, U = any> = {
   [key: string]: (state: T, payload: U) => void;
-};
-
-type Message = {
-  type: string;
-  title: string;
-  time?: number;
 };
 
 const mutations: Mutations<State> = {

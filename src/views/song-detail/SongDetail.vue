@@ -213,9 +213,11 @@ export default defineComponent({
         time.match(regMs).index + 1,
         time.match(regMs).index + 3
       );
+
       if (min !== 0) {
         sec += min * 60;
       }
+
       return Number(sec + '.' + ms);
     }
 

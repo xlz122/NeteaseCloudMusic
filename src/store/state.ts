@@ -5,7 +5,7 @@ export type State = {
   userInfo: unknown;
   cookie: string;
   isLogin: boolean;
-  message: unknown;
+  message: Message;
   searchText: string;
   searchDetailText: string;
   userId: number;
@@ -25,6 +25,12 @@ export type State = {
     visible: boolean;
     message: string;
   };
+};
+
+export type Message = {
+  type?: string;
+  title?: string;
+  time?: number;
 };
 
 // 本地存储容错处理
