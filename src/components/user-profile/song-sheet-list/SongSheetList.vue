@@ -86,7 +86,12 @@ import { defineComponent, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { bigNumberTransform } from '@utils/utils';
 import { userPlayList } from '@api/my-music';
-import type { SongList, ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
+
+type SongList = {
+  createSongList: unknown[];
+  collectionSongList: unknown[];
+};
 
 export default defineComponent({
   setup() {

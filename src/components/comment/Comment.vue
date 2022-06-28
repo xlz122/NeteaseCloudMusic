@@ -75,6 +75,24 @@ import CommentList from '@/components/comment/comment-list/CommentList.vue';
 import MyDialog from '@/components/MyDialog.vue';
 import defaultAvatarImg from '@assets/image/user/default_avatar.jpg';
 
+export type CommentParams = {
+  type: number;
+  id: number;
+  offset: number;
+  limit: number;
+  total: number;
+  hotList: {
+    replyShow: boolean;
+    liked: boolean;
+    likedCount: number;
+  }[];
+  list: {
+    replyShow: boolean;
+    liked: boolean;
+    likedCount: number;
+  }[];
+};
+
 export default defineComponent({
   name: 'CommentView',
   components: {

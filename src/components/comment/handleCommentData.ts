@@ -1,5 +1,5 @@
 import { formatMixedText } from '@utils/formatMixedText';
-import type { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 
 type CommentReturn = {
   hotList: List[];
@@ -8,6 +8,8 @@ type CommentReturn = {
 
 type List = {
   replyShow: boolean;
+  content: string;
+  beReplied: Record<string, { content: string }>;
   liked: boolean;
   likedCount: number;
 };
@@ -19,7 +21,7 @@ export function handleCommentData(data: ResponseType): CommentReturn {
   };
   // 精彩评论
   if (data.hotComments) {
-    data.hotComments.forEach((item: LoopType) => {
+    data.hotComments.forEach((item: List) => {
       item.replyShow = false;
       item.content = formatMixedText(item.content);
       // 他人回复进行转换
@@ -33,7 +35,7 @@ export function handleCommentData(data: ResponseType): CommentReturn {
   }
 
   // 最新评论
-  data?.comments.forEach((item: LoopType) => {
+  data?.comments.forEach((item: List) => {
     item.replyShow = false;
     item.content = formatMixedText(item.content);
     // 他人回复进行转换
