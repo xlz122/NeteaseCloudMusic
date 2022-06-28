@@ -129,7 +129,7 @@ export default defineComponent({
     );
 
     // 列表播放歌曲定位
-    function playSongPosition() {
+    function playSongPosition(): boolean | undefined {
       const isExist = playMusicList.value.find(
         (item: PlayMusicItem) => item.id === playMusicId.value
       );

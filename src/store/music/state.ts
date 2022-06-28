@@ -1,13 +1,13 @@
 export type State = {
   playMusicId: number;
-  playMusicList: unknown[];
+  playMusicList: PlayMusicItem[];
   playMusicItem: PlayMusicItem;
   musicPlayProgress: MusicPlayProgress;
   musicPlayStatus: MusicPlayStatus;
   musicAudioLock: boolean;
   musicModeType: number;
   musicVolume: number;
-  playLyrics: unknown;
+  playLyrics: PlayLyrics[];
 };
 
 export type PlayMusicItem = {
@@ -34,6 +34,11 @@ export type MusicPlayStatus = {
   look?: boolean;
   loading?: boolean;
   refresh?: boolean;
+};
+
+export type PlayLyrics = {
+  lyric?: string;
+  time?: number;
 };
 
 // 本地存储容错处理

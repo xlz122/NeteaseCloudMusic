@@ -16,6 +16,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
+import type { Message } from '@store/state';
 
 export default defineComponent({
   name: 'MessageView',
@@ -23,7 +24,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 提示数据
-    const message = computed(() => $store.getters.message);
+    const message = computed<Message>(() => $store.getters.message);
 
     const messageShow = ref<boolean>(false);
 
