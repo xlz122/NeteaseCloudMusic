@@ -112,7 +112,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
-import { formatDateTime } from '@utils/utils.ts';
+import { formatDateTime } from '@utils/utils';
 
 export default defineComponent({
   props: {

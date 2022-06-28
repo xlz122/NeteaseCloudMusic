@@ -77,7 +77,7 @@ import { defineComponent, reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
-import { handleAudioSong } from '@/common/audio.ts';
+import { handleAudioSong, SongType } from '@/common/audio';
 import { soaringList, newSongs, originalList } from '@api/home';
 import { playlistSubscribe } from '@api/song-sheet-detail';
 import type { ResponseType } from '@/types/types';
@@ -136,7 +136,7 @@ export default defineComponent({
 
         const songList: PlayMusicItem[] = [];
 
-        listData[index].playlist?.tracks.forEach((item: unknown) => {
+        listData[index].playlist?.tracks.forEach((item: Partial<SongType>) => {
           const musicItem: PlayMusicItem = handleAudioSong(item);
 
           songList.push(musicItem);
@@ -193,7 +193,7 @@ export default defineComponent({
     }
 
     // 播放单个歌曲
-    function playSingleMusic(item: unknown): void {
+    function playSingleMusic(item: Partial<SongType>): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       // 当前播放音乐
@@ -209,7 +209,7 @@ export default defineComponent({
     }
 
     // 单个音乐添加到播放列表
-    function setAddSinglePlayList(item: unknown): void {
+    function setAddSinglePlayList(item: Partial<SongType>): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       // 添加到播放列表

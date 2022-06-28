@@ -50,8 +50,8 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio.ts';
-import { formatDateTime } from '@utils/utils.ts';
+import { handleAudioSong } from '@/common/audio';
+import { formatDateTime } from '@utils/utils';
 import { artistAlbum } from '@api/album-detail';
 import { albumDetail } from '@api/album-detail';
 import type { ResponseType } from '@/types/types';

@@ -117,9 +117,10 @@
 import { defineComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio.ts';
-import { timeStampToDuration } from '@utils/utils.ts';
+import { handleAudioSong } from '@/common/audio';
+import { timeStampToDuration } from '@utils/utils';
 import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 
 export default defineComponent({
   props: {
@@ -140,7 +141,7 @@ export default defineComponent({
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
 
     // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(item: unknown): void {
+    function singleMusicToPlayList(item: Partial<SongType>): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       $store.commit('music/setPlayMusicList', musicItem);

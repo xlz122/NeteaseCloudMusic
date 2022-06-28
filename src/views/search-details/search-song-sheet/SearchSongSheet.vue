@@ -94,11 +94,12 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio.ts';
-import { bigNumberTransform, handleMatchString } from '@utils/utils.ts';
+import { handleAudioSong } from '@/common/audio';
+import { bigNumberTransform, handleMatchString } from '@utils/utils';
 import { searchKeywords } from '@api/search';
 import { playlistTrack, playlistSubscribe } from '@api/song-sheet-detail';
 import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
 
@@ -188,7 +189,7 @@ export default defineComponent({
 
             const songList: PlayMusicItem[] = [];
 
-            res?.songs.forEach((item: unknown) => {
+            res?.songs.forEach((item: Partial<SongType>) => {
               const musicItem: PlayMusicItem = handleAudioSong(item);
 
               songList.push(musicItem);
@@ -219,7 +220,7 @@ export default defineComponent({
 
             const songList: PlayMusicItem[] = [];
 
-            res?.songs.forEach((item: unknown) => {
+            res?.songs.forEach((item: Partial<SongType>) => {
               const musicItem: PlayMusicItem = handleAudioSong(item);
 
               songList.push(musicItem);

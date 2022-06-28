@@ -48,7 +48,7 @@
 import { defineComponent, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
-import { handleAudioSong } from '@/common/audio.ts';
+import { handleAudioSong } from '@/common/audio';
 import { getWeekDate, formatDateTime } from '@utils/utils';
 import { recommendSongs } from '@api/home-recommend';
 import type { ResponseType } from '@/types/types';
