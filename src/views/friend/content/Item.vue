@@ -366,6 +366,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { formatDate } from '@utils/utils';
+import type { SongType } from '@/common/audio';
 
 export default defineComponent({
   name: 'FriendContentItem',
@@ -387,7 +388,7 @@ export default defineComponent({
       emit('jumpUserProfile', userId);
     }
 
-    function singleMusicToPlayList(item: unknown): void {
+    function singleMusicToPlayList(item: Partial<SongType>): void {
       emit('singleMusicToPlayList', item);
     }
 

@@ -114,9 +114,10 @@
 import { defineComponent, computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
-import { handleAudioSong } from '@/common/audio.ts';
-import { formatDateTime } from '@utils/utils.ts';
+import { handleAudioSong } from '@/common/audio';
+import { formatDateTime } from '@utils/utils';
 import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 
 export default defineComponent({
   props: {
@@ -158,11 +159,13 @@ export default defineComponent({
 
         const songList: PlayMusicItem[] = [];
 
-        songSheetDetail.value?.playlist?.tracks.forEach((item: unknown) => {
-          const musicItem: PlayMusicItem = handleAudioSong(item);
+        songSheetDetail.value?.playlist?.tracks.forEach(
+          (item: Partial<SongType>) => {
+            const musicItem: PlayMusicItem = handleAudioSong(item);
 
-          songList.push(musicItem);
-        });
+            songList.push(musicItem);
+          }
+        );
 
         // 当前播放音乐
         $store.commit('music/setPlayMusicItem', songList[0]);

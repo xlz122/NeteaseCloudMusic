@@ -34,7 +34,7 @@
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { formatDateTime } from '@utils/utils.ts';
+import { formatDateTime } from '@utils/utils';
 import { artistMv } from '@api/singer-detail';
 import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';

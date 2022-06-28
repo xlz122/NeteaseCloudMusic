@@ -67,7 +67,7 @@ import {
   formatDateTime,
   bigNumberTransform,
   timeStampToDuration
-} from '@utils/utils.ts';
+} from '@utils/utils';
 import { relatedVideo } from '@api/video-detail';
 import type { ResponseType } from '@/types/types';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';

@@ -61,8 +61,8 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio.ts';
-import { timeStampToDuration, handleMatchString } from '@utils/utils.ts';
+import { handleAudioSong } from '@/common/audio';
+import { timeStampToDuration, handleMatchString } from '@utils/utils';
 import { searchKeywords } from '@api/search';
 import { albumDetail } from '@api/album-detail';
 import type { ResponseType } from '@/types/types';

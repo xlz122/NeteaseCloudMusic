@@ -62,7 +62,7 @@ import { topPlaylist } from '@api/home-song-sheet';
 import type { ResponseType } from '@/types/types';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
 
-type SongParams = {
+type ParamsType = {
   order: string;
   cat: string;
   page: number;
@@ -86,7 +86,7 @@ export default defineComponent({
     const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
     const songSheetList = ref<unknown[]>([]);
-    const songParams = reactive<SongParams>({
+    const params = reactive<ParamsType>({
       order: 'hot',
       cat: '全部',
       page: 1,
@@ -96,10 +96,10 @@ export default defineComponent({
     // 获取热门歌单数据
     function getTopPlaylist(): void {
       topPlaylist({
-        order: songParams.order,
-        cat: songParams.cat,
-        offset: songParams.page - 1,
-        limit: songParams.pageSize
+        order: params.order,
+        cat: params.cat,
+        offset: params.page - 1,
+        limit: params.pageSize
       })
         .then((res: ResponseType) => {
           if (res?.code === 200) {

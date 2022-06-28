@@ -82,7 +82,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio.ts';
+import { handleAudioSong } from '@/common/audio';
 import { simiPlaylist, simiSong } from '@api/song-detail';
 import type { ResponseType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';

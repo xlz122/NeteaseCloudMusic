@@ -35,12 +35,13 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio.ts';
+import { handleAudioSong } from '@/common/audio';
 import { formatMixedText } from '@utils/formatMixedText';
 import { getPageBottomHeight } from '@utils/utils';
 import { friendEvent, dynamicLike, FirendEvent } from '@api/friend';
 import type { ResponseType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 import Item from './Item.vue';
 
 export default defineComponent({
@@ -107,7 +108,7 @@ export default defineComponent({
     getFriendEvent();
 
     // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(item: unknown): void {
+    function singleMusicToPlayList(item: Partial<SongType>): void {
       const musicItem: PlayMusicItem = handleAudioSong(item);
 
       // 当前播放音乐

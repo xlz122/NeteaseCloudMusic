@@ -98,8 +98,8 @@
 import { defineComponent, computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
-import { handleAudioSong } from '@/common/audio.ts';
-import { formatDateTime } from '@utils/utils.ts';
+import { handleAudioSong } from '@/common/audio';
+import { formatDateTime } from '@utils/utils';
 import type { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({

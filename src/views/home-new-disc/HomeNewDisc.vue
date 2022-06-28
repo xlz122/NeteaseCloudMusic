@@ -110,7 +110,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio.ts';
+import { handleAudioSong } from '@/common/audio';
 import { hotNewDisc, nweDiscAlbum, NweDiscAlbum } from '@api/home-new-disc';
 import { albumDetail } from '@api/album-detail';
 import type { ResponseType } from '@/types/types';

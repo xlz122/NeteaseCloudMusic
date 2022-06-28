@@ -24,6 +24,7 @@ export function getWeekDate(): string {
     '星期六'
   ];
   const week = weeks[day];
+
   return week;
 }
 
@@ -57,6 +58,7 @@ export function timeStampToDuration(timeStamp: number): string {
   } else {
     ok = [h2, i2, s2].join(':');
   }
+
   return ok;
 }
 
@@ -75,6 +77,7 @@ export function formatDateTime(
   if (typeof date === 'number') {
     date = new Date(date * 1000);
   }
+
   const o = {
     // 月份
     'M+': (date as Date).getMonth() + 1,
@@ -91,11 +94,13 @@ export function formatDateTime(
     // 毫秒
     S: (date as Date).getMilliseconds()
   };
+
   if (/(y+)/.test(fmt)) {
     fmt = fmt
       .replace(RegExp.$1, (date as Date).getFullYear() + '')
       .substr(4 - RegExp.$1.length);
   }
+
   for (const k in o) {
     if (new RegExp('(' + k + ')').test(fmt)) {
       fmt = fmt.replace(
@@ -104,6 +109,7 @@ export function formatDateTime(
       );
     }
   }
+
   return fmt;
 }
 
@@ -120,6 +126,7 @@ export function formatDate(timestamp: number): string {
       arrTimestamp[start] = '0';
     }
   }
+
   // 转为数字时间戳
   timestamp = Number(arrTimestamp.join(''));
 
@@ -222,6 +229,7 @@ export function bigNumberTransform(value: number | string): number | string {
   if (isNaN(newValue)) {
     return value;
   }
+
   // 小于1万
   if (newValue < 10000) {
     return value.toString();
@@ -238,6 +246,7 @@ export function bigNumberTransform(value: number | string): number | string {
   if (newValue > 1000000000) {
     return (newValue / 10000).toFixed(0) + '万';
   }
+
   return newValue;
 }
 

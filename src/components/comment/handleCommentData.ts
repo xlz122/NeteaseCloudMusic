@@ -14,6 +14,10 @@ type List = {
   likedCount: number;
 };
 
+/**
+ * @description 处理评论数据
+ * @param { Object } data - 评论数据
+ */
 export function handleCommentData(data: ResponseType): CommentReturn {
   const result = {
     hotList: [],

@@ -201,7 +201,7 @@ import {
 } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio.ts';
+import { handleAudioSong } from '@/common/audio';
 import { getWeekDate, formatDateTime, bigNumberTransform } from '@utils/utils';
 import {
   recommendSongList,
@@ -212,6 +212,7 @@ import { playlistTrack } from '@api/song-sheet-detail';
 import { albumDetail } from '@api/album-detail';
 import type { ResponseType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 const AlbumNewest = defineAsyncComponent(
   () => import('./album-newest/AlbumNewest.vue')
 );
@@ -260,7 +261,7 @@ export default defineComponent({
 
             const songList: PlayMusicItem[] = [];
 
-            res?.songs.forEach((item: unknown) => {
+            res?.songs.forEach((item: Partial<SongType>) => {
               const musicItem: PlayMusicItem = handleAudioSong(item);
 
               songList.push(musicItem);
