@@ -63,7 +63,8 @@ import {
 import { useStore } from 'vuex';
 import { albumDetail } from '@api/album-detail';
 import { commentAlbum } from '@api/comment';
-import type { ResponseType, CommentParams } from '@/types/types';
+import type { ResponseType } from '@/types/types';
+import type { CommentParams } from '@components/comment/Comment.vue';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import AlbumInfo from './album-info/AlbumInfo.vue';
 import AlbumSong from './album-song/AlbumSong.vue';

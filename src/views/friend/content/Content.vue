@@ -39,7 +39,7 @@ import { handleAudioSong } from '@/common/audio.ts';
 import { formatMixedText } from '@utils/formatMixedText';
 import { getPageBottomHeight } from '@utils/utils';
 import { friendEvent, dynamicLike, FirendEvent } from '@api/friend';
-import type { LoopType, ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
 import Item from './Item.vue';
 
@@ -74,7 +74,7 @@ export default defineComponent({
       pagesize: 20,
       lasttime: -1
     });
-    const eventList = ref<LoopType[]>([]);
+    const eventList = ref<Record<string, any>>([]);
 
     // 获取动态列表数据
     function getFriendEvent(): void {
@@ -84,7 +84,7 @@ export default defineComponent({
           if (res.code === 200) {
             loading.value = false;
             // json字符串转为对象，处理混合文本
-            res.event.forEach((item: LoopType) => {
+            res.event.forEach((item: Record<string, any>) => {
               item.json = JSON.parse(item.json);
               item.json.msg = formatMixedText(item.json.msg);
             });
@@ -126,7 +126,7 @@ export default defineComponent({
     function setDynamicLike(id: number, threadId: number, type: number): void {
       // 页面静态修改
       const likeIndex = eventList.value.findIndex(
-        (item: LoopType) => item.id === id
+        (item: { id: number }) => item.id === id
       );
       if (type === 0) {
         eventList.value[likeIndex].info.liked = false;
