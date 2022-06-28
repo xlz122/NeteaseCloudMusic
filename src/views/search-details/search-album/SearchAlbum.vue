@@ -65,7 +65,7 @@ import { handleAudioSong } from '@/common/audio.ts';
 import { timeStampToDuration, handleMatchString } from '@utils/utils.ts';
 import { searchKeywords } from '@api/search';
 import { albumDetail } from '@api/album-detail';
-import type { LoopType, ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
 import Page from '@components/page/Page.vue';
 
@@ -152,7 +152,7 @@ export default defineComponent({
 
             // 歌曲是否全部无版权
             let noCopyrightNum = 0;
-            res?.songs?.forEach((item: LoopType) => {
+            res?.songs?.forEach((item: Record<string, { cp: number }>) => {
               if (item.privilege?.cp === 0) {
                 noCopyrightNum += 1;
               }

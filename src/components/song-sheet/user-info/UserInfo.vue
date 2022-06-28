@@ -168,7 +168,7 @@ import { throttle } from 'lodash';
 import { handleAudioSong } from '@/common/audio.ts';
 import { formatDateTime } from '@utils/utils.ts';
 import { playlistSubscribe } from '@api/song-sheet-detail';
-import type { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({
@@ -186,7 +186,7 @@ export default defineComponent({
     // 歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
       const privilege = songSheetDetail.value?.privileges.find(
-        (item: LoopType) => item.id === id
+        (item: { id: number }) => item.id === id
       );
       if (privilege?.cp === 0) {
         return true;
@@ -204,16 +204,18 @@ export default defineComponent({
 
         const songList: PlayMusicItem[] = [];
 
-        songSheetDetail.value?.playlist?.tracks.forEach((item: LoopType) => {
-          // 无版权
-          if (isCopyright(item.id)) {
-            return false;
+        songSheetDetail.value?.playlist?.tracks.forEach(
+          (item: { id: number }) => {
+            // 无版权
+            if (isCopyright(item.id)) {
+              return false;
+            }
+
+            const musicItem: PlayMusicItem = handleAudioSong(item);
+
+            songList.push(musicItem);
           }
-
-          const musicItem: PlayMusicItem = handleAudioSong(item);
-
-          songList.push(musicItem);
-        });
+        );
 
         // 当前播放音乐
         $store.commit('music/setPlayMusicItem', songList[0]);
@@ -240,16 +242,18 @@ export default defineComponent({
 
       const songList: PlayMusicItem[] = [];
 
-      songSheetDetail.value?.playlist?.tracks.forEach((item: LoopType) => {
-        // 无版权
-        if (isCopyright(item.id)) {
-          return false;
+      songSheetDetail.value?.playlist?.tracks.forEach(
+        (item: { id: number }) => {
+          // 无版权
+          if (isCopyright(item.id)) {
+            return false;
+          }
+
+          const musicItem: PlayMusicItem = handleAudioSong(item);
+
+          songList.push(musicItem);
         }
-
-        const musicItem: PlayMusicItem = handleAudioSong(item);
-
-        songList.push(musicItem);
-      });
+      );
 
       // 添加到播放列表
       $store.commit('music/setPlayMusicList', songList);

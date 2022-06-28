@@ -94,7 +94,6 @@
 import { defineComponent, computed, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils';
-import type { LoopType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
 import Lyric from '../lyric/Lyric.vue';
 
@@ -156,7 +155,7 @@ export default defineComponent({
       }
 
       let ids = '';
-      playMusicList.value.forEach((item: LoopType) => {
+      playMusicList.value.forEach((item: PlayMusicItem) => {
         ids += `${item.id},`;
       });
 

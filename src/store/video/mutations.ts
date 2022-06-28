@@ -1,4 +1,4 @@
-import type { State } from '@store/video/state';
+import type { State, VideoPlayProgress } from '@store/video/state';
 
 type Mutations<T, U> = {
   [key: string]: (state: T, payload: U) => void;
@@ -16,7 +16,7 @@ const mutations: Mutations<State, unknown> = {
       JSON.stringify(state.videoPlayProgress)
     );
     const progress = Object.assign(videoPlayProgress, playProgress);
-    state.videoPlayProgress = progress as unknown;
+    state.videoPlayProgress = progress as VideoPlayProgress;
   },
   // 音量控制
   setVideoVolume(state, videoVolume) {

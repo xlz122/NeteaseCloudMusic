@@ -99,7 +99,7 @@ import { bigNumberTransform, handleMatchString } from '@utils/utils.ts';
 import { searchKeywords } from '@api/search';
 import { playlistTrack, playlistSubscribe } from '@api/song-sheet-detail';
 import type { PlayMusicItem } from '@store/music/state';
-import type { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
 
 type songSheetData = {
@@ -188,7 +188,7 @@ export default defineComponent({
 
             const songList: PlayMusicItem[] = [];
 
-            res?.songs.forEach((item: LoopType) => {
+            res?.songs.forEach((item: unknown) => {
               const musicItem: PlayMusicItem = handleAudioSong(item);
 
               songList.push(musicItem);
@@ -219,7 +219,7 @@ export default defineComponent({
 
             const songList: PlayMusicItem[] = [];
 
-            res?.songs.forEach((item: LoopType) => {
+            res?.songs.forEach((item: unknown) => {
               const musicItem: PlayMusicItem = handleAudioSong(item);
 
               songList.push(musicItem);

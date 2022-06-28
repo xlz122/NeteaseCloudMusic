@@ -95,7 +95,7 @@ import { MyVideoSbulist } from '@api/my-music';
 import { videoDetail } from '@api/video-detail';
 import { commentVideo } from '@api/comment';
 import { videoUrl, videoSub } from '@api/video-detail';
-import type { ResponseType, CommentParams, LoopType } from '@/types/types';
+import type { ResponseType, CommentParams } from '@/types/types';
 import type { Video } from '@store/video/state';
 import VideoPlayer from '@components/video-player/VideoPlayer.vue';
 import Comment from '@components/comment/Comment.vue';
@@ -182,7 +182,7 @@ export default defineComponent({
       MyVideoSbulist()
         .then((res: ResponseType) => {
           if (res?.code === 200) {
-            res?.data?.forEach((item: LoopType) => {
+            res?.data?.forEach((item: { vid: number }) => {
               if (item?.vid === video.value.id) {
                 videoSubed.value = true;
               }

@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch, onMounted, onBeforeUnmount } from 'vue';
-import type { LoopType } from '@/types/types';
+import type { VideoPlayProgress } from '@store/video/state';
 
 export default defineComponent({
   props: {
@@ -24,7 +24,7 @@ export default defineComponent({
     }
   },
   emits: ['progressChange'],
-  setup(props: { playProgress: LoopType }, { emit }) {
+  setup(props: { playProgress: VideoPlayProgress }, { emit }) {
     // 当前进度距离左边距离
     const currentLeft = ref<number>(0);
     // 总进度 当前进度 进度图标

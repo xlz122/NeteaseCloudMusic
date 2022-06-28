@@ -36,7 +36,7 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { userPlayList, collectMusic } from '@api/my-music';
-import type { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import MyDialog from '@/components/MyDialog.vue';
 
 export default defineComponent({
@@ -76,16 +76,18 @@ export default defineComponent({
           if (res.code === 200) {
             songSheetList.value = [];
 
-            res.playlist.forEach((item: LoopType) => {
-              if (item.name.includes('喜欢的音乐')) {
-                item.name = '我喜欢的音乐';
-              }
+            res.playlist.forEach(
+              (item: { name: string; subscribed: boolean }) => {
+                if (item.name.includes('喜欢的音乐')) {
+                  item.name = '我喜欢的音乐';
+                }
 
-              // 收藏列表判断
-              if (!item.subscribed) {
-                songSheetList.value.push(item);
+                // 收藏列表判断
+                if (!item.subscribed) {
+                  songSheetList.value.push(item);
+                }
               }
-            });
+            );
           }
         })
         .catch(() => ({}));

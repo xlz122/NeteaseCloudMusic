@@ -217,7 +217,7 @@ export function formatDate(timestamp: number): string {
  * 大数字转换，将大额数字转换为万、千万、亿等
  * @param value 数字值
  */
-export function bigNumberTransform(value: number): number | string {
+export function bigNumberTransform(value: number | string): number | string {
   const newValue = Number(value);
   if (isNaN(newValue)) {
     return value;

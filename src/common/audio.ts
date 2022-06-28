@@ -1,4 +1,4 @@
-import type { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
 import { toRawType } from '@utils/tool';
 
@@ -22,7 +22,7 @@ export function handleAudioSong(song: ResponseType): PlayMusicItem {
 
   const artists = song?.ar || song?.artists;
 
-  artists.forEach((item: LoopType) => {
+  artists.forEach((item: { id: number; name: string }) => {
     musicItem.singerList.push({
       id: item.id,
       name: item.name

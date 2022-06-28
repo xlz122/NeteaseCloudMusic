@@ -69,7 +69,7 @@ import {
   commentLike,
   replyComment
 } from '@api/comment';
-import type { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import CommentReplay from '@/components/comment/comment-replay/CommentReplay.vue';
 import CommentList from '@/components/comment/comment-list/CommentList.vue';
 import MyDialog from '@/components/MyDialog.vue';
@@ -193,7 +193,7 @@ export default defineComponent({
       let likeIndex = 0;
       if (t === 0) {
         likeIndex = commentParams.value.hotList.findIndex(
-          (item: LoopType) => item.commentId === commentId
+          (item: { commentId: number }) => item.commentId === commentId
         );
         if (type === 0) {
           commentParams.value.hotList[likeIndex].liked = false;
@@ -205,7 +205,7 @@ export default defineComponent({
       }
       if (t === 1) {
         likeIndex = commentParams.value.list.findIndex(
-          (item: LoopType) => item.commentId === commentId
+          (item: { commentId: number }) => item.commentId === commentId
         );
         if (type === 0) {
           commentParams.value.list[likeIndex].liked = false;
@@ -232,10 +232,10 @@ export default defineComponent({
         return false;
       }
 
-      commentParams.value.hotList.forEach((item: LoopType) => {
+      commentParams.value.hotList.forEach((item: { replyShow: boolean }) => {
         item.replyShow = false;
       });
-      commentParams.value.list.forEach((item: LoopType) => {
+      commentParams.value.list.forEach((item: { replyShow: boolean }) => {
         item.replyShow = false;
       });
 
