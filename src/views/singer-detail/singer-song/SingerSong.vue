@@ -131,7 +131,7 @@ import { throttle } from 'lodash';
 import { handleAudioSong } from '@/common/audio.ts';
 import { timeStampToDuration } from '@utils/utils.ts';
 import { artistSong } from '@api/singer-detail';
-import type { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({
@@ -179,7 +179,7 @@ export default defineComponent({
 
         const songList: PlayMusicItem[] = [];
 
-        singerSong.value?.hotSongs.forEach((item: LoopType) => {
+        singerSong.value?.hotSongs.forEach((item: { id: number }) => {
           // 无版权
           if (isCopyright(item.id)) {
             return false;
@@ -215,7 +215,7 @@ export default defineComponent({
 
       const songList: PlayMusicItem[] = [];
 
-      singerSong.value?.hotSongs?.forEach((item: LoopType) => {
+      singerSong.value?.hotSongs?.forEach((item: { id: number }) => {
         // 无版权
         if (isCopyright(item.id)) {
           return false;

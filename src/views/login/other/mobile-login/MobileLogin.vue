@@ -69,7 +69,7 @@ import {
   cellphoneLogin,
   userInfo
 } from '@api/login';
-import type { LoopType, ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 
 type MobileFormData = {
   code: string;
@@ -105,8 +105,8 @@ export default defineComponent({
       countryCode()
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            res.data.forEach((item: LoopType) => {
-              item?.countryList.forEach((i: LoopType) => {
+            res.data.forEach((item: { countryList: unknown[] }) => {
+              item?.countryList.forEach((i: unknown) => {
                 countryCodeList.value.push(i);
               });
             });

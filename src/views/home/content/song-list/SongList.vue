@@ -80,7 +80,7 @@ import { throttle } from 'lodash';
 import { handleAudioSong } from '@/common/audio.ts';
 import { soaringList, newSongs, originalList } from '@api/home';
 import { playlistSubscribe } from '@api/song-sheet-detail';
-import type { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({
@@ -136,7 +136,7 @@ export default defineComponent({
 
         const songList: PlayMusicItem[] = [];
 
-        listData[index].playlist?.tracks.forEach((item: LoopType) => {
+        listData[index].playlist?.tracks.forEach((item: unknown) => {
           const musicItem: PlayMusicItem = handleAudioSong(item);
 
           songList.push(musicItem);
@@ -170,11 +170,13 @@ export default defineComponent({
       playlistSubscribe({ id, t: 1 })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            listData.forEach((item: LoopType) => {
-              if (item.playlist.id === id) {
-                item.playlist.subscribed = true;
+            listData.forEach(
+              (item: Record<string, { id: number; subscribed: boolean }>) => {
+                if (item.playlist.id === id) {
+                  item.playlist.subscribed = true;
+                }
               }
-            });
+            );
 
             $store.commit('setMessage', {
               type: 'info',

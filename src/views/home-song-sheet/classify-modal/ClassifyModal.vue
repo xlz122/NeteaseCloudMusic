@@ -44,7 +44,7 @@
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
 import { playlistCatlist } from '@api/home-song-sheet';
-import type { ResponseType, LoopType } from '@/types/types';
+import type { ResponseType } from '@/types/types';
 
 type CatList = {
   title: string;
@@ -85,7 +85,7 @@ export default defineComponent({
             for (const value in res.categories) {
               catlist[value].title = res.categories[value];
             }
-            res?.sub.forEach((item: LoopType) => {
+            res?.sub.forEach((item: { category: number }) => {
               if (item.category === 0) {
                 catlist[0].list.push(item);
               }

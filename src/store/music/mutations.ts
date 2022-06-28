@@ -1,6 +1,10 @@
 import { toRawType } from '@utils/tool';
-import type { State, PlayMusicItem } from '@store/music/state';
-import type { LoopType } from '@/types/types';
+import type {
+  State,
+  PlayMusicItem,
+  MusicPlayProgress,
+  MusicPlayStatus
+} from '@store/music/state';
 
 type Mutations<T, U> = {
   [key: string]: (state: T, payload: U) => void;
@@ -46,14 +50,14 @@ const mutations: Mutations<State, unknown> = {
       JSON.stringify(state.musicPlayProgress)
     );
     const progress = Object.assign(musicPlayProgress, playProgress);
-    state.musicPlayProgress = progress as unknown;
+    state.musicPlayProgress = progress as MusicPlayProgress;
   },
   // 音乐播放状态
   setMusicPlayStatus(state, playStatus) {
-    const keys = Object.keys(playStatus as object);
+    const keys = Object.keys(playStatus as MusicPlayStatus);
 
     for (const key of keys) {
-      state.musicPlayStatus[key] = (playStatus as object)[key];
+      state.musicPlayStatus[key] = (playStatus as MusicPlayStatus)[key];
     }
   },
   // 播放器锁定在底部
@@ -91,7 +95,7 @@ const mutations: Mutations<State, unknown> = {
   deletePlayMusicList(state, id) {
     // 查找索引
     const list = JSON.parse(JSON.stringify(state.playMusicList));
-    const index = list.findIndex((item: LoopType) => item.id === id);
+    const index = list.findIndex((item: PlayMusicItem) => item.id === id);
     if (index !== -1) {
       list.splice(index, 1);
     }

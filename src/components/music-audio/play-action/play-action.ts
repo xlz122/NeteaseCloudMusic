@@ -1,5 +1,4 @@
 import store from '@store/index';
-import type { LoopType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
 
 const audio = {
@@ -35,7 +34,7 @@ export async function playPrevMusic(): Promise<boolean | undefined> {
 
   // 获取当前id索引
   const index: number = playMusicList.findIndex(
-    (item: LoopType) => item.id === playMusicId
+    (item: PlayMusicItem) => item.id === playMusicId
   );
 
   let id = 0;
@@ -63,7 +62,7 @@ export async function playPrevMusic(): Promise<boolean | undefined> {
   }
 
   // 当前播放音乐
-  const musicItem = playMusicList.find((item: LoopType) => item.id === id);
+  const musicItem = playMusicList.find((item: PlayMusicItem) => item.id === id);
   store.commit('music/setPlayMusicItem', musicItem);
 
   // 停止切换后开始播放
@@ -107,7 +106,7 @@ export async function playNextMusic(): Promise<boolean | undefined> {
 
   // 获取当前id索引
   const index: number = playMusicList.findIndex(
-    (item: LoopType) => item.id === playMusicId
+    (item: PlayMusicItem) => item.id === playMusicId
   );
 
   let id = 0;
@@ -135,7 +134,7 @@ export async function playNextMusic(): Promise<boolean | undefined> {
   }
 
   // 当前播放音乐
-  const musicItem = playMusicList.find((item: LoopType) => item.id === id);
+  const musicItem = playMusicList.find((item: PlayMusicItem) => item.id === id);
   store.commit('music/setPlayMusicItem', musicItem);
 
   // 停止切换后开始播放

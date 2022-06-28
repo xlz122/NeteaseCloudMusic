@@ -19,7 +19,7 @@
 <script lang="ts">
 import { defineComponent, ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import { timeStampToDuration } from '@utils/utils';
-import type { LoopType } from '@/types/types';
+import type { MusicPlayProgress } from '@store/music/state';
 
 export default defineComponent({
   props: {
@@ -33,7 +33,7 @@ export default defineComponent({
     }
   },
   emits: ['progressChange'],
-  setup(props: { playProgress: LoopType }, { emit }) {
+  setup(props: { playProgress: MusicPlayProgress }, { emit }) {
     // 当前进度距离左边距离
     const currentLeft = ref<number>(0);
     // 总进度 当前进度 进度图标

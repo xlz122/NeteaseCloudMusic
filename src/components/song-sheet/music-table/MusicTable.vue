@@ -160,7 +160,6 @@ import { useStore } from 'vuex';
 import { handleAudioSong } from '@/common/audio.ts';
 import { timeStampToDuration } from '@utils/utils.ts';
 import { deleteMusic } from '@api/my-music';
-import type { LoopType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
 import MyDialog from '@/components/MyDialog.vue';
 
@@ -181,7 +180,7 @@ export default defineComponent({
     // 歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
       const privilege = songSheetDetail.value?.privileges.find(
-        (item: LoopType) => item.id === id
+        (item: { id: number }) => item.id === id
       );
       if (privilege?.cp === 0) {
         return true;
@@ -275,7 +274,7 @@ export default defineComponent({
       })
         .then(() => {
           const index = songSheetDetail.value?.playlist?.tracks?.findIndex(
-            (item: LoopType) => item.id === deleteMuiscId.value
+            (item: { id: number }) => item.id === deleteMuiscId.value
           );
           songSheetDetail.value?.playlist?.tracks?.splice(index, 1);
         })

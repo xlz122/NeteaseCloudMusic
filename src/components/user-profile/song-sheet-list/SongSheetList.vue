@@ -86,7 +86,7 @@ import { defineComponent, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { bigNumberTransform } from '@utils/utils';
 import { userPlayList } from '@api/my-music';
-import type { SongList, ResponseType, LoopType } from '@/types/types';
+import type { SongList, ResponseType } from '@/types/types';
 
 export default defineComponent({
   setup() {
@@ -122,23 +122,29 @@ export default defineComponent({
             songSheetList.createSongList = [];
             songSheetList.collectionSongList = [];
 
-            res.playlist.forEach((item: LoopType) => {
-              if (
-                userInfo.value?.profile?.userId === userId.value &&
-                item?.name?.includes('喜欢的音乐')
-              ) {
-                item.name = '我喜欢的音乐';
-              }
+            res.playlist.forEach(
+              (item: {
+                name: string;
+                subscribed: boolean;
+                playCount: number | string;
+              }) => {
+                if (
+                  userInfo.value?.profile?.userId === userId.value &&
+                  item?.name?.includes('喜欢的音乐')
+                ) {
+                  item.name = '我喜欢的音乐';
+                }
 
-              // 收藏列表判断
-              if (!item.subscribed) {
-                songSheetList.createSongList.push(item);
-              } else {
-                songSheetList.collectionSongList.push(item);
-              }
+                // 收藏列表判断
+                if (!item.subscribed) {
+                  songSheetList.createSongList.push(item);
+                } else {
+                  songSheetList.collectionSongList.push(item);
+                }
 
-              item.playCount = bigNumberTransform(item?.playCount);
-            });
+                item.playCount = bigNumberTransform(item?.playCount);
+              }
+            );
           }
         })
         .catch(() => ({}));

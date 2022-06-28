@@ -100,7 +100,6 @@ import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { handleAudioSong } from '@/common/audio.ts';
 import { formatDateTime } from '@utils/utils.ts';
-import type { LoopType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
 
 export default defineComponent({
@@ -131,7 +130,7 @@ export default defineComponent({
 
         // 歌曲是否全部无版权
         let noCopyrightNum = 0;
-        props?.songs?.forEach((item: LoopType) => {
+        props?.songs?.forEach((item: Record<string, { cp: number }>) => {
           if (item.privilege?.cp === 0) {
             noCopyrightNum += 1;
           }
@@ -183,7 +182,7 @@ export default defineComponent({
 
       // 歌曲是否全部无版权
       let noCopyrightNum = 0;
-      props?.songs?.forEach((item: LoopType) => {
+      props?.songs?.forEach((item: Record<string, { cp: number }>) => {
         if (item.privilege?.cp === 0) {
           noCopyrightNum += 1;
         }
@@ -223,7 +222,7 @@ export default defineComponent({
 
       // 歌曲是否全部无版权
       let noCopyrightNum = 0;
-      props?.songs?.forEach((item: LoopType) => {
+      props?.songs?.forEach((item: Record<string, { cp: number }>) => {
         if (item.privilege?.cp === 0) {
           noCopyrightNum += 1;
         }
@@ -262,7 +261,7 @@ export default defineComponent({
 
       // 歌曲是否全部无版权
       let noCopyrightNum = 0;
-      props?.songs?.forEach((item: LoopType) => {
+      props?.songs?.forEach((item: Record<string, { cp: number }>) => {
         if (item.privilege?.cp === 0) {
           noCopyrightNum += 1;
         }

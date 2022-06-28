@@ -2,8 +2,8 @@ export type State = {
   playMusicId: number;
   playMusicList: unknown[];
   playMusicItem: PlayMusicItem;
-  musicPlayProgress: unknown;
-  musicPlayStatus: object;
+  musicPlayProgress: MusicPlayProgress;
+  musicPlayStatus: MusicPlayStatus;
   musicAudioLock: boolean;
   musicModeType: number;
   musicVolume: number;
@@ -17,9 +17,23 @@ export type PlayMusicItem = {
   time: number; // 时长
   mv: number; // mv数量
   singerList: {
-    id: string; // 歌手id
+    id: string | number; // 歌手id
     name: string; // 歌手name
   }[];
+};
+
+export type MusicPlayProgress = {
+  progress?: number;
+  currentTime?: number;
+  duration?: number;
+  cacheProgress?: number;
+  timeChange?: boolean;
+};
+
+export type MusicPlayStatus = {
+  look?: boolean;
+  loading?: boolean;
+  refresh?: boolean;
 };
 
 // 本地存储容错处理
@@ -33,7 +47,12 @@ const state: State = {
   playMusicId: Number(localStorage.getItem('playMusicId')) || 0, // 当前播放音乐id
   playMusicItem: faultTolerant('playMusicItem') || {}, // 当前播放音乐
   playMusicList: faultTolerant('playMusicList') || [], // 播放列表
-  musicPlayProgress: {}, // 当前播放音乐进度数据
+  musicPlayProgress: {
+    progress: 0,
+    currentTime: 0,
+    duration: 0,
+    cacheProgress: 0
+  }, // 当前播放音乐进度数据
   musicPlayStatus: {
     look: false,
     loading: false,
