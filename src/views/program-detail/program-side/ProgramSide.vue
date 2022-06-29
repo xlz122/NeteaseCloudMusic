@@ -2,7 +2,7 @@
   <div class="program-side-container">
     <h3 class="title">
       更多节目
-      <span class="title-all"> 全部> </span>
+      <span class="title-all" @click="jumpDjDetail"> 全部> </span>
     </h3>
     <ul class="program-side-list">
       <li class="item" v-for="(item, index) in list" :key="index">
@@ -39,6 +39,7 @@
 import { defineComponent, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { programList } from '@api/program-detail';
 import type { ResponseType } from '@/types/types';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
@@ -81,6 +82,11 @@ export default defineComponent({
       }
     );
 
+    // 跳转电台详情
+    function jumpDjDetail(): void {
+      setMessage({ type: 'error', title: '该功能暂未开发' });
+    }
+
     // 跳转电台节目详情
     function jumpProgramDetail(id: number): void {
       $router.push({ name: 'program-detail', params: { programId: id } });
@@ -89,6 +95,7 @@ export default defineComponent({
 
     return {
       list,
+      jumpDjDetail,
       jumpProgramDetail
     };
   }
