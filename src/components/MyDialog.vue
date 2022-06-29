@@ -9,7 +9,10 @@
       <div class="my_dialog_content">
         <slot></slot>
       </div>
-      <div class="my_dialog_bottom">
+      <div
+        class="my_dialog_bottom"
+        v-if="showConfirmButton || showCancelButton"
+      >
         <button
           class="btn confirmBtn"
           v-if="showConfirmButton"
@@ -19,6 +22,11 @@
         </button>
         <button class="btn cancelBtn" v-if="showCancelButton" @click="cancel">
           <span class="icon">{{ canceltext }}</span>
+        </button>
+      </div>
+      <div class="custom" v-if="showCustomButton">
+        <button class="f12 text-white outline-none" @click="cancel">
+          {{ customText }}
         </button>
       </div>
     </div>
@@ -50,11 +58,19 @@ export default defineComponent({
       type: String,
       default: '取消'
     },
+    customText: {
+      type: String,
+      default: '我知道了'
+    },
     showConfirmButton: {
       type: Boolean,
       default: false
     },
     showCancelButton: {
+      type: Boolean,
+      default: false
+    },
+    showCustomButton: {
       type: Boolean,
       default: false
     }
@@ -216,5 +232,26 @@ export default defineComponent({
 }
 button + button {
   margin-left: 15px;
+}
+.custom {
+  height: 40px;
+  padding-top: 12px;
+  background-color: #f7f7f7;
+  border-top: 1px solid #c6c6c6;
+  text-align: center;
+  button {
+    padding: 0 15px;
+    display: inline-block;
+    height: 31px;
+    line-height: 31px;
+    overflow: hidden;
+    vertical-align: top;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    background: url(~@/assets/image/icon-button.png) no-repeat;
+    background-position: right -387px;
+  }
 }
 </style>
