@@ -70,6 +70,7 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@utils/utils';
+import { setMessage } from '@/components/message/useMessage';
 import VideoView from './video/Video.vue';
 import PlayProgress from './play-progress/PlayProgress.vue';
 import VolumeProgress from './volume-progress/VolumeProgress.vue';
@@ -179,10 +180,7 @@ export default defineComponent({
 
     // 喜欢
     function handleLike(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 收藏
@@ -192,10 +190,7 @@ export default defineComponent({
 
     // 分享
     function handleShare(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     onMounted(() => {

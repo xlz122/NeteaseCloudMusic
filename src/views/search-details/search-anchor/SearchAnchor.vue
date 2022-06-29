@@ -69,6 +69,7 @@
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration, handleMatchString } from '@utils/utils';
+import { setMessage } from '@/components/message/useMessage';
 import { searchKeywords } from '@api/search';
 import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
@@ -153,10 +154,7 @@ export default defineComponent({
 
     // 跳转电台详情
     function jumpDjradioDetail(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 跳转用户资料

@@ -63,6 +63,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, nextTick, toRefs } from 'vue';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import {
   addComment,
   deleteComment,
@@ -125,14 +126,14 @@ export default defineComponent({
       }
 
       if (replayText.length === 0) {
-        $store.commit('setMessage', {
+        setMessage({
           type: 'error',
           title: '输入点内容再提交吧'
         });
         return false;
       }
       if (replayText.length > 140) {
-        $store.commit('setMessage', {
+        setMessage({
           type: 'error',
           title: '输入不能超过140个字符'
         });
@@ -146,7 +147,7 @@ export default defineComponent({
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            $store.commit('setMessage', { type: 'info', title: '评论成功' });
+            setMessage({ type: 'info', title: '评论成功' });
             // 清空回复内容
             isClearText.value = true;
             // 延迟重置
@@ -155,7 +156,7 @@ export default defineComponent({
             });
             emit('commentRefresh');
           } else {
-            $store.commit('setMessage', { type: 'error', title: '评论失败' });
+            setMessage({ type: 'error', title: '评论失败' });
           }
         })
         .catch(() => ({}));
@@ -182,10 +183,7 @@ export default defineComponent({
             emit('commentRefresh');
           } else {
             deleteCommentDialog.value = false;
-            $store.commit('setMessage', {
-              type: 'error',
-              title: '删除失败'
-            });
+            setMessage({ type: 'error', title: '删除失败' });
           }
         })
         .catch(() => ({}));
@@ -271,14 +269,14 @@ export default defineComponent({
       commentId: number
     ): boolean | undefined {
       if (replayText.length === 0) {
-        $store.commit('setMessage', {
+        setMessage({
           type: 'error',
           title: '输入点内容再提交吧'
         });
         return false;
       }
       if (replayText.length > 140) {
-        $store.commit('setMessage', {
+        setMessage({
           type: 'error',
           title: '输入不能超过140个字符'
         });
@@ -293,10 +291,10 @@ export default defineComponent({
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            $store.commit('setMessage', { type: 'info', title: '评论成功' });
+            setMessage({ type: 'info', title: '评论成功' });
             emit('commentRefresh');
           } else {
-            $store.commit('setMessage', { type: 'error', title: '评论失败' });
+            setMessage({ type: 'error', title: '评论失败' });
           }
         })
         .catch(() => ({}));

@@ -91,6 +91,7 @@ import {
   nextTick
 } from 'vue';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import { songDetail } from '@api/song-detail';
 import { getLyric } from '@api/my-music';
@@ -283,10 +284,7 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 跳转用户资料

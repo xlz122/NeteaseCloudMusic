@@ -25,6 +25,7 @@
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import { playlistDetail } from '@api/song-sheet-detail';
 import { commentPlayList } from '@api/comment';
@@ -111,10 +112,7 @@ export default defineComponent({
               toplist.media = res.list.slice(4);
               resolve(res.list);
             } else {
-              $store.commit('setMessage', {
-                type: 'error',
-                title: res?.msg
-              });
+              setMessage({ type: 'error', title: res?.msg });
             }
           })
           .catch(() => ({}));

@@ -5,7 +5,6 @@ export type State = {
   userInfo: unknown;
   cookie: string;
   isLogin: boolean;
-  message: Message;
   searchText: string;
   searchDetailText: string;
   userId: number;
@@ -27,12 +26,6 @@ export type State = {
   };
 };
 
-export type Message = {
-  type?: string;
-  title?: string;
-  time?: number;
-};
-
 // 本地存储容错处理
 function faultTolerant(name: string) {
   if (localStorage.getItem(name) as string) {
@@ -47,7 +40,6 @@ const state: State = {
   userInfo: faultTolerant('userInfo') || {}, // 用户信息
   cookie: localStorage.getItem('cookie') || '', // 用户cookie
   isLogin: faultTolerant('isLogin') || false, // 是否登录
-  message: {}, // 消息提示
   searchText: '', // 搜索关键字
   searchDetailText: localStorage.getItem('searchDetailText') || '', // 搜索关键字
   userId: Number(localStorage.getItem('userId')) || 0, // 用户uid(自己或其他人)

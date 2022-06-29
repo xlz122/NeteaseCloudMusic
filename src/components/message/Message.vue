@@ -14,17 +14,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
-import { useStore } from 'vuex';
-import type { Message } from '@store/state';
+import { defineComponent, ref, watch } from 'vue';
+import useMessage from '@/components/message/useMessage';
 
 export default defineComponent({
   name: 'MessageView',
   setup() {
-    const $store = useStore();
-
     // 提示数据
-    const message = computed<Message>(() => $store.getters.message);
+    const message = useMessage();
 
     const messageShow = ref<boolean>(false);
 
@@ -32,22 +29,23 @@ export default defineComponent({
     const timer = ref<number>(0);
 
     watch(
-      () => message.value,
+      () => message,
       () => {
         messageShow.value = true;
-        // 有新消息时,重新计时
+
         if (timer.value) {
           clearTimeout(timer.value);
-          timer.value = setTimeout(() => {
-            messageShow.value = false;
-          }, message.value.time);
-        } else {
-          timer.value = setTimeout(() => {
-            messageShow.value = false;
-          }, message.value.time);
         }
+
+        timer.value = setTimeout(() => {
+          messageShow.value = false;
+        }, message.time);
+      },
+      {
+        deep: true
       }
     );
+
     return {
       message,
       messageShow

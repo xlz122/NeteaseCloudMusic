@@ -1,5 +1,5 @@
 import Router from '@router/index';
-import type { State, Message } from '@store/state';
+import type { State } from '@store/state';
 import { clearAllCookie } from '@utils/cookie';
 
 type Mutations<T, U = any> = {
@@ -33,14 +33,6 @@ const mutations: Mutations<State> = {
   setCookie(state, cookie: string) {
     state.cookie = cookie;
     localStorage.setItem('cookie', JSON.stringify(cookie));
-  },
-  // 消息提示
-  setMessage(state, message: Message) {
-    return new Promise(resolve => {
-      const params = Object.assign({ time: 1000 }, message);
-      state.message = params;
-      resolve('');
-    });
   },
   // 搜索关键字
   setSearchText(state, searchText: string) {

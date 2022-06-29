@@ -22,6 +22,7 @@
 import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 
 type List = {
   title: string;
@@ -88,10 +89,7 @@ export default defineComponent({
       }
 
       if (!item?.link) {
-        $store.commit('setMessage', {
-          type: 'error',
-          title: '该功能暂未开发'
-        });
+        setMessage({ type: 'error', title: '该功能暂未开发' });
         return false;
       }
 

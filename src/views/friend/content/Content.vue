@@ -35,6 +35,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { handleAudioSong } from '@/common/audio';
 import { formatMixedText } from '@utils/formatMixedText';
 import { getPageBottomHeight } from '@utils/utils';
@@ -54,10 +55,7 @@ export default defineComponent({
 
     // 发动态
     function releaseDynamic(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 发布视频
