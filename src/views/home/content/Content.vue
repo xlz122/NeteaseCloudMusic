@@ -201,6 +201,7 @@ import {
 } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { handleAudioSong } from '@/common/audio';
 import { getWeekDate, formatDateTime, bigNumberTransform } from '@utils/utils';
 import {
@@ -372,10 +373,7 @@ export default defineComponent({
     // 个性化推荐 - 不感兴趣
     function uninterested(index: number): boolean | undefined {
       if (individualizatData.value.length <= 3) {
-        $store.commit('setMessage', {
-          type: 'info',
-          title: '暂无更多推荐'
-        });
+        setMessage({ type: 'info', title: '暂无更多推荐' });
         return false;
       }
 

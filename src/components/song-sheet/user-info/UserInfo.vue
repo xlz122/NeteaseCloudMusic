@@ -165,6 +165,7 @@ import { defineComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
+import { setMessage } from '@/components/message/useMessage';
 import { handleAudioSong } from '@/common/audio';
 import { formatDateTime } from '@utils/utils';
 import { playlistSubscribe } from '@api/song-sheet-detail';
@@ -278,20 +279,14 @@ export default defineComponent({
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            $store.commit('setMessage', {
-              type: 'info',
-              title: '收藏成功'
-            });
+            setMessage({ type: 'info', title: '收藏成功' });
 
             songSheetDetail.value.playlist.subscribed = true;
 
             // 更新歌单详情
             $store.commit('setSongSheetDetail', songSheetDetail.value);
           } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: '收藏失败'
-            });
+            setMessage({ type: 'error', title: '收藏失败' });
           }
         })
         .catch(() => ({}));
@@ -304,18 +299,12 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 下载
     function handleDownload(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 跳转至评论

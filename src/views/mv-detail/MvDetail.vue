@@ -99,6 +99,7 @@ import {
   onMounted
 } from 'vue';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { handleCommentData } from '@components/comment/handleCommentData';
 import { mvDetail } from '@api/mv-detail';
 import { mvUrl, mvSub } from '@api/mv-detail';
@@ -179,10 +180,7 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 收藏
@@ -199,18 +197,12 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res?.code === 200) {
             if (t === 1) {
-              $store.commit('setMessage', {
-                type: 'info',
-                title: '收藏成功'
-              });
+              setMessage({ type: 'info', title: '收藏成功' });
 
               mvsubed.value = true;
             }
             if (t === 2) {
-              $store.commit('setMessage', {
-                type: 'info',
-                title: '取消收藏成功'
-              });
+              setMessage({ type: 'info', title: '取消收藏成功' });
 
               mvsubed.value = false;
             }
@@ -226,10 +218,7 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 获取评论数据

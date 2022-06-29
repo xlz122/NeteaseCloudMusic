@@ -77,6 +77,7 @@ import { defineComponent, reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
+import { setMessage } from '@/components/message/useMessage';
 import { handleAudioSong, SongType } from '@/common/audio';
 import { soaringList, newSongs, originalList } from '@api/home';
 import { playlistSubscribe } from '@api/song-sheet-detail';
@@ -178,15 +179,9 @@ export default defineComponent({
               }
             );
 
-            $store.commit('setMessage', {
-              type: 'info',
-              title: '收藏成功'
-            });
+            setMessage({ type: 'info', title: '收藏成功' });
           } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: '收藏失败'
-            });
+            setMessage({ type: 'error', title: '收藏失败' });
           }
         })
         .catch(() => ({}));

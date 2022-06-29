@@ -51,6 +51,7 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import VolumeProgress from '../volume-progress/VolumeProgress.vue';
 import PlayList from './play-list/PlayList.vue';
 
@@ -90,10 +91,7 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 音量条显隐

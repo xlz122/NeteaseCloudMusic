@@ -94,6 +94,7 @@
 import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import AudioView from './audio/Audio.vue';
 import PlayAction from './play-action/PlayAction.vue';
 import PlayProgress from './play-progress/PlayProgress.vue';
@@ -182,10 +183,7 @@ export default defineComponent({
 
     // 跳转歌曲位置
     function jumpSongPosition(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     return {

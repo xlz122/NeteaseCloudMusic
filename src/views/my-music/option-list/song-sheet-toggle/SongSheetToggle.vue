@@ -82,6 +82,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed } from 'vue';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import MyDialog from '@/components/MyDialog.vue';
 
 type DialogData = {
@@ -155,10 +156,7 @@ export default defineComponent({
     }
 
     function handeleEdit(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     function handeleDelete(id: number): void {

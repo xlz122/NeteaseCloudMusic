@@ -93,6 +93,7 @@
 <script lang="ts">
 import { defineComponent, computed, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { timeStampToDuration } from '@utils/utils';
 import type { PlayMusicItem } from '@store/music/state';
 import Lyric from '../lyric/Lyric.vue';
@@ -190,18 +191,12 @@ export default defineComponent({
         return false;
       }
 
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 下载
     function handleDownload(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 列表项删除
@@ -235,10 +230,7 @@ export default defineComponent({
 
     // 跳转歌曲位置
     function jumpSongPosition(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     return {

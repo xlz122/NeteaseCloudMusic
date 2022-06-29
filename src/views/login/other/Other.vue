@@ -108,7 +108,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue';
-import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import MobilePhoneLogin from './mobile-login/MobileLogin.vue';
 import MobilePhoneRegister from './mobile-register/MobileRegister.vue';
 import Mailbox from './mailbox/Mailbox.vue';
@@ -122,8 +122,6 @@ export default defineComponent({
   },
   emits: ['qrcodeLogin'],
   setup(props, ctx) {
-    const $store = useStore();
-
     // 扫码登录
     function qrcodeLogin() {
       ctx.emit('qrcodeLogin');
@@ -178,26 +176,17 @@ export default defineComponent({
 
     // 微信登录
     function weChatLogin() {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '暂不支持微信登录'
-      });
+      setMessage({ type: 'error', title: '暂不支持微信登录' });
     }
 
     // qq登录
     function qqLogin() {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '暂不支持QQ登录'
-      });
+      setMessage({ type: 'error', title: '暂不支持QQ登录' });
     }
 
     // 微博登录
     function microBlogLogin() {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '暂不支持微博登录'
-      });
+      setMessage({ type: 'error', title: '暂不支持微博登录' });
     }
 
     // 返回其他登录

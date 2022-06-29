@@ -19,6 +19,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { getPlayMusicUrl } from '@api/my-music';
 import type { ResponseType } from '@/types/types';
 import { playNextMusic } from '@components/music-audio/play-action/play-action';
@@ -109,10 +110,7 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res.code === 200) {
             if (!res?.data[0]?.url) {
-              $store.commit('setMessage', {
-                type: 'error',
-                title: '音乐播放链接获取失败'
-              });
+              setMessage({ type: 'error', title: '音乐播放链接获取失败' });
             }
 
             // 重置播放进度

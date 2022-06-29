@@ -70,6 +70,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { artistDetail, artistSub } from '@api/singer-detail';
 import type { ResponseType } from '@/types/types';
 import SingerDetailSide from './singer-detail-side/SingerDetailSide.vue';
@@ -140,26 +141,17 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res.code === 200) {
             if (t === 1) {
-              $store.commit('setMessage', {
-                type: 'info',
-                title: '收藏成功'
-              });
+              setMessage({ type: 'info', title: '收藏成功' });
 
               singerDetail.value.user.followed = true;
             }
             if (t === 2) {
-              $store.commit('setMessage', {
-                type: 'info',
-                title: '取消收藏成功'
-              });
+              setMessage({ type: 'info', title: '取消收藏成功' });
 
               singerDetail.value.user.followed = false;
             }
           } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res?.message
-            });
+            setMessage({ type: 'error', title: res?.message });
           }
         })
         .catch(() => ({}));

@@ -35,6 +35,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { userPlayList, collectMusic } from '@api/my-music';
 import type { ResponseType } from '@/types/types';
 import MyDialog from '@/components/MyDialog.vue';
@@ -95,10 +96,7 @@ export default defineComponent({
 
     // 新歌单
     function addSongSheet(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 收藏
@@ -113,15 +111,10 @@ export default defineComponent({
               visible: false,
               songIds: ''
             });
-            $store.commit('setMessage', {
-              type: 'info',
-              title: '收藏成功'
-            });
+
+            setMessage({ type: 'info', title: '收藏成功' });
           } else {
-            $store.commit('setMessage', {
-              type: 'error',
-              title: res.body.message
-            });
+            setMessage({ type: 'error', title: res.body.message });
           }
         })
         .catch(() => ({}));

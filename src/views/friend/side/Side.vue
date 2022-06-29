@@ -122,6 +122,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 
 type List = {
   src: string;
@@ -193,10 +194,7 @@ export default defineComponent({
 
     // 换一批
     function changeABatch(): void {
-      $store.commit('setMessage', {
-        type: 'error',
-        title: '该功能暂未开发'
-      });
+      setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
     // 明星 - 关注
