@@ -57,9 +57,9 @@ const mutations: Mutations<State> = {
     localStorage.setItem('singerTabIndex', JSON.stringify(0));
   },
   // 电台节目id
-  setDjprogramId(state, djprogramId: number) {
-    state.djprogramId = djprogramId;
-    localStorage.setItem('djprogramId', JSON.stringify(djprogramId));
+  setProgramId(state, programId: number) {
+    state.programId = programId;
+    localStorage.setItem('programId', JSON.stringify(programId));
   },
   // 跳转歌曲详情
   jumpSongDetail(state, songId: number) {

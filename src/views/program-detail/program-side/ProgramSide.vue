@@ -1,10 +1,10 @@
 <template>
-  <div class="djprogram-side-container">
+  <div class="program-side-container">
     <h3 class="title">
       更多节目
       <span class="title-all"> 全部> </span>
     </h3>
-    <ul class="djprogram-side-list">
+    <ul class="program-side-list">
       <li class="item" v-for="(item, index) in []" :key="index">
         <div class="item-cover">
           <img
@@ -42,5 +42,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './djprogram-side.less';
+@import './program-side.less';
 </style>

@@ -1,11 +1,11 @@
 <template>
-  <div class="djprogram-user-info-container">
+  <div class="program-user-info-container">
     <div class="cover-warp">
       <div class="cover">
-        <template v-if="djProgramDetailData?.coverUrl">
+        <template v-if="detail?.coverUrl">
           <img
             class="cover-img"
-            :src="`${djProgramDetailData?.coverUrl}?param=130y130`"
+            :src="`${detail?.coverUrl}?param=130y130`"
             alt=""
           />
         </template>
@@ -19,18 +19,16 @@
       <div class="title">
         <i class="icon-title"></i>
         <h2 class="title-text">
-          {{ djProgramDetailData?.name }}
+          {{ detail?.name }}
         </h2>
       </div>
       <div class="rdiname">
         <i class="icon"></i>
-        <span class="text" :title="djProgramDetailData?.radio?.name">
-          {{ djProgramDetailData?.radio?.name }}
+        <span class="text" :title="detail?.radio?.name">
+          {{ detail?.radio?.name }}
         </span>
         <div class="subscribe">
-          <i class="subscribe-icon">
-            订阅({{ djProgramDetailData?.radio?.subCount }})
-          </i>
+          <i class="subscribe-icon">订阅({{ detail?.radio?.subCount }})</i>
         </div>
       </div>
     </div>
@@ -40,9 +38,9 @@
           <span class="icon-play">播放 </span>
         </div>
         <div class="other like" @click="handleLike">
-          <template v-if="djProgramDetailData?.likedCount > 0">
+          <template v-if="detail?.likedCount > 0">
             <i class="like-icon"></i>
-            <span class="icon"> ({{ djProgramDetailData?.likedCount }}) </span>
+            <span class="icon"> ({{ detail?.likedCount }}) </span>
           </template>
           <template v-else>
             <i class="like-icon"></i>
@@ -58,8 +56,8 @@
           </template>
         </div>
         <div class="other share" @click="handleShare">
-          <template v-if="djProgramDetailData?.shareCount > 0">
-            <span class="icon"> ({{ djProgramDetailData?.shareCount }}) </span>
+          <template v-if="detail?.shareCount > 0">
+            <span class="icon"> ({{ detail?.shareCount }}) </span>
           </template>
           <template v-else>
             <span class="icon">分享</span>
@@ -73,7 +71,7 @@
         <i class="icon"></i>
         <a
           class="link"
-          :href="`https://music.163.com/#/outchain/3/${djprogramId}`"
+          :href="`https://music.163.com/#/outchain/3/${programId}`"
         >
           生成外链播放器
         </a>
@@ -81,31 +79,27 @@
     </div>
     <div class="sub">
       <span class="cat">
-        {{ djProgramDetailData?.categoryName }}
+        {{ detail?.categoryName }}
       </span>
       <strong class="sub-title">
-        <span class="title-text" :title="djProgramDetailData?.radio?.name">
-          {{ djProgramDetailData?.radio?.name }}
+        <span class="title-text" :title="detail?.radio?.name">
+          {{ detail?.radio?.name }}
         </span>
-        第{{ djProgramDetailData?.serialNum }}期
+        第{{ detail?.serialNum }}期
       </strong>
       <span class="sub-time">
-        {{
-          formatDateTime(djProgramDetailData?.createTime / 1000, 'yyyy-MM-dd')
-        }}
+        {{ formatDateTime(detail?.createTime / 1000, 'yyyy-MM-dd') }}
         创建
       </span>
       <div class="title-play-num">
         播放:
         <span class="eye-catching">
-          {{ djProgramDetailData?.listenerCount }}
+          {{ detail?.listenerCount }}
         </span>
         次
       </div>
     </div>
-    <div class="simple-description">
-      介绍： {{ djProgramDetailData?.description }}
-    </div>
+    <div class="simple-description">介绍：{{ detail?.description }}</div>
   </div>
 </template>
 
@@ -117,7 +111,7 @@ import { formatDateTime } from '@utils/utils';
 
 export default defineComponent({
   props: {
-    djProgramDetailData: {
+    detail: {
       type: Object,
       default: () => ({})
     },
@@ -131,7 +125,7 @@ export default defineComponent({
     const $store = useStore();
 
     // 电台节目id
-    const djprogramId = computed<number>(() => $store.getters.djprogramId);
+    const programId = computed<number>(() => $store.getters.programId);
 
     // 喜欢
     function handleLike(): void {
@@ -155,7 +149,7 @@ export default defineComponent({
 
     return {
       formatDateTime,
-      djprogramId,
+      programId,
       handleLike,
       jumpToComments,
       handleShare,
@@ -166,5 +160,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './djprogram-info.less';
+@import './program-info.less';
 </style>

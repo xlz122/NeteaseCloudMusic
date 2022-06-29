@@ -157,11 +157,11 @@ const routes: Array<RouteRecordRaw> = [
       },
       // 电台节目详情
       {
-        path: '/djprogram-detail',
-        name: 'djprogram-detail',
+        path: '/program-detail',
+        name: 'program-detail',
         component: () =>
           import(
-            /* webpackChunkName: "djprogram-detail" */ '../views/djprogram-detail/DjprogramDetail.vue'
+            /* webpackChunkName: "program-detail" */ '../views/program-detail/ProgramDetail.vue'
           )
       },
       // 歌手详情

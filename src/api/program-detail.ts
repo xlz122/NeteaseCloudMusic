@@ -6,7 +6,7 @@ import type { AxiosPromise } from 'axios';
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } rid 电台节目id
  */
-export const djProgramDetail = ({ id }: { id: number }): AxiosPromise => {
+export const programDetail = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id
