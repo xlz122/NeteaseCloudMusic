@@ -1,9 +1,9 @@
 <template>
-  <div class="djprogram-detail">
-    <div class="djprogram-detail-container">
-      <div class="djprogram-content">
-        <DjprogramInfo
-          :djProgramDetailData="djProgramDetailData"
+  <div class="program-detail">
+    <div class="program-detail-container">
+      <div class="program-content">
+        <ProgramInfo
+          :detail="detail"
           :commentTotal="commentParams.total"
           @jumpToComments="jumpToComments"
         />
@@ -21,8 +21,8 @@
           @changPage="changPage"
         />
       </div>
-      <div class="djprogram-side">
-        <DjprogramSide />
+      <div class="program-side">
+        <ProgramSide />
       </div>
     </div>
   </div>
@@ -40,34 +40,34 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { handleCommentData } from '@components/comment/handleCommentData';
-import { djProgramDetail } from '@api/djprogram-detail';
+import { programDetail } from '@api/program-detail';
 import { commentDjprogram } from '@api/comment';
 import type { ResponseType } from '@/types/types';
 import type { CommentParams } from '@components/comment/Comment.vue';
 import Comment from '@components/comment/Comment.vue';
-import DjprogramInfo from './djprogram-info/DjprogramInfo.vue';
-import DjprogramSide from './djprogram-side/DjprogramSide.vue';
+import ProgramInfo from './program-info/ProgramInfo.vue';
+import ProgramSide from './program-side/ProgramSide.vue';
 import Page from '@components/page/Page.vue';
 
 export default defineComponent({
   components: {
-    DjprogramInfo,
+    ProgramInfo,
     Comment,
-    DjprogramSide,
+    ProgramSide,
     Page
   },
   setup() {
     const $store = useStore();
 
     // 电台节目id
-    const djprogramId = computed<number>(() => $store.getters.djprogramId);
+    const programId = computed<number>(() => $store.getters.programId);
 
     watch(
-      () => djprogramId.value,
+      () => programId.value,
       curVal => {
         if (curVal) {
           nextTick(() => {
-            getDjProgramDetail();
+            getProgramDetail();
             getCommentData();
           });
         }
@@ -77,15 +77,15 @@ export default defineComponent({
       }
     );
 
-    const djProgramDetailData = ref({});
+    const detail = ref({});
     // 获取电台节目详情
-    function getDjProgramDetail(): void {
-      djProgramDetail({
-        id: djprogramId.value
+    function getProgramDetail(): void {
+      programDetail({
+        id: programId.value
       })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            djProgramDetailData.value = res.program;
+            detail.value = res.program;
           }
         })
         .catch(() => ({}));
@@ -94,7 +94,7 @@ export default defineComponent({
     // 获取评论数据
     const commentParams = reactive<CommentParams>({
       type: 4,
-      id: djprogramId.value,
+      id: programId.value,
       offset: 1,
       limit: 20,
       total: 0,
@@ -103,7 +103,7 @@ export default defineComponent({
     });
     function getCommentData(): void {
       const params = {
-        id: djprogramId.value,
+        id: programId.value,
         limit: commentParams.limit
       };
       // 精彩评论不加offset
@@ -151,8 +151,8 @@ export default defineComponent({
     });
 
     return {
-      djprogramId,
-      djProgramDetailData,
+      programId,
+      detail,
       commentParams,
       commentRefresh,
       changPage,
@@ -163,5 +163,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './djprogram-detail.less';
+@import './program-detail.less';
 </style>

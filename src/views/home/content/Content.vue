@@ -461,8 +461,8 @@ export default defineComponent({
 
     // 跳转电台节目详情
     function jumpDjprogramDetail(id: number): void {
-      $router.push({ name: 'djprogram-detail', params: { djprogramId: id } });
-      $store.commit('setDjprogramId', id);
+      $router.push({ name: 'program-detail', params: { programId: id } });
+      $store.commit('setProgramId', id);
     }
 
     return {
