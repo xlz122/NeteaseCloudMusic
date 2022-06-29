@@ -91,7 +91,7 @@
               class="img"
               :src="`${item?.picUrl}?param=140y140`"
               alt=""
-              @click="jumpDjprogramDetail(item?.id)"
+              @click="jumpProgramDetail(item?.id)"
             />
             <div class="info">
               <i class="info-icon"></i>
@@ -102,7 +102,7 @@
           <div
             class="item-bottom"
             :title="item?.name"
-            @click="jumpDjprogramDetail(item?.id)"
+            @click="jumpProgramDetail(item?.id)"
           >
             <span class="radio-station"></span>
             {{ item?.name }}
@@ -460,7 +460,7 @@ export default defineComponent({
     }
 
     // 跳转电台节目详情
-    function jumpDjprogramDetail(id: number): void {
+    function jumpProgramDetail(id: number): void {
       $router.push({ name: 'program-detail', params: { programId: id } });
       $store.commit('setProgramId', id);
     }
@@ -484,7 +484,7 @@ export default defineComponent({
       jumpSongSheetDetail,
       jumpAlbumDetail,
       jumpSingerDetail,
-      jumpDjprogramDetail
+      jumpProgramDetail
     };
   }
 });
