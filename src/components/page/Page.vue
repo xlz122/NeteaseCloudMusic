@@ -88,9 +88,16 @@ export default defineComponent({
     const pageList = ref<number[]>([]);
 
     // 初始化分页
-    function init(): void {
-      // 重置page数组
+    function init(): boolean | undefined {
+      // 重置
       pageList.value = [];
+
+      // 切换分页过程，总数改变调用changePage保证分页显示正确
+      if (prevDot.value && nextDot.value) {
+        changePage();
+        return false;
+      }
+
       // 总页数
       totalPage.value = Math.ceil(pageTotal.value / pageSize.value);
       // 总页数 = 显示页数
@@ -191,8 +198,6 @@ export default defineComponent({
       if (current.value >= displayPage.value) {
         prevDot.value = true;
         nextDot.value = true;
-
-        // 总页数 = 显示页数
 
         // 剩余页数 > 4
         if (totalPage.value - current.value > 4) {
