@@ -13,3 +13,18 @@ export const recommendSongs = (): AxiosPromise => {
     params
   });
 };
+
+/**
+ * @description 推荐节目
+ * @param { Number } timestamp - 防止接口缓存
+ */
+export const programRecommend = (): AxiosPromise => {
+  const params = {
+    timestamp: new Date().getTime()
+  };
+  return axios.request({
+    url: '/program/recommend',
+    method: 'get',
+    params
+  });
+};
