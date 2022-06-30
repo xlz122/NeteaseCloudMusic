@@ -257,7 +257,6 @@ export default defineComponent({
 
     // 歌单歌曲添加到播放器
     function songSheetToPlayListPlay(id: number): void {
-      console.log(123);
       playlistTrack({ id })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
