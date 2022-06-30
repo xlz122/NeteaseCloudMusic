@@ -86,7 +86,6 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res.code === 200) {
             detail.value = res.program;
-            console.log(res.program?.radio?.id);
           }
         })
         .catch(() => ({}));
