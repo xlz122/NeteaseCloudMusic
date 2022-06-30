@@ -17,7 +17,9 @@
       <div class="info-right">
         <div class="title">
           <i class="icon-title"></i>
-          <h2 class="title-text">{{ songSheetDetail?.playlist?.name }}</h2>
+          <h2 class="title-text">
+            <p class="text">{{ songSheetDetail?.playlist?.name }}</p>
+          </h2>
         </div>
         <div class="info">
           <img
@@ -220,8 +222,8 @@ export default defineComponent({
 
         // 当前播放音乐
         $store.commit('music/setPlayMusicItem', songList[0]);
-        // 添加到播放列表
-        $store.commit('music/setPlayMusicList', songList);
+        // 重置播放列表
+        $store.commit('music/resetPlayMusicList', songList);
         // 开始播放
         $store.commit('music/setMusicPlayStatus', {
           look: true,

@@ -14,7 +14,7 @@
       title="音量"
       @click="setVolumeProgress"
     ></button>
-    <volume-progress v-if="volumeShow" />
+    <VolumeProgress v-if="volumeShow" />
     <!-- 模式切换 -->
     <button
       class="btn"
@@ -27,20 +27,19 @@
       @click="modeChange"
     ></button>
     <!-- 模式提示 -->
-    <div class="mode-tip" v-if="modeTipShow">
+    <div class="mode-tip" v-if="modeTip.visible">
       {{
         musicModeType === 0 ? '单曲循环' : musicModeType === 1 ? '循环' : '随机'
       }}
     </div>
     <button class="btn list-btn" title="列表" @click="setPlayListShow"></button>
     <span class="list-text">{{ playMusicList?.length }}</span>
-    <!-- 播放列表添加提示 -->
-    <div class="add-play-tip" v-if="addPlayTipShow">
-      <span>已添加到播放列表</span>
+    <!-- 提示 -->
+    <div class="play-tip" v-if="playTip.visible">
+      <span>{{ playTip.title }}</span>
     </div>
   </div>
-  <!-- 播放列表组件 -->
-  <play-list
+  <PlayList
     class="play-list"
     :playListShow="playListShow"
     @closePlayList="closePlayList"
@@ -48,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
+import { defineComponent, ref, computed, watch, reactive } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
@@ -102,9 +101,19 @@ export default defineComponent({
 
     // 模式切换
     const musicModeType = computed(() => $store.getters['music/musicModeType']);
-    const modeTipShow = ref<boolean>(false);
+    const modeTip = reactive({
+      visible: false,
+      timer: 0
+    });
     function modeChange(): void {
-      modeTipShow.value = true;
+      modeTip.visible = true;
+
+      if (modeTip.timer) {
+        clearTimeout(modeTip.timer);
+      }
+      modeTip.timer = setTimeout(() => {
+        modeTip.visible = false;
+      }, 3000);
 
       let modeType = JSON.parse(JSON.stringify(musicModeType.value));
       if (modeType === 2) {
@@ -112,21 +121,34 @@ export default defineComponent({
       } else {
         modeType++;
       }
-      // 存储音乐模式
+
       $store.commit('music/setMusicModeType', modeType);
-      // 提示在3秒后隐藏
-      let timer = 0;
-      timer = setTimeout(() => {
-        modeTipShow.value = false;
-      }, 3000);
-      // 3秒内继续切换，清除定时器，重新设置
-      if (timer) {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          modeTipShow.value = false;
+    }
+
+    // 播放器提示
+    const playTip = reactive({
+      visible: false,
+      title: '',
+      timer: 0
+    });
+    watch(
+      () => playMusicList.value,
+      (curVal, oldVal) => {
+        if (curVal.length !== oldVal.length && curVal.length > 0) {
+          return false;
+        }
+
+        playTip.visible = true;
+        playTip.title = '已添加到播放列表';
+
+        if (playTip.timer) {
+          clearTimeout(playTip.timer);
+        }
+        playTip.timer = setTimeout(() => {
+          playTip.visible = false;
         }, 3000);
       }
-    }
+    );
 
     // 显示播放列表
     const playListShow = ref<boolean>(false);
@@ -134,28 +156,10 @@ export default defineComponent({
       playListShow.value = !playListShow.value;
     }
 
-    // 添加播放列表提示
-    const addPlayTipShow = ref<boolean>(false);
-    watch(
-      () => playMusicList.value,
-      (curVal, oldVal) => {
-        if (curVal.length > oldVal.length) {
-          addPlayTipShow.value = true;
-          // 提示在3秒后隐藏
-          let timer = 0;
-          timer = setTimeout(() => {
-            addPlayTipShow.value = false;
-          }, 3000);
-          // 3秒内继续切换，清除定时器，重新设置
-          if (timer) {
-            clearTimeout(timer);
-            timer = setTimeout(() => {
-              addPlayTipShow.value = false;
-            }, 3000);
-          }
-        }
-      }
-    );
+    // 关闭播放列表
+    function closePlayList(): void {
+      playListShow.value = false;
+    }
 
     // 路由切换，关闭播放列表
     watch(
@@ -164,11 +168,6 @@ export default defineComponent({
         playListShow.value = false;
       }
     );
-
-    // 关闭播放列表
-    function closePlayList(): void {
-      playListShow.value = false;
-    }
 
     return {
       playMusicId,
@@ -179,11 +178,11 @@ export default defineComponent({
       volumeShow,
       setVolumeProgress,
       musicModeType,
-      modeTipShow,
+      modeTip,
       modeChange,
+      playTip,
       playListShow,
       setPlayListShow,
-      addPlayTipShow,
       closePlayList
     };
   }

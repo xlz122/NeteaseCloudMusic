@@ -23,20 +23,9 @@
           :title="item?.nickname"
           @click="jumpUserProfile(item?.userId)"
         >
-          <template
-            v-for="(item, index) in handleMatchString(
-              item?.nickname,
-              searchDetailText
-            )"
-            :key="index"
-          >
-            <span v-if="item.color" :style="{ color: item.color }">
-              {{ item.title }}
-            </span>
-            <span v-else>
-              {{ item.title }}
-            </span>
-          </template>
+          <span
+            v-html="handleMatchString(item?.nickname, searchDetailText)"
+          ></span>
         </span>
         <i class="icon-sex male" v-if="item?.gender === 1"></i>
         <i class="icon-sex female" v-if="item?.gender === 2"></i>
@@ -113,6 +102,9 @@ export default defineComponent({
       () => searchDetailText.value,
       () => {
         getSearchUser();
+      },
+      {
+        immediate: true
       }
     );
 
@@ -139,7 +131,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getSearchUser();
 
     function follow(userId: number): boolean | undefined {
       if (!isLogin.value) {
@@ -150,9 +141,11 @@ export default defineComponent({
       followUser({ id: userId, t: 1 })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
+            getSearchUser();
             setMessage({ type: 'info', title: '关注成功' });
-          } else {
-            setMessage({ type: 'error', title: res?.msg });
+          }
+          if (res?.code === 250) {
+            setMessage({ type: 'error', title: res?.message });
           }
         })
         .catch(() => ({}));

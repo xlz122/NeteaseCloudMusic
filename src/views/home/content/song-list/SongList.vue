@@ -1,13 +1,9 @@
 <template>
   <div class="song-list">
-    <dl class="group" v-for="(item, index) in listData" :key="index">
+    <dl class="group" v-for="(item, index) in list" :key="index">
       <dt class="top">
-        <div class="top-img" @click="songListMore(item.playlist.id)">
-          <img
-            class="img"
-            :src="item?.playlist?.coverImgUrl"
-            :alt="item?.playlist.name"
-          />
+        <div class="top-img" @click="songListMore(item?.playlist?.id)">
+          <img class="img" :src="item?.playlist?.coverImgUrl" alt="" />
         </div>
         <div class="title">
           <h3
@@ -23,7 +19,7 @@
               <i
                 class="btn-collection"
                 title="收藏"
-                @click="handleCollectAll(item.playlist.id)"
+                @click="handleCollectAll(item?.playlist?.id)"
               ></i>
             </template>
             <template v-if="item?.playlist?.subscribed">
@@ -64,7 +60,7 @@
             </div>
           </li>
         </ul>
-        <div class="more" @click="songListMore(item.playlist.id)">
+        <div class="more" @click="songListMore(item?.playlist?.id)">
           查看全部>
         </div>
       </dd>
@@ -73,13 +69,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, computed } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
 import { handleAudioSong, SongType } from '@/common/audio';
-import { soaringList, newSongs, originalList } from '@api/home';
+import { topList } from '@api/home-toplist';
+import { playlistDetail } from '@api/song-sheet-detail';
 import { playlistSubscribe } from '@api/song-sheet-detail';
 import type { ResponseType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
@@ -91,62 +88,73 @@ export default defineComponent({
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
-    const listData = reactive<Record<string, any>>([]);
-    // 获取飙升榜数据
-    function getSoaringList(): void {
-      soaringList({ id: 19723756 })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            listData.push(res);
-          }
-        })
-        .catch(() => ({}));
-    }
-    getSoaringList();
+    const list = ref<Record<string, any>>([]);
 
-    // 获取新歌榜数据
-    function getNewSongs(): void {
-      newSongs({ id: 3779629 })
+    // 获取所有榜单
+    function getTopList(): void {
+      topList()
         .then((res: ResponseType) => {
-          if (res.code === 200) {
-            listData.push(res);
-          }
-        })
-        .catch(() => ({}));
-    }
-    getNewSongs();
+          if (res?.code === 200) {
+            const toplist = res?.list?.slice(0, 3);
 
-    // 获取原创榜数据
-    function getOriginalList(): void {
-      originalList({ id: 2884035 })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            listData.push(res);
+            Promise.allSettled(
+              toplist.map((item: { id: number }) => getSongSheetDetail(item.id))
+            )
+              .then(res => {
+                [].forEach.call(
+                  res,
+                  function (e: { status: string; value: unknown }) {
+                    if (e.status === 'fulfilled') {
+                      list.value.push(e.value);
+                    } else {
+                      list.value.push({});
+                    }
+                  }
+                );
+              })
+              .catch(() => ({}));
           }
         })
         .catch(() => ({}));
     }
-    getOriginalList();
+    getTopList();
+
+    // 获取歌单详情
+    function getSongSheetDetail(id: number): Promise<unknown> {
+      return new Promise((resolve, reject) => {
+        playlistDetail({ id })
+          .then((res: ResponseType) => {
+            if (res?.code === 200) {
+              resolve(res);
+            } else {
+              reject();
+            }
+          })
+          .catch(() => reject());
+      });
+    }
 
     // 播放全部 - 默认播放列表第一项
     const playAllMusic = throttle(
       function (index: number) {
-        if (listData[index].playlist?.tracks.length === 0) {
+        if (list.value[index].playlist?.tracks.length === 0) {
           return false;
         }
 
         const songList: PlayMusicItem[] = [];
 
-        listData[index].playlist?.tracks.forEach((item: Partial<SongType>) => {
-          const musicItem: PlayMusicItem = handleAudioSong(item);
+        list.value[index].playlist?.tracks.forEach(
+          (item: Partial<SongType>) => {
+            const musicItem: PlayMusicItem = handleAudioSong(item);
 
-          songList.push(musicItem);
-        });
+            songList.push(musicItem);
+          }
+        );
 
         // 当前播放音乐
         $store.commit('music/setPlayMusicItem', songList[0]);
-        // 添加到播放列表
-        $store.commit('music/setPlayMusicList', songList);
+        // 重置播放列表
+        $store.commit('music/resetPlayMusicList', songList);
         // 开始播放
         $store.commit('music/setMusicPlayStatus', {
           look: true,
@@ -171,9 +179,9 @@ export default defineComponent({
       playlistSubscribe({ id, t: 1 })
         .then((res: ResponseType) => {
           if (res.code === 200) {
-            listData.forEach(
+            list.value.forEach(
               (item: Record<string, { id: number; subscribed: boolean }>) => {
-                if (item.playlist.id === id) {
+                if (item?.playlist?.id === id) {
                   item.playlist.subscribed = true;
                 }
               }
@@ -236,7 +244,7 @@ export default defineComponent({
     }
 
     return {
-      listData,
+      list,
       playAllMusic,
       playSingleMusic,
       handleCollectAll,

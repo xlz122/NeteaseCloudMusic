@@ -25,20 +25,7 @@
         ></i>
       </div>
       <p class="desc" :title="item?.name" @click="jumpAlbumDetail(item?.id)">
-        <template
-          v-for="(item, index) in handleMatchString(
-            item?.name,
-            searchDetailText
-          )"
-          :key="index"
-        >
-          <span v-if="item.color" :style="{ color: item.color }">
-            {{ item.title }}
-          </span>
-          <span v-else>
-            {{ item.title }}
-          </span>
-        </template>
+        <span v-html="handleMatchString(item?.name, searchDetailText)"></span>
       </p>
       <p
         class="name"
@@ -181,8 +168,8 @@ export default defineComponent({
 
             // 当前播放音乐
             $store.commit('music/setPlayMusicItem', songList[0]);
-            // 添加到播放列表
-            $store.commit('music/setPlayMusicList', songList);
+            // 重置播放列表
+            $store.commit('music/resetPlayMusicList', songList);
             // 开始播放
             $store.commit('music/setMusicPlayStatus', {
               look: true,

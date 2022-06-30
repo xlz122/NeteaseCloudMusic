@@ -147,7 +147,11 @@
             <div class="info">
               <i class="info-icon"></i>
               <span class="num">{{ item?.playcount }}</span>
-              <i class="info-icon-right"></i>
+              <i
+                class="info-icon-right"
+                title="播放"
+                @click="songSheetToPlayListPlay(item?.id)"
+              ></i>
             </div>
           </div>
           <div
@@ -158,7 +162,7 @@
             {{ item?.name }}
           </div>
           <div class="like-text">
-            <em class="item-like">{{ item?.copywriter }}</em>
+            <em class="item-like">{{ item?.copywriter || '猜你喜欢' }}</em>
             <button
               class="disable-like"
               :title="item?.copywriter"
@@ -270,8 +274,8 @@ export default defineComponent({
 
             // 当前播放音乐
             $store.commit('music/setPlayMusicItem', songList[0]);
-            // 添加到播放列表
-            $store.commit('music/setPlayMusicList', songList);
+            // 重置播放列表
+            $store.commit('music/resetPlayMusicList', songList);
             // 开始播放
             $store.commit('music/setMusicPlayStatus', {
               look: true,
@@ -422,8 +426,8 @@ export default defineComponent({
 
             // 当前播放音乐
             $store.commit('music/setPlayMusicItem', songList[0]);
-            // 添加到播放列表
-            $store.commit('music/setPlayMusicList', songList);
+            // 重置播放列表
+            $store.commit('music/resetPlayMusicList', songList);
             // 开始播放
             $store.commit('music/setMusicPlayStatus', {
               look: true,

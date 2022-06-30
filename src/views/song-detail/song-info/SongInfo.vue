@@ -56,7 +56,7 @@
         </div>
         <div class="operate-btn">
           <template v-if="songDetailData?.privileges[0]?.cp !== 0">
-            <div class="play" @click="playAllMusic">
+            <div class="play" @click="playSingleMusic">
               <span class="icon-play" title="播放">播放</span>
             </div>
             <div
@@ -155,7 +155,7 @@ export default defineComponent({
     const songId = computed(() => $store.getters.songId);
 
     // 播放单个歌曲
-    function playAllMusic(): boolean | undefined {
+    function playSingleMusic(): boolean | undefined {
       if (!props?.songDetailData?.songs.length) {
         return false;
       }
@@ -261,7 +261,7 @@ export default defineComponent({
 
     return {
       songId,
-      playAllMusic,
+      playSingleMusic,
       singleMusicToPlayList,
       handleCollection,
       handleShare,

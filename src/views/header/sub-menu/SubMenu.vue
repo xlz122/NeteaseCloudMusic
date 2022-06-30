@@ -20,6 +20,10 @@
       </ul>
     </div>
   </div>
+  <div
+    class="sub-menu-bg"
+    :class="{ 'sub-menu-bg-height': menuIndex === 0 }"
+  ></div>
 </template>
 
 <script lang="ts">

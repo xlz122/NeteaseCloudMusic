@@ -79,7 +79,7 @@ export default defineComponent({
                 updateFrequency.value = list[0].updateFrequency;
               }
             });
-            getSongDetail();
+            getSongSheetDetail();
             getCommentData();
           })();
         } else {
@@ -87,7 +87,7 @@ export default defineComponent({
             const list: List[] = await getTopList();
             $store.commit('setSongSheetId', list[0].id);
             updateFrequency.value = list[0].updateFrequency;
-            getSongDetail();
+            getSongSheetDetail();
             getCommentData();
           })();
         }
@@ -123,14 +123,14 @@ export default defineComponent({
     function menuChange(id: number, frequency: string): void {
       $store.commit('setSongSheetId', id);
       updateFrequency.value = frequency;
-      getSongDetail();
+      getSongSheetDetail();
       getCommentData();
     }
 
     const songSheetDetail = ref<unknown>({});
 
     // 获取歌单详情
-    function getSongDetail(): void {
+    function getSongSheetDetail(): void {
       playlistDetail({
         id: songSheetId.value
       })

@@ -1,7 +1,7 @@
 <template>
-  <!-- 直接 audio 标签上添加scr，可以播放，但是控制会报错，使用source解决 -->
-  <!-- 改变source src地址，调用play()，音频无法播放，需要调用load()重新加载，然后调用play()播放 -->
-  <!-- controls="controls" 是否显示原生播放控件 -->
+  <!-- audio 标签上使用scr，可以播放，控制台报错 -->
+  <!-- source 调用load()播放 -->
+  <!-- controls="controls" 是否显示原生控件 -->
   <audio
     class="music-audio"
     ref="musicAudio"
@@ -14,18 +14,36 @@
   >
     <source :src="audioSrc" />
   </audio>
+  <my-dialog
+    class="abnormal-tip"
+    :visible="abnormalTip.visible"
+    title="请完成验证操作"
+    :confirmtext="'知道了'"
+    showConfirmButton
+    @confirm="abnormalTip.visible = false"
+    @cancel="abnormalTip.visible = false"
+  >
+    <div class="content">
+      <p class="text">该功能待完善</p>
+      <p class="text">{{ abnormalTip?.src }}</p>
+    </div>
+  </my-dialog>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
+import { defineComponent, ref, computed, watch, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { getPlayMusicUrl } from '@api/my-music';
 import type { ResponseType } from '@/types/types';
 import { playNextMusic } from '@components/music-audio/play-action/play-action';
+import MyDialog from '@/components/MyDialog.vue';
 
 export default defineComponent({
   name: 'AudioView',
+  components: {
+    MyDialog
+  },
   setup() {
     const $store = useStore();
 
@@ -98,6 +116,12 @@ export default defineComponent({
       }
     );
 
+    // 异常提示
+    const abnormalTip = reactive({
+      visible: false,
+      src: ''
+    });
+
     const audioSrc = ref<string>('');
 
     // 初始获取播放地址
@@ -108,7 +132,7 @@ export default defineComponent({
 
       getPlayMusicUrl({ id: playMusicId.value })
         .then((res: ResponseType) => {
-          if (res.code === 200) {
+          if (res?.code === 200) {
             if (!res?.data[0]?.url) {
               setMessage({ type: 'error', title: '音乐播放链接获取失败' });
             }
@@ -125,6 +149,12 @@ export default defineComponent({
             if (musicPlayStatus.value.look) {
               startPlayMusic();
             }
+          }
+
+          // 账号验证
+          if (res?.code === -462) {
+            abnormalTip.visible = true;
+            abnormalTip.src = res?.data?.url;
           }
         })
         .catch(() => ({}));
@@ -229,6 +259,7 @@ export default defineComponent({
     return {
       musicAudio,
       musicVolume,
+      abnormalTip,
       audioSrc,
       musicPlaying,
       musicUpdateTime,
@@ -243,5 +274,23 @@ export default defineComponent({
   position: fixed;
   left: 0;
   bottom: -300px;
+}
+
+.abnormal-tip {
+  .content {
+    min-height: 50px;
+    padding: 0 20px;
+    text-align: center;
+
+    .text {
+      margin: 0 0 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 6;
+      -webkit-box-orient: vertical;
+      word-wrap: break-word;
+    }
+  }
 }
 </style>

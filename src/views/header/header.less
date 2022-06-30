@@ -1,9 +1,18 @@
 .header {
-  width: 100%;
+  width: calc(100vw - 18px);
+
+  .h-top-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    width: 100vw;
+    height: 70px;
+    background: #242424;
+  }
 
   .h-top {
     height: 70px;
-    background: #242424;
     border-bottom: 1px solid #000;
     box-sizing: border-box;
     text-align: left;

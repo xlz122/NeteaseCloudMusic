@@ -42,6 +42,28 @@ const mutations: Mutations<State> = {
     state.playMusicList = musicList;
     localStorage.setItem('playMusicList', JSON.stringify(musicList));
   },
+  // 重置播放列表
+  resetPlayMusicList(state, music) {
+    if (toRawType(music) !== 'Object' && toRawType(music) !== 'Array') {
+      throw new Error('添加的播放数据类型错误');
+    }
+
+    if (toRawType(music) === 'Object') {
+      music = [music];
+    }
+
+    const musicList: PlayMusicItem[] = [];
+
+    (music as PlayMusicItem[]).forEach((item: PlayMusicItem) => {
+      const index = musicList.findIndex((f: PlayMusicItem) => f.id === item.id);
+      if (index === -1) {
+        musicList.push(item);
+      }
+    });
+
+    state.playMusicList = musicList;
+    localStorage.setItem('playMusicList', JSON.stringify(musicList));
+  },
   // 当前播放音乐进度数据
   setMusicPlayProgress(state, playProgress: MusicPlayProgress) {
     const musicPlayProgress = JSON.parse(
@@ -63,7 +85,7 @@ const mutations: Mutations<State> = {
     state.musicAudioLock = musicAudioLock;
     localStorage.setItem('musicAudioLock', JSON.stringify(musicAudioLock));
   },
-  // 播放类型
+  // 播放模式
   setMusicModeType(state, modeType: number) {
     state.musicModeType = modeType;
     localStorage.setItem('musicModeType', JSON.stringify(modeType));
@@ -81,10 +103,10 @@ const mutations: Mutations<State> = {
   // 播放器 - 清空播放列表
   emptyPlayMusicList(state) {
     state.playMusicList = [];
-    localStorage.setItem('playMusicList', [] as never);
+    localStorage.setItem('playMusicList', '[]');
     // 清除歌词
     state.playLyrics = [];
-    localStorage.setItem('playLyrics', [] as never);
+    localStorage.setItem('playLyrics', '[]');
     // 清除本地当前播放数据(清除后刷新)
     localStorage.setItem('playMusicId', '');
     localStorage.setItem('playMusicItem', '');
