@@ -4,10 +4,10 @@
 
 ## 环境要求
 
-需要 NodeJS 12.22.0+ 环境
+需要 NodeJS 14.0.0+ 环境
 
-![](./src/assets/design-sketch/npm-6.14.11.svg)
-![](./src/assets/design-sketch/node-12.22.0.svg)
+![](./src/assets/design-sketch/npm-6.14.4.svg)
+![](./src/assets/design-sketch/node-14.0.0.svg)
 
 ## 简介
 
