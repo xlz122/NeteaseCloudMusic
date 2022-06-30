@@ -112,20 +112,18 @@ export default defineComponent({
       } else {
         modeType++;
       }
-      // 存储音乐模式
-      $store.commit('music/setMusicModeType', modeType);
-      // 提示在3秒后隐藏
+
+      // 3秒后隐藏提示
       let timer = 0;
+      if (timer) {
+        clearTimeout(timer);
+      }
       timer = setTimeout(() => {
         modeTipShow.value = false;
       }, 3000);
-      // 3秒内继续切换，清除定时器，重新设置
-      if (timer) {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-          modeTipShow.value = false;
-        }, 3000);
-      }
+
+      // 音乐模式
+      $store.commit('music/setMusicModeType', modeType);
     }
 
     // 显示播放列表
@@ -141,18 +139,15 @@ export default defineComponent({
       (curVal, oldVal) => {
         if (curVal.length > oldVal.length) {
           addPlayTipShow.value = true;
-          // 提示在3秒后隐藏
+
+          // 3秒后隐藏提示
           let timer = 0;
+          if (timer) {
+            clearTimeout(timer);
+          }
           timer = setTimeout(() => {
             addPlayTipShow.value = false;
           }, 3000);
-          // 3秒内继续切换，清除定时器，重新设置
-          if (timer) {
-            clearTimeout(timer);
-            timer = setTimeout(() => {
-              addPlayTipShow.value = false;
-            }, 3000);
-          }
         }
       }
     );
