@@ -147,7 +147,11 @@
             <div class="info">
               <i class="info-icon"></i>
               <span class="num">{{ item?.playcount }}</span>
-              <i class="info-icon-right"></i>
+              <i
+                class="info-icon-right"
+                title="播放"
+                @click="songSheetToPlayListPlay(item?.id)"
+              ></i>
             </div>
           </div>
           <div
@@ -253,6 +257,7 @@ export default defineComponent({
 
     // 歌单歌曲添加到播放器
     function songSheetToPlayListPlay(id: number): void {
+      console.log(123);
       playlistTrack({ id })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
@@ -270,8 +275,8 @@ export default defineComponent({
 
             // 当前播放音乐
             $store.commit('music/setPlayMusicItem', songList[0]);
-            // 添加到播放列表
-            $store.commit('music/setPlayMusicList', songList);
+            // 重置播放列表
+            $store.commit('music/resetPlayMusicList', songList);
             // 开始播放
             $store.commit('music/setMusicPlayStatus', {
               look: true,
@@ -422,8 +427,8 @@ export default defineComponent({
 
             // 当前播放音乐
             $store.commit('music/setPlayMusicItem', songList[0]);
-            // 添加到播放列表
-            $store.commit('music/setPlayMusicList', songList);
+            // 重置播放列表
+            $store.commit('music/resetPlayMusicList', songList);
             // 开始播放
             $store.commit('music/setMusicPlayStatus', {
               look: true,
