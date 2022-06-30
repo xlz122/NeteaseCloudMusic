@@ -1,5 +1,6 @@
 <template>
   <div class="header">
+    <div class="h-top-bg"></div>
     <div class="h-top">
       <div class="h-warp">
         <div class="logo" @click="logoJump"></div>
