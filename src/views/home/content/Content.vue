@@ -162,7 +162,7 @@
             {{ item?.name }}
           </div>
           <div class="like-text">
-            <em class="item-like">{{ item?.copywriter }}</em>
+            <em class="item-like">{{ item?.copywriter || '猜你喜欢' }}</em>
             <button
               class="disable-like"
               :title="item?.copywriter"
