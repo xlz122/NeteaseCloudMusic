@@ -17,7 +17,9 @@
       <div class="info-right">
         <div class="title">
           <i class="icon-title"></i>
-          <h2 class="title-text">{{ songSheetDetail?.playlist?.name }}</h2>
+          <h2 class="title-text">
+            <p class="text">{{ songSheetDetail?.playlist?.name }}</p>
+          </h2>
         </div>
         <div class="info">
           <img

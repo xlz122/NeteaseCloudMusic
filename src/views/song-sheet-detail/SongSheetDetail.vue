@@ -9,7 +9,10 @@
             {{ songSheetDetail?.playlist?.trackCount }}首歌
           </span>
           <div class="title-right">
-            <div class="out">
+            <div
+              class="out"
+              v-if="songSheetDetail?.playlist?.tracks.length > 0"
+            >
               <i class="icon"></i>
               <a
                 class="link"
@@ -18,14 +21,15 @@
                 生成外链播放器
               </a>
             </div>
-            <div
-              class="title-play-num"
-              v-if="songSheetDetail?.playlist?.tracks.length > 0"
-            >
+            <div class="title-play-num">
               播放:
-              <span class="eye-catching">
+              <span
+                class="eye-catching"
+                v-if="songSheetDetail?.playlist?.tracks.length > 0"
+              >
                 {{ songSheetDetail?.playlist?.playCount }}
               </span>
+              <span class="eye-catching" v-else>0</span>
               次
             </div>
           </div>
