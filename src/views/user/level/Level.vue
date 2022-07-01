@@ -44,7 +44,7 @@
       <div class="level-privilege-title">
         当前等级特权:
         <div class="telist">
-          <ul class="privilege-list">
+          <ul class="privilege-list" v-if="level.current !== 0">
             <li
               class="privilege-list-item"
               v-for="(item, index) in privilegeList"
@@ -52,6 +52,9 @@
             >
               {{ item }}
             </li>
+          </ul>
+          <ul class="privilege-list" v-else>
+            <li class="privilege-list-item">没有任何特权，加油升级哦!</li>
           </ul>
         </div>
       </div>
