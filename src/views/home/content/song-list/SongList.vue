@@ -93,7 +93,7 @@ export default defineComponent({
     // 获取所有榜单
     function getTopList(): void {
       topList()
-        .then(async (res: ResponseType) => {
+        .then((res: ResponseType) => {
           if (res?.code === 200) {
             const toplist = res?.list?.slice(0, 3);
 
