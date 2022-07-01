@@ -113,6 +113,9 @@ export default defineComponent({
       () => searchDetailText.value,
       () => {
         getSearchUser();
+      },
+      {
+        immediate: true
       }
     );
 
@@ -139,7 +142,6 @@ export default defineComponent({
         })
         .catch(() => ({}));
     }
-    getSearchUser();
 
     function follow(userId: number): boolean | undefined {
       if (!isLogin.value) {
@@ -150,6 +152,7 @@ export default defineComponent({
       followUser({ id: userId, t: 1 })
         .then((res: ResponseType) => {
           if (res?.code === 200) {
+            getSearchUser();
             setMessage({ type: 'info', title: '关注成功' });
           }
           if (res?.code === 250) {
