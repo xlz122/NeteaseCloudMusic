@@ -151,8 +151,9 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res?.code === 200) {
             setMessage({ type: 'info', title: '关注成功' });
-          } else {
-            setMessage({ type: 'error', title: res?.msg });
+          }
+          if (res?.code === 250) {
+            setMessage({ type: 'error', title: res?.message });
           }
         })
         .catch(() => ({}));
