@@ -27,15 +27,15 @@
       @click="modeChange"
     ></button>
     <!-- 模式提示 -->
-    <div class="mode-tip" v-if="modeTipShow">
+    <div class="mode-tip" v-if="modeTip.visible">
       {{
         musicModeType === 0 ? '单曲循环' : musicModeType === 1 ? '循环' : '随机'
       }}
     </div>
     <button class="btn list-btn" title="列表" @click="setPlayListShow"></button>
     <span class="list-text">{{ playMusicList?.length }}</span>
-    <!-- 播放列表添加提示 -->
-    <div class="add-play-tip" v-if="addPlayTipShow">
+    <!-- 提示 -->
+    <div class="play-tip" v-if="addPlayTipShow">
       <span>已添加到播放列表</span>
     </div>
   </div>
@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
+import { defineComponent, ref, computed, watch, reactive } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
@@ -102,9 +102,19 @@ export default defineComponent({
 
     // 模式切换
     const musicModeType = computed(() => $store.getters['music/musicModeType']);
-    const modeTipShow = ref<boolean>(false);
+    const modeTip = reactive({
+      timer: 0,
+      visible: false
+    });
     function modeChange(): void {
-      modeTipShow.value = true;
+      modeTip.visible = true;
+
+      if (modeTip.timer) {
+        clearTimeout(modeTip.timer);
+      }
+      modeTip.timer = setTimeout(() => {
+        modeTip.visible = false;
+      }, 3000);
 
       let modeType = JSON.parse(JSON.stringify(musicModeType.value));
       if (modeType === 2) {
@@ -113,16 +123,6 @@ export default defineComponent({
         modeType++;
       }
 
-      // 3秒后隐藏提示
-      let timer = 0;
-      if (timer) {
-        clearTimeout(timer);
-      }
-      timer = setTimeout(() => {
-        modeTipShow.value = false;
-      }, 3000);
-
-      // 音乐模式
       $store.commit('music/setMusicModeType', modeType);
     }
 
@@ -174,7 +174,7 @@ export default defineComponent({
       volumeShow,
       setVolumeProgress,
       musicModeType,
-      modeTipShow,
+      modeTip,
       modeChange,
       playListShow,
       setPlayListShow,
