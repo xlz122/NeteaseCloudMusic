@@ -1,7 +1,7 @@
 <template>
   <div class="my-singer">
     <div class="title">
-      <span class="text">我的歌手({{ options?.mySinger?.count }})</span>
+      <span class="text">我的歌手 ({{ options?.mySinger?.count }})</span>
     </div>
     <ul class="list">
       <li class="item" v-for="(item, index) in singerList" :key="index">
@@ -17,7 +17,10 @@
           <h4 class="info-name" @click="jumpSingerDetail(item?.id)">
             {{ item?.name }}
           </h4>
-          <p class="info-album">{{ item?.albumSize }}专辑</p>
+          <p class="info-desc">
+            <span v-if="item?.albumSize">{{ item?.albumSize }}个专辑</span>
+            <span class="mv" v-if="item?.mvSize">{{ item?.mvSize }}个MV</span>
+          </p>
         </div>
       </li>
     </ul>
