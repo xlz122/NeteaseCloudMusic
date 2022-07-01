@@ -279,33 +279,11 @@ export function getPageBottomHeight(e: Event): number {
  * @param { String } str - 原始字符串
  * @param { String } value - 匹配值
  */
+export function handleMatchString(str: string, value: string): string {
+  const html = str?.replaceAll(
+    value,
+    `<span style="color: #0c73c2">${value}</span>`
+  );
 
-type HandleMatchString = {
-  title: string;
-  color?: string;
-};
-
-export function handleMatchString(
-  str: string,
-  value: string
-): HandleMatchString[] {
-  const stringArr = str.split('');
-
-  const result: HandleMatchString[] = [];
-
-  stringArr.forEach((item: string) => {
-    if (value.includes(item)) {
-      result.push({
-        title: item,
-        color: '#0c73c2'
-      });
-      return false;
-    }
-
-    result.push({
-      title: item
-    });
-  });
-
-  return result;
+  return html || str;
 }

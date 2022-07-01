@@ -26,20 +26,9 @@
           :title="item?.title"
           @click="jumpVideoDetail(item?.type, item?.vid)"
         >
-          <template
-            v-for="(item, index) in handleMatchString(
-              item?.title,
-              searchDetailText
-            )"
-            :key="index"
-          >
-            <span v-if="item.color" :style="{ color: item.color }">
-              {{ item.title }}
-            </span>
-            <span v-else>
-              {{ item.title }}
-            </span>
-          </template>
+          <span
+            v-html="handleMatchString(item?.title, searchDetailText)"
+          ></span>
         </span>
       </div>
       <div class="item-name">
