@@ -383,7 +383,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch, reactive, toRefs } from 'vue';
+import {
+  defineComponent,
+  ref,
+  computed,
+  watch,
+  reactive,
+  toRefs,
+  onMounted
+} from 'vue';
 import { useStore } from 'vuex';
 import { userVipInfo } from '@api/user';
 import type { ResponseType } from '@/types/types';
@@ -707,6 +715,12 @@ export default defineComponent({
 
     // vip常见问题
     const dialogProblem = ref(false);
+
+    onMounted(() => {
+      $store.commit('setMenuIndex', -1);
+      $store.commit('setSubMenuIndex', -1);
+    });
+
     return {
       userInfo,
       vipInfo,

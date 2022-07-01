@@ -91,8 +91,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import { userLevel } from '@api/user';
 import type { ResponseType } from '@/types/types';
 
@@ -106,6 +107,7 @@ type NextLevel = {
 export default defineComponent({
   name: 'UserLevel',
   setup() {
+    const $store = useStore();
     const $router = useRouter();
 
     const level = reactive({
@@ -149,6 +151,11 @@ export default defineComponent({
     function jumpLevelDetail(): void {
       $router.push({ name: 'level-detail' });
     }
+
+    onMounted(() => {
+      $store.commit('setMenuIndex', -1);
+      $store.commit('setSubMenuIndex', -1);
+    });
 
     return {
       level,
