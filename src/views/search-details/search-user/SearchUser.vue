@@ -23,20 +23,9 @@
           :title="item?.nickname"
           @click="jumpUserProfile(item?.userId)"
         >
-          <template
-            v-for="(item, index) in handleMatchString(
-              item?.nickname,
-              searchDetailText
-            )"
-            :key="index"
-          >
-            <span v-if="item.color" :style="{ color: item.color }">
-              {{ item.title }}
-            </span>
-            <span v-else>
-              {{ item.title }}
-            </span>
-          </template>
+          <span
+            v-html="handleMatchString(item?.nickname, searchDetailText)"
+          ></span>
         </span>
         <i class="icon-sex male" v-if="item?.gender === 1"></i>
         <i class="icon-sex female" v-if="item?.gender === 2"></i>
