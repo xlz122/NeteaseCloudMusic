@@ -55,6 +55,13 @@
               >
                 {{ item?.creator?.nickname }}
               </span>
+              <template v-if="item?.creator?.avatarDetail?.identityIconUrl">
+                <img
+                  class="desc-img"
+                  :src="item?.creator?.avatarDetail?.identityIconUrl"
+                  alt=""
+                />
+              </template>
             </div>
           </div>
         </li>
