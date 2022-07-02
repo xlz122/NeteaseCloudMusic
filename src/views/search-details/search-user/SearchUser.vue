@@ -144,9 +144,6 @@ export default defineComponent({
             getSearchUser();
             setMessage({ type: 'info', title: '关注成功' });
           }
-          if (res?.code === 250) {
-            setMessage({ type: 'error', title: res?.message });
-          }
         })
         .catch(() => ({}));
     }
