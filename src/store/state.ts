@@ -24,6 +24,10 @@ export type State = {
     visible: boolean;
     message: string;
   };
+  abnormal: {
+    visible: boolean;
+    url: string;
+  };
 };
 
 // 本地存储容错处理
@@ -58,7 +62,11 @@ const state: State = {
   copyright: {
     visible: false,
     message: ''
-  } // 版权提示
+  }, // 版权提示
+  abnormal: {
+    visible: false,
+    url: ''
+  } // 异常提示
 };
 
 export default state;

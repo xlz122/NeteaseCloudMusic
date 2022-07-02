@@ -14,36 +14,18 @@
   >
     <source :src="audioSrc" />
   </audio>
-  <my-dialog
-    class="abnormal-tip"
-    :visible="abnormalTip.visible"
-    title="请完成验证操作"
-    :confirmtext="'知道了'"
-    showConfirmButton
-    @confirm="abnormalTip.visible = false"
-    @cancel="abnormalTip.visible = false"
-  >
-    <div class="content">
-      <p class="text">该功能待完善</p>
-      <p class="text">{{ abnormalTip?.src }}</p>
-    </div>
-  </my-dialog>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch, reactive } from 'vue';
+import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { getPlayMusicUrl } from '@api/my-music';
 import type { ResponseType } from '@/types/types';
 import { playNextMusic } from '@components/music-audio/play-action/play-action';
-import MyDialog from '@/components/MyDialog.vue';
 
 export default defineComponent({
   name: 'AudioView',
-  components: {
-    MyDialog
-  },
   setup() {
     const $store = useStore();
 
@@ -116,12 +98,6 @@ export default defineComponent({
       }
     );
 
-    // 异常提示
-    const abnormalTip = reactive({
-      visible: false,
-      src: ''
-    });
-
     const audioSrc = ref<string>('');
 
     // 初始获取播放地址
@@ -149,12 +125,6 @@ export default defineComponent({
             if (musicPlayStatus.value.look) {
               startPlayMusic();
             }
-          }
-
-          // 账号验证
-          if (res?.code === -462) {
-            abnormalTip.visible = true;
-            abnormalTip.src = res?.data?.url;
           }
         })
         .catch(() => ({}));
@@ -259,7 +229,6 @@ export default defineComponent({
     return {
       musicAudio,
       musicVolume,
-      abnormalTip,
       audioSrc,
       musicPlaying,
       musicUpdateTime,
