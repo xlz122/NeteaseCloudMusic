@@ -7,6 +7,7 @@ import musicAudio from '@components/music-audio/index';
 import message from '@components/message/index';
 import collectSong from '@/components/collect-song/index';
 import copyright from '@/components/copyright/index';
+import abnormal from '@/components/abnormal-modal/index';
 import '@/index.less';
 import '@/style/base.less';
 
@@ -19,4 +20,5 @@ app.use(musicAudio);
 app.use(message);
 app.use(collectSong);
 app.use(copyright);
+app.use(abnormal);
 app.mount('#app');

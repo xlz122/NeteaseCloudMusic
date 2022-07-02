@@ -7,11 +7,13 @@ import {
   AxiosInstance,
   CancelTokenStatic
 } from 'axios';
+import { setMessage } from '@/components/message/useMessage';
 
 type IAxiosError = AxiosError & {
   status: number;
   response: {
     status: number;
+    data: Record<string, any>;
   };
 };
 
@@ -106,6 +108,19 @@ class HttpRequest {
     instance.interceptors.response.use(
       (res: AxiosResponse) => {
         const data = res.data;
+
+        // 验证
+        if (data?.code === -462) {
+          store.commit('setAbnormal', {
+            visible: true,
+            url: data?.data?.url
+          });
+        }
+
+        if (data?.code === 250) {
+          setMessage({ type: 'error', title: data?.message });
+        }
+
         return Promise.resolve(data);
       },
       (error: IAxiosError) => {
@@ -113,6 +128,18 @@ class HttpRequest {
         if (error?.response.status === 301) {
           store.commit('setLogout');
         }
+
+        // 验证
+        if (
+          error?.response.status === 400 &&
+          error?.response?.data?.code === -462
+        ) {
+          store.commit('setAbnormal', {
+            visible: true,
+            url: error?.response?.data?.data?.url
+          });
+        }
+
         return Promise.reject(error);
       }
     );

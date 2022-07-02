@@ -150,6 +150,14 @@ const mutations: Mutations<State> = {
   // 版权提示
   setCopyright(state, data: State['copyright']) {
     state.copyright = data;
+  },
+  // 异常
+  setAbnormal(state, tip) {
+    const keys = Object.keys(tip);
+
+    for (const key of keys) {
+      state.abnormal[key] = tip[key];
+    }
   }
 };
 

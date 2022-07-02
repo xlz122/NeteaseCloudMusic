@@ -23,7 +23,8 @@ const getters: Getters<State> = {
   searchIndex: state => state.searchIndex,
   songSheetDetail: state => state.songSheetDetail,
   collectSong: state => state.collectSong,
-  copyright: state => state.copyright
+  copyright: state => state.copyright,
+  abnormal: state => state.abnormal
 };
 
 export default getters;
