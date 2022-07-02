@@ -59,7 +59,7 @@ export const recommendTypeList = ({ type }: RecommendType): AxiosPromise => {
     type
   };
   return axios.request({
-    url: '/dj/banner',
+    url: '/dj/recommend/type',
     method: 'get',
     params
   });
