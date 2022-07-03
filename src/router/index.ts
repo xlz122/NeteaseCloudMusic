@@ -119,6 +119,14 @@ const routes: Array<RouteRecordRaw> = [
             /* webpackChunkName: "home-djprogram" */ '../views/home-djprogram/HomeDjprogram.vue'
           )
       },
+      {
+        path: '/home-djDetail',
+        name: 'home-djDetail',
+        component: () =>
+          import(
+            '../views/home-djprogram/radioStation/radioDetails/RadioDetails.vue'
+          )
+      },
       // 首页 - 歌手
       {
         path: '/home-singer',

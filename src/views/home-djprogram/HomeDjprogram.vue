@@ -121,7 +121,6 @@ export default defineComponent({
         musicObj.djList.filter((x: any) => x.name === '知识')[0] as any
       ).id;
       musicObj.knowledgeList = await recommendTypeHandle(musicObj.knowledgeId);
-      console.log(musicObj.knowledgeList);
     }
     recommendTypeHandleFn();
 
