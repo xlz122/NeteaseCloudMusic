@@ -18,7 +18,7 @@
         v-for="item in musicList.slice(0, 4)"
         :key="item.id"
       >
-        <div class="picUrl pointer">
+        <div class="picUrl pointer" @click="toDetails(item.id)">
           <img :src="item.picUrl" alt="电台图片" />
         </div>
         <div class="cnt">
@@ -32,6 +32,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   props: {
@@ -45,7 +47,16 @@ export default defineComponent({
     }
   },
   setup() {
-    return {};
+    const $router = useRouter();
+    const $store = useStore();
+
+    function toDetails(id: number) {
+      $router.push({ name: 'home-djDetail', params: { id } });
+      $store.commit('radio/setRadioDetailId', id);
+    }
+    return {
+      toDetails
+    };
   }
 });
 </script>

@@ -64,3 +64,18 @@ export const recommendTypeList = ({ type }: RecommendType): AxiosPromise => {
     params
   });
 };
+
+// 电台详情
+export type DjDetailType = {
+  rid: number;
+};
+export const djDetail = ({ rid }: DjDetailType): AxiosPromise => {
+  const params = {
+    timestamp: new Date().getTime(),
+    rid
+  };
+  return axios.request({
+    url: '/dj/detail',
+    params
+  });
+};
