@@ -1,3 +1,63 @@
+# [1.2.0](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.1.5...v1.2.0) (2022-07-04)
+
+
+### ✨ Features | 新功能
+
+* 电台节目-侧边栏全部增加跳转提示 [#e1f89c6](https://github.com/xlz122/NeteaseCloudMusic/commit/e1f89c6) 
+* 电台详情 [#902ed72](https://github.com/xlz122/NeteaseCloudMusic/commit/902ed72) 
+* 获取音乐链接接口增加验证弹框 [#991c0dd](https://github.com/xlz122/NeteaseCloudMusic/commit/991c0dd) 
+* 首页歌单名称旁图标完善 [#60573c0](https://github.com/xlz122/NeteaseCloudMusic/commit/60573c0) 
+* 完成电台节目-更多节目 [#8d8cf8d](https://github.com/xlz122/NeteaseCloudMusic/commit/8d8cf8d) 
+* 修改全局message部分，vuex调用改为ts文件方法调用 [#c6ec7cd](https://github.com/xlz122/NeteaseCloudMusic/commit/c6ec7cd) 
+* 增加验证码登录 [#963c6cd](https://github.com/xlz122/NeteaseCloudMusic/commit/963c6cd) 
+* 增加异常(code: -462)弹框 [#1bf5e11](https://github.com/xlz122/NeteaseCloudMusic/commit/1bf5e11) 
+
+
+### 🎫 Chores | 其他更新
+
+* 更改项目部分LoopType类型为具体类型 [#6ec8be1](https://github.com/xlz122/NeteaseCloudMusic/commit/6ec8be1) 
+* 更改项目部分Record<string, any>类型为具体类型 [#4a9efd2](https://github.com/xlz122/NeteaseCloudMusic/commit/4a9efd2) 
+* 更新项目所需依赖 [#24cdfa0](https://github.com/xlz122/NeteaseCloudMusic/commit/24cdfa0) 
+* 删除LoopType类型，并修改所有LoopType为具体类型 [#7b1efbf](https://github.com/xlz122/NeteaseCloudMusic/commit/7b1efbf) 
+* 添加engines字段,指定依赖的nodejs版本号 [#ee4cd56](https://github.com/xlz122/NeteaseCloudMusic/commit/ee4cd56) 
+* 统一vuex模块部分类型 [#8fd89d5](https://github.com/xlz122/NeteaseCloudMusic/commit/8fd89d5) 
+* 修改电台节目文件名 [#97c6ef9](https://github.com/xlz122/NeteaseCloudMusic/commit/97c6ef9) 
+* 修改歌曲数据类型unknown为具体类型 [#7526e33](https://github.com/xlz122/NeteaseCloudMusic/commit/7526e33) 
+* 增加一些异常提示 [#a430df4](https://github.com/xlz122/NeteaseCloudMusic/commit/a430df4) 
+* release 1.1.5 [#28466a9](https://github.com/xlz122/NeteaseCloudMusic/commit/28466a9) 
+* update .eslintrc.js [#750fb02](https://github.com/xlz122/NeteaseCloudMusic/commit/750fb02) 
+* vuex部分unknown类型给定具体类型 [#c12f1c8](https://github.com/xlz122/NeteaseCloudMusic/commit/c12f1c8) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 删除不同设备不同样式代码 [#0d906c9](https://github.com/xlz122/NeteaseCloudMusic/commit/0d906c9) 
+* 删除无用div(app-warp)标签 [#3fb1666](https://github.com/xlz122/NeteaseCloudMusic/commit/3fb1666) 
+* 首页主播电台-推荐节目、节目排行榜 [#00740ca](https://github.com/xlz122/NeteaseCloudMusic/commit/00740ca) 
+* 修复不是从菜单进入等级、会员页一、二级导航没有取消选中的bug [#9e49786](https://github.com/xlz122/NeteaseCloudMusic/commit/9e49786) 
+* 修复歌单详情无数据显示不一致bug [#6b8d0ef](https://github.com/xlz122/NeteaseCloudMusic/commit/6b8d0ef) 
+* 修复切换分页过程，总数改变导致分显示不正确的bug [#7a563ab](https://github.com/xlz122/NeteaseCloudMusic/commit/7a563ab) 
+* 修复搜索详情，关注用户后没有刷新用户列表的bug [#7c5135a](https://github.com/xlz122/NeteaseCloudMusic/commit/7c5135a) 
+* 修复我的歌手页已知bug [#4ff3afb](https://github.com/xlz122/NeteaseCloudMusic/commit/4ff3afb) 
+* 修复新碟上架，点击专辑无法进入详情的bug [#97b0504](https://github.com/xlz122/NeteaseCloudMusic/commit/97b0504) 
+* 修复音乐模式切换提示显隐bug [#361321d](https://github.com/xlz122/NeteaseCloudMusic/commit/361321d) 
+* 修复用户0级，等级页面显示不正确的bug [#3de3c00](https://github.com/xlz122/NeteaseCloudMusic/commit/3de3c00) 
+* 修复在大屏时，二级导航样式bug [#d0e1d06](https://github.com/xlz122/NeteaseCloudMusic/commit/d0e1d06) 
+* 修改首页榜单为动态获取 [#42bedf3](https://github.com/xlz122/NeteaseCloudMusic/commit/42bedf3) 
+* 修改搜索详情-搜索关键字单字匹配改为全字匹配 [#c247a5f](https://github.com/xlz122/NeteaseCloudMusic/commit/c247a5f) 
+* 修改添加播放逻辑，歌单、专辑、歌曲列表播放改为清空列表后添加列表 [#fbcec55](https://github.com/xlz122/NeteaseCloudMusic/commit/fbcec55) 
+* 修改隐藏播放提示清除定时器代码 [#953890d](https://github.com/xlz122/NeteaseCloudMusic/commit/953890d) 
+* 主播电台的电台推荐部分 [#ffb3d96](https://github.com/xlz122/NeteaseCloudMusic/commit/ffb3d96) 
+* 主播电台推荐节目 [#6b39295](https://github.com/xlz122/NeteaseCloudMusic/commit/6b39295) 
+* **css:** 解决pc端滚动条跳动样式,在移动端需还原样式 [#399417a](https://github.com/xlz122/NeteaseCloudMusic/commit/399417a) 
+* **css:** 删除无用样式 [#a91a899](https://github.com/xlz122/NeteaseCloudMusic/commit/a91a899) 
+* **css:** 修复不同页面高度不一致，出现滚动条后页面跳动的bug [#6627665](https://github.com/xlz122/NeteaseCloudMusic/commit/6627665) 
+* **css:** 修复首页个性化推荐不感兴趣样式bug [#fe428bf](https://github.com/xlz122/NeteaseCloudMusic/commit/fe428bf) 
+* **css:** 修复首页签到按钮签到后划过样式bug [#ff77e49](https://github.com/xlz122/NeteaseCloudMusic/commit/ff77e49) 
+* vip会员制作完成 [#8c53a29](https://github.com/xlz122/NeteaseCloudMusic/commit/8c53a29) 
+
+
+
 ## [1.1.5](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.1.4...v1.1.5) (2022-06-27)
 
 
