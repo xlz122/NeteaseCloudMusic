@@ -2,6 +2,7 @@ import { reactive, computed } from 'vue';
 import store from '@store/index';
 import { handleAudioSong } from '@/common/audio';
 import { toRawType } from '@utils/tool';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
 import type { SongType } from '@/common/audio';
 import type { PlayMusicItem } from '@store/music/state';
 
@@ -31,8 +32,8 @@ function usePlaySingleMusic(song: Partial<SongType>): void {
   }
 
   store.commit('music/setPlayMusicItem', musicItem);
-  store.commit('music/setPlayMusicList', musicItem);
   store.commit('music/setMusicPlayStatus', playStatus);
+  useMusicToPlayList({ music: musicItem });
 }
 
 export default usePlaySingleMusic;
