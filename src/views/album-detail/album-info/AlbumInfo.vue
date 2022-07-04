@@ -100,9 +100,8 @@ import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
-import { handleAudioSong } from '@/common/audio';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { formatDateTime } from '@utils/utils';
-import type { PlayMusicItem } from '@store/music/state';
 import type { SongType } from '@/common/audio';
 
 export default defineComponent({
@@ -147,7 +146,7 @@ export default defineComponent({
           return false;
         }
 
-        const songList: PlayMusicItem[] = [];
+        const songList: Partial<SongType>[] = [];
 
         songs.value.forEach((item: Record<string, { cp: number }>) => {
           // 无版权过滤
@@ -155,20 +154,11 @@ export default defineComponent({
             return false;
           }
 
-          const musicItem: PlayMusicItem = handleAudioSong(item);
-
-          songList.push(musicItem);
+          songList.push(item);
         });
 
-        // 当前播放音乐
-        $store.commit('music/setPlayMusicItem', songList[0]);
-        // 重置播放列表
-        $store.commit('music/resetPlayMusicList', songList);
-        // 开始播放
-        $store.commit('music/setMusicPlayStatus', {
-          look: true,
-          refresh: true
-        });
+        usePlaySingleMusic(songList[0]);
+        useMusicToPlayList({ music: songList, clear: true });
       },
       800,
       {

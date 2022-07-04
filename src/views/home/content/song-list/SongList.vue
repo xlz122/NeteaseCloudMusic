@@ -74,6 +74,8 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { handleAudioSong, SongType } from '@/common/audio';
 import { topList } from '@api/home-toplist';
 import { playlistDetail } from '@api/song-sheet-detail';
@@ -141,25 +143,16 @@ export default defineComponent({
           return false;
         }
 
-        const songList: PlayMusicItem[] = [];
+        const songList: Partial<SongType>[] = [];
 
         list.value[index].playlist?.tracks.forEach(
           (item: Partial<SongType>) => {
-            const musicItem: PlayMusicItem = handleAudioSong(item);
-
-            songList.push(musicItem);
+            songList.push(item);
           }
         );
 
-        // 当前播放音乐
-        $store.commit('music/setPlayMusicItem', songList[0]);
-        // 重置播放列表
-        $store.commit('music/resetPlayMusicList', songList);
-        // 开始播放
-        $store.commit('music/setMusicPlayStatus', {
-          look: true,
-          refresh: true
-        });
+        usePlaySingleMusic(songList[0]);
+        useMusicToPlayList({ music: songList, clear: true });
       },
       800,
       {
