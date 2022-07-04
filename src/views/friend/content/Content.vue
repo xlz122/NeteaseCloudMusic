@@ -22,7 +22,7 @@
         <Item
           :item="item"
           @jumpUserProfile="jumpUserProfile"
-          @singleMusicToPlayList="singleMusicToPlayList"
+          @playSingleMusic="playSingleMusic"
           @jumpSongDetail="jumpSongDetail"
           @jumpSingerDetail="jumpSingerDetail"
           @jumpAlbumDetail="jumpAlbumDetail"
@@ -36,12 +36,11 @@
 import { defineComponent, ref, reactive, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import { handleAudioSong } from '@/common/audio';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { formatMixedText } from '@utils/formatMixedText';
 import { getPageBottomHeight } from '@utils/utils';
 import { friendEvent, dynamicLike, FirendEvent } from '@api/friend';
 import type { ResponseType } from '@/types/types';
-import type { PlayMusicItem } from '@store/music/state';
 import type { SongType } from '@/common/audio';
 import Item from './Item.vue';
 
@@ -105,20 +104,9 @@ export default defineComponent({
     }
     getFriendEvent();
 
-    // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(item: Partial<SongType>): void {
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      // 当前播放音乐
-      $store.commit('music/setPlayMusicItem', musicItem);
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', musicItem);
-      // 开始播放
-      $store.commit('music/setMusicPlayStatus', {
-        look: true,
-        loading: true,
-        refresh: true
-      });
+    // 播放单个歌曲
+    function playSingleMusic(item: Partial<SongType>): void {
+      usePlaySingleMusic(item);
     }
 
     // 动态点赞
@@ -184,7 +172,7 @@ export default defineComponent({
       releaseVideo,
       eventList,
       loading,
-      singleMusicToPlayList,
+      playSingleMusic,
       setDynamicLike,
       jumpUserProfile,
       jumpSongDetail,

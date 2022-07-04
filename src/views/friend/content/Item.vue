@@ -15,10 +15,7 @@
       <div class="time">{{ formatDate(item?.showTime) }}</div>
       <div class="mood" v-html="item?.json?.msg"></div>
       <div class="music-info">
-        <div
-          class="music-cover"
-          @click="singleMusicToPlayList(item?.json?.song)"
-        >
+        <div class="music-cover" @click="playSingleMusic(item?.json?.song)">
           <img
             class="cover-img"
             :src="`${item?.json?.song?.album?.picUrl}?param=40y40`"
@@ -378,7 +375,7 @@ export default defineComponent({
   },
   emits: [
     'jumpUserProfile',
-    'singleMusicToPlayList',
+    'playSingleMusic',
     'jumpSongDetail',
     'jumpSingerDetail',
     'jumpAlbumDetail'
@@ -388,8 +385,8 @@ export default defineComponent({
       emit('jumpUserProfile', userId);
     }
 
-    function singleMusicToPlayList(item: Partial<SongType>): void {
-      emit('singleMusicToPlayList', item);
+    function playSingleMusic(item: Partial<SongType>): void {
+      emit('playSingleMusic', item);
     }
 
     function jumpSongDetail(id: number): void {
@@ -407,7 +404,7 @@ export default defineComponent({
     return {
       formatDate,
       jumpUserProfile,
-      singleMusicToPlayList,
+      playSingleMusic,
       jumpSongDetail,
       jumpSingerDetail,
       jumpAlbumDetail
