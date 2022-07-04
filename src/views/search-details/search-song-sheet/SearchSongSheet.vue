@@ -82,6 +82,8 @@
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { handleAudioSong } from '@/common/audio';
 import { bigNumberTransform, handleMatchString } from '@utils/utils';
 import { searchKeywords } from '@api/search';
@@ -175,23 +177,14 @@ export default defineComponent({
               return false;
             }
 
-            const songList: PlayMusicItem[] = [];
+            const songList: Partial<SongType>[] = [];
 
             res?.songs.forEach((item: Partial<SongType>) => {
-              const musicItem: PlayMusicItem = handleAudioSong(item);
-
-              songList.push(musicItem);
+              songList.push(item);
             });
 
-            // 当前播放音乐
-            $store.commit('music/setPlayMusicItem', songList[0]);
-            // 重置播放列表
-            $store.commit('music/resetPlayMusicList', songList);
-            // 开始播放
-            $store.commit('music/setMusicPlayStatus', {
-              look: true,
-              refresh: true
-            });
+            usePlaySingleMusic(songList[0]);
+            useMusicToPlayList({ music: songList, clear: true });
           }
         })
         .catch(() => ({}));

@@ -1,4 +1,3 @@
-import { toRawType } from '@utils/tool';
 import type {
   State,
   PlayMusicItem,
@@ -24,28 +23,6 @@ const mutations: Mutations<State> = {
   setPlayMusicList(state, music) {
     state.playMusicList = music;
     localStorage.setItem('playMusicList', JSON.stringify(music));
-  },
-  // 重置播放列表
-  resetPlayMusicList(state, music) {
-    if (toRawType(music) !== 'Object' && toRawType(music) !== 'Array') {
-      throw new Error('添加的播放数据类型错误');
-    }
-
-    if (toRawType(music) === 'Object') {
-      music = [music];
-    }
-
-    const musicList: PlayMusicItem[] = [];
-
-    (music as PlayMusicItem[]).forEach((item: PlayMusicItem) => {
-      const index = musicList.findIndex((f: PlayMusicItem) => f.id === item.id);
-      if (index === -1) {
-        musicList.push(item);
-      }
-    });
-
-    state.playMusicList = musicList;
-    localStorage.setItem('playMusicList', JSON.stringify(musicList));
   },
   // 当前播放音乐进度数据
   setMusicPlayProgress(state, playProgress: MusicPlayProgress) {

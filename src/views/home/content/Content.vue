@@ -206,7 +206,8 @@ import {
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import { handleAudioSong } from '@/common/audio';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { getWeekDate, formatDateTime, bigNumberTransform } from '@utils/utils';
 import {
   recommendSongList,
@@ -216,7 +217,6 @@ import {
 import { playlistTrack } from '@api/song-sheet-detail';
 import { albumDetail } from '@api/album-detail';
 import type { ResponseType } from '@/types/types';
-import type { PlayMusicItem } from '@store/music/state';
 import type { SongType } from '@/common/audio';
 const AlbumNewest = defineAsyncComponent(
   () => import('./album-newest/AlbumNewest.vue')
@@ -264,23 +264,14 @@ export default defineComponent({
               return false;
             }
 
-            const songList: PlayMusicItem[] = [];
+            const songList: Partial<SongType>[] = [];
 
             res?.songs.forEach((item: Partial<SongType>) => {
-              const musicItem: PlayMusicItem = handleAudioSong(item);
-
-              songList.push(musicItem);
+              songList.push(item);
             });
 
-            // 当前播放音乐
-            $store.commit('music/setPlayMusicItem', songList[0]);
-            // 重置播放列表
-            $store.commit('music/resetPlayMusicList', songList);
-            // 开始播放
-            $store.commit('music/setMusicPlayStatus', {
-              look: true,
-              refresh: true
-            });
+            usePlaySingleMusic(songList[0]);
+            useMusicToPlayList({ music: songList, clear: true });
           }
         })
         .catch(() => ({}));
@@ -411,7 +402,7 @@ export default defineComponent({
               return false;
             }
 
-            const songList: PlayMusicItem[] = [];
+            const songList: Partial<SongType>[] = [];
 
             res?.songs.forEach((item: Record<string, { cp: number }>) => {
               // 无版权过滤
@@ -419,20 +410,11 @@ export default defineComponent({
                 return false;
               }
 
-              const musicItem: PlayMusicItem = handleAudioSong(item);
-
-              songList.push(musicItem);
+              songList.push(item);
             });
 
-            // 当前播放音乐
-            $store.commit('music/setPlayMusicItem', songList[0]);
-            // 重置播放列表
-            $store.commit('music/resetPlayMusicList', songList);
-            // 开始播放
-            $store.commit('music/setMusicPlayStatus', {
-              look: true,
-              refresh: true
-            });
+            usePlaySingleMusic(songList[0]);
+            useMusicToPlayList({ music: songList, clear: true });
           }
         })
         .catch(() => ({}));
