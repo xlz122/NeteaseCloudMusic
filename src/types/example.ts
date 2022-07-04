@@ -1,21 +1,3 @@
-// 内置类型（Partial）
-/*
-type Partial<T> = {
-  [k in keyof T]?: T[k];
-};
-
-// 实现一个和Person字段一样，类型一样的接口
-type Person = {
-  name: string;
-  age: number;
-  sex: string;
-};
-
-type P<T> = {
-  [k in keyof T]: T[k];
-}
-*/
-
 // 获取函数返回值的工具类型 ReturnType示例
 /*
 function foo(): string {

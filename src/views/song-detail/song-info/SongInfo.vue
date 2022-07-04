@@ -129,8 +129,8 @@
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import { handleAudioSong } from '@/common/audio';
-import type { PlayMusicItem } from '@store/music/state';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 
 export default defineComponent({
   props: {
@@ -160,20 +160,7 @@ export default defineComponent({
         return false;
       }
 
-      const item = props?.songDetailData?.songs[0];
-
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      // 当前播放音乐
-      $store.commit('music/setPlayMusicItem', musicItem);
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', musicItem);
-      // 开始播放
-      $store.commit('music/setMusicPlayStatus', {
-        look: true,
-        loading: true,
-        refresh: true
-      });
+      usePlaySingleMusic(props?.songDetailData?.songs[0]);
     }
 
     // 单个歌曲添加到播放列表
@@ -182,11 +169,7 @@ export default defineComponent({
         return false;
       }
 
-      const item = props?.songDetailData?.songs[0];
-
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      $store.commit('music/setPlayMusicList', musicItem);
+      useMusicToPlayList({ music: props?.songDetailData?.songs[0] });
     }
 
     // 收藏

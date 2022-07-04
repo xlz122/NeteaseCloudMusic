@@ -129,6 +129,8 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { handleAudioSong } from '@/common/audio';
 import { timeStampToDuration } from '@utils/utils';
 import { artistSong } from '@api/singer-detail';
@@ -268,25 +270,12 @@ export default defineComponent({
         return false;
       }
 
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      // 当前播放音乐
-      $store.commit('music/setPlayMusicItem', musicItem);
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', musicItem);
-      // 开始播放
-      $store.commit('music/setMusicPlayStatus', {
-        look: true,
-        loading: true,
-        refresh: true
-      });
+      usePlaySingleMusic(item);
     }
 
     // 单个歌曲添加到播放列表
     function singleMusicToPlayList(item: Partial<SongType>): void {
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      $store.commit('music/setPlayMusicList', musicItem);
+      useMusicToPlayList({ music: item });
     }
 
     // 歌曲是否有版权

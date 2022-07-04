@@ -96,11 +96,11 @@
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { timeStampToDuration, handleMatchString } from '@utils/utils';
 import { setMessage } from '@/components/message/useMessage';
 import { searchKeywords } from '@api/search';
-import type { PlayMusicItem } from '@store/music/state';
 import type { SongType } from '@/common/audio';
 import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
@@ -183,9 +183,7 @@ export default defineComponent({
 
     // 单个歌曲添加到播放列表
     function singleMusicToPlayList(item: Partial<SongType>): void {
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      $store.commit('music/setPlayMusicList', musicItem);
+      useMusicToPlayList({ music: item });
     }
 
     // 播放单个歌曲
@@ -199,18 +197,7 @@ export default defineComponent({
         return false;
       }
 
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      // 当前播放音乐
-      $store.commit('music/setPlayMusicItem', musicItem);
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', musicItem);
-      // 开始播放
-      $store.commit('music/setMusicPlayStatus', {
-        look: true,
-        loading: true,
-        refresh: true
-      });
+      usePlaySingleMusic(item);
     }
 
     // 歌曲是否有版权

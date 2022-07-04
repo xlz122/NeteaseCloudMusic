@@ -82,10 +82,10 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { simiPlaylist, simiSong } from '@api/song-detail';
 import type { ResponseType } from '@/types/types';
-import type { PlayMusicItem } from '@store/music/state';
 import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 export default defineComponent({
@@ -132,18 +132,7 @@ export default defineComponent({
         return false;
       }
 
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      // 当前播放音乐
-      $store.commit('music/setPlayMusicItem', musicItem);
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', musicItem);
-      // 开始播放
-      $store.commit('music/setMusicPlayStatus', {
-        look: true,
-        loading: true,
-        refresh: true
-      });
+      usePlaySingleMusic(item);
     }
 
     // 单个歌曲添加到播放列表
@@ -155,9 +144,7 @@ export default defineComponent({
         return false;
       }
 
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      $store.commit('music/setPlayMusicList', musicItem);
+      useMusicToPlayList({ music: item });
     }
 
     // 跳转歌单详情
