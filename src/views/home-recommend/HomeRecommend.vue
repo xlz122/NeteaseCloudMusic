@@ -50,9 +50,11 @@ import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { handleAudioSong } from '@/common/audio';
 import { getWeekDate, formatDateTime } from '@utils/utils';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
 import { recommendSongs } from '@api/home-recommend';
 import type { ResponseType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 import RecommendSong from './recommend-song/RecommendSong.vue';
 import RecommendSide from './recommend-side/RecommendSide.vue';
 
@@ -133,7 +135,7 @@ export default defineComponent({
         return false;
       }
 
-      const songList: PlayMusicItem[] = [];
+      const songList: Partial<SongType>[] = [];
 
       recommendSong.value?.forEach((item: Record<string, { cp: number }>) => {
         // 无版权过滤
@@ -141,13 +143,10 @@ export default defineComponent({
           return false;
         }
 
-        const musicItem: PlayMusicItem = handleAudioSong(item);
-
-        songList.push(musicItem);
+        songList.push(item);
       });
 
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', songList);
+      useMusicToPlayList({ music: songList });
     }
 
     // 收藏全部
