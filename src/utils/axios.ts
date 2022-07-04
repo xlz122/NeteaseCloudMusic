@@ -125,13 +125,13 @@ class HttpRequest {
       },
       (error: IAxiosError) => {
         // cookie过期
-        if (error?.response.status === 301) {
+        if (error?.response?.status === 301) {
           store.commit('setLogout');
         }
 
         // 验证
         if (
-          error?.response.status === 400 &&
+          error?.response?.status === 400 &&
           error?.response?.data?.code === -462
         ) {
           store.commit('setAbnormal', {
