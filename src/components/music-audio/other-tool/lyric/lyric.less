@@ -1,13 +1,13 @@
 .icon-doubt {
   position: absolute;
-  right: 25px;
   top: 12px;
+  right: 25px;
   z-index: 10;
   width: 21px;
   height: 21px;
-  background: url(~@/assets/image/music-audio/play-list.png);
-  background-position: 0 -50px;
   cursor: pointer;
+  background: url('~@/assets/image/music-audio/play-list.png');
+  background-position: 0 -50px;
 
   &:hover {
     background-position: -24px -50px;
@@ -16,13 +16,13 @@
 
 .lyric {
   position: absolute;
-  right: 0;
   top: 0;
+  right: 0;
   z-index: 4;
-  padding-right: 32px;
-  margin: 21px 0 20px 0;
-  height: 219px;
   width: 354px;
+  height: 219px;
+  padding-right: 32px;
+  margin: 21px 0 20px;
   overflow-y: auto;
 
   .not-lyric {
@@ -39,18 +39,17 @@
   }
 
   .lyric-list {
-
     .item {
-      color: #989898;
-      word-wrap: break-word;
-      text-align: center;
-      line-height: 32px;
       height: auto;
       min-height: 32px;
-      -webkit-transition: color 0.7s linear;
-      -moz-transition: color 0.7s linear;
-      -o-transition: color 0.7s linear;
-      transition: color 0.7s linear;
+      line-height: 32px;
+      color: #989898;
+      text-align: center;
+      word-wrap: break-word;
+      transition: color .7s linear;
+      transition: color .7s linear;
+      transition: color .7s linear;
+      transition: color .7s linear;
 
       .text {
         color: #c2c2c2;
@@ -77,9 +76,9 @@
 
 ::-webkit-scrollbar-thumb {
   width: 4px;
-  border-radius: 5px;
   height: 100px;
   cursor: pointer;
   background: #868686;
   border: 1px solid #a6a6a6;
+  border-radius: 5px;
 }

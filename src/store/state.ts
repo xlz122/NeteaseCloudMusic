@@ -32,8 +32,8 @@ export type State = {
 
 // 本地存储容错处理
 function faultTolerant(name: string) {
-  if (localStorage.getItem(name) as string) {
-    return JSON.parse(localStorage.getItem(name) as string);
+  if (localStorage.getItem(name)) {
+    return JSON.parse(localStorage.getItem(name) || '');
   }
 }
 

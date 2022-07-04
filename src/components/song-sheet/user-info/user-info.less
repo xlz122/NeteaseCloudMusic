@@ -7,9 +7,9 @@
     .info-img {
       position: relative;
       display: inline-block;
-      vertical-align: top;
       width: 199px;
       height: 200px;
+      vertical-align: top;
 
       .img {
         width: 100%;
@@ -22,15 +22,15 @@
         left: -4px;
         width: 208px;
         height: 208px;
-        background: url(~@/assets/image/my-music/coverall.png) no-repeat;
+        background: url('~@/assets/image/my-music/coverall.png') no-repeat;
         background-position: 0 -1285px;
       }
     }
 
     .info-right {
       display: inline-block;
-      vertical-align: top;
       margin-left: 30px;
+      vertical-align: top;
 
       .title {
         display: block;
@@ -39,38 +39,38 @@
         .icon-title {
           position: relative;
           display: inline-block;
-          vertical-align: middle;
           width: 54px;
           height: 24px;
           margin-right: 8px;
-          background: url(~@/assets/image/icon.png) no-repeat;
+          vertical-align: middle;
+          background: url('~@/assets/image/icon.png') no-repeat;
           background-position: 0 -243px;
         }
 
         .icon-title::after {
-          content: '';
           position: absolute;
           top: 1px;
           right: 12px;
           display: inline-block;
           width: 8px;
           height: 8px;
-          background: url(~@/assets/image/my-music/icon-my-music-r2@3x.png) no-repeat;
+          background: url('~@/assets/image/my-music/icon-my-music-r2@3x.png') no-repeat;
+          content: '';
           background-size: cover;
         }
 
         .title-text {
-          width: 368px;
           display: inline-block;
-          vertical-align: top;
+          width: 368px;
+          font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
           font-size: 20px;
           font-weight: normal;
-          font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
+          vertical-align: top;
 
           .text {
+            display: -webkit-box;
             overflow: hidden;
             text-overflow: ellipsis;
-            display: -webkit-box;
             -webkit-line-clamp: 3;
             -webkit-box-orient: vertical;
           }
@@ -83,21 +83,21 @@
 
         .user-avatar {
           display: inline-block;
-          vertical-align: middle;
           width: 35px;
           height: 35px;
           margin-right: 10px;
+          vertical-align: middle;
           cursor: pointer;
         }
 
         .user-name {
           display: inline-block;
-          vertical-align: middle;
           max-width: 210px;
-          color: #0c73c2;
           overflow: hidden;
+          color: #0c73c2;
           text-overflow: ellipsis;
           white-space: nowrap;
+          vertical-align: middle;
           cursor: pointer;
         }
 
@@ -107,9 +107,9 @@
 
         .user-time {
           display: inline-block;
-          vertical-align: middle;
           margin-left: 15px;
           color: #999;
+          vertical-align: middle;
         }
       }
 
@@ -118,36 +118,36 @@
 
         .play {
           display: inline-block;
-          vertical-align: top;
           width: 59px;
           height: 31px;
-          line-height: 31px;
           padding-right: 5px;
-          background: url(~@/assets/image/icon-button.png) no-repeat;
+          line-height: 31px;
+          vertical-align: top;
+          background: url('~@/assets/image/icon-button.png') no-repeat;
           background-position: right -428px;
 
           .icon-play {
             display: inline-block;
-            vertical-align: middle;
             width: 100%;
             height: 31px;
-            line-height: 31px;
             margin-top: -1px;
-            background: url(~@/assets/image/icon-button.png) no-repeat;
-            background-position: 0 -387px;
+            line-height: 31px;
             color: #fff;
             text-align: center;
+            vertical-align: middle;
             cursor: pointer;
+            background: url('~@/assets/image/icon-button.png') no-repeat;
+            background-position: 0 -387px;
           }
 
           .icon-play::before {
-            content: '';
             display: inline-block;
-            vertical-align: middle;
             width: 20px;
             height: 18px;
-            margin: 0px 2px 2px 0;
-            background: url(~@/assets/image/icon-button.png) no-repeat;
+            margin: 0 2px 2px 0;
+            vertical-align: middle;
+            background: url('~@/assets/image/icon-button.png') no-repeat;
+            content: '';
             background-position: 0 -1622px;
           }
         }
@@ -185,16 +185,16 @@
 
         .play-add {
           display: inline-block;
-          vertical-align: top;
           width: 31px;
           height: 31px;
-          line-height: 30px;
-          margin-left: -3px;
-          margin-right: 8px;
           padding-right: 0;
-          background: url(~@/assets/image/icon-button.png) no-repeat;
-          background-position: 0 -1588px;
+          margin-right: 8px;
+          margin-left: -3px;
+          line-height: 30px;
+          vertical-align: top;
           cursor: pointer;
+          background: url('~@/assets/image/icon-button.png') no-repeat;
+          background-position: 0 -1588px;
         }
 
         .play-add:hover {
@@ -207,30 +207,30 @@
 
         .other {
           display: inline-block;
-          vertical-align: middle;
           height: 32px;
-          line-height: 30px;
-          margin-left: -3px;
-          margin-right: 8px;
           padding-right: 0;
-          background: url(~@/assets/image/icon-button.png) no-repeat;
-          background-position: right -1192px;
-          color: #333;
-          font-style: normal;
-          text-align: left;
+          margin-right: 8px;
+          margin-left: -3px;
+          font-family: simsun, '\5b8b\4f53', sans-serif;
           font-size: inherit;
-          font-family: simsun, \5b8b\4f53;
+          font-style: normal;
+          line-height: 30px;
+          color: #333;
+          text-align: left;
+          vertical-align: middle;
           cursor: pointer;
+          background: url('~@/assets/image/icon-button.png') no-repeat;
+          background-position: right -1192px;
 
           .icon {
             display: inline-block;
-            vertical-align: middle;
             height: 32px;
             padding-left: 30px;
             margin-right: 4px;
-            background: url(~@/assets/image/icon-button.png) no-repeat;
+            font-family: simsun, '\5b8b\4f53', sans-serif;
+            vertical-align: middle;
+            background: url('~@/assets/image/icon-button.png') no-repeat;
             background-position: 0 -1149px;
-            font-family: simsun, \5b8b\4f53;
           }
         }
 
@@ -354,9 +354,9 @@
 
         .title {
           display: inline-block;
-          vertical-align: top;
           font-weight: normal;
           color: #666;
+          vertical-align: top;
         }
 
         .list {
@@ -365,32 +365,32 @@
 
           .item {
             display: inline-block;
-            vertical-align: top;
             height: 22px;
+            padding: 0 10px 0 0;
+            margin: 0 10px 3px 0;
             line-height: 22px;
             color: #777;
-            padding: 0 10px 0 0;
-            margin: 0px 10px 3px 0;
             text-shadow: 0 1px #fdfdfd;
-            background: url(~@/assets/image/icon-button.png) no-repeat;
-            background-position: right -27px;
+            vertical-align: top;
             cursor: pointer;
-
-            &:hover {
-              background-position: right -1430px;
-
-              .text {
-                background-position: 0 -1400px;
-              }
-            }
+            background: url('~@/assets/image/icon-button.png') no-repeat;
+            background-position: right -27px;
 
             .text {
               float: left;
               height: 22px;
-              line-height: 22px;
               padding: 0 3px 0 13px;
-              background: url(~@/assets/image/icon-button.png) no-repeat;
+              line-height: 22px;
+              background: url('~@/assets/image/icon-button.png') no-repeat;
               background-position: 0 0;
+            }
+          }
+
+          .item:hover {
+            background-position: right -1430px;
+
+            .text {
+              background-position: 0 -1400px;
             }
           }
         }
@@ -403,17 +403,66 @@
 
         .title {
           display: inline-block;
-          vertical-align: top;
           font-weight: normal;
           color: #666;
+          vertical-align: top;
         }
 
         .content {
           display: inline-block;
-          vertical-align: top;
-          width: 220px;
-          word-wrap: break-word;
           word-break: normal;
+          word-wrap: break-word;
+          vertical-align: top;
+
+          pre {
+            width: 410px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            color: #666;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -pre-wrap;
+            white-space: -o-pre-wrap;
+          }
+        }
+
+        .text-hide {
+          pre {
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+          }
+        }
+      }
+
+      .toggle-btn {
+        padding-right: 30px;
+        margin-top: 8px;
+        text-align: right;
+
+        .text {
+          display: inline-block;
+          color: #0c73c2;
+          vertical-align: middle;
+          cursor: pointer;
+        }
+
+        .icon {
+          display: inline-block;
+          width: 11px;
+          height: 8px;
+          margin-top: 2px;
+          vertical-align: middle;
+          cursor: pointer;
+          background: url('~@assets/image/icon.png');
+          background-position: -65px -520px;
+        }
+
+        .hide {
+          background-position: -45px -520px;
         }
       }
     }

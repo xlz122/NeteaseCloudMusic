@@ -4,19 +4,16 @@
   .detail-container {
     width: 980px;
     margin: 0 auto;
+    background: url('~@/assets/image/song-sheet/song-sheet-detail-bg.png') repeat-y center 0;
     background-color: #fff;
-    background: url(~@/assets/image/song-sheet/song-sheet-detail-bg.png) repeat-y center 0;
     border: 1px solid #d3d3d3;
     border-width: 0 1px;
 
     .detail-content {
       display: inline-block;
-      vertical-align: top;
       width: calc(100% - 348px);
-      padding-top: 27px;
-      padding-left: 39px;
-      padding-right: 39px;
-      padding-bottom: 40px;
+      padding: 27px 39px 40px;
+      vertical-align: top;
 
       .singer-info {
         position: relative;
@@ -25,32 +22,32 @@
 
         .singer-username {
           display: inline-block;
-          vertical-align: bottom;
-          max-width: 75%;
           height: 34px;
-          line-height: 24px;
-          font-weight: normal;
-          font-size: 24px;
-          color: #333;
+          max-width: 75%;
           overflow: hidden;
+          font-size: 24px;
+          font-weight: normal;
+          line-height: 24px;
+          color: #333;
           text-overflow: ellipsis;
-          white-space: nowrap;
           word-wrap: normal;
+          white-space: nowrap;
+          vertical-align: bottom;
         }
 
         .singer-english-name {
           display: inline-block;
-          vertical-align: bottom;
           max-width: 23%;
           padding-left: 10px;
+          overflow: hidden;
           font-size: 14px;
+          font-weight: normal;
           line-height: 32px;
           color: #999;
-          font-weight: normal;
-          overflow: hidden;
           text-overflow: ellipsis;
-          white-space: nowrap;
           word-wrap: normal;
+          white-space: nowrap;
+          vertical-align: bottom;
         }
 
         .singer-avatar {
@@ -58,15 +55,15 @@
         }
 
         .artist-home {
-          display: block;
           position: absolute;
-          bottom: 18px;
           right: 116px;
+          bottom: 18px;
+          display: block;
           width: 96px;
           height: 32px;
-          background: url(~@/assets/image/music-audio/iconall.png) repeat-y center 0;
-          background-position: 0 -1156px;
           cursor: pointer;
+          background: url('~@/assets/image/music-audio/iconall.png') repeat-y center 0;
+          background-position: 0 -1156px;
 
           &:hover {
             background-position: 0 -1196px;
@@ -74,15 +71,15 @@
         }
 
         .artist-sub {
-          display: block;
           position: absolute;
-          bottom: 18px;
           right: 20px;
+          bottom: 18px;
+          display: block;
           width: 76px;
           height: 32px;
-          background: url(~@/assets/image/music-audio/iconall.png) repeat-y center 0;
-          background-position: 0 -500px;
           cursor: pointer;
+          background: url('~@/assets/image/music-audio/iconall.png') repeat-y center 0;
+          background-position: 0 -500px;
 
           &:hover {
             background-position: 0 -540px;
@@ -101,12 +98,12 @@
       .singer-tabs {
         width: calc(100% - 2px);
         height: 39px;
+        text-align: left;
+        background: url('~@/assets/image/singer/singer-tab.png');
         border-right: 1px solid #ccc;
         border-width: 0 1px;
-        background: url(~@/assets/image/singer/singer-tab.png);
         background-position: 0 0;
         background-repeat: repeat-x;
-        text-align: left;
 
         .first-item {
           border-left: 1px solid #ccc;
@@ -118,10 +115,10 @@
           width: 138px;
           height: 39px;
           padding-left: 2px;
-          background: url(~@/assets/image/singer/singer-tab.png) no-repeat 0 9999px;
           font-size: 14px;
           color: #333;
           cursor: pointer;
+          background: url('~@/assets/image/singer/singer-tab.png') no-repeat 0 9999px;
 
           &:hover {
             background-position: -5px -45px;
@@ -130,14 +127,13 @@
           .text {
             display: inline-block;
             width: 100%;
-            height: 37px;
             width: 136px;
+            height: 37px;
             padding: 2px 2px 0 0;
-            background: url(~@/assets/image/singer/singer-tab.png) no-repeat 0 9999px;
-            ;
             line-height: 37px;
-            cursor: pointer;
             text-align: center;
+            cursor: pointer;
+            background: url('~@/assets/image/singer/singer-tab.png') no-repeat 0 9999px;
           }
         }
 
@@ -165,8 +161,8 @@
 
     .detail-side {
       display: inline-block;
-      vertical-align: top;
       width: 270px;
+      vertical-align: top;
     }
   }
 }

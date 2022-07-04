@@ -7,22 +7,22 @@
     .title-left {
       position: relative;
       display: inline-block;
-      vertical-align: middle;
       height: 36px;
       line-height: 36px;
       text-align: left;
+      vertical-align: middle;
       cursor: pointer;
 
       .icon-arrow {
         position: absolute;
         top: 11px;
         display: inline-block;
-        vertical-align: middle;
-        margin: 0 2px 0 5px;
-        cursor: pointer;
-        font-size: 0;
         height: 0;
+        margin: 0 2px 0 5px;
+        font-size: 0;
         line-height: 0;
+        vertical-align: middle;
+        cursor: pointer;
         border: 8px solid #ccc;
         border-color: transparent transparent transparent #ccc;
         border-style: dashed dashed dashed solid;
@@ -39,11 +39,11 @@
       .text-num {
         position: relative;
         display: inline-block;
-        vertical-align: middle;
-        text-align: left;
+        font-family: simsun, '\5b8b\4f53', sans-serif;
         font-size: 14px;
         color: #000;
-        font-family: simsun, \5b8b\4f53;
+        text-align: left;
+        vertical-align: middle;
       }
 
       .text {
@@ -55,33 +55,33 @@
       }
 
       .text::after {
-        content: '';
         position: absolute;
         top: 11px;
         display: inline-block;
         width: 8px;
         height: 8px;
-        background: url(~@/assets/image/my-music/icon-my-music-r@3x.png) no-repeat;
+        background: url('~@/assets/image/my-music/icon-my-music-r@3x.png') no-repeat;
+        content: '';
         background-size: cover;
       }
     }
 
     .title-right {
-      visibility: hidden;
       display: inline-block;
-      vertical-align: middle;
       width: 52px;
       height: 22px;
-      line-height: 22px;
       padding-left: 5px;
       margin-top: 5px;
       margin-left: 30px;
-      background: url(~@/assets/image/my-music/icon-button.png) no-repeat;
-      background-position: 0 -96px;
-      color: #515151;
       font-size: 12px;
       font-weight: normal;
+      line-height: 22px;
+      color: #515151;
+      vertical-align: middle;
       cursor: pointer;
+      background: url('~@/assets/image/my-music/icon-button.png') no-repeat;
+      visibility: hidden;
+      background-position: 0 -96px;
 
       &:hover {
         background-position: -94px -39px;
@@ -104,10 +104,10 @@
 
       .item-left {
         display: inline-block;
-        vertical-align: middle;
         width: 40px;
         height: 40px;
         margin-right: 10px;
+        vertical-align: middle;
 
         .img {
           width: 100%;
@@ -129,41 +129,41 @@
           margin-top: 2px;
           margin-bottom: 8px;
           overflow: hidden;
+          color: #000;
           text-overflow: ellipsis;
           white-space: nowrap;
-          color: #000;
         }
 
         .num {
           display: inline-block;
-          vertical-align: top;
           color: #999;
+          vertical-align: top;
         }
 
         .right-desc {
           display: inline-block;
-          vertical-align: top;
           width: 100px;
           overflow: hidden;
           text-overflow: ellipsis;
-          white-space: nowrap;
           word-wrap: normal;
+          white-space: nowrap;
+          vertical-align: top;
         }
       }
 
       .item-operate {
-        display: none;
         position: absolute;
         right: 0;
         bottom: 8px;
+        display: none;
 
         .operate-icon {
           display: inline-block;
-          vertical-align: middle;
           margin-right: 10px;
-          background: url(~@/assets/image/icon.png) no-repeat;
-          background-position: 0 -96px;
+          vertical-align: middle;
           cursor: pointer;
+          background: url('~@/assets/image/icon.png') no-repeat;
+          background-position: 0 -96px;
         }
 
         .operate-edit {
@@ -199,28 +199,28 @@
 }
 
 ::v-deep(.my-dialog) {
-  .my_dialog_box {
+  .my-dialog-box {
     width: 480px;
   }
 
   .content {
-    text-align: center;
-    color: #333;
-    font-size: 14px;
     font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #333;
+    text-align: center;
   }
 }
 
 ::v-deep(.my-dialog-add) {
-  .my_dialog_bottom {
+  .my-dialog-bottom {
     margin-left: 86px;
     text-align: left;
   }
 
   .content {
-    color: #333;
-    font-size: 14px;
     font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #333;
     text-align: left;
 
     .form {
@@ -233,16 +233,16 @@
 
       .input {
         display: inline-block;
-        vertical-align: middle;
         width: 330px;
         height: 19px;
-        margin: 0;
         padding: 5px 6px 6px;
+        margin: 0;
+        line-height: 19px;
+        vertical-align: middle;
         border: 1px solid #cdcdcd;
         border-radius: 2px;
-        line-height: 19px;
-        box-sizing: content-box;
         outline: none;
+        box-sizing: content-box;
       }
     }
 

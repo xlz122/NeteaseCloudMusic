@@ -1,5 +1,4 @@
 import type { PlayMusicItem } from '@store/music/state';
-import { toRawType } from '@utils/tool';
 
 export type SongType = {
   id: number;
@@ -8,6 +7,9 @@ export type SongType = {
     picUrl: string;
   };
   album: {
+    picUrl: string;
+  };
+  radio: {
     picUrl: string;
   };
   img80x80: string;
@@ -28,15 +30,18 @@ export type SongType = {
  * @description 歌曲数据处理成音乐播放器所需数据
  * @param { Object } song 歌曲数据
  */
-export function handleAudioSong(song: Partial<SongType>): PlayMusicItem {
-  if (toRawType(song) !== 'Object') {
-    throw new Error('添加的歌曲数据类型错误');
-  }
-
+export function handleAudioSong<T extends Partial<SongType>>(
+  song: T
+): PlayMusicItem {
   const musicItem: PlayMusicItem = {
     id: song?.id || 0,
     name: song?.name || '',
-    picUrl: song?.al?.picUrl || song?.album?.picUrl || song?.img80x80 || '',
+    picUrl:
+      song?.al?.picUrl ||
+      song?.album?.picUrl ||
+      song?.img80x80 ||
+      song?.radio?.picUrl ||
+      '',
     time: song?.dt || song?.duration || 0,
     mv: song?.mv || 0,
     singerList: []

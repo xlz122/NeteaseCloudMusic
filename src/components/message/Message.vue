@@ -1,5 +1,5 @@
 <template>
-  <div class="message-sysmsg" v-if="messageShow">
+  <div class="message-sysmsg" v-if="messageTip.visible">
     <div class="sysmsg">
       <i
         class="icon"
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, reactive, watch } from 'vue';
 import useMessage from '@/components/message/useMessage';
 
 export default defineComponent({
@@ -23,22 +23,22 @@ export default defineComponent({
     // 提示数据
     const message = useMessage();
 
-    const messageShow = ref<boolean>(false);
-
-    // 提示定时器
-    const timer = ref<number>(0);
+    const messageTip = reactive({
+      visible: false,
+      timer: 0
+    });
 
     watch(
       () => message,
       () => {
-        messageShow.value = true;
+        messageTip.visible = true;
 
-        if (timer.value) {
-          clearTimeout(timer.value);
+        if (messageTip.timer) {
+          clearTimeout(messageTip.timer);
         }
 
-        timer.value = setTimeout(() => {
-          messageShow.value = false;
+        messageTip.timer = setTimeout(() => {
+          messageTip.visible = false;
         }, message.time);
       },
       {
@@ -48,7 +48,7 @@ export default defineComponent({
 
     return {
       message,
-      messageShow
+      messageTip
     };
   }
 });
@@ -59,24 +59,25 @@ export default defineComponent({
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   z-index: 20220405;
   width: 280px;
-  border: 1px solid #c0c0c0;
   background-color: #fff;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+  border: 1px solid #c0c0c0;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 3px 10px rgb(0 0 0 / 40%);
 
   .sysmsg {
     padding: 12px 16px;
-    border: 1px solid #fcfcfc;
     text-align: center;
     background-color: #fff;
+    border: 1px solid #fcfcfc;
+
     .icon {
       display: inline-block;
-      vertical-align: middle;
       width: 24px;
       height: 24px;
-      background: url(~@/assets/image/icon.png);
+      vertical-align: middle;
+      background: url('~@/assets/image/icon.png');
     }
 
     .info-icon {

@@ -5,12 +5,11 @@
   .icon {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
     display: inline-block;
     width: 25px;
     height: 32px;
-    background-color: #fff;
-    background: url(~@/assets/image/header/topbar.png) no-repeat 0 9999px;
+    background: url('~@/assets/image/header/topbar.png') no-repeat 0 9999px;
+    transform: translateY(-50%);
     background-position: 0 -99px;
   }
 
@@ -18,11 +17,11 @@
     display: inline-block;
     width: 128px;
     height: 32px;
-    line-height: 32px;
     padding-left: 30px;
-    outline: none;
+    line-height: 32px;
     border: none;
     border-radius: 32px;
+    outline: none;
 
     &::placeholder {
       font-size: 12px;
@@ -32,17 +31,17 @@
 
   .search-list {
     position: absolute;
-    z-index: 120;
     top: 59px;
-    width: 240px;
     left: 0;
-    box-sizing: border-box;
+    z-index: 120;
+    width: 240px;
+    line-height: normal;
+    text-shadow: 0 1px 0 rgb(255 255 255 / 90%);
+    background: #fff;
     border: 1px solid #bebebe;
     border-radius: 4px;
-    background: #fff;
+    box-sizing: border-box;
     box-shadow: 0 4px 7px #555;
-    text-shadow: 0 1px 0 rgb(255 255 255 / 90%);
-    line-height: normal;
 
     .item-note {
       height: 17px;
@@ -61,20 +60,20 @@
 
       .title {
         display: inline-block;
-        vertical-align: top;
         width: 52px;
         padding: 10px 0 0 10px;
-        line-height: 17px;
         font-weight: normal;
+        line-height: 17px;
+        vertical-align: top;
 
         .title-icon {
           display: inline-block;
-          overflow: hidden;
-          vertical-align: middle;
           width: 14px;
           height: 15px;
           margin-right: 3px;
-          background: url(~@/assets/image/icon.png) no-repeat 0 9999px;
+          overflow: hidden;
+          vertical-align: middle;
+          background: url('~@/assets/image/icon.png') no-repeat 0 9999px;
         }
 
         .songs-icon {
@@ -94,31 +93,30 @@
         }
 
         .title-text {
+          font-size: inherit;
           font-style: normal;
           text-align: left;
-          font-size: inherit;
         }
       }
 
       .f-cb {
         display: inline-block;
-        vertical-align: top;
         width: calc(100% - 63px);
         padding: 6px 0 5px;
+        vertical-align: top;
         border-left: 1px solid #e2e2e2;
         border-bottom: 1px solid #e2e2e2;
-
 
         .f-cb-i {
           display: block;
           width: 100%;
-          text-indent: 12px;
-          line-height: 24px;
           overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          word-wrap: normal;
+          line-height: 24px;
           color: #000;
+          text-indent: 12px;
+          text-overflow: ellipsis;
+          word-wrap: normal;
+          white-space: nowrap;
           cursor: pointer;
 
           .f-cb-text {

@@ -1,23 +1,23 @@
 .play-list {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
   bottom: 47px;
+  left: 50%;
   width: 986px;
   height: 301px;
   overflow: hidden;
+  transform: translateX(-50%);
 
   .play-list-title {
     height: 41px;
     padding: 0 5px;
-    background: url(~@/assets/image/music-audio/play-list-bg.png);
+    background: url('~@/assets/image/music-audio/play-list-bg.png');
     background-position: 0 0;
 
     .title {
       height: 39px;
-      line-height: 39px;
       margin-left: 25px;
       font-size: 14px;
+      line-height: 39px;
       color: #e2e2e2;
     }
 
@@ -32,11 +32,11 @@
 
       .icon {
         display: inline-block;
-        vertical-align: middle;
         width: 16px;
         height: 16px;
         margin: -1px 6px 0 0;
-        background: url(~@/assets/image/music-audio/play-list.png);
+        vertical-align: middle;
+        background: url('~@/assets/image/music-audio/play-list.png');
         background-position: -24px 0;
       }
 
@@ -75,11 +75,11 @@
 
       .icon {
         display: inline-block;
-        vertical-align: middle;
         width: 13px;
         height: 13px;
         margin: -1px 6px 0 0;
-        background: url(~@/assets/image/music-audio/play-list.png);
+        vertical-align: middle;
+        background: url('~@/assets/image/music-audio/play-list.png');
         background-position: -51px 0;
       }
 
@@ -100,14 +100,14 @@
 
     .song-title {
       position: absolute;
-      left: 595px;
       top: 0;
+      left: 595px;
       width: 346px;
-      text-align: center;
       height: 39px;
+      font-size: 14px;
       line-height: 39px;
       color: #fff;
-      font-size: 14px;
+      text-align: center;
     }
 
     .clear-icon {
@@ -119,15 +119,15 @@
       overflow: hidden;
       text-indent: -999px;
       cursor: pointer;
-      background: url(~@/assets/image/music-audio/play-list.png);
+      background: url('~@/assets/image/music-audio/play-list.png');
       background-position: -195px 9px;
     }
   }
 
   .play-list-content-bg {
     position: absolute;
-    left: 2px;
     top: -360px;
+    left: 2px;
     width: 980px;
     height: auto;
     opacity: .2;
@@ -136,23 +136,23 @@
 
   .play-list-content {
     position: absolute;
-    left: 0;
     top: 41px;
+    left: 0;
     width: 985px;
     height: 260px;
     overflow: hidden;
-    background: url(~@/assets/image/music-audio/play-list-bg.png);
+    background: url('~@/assets/image/music-audio/play-list-bg.png');
     background-position: -1014px 0;
     background-repeat: repeat-y;
 
     .left-content {
       position: relative;
       display: inline-block;
-      vertical-align: middle;
-      height: 260px;
       width: 553px;
+      height: 260px;
       padding-left: 2px;
       overflow: hidden;
+      vertical-align: middle;
 
       ::-webkit-scrollbar {
         width: 6px;
@@ -163,78 +163,78 @@
 
       ::-webkit-scrollbar-thumb {
         width: 4px;
-        border-radius: 5px;
         height: 100px;
         cursor: pointer;
         background: #868686;
         border: 1px solid #a6a6a6;
+        border-radius: 5px;
       }
 
       .p-list {
         height: 99.8%;
-        color: #ccc;
         overflow-y: scroll;
+        color: #ccc;
 
         .item {
           position: relative;
 
           .play-icon {
             position: absolute;
-            left: 10px;
             top: 50%;
-            transform: translateY(-50%);
+            left: 10px;
             display: none;
-            vertical-align: middle;
             width: 10px;
             height: 13px;
-            background: url(~@/assets/image/music-audio/play-list.png);
-            background-position: -182px 0;
+            vertical-align: middle;
             cursor: pointer;
+            background: url('~@/assets/image/music-audio/play-list.png');
+            transform: translateY(-50%);
+            background-position: -182px 0;
           }
 
           .text {
             display: inline-block;
-            vertical-align: middle;
             height: 28px;
-            line-height: 28px;
             margin-left: 10px;
-            color: #ccc;
             overflow: hidden;
-            white-space: nowrap;
+            line-height: 28px;
+            color: #ccc;
             text-overflow: ellipsis;
+            white-space: nowrap;
+            vertical-align: middle;
             cursor: pointer;
           }
 
           .song-title {
-            margin-left: 30px;
             width: 236px;
+            margin-left: 30px;
           }
 
           .operate-btn {
-            visibility: hidden;
             display: inline-block;
-            vertical-align: middle;
             width: 98px;
             height: 28px;
             line-height: 28px;
+            vertical-align: middle;
+            visibility: hidden;
 
             .icon {
               display: inline-block;
-              vertical-align: middle;
               width: 16px;
               height: 16px;
-              margin-left: 0px;
               margin-right: 10px;
-              background: url(~@/assets/image/music-audio/play-list.png);
+              margin-left: 0;
+              vertical-align: middle;
               cursor: pointer;
+              background: url('~@/assets/image/music-audio/play-list.png');
             }
 
             .collect {
               background-position: -24px 0;
+            }
 
-              &:hover {
-                background-position: -24px -20px;
-              }
+            .collect:hover {
+              background-position: -24px -20px;
             }
 
             .share:hover {
@@ -243,32 +243,30 @@
 
             .download {
               background-position: -57px -50px;
+            }
 
-              &:hover {
-                background-position: -80px -50px;
-              }
+            .download:hover {
+              background-position: -80px -50px;
             }
 
             .delete {
-              margin-right: 0px;
+              margin-right: 0;
               background-position: -51px 0;
+            }
 
-              &:hover {
-                background-position: -51px -20px;
-              }
+            .delete:hover {
+              background-position: -51px -20px;
             }
           }
 
           .name {
             width: 80px;
             margin-left: 4px;
-            text-align: left;
             color: #9b9b9b;
+            text-align: left;
 
-            .name-text {
-              &:hover {
-                text-decoration: underline;
-              }
+            .name-text:hover {
+              text-decoration: underline;
             }
           }
 
@@ -278,13 +276,13 @@
 
           .share {
             display: inline-block;
-            vertical-align: middle;
             width: 14px;
             height: 16px;
             margin-left: 0;
-            background: url(~@/assets/image/music-audio/play-list.png);
-            background-position: -80px 0px;
+            vertical-align: middle;
             cursor: pointer;
+            background: url('~@/assets/image/music-audio/play-list.png');
+            background-position: -80px 0;
 
             &:hover {
               background-position: -80px -20px;
@@ -293,7 +291,7 @@
         }
 
         .item:hover {
-          background-color: rgba(0, 0, 0, 0.4);
+          background-color: rgb(0 0 0 / 40%);
 
           .text {
             color: #fff;
@@ -305,7 +303,7 @@
         }
 
         .p-active-item {
-          background-color: rgba(0, 0, 0, 0.3);
+          background-color: rgb(0 0 0 / 30%);
 
           .play-icon {
             display: inline-block;
@@ -326,16 +324,16 @@
         .title {
           width: 100%;
           margin: 0 auto;
-          text-align: center;
           color: #aaa;
+          text-align: center;
 
           .icon {
             display: inline-block;
-            vertical-align: middle;
             width: 36px;
             height: 29px;
             margin-right: 3px;
-            background: url(~@/assets/image/music-audio/play-list.png);
+            vertical-align: middle;
+            background: url('~@/assets/image/music-audio/play-list.png');
             background-position: -138px 0;
           }
 
@@ -363,19 +361,19 @@
       top: -1px;
       left: 56%;
       z-index: 2;
-      transform: translateX(-50%);
       width: 6px;
       height: 260px;
       background: #000;
       opacity: .5;
+      transform: translateX(-50%);
     }
 
     .right-content {
       position: relative;
       display: inline-block;
-      vertical-align: middle;
       width: 420px;
       height: 250px;
+      vertical-align: middle;
     }
   }
 }

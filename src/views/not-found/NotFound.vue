@@ -35,15 +35,15 @@ export default defineComponent({
       display: inline-block;
       width: 281px;
       height: 115px;
-      background: url(~@/assets/image/not-found.jpg);
       text-align: center;
+      background: url('~@/assets/image/not-found.jpg');
     }
 
     .text {
       margin: 15px 0;
-      text-align: center;
       font-size: 16px;
       color: #666;
+      text-align: center;
     }
   }
 }

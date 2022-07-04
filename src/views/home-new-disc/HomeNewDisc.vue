@@ -30,18 +30,20 @@
           >
             {{ item?.name }}
           </p>
-          <template v-for="(i, ind) in item?.artists" :key="ind">
-            <span
-              class="name"
-              :title="i?.name"
-              @click="jumpSingerDetail(i?.id)"
-            >
-              {{ i?.name }}
-            </span>
-            <span class="line" v-if="ind !== item?.artists.length - 1">
-              /
-            </span>
-          </template>
+          <div class="singer">
+            <template v-for="(i, ind) in item?.artists" :key="ind">
+              <span
+                class="name"
+                :title="i?.name"
+                @click="jumpSingerDetail(i?.id)"
+              >
+                {{ i?.name }}
+              </span>
+              <span class="line" v-if="ind !== item?.artists.length - 1">
+                /
+              </span>
+            </template>
+          </div>
         </li>
       </ul>
       <div class="new-disc-title">
@@ -82,18 +84,20 @@
           >
             {{ item?.name }}
           </p>
-          <template v-for="(i, ind) in item?.artists" :key="ind">
-            <span
-              class="name"
-              :title="i?.name"
-              @click="jumpSingerDetail(i?.id)"
-            >
-              {{ i?.name }}
-            </span>
-            <span class="line" v-if="ind !== item?.artists?.length - 1">
-              /
-            </span>
-          </template>
+          <div class="singer">
+            <template v-for="(i, ind) in item?.artists" :key="ind">
+              <span
+                class="name"
+                :title="i?.name"
+                @click="jumpSingerDetail(i?.id)"
+              >
+                {{ i?.name }}
+              </span>
+              <span class="line" v-if="ind !== item?.artists?.length - 1">
+                /
+              </span>
+            </template>
+          </div>
         </li>
       </ul>
       <Page
@@ -110,11 +114,12 @@
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { hotNewDisc, nweDiscAlbum, NweDiscAlbum } from '@api/home-new-disc';
 import { albumDetail } from '@api/album-detail';
 import type { ResponseType } from '@/types/types';
-import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 import Page from '@components/page/Page.vue';
 
 export default defineComponent({
@@ -148,14 +153,10 @@ export default defineComponent({
             }
 
             // 歌曲是否全部无版权
-            let noCopyrightNum = 0;
-            res?.songs?.forEach((item: Record<string, { cp: number }>) => {
-              if (item.privilege?.cp === 0) {
-                noCopyrightNum += 1;
-              }
-            });
-
-            if (noCopyrightNum === res?.songs?.length) {
+            const allNoCopyright = res?.songs?.some(
+              (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+            );
+            if (!allNoCopyright) {
               $store.commit('setCopyright', {
                 visible: true,
                 message:
@@ -164,28 +165,14 @@ export default defineComponent({
               return false;
             }
 
-            const songList: PlayMusicItem[] = [];
+            // 过滤无版权
+            const songList: Partial<SongType>[] = res?.songs.filter(
+              (item: Record<string, { cp: number }>) =>
+                item?.privilege?.cp !== 0
+            );
 
-            res?.songs.forEach((item: Record<string, { cp: number }>) => {
-              // 无版权过滤
-              if (item?.privilege?.cp === 0) {
-                return false;
-              }
-
-              const musicItem: PlayMusicItem = handleAudioSong(item);
-
-              songList.push(musicItem);
-            });
-
-            // 当前播放音乐
-            $store.commit('music/setPlayMusicItem', songList[0]);
-            // 重置播放列表
-            $store.commit('music/resetPlayMusicList', songList);
-            // 开始播放
-            $store.commit('music/setMusicPlayStatus', {
-              look: true,
-              refresh: true
-            });
+            usePlaySingleMusic(songList[0]);
+            useMusicToPlayList({ music: songList, clear: true });
           }
         })
         .catch(() => ({}));

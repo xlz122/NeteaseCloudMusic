@@ -1,13 +1,13 @@
 .album-info-container {
-  padding: 37px 30px 0px 39px;
+  padding: 37px 30px 0 39px;
   text-align: left;
 
   .cover-warp {
     position: relative;
     display: inline-block;
-    vertical-align: top;
     width: 177px;
     height: 177px;
+    vertical-align: top;
 
     .cover-img {
       display: block;
@@ -21,16 +21,16 @@
       left: 0;
       width: 209px;
       height: 177px;
-      background: url(~@/assets/image/my-music/coverall.png) no-repeat;
+      background: url('~@/assets/image/my-music/coverall.png') no-repeat;
       background-position: 0 -986px;
     }
   }
 
   .info-right {
     display: inline-block;
-    vertical-align: top;
     width: calc(100% - 245px);
     margin-left: 49px;
+    vertical-align: top;
 
     .title {
       display: block;
@@ -39,30 +39,30 @@
       .icon-title {
         position: relative;
         display: inline-block;
-        vertical-align: middle;
         width: 54px;
         height: 24px;
         margin-right: 8px;
-        background: url(~@/assets/image/icon.png) no-repeat;
+        vertical-align: middle;
+        background: url('~@/assets/image/icon.png') no-repeat;
         background-position: 0 -186px;
       }
 
       .title-text {
-        width: 330px;
         display: inline-block;
-        vertical-align: middle;
+        width: 330px;
+        overflow: hidden;
+        font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
         font-size: 20px;
         font-weight: normal;
-        overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
+        vertical-align: middle;
       }
     }
 
     .info {
-      color: #666;
       margin-top: 4px;
+      color: #666;
 
       .name {
         color: #0c73c2;
@@ -85,36 +85,36 @@
 
       .play {
         display: inline-block;
-        vertical-align: top;
         width: 59px;
         height: 31px;
-        line-height: 31px;
         padding-right: 5px;
-        background: url(~@/assets/image/icon-button.png) no-repeat;
+        line-height: 31px;
+        vertical-align: top;
+        background: url('~@/assets/image/icon-button.png') no-repeat;
         background-position: right -428px;
 
         .icon-play {
           display: inline-block;
-          vertical-align: middle;
           width: 100%;
           height: 31px;
-          line-height: 31px;
           margin-top: -1px;
-          background: url(~@/assets/image/icon-button.png) no-repeat;
-          background-position: 0 -387px;
+          line-height: 31px;
           color: #fff;
           text-align: center;
+          vertical-align: middle;
           cursor: pointer;
+          background: url('~@/assets/image/icon-button.png') no-repeat;
+          background-position: 0 -387px;
         }
 
         .icon-play::before {
-          content: '';
           display: inline-block;
-          vertical-align: middle;
           width: 20px;
           height: 18px;
-          margin: 0px 2px 2px 0;
-          background: url(~@/assets/image/icon-button.png) no-repeat;
+          margin: 0 2px 2px 0;
+          vertical-align: middle;
+          background: url('~@/assets/image/icon-button.png') no-repeat;
+          content: '';
           background-position: 0 -1622px;
         }
       }
@@ -133,16 +133,16 @@
 
       .play-add {
         display: inline-block;
-        vertical-align: top;
         width: 31px;
         height: 31px;
-        line-height: 30px;
-        margin-left: -3px;
-        margin-right: 8px;
         padding-right: 0;
-        background: url(~@/assets/image/icon-button.png) no-repeat;
-        background-position: 0 -1588px;
+        margin-right: 8px;
+        margin-left: -3px;
+        line-height: 30px;
+        vertical-align: top;
         cursor: pointer;
+        background: url('~@/assets/image/icon-button.png') no-repeat;
+        background-position: 0 -1588px;
       }
 
       .play-add:hover {
@@ -151,30 +151,30 @@
 
       .other {
         display: inline-block;
-        vertical-align: middle;
         height: 32px;
-        line-height: 30px;
-        margin-left: -3px;
-        margin-right: 8px;
         padding-right: 0;
-        background: url(~@/assets/image/icon-button.png) no-repeat;
-        background-position: right -1192px;
-        color: #333;
-        font-style: normal;
-        text-align: left;
+        margin-right: 8px;
+        margin-left: -3px;
+        font-family: simsun, '\5b8b\4f53', sans-serif;
         font-size: inherit;
-        font-family: simsun, \5b8b\4f53;
+        font-style: normal;
+        line-height: 30px;
+        color: #333;
+        text-align: left;
+        vertical-align: middle;
         cursor: pointer;
+        background: url('~@/assets/image/icon-button.png') no-repeat;
+        background-position: right -1192px;
 
         .icon {
           display: inline-block;
-          vertical-align: middle;
           height: 32px;
           padding-left: 30px;
           margin-right: 4px;
-          background: url(~@/assets/image/icon-button.png) no-repeat;
+          font-family: simsun, '\5b8b\4f53', sans-serif;
+          vertical-align: middle;
+          background: url('~@/assets/image/icon-button.png') no-repeat;
           background-position: 0 -1149px;
-          font-family: simsun, \5b8b\4f53;
         }
       }
 
@@ -249,26 +249,67 @@
 .album-desc {
   padding-right: 30px;
   margin-top: 20px;
-  text-align: left;
   color: #333;
+  text-align: left;
 
   .album-desc-title {
     display: block;
   }
 
-  .album-desc-dot {
+  .album-desc-text {
     margin-top: 4px;
     font-size: 12px;
     color: #666;
+    text-indent: 2em;
 
     .text {
-      height: 50px;
-      text-indent: 2em;
+      width: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      color: #666;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      white-space: -moz-pre-wrap;
+      white-space: -pre-wrap;
+      white-space: -o-pre-wrap;
+    }
+  }
+
+  .text-hide {
+    .text {
+      display: -webkit-box;
       overflow: hidden;
       text-overflow: ellipsis;
-      display: -webkit-box;
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
     }
+  }
+}
+
+.toggle-btn {
+  padding-right: 30px;
+  margin-top: 8px;
+  text-align: right;
+
+  .text {
+    display: inline-block;
+    color: #0c73c2;
+    vertical-align: middle;
+    cursor: pointer;
+  }
+
+  .icon {
+    display: inline-block;
+    width: 11px;
+    height: 8px;
+    margin-top: 2px;
+    vertical-align: middle;
+    cursor: pointer;
+    background: url('~@assets/image/icon.png');
+    background-position: -65px -520px;
+  }
+
+  .hide {
+    background-position: -45px -520px;
   }
 }

@@ -40,14 +40,10 @@
 import { defineComponent, ref } from 'vue';
 import { programRecommend } from '@api/home-djprogram';
 import type { ResponseType } from '@/types/types';
-import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio';
-import type { PlayMusicItem } from '@store/music/state';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 
 export default defineComponent({
   setup() {
-    const $store = useStore();
-
     const recommendList = ref([]);
     function recommendHandle() {
       programRecommend().then((res: ResponseType) => {
@@ -60,18 +56,7 @@ export default defineComponent({
 
     // 播放单个歌曲
     function playSingleMusic(item: object) {
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      // 当前播放音乐
-      $store.commit('music/setPlayMusicItem', musicItem);
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', musicItem);
-      // 开始播放
-      $store.commit('music/setMusicPlayStatus', {
-        look: true,
-        loading: true,
-        refresh: true
-      });
+      usePlaySingleMusic(item);
     }
 
     return {

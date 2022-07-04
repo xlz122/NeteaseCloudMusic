@@ -48,11 +48,12 @@
 import { defineComponent, ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
-import { handleAudioSong } from '@/common/audio';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { getWeekDate, formatDateTime } from '@utils/utils';
 import { recommendSongs } from '@api/home-recommend';
 import type { ResponseType } from '@/types/types';
-import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 import RecommendSong from './recommend-song/RecommendSong.vue';
 import RecommendSide from './recommend-side/RecommendSide.vue';
 
@@ -97,28 +98,13 @@ export default defineComponent({
           return false;
         }
 
-        const songList: PlayMusicItem[] = [];
+        // 过滤无版权
+        const songList: Partial<SongType>[] = recommendSong.value?.filter(
+          (item: Record<string, { cp: number }>) => item?.privilege?.cp !== 0
+        );
 
-        recommendSong.value?.forEach((item: Record<string, { cp: number }>) => {
-          // 无版权过滤
-          if (item?.privilege?.cp === 0) {
-            return false;
-          }
-
-          const musicItem: PlayMusicItem = handleAudioSong(item);
-
-          songList.push(musicItem);
-        });
-
-        // 当前播放音乐
-        $store.commit('music/setPlayMusicItem', songList[0]);
-        // 重置播放列表
-        $store.commit('music/resetPlayMusicList', songList);
-        // 开始播放
-        $store.commit('music/setMusicPlayStatus', {
-          look: true,
-          refresh: true
-        });
+        usePlaySingleMusic(songList[0]);
+        useMusicToPlayList({ music: songList, clear: true });
       },
       800,
       {
@@ -133,21 +119,12 @@ export default defineComponent({
         return false;
       }
 
-      const songList: PlayMusicItem[] = [];
+      // 过滤无版权
+      const songList: Partial<SongType>[] = recommendSong.value?.filter(
+        (item: Record<string, { cp: number }>) => item?.privilege?.cp !== 0
+      );
 
-      recommendSong.value?.forEach((item: Record<string, { cp: number }>) => {
-        // 无版权过滤
-        if (item?.privilege?.cp === 0) {
-          return false;
-        }
-
-        const musicItem: PlayMusicItem = handleAudioSong(item);
-
-        songList.push(musicItem);
-      });
-
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', songList);
+      useMusicToPlayList({ music: songList });
     }
 
     // 收藏全部

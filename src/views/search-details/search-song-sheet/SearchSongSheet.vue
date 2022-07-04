@@ -82,11 +82,11 @@
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import { handleAudioSong } from '@/common/audio';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { bigNumberTransform, handleMatchString } from '@utils/utils';
 import { searchKeywords } from '@api/search';
 import { playlistTrack, playlistSubscribe } from '@api/song-sheet-detail';
-import type { PlayMusicItem } from '@store/music/state';
 import type { SongType } from '@/common/audio';
 import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
@@ -175,23 +175,16 @@ export default defineComponent({
               return false;
             }
 
-            const songList: PlayMusicItem[] = [];
+            // 截取前20首歌
+            res.songs = res.songs.slice(0, 20);
 
-            res?.songs.forEach((item: Partial<SongType>) => {
-              const musicItem: PlayMusicItem = handleAudioSong(item);
+            // 过滤无版权
+            const songList: Partial<SongType>[] = res?.songs.filter(
+              (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
+            );
 
-              songList.push(musicItem);
-            });
-
-            // 当前播放音乐
-            $store.commit('music/setPlayMusicItem', songList[0]);
-            // 重置播放列表
-            $store.commit('music/resetPlayMusicList', songList);
-            // 开始播放
-            $store.commit('music/setMusicPlayStatus', {
-              look: true,
-              refresh: true
-            });
+            usePlaySingleMusic(songList[0]);
+            useMusicToPlayList({ music: songList, clear: true });
           }
         })
         .catch(() => ({}));
@@ -206,18 +199,15 @@ export default defineComponent({
               return false;
             }
 
-            const songList: PlayMusicItem[] = [];
+            // 截取前20首歌
+            res.songs = res.songs.slice(0, 20);
 
-            res?.songs.forEach((item: Partial<SongType>) => {
-              const musicItem: PlayMusicItem = handleAudioSong(item);
+            // 过滤无版权
+            const songList: Partial<SongType>[] = res?.songs.filter(
+              (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
+            );
 
-              songList.push(musicItem);
-            });
-
-            // 当前播放音乐
-            $store.commit('music/setPlayMusicItem', songList[0]);
-            // 添加到播放列表
-            $store.commit('music/setPlayMusicList', songList);
+            useMusicToPlayList({ music: songList, clear: true });
           }
         })
         .catch(() => ({}));

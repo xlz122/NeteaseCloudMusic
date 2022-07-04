@@ -14,30 +14,30 @@
       left: 0;
       z-index: 10;
       display: inline-block;
-      vertical-align: top;
       width: 50px;
       height: 50px;
+      vertical-align: top;
       cursor: pointer;
     }
 
     .item-right {
       position: relative;
       display: inline-block;
-      vertical-align: top;
       width: 100%;
+      vertical-align: top;
 
       .detail-text {
         width: 90%;
         margin-left: 60px;
+        overflow: hidden;
         line-height: 20px;
         text-align: left;
-        overflow: hidden;
 
         .name {
           display: inline-block;
-          vertical-align: top;
           margin-right: 5px;
           color: #0c73c2;
+          vertical-align: top;
           cursor: pointer;
 
           &:hover {
@@ -51,24 +51,24 @@
 
         .text {
           display: inline-block;
-          vertical-align: top;
+          font-family: Arial, Helvetica, sans-serif;
           font-size: 12px;
           color: #333;
-          font-family: Arial, Helvetica, sans-serif;
+          vertical-align: top;
         }
       }
 
       .comment-content-detail {
         padding: 8px 19px;
-        line-height: 20px;
         margin-top: 10px;
         margin-left: 60px;
+        font-size: 12px;
+        line-height: 20px;
+        color: #666;
+        text-align: left;
+        word-break: break-word;
         background: #f4f4f4;
         border: 1px solid #dedede;
-        font-size: 12px;
-        color: #666;
-        word-break: break-word;
-        text-align: left;
 
         .name {
           margin-right: 5px;
@@ -85,9 +85,9 @@
         }
 
         .text {
+          font-family: Arial, Helvetica, sans-serif;
           font-size: 12px;
           color: #666;
-          font-family: Arial, Helvetica, sans-serif;
         }
 
         .delete-text {
@@ -99,14 +99,14 @@
         padding: 15px;
         margin-top: 43px;
         margin-left: 60px;
+        font-size: 12px;
+        line-height: 20px;
+        color: #666;
+        text-align: left;
+        word-break: break-word;
         background: #f8f8f8;
         border: 1px solid #d9d9d9;
         border-radius: 2px;
-        line-height: 20px;
-        font-size: 12px;
-        color: #666;
-        word-break: break-word;
-        text-align: left;
 
         ::v-deep(.comment-content-replay) {
           .list-title {
@@ -123,20 +123,20 @@
 
           .comment-textarea {
             display: inline-block;
-            vertical-align: top;
             width: 560px;
             height: 50px;
             margin-left: 15px;
-            border: 1px solid #cdcdcd;
-            outline: none;
-            border-radius: 2px;
-            line-height: 19px;
-            font-size: 12px;
+            overflow: auto;
             font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            line-height: 19px;
             color: #333;
+            vertical-align: top;
+            border: 1px solid #cdcdcd;
+            border-radius: 2px;
+            outline: none;
             box-sizing: content-box;
             resize: none;
-            overflow: auto;
           }
         }
       }
@@ -150,8 +150,8 @@
           position: absolute;
           left: 60px;
           display: inline-block;
-          vertical-align: middle;
           color: #999;
+          vertical-align: middle;
         }
 
         .reply-operate {
@@ -161,12 +161,12 @@
           vertical-align: middle;
 
           .delete {
-            visibility: hidden;
             display: inline-block;
-            vertical-align: middle;
             margin: 0 5px;
             color: #666;
+            vertical-align: middle;
             cursor: pointer;
+            visibility: hidden;
 
             &:hover {
               text-decoration: underline;
@@ -174,21 +174,21 @@
           }
 
           .delete-line {
-            visibility: hidden;
             display: inline-block;
-            vertical-align: middle;
             margin: 0 5px;
             color: #999;
+            vertical-align: middle;
+            visibility: hidden;
           }
 
           .like {
             display: inline-block;
-            vertical-align: middle;
             width: 15px;
             height: 14px;
             margin-top: -1px;
-            background: url(~@/assets/image/icon2.png);
+            vertical-align: middle;
             cursor: pointer;
+            background: url('~@/assets/image/icon2.png');
           }
 
           .liked {
@@ -201,9 +201,9 @@
 
           .like-num {
             display: inline-block;
-            vertical-align: middle;
             margin: 0 3px 0 8px;
             color: #666;
+            vertical-align: middle;
             cursor: pointer;
 
             &:hover {
@@ -213,15 +213,15 @@
 
           .line {
             display: inline-block;
-            vertical-align: middle;
             margin: 0 5px;
             color: #999;
+            vertical-align: middle;
           }
 
           .reply {
             display: inline-block;
-            vertical-align: middle;
             color: #666;
+            vertical-align: middle;
             cursor: pointer;
 
             &:hover {

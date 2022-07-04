@@ -79,3 +79,29 @@ export const djDetail = ({ rid }: DjDetailType): AxiosPromise => {
     params
   });
 };
+
+// 电台详情- 节目列表
+export type DjProgramType = {
+  rid: number;
+  asc: boolean;
+  limit?: number;
+  offset?: number;
+};
+export const djProgram = ({
+  rid,
+  asc,
+  limit,
+  offset
+}: DjProgramType): AxiosPromise => {
+  const params = {
+    timestamp: new Date().getTime(),
+    rid,
+    asc,
+    limit,
+    offset
+  };
+  return axios.request({
+    url: '/dj/program',
+    params
+  });
+};

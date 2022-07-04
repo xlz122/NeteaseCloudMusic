@@ -5,15 +5,15 @@
   .title {
     height: 23px;
     margin-bottom: 20px;
-    border-bottom: 1px solid #ccc;
-    color: #333;
     font-size: 12px;
+    color: #333;
     text-align: left;
+    border-bottom: 1px solid #ccc;
   }
 
   .video-desc {
-    margin-top: -4px;
     padding-bottom: 34px;
+    margin-top: -4px;
     line-height: 18px;
     text-align: left;
 
@@ -25,8 +25,20 @@
       color: #999;
     }
 
-    .text {
+    .content {
       margin-top: 10px;
+
+      .text {
+        width: 100%;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 12px;
+        color: #666;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap;
+        white-space: -pre-wrap;
+        white-space: -o-pre-wrap;
+      }
     }
   }
 
@@ -41,10 +53,10 @@
       .cover {
         position: relative;
         display: inline-block;
-        vertical-align: middle;
         width: 96px;
         height: 54px;
         margin-right: 10px;
+        vertical-align: middle;
         cursor: pointer;
 
         .cover-img {
@@ -56,21 +68,21 @@
           position: absolute;
           top: 0;
           right: 0;
-          padding-right: 5px;
           height: 20px;
+          padding-right: 5px;
           line-height: 20px;
           color: #fff;
-          box-sizing: border-box;
           text-align: right;
-          text-shadow: -2px 1px rgba(0, 0, 0, 0.4);
+          text-shadow: -2px 1px rgb(0 0 0 / 40%);
+          box-sizing: border-box;
 
           .icon-mv {
             display: inline-block;
-            vertical-align: middle;
             width: 15px;
             height: 10px;
             margin-right: 3px;
-            background: url(~@/assets/image/icon2.png) no-repeat;
+            vertical-align: middle;
+            background: url('~@/assets/image/icon2.png') no-repeat;
             background-position: -60px -310px;
           }
 
@@ -83,14 +95,14 @@
 
       .desc {
         display: inline-block;
-        vertical-align: middle;
         line-height: 18px;
+        vertical-align: middle;
 
         .hide {
           overflow: hidden;
           text-overflow: ellipsis;
-          white-space: nowrap;
           word-wrap: normal;
+          white-space: nowrap;
         }
 
         .desc-title {
@@ -112,11 +124,11 @@
 
         .desc-name {
           max-width: 94px;
-          font-weight: normal;
           overflow: hidden;
+          font-weight: normal;
+          text-align: left;
           text-overflow: ellipsis;
           white-space: nowrap;
-          text-align: left;
 
           .text {
             margin-right: 5px;
@@ -126,10 +138,10 @@
           .name {
             color: #999;
             cursor: pointer;
+          }
 
-            &:hover {
-              text-decoration: underline;
-            }
+          .name:hover {
+            text-decoration: underline;
           }
         }
       }
@@ -145,21 +157,21 @@
 
     .code {
       display: inline-block;
-      vertical-align: middle;
       width: 72px;
       height: 72px;
-      background: url(~@/assets/image/song-sheet/song-sheet-detail-download.png);
+      vertical-align: middle;
+      background: url('~@/assets/image/song-sheet/song-sheet-detail-download.png');
       background-position: 0 -300px;
     }
 
     .tip {
       display: inline-block;
-      vertical-align: middle;
       width: 100px;
       margin: 34px 0 0 15px;
-      color: #999;
       line-height: 19px;
+      color: #999;
       white-space: nowrap;
+      vertical-align: middle;
     }
   }
 }

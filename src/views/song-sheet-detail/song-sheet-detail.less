@@ -4,16 +4,16 @@
   .detail-container {
     width: 980px;
     margin: 0 auto;
+    background: url('~@/assets/image/song-sheet/song-sheet-detail-bg.png') repeat-y center 0;
     background-color: #fff;
-    background: url(~@/assets/image/song-sheet/song-sheet-detail-bg.png) repeat-y center 0;
     border: 1px solid #d3d3d3;
     border-width: 0 1px;
 
     .detail-content {
       display: inline-block;
-      vertical-align: top;
       width: calc(100% - 274px);
       padding-bottom: 40px;
+      vertical-align: top;
 
       .user-info {
         padding: 47px 0 40px 39px;
@@ -21,27 +21,27 @@
 
       .list-title {
         position: relative;
-        padding: 0 0 6px 0;
-        margin-left: 39px;
+        padding: 0 0 6px;
         margin-right: 30px;
-        border-bottom: 2px solid #c20c0c;
+        margin-left: 39px;
         text-align: left;
+        border-bottom: 2px solid #c20c0c;
 
         .title-text {
           display: inline-block;
-          vertical-align: middle;
-          font-size: 20px;
-          line-height: 28px;
           font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
+          font-size: 20px;
           font-weight: normal;
+          line-height: 28px;
+          vertical-align: middle;
         }
 
         .title-text-num {
           display: inline-block;
-          vertical-align: middle;
-          margin-left: 20px;
           margin-top: 5px;
+          margin-left: 20px;
           color: #666;
+          vertical-align: middle;
         }
 
         .title-right {
@@ -51,15 +51,15 @@
 
           .out {
             display: inline-block;
-            vertical-align: middle;
             margin: 5px 20px 0 0;
+            vertical-align: middle;
 
             .icon {
               display: inline-block;
-              vertical-align: middle;
               width: 16px;
               height: 16px;
-              background: url(~@/assets/image/icon.png) repeat-y center 0;
+              vertical-align: middle;
+              background: url('~@/assets/image/icon.png') repeat-y center 0;
               background-position: -34px -863px;
             }
 
@@ -72,20 +72,20 @@
 
           .title-play-num {
             display: inline-block;
-            vertical-align: middle;
             color: #666;
+            vertical-align: middle;
 
             .eye-catching {
-              color: #c20c0c;
               font-weight: bold;
+              color: #c20c0c;
             }
           }
         }
       }
 
       .music-table {
-        margin-left: 39px;
         margin-right: 30px;
+        margin-left: 39px;
         border: 1px solid #d9d9d9;
       }
 
@@ -101,25 +101,25 @@
 
         .text {
           font-size: 13px;
-          color: #333333;
+          color: #333;
         }
 
         .link {
           display: inline-block;
           width: 120px;
           height: 30px;
-          background-image: linear-gradient(90deg, #ff5a4c 0%, #ff1d12 100%);
-          border-radius: 18px;
-          line-height: 30px;
           font-size: 12px;
-          color: #ffffff;
+          line-height: 30px;
+          color: #fff;
           text-align: center;
+          border-radius: 18px;
+          background-image: linear-gradient(90deg, #ff5a4c 0%, #ff1d12 100%);
         }
       }
 
       ::v-deep(.comment-component) {
-        margin-left: 39px;
         margin-right: 30px;
+        margin-left: 39px;
 
         .detail-comment {
           width: 637px;
@@ -137,8 +137,8 @@
 
     .detail-side {
       display: inline-block;
-      vertical-align: top;
       width: 270px;
+      vertical-align: top;
     }
   }
 }

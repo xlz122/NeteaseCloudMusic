@@ -8,31 +8,31 @@
     text-align: left;
 
     .text {
+      font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
       font-size: 24px;
       font-weight: normal;
-      font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
     }
   }
 
   .list-screen {
+    padding: 0 40px;
     margin-top: 20px;
-    padding: 0px 40px 0;
     margin-left: -3px;
 
     .item {
       display: inline-block;
-      vertical-align: middle;
       margin-left: 3px;
       font-size: 14px;
+      vertical-align: middle;
 
       .item-text {
         display: inline-block;
         width: 21px;
         height: 24px;
         line-height: 24px;
+        color: #333;
         text-align: center;
         cursor: pointer;
-        color: #333;
 
         &:hover {
           text-decoration: underline;
@@ -64,12 +64,12 @@
 
     .item {
       display: inline-block;
-      vertical-align: top;
       width: 130px;
       height: 154px;
-      overflow: hidden;
       padding: 0 0 30px 17px;
+      overflow: hidden;
       line-height: 1.4;
+      vertical-align: top;
 
       .item-cover {
         width: 130px;
@@ -89,13 +89,13 @@
 
         .item-desc-text {
           display: inline-block;
-          vertical-align: middle;
           max-width: 80%;
-          color: #000;
           overflow: hidden;
+          color: #000;
           text-overflow: ellipsis;
-          white-space: nowrap;
           word-wrap: normal;
+          white-space: nowrap;
+          vertical-align: middle;
           cursor: pointer;
 
           &:hover {
@@ -107,47 +107,46 @@
           position: absolute;
           right: 0;
           display: inline-block;
-          overflow: hidden;
-          vertical-align: middle;
           width: 17px;
           height: 18px;
-          background: url(~@/assets/image/icon.png) no-repeat 0 9999px;
-          background-position: 0 -740px;
+          overflow: hidden;
+          vertical-align: middle;
           cursor: pointer;
+          background: url('~@/assets/image/icon.png') no-repeat 0 9999px;
+          background-position: 0 -740px;
         }
       }
     }
   }
 
   .line {
-    margin: 10px 40px 12px 40px;
+    margin: 10px 40px 12px;
     border-bottom: 1px dotted #999;
   }
 
   .list-small {
     display: inline-block;
-
     padding-left: 17px;
     margin: 0 40px 0 23px;
-    line-height: 23px;
     overflow: hidden;
+    line-height: 23px;
 
     .item {
       position: relative;
       display: inline-block;
-      vertical-align: top;
-      height: 30px;
       width: 144px;
+      height: 30px;
+      vertical-align: top;
 
       .item-text {
         display: inline-block;
-        vertical-align: middle;
         max-width: 105px;
-        color: #000;
         overflow: hidden;
+        color: #000;
         text-overflow: ellipsis;
-        white-space: nowrap;
         word-wrap: normal;
+        white-space: nowrap;
+        vertical-align: middle;
         cursor: pointer;
 
         &:hover {
@@ -157,16 +156,16 @@
 
       .item-icon {
         display: inline-block;
-        vertical-align: middle;
         display: inline-block;
-        overflow: hidden;
-        vertical-align: middle;
         width: 17px;
         height: 18px;
         margin-left: 2px;
-        background: url(~@/assets/image/icon.png) no-repeat 0 9999px;
-        background-position: 0 -740px;
+        overflow: hidden;
+        vertical-align: middle;
+        vertical-align: middle;
         cursor: pointer;
+        background: url('~@/assets/image/icon.png') no-repeat 0 9999px;
+        background-position: 0 -740px;
       }
     }
   }

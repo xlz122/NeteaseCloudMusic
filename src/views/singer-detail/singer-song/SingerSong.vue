@@ -129,11 +129,11 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
-import { handleAudioSong } from '@/common/audio';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { timeStampToDuration } from '@utils/utils';
 import { artistSong } from '@api/singer-detail';
 import type { ResponseType } from '@/types/types';
-import type { PlayMusicItem } from '@store/music/state';
 import type { SongType } from '@/common/audio';
 
 export default defineComponent({
@@ -179,28 +179,14 @@ export default defineComponent({
           return false;
         }
 
-        const songList: PlayMusicItem[] = [];
+        // 过滤无版权
+        const songList: Partial<SongType>[] =
+          singerSong.value?.hotSongs?.filter(
+            (item: { id: number }) => !isCopyright(item.id)
+          );
 
-        singerSong.value?.hotSongs.forEach((item: { id: number }) => {
-          // 无版权
-          if (isCopyright(item.id)) {
-            return false;
-          }
-
-          const musicItem: PlayMusicItem = handleAudioSong(item);
-
-          songList.push(musicItem);
-        });
-
-        // 当前播放音乐
-        $store.commit('music/setPlayMusicItem', songList[0]);
-        // 重置播放列表
-        $store.commit('music/resetPlayMusicList', songList);
-        // 开始播放
-        $store.commit('music/setMusicPlayStatus', {
-          look: true,
-          refresh: true
-        });
+        usePlaySingleMusic(songList[0]);
+        useMusicToPlayList({ music: songList, clear: true });
       },
       800,
       {
@@ -215,21 +201,12 @@ export default defineComponent({
         return false;
       }
 
-      const songList: PlayMusicItem[] = [];
+      // 过滤无版权
+      const songList: Partial<SongType>[] = singerSong.value?.hotSongs?.filter(
+        (item: { id: number }) => !isCopyright(item.id)
+      );
 
-      singerSong.value?.hotSongs?.forEach((item: { id: number }) => {
-        // 无版权
-        if (isCopyright(item.id)) {
-          return false;
-        }
-
-        const musicItem: PlayMusicItem = handleAudioSong(item);
-
-        songList.push(musicItem);
-      });
-
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', songList);
+      useMusicToPlayList({ music: songList });
     }
 
     // 收藏全部
@@ -268,25 +245,12 @@ export default defineComponent({
         return false;
       }
 
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      // 当前播放音乐
-      $store.commit('music/setPlayMusicItem', musicItem);
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', musicItem);
-      // 开始播放
-      $store.commit('music/setMusicPlayStatus', {
-        look: true,
-        loading: true,
-        refresh: true
-      });
+      usePlaySingleMusic(item);
     }
 
     // 单个歌曲添加到播放列表
     function singleMusicToPlayList(item: Partial<SongType>): void {
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      $store.commit('music/setPlayMusicList', musicItem);
+      useMusicToPlayList({ music: item });
     }
 
     // 歌曲是否有版权

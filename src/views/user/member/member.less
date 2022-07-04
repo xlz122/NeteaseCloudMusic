@@ -1,12 +1,12 @@
 .message {
-  text-align: left;
   font-size: 14px;
+  text-align: left;
 
   .user-info {
-    background: #f3f4f5 url(~@/assets/image/user/member.png) no-repeat 100% 100%;
-    background-size: 50%;
     width: 980px;
     height: 200px;
+    background: #f3f4f5 url('~@/assets/image/user/member.png') no-repeat 100% 100%;
+    background-size: 50%;
 
     .user-head {
       padding: 20px 30px;
@@ -15,14 +15,14 @@
         text-align: right;
 
         a {
-          color: #328ad4;
           margin-left: 20px;
+          color: #328ad4;
 
           i {
-            color: #328ad4;
+            font-family: simsun, '\5b8b\4f53', sans-serif;
             font-weight: 700;
+            color: #328ad4;
             pointer-events: none;
-            font-family: simsun, \5b8b\4f53;
           }
         }
       }
@@ -33,8 +33,8 @@
         .avatar {
           width: 120px;
           height: 120px;
-          border: 1px solid #d5d5d5;
           padding: 3px;
+          border: 1px solid #d5d5d5;
 
           img {
             width: 100%;
@@ -46,24 +46,24 @@
           margin-left: 20px;
 
           .vip-level {
-            height: 20px;
             width: auto;
+            height: 20px;
             margin-left: 10px;
             vertical-align: super;
           }
 
           .btn-gray {
-            line-height: 38px;
-            box-sizing: border-box;
+            padding: 0 20px;
             margin-right: 10px;
+            line-height: 38px;
             background: none;
             border: 1px solid #bbb;
-            padding: 0 20px;
+            box-sizing: border-box;
 
             &:hover {
+              color: #fff;
               cursor: pointer;
               background-color: #bbb;
-              color: #fff;
             }
           }
         }
@@ -91,13 +91,13 @@
           color: #333;
 
           &::before {
-            content: '';
-            background-image: linear-gradient(-133deg, #ff8063, #fb5758);
-            height: 3px;
-            width: 48px;
             position: absolute;
             bottom: 0;
             left: 45%;
+            width: 48px;
+            height: 3px;
+            content: '';
+            background-image: linear-gradient(-133deg, #ff8063, #fb5758);
           }
         }
       }
@@ -107,14 +107,14 @@
       padding: 30px 64px 0;
 
       .lia {
-        border: 2px solid #eee;
-        border-radius: 10px;
+        position: relative;
         width: calc(25% - 16px);
         height: 148px;
-        position: relative;
-        box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .08);
         margin: 0 6px 18px;
         text-align: center;
+        border: 2px solid #eee;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px 0 rgb(0 0 0 / 8%);
 
         .name {
           padding-top: 29px;
@@ -123,55 +123,55 @@
         }
 
         .origin {
+          font-size: 20px;
+          line-height: 36px;
           color: #ff3a3a;
           vertical-align: text-bottom;
-          line-height: 36px;
-          font-size: 20px;
         }
 
         .price {
-          color: #999;
           font-size: 14px;
+          color: #999;
         }
 
         .discount {
-          width: 100%;
           position: absolute;
           bottom: 0;
-          background: #ffeded;
-          color: #ff3a3a;
-          border-radius: 0 0 6px 6px;
+          width: 100%;
           height: 25px;
           line-height: 25px;
+          color: #ff3a3a;
+          background: #ffeded;
+          border-radius: 0 0 6px 6px;
         }
 
         .corner {
           position: absolute;
-          left: -2px;
           top: -8px;
-          max-width: 85%;
-          line-height: 26px;
+          left: -2px;
           height: 26px;
+          max-width: 85%;
+          padding: 0 8px;
+          line-height: 26px;
+          color: #fff;
           background: linear-gradient(90deg, #ff5a4c, #ff1d12);
           border-radius: 10px 10px 10px 0;
-          color: #fff;
-          padding: 0 8px;
         }
 
         &.active {
-          border-color: rgba(255, 58, 58, .75);
+          border-color: rgb(255 58 58 / 75%);
 
           .discount {
-            background: rgba(255, 58, 58, .75);
             color: #fff;
+            background: rgb(255 58 58 / 75%);
           }
         }
       }
 
       .help {
-        height: 15px;
         width: 15px;
-        background: url(~@/assets/image/user/help.png) no-repeat;
+        height: 15px;
+        background: url('~@/assets/image/user/help.png') no-repeat;
         background-size: 100% 100%;
       }
 
@@ -180,54 +180,54 @@
         width: 300px;
 
         .coupon-form-select {
+          position: relative;
           width: 300px;
           height: 40px;
           line-height: 40px;
+          border: 1px solid rgb(238 238 238);
           border-radius: 6px;
-          border: 1px solid rgb(238, 238, 238);
-          position: relative;
 
           .select-placeholder {
-            color: #aaa;
-            border: none;
-            font-size: 100%;
-            background: transparent;
-            outline: 0;
             width: 100%;
+            font-size: 100%;
+            color: #aaa;
+            background: transparent;
+            border: none;
+            outline: 0;
           }
 
           .select-arrow {
-            border-color: #999 transparent transparent;
-            border-style: solid;
-            border-width: 5px 4px 0;
-            height: 0;
-            width: 0;
-            margin-left: -4px;
-            margin-top: -2px;
             position: absolute;
             top: 50%;
             right: 8px;
+            width: 0;
+            height: 0;
+            margin-top: -2px;
+            margin-left: -4px;
+            border-color: #999 transparent transparent;
+            border-style: solid;
+            border-width: 5px 4px 0;
           }
         }
 
         .select-dropdown {
-          width: 300px;
-          left: 10px;
+          position: absolute;
           top: 52px;
+          left: 10px;
+          z-index: 100;
+          width: 300px;
           background-color: #fff;
           border: 1px solid #d9d9d9;
-          box-shadow: 0 0 4px #d9d9d9;
           border-radius: 4px;
-          box-sizing: border-box;
-          z-index: 100;
-          position: absolute;
           outline: none;
+          box-shadow: 0 0 4px #d9d9d9;
+          box-sizing: border-box;
 
           .dropdown-menu {
-            margin: 0;
             position: relative;
             display: block;
             padding: 7px 10px;
+            margin: 0;
             font-weight: 400;
             color: #666;
             white-space: nowrap;
@@ -239,26 +239,26 @@
         input {
           width: 225px;
           height: 40px;
+          padding: 0 20px;
+          line-height: 40px;
           background: #fff;
           border: 1px solid #eee;
           border-radius: 2px 0 0 2px;
-          padding: 0 20px;
-          line-height: 40px;
-          box-sizing: border-box;
           outline: none;
+          box-sizing: border-box;
         }
 
         button {
           width: 75px;
-          background: #fff;
           height: 40px;
           line-height: 40px;
-          box-sizing: border-box;
           text-align: center;
+          background: #fff;
           border: 1px solid #eee;
-          border-left: none;
           border-radius: 0 2px 2px 0;
           outline: none;
+          box-sizing: border-box;
+          border-left: none;
 
           &:hover {
             background-color: #eee;
@@ -268,12 +268,12 @@
 
       .payment {
         .scan {
-          margin: 20px auto;
-          border: 1px solid #eee;
           width: calc(100% - 40px);
           padding: 20px;
+          margin: 20px auto;
+          border: 1px solid #eee;
 
-          .scanImg {
+          .scan-img {
             width: 100px;
             height: 100px;
 
@@ -285,12 +285,11 @@
 
           .pay-img {
             img {
-              height: 18px;
               width: 18px;
+              height: 18px;
             }
           }
         }
-
       }
     }
   }
@@ -300,28 +299,28 @@
 
     .title {
       em {
-        display: inline-block;
         position: relative;
+        display: inline-block;
         height: 100%;
-        background: #fff;
-        line-height: 22px;
         font-style: normal;
+        line-height: 22px;
+        background: #fff;
 
-        &:before,
-        &:after {
+        &::before,
+        &::after {
           position: absolute;
-          content: "";
           top: 0;
-          height: 12px;
           width: 36px;
+          height: 12px;
+          content: '';
           border-bottom: 1px solid #e6e6e6;
         }
 
-        &:before {
+        &::before {
           left: -50px;
         }
 
-        &:after {
+        &::after {
           right: -50px;
         }
       }
@@ -329,9 +328,9 @@
 
     .slogan {
       margin-top: 10px;
-      text-align: center;
       font-size: 32px;
       line-height: 45px;
+      text-align: center;
     }
 
     .privilege-icon-list {
@@ -360,12 +359,12 @@
           }
 
           .mask {
-            background: url(~@/assets/image/user/songs/bg.png) no-repeat;
             position: absolute;
             top: 0;
             left: 0;
             width: 191px;
             height: 160px;
+            background: url('~@/assets/image/user/songs/bg.png') no-repeat;
           }
         }
       }

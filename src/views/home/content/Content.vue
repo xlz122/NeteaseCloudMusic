@@ -206,7 +206,8 @@ import {
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import { handleAudioSong } from '@/common/audio';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { getWeekDate, formatDateTime, bigNumberTransform } from '@utils/utils';
 import {
   recommendSongList,
@@ -216,7 +217,6 @@ import {
 import { playlistTrack } from '@api/song-sheet-detail';
 import { albumDetail } from '@api/album-detail';
 import type { ResponseType } from '@/types/types';
-import type { PlayMusicItem } from '@store/music/state';
 import type { SongType } from '@/common/audio';
 const AlbumNewest = defineAsyncComponent(
   () => import('./album-newest/AlbumNewest.vue')
@@ -255,7 +255,7 @@ export default defineComponent({
       $router.push({ name: 'home-song-sheet' });
     }
 
-    // 歌单歌曲添加到播放器
+    // 歌单歌曲添加到播放器并播放
     function songSheetToPlayListPlay(id: number): void {
       playlistTrack({ id })
         .then((res: ResponseType) => {
@@ -264,23 +264,16 @@ export default defineComponent({
               return false;
             }
 
-            const songList: PlayMusicItem[] = [];
+            // 截取前20首歌
+            res.songs = res.songs.slice(0, 20);
 
-            res?.songs.forEach((item: Partial<SongType>) => {
-              const musicItem: PlayMusicItem = handleAudioSong(item);
+            // 过滤无版权
+            const songList: Partial<SongType>[] = res?.songs.filter(
+              (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
+            );
 
-              songList.push(musicItem);
-            });
-
-            // 当前播放音乐
-            $store.commit('music/setPlayMusicItem', songList[0]);
-            // 重置播放列表
-            $store.commit('music/resetPlayMusicList', songList);
-            // 开始播放
-            $store.commit('music/setMusicPlayStatus', {
-              look: true,
-              refresh: true
-            });
+            usePlaySingleMusic(songList[0]);
+            useMusicToPlayList({ music: songList, clear: true });
           }
         })
         .catch(() => ({}));
@@ -395,14 +388,10 @@ export default defineComponent({
             }
 
             // 歌曲是否全部无版权
-            let noCopyrightNum = 0;
-            res?.songs?.forEach((item: Record<string, { cp: number }>) => {
-              if (item.privilege?.cp === 0) {
-                noCopyrightNum += 1;
-              }
-            });
-
-            if (noCopyrightNum === res?.songs?.length) {
+            const allNoCopyright = res?.songs?.some(
+              (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+            );
+            if (!allNoCopyright) {
               $store.commit('setCopyright', {
                 visible: true,
                 message:
@@ -411,28 +400,14 @@ export default defineComponent({
               return false;
             }
 
-            const songList: PlayMusicItem[] = [];
+            // 过滤无版权
+            const songList: Partial<SongType>[] = res?.songs.filter(
+              (item: Record<string, { cp: number }>) =>
+                item?.privilege?.cp !== 0
+            );
 
-            res?.songs.forEach((item: Record<string, { cp: number }>) => {
-              // 无版权过滤
-              if (item?.privilege?.cp === 0) {
-                return false;
-              }
-
-              const musicItem: PlayMusicItem = handleAudioSong(item);
-
-              songList.push(musicItem);
-            });
-
-            // 当前播放音乐
-            $store.commit('music/setPlayMusicItem', songList[0]);
-            // 重置播放列表
-            $store.commit('music/resetPlayMusicList', songList);
-            // 开始播放
-            $store.commit('music/setMusicPlayStatus', {
-              look: true,
-              refresh: true
-            });
+            usePlaySingleMusic(songList[0]);
+            useMusicToPlayList({ music: songList, clear: true });
           }
         })
         .catch(() => ({}));

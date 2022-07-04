@@ -28,7 +28,7 @@
             v-for="(item, index) in playMusicList"
             :key="index"
             :class="{ 'p-active-item': item.id === playMusicId }"
-            @click="playlistItem(item?.id, item)"
+            @click="playlistItem(item)"
           >
             <i class="play-icon"></i>
             <span class="text song-title" :title="item?.name">
@@ -94,6 +94,7 @@
 import { defineComponent, computed, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { timeStampToDuration } from '@utils/utils';
 import type { PlayMusicItem } from '@store/music/state';
 import Lyric from '../lyric/Lyric.vue';
@@ -131,7 +132,7 @@ export default defineComponent({
 
     // 列表播放歌曲定位
     function playSongPosition(): boolean | undefined {
-      const isExist = playMusicList.value.find(
+      const isExist = playMusicList.value?.find(
         (item: PlayMusicItem) => item.id === playMusicId.value
       );
       if (!isExist) {
@@ -206,15 +207,8 @@ export default defineComponent({
     }
 
     // 列表项点击
-    function playlistItem(id: number, item: PlayMusicItem): void {
-      // 播放音乐数据
-      $store.commit('music/setPlayMusicItem', item);
-      // 开始播放
-      $store.commit('music/setMusicPlayStatus', {
-        look: true,
-        loading: true,
-        refresh: true
-      });
+    function playlistItem(item: PlayMusicItem): void {
+      usePlaySingleMusic(item);
     }
 
     // 关闭列表
@@ -224,7 +218,7 @@ export default defineComponent({
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
+      $store.commit('jumpSingerDetail', id);
       closePlayList();
     }
 

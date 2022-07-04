@@ -14,7 +14,7 @@
       display: inline-block;
       width: 100%;
       height: 120px;
-      background: url(~@/assets/image/login/other-phone.png) no-repeat;
+      background: url('~@/assets/image/login/other-phone.png') no-repeat;
       background-size: contain;
     }
 
@@ -22,31 +22,33 @@
     .phone-register-btn {
       display: block;
       width: 233px;
+      height: 32px;
       margin-top: 10px;
       margin-left: -6px;
-      background: url(~@/assets/image/icon-button.png) no-repeat 0 9999px;
-      background-position: right -428px;
-      color: #fff;
-      border: none;
-      outline: none;
-      height: 32px;
       line-height: 31px;
+      color: #fff;
       text-align: center;
       cursor: pointer;
+      background: url('~@/assets/image/icon-button.png') no-repeat 0 9999px;
+      border: none;
+      outline: none;
+      background-position: right -428px;
 
       .icon-phone-login,
       .icon-register-login {
         display: inline-block;
         width: 229px;
         height: 100%;
-        color: #fff;
-        background: url(~@/assets/image/icon-button.png) no-repeat 0 9999px;
-        background-position: 0 -387px;
         font-style: normal;
+        color: #fff;
+        text-align: center;
+        background: url('~@/assets/image/icon-button.png') no-repeat 0 9999px;
+        background-position: 0 -387px;
       }
     }
 
     .phone-register-btn {
+      text-align: center;
       background-position: right -100px;
 
       .icon-register-login {
@@ -58,9 +60,9 @@
 
   .other-login {
     display: inline-block;
-    vertical-align: top;
     padding: 3px 0 3px 39px;
     text-align: left;
+    vertical-align: top;
 
     .item {
       margin-top: 15px;
@@ -71,8 +73,8 @@
         width: 38px;
         height: 38px;
         margin-right: 14px;
-        background: url(~@/assets/image/icon-logo.png) no-repeat 0 9999px;
         vertical-align: middle;
+        background: url('~@/assets/image/icon-logo.png') no-repeat 0 9999px;
       }
 
       .wechat {
@@ -93,8 +95,8 @@
 
       .text {
         display: inline-block;
-        vertical-align: middle;
         font-style: normal;
+        vertical-align: middle;
       }
 
       .text:hover {
@@ -115,21 +117,21 @@
 }
 
 .icon-qrcode-login::before {
-  content: '';
   position: absolute;
   right: -1px;
   bottom: 0;
   z-index: 100000;
   width: 52px;
   height: 52px;
-  background: url(~@/assets/image/login/icon-qrcode-login.png) no-repeat;
-  background-size: contain;
   cursor: pointer;
+  background: url('~@/assets/image/login/icon-qrcode-login.png') no-repeat;
+  content: '';
+  background-size: contain;
 }
 
 .official {
-  margin: 30px 0 0 40px;
   padding-bottom: 32px;
+  margin: 30px 0 0 40px;
 
   .official-checkbox {
     display: inline-block;
@@ -142,13 +144,13 @@
 
     .text {
       display: inline-block;
-      vertical-align: middle;
       margin-left: 2px;
-      color: rgba(0, 0, 0, 0.4);
-      line-height: 15px;
-      font-family: NotoSansHans-Regular;
+      font-family: NotoSansHans-Regular, sans-serif;
       font-size: 10px;
+      line-height: 15px;
+      color: rgb(0 0 0 / 40%);
       white-space: nowrap;
+      vertical-align: middle;
     }
   }
 
@@ -160,7 +162,7 @@
       display: inline-block;
 
       .link {
-        color: #507DAF;
+        color: #507daf;
       }
     }
   }
@@ -168,14 +170,14 @@
 
 .mobile-phone-form {
   width: 220px;
-  padding: 0px 0 43px;
+  padding: 0 0 43px;
   margin: 0 auto;
   text-align: left;
 }
 
 .mailbox-form {
   width: 220px;
-  padding: 0px 0 43px;
+  padding: 0 0 43px;
   margin: 0 auto;
   text-align: left;
 }
@@ -183,15 +185,15 @@
 .return-other-login {
   width: 100%;
   height: 48px;
-  border-top: 1px solid #c6c6c6;
-  border-radius: 0 0 4px 4px;
   line-height: 48px;
-  background-color: #f7f7f7;
   text-align: left;
+  background-color: #f7f7f7;
+  border-radius: 0 0 4px 4px;
+  border-top: 1px solid #c6c6c6;
 
   .text {
-    color: #0c72c3;
     padding: 0 19px;
+    color: #0c72c3;
     cursor: pointer;
   }
 

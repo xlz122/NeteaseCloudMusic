@@ -15,10 +15,9 @@ export default defineComponent({
   setup() {
     const jumpTopShow = ref<boolean>(false);
 
-    function setJumpTopShow(e: Event): void {
-      const target = e.target as Document;
+    function setJumpTopShow(e: { target: Document }): void {
       const scrollTop =
-        target.documentElement.scrollTop || target.body.scrollTop;
+        e.target.documentElement.scrollTop || e.target.body.scrollTop;
 
       if (!jumpTopShow.value && scrollTop >= 20) {
         jumpTopShow.value = true;
@@ -51,17 +50,17 @@ export default defineComponent({
 
 <style lang="less" scoped>
 .jump-top {
-  display: none;
   position: fixed;
-  text-indent: -9999px;
-  left: 50%;
   bottom: 160px;
+  left: 50%;
+  display: none;
   width: 49px;
   height: 44px;
   margin-left: 505px;
-  background: url(~@/assets/image/song-sheet/song-sheet-detail-download.png);
-  background-position: -265px -47px;
+  text-indent: -9999px;
   cursor: pointer;
+  background: url('~@/assets/image/song-sheet/song-sheet-detail-download.png');
+  background-position: -265px -47px;
 
   &:hover {
     background-position: -325px -47px;

@@ -12,7 +12,9 @@
         :key="index"
       >
         <h2 class="title">{{ item?.ti }}</h2>
-        <p class="content">{{ item?.txt }}</p>
+        <div class="content">
+          <pre class="text">{{ item?.txt }}</pre>
+        </div>
       </li>
     </ul>
   </div>
@@ -64,16 +66,16 @@ export default defineComponent({
   text-align: left;
 
   .desc-title {
-    margin: 28px 0 8px 0;
-    color: #333;
+    margin: 28px 0 8px;
     font-size: 14px;
+    color: #333;
 
     .desc-line {
       display: inline-block;
-      vertical-align: middle;
       width: 3px;
       height: 14px;
       margin-right: 7px;
+      vertical-align: middle;
       background: #c10d0c;
     }
   }
@@ -87,14 +89,26 @@ export default defineComponent({
   .introduce-list {
     .item {
       .title {
-        margin: 28px 0 8px 0;
-        color: #333;
+        margin: 28px 0 8px;
         font-size: 14px;
+        color: #333;
       }
 
       .content {
         line-height: 25px;
         color: #666;
+
+        .text {
+          width: 100%;
+          font-family: Arial, Helvetica, sans-serif;
+          font-size: 12px;
+          color: #666;
+          word-wrap: break-word;
+          white-space: pre-wrap;
+          white-space: -moz-pre-wrap;
+          white-space: -pre-wrap;
+          white-space: -o-pre-wrap;
+        }
       }
     }
   }

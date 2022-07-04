@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, onMounted, reactive } from 'vue';
 import { setMessage } from '@/components/message/useMessage';
 import Category from './category/Category.vue';
 import Recommend from './recommend/ReCommend.vue';
@@ -58,12 +58,12 @@ export default defineComponent({
         djCatelist()
           .then((res: ResponseType) => {
             if (res?.code === 200) {
-              resolve(res.categories);
+              resolve(res.categories || []);
             } else {
               reject();
             }
           })
-          .catch(() => reject());
+          .catch((err: any) => reject(err));
       });
     }
     // 根据电台类型id获取对应推荐
@@ -72,7 +72,7 @@ export default defineComponent({
         recommendTypeList({ type: id })
           .then((res: ResponseType) => {
             if (res?.code === 200) {
-              resolve(res.djRadios);
+              resolve(res.djRadios || []);
             } else {
               reject();
             }
@@ -98,31 +98,34 @@ export default defineComponent({
     async function recommendTypeHandleFn() {
       musicObj.djList = await djcateHandle();
       musicObj.musicId = (
-        musicObj.djList.filter((x: any) => x.name === '音乐推荐')[0] as any
+        musicObj?.djList.filter((x: any) => x.name === '音乐推荐')[0] as any
       ).id;
       musicObj.musicList = await recommendTypeHandle(musicObj.musicId);
 
       musicObj.lifeId = (
-        musicObj.djList.filter((x: any) => x.name === '生活')[0] as any
+        musicObj?.djList.filter((x: any) => x.name === '生活')[0] as any
       ).id;
       musicObj.lifeList = await recommendTypeHandle(musicObj.lifeId);
 
       musicObj.emotionId = (
-        musicObj.djList.filter((x: any) => x.name === '情感')[0] as any
+        musicObj?.djList.filter((x: any) => x.name === '情感')[0] as any
       ).id;
       musicObj.emotionList = await recommendTypeHandle(musicObj.emotionId);
 
       musicObj.coverId = (
-        musicObj.djList.filter((x: any) => x.name === '创作翻唱')[0] as any
+        musicObj?.djList.filter((x: any) => x.name === '创作翻唱')[0] as any
       ).id;
       musicObj.coverList = await recommendTypeHandle(musicObj.coverId);
 
       musicObj.knowledgeId = (
-        musicObj.djList.filter((x: any) => x.name === '知识')[0] as any
+        musicObj?.djList.filter((x: any) => x.name === '知识')[0] as any
       ).id;
       musicObj.knowledgeList = await recommendTypeHandle(musicObj.knowledgeId);
     }
-    recommendTypeHandleFn();
+
+    onMounted(() => {
+      recommendTypeHandleFn();
+    });
 
     return {
       djCategorChange,

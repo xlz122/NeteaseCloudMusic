@@ -4,16 +4,16 @@
   .detail-container {
     width: 980px;
     margin: 0 auto;
+    background: url('~@/assets/image/song-sheet/song-sheet-detail-bg.png') repeat-y center 0;
     background-color: #fff;
-    background: url(~@/assets/image/song-sheet/song-sheet-detail-bg.png) repeat-y center 0;
     border: 1px solid #d3d3d3;
     border-width: 0 1px;
 
     .detail-content {
       display: inline-block;
-      vertical-align: top;
       width: calc(100% - 274px);
       padding-bottom: 40px;
+      vertical-align: top;
 
       .title {
         margin: 37px 0 8px 39px;
@@ -21,37 +21,37 @@
 
         .title-icon {
           display: inline-block;
-          vertical-align: middle;
           width: 29px;
           height: 18px;
           margin-right: 5px;
-          background: url(~@/assets/image/icon2.png) no-repeat 0 9999px;
+          vertical-align: middle;
+          background: url('~@/assets/image/icon2.png') no-repeat 0 9999px;
           background-position: -230px -480px;
         }
 
         .title-text {
           display: inline-block;
-          vertical-align: middle;
           max-width: 98%;
           margin-right: 8px;
-          font-size: 24px;
-          line-height: 32px;
-          font-weight: normal;
           overflow: hidden;
+          font-size: 24px;
+          font-weight: normal;
+          line-height: 32px;
           text-overflow: ellipsis;
-          white-space: nowrap;
           word-wrap: normal;
+          white-space: nowrap;
+          vertical-align: middle;
         }
 
         .title-info {
           display: inline-block;
-          vertical-align: bottom;
           margin-bottom: 4px;
-          font-weight: normal;
           overflow: hidden;
+          font-weight: normal;
+          text-align: left;
           text-overflow: ellipsis;
           white-space: nowrap;
-          text-align: left;
+          vertical-align: bottom;
 
           .by {
             margin-right: 5px;
@@ -61,11 +61,11 @@
 
           .text {
             display: inline-block;
-            vertical-align: middle;
             margin-right: 0;
-            line-height: 1;
             font-size: 12px;
+            line-height: 1;
             color: #0c73c2;
+            vertical-align: middle;
             cursor: pointer;
 
             &:hover {
@@ -75,9 +75,9 @@
 
           .line {
             display: inline-block;
-            vertical-align: middle;
             margin: 2px 3px 0;
             color: #000;
+            vertical-align: middle;
           }
         }
       }
@@ -96,30 +96,30 @@
 
         .other {
           display: inline-block;
-          vertical-align: middle;
           height: 32px;
-          line-height: 30px;
-          margin-left: -3px;
-          margin-right: 8px;
           padding-right: 0;
-          background: url(~@/assets/image/icon-button.png) no-repeat;
-          background-position: right -1192px;
-          color: #333;
-          font-style: normal;
-          text-align: left;
+          margin-right: 8px;
+          margin-left: -3px;
+          font-family: simsun, '\5b8b\4f53', sans-serif;
           font-size: inherit;
-          font-family: simsun, \5b8b\4f53;
+          font-style: normal;
+          line-height: 30px;
+          color: #333;
+          text-align: left;
+          vertical-align: middle;
           cursor: pointer;
+          background: url('~@/assets/image/icon-button.png') no-repeat;
+          background-position: right -1192px;
 
           .icon {
             display: inline-block;
-            vertical-align: middle;
             height: 32px;
             padding-left: 30px;
             margin-right: 4px;
-            background: url(~@/assets/image/icon-button.png) no-repeat;
+            font-family: simsun, '\5b8b\4f53', sans-serif;
+            vertical-align: middle;
+            background: url('~@/assets/image/icon-button.png') no-repeat;
             background-position: 0 -1149px;
-            font-family: simsun, \5b8b\4f53;
           }
         }
 
@@ -133,7 +133,7 @@
             left: 9px;
             width: 17px;
             height: 15px;
-            background: url(~@/assets/image/icon-button.png) no-repeat;
+            background: url('~@/assets/image/icon-button.png') no-repeat;
             background-position: 0 -95px;
           }
 
@@ -192,8 +192,8 @@
       }
 
       ::v-deep(.comment-component) {
-        margin-left: 39px;
         margin-right: 30px;
+        margin-left: 39px;
 
         .detail-comment {
           width: 637px;
@@ -211,8 +211,8 @@
 
     .detail-side {
       display: inline-block;
-      vertical-align: top;
       width: 270px;
+      vertical-align: top;
     }
   }
 }

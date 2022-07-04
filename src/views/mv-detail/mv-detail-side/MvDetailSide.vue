@@ -3,8 +3,12 @@
     <h3 class="title">MV简介</h3>
     <div class="video-desc">
       <p class="publish-time">发布时间：{{ detail?.publishTime }}</p>
-      <p class="play-time">播放次数：{{ detail?.playCount }}次</p>
-      <p class="text">{{ detail?.desc }}</p>
+      <p class="play-time">
+        播放次数：{{ bigNumberTransform(detail?.playCount) }}次
+      </p>
+      <div class="content">
+        <pre class="text">{{ detail?.desc }}</pre>
+      </div>
     </div>
     <h3 class="title">相关推荐</h3>
     <h3 class="title">网易云音乐多端下载</h3>

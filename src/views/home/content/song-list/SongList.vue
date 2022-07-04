@@ -35,7 +35,7 @@
             v-for="(i, ind) in item?.playlist?.tracks?.slice(0, 10)"
             :key="ind"
           >
-            <span class="num" :class="{ topThree: ind < 3 }">
+            <span class="num" :class="{ 'top-three': ind < 3 }">
               {{ ind + 1 }}
             </span>
             <p class="text" :title="i?.name" @click="jumpSongDetail(i.id)">
@@ -50,7 +50,7 @@
               <i
                 class="operate-add"
                 title="添加到播放列表"
-                @click="setAddSinglePlayList(i)"
+                @click="singleMusicToPlayList(i)"
               ></i>
               <i
                 class="operate-collection"
@@ -74,12 +74,13 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
-import { handleAudioSong, SongType } from '@/common/audio';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { topList } from '@api/home-toplist';
 import { playlistDetail } from '@api/song-sheet-detail';
 import { playlistSubscribe } from '@api/song-sheet-detail';
 import type { ResponseType } from '@/types/types';
-import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 
 export default defineComponent({
   setup() {
@@ -141,25 +142,13 @@ export default defineComponent({
           return false;
         }
 
-        const songList: PlayMusicItem[] = [];
-
-        list.value[index].playlist?.tracks.forEach(
-          (item: Partial<SongType>) => {
-            const musicItem: PlayMusicItem = handleAudioSong(item);
-
-            songList.push(musicItem);
-          }
+        // 过滤无版权
+        const songList = list.value[index].playlist?.tracks.filter(
+          (item: Partial<SongType>) => item
         );
 
-        // 当前播放音乐
-        $store.commit('music/setPlayMusicItem', songList[0]);
-        // 重置播放列表
-        $store.commit('music/resetPlayMusicList', songList);
-        // 开始播放
-        $store.commit('music/setMusicPlayStatus', {
-          look: true,
-          refresh: true
-        });
+        usePlaySingleMusic(songList[0]);
+        useMusicToPlayList({ music: songList, clear: true });
       },
       800,
       {
@@ -197,26 +186,12 @@ export default defineComponent({
 
     // 播放单个歌曲
     function playSingleMusic(item: Partial<SongType>): void {
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      // 当前播放音乐
-      $store.commit('music/setPlayMusicItem', musicItem);
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', musicItem);
-      // 开始播放
-      $store.commit('music/setMusicPlayStatus', {
-        look: true,
-        loading: true,
-        refresh: true
-      });
+      usePlaySingleMusic(item);
     }
 
     // 单个音乐添加到播放列表
-    function setAddSinglePlayList(item: Partial<SongType>): void {
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', musicItem);
+    function singleMusicToPlayList(item: Partial<SongType>): void {
+      useMusicToPlayList({ music: item });
     }
 
     // 收藏
@@ -248,7 +223,7 @@ export default defineComponent({
       playAllMusic,
       playSingleMusic,
       handleCollectAll,
-      setAddSinglePlayList,
+      singleMusicToPlayList,
       handleCollection,
       songListMore,
       jumpSongDetail

@@ -241,8 +241,8 @@ export default defineComponent({
 <style lang="less" scoped>
 .music-audio {
   position: fixed;
-  left: 0;
   bottom: -300px;
+  left: 0;
 }
 
 .abnormal-tip {
@@ -252,13 +252,13 @@ export default defineComponent({
     text-align: center;
 
     .text {
+      display: -webkit-box;
       margin: 0 0 10px;
       overflow: hidden;
       text-overflow: ellipsis;
-      display: -webkit-box;
+      word-wrap: break-word;
       -webkit-line-clamp: 6;
       -webkit-box-orient: vertical;
-      word-wrap: break-word;
     }
   }
 }

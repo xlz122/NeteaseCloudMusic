@@ -27,25 +27,38 @@
         </li>
       </ul>
     </div>
-    <input
-      class="input input-password"
-      :class="{
-        'verify-error': mobileVerify.show && mobileVerify.type === 'password'
-      }"
-      v-model="mobileFormData.password"
-      type="password"
-      placeholder="请输入密码"
-      @keyup.enter="passwordEnter"
-    />
-  </div>
-  <div class="verification" v-if="mobileVerify.show">
-    <i class="icon-verification"></i>
-    <span class="text">{{ mobileVerify?.text }}</span>
-  </div>
-  <div class="mobile-phone-checkbox">
-    <label for="mobile-phone-checkbox">
-      <input class="checkbox" id="mobile-phone-checkbox" type="checkbox" />
-      <span class="text">自动登录</span>
+    <div class="password-item code" v-if="loginType.type === 0">
+      <input
+        class="input input-password"
+        :class="{
+          'verify-error': mobileVerify.show && mobileVerify.type === 'captcha'
+        }"
+        v-model="mobileFormData.captcha"
+        placeholder="请输入验证码"
+        @keyup.enter="passwordEnter"
+      />
+      <template v-if="!captcha.show">
+        <span class="code-btn" @click="sendVerificationCode">
+          <i class="code-text">获取验证码</i>
+        </span>
+      </template>
+      <template v-else>
+        <span class="code-btn">
+          <i class="code-text">{{ captcha.time }}s</i>
+        </span>
+      </template>
+    </div>
+    <div class="password-item" v-if="loginType.type === 1">
+      <input
+        class="input input-password"
+        :class="{
+          'verify-error': mobileVerify.show && mobileVerify.type === 'password'
+        }"
+        v-model="mobileFormData.password"
+        type="password"
+        placeholder="请输入密码"
+        @keyup.enter="passwordEnter"
+      />
       <a
         class="forget-password"
         href="https://reg.163.com/naq/findPassword#/verifyAccount"
@@ -53,6 +66,17 @@
       >
         忘记密码？
       </a>
+    </div>
+  </div>
+  <div class="verification" v-if="mobileVerify.show">
+    <i class="icon-verification"></i>
+    <span class="text">{{ mobileVerify?.text }}</span>
+  </div>
+  <div class="mobile-phone-checkbox">
+    <span class="type" @click="typeChange">{{ loginType.text }}</span>
+    <label for="mobile-phone-checkbox">
+      <input class="checkbox" id="mobile-phone-checkbox" type="checkbox" />
+      <span class="text">自动登录</span>
     </label>
   </div>
   <div class="mobile-phone-submit" @click="mobileSubmit">
@@ -63,8 +87,10 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import {
   countryCode,
+  captchaSent,
   testCellphone,
   cellphoneLogin,
   userInfo
@@ -75,6 +101,7 @@ type MobileFormData = {
   code: string;
   phone: string;
   password: string;
+  captcha: string;
 };
 
 type MobileVerify = {
@@ -88,6 +115,13 @@ type VerifyMethod = {
   text: string;
 };
 
+type Captcha = {
+  show: boolean;
+  text: string;
+  time: number;
+  timer: number;
+};
+
 export default defineComponent({
   setup() {
     const $store = useStore();
@@ -96,7 +130,8 @@ export default defineComponent({
     const mobileFormData = reactive<MobileFormData>({
       code: '86',
       phone: '',
-      password: ''
+      password: '',
+      captcha: ''
     });
 
     // 获取国家编码列表
@@ -128,6 +163,53 @@ export default defineComponent({
       countryCodeShow.value = false;
     }
 
+    // 验证码
+    const captcha = reactive<Captcha>({
+      show: false,
+      text: '',
+      time: 60,
+      timer: 0
+    });
+
+    // 验证码定时器计时
+    function captchaTiming(): void {
+      captcha.show = true;
+
+      if (captcha.timer) {
+        clearInterval(captcha.timer);
+      }
+
+      captcha.time = 60;
+      captcha.timer = setInterval(() => {
+        captcha.time--;
+        if (captcha.time <= 0) {
+          clearInterval(captcha.timer);
+          captcha.show = false;
+        }
+      }, 1000);
+    }
+
+    const loginType = reactive({
+      text: '密码登录',
+      type: 0
+    });
+
+    function typeChange(): boolean | undefined {
+      if (loginType.type === 0) {
+        loginType.text = '短信登录';
+        loginType.type = 1;
+
+        if (captcha.timer) {
+          clearInterval(captcha.timer);
+          captcha.show = false;
+        }
+        return false;
+      }
+
+      loginType.text = '密码登录';
+      loginType.type = 0;
+    }
+
     // 手机号正则验证
     function mobilePhoneChange(): void {
       mobileFormData.phone = mobileFormData.phone.replace(/[^\d]/g, '');
@@ -147,6 +229,36 @@ export default defineComponent({
       mobileVerify.text = text;
     }
 
+    // 发送验证码
+    function sendVerificationCode(): boolean | undefined {
+      mobileVerify.show = false;
+      if (!mobileFormData.phone) {
+        verifyMethod({ type: 'phone', text: '请输入手机号' });
+        return false;
+      }
+
+      captchaSent({
+        ctcode: mobileFormData.code,
+        phone: mobileFormData.phone
+      })
+        .then((res: ResponseType) => {
+          if (res.code === 200) {
+            captchaTiming();
+            setMessage({ type: 'info', title: '验证码已发送' });
+          }
+        })
+        .catch(err => {
+          // 发送超过限制次数
+          if (err.response.status === 400) {
+            setMessage({ type: 'error', title: err.response.data.message });
+          }
+          // 发送时间间隔太短
+          if (err.response.status === 405) {
+            setMessage({ type: 'error', title: err.response.data.message });
+          }
+        });
+    }
+
     // 登录按钮文本
     const mobileSubmitText = ref<string>('登 录');
     function mobileSubmit(): boolean | undefined {
@@ -155,7 +267,11 @@ export default defineComponent({
         verifyMethod({ type: 'phone', text: '请输入手机号' });
         return false;
       }
-      if (!mobileFormData.password) {
+      if (!mobileFormData.captcha && loginType.type === 0) {
+        verifyMethod({ type: 'captcha', text: '请输入验证码' });
+        return false;
+      }
+      if (!mobileFormData.password && loginType.type === 1) {
         verifyMethod({ type: 'password', text: '请输入登录密码' });
         return false;
       }
@@ -166,7 +282,8 @@ export default defineComponent({
         cellphoneLogin({
           countrycode: mobileFormData.code,
           phone: mobileFormData.phone,
-          password: mobileFormData.password
+          password: mobileFormData.password,
+          captcha: mobileFormData.captcha
         })
           .then((res: ResponseType) => {
             // 账号或密码错误
@@ -187,7 +304,13 @@ export default defineComponent({
               getUserInfo(res?.account?.id);
             }
           })
-          .catch(() => ({}));
+          .catch(err => {
+            // 验证码错误
+            if (err?.response?.data?.code === 503) {
+              verifyMethod({ text: err?.response?.data?.message || '' });
+              mobileSubmitText.value = '登 录';
+            }
+          });
       });
     }
 
@@ -269,7 +392,11 @@ export default defineComponent({
       mobileVerify,
       mobileSubmit,
       passwordEnter,
-      mobileSubmitText
+      mobileSubmitText,
+      loginType,
+      typeChange,
+      sendVerificationCode,
+      captcha
     };
   }
 });

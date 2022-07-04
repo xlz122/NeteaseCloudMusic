@@ -13,20 +13,20 @@
       .title {
         position: relative;
         display: inline-block;
-        vertical-align: middle;
-        line-height: 28px;
         font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
         font-size: 20px;
         font-weight: normal;
+        line-height: 28px;
+        vertical-align: middle;
         cursor: pointer;
 
         &::before {
-          content: '';
           position: absolute;
           left: -31px;
           width: 34px;
           height: 33px;
-          background: url(~@/assets/image/home/home-icon.png);
+          background: url('~@/assets/image/home/home-icon.png');
+          content: '';
           background-position: -225px -156px;
         }
       }
@@ -38,14 +38,14 @@
       .tab {
         position: relative;
         display: inline-block;
+        margin: 0 0 0 20px;
         vertical-align: middle;
-        margin: 0px 0 0 20px;
 
         .item {
           position: relative;
           display: inline-block;
-          margin-left: 10px;
           margin-right: 10px;
+          margin-left: 10px;
           color: #666;
           cursor: pointer;
 
@@ -54,12 +54,12 @@
           }
 
           &::after {
-            content: '|';
             position: absolute;
             top: 1px;
             right: -10px;
             width: 1px;
             color: #666;
+            content: '|';
           }
         }
 
@@ -78,18 +78,18 @@
         position: absolute;
         top: 50%;
         right: 28px;
-        transform: translateY(-50%);
         color: #666;
         cursor: pointer;
+        transform: translateY(-50%);
 
         &::after {
-          content: '';
           position: absolute;
           top: 2px;
           right: -15px;
           width: 12px;
           height: 12px;
-          background: url(~@/assets/image/home/home-icon.png);
+          background: url('~@/assets/image/home/home-icon.png');
+          content: '';
           background-position: 0 -240px;
         }
 
@@ -105,11 +105,11 @@
 
       .item {
         display: inline-block;
-        vertical-align: middle;
         width: 140px;
         height: 204px;
         margin-right: 42px;
         margin-bottom: 30px;
+        vertical-align: middle;
 
         .item-top {
           position: relative;
@@ -130,26 +130,26 @@
             z-index: 1;
             width: 100%;
             height: 27px;
-            background: url(~@/assets/image/my-music/coverall.png);
-            background-position: 0 -537px;
             color: #ccc;
             cursor: auto;
+            background: url('~@/assets/image/my-music/coverall.png');
+            background-position: 0 -537px;
 
             .info-icon {
               position: absolute;
-              left: 0;
               bottom: 8px;
+              left: 0;
               width: 14px;
               height: 11px;
-              background: url(~@/assets/image/music-audio/iconall.png);
-              background-position: 0 -24px;
               margin: 0 5px 0 10px;
+              background: url('~@/assets/image/music-audio/iconall.png');
+              background-position: 0 -24px;
             }
 
             .num {
               position: absolute;
-              left: 30px;
               bottom: 6px;
+              left: 30px;
               display: inline-block;
               vertical-align: middle;
             }
@@ -161,9 +161,9 @@
               z-index: 2;
               width: 16px;
               height: 17px;
-              background: url(~@/assets/image/music-audio/iconall.png);
-              background-position: 0 0;
               cursor: pointer;
+              background: url('~@/assets/image/music-audio/iconall.png');
+              background-position: 0 0;
             }
 
             .info-icon-right:hover {
@@ -173,17 +173,17 @@
         }
 
         .item-bottom {
+          display: -webkit-box;
           margin: 8px 0 3px;
+          overflow: hidden;
           font-size: 14px;
           color: #000;
           text-align: left;
-          cursor: pointer;
-          overflow: hidden;
           text-overflow: ellipsis;
-          display: -webkit-box;
+          cursor: pointer;
+          cursor: pointer;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
-          cursor: pointer;
 
           &:hover {
             text-decoration: underline;
@@ -193,27 +193,27 @@
             float: left;
             width: 35px;
             height: 18px;
-            margin-right: 8px;
             margin-top: -3px;
-            background: url(~@/assets/image/icon.png);
+            margin-right: 8px;
+            background: url('~@/assets/image/icon.png');
             background-position: -31px -655px;
           }
 
           .text {
             display: inline-block;
-            vertical-align: middle;
             margin-top: -1px;
+            vertical-align: middle;
           }
         }
 
         .item-like {
           width: 100%;
           height: 30px;
-          color: #999;
           margin-top: 3px;
-          font-style: normal;
-          text-align: left;
           font-size: inherit;
+          font-style: normal;
+          color: #999;
+          text-align: left;
         }
 
         .like-text {
@@ -230,11 +230,11 @@
           .item-like {
             width: 100%;
             height: 30px;
-            color: #999;
             margin-top: 3px;
-            font-style: normal;
-            text-align: left;
             font-size: inherit;
+            font-style: normal;
+            color: #999;
+            text-align: left;
           }
 
           .disable-like {
@@ -242,23 +242,21 @@
             width: 63px;
             height: 26px;
             margin-top: 10px;
-            text-align: center;
-            line-height: 26px;
-            background: url(~@/assets/image/home/home-icon.png);
-            background-position: 0 -130px;
-            color: #333;
             font-size: 12px;
+            line-height: 26px;
+            color: #333;
+            text-align: center;
+            cursor: pointer;
+            background: url('~@/assets/image/home/home-icon.png');
             border: none;
             outline: none;
-            cursor: pointer;
+            background-position: 0 -130px;
 
             &:hover {
               background-position: -70px -130px;
             }
           }
         }
-
-
       }
 
       .last-item {
@@ -271,7 +269,7 @@
 
           .img {
             display: block;
-            background: url(~@/assets/image/home/date.png);
+            background: url('~@/assets/image/home/date.png');
             background-position: 0 0;
             border: none;
           }
@@ -280,28 +278,28 @@
             position: absolute;
             top: 0;
             left: 50%;
-            transform: translateX(-50%);
             display: block;
             height: 33px;
+            font-size: 14px;
             line-height: 33px;
             color: #fed9d9;
-            font-size: 14px;
-            text-shadow: 0 -1px #962626;
             text-align: center;
+            text-shadow: 0 -1px #962626;
+            transform: translateX(-50%);
           }
 
           .head-text {
             position: absolute;
             top: 35px;
             left: 50%;
-            transform: translateX(-50%);
             display: block;
-            line-height: 102px;
-            text-align: center;
-            font-size: 94px;
             font-family: Arial, Helvetica, sans-serif;
+            font-size: 94px;
             font-weight: bold;
+            line-height: 102px;
             color: #202020;
+            text-align: center;
+            transform: translateX(-50%);
           }
 
           .mask {
@@ -310,7 +308,7 @@
             left: 0;
             width: 140px;
             height: 107px;
-            background: url(~@/assets/image/home/date.png);
+            background: url('~@/assets/image/home/date.png');
             background-position: 0 -150px;
           }
         }

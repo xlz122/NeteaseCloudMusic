@@ -7,11 +7,11 @@
     position: relative;
     width: 654px;
     height: 184px;
-    padding-left: 16px;
     padding-right: 16px;
+    padding-left: 16px;
+    overflow: hidden;
     background: #f5f5f5;
     border: 1px solid #fff;
-    overflow: hidden;
 
     .content {
       width: 625px;
@@ -23,16 +23,16 @@
       width: 1000%;
       height: 180px;
       margin-top: 28px;
-      text-align: left;
       overflow: hidden;
+      text-align: left;
 
       .item {
         position: relative;
         display: inline-block;
-        vertical-align: middle;
         width: 118px;
         height: 150px;
         padding-right: 8px;
+        vertical-align: middle;
 
         .item-img {
           position: absolute;
@@ -40,9 +40,9 @@
           left: 0;
           width: 118px;
           height: 100px;
-          background: url(~@/assets/image/my-music/coverall.png);
-          background-position: 0 -570px;
           cursor: pointer;
+          background: url('~@/assets/image/my-music/coverall.png');
+          background-position: 0 -570px;
 
           &:hover {
             .icon {
@@ -57,24 +57,23 @@
           }
 
           .icon {
-            display: none;
             position: absolute;
-            left: 72px;
             right: 10px;
             bottom: 5px;
+            left: 72px;
+            display: none;
             width: 22px;
             height: 22px;
-            
-            background: url(~@/assets/image/music-audio/iconall.png);
+            background: url('~@/assets/image/music-audio/iconall.png');
             background-position: 0 -85px;
           }
         }
 
         .title {
           margin-top: 106px;
+          overflow: hidden;
           color: #000;
           text-align: left;
-          overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
           cursor: pointer;
@@ -83,33 +82,27 @@
             text-decoration: underline;
           }
         }
-        
 
         .name-list {
           max-width: 96%;
           overflow: hidden;
-          white-space: nowrap;
           text-overflow: ellipsis;
+          white-space: nowrap;
 
           .name {
-            margin-top: 106px;
-            color: #000;
-            text-align: left;
+            margin-top: 3px;
             overflow: hidden;
+            color: #666;
+            text-align: left;
             text-overflow: ellipsis;
             white-space: nowrap;
             cursor: pointer;
-  
+
             &:hover {
               text-decoration: underline;
             }
           }
-  
-          .name {
-            margin-top: 3px;
-            color: #666;
-          }
-  
+
           .line {
             margin: 0 1px;
           }
@@ -122,10 +115,10 @@
       top: 71px;
       width: 17px;
       height: 17px;
-      background: url(~@/assets/image/home/home-icon.png);
+      cursor: pointer;
+      background: url('~@/assets/image/home/home-icon.png');
       border: none;
       outline: none;
-      cursor: pointer;
     }
 
     .left-btn {

@@ -1,22 +1,22 @@
 .user-record-container {
   width: 100%;
-  background: #FFFFFF;
   text-align: left;
+  background: #fff;
 
   .loading {
     width: 100%;
     height: 26px;
     padding: 20px 0;
-    text-align: center;
     color: #999;
+    text-align: center;
 
     .loading-icon {
       display: inline-block;
-      vertical-align: middle;
       width: 16px;
       height: 16px;
       margin-right: 2px;
-      background: url(~@/assets/image/loading.gif) no-repeat;
+      vertical-align: middle;
+      background: url('~@/assets/image/loading.gif') no-repeat;
     }
   }
 
@@ -29,30 +29,30 @@
 
     .title-text {
       display: inline-block;
-      vertical-align: bottom;
-      font-size: 20px;
-      color: #666;
-      font-weight: normal;
       font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      font-weight: normal;
+      color: #666;
+      vertical-align: bottom;
     }
 
     .title-desc {
       display: inline-block;
-      vertical-align: bottom;
       margin-left: 10px;
       font-weight: 400;
       color: #666;
+      vertical-align: bottom;
     }
 
     .title-desc-icon {
       display: inline-block;
-      vertical-align: middle;
       width: 18px;
       height: 18px;
       margin-left: 10px;
-      background: url(~@/assets/image/icon2.png) no-repeat 0 9999px;
-      background-position: 0 -50px;
       overflow: hidden;
+      vertical-align: middle;
+      background: url('~@/assets/image/icon2.png') no-repeat 0 9999px;
+      background-position: 0 -50px;
     }
 
     .title-operate {
@@ -62,32 +62,32 @@
 
       .song-week {
         display: inline-block;
-        vertical-align: middle;
         line-height: 26px;
         color: #666;
+        vertical-align: middle;
         cursor: pointer;
       }
 
       .song-icon {
         display: inline-block;
-        vertical-align: middle;
         width: 1px;
         height: 12px;
-        background-color: #999;
         margin: 0 8px;
+        vertical-align: middle;
+        background-color: #999;
       }
 
       .song-all {
         display: inline-block;
-        vertical-align: middle;
         line-height: 26px;
         color: #666;
+        vertical-align: middle;
         cursor: pointer;
       }
 
       .song-active {
-        color: #333;
         font-weight: 700;
+        color: #333;
       }
     }
   }
@@ -99,11 +99,11 @@
 
     .item {
       height: 38px;
-      line-height: 38px;
       overflow: hidden;
+      line-height: 38px;
 
       &:hover {
-        background: #eeeeee;
+        background: #eee;
 
         .song {
           .song-text {
@@ -113,8 +113,8 @@
           }
 
           .operate-btn {
-            visibility: visible;
             text-align: left;
+            visibility: visible;
 
             .icon {
               margin-right: 8px;
@@ -125,18 +125,18 @@
 
       .hd {
         display: inline-block;
-        vertical-align: middle;
         height: 38px;
         line-height: 38px;
+        vertical-align: middle;
 
         .icon-play {
           display: inline-block;
-          vertical-align: middle;
           width: 17px;
           height: 17px;
-          background: url(~@/assets/image/my-music/my-music-table.png);
-          background-position: 0 -103px;
+          vertical-align: middle;
           cursor: pointer;
+          background: url('~@/assets/image/my-music/my-music-table.png');
+          background-position: 0 -103px;
         }
 
         .active-play {
@@ -145,35 +145,35 @@
 
         .text {
           display: inline-block;
-          vertical-align: middle;
-          padding-left: 5px;
-          padding-right: 8px;
           width: 37px;
-          text-align: right;
+          padding-right: 8px;
+          padding-left: 5px;
           overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
           font-size: 16px;
           color: #666;
+          text-align: right;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          vertical-align: middle;
         }
       }
 
       .song {
         position: relative;
         display: inline-block;
-        vertical-align: middle;
-        padding-left: 10px;
         width: 500px;
         height: 38px;
+        padding-left: 10px;
         overflow: hidden;
+        vertical-align: middle;
 
         .song-text {
           display: inline-block;
           width: 100%;
           overflow: hidden;
+          color: #333;
           text-overflow: ellipsis;
           white-space: nowrap;
-          color: #333;
           cursor: pointer;
 
           &:hover {
@@ -182,60 +182,60 @@
 
           .text {
             display: inline-block;
-            vertical-align: middle;
             width: 100%;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
+            vertical-align: middle;
 
             .desc {
               display: inline-block;
               vertical-align: middle;
+            }
 
-              .em {
-                margin: 0 5px;
-              }
+            .desc .em {
+              margin: 0 5px;
+            }
 
-              .desc-text {
-                display: inline-block;
-                vertical-align: middle;
-                color: #aeaeae;
-                cursor: pointer;
+            .desc .desc-text {
+              display: inline-block;
+              color: #aeaeae;
+              vertical-align: middle;
+              cursor: pointer;
+            }
 
-                &:hover {
-                  text-decoration: underline;
-                }
-              }
+            .desc .desc-text:hover {
+              text-decoration: underline;
             }
           }
         }
 
         .operate-btn {
-          visibility: hidden;
           position: absolute;
           top: 0;
           right: 0;
           display: inline-block;
-          vertical-align: middle;
           width: 98px;
           height: 38px;
           line-height: 38px;
+          vertical-align: middle;
+          visibility: hidden;
 
           .icon {
             display: inline-block;
-            vertical-align: middle;
             width: 16px;
             height: 16px;
-            margin-left: 0px;
             margin-right: 10px;
-            background: url(~@/assets/image/my-music/my-music-table.png);
+            margin-left: 0;
+            vertical-align: middle;
             cursor: pointer;
+            background: url('~@/assets/image/my-music/my-music-table.png');
           }
 
           .add {
             width: 13px;
             height: 13px;
-            background: url(~@/assets/image/icon.png);
+            background: url('~@/assets/image/icon.png');
             background-position: 0 -700px;
 
             &:hover {
@@ -273,10 +273,10 @@
       .tops {
         position: relative;
         display: inline-block;
-        vertical-align: middle;
         width: 319px;
         height: 38px;
         line-height: 38px;
+        vertical-align: middle;
 
         .bg {
           position: absolute;
@@ -284,7 +284,7 @@
           width: 100%;
           height: 38px;
           background-color: #4eb4f5;
-          opacity: 0.1;
+          opacity: .1;
         }
 
         .times {

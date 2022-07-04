@@ -85,23 +85,37 @@
         </div>
       </div>
     </div>
-    <div class="album-desc">
+    <div class="album-desc" v-if="userInfo?.description">
       <h3 class="album-desc-title">专辑介绍：</h3>
-      <div class="album-desc-dot">
-        <p class="text">{{ userInfo?.description }}</p>
+      <div class="album-desc-text" v-if="userInfo?.description?.length < 170">
+        <pre class="text">{{ userInfo?.description }}</pre>
       </div>
+      <div class="album-desc-text" v-else :class="{ 'text-hide': !toggleShow }">
+        <pre class="text">{{ userInfo?.description }}</pre>
+      </div>
+    </div>
+    <div class="toggle-btn" v-if="userInfo?.description?.length > 170">
+      <span v-if="!toggleShow" @click="toggle">
+        <span class="text">展开</span>
+        <i class="icon"></i>
+      </span>
+      <span v-else @click="toggle">
+        <span class="text">收起</span>
+        <i class="icon hide"></i>
+      </span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, toRefs } from 'vue';
+import { defineComponent, ref, computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
-import { handleAudioSong } from '@/common/audio';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { formatDateTime } from '@utils/utils';
-import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 
 export default defineComponent({
   props: {
@@ -122,6 +136,12 @@ export default defineComponent({
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
+    // 简介展开/收缩
+    const toggleShow = ref<boolean>(false);
+    function toggle(): void {
+      toggleShow.value = !toggleShow.value;
+    }
+
     // 播放全部 - 默认播放列表第一项
     const playAllMusic = throttle(
       function () {
@@ -130,14 +150,10 @@ export default defineComponent({
         }
 
         // 歌曲是否全部无版权
-        let noCopyrightNum = 0;
-        props?.songs?.forEach((item: Record<string, { cp: number }>) => {
-          if (item.privilege?.cp === 0) {
-            noCopyrightNum += 1;
-          }
-        });
-
-        if (noCopyrightNum === props?.songs?.length) {
+        const allNoCopyright = props?.songs?.some(
+          (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+        );
+        if (!allNoCopyright) {
           $store.commit('setCopyright', {
             visible: true,
             message: '由于版权保护，您所在的地区暂时无法使用。'
@@ -145,28 +161,13 @@ export default defineComponent({
           return false;
         }
 
-        const songList: PlayMusicItem[] = [];
+        // 过滤无版权
+        const songList: Partial<SongType>[] = songs.value.filter(
+          (item: Record<string, { cp: number }>) => item?.privilege?.cp !== 0
+        );
 
-        songs.value.forEach((item: Record<string, { cp: number }>) => {
-          // 无版权过滤
-          if (item?.privilege?.cp === 0) {
-            return false;
-          }
-
-          const musicItem: PlayMusicItem = handleAudioSong(item);
-
-          songList.push(musicItem);
-        });
-
-        // 当前播放音乐
-        $store.commit('music/setPlayMusicItem', songList[0]);
-        // 重置播放列表
-        $store.commit('music/resetPlayMusicList', songList);
-        // 开始播放
-        $store.commit('music/setMusicPlayStatus', {
-          look: true,
-          refresh: true
-        });
+        usePlaySingleMusic(songList[0]);
+        useMusicToPlayList({ music: songList, clear: true });
       },
       800,
       {
@@ -182,14 +183,10 @@ export default defineComponent({
       }
 
       // 歌曲是否全部无版权
-      let noCopyrightNum = 0;
-      props?.songs?.forEach((item: Record<string, { cp: number }>) => {
-        if (item.privilege?.cp === 0) {
-          noCopyrightNum += 1;
-        }
-      });
-
-      if (noCopyrightNum === props?.songs?.length) {
+      const allNoCopyright = props?.songs?.some(
+        (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+      );
+      if (!allNoCopyright) {
         $store.commit('setCopyright', {
           visible: true,
           message: '由于版权保护，您所在的地区暂时无法使用。'
@@ -197,21 +194,12 @@ export default defineComponent({
         return false;
       }
 
-      const songList: PlayMusicItem[] = [];
+      // 过滤无版权
+      const songList: Partial<SongType>[] = songs.value.filter(
+        (item: Record<string, { cp: number }>) => item?.privilege?.cp !== 0
+      );
 
-      songs.value.forEach((item: Record<string, { cp: number }>) => {
-        // 无版权过滤
-        if (item?.privilege?.cp === 0) {
-          return false;
-        }
-
-        const musicItem: PlayMusicItem = handleAudioSong(item);
-
-        songList.push(musicItem);
-      });
-
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', songList);
+      useMusicToPlayList({ music: songList });
     }
 
     // 收藏全部
@@ -222,14 +210,10 @@ export default defineComponent({
       }
 
       // 歌曲是否全部无版权
-      let noCopyrightNum = 0;
-      props?.songs?.forEach((item: Record<string, { cp: number }>) => {
-        if (item.privilege?.cp === 0) {
-          noCopyrightNum += 1;
-        }
-      });
-
-      if (noCopyrightNum === props?.songs?.length) {
+      const allNoCopyright = props?.songs?.some(
+        (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+      );
+      if (!allNoCopyright) {
         $store.commit('setCopyright', {
           visible: true,
           message: '由于版权保护，您所在的地区暂时无法使用。'
@@ -260,22 +244,6 @@ export default defineComponent({
         return false;
       }
 
-      // 歌曲是否全部无版权
-      let noCopyrightNum = 0;
-      props?.songs?.forEach((item: Record<string, { cp: number }>) => {
-        if (item.privilege?.cp === 0) {
-          noCopyrightNum += 1;
-        }
-      });
-
-      if (noCopyrightNum === props?.songs?.length) {
-        $store.commit('setCopyright', {
-          visible: true,
-          message: '由于版权保护，您所在的地区暂时无法使用。'
-        });
-        return false;
-      }
-
       setMessage({ type: 'error', title: '该功能暂未开发' });
     }
 
@@ -301,6 +269,8 @@ export default defineComponent({
 
     return {
       formatDateTime,
+      toggleShow,
+      toggle,
       playAllMusic,
       allMusicToPlayList,
       handleCollectAll,

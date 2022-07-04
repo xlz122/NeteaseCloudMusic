@@ -6,16 +6,16 @@
 
 .qrcode {
   position: fixed;
-  z-index: 10;
   top: 395px;
   right: 25px;
+  z-index: 10;
   padding: 16px 18px 9px;
-  background: #fff;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
-  color: #333;
   font-size: 12px;
+  color: #333;
   text-align: center;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgb(0 0 0 / 50%);
 
   .qrcode-img {
     width: 100px;
@@ -34,11 +34,11 @@
 
   .other-download {
     position: absolute;
-    line-height: 60px;
-    height: 60px;
     top: -78px;
     right: -15px;
+    height: 60px;
     font-size: 14px;
+    line-height: 60px;
     color: #fff;
     cursor: pointer;
 
@@ -48,9 +48,9 @@
       height: 20px;
       margin-right: 6px;
       margin-bottom: 3px;
-      background: url(~@/assets/image/download/download-array.png) no-repeat;
-      background-size: contain;
       vertical-align: middle;
+      background: url('~@/assets/image/download/download-array.png') no-repeat;
+      background-size: contain;
     }
 
     .other-text {
@@ -66,14 +66,14 @@
       width: 276px;
       min-height: 45px;
       padding: 20px 10px;
-      background-color: rgba(0, 0, 0, 0.05);
-      background-color: #fff;
-      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-      border-radius: 12px;
-      box-sizing: border-box;
-      line-height: 1.5;
       font-size: 12px;
+      line-height: 1.5;
       text-align: left;
+      background-color: rgb(0 0 0 / 5%);
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 0 10px 0 rgb(0 0 0 / 50%);
+      box-sizing: border-box;
 
       .item {
         display: inline-block;
@@ -82,47 +82,47 @@
         margin-bottom: 10px;
         margin-left: 10px;
         line-height: 45px;
-        background: rgba(0, 0, 0, 0.08);
-        opacity: 0.9;
+        background: rgb(0 0 0 / 8%);
+        opacity: .9;
 
         .icon {
           display: inline-block;
           width: 26px;
           height: 26px;
-          margin: 0 10px 0;
+          margin: 0 10px;
           vertical-align: middle;
         }
 
         .android {
-          background: url(~@/assets/image/download/icon-other-android.png) no-repeat;
+          background: url('~@/assets/image/download/icon-other-android.png') no-repeat;
           background-size: contain;
         }
 
         .iphone {
-          background: url(~@/assets/image/download/icon-other-iphone.png) no-repeat;
+          background: url('~@/assets/image/download/icon-other-iphone.png') no-repeat;
           background-size: contain;
         }
 
         .mac {
-          background: url(~@/assets/image/download/icon-other-mac.png) no-repeat;
+          background: url('~@/assets/image/download/icon-other-mac.png') no-repeat;
           background-size: contain;
         }
 
         .windows {
-          background: url(~@/assets/image/download/icon-other-windows.png) no-repeat;
+          background: url('~@/assets/image/download/icon-other-windows.png') no-repeat;
           background-size: contain;
         }
 
         .linux {
-          background: url(~@/assets/image/download/icon-other-linux.png) no-repeat;
+          background: url('~@/assets/image/download/icon-other-linux.png') no-repeat;
           background-size: contain;
         }
 
         .text {
           display: inline-block;
-          font-family: PingFangSC-Regular;
+          font-family: PingFangSC-Regular, sans-serif;
           font-size: 12px;
-          color: #333333;
+          color: #333;
           vertical-align: middle;
         }
       }
@@ -130,14 +130,14 @@
 
     .other-download-modal::before {
       position: absolute;
-      left: 50%;
       top: -18px;
-      transform: translateX(-50%);
-      content: '';
+      left: 50%;
       width: 0;
       height: 0;
       border: 10px solid;
-      border-color: transparent transparent #fff transparent;
+      content: '';
+      transform: translateX(-50%);
+      border-color: transparent transparent #fff;
     }
   }
 
@@ -149,9 +149,9 @@
     .download-qrcode {
       position: absolute;
       top: 152px;
-      left: 731px;
       right: 0;
       bottom: 0;
+      left: 731px;
       width: 164px;
       height: 195px;
 
@@ -167,14 +167,14 @@
 
     .download-qrcode::before {
       position: absolute;
-      left: 50%;
       bottom: -18px;
-      transform: translateX(-50%);
-      content: '';
+      left: 50%;
       width: 0;
       height: 0;
       border: 10px solid;
-      border-color: #fff transparent transparent transparent;
+      content: '';
+      transform: translateX(-50%);
+      border-color: #fff transparent transparent;
     }
 
     .main-pc,
@@ -184,10 +184,10 @@
 
       .title {
         margin-bottom: 23px;
-        text-align: center;
         font-size: 22px;
-        opacity: 0.8;
-        color: #ffffff;
+        color: #fff;
+        text-align: center;
+        opacity: .8;
       }
 
       .type {
@@ -213,39 +213,39 @@
         }
 
         .mac {
-          background: url(~@/assets/image/download/icon-mac.png) no-repeat;
+          background: url('~@/assets/image/download/icon-mac.png') no-repeat;
           background-size: contain;
         }
 
         .windows {
-          background: url(~@/assets/image/download/icon-windows.png) no-repeat;
-          background-size: contain;
           margin-left: 30px;
+          background: url('~@/assets/image/download/icon-windows.png') no-repeat;
+          background-size: contain;
         }
 
         .iphone {
-          background: url(~@/assets/image/download/icon-iphone.png) no-repeat;
+          background: url('~@/assets/image/download/icon-iphone.png') no-repeat;
           background-size: contain;
         }
 
         .android {
-          background: url(~@/assets/image/download/icon-android.png) no-repeat;
-          background-size: contain;
           margin-left: 30px;
+          background: url('~@/assets/image/download/icon-android.png') no-repeat;
+          background-size: contain;
         }
       }
 
       .download-btn {
         width: 300px;
         height: 65px;
-        margin: 0 auto 130px auto;
-        border-radius: 65px;
-        background-color: #fff;
-        color: #d10000;
+        margin: 0 auto 130px;
         font-size: 22px;
         line-height: 65px;
+        color: #d10000;
         text-align: center;
         cursor: pointer;
+        background-color: #fff;
+        border-radius: 65px;
         box-sizing: content-box;
 
         .icon {
@@ -253,8 +253,8 @@
           width: 21px;
           height: 21px;
           margin-right: 3px;
-          background: url(~@/assets/image/download/download-mobile-qrcode.png) no-repeat;
           vertical-align: middle;
+          background: url('~@/assets/image/download/download-mobile-qrcode.png') no-repeat;
         }
 
         .text {
@@ -264,7 +264,7 @@
       }
 
       .download-btn:hover {
-        opacity: 0.7;
+        opacity: .7;
       }
     }
 
@@ -306,8 +306,8 @@
   .content {
     display: inline-block;
     width: 50%;
-    background-color: #fff;
     vertical-align: middle;
+    background-color: #fff;
 
     .title {
       font-size: 40px;
@@ -322,7 +322,7 @@
       text-align: left;
 
       .attract {
-        color: #cc0000;
+        color: #c00;
       }
     }
   }
@@ -337,14 +337,14 @@
 .quku,
 .social-contact,
 .distinguish {
-  padding-left: 150px;
   padding-right: 150px;
+  padding-left: 150px;
 }
 
 .star,
 .real-time {
-  padding-left: 130px;
   padding-right: 130px;
+  padding-left: 130px;
   background: #f8f8f8;
 
   .content {

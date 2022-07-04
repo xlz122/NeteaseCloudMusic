@@ -79,8 +79,8 @@ export default defineComponent({
   .menu-title {
     padding: 0 10px 12px 15px;
     margin-top: 20px;
+    font-family: simsun, '\5b8b\4f53', sans-serif;
     font-size: 14px;
-    font-family: simsun, \5b8b\4f53;
     color: #000;
     text-align: left;
   }
@@ -99,10 +99,10 @@ export default defineComponent({
 
       .item-cover {
         display: inline-block;
-        vertical-align: middle;
         width: 40px;
         height: 40px;
         margin-right: 10px;
+        vertical-align: middle;
 
         .cover-img {
           width: 100%;
@@ -118,10 +118,10 @@ export default defineComponent({
           width: 150px;
           margin-bottom: 6px;
           overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
           font-size: 12px;
           color: #000;
+          text-overflow: ellipsis;
+          white-space: nowrap;
           cursor: pointer;
         }
 

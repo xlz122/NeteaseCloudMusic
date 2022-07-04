@@ -1,48 +1,48 @@
 .ff1 {
-  font-family: simsun,\5b8b\4f53;
+  font-family: simsun, '\5b8b\4f53', sans-serif;
 }
 
 .ff2 {
-  font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
+  font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
 }
 
-.outline-none{
+.outline-none {
   outline: none;
 }
 
-.text-decoration-underline{
+.text-decoration-underline {
   text-decoration: underline;
 }
 
-.fw-bold{
+.fw-bold {
   font-weight: bold;
 }
 
-.text-grayA{
+.text-graya {
   color: #aaa;
 }
 
-.text-grayC{
-  color: #ccc!important;
+.text-grayc {
+  color: #ccc !important;
 }
 
-.text-gray3{
+.text-gray3 {
   color: #333;
 }
 
-.text-gray6{
+.text-gray6 {
   color: #666;
 }
 
-.text-gray9{
+.text-gray9 {
   color: #999;
 }
 
-.text-blued4{
+.text-blued4 {
   color: #3189d4;
 }
 
-.text-white{
+.text-white {
   color: #fff;
 }
 
@@ -108,10 +108,6 @@
 
 .mr5 {
   margin-right: 5px;
-}
-
-.mr15 {
-  margin-right: 15px;
 }
 
 .mr10 {
@@ -194,19 +190,19 @@
   margin-bottom: 30px;
 }
 
-.pl5{
+.pl5 {
   padding-left: 5px;
 }
 
-.pl10{
+.pl10 {
   padding-left: 10px;
 }
 
-.pl15{
+.pl15 {
   padding-left: 15px;
 }
 
-.pl20{
+.pl20 {
   padding-left: 20px;
 }
 
@@ -217,8 +213,26 @@
 
 .ellipsis {
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ellipsis-lines-3 {
+  display: flex;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.ellipsis-lines-4 {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
 }
 
 .pointer {
@@ -226,7 +240,11 @@
 }
 
 .not-allowed {
-  cursor: not-allowed;;
+  cursor: not-allowed;
+}
+
+.dis-contents {
+  display: contents;
 }
 
 .dis-flex {
@@ -254,7 +272,7 @@
   align-items: flex-end;
 }
 
-.direction-column{
+.direction-column {
   flex-direction: column;
 }
 
@@ -266,15 +284,32 @@
   text-decoration: line-through;
 }
 
-.bg-grayF2{
+.bg-gray-f2 {
   background-color: #f2f2f2;
 }
 
-.box-border{
+.box-border {
   width: 980px;
   min-height: 700px;
   margin: 0 auto;
   background-color: #fff;
   border: 1px solid #d3d3d3;
   border-width: 0 1px;
+}
+
+pre {
+  font-family: Arial, Helvetica, sans-serif;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+i {
+  display: inline-block;
+  font-size: inherit;
+  font-style: normal;
+  text-align: left;
+}
+
+table {
+  table-layout: fixed;
 }

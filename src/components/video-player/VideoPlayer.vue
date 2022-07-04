@@ -137,6 +137,10 @@ export default defineComponent({
     // 播放完成
     function videoEnded(): void {
       videoStatus.value = 'ended';
+
+      setTimeout(() => {
+        videoReplay();
+      }, 10);
     }
 
     // 重播

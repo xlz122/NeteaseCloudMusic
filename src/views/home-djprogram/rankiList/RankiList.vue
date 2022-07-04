@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="hot">
-          <i style="width: 50%">
+          <i class="hot-icon">
             <i></i>
           </i>
         </div>
@@ -58,15 +58,11 @@
 import { defineComponent, ref } from 'vue';
 import { programTopList } from '@api/home-djprogram';
 import type { ResponseType } from '@/types/types';
-import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio';
-import type { PlayMusicItem } from '@store/music/state';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import type { SongType } from '@/common/audio';
 
 export default defineComponent({
   setup() {
-    const $store = useStore();
-
     const rankList = ref([]);
     function rankListHandle() {
       programTopList({ limit: 10, offset: 1 }).then((res: ResponseType) => {
@@ -79,18 +75,7 @@ export default defineComponent({
 
     // 播放单个歌曲
     function playSingleMusic(item: Partial<SongType>): void {
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      // 当前播放音乐
-      $store.commit('music/setPlayMusicItem', musicItem);
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', musicItem);
-      // 开始播放
-      $store.commit('music/setMusicPlayStatus', {
-        look: true,
-        loading: true,
-        refresh: true
-      });
+      usePlaySingleMusic(item);
     }
 
     return {

@@ -1,8 +1,8 @@
 .music-audio-container {
   position: fixed;
-  left: 0;
   right: 0;
   bottom: 0;
+  left: 0;
   z-index: 951218;
   width: 100%;
   height: 0;
@@ -14,7 +14,7 @@
     width: 100vw;
     height: 53px;
     margin: 0 auto;
-    transition: top 0.4s;
+    transition: top .4s;
 
     .updn {
       position: relative;
@@ -26,7 +26,7 @@
         right: 15px;
         width: 52px;
         height: 67px;
-        background: url(~@/assets/image/music-audio/playbar.png);
+        background: url('~@/assets/image/music-audio/playbar.png');
         background-position: 0 -380px;
 
         .updn-icon {
@@ -34,8 +34,8 @@
           width: 18px;
           height: 18px;
           margin: 6px 0 0 17px;
-          background: url(~@/assets/image/music-audio/playbar.png);
           cursor: pointer;
+          background: url('~@/assets/image/music-audio/playbar.png');
         }
 
         .icon-updn-left {
@@ -61,16 +61,16 @@
         right: 0;
         width: 15px;
         height: 54px;
-        background: url(~@/assets/image/music-audio/playbar.png);
-        background-position: -52px -393px;
         pointer-events: none;
+        background: url('~@/assets/image/music-audio/playbar.png');
+        background-position: -52px -393px;
       }
     }
 
     .playbar-bg {
       height: 53px;
       margin-right: 67px;
-      background: url(~@/assets/image/music-audio/playbar.png);
+      background: url('~@/assets/image/music-audio/playbar.png');
       background-position: 0 0;
       background-repeat: repeat-x;
     }
@@ -85,22 +85,22 @@
 
     .wrap {
       position: absolute;
-      left: 50%;
       top: 6px;
+      left: 50%;
       z-index: 15;
-      transform: translateX(-50%);
       width: 980px;
       height: 47px;
       text-align: left;
+      transform: translateX(-50%);
 
       .music-img {
         position: relative;
         display: inline-block;
-        vertical-align: middle;
         width: 34px;
         height: 34px;
         margin-top: 6px;
         margin-right: 15px;
+        vertical-align: middle;
 
         .img {
           width: 100%;
@@ -115,24 +115,24 @@
           z-index: -1;
           width: 100%;
           height: 100%;
-          background: url(~@/assets/image/music-audio/playbar.png);
-          background-position: 0 -80px;
           cursor: default;
+          background: url('~@/assets/image/music-audio/playbar.png');
+          background-position: 0 -80px;
         }
       }
 
       .play {
         position: relative;
         display: inline-block;
-        vertical-align: middle;
         width: 608px;
+        vertical-align: middle;
 
         .play-info {
           height: 28px;
+          overflow: hidden;
           line-height: 28px;
           color: #e8e8e8;
           text-shadow: 0 1px 0 #171717;
-          overflow: hidden;
 
           .music-name {
             display: inline-block;
@@ -140,66 +140,64 @@
 
             .name {
               display: inline-block;
-              vertical-align: middle;
               max-width: 300px;
-              color: #e8e8e8;
               overflow: hidden;
+              color: #e8e8e8;
               text-overflow: ellipsis;
               white-space: nowrap;
+              vertical-align: middle;
               cursor: pointer;
+            }
 
-              &:hover {
-                text-decoration: underline;
-              }
+            .name:hover {
+              text-decoration: underline;
             }
 
             .icon-mv {
               display: inline-block;
-              vertical-align: middle;
               width: 19px;
               height: 17px;
               margin-left: 3px;
-              background: url(~@/assets/image/music-audio/playbar.png);
-              background-position: 0 -57px;
+              vertical-align: middle;
               cursor: pointer;
+              background: url('~@/assets/image/music-audio/playbar.png');
+              background-position: 0 -57px;
+            }
 
-              &:hover {
-                background-position: -20px -57px;
-              }
+            .icon-mv:hover {
+              background-position: -20px -57px;
             }
           }
 
           .singer-name {
             display: inline-block;
-            vertical-align: middle;
             max-width: 220px;
             margin-left: 15px;
-            color: #9b9b9b;
             overflow: hidden;
+            color: #9b9b9b;
             text-overflow: ellipsis;
             white-space: nowrap;
+            vertical-align: middle;
             cursor: pointer;
 
             .text {
               margin-left: 3px;
+            }
 
-              .name {
-                &:hover {
-                  text-decoration: underline;
-                }
-              }
+            .text .name:hover {
+              text-decoration: underline;
             }
           }
 
           .link {
             display: inline-block;
-            vertical-align: middle;
             width: 14px;
             height: 15px;
             margin-left: 13px;
-            background: url(~@/assets/image/music-audio/playbar.png);
-            background-position: -110px -103px;
+            vertical-align: middle;
             cursor: pointer;
+            background: url('~@/assets/image/music-audio/playbar.png');
+            background-position: -110px -103px;
 
             &:hover {
               background-position: -130px -103px;

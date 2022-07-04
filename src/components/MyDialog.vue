@@ -1,26 +1,26 @@
 <template>
-  <div class="my_dialog" v-if="visible">
-    <div class="my_dialog_mask"></div>
-    <div class="my_dialog_box" id="my_dialog_box" v-drag>
-      <div class="my_dialog_title">
+  <div class="my-dialog" v-if="visible">
+    <div class="my-dialog-mask"></div>
+    <div class="my-dialog-box" id="my-dialog-box" v-drag>
+      <div class="my-dialog-title">
         {{ title }}
-        <span class="my_dialog_close" @click="cancel">x</span>
+        <span class="my-dialog-close" @click="cancel">x</span>
       </div>
-      <div class="my_dialog_content">
+      <div class="my-dialog-content">
         <slot></slot>
       </div>
       <div
-        class="my_dialog_bottom"
+        class="my-dialog-bottom"
         v-if="showConfirmButton || showCancelButton"
       >
         <button
-          class="btn confirmBtn"
+          class="btn confirm-btn"
           v-if="showConfirmButton"
           @click="confirm"
         >
           <span class="icon">{{ confirmtext }}</span>
         </button>
-        <button class="btn cancelBtn" v-if="showCancelButton" @click="cancel">
+        <button class="btn cancel-btn" v-if="showCancelButton" @click="cancel">
           <span class="icon">{{ canceltext }}</span>
         </button>
       </div>
@@ -96,161 +96,181 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-.my_dialog {
+.my-dialog {
   position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 20001009;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
 }
-.my_dialog_mask {
+
+.my-dialog-mask {
   position: absolute;
-  left: 0;
   top: 0;
-  bottom: 0;
   right: 0;
+  bottom: 0;
+  left: 0;
   background-color: transparent;
   opacity: 0.5;
 }
-.my_dialog_box {
+
+.my-dialog-box {
   position: absolute;
-  width: 530px;
-  background: #fff;
   top: 50%;
   left: 50%;
+  width: 530px;
   max-width: 100%;
   overflow: hidden;
-  transform: translate(-50%, -50%);
+  background: #fff;
   border: none;
   border-radius: 4px;
-  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.8);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 5px 16px rgb(0 0 0 / 80%);
 }
-.my_dialog_content {
-  overflow-x: hidden;
-  overflow-y: auto;
+
+.my-dialog-content {
   position: relative;
   padding-top: 38px;
+  overflow-x: hidden;
+  overflow-y: auto;
   text-align: left;
 }
-.my_dialog_title {
-  cursor: all-scroll;
-  word-break: keep-all;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+
+.my-dialog-title {
   position: relative;
   top: 0;
   left: 0;
   height: 38px;
-  line-height: 40px;
   padding: 0 31px 0 18px;
-  border: 1px solid #191919;
-  background: #2d2d2d;
-  font-family: \5fae\8f6f\96c5\9ed1;
-  text-align: left;
-  user-select: none;
-  font-weight: bold;
+  overflow: hidden;
+  font-family: '\5fae\8f6f\96c5\9ed1', sans-serif;
   font-size: 14px;
+  font-weight: bold;
+  line-height: 40px;
   color: #fff;
+  text-align: left;
+  text-overflow: ellipsis;
+  word-break: keep-all;
+  white-space: nowrap;
+  cursor: all-scroll;
+  background: #2d2d2d;
+  border: 1px solid #191919;
+  user-select: none;
 }
-.my_dialog_close {
+
+.my-dialog-close {
   position: absolute;
   top: 16px;
   right: 20px;
   z-index: 20;
   width: 10px;
   height: 10px;
-  background: url(~@/assets/image/dialog-title.png);
-  background-position: 0 -95px;
   overflow: hidden;
   text-indent: -9999px;
   cursor: pointer;
+  background: url('~@/assets/image/dialog-title.png');
+  background-position: 0 -95px;
 }
-.my_dialog_close:hover {
+
+.my-dialog-close:hover {
   color: #ccc;
 }
-.my_dialog_bottom {
+
+.my-dialog-bottom {
   margin: 0;
   text-align: center;
   border-top: 1px solid transparent;
 }
+
 .btn {
-  min-width: 60px;
   height: 31px;
-  line-height: 31px;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 14px;
+  min-width: 60px;
   margin-top: 30px;
   margin-bottom: 35px;
-  border-radius: 3px;
+  font-size: 14px;
+  line-height: 31px;
+  text-align: center;
   text-decoration: none;
-  border-radius: 3px;
-  border: none;
-  outline: none;
+  vertical-align: middle;
   cursor: pointer;
+  border: none;
+  border-radius: 3px;
+  border-radius: 3px;
+  outline: none;
 }
-.my_dialog_bottom .confirm_btn .marginLeft {
+
+.my-dialog-bottom .confirm-btn .margin-left {
   margin-left: 10px;
 }
-.confirmBtn {
+
+.confirm-btn {
   padding: 0 5px 0 0;
   color: #fff;
-  background: url(~@/assets/image/icon-button.png) no-repeat;
+  background: url('~@/assets/image/icon-button.png') no-repeat;
   background-position: right -428px;
+
   .icon {
     display: inline-block;
     padding: 0 23px 0 28px;
-    background: url(~@/assets/image/icon-button.png) no-repeat;
+    background: url('~@/assets/image/icon-button.png') no-repeat;
     background-position: 0 -387px;
   }
 }
-.confirmBtn:hover {
+
+.confirm-btn:hover {
   background-position: right -510px;
+
   .icon {
     background-position: 0 -469px;
   }
 }
-.cancelBtn {
+
+.cancel-btn {
   padding: 0 5px 0 0;
   color: #333;
-  background: url(~@/assets/image/icon-button.png) no-repeat;
+  background: url('~@/assets/image/icon-button.png') no-repeat;
   background-position: right -100px;
+
   .icon {
     display: inline-block;
     padding: 0 23px 0 28px;
-    background: url(~@/assets/image/icon-button.png) no-repeat;
+    background: url('~@/assets/image/icon-button.png') no-repeat;
     background-position: 0 -59px;
   }
 }
-.cancelBtn:hover {
+
+.cancel-btn:hover {
   background-position: right -182px;
+
   .icon {
     background-position: 0 -141px;
   }
 }
+
 button + button {
   margin-left: 15px;
 }
+
 .custom {
   height: 40px;
   padding-top: 12px;
+  text-align: center;
   background-color: #f7f7f7;
   border-top: 1px solid #c6c6c6;
-  text-align: center;
+
   button {
-    padding: 0 15px;
     display: inline-block;
     height: 31px;
-    line-height: 31px;
+    padding: 0 15px;
     overflow: hidden;
-    vertical-align: top;
+    line-height: 31px;
     text-align: center;
+    vertical-align: top;
     cursor: pointer;
+    background: url('~@/assets/image/icon-button.png') no-repeat;
     border: none;
     border-radius: 3px;
-    background: url(~@/assets/image/icon-button.png) no-repeat;
     background-position: right -387px;
   }
 }

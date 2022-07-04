@@ -192,32 +192,32 @@ export default defineComponent({
   margin-top: 51px;
 
   .language {
-    margin: 5px 0 0;
     padding-top: 16px;
+    margin: 5px 0 0;
     border-top: 1px solid #d3d3d3;
   }
 
   .group-title {
     height: 25px;
     padding-left: 14px;
+    font-family: 'Microsoft Yahei', sans-serif;
     font-size: 16px;
-    font-family: 'Microsoft Yahei';
   }
 
   .item {
     width: 160px;
     height: 29px;
-    line-height: 29px;
     margin-bottom: 2px;
+    line-height: 29px;
 
     .item-text {
       display: inline-block;
       width: 133px;
       padding-left: 27px;
-      background: url(~@/assets/image/singer/singer.png) no-repeat 0 9999px;
-      background-position: 0 -30px;
       color: #333;
       cursor: pointer;
+      background: url('~@/assets/image/singer/singer.png') no-repeat 0 9999px;
+      background-position: 0 -30px;
 
       &:hover {
         text-decoration: underline;
