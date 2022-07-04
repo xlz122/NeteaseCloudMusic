@@ -43,7 +43,7 @@ function useMusicToPlayList({
   const musicList = lodash.cloneDeep(playMusicList.value);
 
   list.forEach((item: PlayMusicItem) => {
-    const index = musicList.findIndex((f: PlayMusicItem) => f.id === item.id);
+    const index = musicList?.findIndex((f: PlayMusicItem) => f.id === item.id);
 
     if (index === -1) {
       musicList.push(item);
