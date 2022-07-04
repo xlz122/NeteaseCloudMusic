@@ -50,7 +50,7 @@
               <i
                 class="operate-add"
                 title="添加到播放列表"
-                @click="setAddSinglePlayList(i)"
+                @click="singleMusicToPlayList(i)"
               ></i>
               <i
                 class="operate-collection"
@@ -76,12 +76,11 @@ import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { handleAudioSong, SongType } from '@/common/audio';
 import { topList } from '@api/home-toplist';
 import { playlistDetail } from '@api/song-sheet-detail';
 import { playlistSubscribe } from '@api/song-sheet-detail';
 import type { ResponseType } from '@/types/types';
-import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 
 export default defineComponent({
   setup() {
@@ -194,11 +193,8 @@ export default defineComponent({
     }
 
     // 单个音乐添加到播放列表
-    function setAddSinglePlayList(item: Partial<SongType>): void {
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', musicItem);
+    function singleMusicToPlayList(item: Partial<SongType>): void {
+      useMusicToPlayList({ music: item });
     }
 
     // 收藏
@@ -230,7 +226,7 @@ export default defineComponent({
       playAllMusic,
       playSingleMusic,
       handleCollectAll,
-      setAddSinglePlayList,
+      singleMusicToPlayList,
       handleCollection,
       songListMore,
       jumpSongDetail
