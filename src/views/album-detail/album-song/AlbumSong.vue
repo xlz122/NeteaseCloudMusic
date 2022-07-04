@@ -118,9 +118,9 @@ import { defineComponent, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import { handleAudioSong } from '@/common/audio';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { timeStampToDuration } from '@utils/utils';
-import type { PlayMusicItem } from '@store/music/state';
 import type { SongType } from '@/common/audio';
 
 export default defineComponent({
@@ -143,13 +143,11 @@ export default defineComponent({
 
     // 单个歌曲添加到播放列表
     function singleMusicToPlayList(item: Partial<SongType>): void {
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      $store.commit('music/setPlayMusicList', musicItem);
+      useMusicToPlayList({ music: item });
     }
 
     // 播放单个歌曲
-    function playSingleMusic(item: { id: number }): boolean | undefined {
+    function playSingleMusic(item: Partial<SongType>): boolean | undefined {
       // 无版权
       if (isCopyright(item.id)) {
         $store.commit('setCopyright', {
@@ -159,22 +157,11 @@ export default defineComponent({
         return false;
       }
 
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      // 当前播放音乐
-      $store.commit('music/setPlayMusicItem', musicItem);
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', musicItem);
-      // 开始播放
-      $store.commit('music/setMusicPlayStatus', {
-        look: true,
-        loading: true,
-        refresh: true
-      });
+      usePlaySingleMusic(item);
     }
 
     // 歌曲是否有版权
-    function isCopyright(id: number): boolean | undefined {
+    function isCopyright(id?: number): boolean | undefined {
       const songItem = props.songs.find(
         item => (item as { id: number }).id === id
       );
