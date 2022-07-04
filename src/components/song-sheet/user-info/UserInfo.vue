@@ -218,7 +218,7 @@ export default defineComponent({
             songList.push(item);
           }
         );
-        console.log(songList);
+
         usePlaySingleMusic(songList[0]);
         useMusicToPlayList({ music: songList, clear: true });
       },
