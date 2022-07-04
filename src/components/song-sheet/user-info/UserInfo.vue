@@ -168,11 +168,13 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
 import { handleAudioSong } from '@/common/audio';
 import { formatDateTime } from '@utils/utils';
 import { playlistSubscribe } from '@api/song-sheet-detail';
 import type { ResponseType } from '@/types/types';
 import type { PlayMusicItem } from '@store/music/state';
+import type { SongType } from '@/common/audio';
 
 export default defineComponent({
   emit: ['jumpToComments'],
@@ -243,7 +245,7 @@ export default defineComponent({
         return false;
       }
 
-      const songList: PlayMusicItem[] = [];
+      const songList: Partial<SongType>[] = [];
 
       songSheetDetail.value?.playlist?.tracks.forEach(
         (item: { id: number }) => {
@@ -252,14 +254,11 @@ export default defineComponent({
             return false;
           }
 
-          const musicItem: PlayMusicItem = handleAudioSong(item);
-
-          songList.push(musicItem);
+          songList.push(item);
         }
       );
 
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', songList);
+      useMusicToPlayList({ music: songList });
     }
 
     // 收藏

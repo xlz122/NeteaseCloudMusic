@@ -217,7 +217,7 @@ export default defineComponent({
         return false;
       }
 
-      const songList: PlayMusicItem[] = [];
+      const songList: Partial<SongType>[] = [];
 
       singerSong.value?.hotSongs?.forEach((item: { id: number }) => {
         // 无版权
@@ -225,13 +225,10 @@ export default defineComponent({
           return false;
         }
 
-        const musicItem: PlayMusicItem = handleAudioSong(item);
-
-        songList.push(musicItem);
+        songList.push(item);
       });
 
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', songList);
+      useMusicToPlayList({ music: songList });
     }
 
     // 收藏全部
