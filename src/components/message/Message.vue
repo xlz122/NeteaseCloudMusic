@@ -38,7 +38,7 @@ export default defineComponent({
         }
 
         messageTip.timer = setTimeout(() => {
-          messageTip.visible = true;
+          messageTip.visible = false;
         }, message.time);
       },
       {
