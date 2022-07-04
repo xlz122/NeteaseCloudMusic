@@ -112,6 +112,61 @@
     margin-top: 10px;
   }
 
+  .password-item {
+    position: relative;
+
+    .forget-password {
+      position: absolute;
+      top: 19px;
+      right: 8px;
+      display: inline-block;
+      vertical-align: middle;
+      color: #666;
+    }
+  
+    .forget-password:hover {
+      color: #333;
+    }
+  }
+
+  .code {
+    .input-password {
+      width: 116px;
+    }
+
+    .code-btn {
+      display: inline-block;
+      vertical-align: middle;
+      padding: 0 5px 0 0;
+      width: 70px;
+      height: 31px;
+      margin-left: 8px;
+      line-height: 31px;
+      color: #333;
+      overflow: hidden;
+      text-align: center;
+      white-space: nowrap;
+      background: url(~@/assets/image/icon-button.png) right -100px no-repeat;
+      cursor: pointer;
+
+      &:hover {
+        background-position: right -182px;
+
+        .code-text {
+          background-position: 0 -141px;
+        }
+      }
+
+      .code-text {
+        display: inline-block;
+        width: 61px;
+        padding: 0 3px 0 7px;
+        background: url(~@/assets/image/icon-button.png) 0 -59px no-repeat;
+        text-align: center;
+      }
+    }
+  }
+
   .verify-error {
     border-color: #F08B8B;
   }
@@ -126,9 +181,21 @@
   outline: none;
   text-align: left;
 
+  .type {
+    display: inline-block;
+    vertical-align: middle;
+    color: #666;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
   .checkbox {
     display: inline-block;
     vertical-align: middle;
+    margin-left: 42%;
   }
 
   .text {
@@ -141,18 +208,6 @@
     font-size: 12px;
     color: #333;
     white-space: nowrap;
-  }
-
-  .forget-password {
-    position: absolute;
-    right: 0;
-    display: inline-block;
-    vertical-align: middle;
-    color: #666;
-  }
-
-  .forget-password:hover {
-    text-decoration: underline;
   }
 }
 

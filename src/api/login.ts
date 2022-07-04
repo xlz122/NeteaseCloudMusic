@@ -102,25 +102,29 @@ export const testCellphone = ({
  * @param { Number } timestamp - 防止接口缓存
  * @param { String } phone - 手机号码
  * @param { String } password - 密码
- * @param { String } [countrycode] - 国家码，用于国外手机号(可选)
+ * @param { String } [countrycode] - 国家码,用于国外手机号(可选)
+ * @param { String } [captcha] -  验证码,传入后 password 参数将失效
  */
 
 type CellphoneLogin = {
   phone: string;
-  password: string;
+  password?: string;
   countrycode?: string;
+  captcha?: string;
 };
 
 export const cellphoneLogin = ({
   phone,
   password,
-  countrycode
+  countrycode,
+  captcha
 }: CellphoneLogin): AxiosPromise => {
   const data = {
     timestamp: new Date().getTime(),
     phone,
     password,
-    countrycode
+    countrycode,
+    captcha
   };
   return axios.request({
     url: '/login/cellphone',
