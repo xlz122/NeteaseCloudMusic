@@ -190,18 +190,7 @@ export default defineComponent({
 
     // 播放单个歌曲
     function playSingleMusic(item: Partial<SongType>): void {
-      const musicItem: PlayMusicItem = handleAudioSong(item);
-
-      // 当前播放音乐
-      $store.commit('music/setPlayMusicItem', musicItem);
-      // 添加到播放列表
-      $store.commit('music/setPlayMusicList', musicItem);
-      // 开始播放
-      $store.commit('music/setMusicPlayStatus', {
-        look: true,
-        loading: true,
-        refresh: true
-      });
+      usePlaySingleMusic(item);
     }
 
     // 单个音乐添加到播放列表
