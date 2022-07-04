@@ -7,7 +7,7 @@ import type { SongType } from '@/common/audio';
 import type { PlayMusicItem } from '@store/music/state';
 
 type UseMusicToPlayList = {
-  music: Partial<SongType>;
+  music: Partial<SongType> | Partial<SongType>[];
   clear?: boolean;
 };
 
@@ -27,7 +27,7 @@ function useMusicToPlayList({
   const list: PlayMusicItem[] = [];
 
   if (toRawType(music) === 'Object') {
-    list.push(handleAudioSong(music));
+    list.push(handleAudioSong(music as SongType));
   }
 
   if (toRawType(music) === 'Array') {
