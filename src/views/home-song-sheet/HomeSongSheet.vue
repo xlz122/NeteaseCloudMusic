@@ -81,12 +81,12 @@
 import { defineComponent, ref, reactive, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import { handleAudioSong } from '@/common/audio';
+import useMusicToPlayList from '@/common/useMusicToPlayList';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { bigNumberTransform } from '@utils/utils';
 import { topPlaylist } from '@api/home-song-sheet';
 import { playlistTrack } from '@api/song-sheet-detail';
 import type { ResponseType } from '@/types/types';
-import type { PlayMusicItem } from '@store/music/state';
 import type { SongType } from '@/common/audio';
 import ClassifyModal from './classify-modal/ClassifyModal.vue';
 import Page from '@components/page/Page.vue';
@@ -191,23 +191,14 @@ export default defineComponent({
               return false;
             }
 
-            const songList: PlayMusicItem[] = [];
+            const songList: Partial<SongType>[] = [];
 
             res?.songs.forEach((item: Partial<SongType>) => {
-              const musicItem: PlayMusicItem = handleAudioSong(item);
-
-              songList.push(musicItem);
+              songList.push(item);
             });
 
-            // 当前播放音乐
-            $store.commit('music/setPlayMusicItem', songList[0]);
-            // 重置播放列表
-            $store.commit('music/resetPlayMusicList', songList);
-            // 开始播放
-            $store.commit('music/setMusicPlayStatus', {
-              look: true,
-              refresh: true
-            });
+            usePlaySingleMusic(songList[0]);
+            useMusicToPlayList({ music: songList, clear: true });
           }
         })
         .catch(() => ({}));
