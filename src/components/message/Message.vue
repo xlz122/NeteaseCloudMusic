@@ -1,5 +1,5 @@
 <template>
-  <div class="message-sysmsg" v-if="messageShow">
+  <div class="message-sysmsg" v-if="messageTip.visible">
     <div class="sysmsg">
       <i
         class="icon"
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, reactive, watch } from 'vue';
 import useMessage from '@/components/message/useMessage';
 
 export default defineComponent({
@@ -23,22 +23,22 @@ export default defineComponent({
     // 提示数据
     const message = useMessage();
 
-    const messageShow = ref<boolean>(false);
-
-    // 提示定时器
-    const timer = ref<number>(0);
+    const messageTip = reactive({
+      visible: false,
+      timer: 0
+    });
 
     watch(
       () => message,
       () => {
-        messageShow.value = true;
+        messageTip.visible = true;
 
-        if (timer.value) {
-          clearTimeout(timer.value);
+        if (messageTip.timer) {
+          clearTimeout(messageTip.timer);
         }
 
-        timer.value = setTimeout(() => {
-          messageShow.value = false;
+        messageTip.timer = setTimeout(() => {
+          messageTip.visible = true;
         }, message.time);
       },
       {
@@ -48,7 +48,7 @@ export default defineComponent({
 
     return {
       message,
-      messageShow
+      messageTip
     };
   }
 });
