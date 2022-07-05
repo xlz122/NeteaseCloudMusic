@@ -51,5 +51,15 @@ export function handleAudioSong(song: Partial<SongType>): PlayMusicItem {
     });
   });
 
+  // 播放器数据直接返回
+  const keys1 = Object.keys(musicItem);
+  const keys2 = Object.keys(song);
+
+  const isCongruence = keys1.every(val => keys2.includes(val));
+
+  if (isCongruence) {
+    return song as PlayMusicItem;
+  }
+
   return musicItem;
 }
