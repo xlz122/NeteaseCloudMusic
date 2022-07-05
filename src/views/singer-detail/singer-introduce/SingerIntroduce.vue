@@ -12,7 +12,9 @@
         :key="index"
       >
         <h2 class="title">{{ item?.ti }}</h2>
-        <p class="content">{{ item?.txt }}</p>
+        <div class="content">
+          <pre class="text">{{ item?.txt }}</pre>
+        </div>
       </li>
     </ul>
   </div>
@@ -95,6 +97,18 @@ export default defineComponent({
       .content {
         line-height: 25px;
         color: #666;
+
+        .text {
+          width: 100%;
+          color: #666;
+          font-size: 12px;
+          font-family: Arial, Helvetica, sans-serif;
+          white-space: pre-wrap;
+          white-space: -moz-pre-wrap;
+          white-space: -pre-wrap;
+          white-space: -o-pre-wrap;
+          word-wrap: break-word;
+        }
       }
     }
   }

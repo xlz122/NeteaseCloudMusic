@@ -16,7 +16,6 @@ function usePlaySingleMusic(song: Partial<SongType>): void {
   }
 
   const musicItem: PlayMusicItem = handleAudioSong(song);
-  console.log(musicItem);
 
   const playMusicItem = computed<PlayMusicItem>(
     () => store.getters['music/playMusicItem']

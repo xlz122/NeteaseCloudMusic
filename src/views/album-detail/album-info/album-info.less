@@ -256,19 +256,27 @@
     display: block;
   }
 
-  .album-desc-dot {
+  .album-desc-text {
     margin-top: 4px;
     font-size: 12px;
     color: #666;
+    text-indent: 2em;
 
     .text {
-      height: 50px;
-      text-indent: 2em;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
+      width: 100%;
+      color: #666;
+      font-size: 12px;
+      font-family: Arial, Helvetica, sans-serif;
+      white-space: pre-wrap;
+      white-space: -moz-pre-wrap;
+      white-space: -pre-wrap;
+      white-space: -o-pre-wrap;
+      word-wrap: break-word;
+      // overflow: hidden;
+      // text-overflow: ellipsis;
+      // display: -webkit-box;
+      // -webkit-line-clamp: 3;
+      // -webkit-box-orient: vertical;
     }
   }
 }
