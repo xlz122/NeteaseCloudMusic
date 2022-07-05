@@ -154,8 +154,9 @@
           </ul>
         </div>
         <div class="desc" v-if="songSheetDetail?.playlist?.description">
-          <b class="title">介绍：</b>
-          <p class="content">{{ songSheetDetail?.playlist?.description }}</p>
+          <div class="content">
+            <pre>介绍：{{ songSheetDetail?.playlist?.description }}</pre>
+          </div>
         </div>
       </div>
     </div>
@@ -323,6 +324,7 @@ export default defineComponent({
       userInfo,
       playMusicId,
       songSheetDetail,
+      description: songSheetDetail?.value.playlist?.description,
       isCopyright,
       playAllMusic,
       allMusicToPlayList,

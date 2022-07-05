@@ -87,8 +87,8 @@
     </div>
     <div class="album-desc">
       <h3 class="album-desc-title">专辑介绍：</h3>
-      <div class="album-desc-dot">
-        <p class="text">{{ userInfo?.description }}</p>
+      <div class="album-desc-text">
+        <pre class="text">{{ userInfo?.description }}</pre>
       </div>
     </div>
   </div>
