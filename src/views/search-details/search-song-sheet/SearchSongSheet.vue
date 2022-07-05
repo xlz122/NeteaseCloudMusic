@@ -84,11 +84,9 @@ import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { handleAudioSong } from '@/common/audio';
 import { bigNumberTransform, handleMatchString } from '@utils/utils';
 import { searchKeywords } from '@api/search';
 import { playlistTrack, playlistSubscribe } from '@api/song-sheet-detail';
-import type { PlayMusicItem } from '@store/music/state';
 import type { SongType } from '@/common/audio';
 import type { ResponseType } from '@/types/types';
 import Page from '@components/page/Page.vue';
@@ -180,6 +178,11 @@ export default defineComponent({
             const songList: Partial<SongType>[] = [];
 
             res?.songs.forEach((item: Partial<SongType>) => {
+              // 无版权过滤
+              if ((item as { copyright: number })?.copyright === 0) {
+                return false;
+              }
+
               songList.push(item);
             });
 
@@ -199,18 +202,18 @@ export default defineComponent({
               return false;
             }
 
-            const songList: PlayMusicItem[] = [];
+            const songList: Partial<SongType>[] = [];
 
             res?.songs.forEach((item: Partial<SongType>) => {
-              const musicItem: PlayMusicItem = handleAudioSong(item);
+              // 无版权过滤
+              if ((item as { copyright: number })?.copyright === 0) {
+                return false;
+              }
 
-              songList.push(musicItem);
+              songList.push(item);
             });
 
-            // 当前播放音乐
-            $store.commit('music/setPlayMusicItem', songList[0]);
-            // 添加到播放列表
-            $store.commit('music/setPlayMusicList', songList);
+            useMusicToPlayList({ music: songList, clear: true });
           }
         })
         .catch(() => ({}));

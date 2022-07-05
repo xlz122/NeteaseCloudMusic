@@ -182,7 +182,7 @@ export default defineComponent({
       classifyShow.value = false;
     }
 
-    // 歌单歌曲添加到播放器
+    // 歌单歌曲添加到播放器并播放
     function songSheetToPlayListPlay(id: number): void {
       playlistTrack({ id })
         .then((res: ResponseType) => {
@@ -194,6 +194,11 @@ export default defineComponent({
             const songList: Partial<SongType>[] = [];
 
             res?.songs.forEach((item: Partial<SongType>) => {
+              // 无版权过滤
+              if ((item as { copyright: number })?.copyright === 0) {
+                return false;
+              }
+
               songList.push(item);
             });
 
