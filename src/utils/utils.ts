@@ -63,9 +63,9 @@ export function timeStampToDuration(timeStamp: number): string {
 }
 
 /**
- * @description 日期字符串/时间戳，转格式化后的日期字符串
- * @param { String | Date } - date 日期或者时间戳
- * @param { String } - fmt 格式化后的日期字符串格式
+ * @description 日期字符串/时间戳转日期字符串
+ * @param { String | Number | Date } - date 日期字符串/时间戳/Date
+ * @param { String } - 日期字符串格式
  */
 export function formatDateTime(
   date: string | Date | number,
@@ -74,30 +74,36 @@ export function formatDateTime(
   if (!date) {
     return '';
   }
+
+  let d: Date = new Date();
+
   if (typeof date === 'number') {
-    date = new Date(date * 1000);
+    d = new Date(date * 1000);
+  }
+  if (typeof date === 'string') {
+    d = new Date(new Date(date).getTime());
   }
 
   const o = {
     // 月份
-    'M+': (date as Date).getMonth() + 1,
+    'M+': d.getMonth() + 1,
     // 日
-    'd+': (date as Date).getDate(),
+    'd+': d.getDate(),
     // 小时
-    'h+': (date as Date).getHours(),
+    'h+': d.getHours(),
     // 分
-    'm+': (date as Date).getMinutes(),
+    'm+': d.getMinutes(),
     // 秒
-    's+': (date as Date).getSeconds(),
+    's+': d.getSeconds(),
     // 季度
-    'q+': Math.floor(((date as Date).getMonth() + 3) / 3),
+    'q+': Math.floor((d.getMonth() + 3) / 3),
     // 毫秒
-    S: (date as Date).getMilliseconds()
+    S: d.getMilliseconds()
   };
 
   if (/(y+)/.test(fmt)) {
     fmt = fmt
-      .replace(RegExp.$1, (date as Date).getFullYear() + '')
+      .replace(RegExp.$1, d.getFullYear() + '')
       .substr(4 - RegExp.$1.length);
   }
 
