@@ -6,7 +6,9 @@
         发布时间：{{ formatDateTime(detail?.publishTime / 1000) }}
       </p>
       <p class="play-time">播放次数：{{ detail?.playTime }}次</p>
-      <p class="text">{{ detail?.description }}</p>
+      <div class="content">
+        <pre class="text">{{ detail?.description }}</pre>
+      </div>
     </div>
     <h3 class="title">相关推荐</h3>
     <ul class="like-list">
