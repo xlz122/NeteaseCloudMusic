@@ -12,7 +12,7 @@ const message = reactive<Message>({
   time: 1000
 });
 
-function setMessage({ type, title, time }: Message = {}): void {
+function setMessage<T extends Message>({ type, title, time }: T): void {
   message.type = 'info';
   message.title = '';
   message.time = 1000;
