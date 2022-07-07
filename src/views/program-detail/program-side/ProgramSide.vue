@@ -2,7 +2,7 @@
   <div class="program-side-container">
     <h3 class="title">
       更多节目
-      <span class="title-all" @click="jumpDjDetail"> 全部> </span>
+      <span class="title-all" @click="jumpRadioDetail(rid)"> 全部> </span>
     </h3>
     <ul class="program-side-list">
       <li class="item" v-for="(item, index) in list" :key="index">
@@ -83,8 +83,8 @@ export default defineComponent({
     );
 
     // 跳转电台详情
-    function jumpDjDetail(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
+    function jumpRadioDetail(rid: number): void {
+      setMessage({ type: 'info', title: `电台详情id: ${rid}` });
     }
 
     // 跳转电台节目详情
@@ -95,7 +95,7 @@ export default defineComponent({
 
     return {
       list,
-      jumpDjDetail,
+      jumpRadioDetail,
       jumpProgramDetail
     };
   }
