@@ -156,7 +156,7 @@ const cacheId: number[] = [];
  * @description 获取随机播放id
  * @param { Array } list 播放列表
  */
-export function getRandomPlayId(list: PlayMusicItem[]): Promise<number> {
+function getRandomPlayId(list: PlayMusicItem[]): Promise<number> {
   return new Promise(resolve => {
     // 缓存当前播放
     const playMusicId = store.getters['music/playMusicId'];
