@@ -7,7 +7,11 @@ import type { SongType } from '@/common/audio';
 import type { PlayMusicItem } from '@store/music/state';
 
 type UseMusicToPlayList = {
-  music: Partial<SongType> | Partial<SongType>[];
+  music:
+    | Partial<SongType>
+    | Partial<SongType>[]
+    | PlayMusicItem
+    | PlayMusicItem[];
   clear?: boolean;
 };
 
@@ -26,13 +30,20 @@ function useMusicToPlayList({
 
   const list: PlayMusicItem[] = [];
 
+  // 处理成播放器所需数据
   if (toRawType(music) === 'Object') {
-    list.push(handleAudioSong(music as SongType));
-  }
+    const song =
+      'singerList' in music
+        ? music
+        : handleAudioSong(music as Partial<SongType>);
 
+    list.push(song);
+  }
   if (toRawType(music) === 'Array') {
-    (music as SongType[]).forEach((item: SongType) => {
-      list.push(handleAudioSong(item));
+    (music as SongType[] | PlayMusicItem[]).forEach(item => {
+      const song = 'singerList' in item ? item : handleAudioSong(item);
+
+      list.push(song);
     });
   }
 
@@ -41,7 +52,6 @@ function useMusicToPlayList({
   );
 
   const musicList = lodash.cloneDeep(playMusicList.value);
-
   list.forEach((item: PlayMusicItem) => {
     const index = musicList?.findIndex((f: PlayMusicItem) => f.id === item.id);
 
