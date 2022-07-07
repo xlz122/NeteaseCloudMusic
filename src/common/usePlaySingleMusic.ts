@@ -4,24 +4,27 @@ import { handleAudioSong } from '@/common/audio';
 import { toRawType } from '@utils/tool';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import type { SongType } from '@/common/audio';
-import type { PlayMusicItem } from '@store/music/state';
+import type { PlayMusicItem, MusicPlayStatus } from '@store/music/state';
 
 /**
  * @description 播放单个歌曲
- * @param { Object } song 歌曲数据
+ * @param { Object } music 歌曲数据
  */
-function usePlaySingleMusic(song: Partial<SongType>): void {
-  if (toRawType(song) !== 'Object') {
+function usePlaySingleMusic<T extends PlayMusicItem | Partial<SongType>>(
+  music: T
+): void {
+  if (toRawType(music) !== 'Object') {
     throw new Error('播放所需数据类型错误');
   }
 
-  const musicItem: PlayMusicItem = handleAudioSong(song);
+  const musicItem: PlayMusicItem =
+    'singerList' in music ? music : handleAudioSong(music);
 
   const playMusicItem = computed<PlayMusicItem>(
     () => store.getters['music/playMusicItem']
   );
 
-  const playStatus = reactive({
+  const playStatus: MusicPlayStatus = reactive({
     look: true,
     loading: true,
     refresh: true
