@@ -80,7 +80,7 @@ const mutations: Mutations<State> = {
       list.splice(index, 1);
     }
     // 保存数据
-    state.playMusicList = list as PlayMusicItem[];
+    state.playMusicList = list;
     localStorage.setItem('playMusicList', JSON.stringify(list));
   }
 };

@@ -241,10 +241,8 @@ export default defineComponent({
               }
             );
             songSheetList.collectSongSheet.forEach(
-              (item: unknown, index: number) => {
-                const itemId = (item as { id: number }).id;
-
-                if (id === itemId) {
+              (item: { id: number }, index: number) => {
+                if (id === item.id) {
                   if (songSheetList.collectSongSheet[index - 1]?.id) {
                     $store.commit(
                       'setSongSheetId',
