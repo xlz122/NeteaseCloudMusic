@@ -10,13 +10,13 @@ export type Store = {
   dispatch(type: string, payload: unknown): void;
 };
 
-type Actions<T, U> = {
+type Actions<T, U = any> = {
   [key: string]: (store: T, payload: U) => void;
 };
 
-const actions: Actions<Store, unknown> = {
-  setMsg({ commit }, msg) {
-    commit('setMsg', msg as string);
+const actions: Actions<Store> = {
+  setMsg({ commit }, msg: string) {
+    commit('setMsg', msg);
   }
 };
 

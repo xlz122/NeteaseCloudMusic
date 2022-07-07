@@ -15,10 +15,9 @@ export default defineComponent({
   setup() {
     const jumpTopShow = ref<boolean>(false);
 
-    function setJumpTopShow(e: Event): void {
-      const target = e.target as Document;
+    function setJumpTopShow(e: { target: Document }): void {
       const scrollTop =
-        target.documentElement.scrollTop || target.body.scrollTop;
+        e.target.documentElement.scrollTop || e.target.body.scrollTop;
 
       if (!jumpTopShow.value && scrollTop >= 20) {
         jumpTopShow.value = true;
