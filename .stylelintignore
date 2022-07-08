@@ -1,0 +1,8 @@
+node_modules/*
+
+/dist/
+
+# 其他类型文件
+*.js
+*.jpg
+*.woff
