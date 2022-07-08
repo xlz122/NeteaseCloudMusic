@@ -1,4 +1,5 @@
 const path = require('path');
+// const StylelintPlugin = require('stylelint-webpack-plugin');
 
 // 不进行webpack打包的文件
 const externals = {
@@ -108,7 +109,19 @@ module.exports = {
       };
     } else {
       return {
-        devtool: 'source-map'
+        devtool: 'source-map',
+        // plugins: [
+        //   new StylelintPlugin({
+        //     configFile: path.resolve(__dirname, './.stylelintrc.js'),
+        //     files: ['**/*.{vue,htm,html,css,less,scss,sass}'],
+        //     lintDirtyModulesOnly: false, // 仅检查有变化的文件
+        //     fix: false, // 是否自动修复
+        //     // customSyntax: 'postcss-less',
+        //     cache: false, // 是否缓存
+        //     emitWarning: true, // 开发运行时抛出Warning提示
+        //     emitErrors: true // 开发运行时抛出Error提示
+        //   })
+        // ]
       }
     }
 
