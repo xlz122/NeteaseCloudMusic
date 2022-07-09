@@ -3,6 +3,7 @@ import type { PlayMusicItem } from '@store/music/state';
 
 const audio = {
   timer: 0,
+  storage: false,
   look: false
 };
 
@@ -14,7 +15,10 @@ export async function playPrevMusic(): Promise<boolean | undefined> {
   const playMusicList = store.getters['music/playMusicList'];
 
   // 存储播放状态
-  audio.look = store.getters['music/musicPlayStatus'].look;
+  if (!audio.storage) {
+    audio.storage = true;
+    audio.look = store.getters['music/musicPlayStatus'].look;
+  }
 
   if (playMusicList.length === 0) {
     return false;
@@ -70,6 +74,8 @@ export async function playPrevMusic(): Promise<boolean | undefined> {
     clearTimeout(audio.timer);
   }
   audio.timer = setTimeout(() => {
+    audio.storage = false;
+
     store.commit('music/setMusicPlayStatus', {
       look: audio.look,
       loading: false,
@@ -86,7 +92,10 @@ export async function playNextMusic(): Promise<boolean | undefined> {
   const playMusicList = store.getters['music/playMusicList'];
 
   // 存储播放状态
-  audio.look = store.getters['music/musicPlayStatus'].look;
+  if (!audio.storage) {
+    audio.storage = true;
+    audio.look = store.getters['music/musicPlayStatus'].look;
+  }
 
   if (playMusicList.length === 0) {
     return false;
@@ -142,6 +151,8 @@ export async function playNextMusic(): Promise<boolean | undefined> {
     clearTimeout(audio.timer);
   }
   audio.timer = setTimeout(() => {
+    audio.storage = false;
+
     store.commit('music/setMusicPlayStatus', {
       look: audio.look,
       loading: false,
