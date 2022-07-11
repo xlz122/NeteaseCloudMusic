@@ -221,12 +221,34 @@
   text-overflow: ellipsis;
 }
 
+.ellipsis-lines-3 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+}
+
+.ellipsis-lines-4 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp:4;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+}
+
 .pointer {
   cursor: pointer;
 }
 
 .not-allowed {
   cursor: not-allowed;;
+}
+
+.dis-contents {
+  display: contents;
 }
 
 .dis-flex {
@@ -277,4 +299,21 @@
   background-color: #fff;
   border: 1px solid #d3d3d3;
   border-width: 0 1px;
+}
+
+pre{
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+i{
+  display: inline-block;
+  font-style: normal;
+  text-align: left;
+  font-size: inherit;
+}
+
+table{
+  table-layout: fixed
 }
