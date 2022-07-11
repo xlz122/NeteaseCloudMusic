@@ -293,3 +293,15 @@ export function handleMatchString(str: string, value: string): string {
 
   return html || str;
 }
+
+// 时间戳转为正常时间的公共方法---2020-02-02
+export function filterTime(time: number): string {
+  const date = new Date(time);
+  const Y = date.getFullYear();
+  const M =
+    date.getMonth() + 1 < 10
+      ? '0' + (date.getMonth() + 1)
+      : date.getMonth() + 1;
+  const D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+  return `${Y}-${M}-${D}`;
+}
