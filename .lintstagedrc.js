@@ -3,10 +3,7 @@ module.exports = {
     "prettier --write",
     "eslint --fix"
   ],
-  // "src/**/*.{css,less,scss,sass}": [
-  //   "stylelint --custom-syntax postcss-less"
-  // ],
-  // "src/**/*.{vue,htm,html}": [
-  //   "stylelint --custom-syntax postcss-html"
+  // "src/**/*.{htm,html,vue,css,less,scss,sass}": [
+  //   "stylelint"
   // ]
 }

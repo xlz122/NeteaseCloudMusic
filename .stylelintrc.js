@@ -1,15 +1,25 @@
 module.exports = {
   processors: [],
   plugins: ['stylelint-order'],
-  extends: [
-    'stylelint-config-standard',
-    'stylelint-config-prettier',
-    'stylelint-config-html/vue',
-    'stylelint-config-recommended-vue'
+  extends: ['stylelint-config-standard'],
+  overrides: [
+    {
+      files: ['**/*.{htm,html,vue}'],
+      customSyntax: 'postcss-html'
+    },
+    {
+      files: ['**/*.{css,less,scss,sass}'],
+      customSyntax: 'postcss-less'
+    },
   ],
-  customSyntax: 'postcss-html',
   rules: {
-    'selector-class-pattern': null,
+    "selector-class-pattern": [ // 命名规范
+      "^([a-z][a-z0-9]*)(-[a-z0-9]+)*$",
+      {
+        "message": "Expected class selector to be kebab-case"
+      }
+    ],
+    // 'selector-class-pattern': null,
     'string-quotes': 'single', // 单引号
     'at-rule-empty-line-before': null,
     'at-rule-no-unknown': null,
