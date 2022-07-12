@@ -200,7 +200,7 @@ export default defineComponent({
   .group-title {
     height: 25px;
     padding-left: 14px;
-    font-family: 'Microsoft Yahei';
+    font-family: 'Microsoft Yahei', sans-serif;
     font-size: 16px;
   }
 

@@ -22,7 +22,6 @@ module.exports = {
     'string-quotes': 'single', // 单引号
     'at-rule-empty-line-before': null,
     'at-rule-no-unknown': null,
-    'font-family-no-missing-generic-family-keyword': null,
     'selector-pseudo-element-no-unknown': null,
     'value-no-vendor-prefix': null,
     'at-rule-name-case': 'lower', // 指定@规则名的大小写

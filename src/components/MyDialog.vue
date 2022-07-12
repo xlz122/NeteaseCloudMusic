@@ -144,7 +144,7 @@ export default defineComponent({
   height: 38px;
   padding: 0 31px 0 18px;
   overflow: hidden;
-  font-family: '\5fae\8f6f\96c5\9ed1';
+  font-family: '\5fae\8f6f\96c5\9ed1', sans-serif;
   font-size: 14px;
   font-weight: bold;
   line-height: 40px;

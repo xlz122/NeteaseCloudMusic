@@ -79,7 +79,7 @@ export default defineComponent({
   .menu-title {
     padding: 0 10px 12px 15px;
     margin-top: 20px;
-    font-family: simsun, '\5b8b\4f53';
+    font-family: simsun, '\5b8b\4f53', sans-serif;
     font-size: 14px;
     color: #000;
     text-align: left;
