@@ -32,7 +32,7 @@ module.exports = {
     'declaration-block-no-duplicate-properties': null, // 禁止声明快重复属性
     'no-descending-specificity': null, // 禁止在具有较高优先级的选择器后出现被其覆盖的较低优先级的选择器。
     'selector-max-id': 3, // 限制一个选择器中 ID 选择器的数量
-    'max-nesting-depth': 10,
+    'max-nesting-depth': 6,
     'indentation': [2, { // 指定缩进  warning 提醒
       'severity': 'warning'
     }],
