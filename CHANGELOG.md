@@ -1,3 +1,50 @@
+## [1.2.1](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.2.0...v1.2.1) (2022-07-12)
+
+
+### ✨ Features | 新功能
+
+* 歌单歌曲添加到播放器过滤无版权歌曲 [#58928c1](https://github.com/xlz122/NeteaseCloudMusic/commit/58928c1) 
+* 简介使用pre标签保持原本格式 [#fc2fb3a](https://github.com/xlz122/NeteaseCloudMusic/commit/fc2fb3a) 
+* 视频、MV详情简介使用pre标签保持原本格式 [#e50852b](https://github.com/xlz122/NeteaseCloudMusic/commit/e50852b) 
+* 视频播放完成循环播放 [#792a511](https://github.com/xlz122/NeteaseCloudMusic/commit/792a511) 
+* 增加usePlaySingleMusic、useMusicToPlayList函数 [#17909a2](https://github.com/xlz122/NeteaseCloudMusic/commit/17909a2) 
+
+
+### 🎫 Chores | 其他更新
+
+* 补全useMusicToPlayList函数类型 [#fca27f7](https://github.com/xlz122/NeteaseCloudMusic/commit/fca27f7) 
+* 部分as断言给定具体类型 [#7fb8be7](https://github.com/xlz122/NeteaseCloudMusic/commit/7fb8be7) 
+* 代码提交前eslint检测使用外部配置文件 [#d1c70de](https://github.com/xlz122/NeteaseCloudMusic/commit/d1c70de) 
+* 启用css规范 [#084ec7f](https://github.com/xlz122/NeteaseCloudMusic/commit/084ec7f) 
+* 删除部分无用type类型 [#2025581](https://github.com/xlz122/NeteaseCloudMusic/commit/2025581) 
+* 完善播放单个音乐、添加到播放器函数的ts类型 [#3d090c5](https://github.com/xlz122/NeteaseCloudMusic/commit/3d090c5) 
+* 完善css代码规范(未启用) [#06a00d8](https://github.com/xlz122/NeteaseCloudMusic/commit/06a00d8) 
+* 允许 box 使用浏览器引擎前缀 [#8b57a99](https://github.com/xlz122/NeteaseCloudMusic/commit/8b57a99) 
+* 增加css代码规范(未启用) [#0c14465](https://github.com/xlz122/NeteaseCloudMusic/commit/0c14465) 
+* **dev:** 更新项目开发环境所需依赖 [#428b8ba](https://github.com/xlz122/NeteaseCloudMusic/commit/428b8ba) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 各页面播放歌曲逻辑修改 [#6d60914](https://github.com/xlz122/NeteaseCloudMusic/commit/6d60914) 
+* 删除resetPlayMusicList相关代码，使用新函数代替 [#b1f5cdc](https://github.com/xlz122/NeteaseCloudMusic/commit/b1f5cdc) 
+* 首页主播电台-电台详情 [#4e44c0f](https://github.com/xlz122/NeteaseCloudMusic/commit/4e44c0f) 
+* 修复 v-deep 无法被stylelint试别的bug [#de43aa1](https://github.com/xlz122/NeteaseCloudMusic/commit/de43aa1) 
+* 修复（不允许在字体系列名称列表中缺少通用系列）css规范报错 [#7129e9b](https://github.com/xlz122/NeteaseCloudMusic/commit/7129e9b) 
+* 修复播放器数据播放报错bug [#39eb918](https://github.com/xlz122/NeteaseCloudMusic/commit/39eb918) 
+* 修复歌曲正在播放，连续切换歌曲后，歌曲没有触发播放的bug [#71395a1](https://github.com/xlz122/NeteaseCloudMusic/commit/71395a1) 
+* 修复全局message不会隐藏的bug [#075d45c](https://github.com/xlz122/NeteaseCloudMusic/commit/075d45c) 
+* 修复首页榜单单个歌曲添加播放列表报错bug [#19b6f89](https://github.com/xlz122/NeteaseCloudMusic/commit/19b6f89) 
+* 修复axios拦截器status报错，增加可选链 [#64fdb98](https://github.com/xlz122/NeteaseCloudMusic/commit/64fdb98) 
+* 修复css样式报错(以stylelint规范为准) [#06354dc](https://github.com/xlz122/NeteaseCloudMusic/commit/06354dc) 
+* 修复formatDateTime函数已知bug [#ea36156](https://github.com/xlz122/NeteaseCloudMusic/commit/ea36156) 
+* 修改播放全部逻辑 [#7909309](https://github.com/xlz122/NeteaseCloudMusic/commit/7909309) 
+* 修改全部音乐添加到播放列表，使用useMusicToPlayList函数添加 [#95c9c94](https://github.com/xlz122/NeteaseCloudMusic/commit/95c9c94) 
+* 修改css嵌套层级(10->6),并修复层级变化后的css规范报错 [#1489be2](https://github.com/xlz122/NeteaseCloudMusic/commit/1489be2) 
+* ref多个变量合并单个reactive [#255be5c](https://github.com/xlz122/NeteaseCloudMusic/commit/255be5c) 
+
+
+
 # [1.2.0](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.1.5...v1.2.0) (2022-07-04)
 
 
@@ -25,6 +72,7 @@
 * 修改歌曲数据类型unknown为具体类型 [#7526e33](https://github.com/xlz122/NeteaseCloudMusic/commit/7526e33) 
 * 增加一些异常提示 [#a430df4](https://github.com/xlz122/NeteaseCloudMusic/commit/a430df4) 
 * release 1.1.5 [#28466a9](https://github.com/xlz122/NeteaseCloudMusic/commit/28466a9) 
+* release 1.2.0 [#a52e36a](https://github.com/xlz122/NeteaseCloudMusic/commit/a52e36a) 
 * update .eslintrc.js [#750fb02](https://github.com/xlz122/NeteaseCloudMusic/commit/750fb02) 
 * vuex部分unknown类型给定具体类型 [#c12f1c8](https://github.com/xlz122/NeteaseCloudMusic/commit/c12f1c8) 
 
