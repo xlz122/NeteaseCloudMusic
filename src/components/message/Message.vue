@@ -59,24 +59,25 @@ export default defineComponent({
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   z-index: 20220405;
   width: 280px;
-  border: 1px solid #c0c0c0;
   background-color: #fff;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+  border: 1px solid #c0c0c0;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 3px 10px rgb(0 0 0 / 40%);
 
   .sysmsg {
     padding: 12px 16px;
-    border: 1px solid #fcfcfc;
     text-align: center;
     background-color: #fff;
+    border: 1px solid #fcfcfc;
+
     .icon {
       display: inline-block;
-      vertical-align: middle;
       width: 24px;
       height: 24px;
-      background: url(~@/assets/image/icon.png);
+      vertical-align: middle;
+      background: url('~@/assets/image/icon.png');
     }
 
     .info-icon {

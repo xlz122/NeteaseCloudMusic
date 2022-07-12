@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="hot">
-          <i style="width: 50%">
+          <i class="hot-icon">
             <i></i>
           </i>
         </div>

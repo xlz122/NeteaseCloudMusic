@@ -4,20 +4,20 @@
   .program-detail-container {
     width: 980px;
     margin: 0 auto;
+    background: url('~@/assets/image/song-sheet/song-sheet-detail-bg.png') repeat-y center 0;
     background-color: #fff;
-    background: url(~@/assets/image/song-sheet/song-sheet-detail-bg.png) repeat-y center 0;
     border: 1px solid #d3d3d3;
     border-width: 0 1px;
 
     .program-content {
       display: inline-block;
-      vertical-align: top;
       width: calc(100% - 274px);
       padding-bottom: 40px;
+      vertical-align: top;
 
       ::v-deep(.comment-component) {
-        margin-left: 39px;
         margin-right: 30px;
+        margin-left: 39px;
 
         .detail-comment {
           width: 637px;
@@ -35,8 +35,8 @@
 
     .program-side {
       display: inline-block;
-      vertical-align: top;
       width: 270px;
+      vertical-align: top;
     }
   }
 }

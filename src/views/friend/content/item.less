@@ -1,8 +1,8 @@
 .cover {
   display: inline-block;
-  vertical-align: top;
   width: 45px;
   height: 45px;
+  vertical-align: top;
   cursor: pointer;
 
   .img {
@@ -13,18 +13,18 @@
 
 .info {
   display: inline-block;
-  vertical-align: top;
   width: calc(100% - 71px);
   padding-top: 4px;
   margin-left: 10px;
+  vertical-align: top;
 
   .info-title {
     font-size: 14px;
 
     .t-text {
       display: inline-block;
-      vertical-align: middle;
       color: #0c73c2;
+      vertical-align: middle;
       cursor: pointer;
 
       &:hover {
@@ -34,31 +34,31 @@
 
     .t-icon {
       display: inline-block;
-      vertical-align: middle;
       width: 15px;
       height: 15px;
       margin: 3px 0 0 1px;
-      background: url(~@/assets/image/friend/icon-song.png) no-repeat;
+      vertical-align: middle;
+      background: url('~@/assets/image/friend/icon-song.png') no-repeat;
       background-size: 100% 100%;
     }
 
     .copywriting {
       margin-top: 0;
-      background: url(~@/assets/image/icon.png) no-repeat;
+      background: url('~@/assets/image/icon.png') no-repeat;
       background-position: -65px -840px;
     }
 
     .program {
-      background: url(~@/assets/image/icon.png) no-repeat;
+      background: url('~@/assets/image/icon.png') no-repeat;
       background-position: 0 1px;
     }
 
     .t-desc {
       display: inline-block;
-      vertical-align: middle;
       margin-left: 5px;
       font-size: 14px;
       color: #666;
+      vertical-align: middle;
     }
   }
 
@@ -74,26 +74,26 @@
 
   .mood {
     margin-top: 10px;
-    line-height: 24px;
     font-size: 14px;
+    line-height: 24px;
     word-break: break-word;
     white-space: normal;
   }
 
   .music-info {
-    display: block;
     position: relative;
+    display: block;
     width: 100%;
     padding: 10px;
     margin: 4px 0 5px;
     background: #f5f5f5;
 
     .music-cover {
-      display: inline-block;
-      vertical-align: top;
       position: relative;
+      display: inline-block;
       width: 40px;
       height: 40px;
+      vertical-align: top;
 
       &:hover {
         .play-icon {
@@ -104,7 +104,7 @@
       &.cover-album {
         width: 50px;
         height: 40px;
-        background: url(~@/assets/image/friend/frd-dyn-sprite.png);
+        background: url('~@/assets/image/friend/frd-dyn-sprite.png');
         background-position: right -70px;
 
         .play-icon {
@@ -127,39 +127,39 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%);
         width: 40px;
         height: 40px;
         margin: 0;
-        background: url(~@/assets/image/friend/frd-dyn-sprite.png);
-        background-position: -100px -70px;
-        opacity: 0.8;
         cursor: pointer;
+        background: url('~@/assets/image/friend/frd-dyn-sprite.png');
+        opacity: .8;
+        transform: translate(-50%, -50%);
+        background-position: -100px -70px;
       }
     }
 
     .music-detail {
       display: inline-block;
-      vertical-align: top;
       margin-left: 12px;
+      vertical-align: top;
 
       .music-detail-datg {
         display: inline-block;
-        vertical-align: middle;
         margin-right: 6px;
         color: #e03f40;
+        vertical-align: middle;
         border: solid 1px #e03f40;
       }
 
       .music-detail-title {
         display: inline-block;
-        vertical-align: middle;
-        color: #000;
+        overflow: hidden;
         font-size: 14px;
         font-weight: normal;
-        overflow: hidden;
+        color: #000;
         text-overflow: ellipsis;
         white-space: nowrap;
+        vertical-align: middle;
         cursor: pointer;
 
         &:hover {
@@ -169,9 +169,9 @@
 
       .music-detail-name {
         margin-top: 5px;
-        color: #666;
-        font-weight: normal;
         overflow: hidden;
+        font-weight: normal;
+        color: #666;
         text-overflow: ellipsis;
         white-space: nowrap;
         cursor: pointer;
@@ -186,21 +186,21 @@
           height: 16px;
           padding: 0 2px 0 3px;
           margin-right: 6px;
-          line-height: 16px;
-          background: url(~@/assets/image/friend/frd-dyn-sprite.png);
-          background-position: -110px 0;
           font-size: 12px;
+          line-height: 16px;
           color: #e03f40;
+          background: url('~@/assets/image/friend/frd-dyn-sprite.png');
+          background-position: -110px 0;
 
           .program-tag-icon {
             position: absolute;
             top: 0;
-            right: 0px;
+            right: 0;
             display: block;
             width: 3px;
             height: 16px;
             font-size: 12px;
-            background: url(~@/assets/image/friend/frd-dyn-sprite.png);
+            background: url('~@/assets/image/friend/frd-dyn-sprite.png');
             background-position: right 0;
           }
         }
@@ -210,20 +210,20 @@
 
   .operate {
     margin: 18px 0 -2px;
-    text-align: right;
     line-height: normal;
+    text-align: right;
 
     .operate-btn {
       .operate-btn-icon {
         display: inline-block;
-        vertical-align: middle;
         width: 14px;
         height: 14px;
         margin-top: -1px;
         margin-right: 2px;
-        background: url(~@/assets/image/friend/frd-dyn-sprite.png);
-        background-position: 0 -20px;
+        vertical-align: middle;
         cursor: pointer;
+        background: url('~@/assets/image/friend/frd-dyn-sprite.png');
+        background-position: 0 -20px;
       }
 
       .operate-btn-active-icon {
@@ -232,8 +232,8 @@
 
       .operate-btn-text {
         display: inline-block;
-        vertical-align: middle;
         color: #0c73c2;
+        vertical-align: middle;
         cursor: pointer;
 
         &:hover {
@@ -252,10 +252,10 @@
 .topic {
   position: relative;
   display: inline-block;
-  vertical-align: top;
   width: calc(100% - 71px);
   padding-top: 0;
   margin-left: 6px;
+  vertical-align: top;
 
   .topic-img {
     width: 100%;
@@ -270,7 +270,7 @@
     left: 0;
     width: 100%;
     height: 248px;
-    background: url(~@/assets/image/friend/frd-topic-mask.png);
+    background: url('~@/assets/image/friend/frd-topic-mask.png');
     background-size: cover;
   }
 
@@ -281,35 +281,35 @@
     transform: translate(-50%, -50%);
 
     &::before {
-      content: '';
       display: block;
       width: 100%;
       height: 2px;
       background: #fff;
-      opacity: 0.2;
+      content: '';
+      opacity: .2;
     }
 
     .topic-content-title {
-      min-width: 140px;
       max-width: 400px;
+      min-width: 140px;
       padding: 27px 20px 38px;
-      line-height: 30px;
-      vertical-align: middle;
-      color: #fff;
-      font-weight: normal;
-      font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
+      font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
       font-size: 20px;
+      font-weight: normal;
+      line-height: 30px;
+      color: #fff;
       word-break: break-all;
+      vertical-align: middle;
       cursor: pointer;
     }
 
     .participate-count {
       position: absolute;
-      left: 10px;
       bottom: 0;
-      color: #fff;
+      left: 10px;
+      font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
       font-size: 12px;
-      font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
+      color: #fff;
       cursor: pointer;
     }
   }
@@ -320,9 +320,9 @@
     right: 10px;
     width: 21px;
     height: 20px;
-    background: url(~@/assets/image/friend/frd-dyn-sprite.png);
-    background-position: -70px -40px;
     cursor: pointer;
+    background: url('~@/assets/image/friend/frd-dyn-sprite.png');
+    background-position: -70px -40px;
 
     &:hover {
       background-position: -70px -55px;

@@ -23,47 +23,47 @@
           display: inline-block;
           width: 730px;
           height: 100%;
-          transition: none 0.2s ease 0s;
+          transition: none .2s ease 0s;
           opacity: 1;
         }
 
         .switching-img {
           transition: opacity 1s ease-in 0s;
-          opacity: 0.2;
+          opacity: .2;
         }
       }
 
       .banner-btn {
-        display: block;
         position: absolute;
         top: 50%;
-        margin-top: -31px;
+        display: block;
         width: 37px;
         height: 63px;
+        margin-top: -31px;
         text-indent: -9999px;
+        cursor: pointer;
         border: none;
         outline: none;
-        cursor: pointer;
       }
 
       .banner-left-btn {
         left: -68px;
-        background: url(~@/assets/image/home/banner/banner-btn-left.png);
+        background: url('~@/assets/image/home/banner/banner-btn-left.png');
         background-position: 0 -378px;
 
         &:hover {
-          background: url(~@/assets/image/home/banner/banner-btn-left-hover.png);
+          background: url('~@/assets/image/home/banner/banner-btn-left-hover.png');
           background-position: 0 -441px;
         }
       }
 
       .banner-right-btn {
         right: -68px;
-        background: url(~@/assets/image/home/banner/banner-btn-right.png);
+        background: url('~@/assets/image/home/banner/banner-btn-right.png');
         background-position: 0 -503px;
 
         &:hover {
-          background: url(~@/assets/image/home/banner/banner-btn-right-hover.png);
+          background: url('~@/assets/image/home/banner/banner-btn-right-hover.png');
           background-position: 0 -566px;
         }
       }
@@ -81,19 +81,19 @@
         display: inline-block;
         width: 20px;
         height: 20px;
-        background: url(~@/assets/image/home/banner/banner-dot.png);
-        background-position: 0 -340px;
         cursor: pointer;
+        background: url('~@/assets/image/home/banner/banner-dot.png');
+        background-position: 0 -340px;
 
         &:hover {
-          background: url(~@/assets/image/home/banner/banner-dot-hover.png);
+          background: url('~@/assets/image/home/banner/banner-dot-hover.png');
           background-position: 0 -340px;
         }
       }
 
       .dots-active-item,
       .dots-active-item:hover {
-        background: url(~@/assets/image/home/banner/banner-dot-hover.png);
+        background: url('~@/assets/image/home/banner/banner-dot-hover.png');
         background-position: 0 -340px;
       }
     }
@@ -105,7 +105,7 @@
       z-index: 9;
       width: 256px;
       height: 285px;
-      background: url(~@/assets/image/home/banner/download.png) no-repeat 0 0;
+      background: url('~@/assets/image/home/banner/download.png') no-repeat 0 0;
 
       .download-link {
         position: relative;
@@ -132,30 +132,30 @@
 
       .desc {
         margin: 10px auto;
-        text-align: center;
         color: #8d8d8d;
+        text-align: center;
       }
 
       .shadow {
-        display: block;
         position: absolute;
         top: 0;
         left: -20px;
+        display: block;
         width: 20px;
         height: 285px;
-        background: url(~@/assets/image/home/banner/banner-download-shadow.png);
+        background: url('~@/assets/image/home/banner/banner-download-shadow.png');
         background-position: -1px 0;
       }
 
       .shadowr {
-        display: block;
         position: absolute;
         top: 0;
-        left: auto;
         right: -18px;
+        left: auto;
+        display: block;
         width: 20px;
         height: 285px;
-        background: url(~@/assets/image/home/banner/banner-download-shadow.png);
+        background: url('~@/assets/image/home/banner/banner-download-shadow.png');
         background-position: -20px 0;
       }
     }

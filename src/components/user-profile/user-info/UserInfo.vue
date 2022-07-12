@@ -1,6 +1,6 @@
 <template>
   <div class="user-info-container">
-    <img class="avatarUrl" :src="currentUserInfo?.profile?.avatarUrl" />
+    <img class="avatar-url" :src="currentUserInfo?.profile?.avatarUrl" />
     <div class="info-right">
       <div class="info-1">
         <span class="title">{{ currentUserInfo?.profile?.nickname }}</span>

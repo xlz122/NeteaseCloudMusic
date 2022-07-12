@@ -2,16 +2,16 @@
   width: 100%;
   height: 26px;
   padding: 20px 0;
-  text-align: center;
   color: #999;
+  text-align: center;
 
   .loading-icon {
     display: inline-block;
-    vertical-align: middle;
     width: 16px;
     height: 16px;
     margin-right: 2px;
-    background: url(~@/assets/image/loading.gif) no-repeat;
+    vertical-align: middle;
+    background: url('~@/assets/image/loading.gif') no-repeat;
   }
 }
 
@@ -25,26 +25,26 @@
 
     .td {
       display: inline-block;
-      vertical-align: middle;
       overflow: hidden;
-      white-space: nowrap;
       text-overflow: ellipsis;
+      white-space: nowrap;
+      vertical-align: middle;
 
       .text {
         position: relative;
         display: inline-block;
-        vertical-align: middle;
-        padding-right: 25px;
         width: auto;
-        max-width: 100%;
         height: 100%;
+        max-width: 100%;
+        padding-right: 25px;
         overflow: hidden;
-        white-space: nowrap;
         text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: middle;
 
         .name {
-          cursor: pointer;
           color: #333;
+          cursor: pointer;
 
           &:hover {
             text-decoration: underline;
@@ -57,13 +57,13 @@
 
         .icon-mv {
           display: inline-block;
-          vertical-align: middle;
           width: 23px;
           height: 17px;
           margin-top: -3px;
-          background: url(~@/assets/image/my-music/my-music-table.png);
-          background-position: 0 -151px;
+          vertical-align: middle;
           cursor: pointer;
+          background: url('~@/assets/image/my-music/my-music-table.png');
+          background-position: 0 -151px;
 
           &:hover {
             background-position: -30px -151px;
@@ -74,13 +74,13 @@
 
     .play-icon {
       display: inline-block;
-      vertical-align: middle;
       width: 17px;
       height: 17px;
       margin-right: 15px;
-      background: url(~@/assets/image/my-music/my-music-table.png);
-      background-position: 0 -103px;
+      vertical-align: middle;
       cursor: pointer;
+      background: url('~@/assets/image/my-music/my-music-table.png');
+      background-position: 0 -103px;
 
       &:hover {
         background-position: 0 -128px;
@@ -106,8 +106,8 @@
 
     .td2 {
       width: 255px;
-      margin: 0 10px;
       max-width: 99%;
+      margin: 0 10px;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -127,28 +127,28 @@
       margin-right: 5px;
 
       .operate-btn {
-        visibility: hidden;
         display: inline-block;
-        vertical-align: middle;
         width: 100%;
         height: 28px;
         line-height: 28px;
+        vertical-align: middle;
+        visibility: hidden;
 
         .icon {
           display: inline-block;
-          vertical-align: top;
           width: 16px;
           height: 16px;
-          margin-left: 0px;
           margin-right: 10px;
-          background: url(~@/assets/image/my-music/my-music-table.png);
+          margin-left: 0;
+          vertical-align: top;
           cursor: pointer;
+          background: url('~@/assets/image/my-music/my-music-table.png');
         }
 
         .add {
           width: 16px;
           height: 16px;
-          background: url(~@/assets/image/icon.png);
+          background: url('~@/assets/image/icon.png');
           background-position: 0 -700px;
 
           &:hover {
@@ -191,7 +191,7 @@
         }
 
         .delete {
-          margin-right: 0px;
+          margin-right: 0;
           background-position: 0 -217px;
 
           &:hover {
@@ -203,23 +203,23 @@
 
     .td4-sheet {
       display: inline-block;
-      vertical-align: middle;
       width: 35px;
       padding-right: 0;
       padding-left: 6px;
       color: #999;
+      vertical-align: middle;
     }
 
     .td5-sheet {
       display: inline-block;
-      vertical-align: middle;
       width: 20%;
       margin: 0 10px;
+      vertical-align: middle;
 
       .name {
         overflow: hidden;
-        white-space: nowrap;
         text-overflow: ellipsis;
+        white-space: nowrap;
 
         .by {
           margin-right: 5px;
@@ -239,27 +239,27 @@
 
     .td6-sheet {
       display: inline-block;
-      vertical-align: middle;
       width: 78px;
       margin: 0 8px;
       color: #999;
+      vertical-align: middle;
     }
   }
 
   .item:hover {
-    border: 1px solid #e1e1e1;
     background: #f2f2f2;
+    border: 1px solid #e1e1e1;
 
     .operate-btn {
-      visibility: visible;
       display: inline-block;
-      vertical-align: middle;
       width: 100%;
+      vertical-align: middle;
+      visibility: visible;
 
       .icon {
         display: inline-block;
-        vertical-align: middle;
         margin-right: 4px;
+        vertical-align: middle;
       }
     }
   }

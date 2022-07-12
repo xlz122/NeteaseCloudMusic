@@ -17,30 +17,30 @@
 
       .text {
         display: inline-block;
-        vertical-align: middle;
+        font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
         font-size: 24px;
         font-weight: normal;
-        font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
+        vertical-align: middle;
       }
 
       .classify-btn {
         position: relative;
         display: inline-block;
-        vertical-align: middle;
         height: 31px;
-        line-height: 31px;
         padding: 0 5px 0 0;
         margin: 2px 0 0 12px;
-        background: url(~@/assets/image/icon-button.png) no-repeat 0 9999px;
-        background-position: right -100px;
+        overflow: hidden;
         font-size: 12px;
         font-weight: normal;
+        line-height: 31px;
         color: #333;
-        overflow: hidden;
-        white-space: nowrap;
-        vertical-align: top;
         text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        vertical-align: top;
         cursor: pointer;
+        background: url('~@/assets/image/icon-button.png') no-repeat 0 9999px;
+        background-position: right -100px;
 
         &:hover {
           background-position: right -182px;
@@ -49,9 +49,9 @@
         .icon {
           display: inline-block;
           padding: 0 9px 0 15px;
-          background: url(~@/assets/image/icon-button.png) no-repeat 0 9999px;
-          background-position: 0 -59px;
           color: #0c73c2;
+          background: url('~@/assets/image/icon-button.png') no-repeat 0 9999px;
+          background-position: 0 -59px;
 
           &:hover {
             background-position: 0 -141px;
@@ -59,17 +59,17 @@
 
           .text {
             display: inline-block;
-            vertical-align: middle;
             font-size: 12px;
+            vertical-align: middle;
           }
 
           .arrow {
             display: inline-block;
-            vertical-align: middle;
             width: 8px;
             height: 5px;
             margin-left: 5px;
-            background: url(~@/assets/image/icon.png) no-repeat 0 9999px;
+            vertical-align: middle;
+            background: url('~@/assets/image/icon.png') no-repeat 0 9999px;
             background-position: -70px -543px;
           }
         }
@@ -80,7 +80,7 @@
         top: 0;
         right: 0;
         height: 29px;
-        background: url(~@/assets/image/my-music/icon-button.png) no-repeat 0 9999px;
+        background: url('~@/assets/image/my-music/icon-button.png') no-repeat 0 9999px;
         background-position: 0 0;
         border-radius: 3px;
 
@@ -88,10 +88,10 @@
           display: inline-block;
           width: 46px;
           height: 29px;
-          line-height: 29px;
-          text-align: center;
           font-size: 12px;
+          line-height: 29px;
           color: #fff;
+          text-align: center;
           cursor: pointer;
         }
 
@@ -107,11 +107,11 @@
 
       .item {
         display: inline-block;
-        vertical-align: middle;
         width: 140px;
         height: 188px;
-        margin-left: 49px;
         margin-bottom: 30px;
+        margin-left: 49px;
+        vertical-align: middle;
 
         .item-top {
           position: relative;
@@ -130,25 +130,25 @@
             left: 0;
             width: 100%;
             height: 27px;
-            background: url(~@/assets/image/my-music/coverall.png);
-            background-position: 0 -537px;
             color: #ccc;
+            background: url('~@/assets/image/my-music/coverall.png');
+            background-position: 0 -537px;
 
             .info-icon {
               position: absolute;
-              left: 0;
               bottom: 8px;
+              left: 0;
               width: 14px;
               height: 11px;
-              background: url(~@/assets/image/music-audio/iconall.png);
-              background-position: 0 -24px;
               margin: 0 5px 0 10px;
+              background: url('~@/assets/image/music-audio/iconall.png');
+              background-position: 0 -24px;
             }
 
             .num {
               position: absolute;
-              left: 30px;
               bottom: 6px;
+              left: 30px;
               display: inline-block;
               vertical-align: middle;
             }
@@ -159,9 +159,9 @@
               bottom: 5px;
               width: 16px;
               height: 17px;
-              background: url(~@/assets/image/music-audio/iconall.png);
-              background-position: 0 0;
               cursor: pointer;
+              background: url('~@/assets/image/music-audio/iconall.png');
+              background-position: 0 0;
             }
 
             .info-icon-right:hover {
@@ -174,16 +174,15 @@
           margin: 8px 0 3px;
           font-size: 14px;
 
-
           .text {
             display: inline-block;
             max-width: 100%;
+            overflow: hidden;
             color: #000;
             text-align: left;
-            overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
             word-wrap: normal;
+            white-space: nowrap;
             cursor: pointer;
           }
 
@@ -196,21 +195,21 @@
 
             .by {
               display: inline-block;
-              vertical-align: middle;
               color: #999;
+              vertical-align: middle;
             }
 
             .text {
               display: inline-block;
-              vertical-align: middle;
               max-width: 74%;
               margin-left: 4px;
+              overflow: hidden;
               font-size: 12px;
               color: #666;
-              overflow: hidden;
               text-overflow: ellipsis;
-              white-space: nowrap;
               word-wrap: normal;
+              white-space: nowrap;
+              vertical-align: middle;
               cursor: pointer;
             }
 
@@ -220,10 +219,10 @@
 
             .desc-img {
               display: inline-block;
-              vertical-align: middle;
-              height: 13px;
               width: 13px;
+              height: 13px;
               margin-left: 4px;
+              vertical-align: middle;
             }
           }
         }

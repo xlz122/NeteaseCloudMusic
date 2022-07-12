@@ -18,7 +18,7 @@
         v-for="item in musicList.slice(0, 4)"
         :key="item.id"
       >
-        <div class="picUrl pointer" @click="toDetails(item.id)">
+        <div class="pic-url pointer" @click="toDetails(item.id)">
           <img :src="item.picUrl" alt="电台图片" />
         </div>
         <div class="cnt">

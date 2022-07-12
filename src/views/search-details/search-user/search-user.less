@@ -2,16 +2,16 @@
   width: 100%;
   height: 26px;
   padding: 20px 0;
-  text-align: center;
   color: #999;
+  text-align: center;
 
   .loading-icon {
     display: inline-block;
-    vertical-align: middle;
     width: 16px;
     height: 16px;
     margin-right: 2px;
-    background: url(~@/assets/image/loading.gif) no-repeat;
+    vertical-align: middle;
+    background: url('~@/assets/image/loading.gif') no-repeat;
   }
 }
 
@@ -21,26 +21,26 @@
 
   .search-user-item {
     display: flex;
-    vertical-align: middle;
     width: 100%;
     height: 62px;
-    line-height: 52px;
     padding-top: 5px;
     padding-bottom: 5px;
-    box-sizing: border-box;
+    line-height: 52px;
+    vertical-align: middle;
     border: 1px solid #fff;
+    box-sizing: border-box;
 
     &:hover {
-      border: 1px solid #e1e1e1;
       background: #f2f2f2;
+      border: 1px solid #e1e1e1;
     }
 
     .item-cover {
       display: inline-block;
-      vertical-align: middle;
       width: 50px;
       height: 50px;
       margin-left: 10px;
+      vertical-align: middle;
       cursor: pointer;
 
       .img {
@@ -51,21 +51,21 @@
 
     .item-title {
       display: inline-block;
+      max-width: 465px;
+      margin-right: 10px;
+      margin-left: 20px;
       vertical-align: middle;
       flex: 1;
-      max-width: 465px;
       align-items: center;
-      margin-left: 20px;
-      margin-right: 10px;
 
       .text {
         display: inline-block;
-        vertical-align: middle;
         max-width: 100%;
-        font-size: 14px;
         overflow: hidden;
+        font-size: 14px;
         text-overflow: ellipsis;
         white-space: nowrap;
+        vertical-align: middle;
         cursor: pointer;
 
         &:hover {
@@ -75,12 +75,12 @@
 
       .icon-sex {
         display: inline-block;
-        vertical-align: middle;
         width: 14px;
         height: 15px;
         margin-left: 5px;
-        background: url(~@/assets/image/icon.png);
+        vertical-align: middle;
         cursor: pointer;
+        background: url('~@/assets/image/icon.png');
       }
 
       .male {
@@ -94,21 +94,21 @@
 
     .item-follow {
       display: inline-block;
-      vertical-align: middle;
       width: 96px;
       padding: 0 10px;
+      vertical-align: middle;
 
       .follow-btn {
         display: inline-block;
-        vertical-align: middle;
         width: 64px;
         height: 27px;
         padding-left: 17px;
-        background: url(~@/assets/image/my-music/icon-button.png);
-        background-position: 0 -990px;
+        vertical-align: middle;
+        cursor: pointer;
+        background: url('~@/assets/image/my-music/icon-button.png');
         border: none;
         outline: none;
-        cursor: pointer;
+        background-position: 0 -990px;
 
         &:hover {
           background-position: 0 -1020px;
@@ -130,10 +130,10 @@
 
     .item-text {
       display: inline-block;
-      vertical-align: middle;
       width: 96px;
       padding: 0 10px;
       color: #999;
+      vertical-align: middle;
     }
   }
 

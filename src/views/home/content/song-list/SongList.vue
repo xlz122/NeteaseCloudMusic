@@ -35,7 +35,7 @@
             v-for="(i, ind) in item?.playlist?.tracks?.slice(0, 10)"
             :key="ind"
           >
-            <span class="num" :class="{ topThree: ind < 3 }">
+            <span class="num" :class="{ 'top-three': ind < 3 }">
               {{ ind + 1 }}
             </span>
             <p class="text" :title="i?.name" @click="jumpSongDetail(i.id)">

@@ -8,22 +8,22 @@
     text-align: left;
 
     .text {
+      font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
       font-size: 24px;
       font-weight: normal;
-      font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
     }
 
     .title-btn {
       position: absolute;
       right: 0;
       display: inline-block;
-      vertical-align: top;
       width: 84px;
       height: 24px;
       margin: 6px 0 0 10px;
-      background: url(~@/assets/image/friend/frd-dyn-sprite.png);
       overflow: hidden;
+      vertical-align: top;
       cursor: pointer;
+      background: url('~@/assets/image/friend/frd-dyn-sprite.png');
     }
 
     .dynamic {
@@ -31,7 +31,7 @@
       background-position: 0 -452px;
 
       &:hover {
-        background-position: 0px -480px;
+        background-position: 0 -480px;
       }
     }
 
@@ -59,16 +59,16 @@
   .loading {
     height: 26px;
     padding: 20px 0;
-    text-align: center;
     color: #999;
+    text-align: center;
 
     .loading-icon {
       display: inline-block;
-      vertical-align: middle;
       width: 16px;
       height: 16px;
       margin-right: 2px;
-      background: url(~@/assets/image/loading.gif) no-repeat;
+      vertical-align: middle;
+      background: url('~@/assets/image/loading.gif') no-repeat;
     }
   }
 }

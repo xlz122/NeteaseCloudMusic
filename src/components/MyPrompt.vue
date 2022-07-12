@@ -1,8 +1,8 @@
 <template>
   <div class="prompt" v-if="dialogShow">
-    <div class="prompt_mask"></div>
-    <div class="prompt_box" id="my_dialog_box">
-      <div class="prompt_box">
+    <div class="prompt-mask"></div>
+    <div class="prompt-box" id="my-dialog-box">
+      <div class="prompt-box">
         <i class="okfail-icon" :class="icon === 'error' ? 'fail-icon' : ''"></i>
         <p class="f14 text-white tc" v-if="content">{{ content }}</p>
         <slot v-else></slot>
@@ -57,40 +57,44 @@ export default defineComponent({
 <style lang="less" scoped>
 .prompt {
   position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 20001009;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
 }
-.prompt_mask {
+
+.prompt-mask {
   position: absolute;
-  left: 0;
   top: 0;
-  bottom: 0;
   right: 0;
+  bottom: 0;
+  left: 0;
   background-color: transparent;
   opacity: 0.5;
 }
-.prompt_box {
+
+.prompt-box {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   z-index: 10000;
   width: 180px;
   min-height: 116px;
-  border-radius: 6px;
-  background: rgba(0, 0, 0, 0.55);
   color: #fff;
   text-align: center;
+  background: rgb(0 0 0 / 55%);
+  border-radius: 6px;
+  transform: translate(-50%, -50%);
+
   .okfail-icon {
     display: inline-block;
     width: 35px;
     height: 35px;
     margin: 27px 0 6px;
-    background: url(~@/assets/image/user/prompt-icon.png) no-repeat;
+    background: url('~@/assets/image/user/prompt-icon.png') no-repeat;
     background-size: 35px auto;
+
     &.fail-icon {
       background-position: 0 -40px;
     }

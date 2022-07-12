@@ -5,12 +5,12 @@
 
   .serch-header-input {
     position: relative;
+    z-index: 10;
     width: 420px;
     height: 40px;
     margin: 0 auto;
-    background: url(~@/assets/image/song-sheet/song-sheet-detail-download.png);
+    background: url('~@/assets/image/song-sheet/song-sheet-detail-download.png');
     background-position: 0 0;
-    z-index: 10;
 
     .search-input {
       width: 350px;
@@ -18,8 +18,8 @@
       padding: 0;
       margin: 12px 0 0 20px;
       background: #fff;
-      outline: none;
       border: none;
+      outline: none;
     }
 
     .search-icon {
@@ -30,7 +30,7 @@
       cursor: pointer;
 
       &:hover {
-        background: url(~@/assets/image/song-sheet/song-sheet-detail-download.png);
+        background: url('~@/assets/image/song-sheet/song-sheet-detail-download.png');
         background-position: -430px 0;
       }
     }
@@ -38,17 +38,17 @@
 
   .search-list {
     position: absolute;
-    z-index: 120;
     top: 43px;
     left: 0;
+    z-index: 120;
     width: 420px;
+    line-height: normal;
+    text-shadow: 0 1px 0 rgb(255 255 255 / 90%);
+    background: #fff;
     border: 1px solid #bebebe;
     border-radius: 4px;
-    background: #fff;
     box-sizing: border-box;
     box-shadow: 0 4px 7px #555;
-    text-shadow: 0 1px 0 rgb(255 255 255 / 90%);
-    line-height: normal;
 
     .item-note {
       height: 17px;
@@ -67,20 +67,20 @@
 
       .title {
         display: inline-block;
-        vertical-align: top;
         width: 52px;
         padding: 10px 0 0 10px;
-        line-height: 17px;
         font-weight: normal;
+        line-height: 17px;
+        vertical-align: top;
 
         .title-icon {
           display: inline-block;
-          vertical-align: middle;
           width: 14px;
           height: 15px;
           margin-right: 3px;
-          background: url(~@/assets/image/icon.png) no-repeat 0 9999px;
           overflow: hidden;
+          vertical-align: middle;
+          background: url('~@/assets/image/icon.png') no-repeat 0 9999px;
         }
 
         .songs-icon {
@@ -100,31 +100,30 @@
         }
 
         .title-text {
+          font-size: inherit;
           font-style: normal;
           text-align: left;
-          font-size: inherit;
         }
       }
 
       .f-cb {
         display: inline-block;
-        vertical-align: top;
         width: calc(100% - 63px);
         padding: 6px 0 5px;
+        vertical-align: top;
         border-left: 1px solid #e2e2e2;
         border-bottom: 1px solid #e2e2e2;
-
 
         .f-cb-i {
           display: block;
           width: 100%;
+          overflow: hidden;
+          line-height: 24px;
           color: #000;
           text-indent: 12px;
-          line-height: 24px;
-          overflow: hidden;
           text-overflow: ellipsis;
-          white-space: nowrap;
           word-wrap: normal;
+          white-space: nowrap;
           cursor: pointer;
 
           .f-cb-text {

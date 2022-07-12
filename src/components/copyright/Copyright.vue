@@ -53,15 +53,15 @@ export default defineComponent({
 
 <style lang="less" scoped>
 .copyright-dialog {
-  .my_dialog_box {
+  .my-dialog-box {
     width: 480px;
   }
 
   .content {
-    text-align: center;
-    color: #333;
-    font-size: 14px;
     font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #333;
+    text-align: center;
   }
 }
 </style>

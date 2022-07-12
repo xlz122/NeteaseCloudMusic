@@ -50,17 +50,17 @@ export default defineComponent({
 
 <style lang="less" scoped>
 .jump-top {
-  display: none;
   position: fixed;
-  text-indent: -9999px;
-  left: 50%;
   bottom: 160px;
+  left: 50%;
+  display: none;
   width: 49px;
   height: 44px;
   margin-left: 505px;
-  background: url(~@/assets/image/song-sheet/song-sheet-detail-download.png);
-  background-position: -265px -47px;
+  text-indent: -9999px;
   cursor: pointer;
+  background: url('~@/assets/image/song-sheet/song-sheet-detail-download.png');
+  background-position: -265px -47px;
 
   &:hover {
     background-position: -325px -47px;

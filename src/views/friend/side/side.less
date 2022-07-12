@@ -1,6 +1,6 @@
 .user-profile {
   height: 193px;
-  background: url(~@/assets/image/friend/frduser.png) repeat-x 0 0;
+  background: url('~@/assets/image/friend/frduser.png') repeat-x 0 0;
 
   .user-profile-container {
     padding-top: 40px;
@@ -8,11 +8,11 @@
     .user-info {
       .user-avatar {
         display: inline-block;
-        vertical-align: top;
         width: 62px;
         height: 62px;
-        margin-left: 30px;
         padding: 2px;
+        margin-left: 30px;
+        vertical-align: top;
         background: #fff;
         border: 1px solid #dadada;
 
@@ -26,10 +26,10 @@
 
       .info {
         display: inline-block;
-        vertical-align: top;
         width: 115px;
-        margin-left: 18px;
         padding-top: 3px;
+        margin-left: 18px;
+        vertical-align: top;
 
         .name {
           overflow: hidden;
@@ -37,12 +37,12 @@
 
           .text {
             display: inline-block;
-            vertical-align: middle;
-            color: #333;
-            font-size: 14px;
             overflow: hidden;
+            font-size: 14px;
+            color: #333;
             text-overflow: ellipsis;
             white-space: nowrap;
+            vertical-align: middle;
             cursor: pointer;
 
             &:hover {
@@ -108,21 +108,21 @@
   .side-title {
     position: relative;
     height: 23px;
-    line-height: 23px;
     margin: 0 30px;
-    border-bottom: 1px solid #ccc;
+    line-height: 23px;
     color: #333;
     text-align: left;
+    border-bottom: 1px solid #ccc;
 
     .link {
       position: absolute;
       top: 45%;
       right: 0;
-      transform: translateY(-50%);
-      color: #666;
       font-size: 12px;
       font-weight: normal;
+      color: #666;
       cursor: pointer;
+      transform: translateY(-50%);
 
       &:hover {
         color: #666;
@@ -141,10 +141,10 @@
 
       .item-img {
         display: inline-block;
-        vertical-align: top;
         width: 45px;
         height: 45px;
         margin-right: 10px;
+        vertical-align: top;
 
         .img {
           width: 45px;
@@ -155,16 +155,16 @@
 
       .info {
         display: inline-block;
-        vertical-align: top;
         width: 116px;
+        vertical-align: top;
 
         .info-title {
           width: 100%;
           padding: 3px 0 7px;
           overflow: hidden;
           text-overflow: ellipsis;
-          white-space: nowrap;
           word-wrap: normal;
+          white-space: nowrap;
 
           &:hover {
             text-decoration: underline;
@@ -177,8 +177,8 @@
           padding: 0 0 7px;
           overflow: hidden;
           text-overflow: ellipsis;
-          white-space: nowrap;
           word-wrap: normal;
+          white-space: nowrap;
           cursor: pointer;
         }
       }
@@ -186,15 +186,15 @@
       .follow {
         position: absolute;
         top: 50%;
-        right: 0px;
+        right: 0;
         width: 52px;
         height: 22px;
         margin-top: -11px;
-        background: url(~@/assets/image/my-music/icon-button.png) no-repeat;
-        background-position: 0 -96px;
-        outline: none;
-        border: none;
         cursor: pointer;
+        background: url('~@/assets/image/my-music/icon-button.png') no-repeat;
+        border: none;
+        outline: none;
+        background-position: 0 -96px;
 
         &:hover {
           background-position: -94px -39px;
@@ -202,12 +202,12 @@
 
         .follow-text {
           display: inline-block;
-          line-height: 22px;
           padding-left: 15px;
-          color: #515151;
+          overflow: hidden;
           font-size: 12px;
           font-weight: normal;
-          overflow: hidden;
+          line-height: 22px;
+          color: #515151;
         }
       }
 
@@ -220,11 +220,11 @@
 
         .active-icon {
           display: inline-block;
-          vertical-align: middle;
           width: 13px;
           height: 10px;
           margin-right: 3px;
-          background: url(~@/assets/image/icon.png) no-repeat;
+          vertical-align: middle;
+          background: url('~@/assets/image/icon.png') no-repeat;
           background-position: -60px -470px;
         }
 
@@ -235,18 +235,18 @@
       }
 
       .delete-icon {
-        display: none;
         position: absolute;
         top: 50%;
         right: -14px;
+        display: none;
         width: 14px;
         height: 14px;
         margin-top: -7px;
-        background: url(~@/assets/image/icon.png) no-repeat;
-        background-position: 3px -636px;
-        outline: none;
-        border: none;
         cursor: pointer;
+        background: url('~@/assets/image/icon.png') no-repeat;
+        border: none;
+        outline: none;
+        background-position: 3px -636px;
 
         &:hover {
           background-position: -11px -636px;
@@ -280,7 +280,7 @@
 
       .info {
         .info-title {
-          padding: 0px;
+          padding: 0;
           color: #333;
 
           &:hover {
@@ -308,11 +308,11 @@
     display: block;
     width: 100%;
     height: 31px;
-    line-height: 31px;
     margin-top: 10px;
-    background: url(~@/assets/image/icon-button.png) no-repeat;
-    background-position: right -100px;
+    line-height: 31px;
     color: #333;
+    background: url('~@/assets/image/icon-button.png') no-repeat;
+    background-position: right -100px;
 
     &:hover {
       background-position: right -182px;
@@ -323,7 +323,7 @@
       width: 236px;
       height: 100%;
       text-align: left;
-      background: url(~@/assets/image/icon-button.png) no-repeat;
+      background: url('~@/assets/image/icon-button.png') no-repeat;
       background-position: 0 -59px;
 
       &:hover {
@@ -332,11 +332,11 @@
 
       .icon {
         display: inline-block;
-        vertical-align: middle;
         width: 20px;
         height: 20px;
         margin: 0 10px 0 63px;
-        background: url(~@/assets/image/icon-logo.png) no-repeat;
+        vertical-align: middle;
+        background: url('~@/assets/image/icon-logo.png') no-repeat;
         background-position: -172px 0;
       }
 

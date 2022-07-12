@@ -14,16 +14,16 @@
   .title {
     position: relative;
     padding-left: 14px;
+    font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
     font-size: 22px;
-    line-height: 32px;
     font-weight: 400;
-    font-family: "Microsoft Yahei", Arial, Helvetica, sans-serif;
+    line-height: 32px;
     text-align: left;
 
     .title-right-text {
       position: absolute;
       top: 2px;
-      right: 0px;
+      right: 0;
       font-size: 12px;
       color: #0e73ba;
       cursor: pointer;
@@ -38,7 +38,7 @@
         height: 12px;
         margin-left: 5px;
         vertical-align: middle;
-        background: url(~@/assets/image/user/level-detail-arrow.png);
+        background: url('~@/assets/image/user/level-detail-arrow.png');
       }
     }
   }
@@ -47,12 +47,12 @@
     text-align: left;
 
     .tip {
+      height: 32px;
       padding-top: 6px;
       padding-left: 14px;
-      height: 32px;
       line-height: 32px;
-      border-bottom: solid 1px #e6e6e6;
       color: #666;
+      border-bottom: solid 1px #e6e6e6;
 
       .text {
         display: inline-block;
@@ -65,42 +65,41 @@
       .item {
         height: 30px;
         padding-top: 20px;
-        overflow: hidden;
-        border-bottom: solid 1px #e6e6e6;
         padding-left: 14px;
+        overflow: hidden;
         color: #666;
+        border-bottom: solid 1px #e6e6e6;
 
         .n-level {
           position: relative;
           display: inline-block;
           width: 46px;
           margin-left: 25px;
-          zoom: 1;
-          font-family: Arial;
           font-size: 18px;
+          font-style: italic;
           font-weight: 700;
           color: #e03a24;
-          font-style: italic;
+          zoom: 1;
 
           .icon {
             position: absolute;
-            left: -25px;
             top: 0;
+            left: -25px;
             width: 25px;
             height: 22px;
-            background: url(~@/assets/image/user/mylevel.png);
+            background: url('~@/assets/image/user/mylevel.png');
             background-position: 0 -25px;
           }
         }
 
         .point {
           display: inline-block;
-          vertical-align: middle;
           width: 4px;
           height: 4px;
-          margin-left: 15px;
           margin-right: 15px;
-          background: url(~@/assets/image/user/level-detail-point.png);
+          margin-left: 15px;
+          vertical-align: middle;
+          background: url('~@/assets/image/user/level-detail-point.png');
         }
       }
     }

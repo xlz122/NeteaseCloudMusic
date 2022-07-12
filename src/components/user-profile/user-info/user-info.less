@@ -1,31 +1,31 @@
 .user-info-container {
-  width: 100%;
-  background: #FFFFFF;
-  text-align: left;
-  color: #666;
   position: relative;
+  width: 100%;
+  color: #666;
+  text-align: left;
+  background: #fff;
 
   .display-overflow {
     display: inline-block;
     overflow: hidden;
   }
 
-  .avatarUrl {
+  .avatar-url {
     display: inline-block;
-    vertical-align: top;
     width: 180px;
     height: 180px;
     padding: 3px;
     margin-top: 5px;
+    vertical-align: top;
     background: #fff;
     border: 1px solid #d5d5d5;
   }
 
   .info-right {
     display: inline-block;
-    vertical-align: top;
     width: calc(100% - 228px);
-    padding-left:  40px;
+    padding-left: 40px;
+    vertical-align: top;
 
     .info-1 {
       padding-bottom: 12px;
@@ -34,19 +34,19 @@
 
       .title {
         display: inline-block;
-        vertical-align: middle;
         font-size: 22px;
         font-weight: normal;
         line-height: 30px;
         color: #000;
+        vertical-align: middle;
       }
 
       .vip-level {
         display: inline-block;
-        vertical-align: middle;
         width: 57px;
         height: 21px;
         margin-left: 10px;
+        vertical-align: middle;
         background-size: 100% 20px;
         background-repeat: no-repeat;
         background-position: center;
@@ -55,40 +55,40 @@
       .level {
         position: relative;
         display: inline-block;
-        vertical-align: middle;
-        margin-left: 10px;
         height: 19px;
         padding-left: 35px;
+        margin-left: 10px;
+        font-size: 14px;
+        font-style: italic;
+        font-weight: bold;
         line-height: 21px;
         color: #e03a24;
-        font-size: 14px;
-        font-weight: bold;
-        font-style: italic;
-        background: url(~@/assets/image/icon2.png) no-repeat 0 9999px;
+        vertical-align: middle;
+        background: url('~@/assets/image/icon2.png') no-repeat 0 9999px;
         background-position: -135px -190px;
 
         .level-text {
           position: absolute;
-          top: 0px;
+          top: 0;
           right: 7px;
         }
 
         .wei {
           width: 9px;
           height: 19px;
-          background: url(~@/assets/image/icon2.png) no-repeat 0 9999px;
+          background: url('~@/assets/image/icon2.png') no-repeat 0 9999px;
           background-position: -191px -190px;
         }
       }
 
       .sex {
-        display: inline-block;
-        vertical-align: middle;
-        margin-left: 9px;
         position: relative;
+        display: inline-block;
         width: 21px;
         height: 20px;
-        background: url(~@/assets/image/icon.png) no-repeat 0 9999px;
+        margin-left: 9px;
+        vertical-align: middle;
+        background: url('~@/assets/image/icon.png') no-repeat 0 9999px;
         background-position: -41px -57px;
       }
 
@@ -97,24 +97,24 @@
       }
 
       .edit-btn {
+        position: relative;
         float: right;
-        color: #333;
-        padding: 0 5px 0 0;
         height: 31px;
+        padding: 0 5px 0 0;
         line-height: 31px;
+        color: #333;
         text-align: center;
         cursor: pointer;
-        background: url(~@/assets/image/icon-button.png) no-repeat 0 9999px;
+        background: url('~@/assets/image/icon-button.png') no-repeat 0 9999px;
         background-position: right -100px;
-        position: relative;
 
         .wei {
           display: inline-block;
           height: 30px;
           padding: 0 15px 0 20px;
-          background: url(~@/assets/image/icon-button.png) no-repeat 0 9999px;
-          background-position: 0 -59px;
           text-align: center;
+          background: url('~@/assets/image/icon-button.png') no-repeat 0 9999px;
+          background-position: 0 -59px;
         }
       }
 
@@ -130,16 +130,16 @@
     .info-2 {
       padding: 0;
       margin: 0;
-      overflow: hidden;
       margin-bottom: 15px;
+      overflow: hidden;
 
       li {
         float: left;
-        list-style: none;
         padding: 0 40px 0 20px;
         color: #666;
-        border-left: 1px solid #ddd;
+        list-style: none;
         cursor: pointer;
+        border-left: 1px solid #ddd;
 
         &:hover {
           color: #0c73c2;
@@ -168,15 +168,13 @@
 
     .info-4 {
       .weibo {
-        width: 20px;
-        height: 20px;
         position: relative;
         top: 5px;
-        background: url(~@/assets/image/icon-logo.png) no-repeat 0 9999px;
+        width: 20px;
+        height: 20px;
+        background: url('~@/assets/image/icon-logo.png') no-repeat 0 9999px;
         background-position: 0 -25px;
       }
     }
   }
-
-
 }

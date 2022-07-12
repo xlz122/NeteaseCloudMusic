@@ -3,7 +3,7 @@
 </style>
 
 <template>
-  <div class="bg-grayF2 detail">
+  <div class="bg-gray-f2 detail">
     <div class="box-border dis-flex">
       <div class="detail-lf">
         <div class="dis-flex detail-top">

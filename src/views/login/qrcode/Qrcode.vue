@@ -1,6 +1,10 @@
 <template>
   <div class="qrcode" v-if="!qrcodeAuthorized">
-    <i class="icon-phone"></i>
+    <img
+      class="icon-phone"
+      src="../../../assets/image/login/qrcode-phone.png"
+      alt=""
+    />
     <div class="qrcode-right">
       <p class="title">扫码登录</p>
       <div class="qrcode-img">
@@ -22,7 +26,11 @@
     </div>
   </div>
   <div class="qrcode-authorized" v-else>
-    <i class="icon-phone"></i>
+    <img
+      class="icon-phone"
+      src="../../../assets/image/login/qrcode-phone-authorized.png"
+      alt=""
+    />
     <p class="title">扫描成功</p>
     <p class="text">请在手机上确认登录</p>
   </div>

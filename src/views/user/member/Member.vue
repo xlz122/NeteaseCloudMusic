@@ -127,7 +127,7 @@
           <div class="select-dropdown" v-show="dropdown">
             <ul>
               <li
-                class="dropdown-menu not-allowed text-grayC"
+                class="dropdown-menu not-allowed text-grayc"
                 v-if="couponList.length === 0"
               >
                 无可用优惠券
@@ -150,7 +150,7 @@
           <input
             type="text"
             placeholder="请输入优惠券兑换码"
-            class="f12 text-grayA"
+            class="f12 text-graya"
             v-model="exchangeCode"
           />
           <button type="button" class="pointer" @click="exchangeCoupons">
@@ -160,7 +160,7 @@
         <div class="payment mt20 ml10">
           <div class="f14 text-gray3">支付方式</div>
           <div class="scan dis-flex">
-            <div class="scanImg">
+            <div class="scan-img">
               <img src="../../../assets/image/user/scanImg.png" alt="二维码" />
             </div>
             <div class="ml20">
@@ -747,16 +747,19 @@ export default defineComponent({
 @import './member.less';
 </style>
 <style lang="less">
-.vip-service-modal .my_dialog_box {
+.vip-service-modal .my-dialog-box {
   width: 760px !important;
   min-height: auto !important;
-  .my_dialog_title {
+
+  .my-dialog-title {
     font-size: 16px;
     font-weight: initial;
     text-align: center;
   }
-  .my_dialog_content {
+
+  .my-dialog-content {
     padding: 23px 60px 33px;
+
     .dialog-content {
       p {
         line-height: 26px;
@@ -764,25 +767,30 @@ export default defineComponent({
     }
   }
 }
-.problem-modal .my_dialog_box {
+
+.problem-modal .my-dialog-box {
   width: 640px;
-  .my_dialog_content {
+
+  .my-dialog-content {
     height: 250px;
-    overflow: auto;
     padding: 11px 34px 0;
+    overflow: auto;
+
     .h {
       padding-top: 16px;
       padding-bottom: 9px;
       font-size: 12px;
     }
+
     .fold-content {
-      margin-bottom: 8px;
       margin-top: 8px;
+      margin-bottom: 8px;
+
       p {
-        line-height: 16px;
         padding-bottom: 8px;
-        color: #666;
         font-size: 12px;
+        line-height: 16px;
+        color: #666;
       }
     }
   }

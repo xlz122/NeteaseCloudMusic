@@ -11,10 +11,10 @@
 
       .new-disc-item {
         display: inline-block;
-        vertical-align: top;
         width: 145px;
         height: 175px;
         padding: 0 0 30px 18px;
+        vertical-align: top;
 
         .item-cover {
           position: relative;
@@ -35,31 +35,31 @@
             left: 0;
             width: 145px;
             height: 120px;
-            background: url(~@/assets/image/my-music/coverall.png) no-repeat;
+            background: url('~@/assets/image/my-music/coverall.png') no-repeat;
             background-position: -170px -850px;
           }
 
           .item-cover-play {
-            display: none;
             position: absolute;
             right: 10px;
             bottom: 5px;
             left: 94px;
+            display: none;
             width: 28px;
             height: 28px;
-            background: url(~@/assets/image/music-audio/iconall.png) no-repeat;
+            background: url('~@/assets/image/music-audio/iconall.png') no-repeat;
             background-position: 0 -140px;
           }
         }
 
         .desc {
           margin: 8px 0 3px;
+          overflow: hidden;
           font-size: 14px;
           color: #000;
-          overflow: hidden;
           text-overflow: ellipsis;
-          white-space: nowrap;
           word-wrap: normal;
+          white-space: nowrap;
           cursor: pointer;
 
           &:hover {
@@ -70,13 +70,13 @@
         .name {
           display: inline-block;
           max-width: 85%;
-          vertical-align: middle;
+          overflow: hidden;
           font-size: 12px;
           color: #666;
-          overflow: hidden;
           text-overflow: ellipsis;
-          white-space: nowrap;
           word-wrap: normal;
+          white-space: nowrap;
+          vertical-align: middle;
         }
       }
 

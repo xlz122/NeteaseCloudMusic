@@ -1,35 +1,34 @@
 .comment-replay {
   display: inline-block;
-  vertical-align: top;
-  font-size: 12px;
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
   color: #333;
+  vertical-align: top;
 
   .comment-content {
-
     .user-avatar {
       display: inline-block;
-      vertical-align: top;
       width: 50px;
       height: 50px;
+      vertical-align: top;
     }
 
     .comment-textarea {
       display: inline-block;
-      vertical-align: top;
       width: 100%;
       height: 100%;
       padding: 5px 6px 6px;
-      border: 1px solid #cdcdcd;
-      outline: none;
-      border-radius: 2px;
-      line-height: 19px;
-      font-size: 12px;
+      overflow: auto;
       font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      line-height: 19px;
       color: #333;
+      vertical-align: top;
+      border: 1px solid #cdcdcd;
+      border-radius: 2px;
+      outline: none;
       box-sizing: content-box;
       resize: none;
-      overflow: auto;
     }
   }
 
@@ -49,8 +48,8 @@
         display: inline-block;
         width: 18px;
         height: 18px;
-        background: url(~@assets/image/icon.png);
         cursor: pointer;
+        background: url('~@assets/image/icon.png');
       }
 
       .expression {
@@ -71,11 +70,11 @@
 
       .text {
         display: inline-block;
-        vertical-align: top;
         margin-right: 10px;
-        color: #999;
         font-size: 12px;
         line-height: 25px;
+        color: #999;
+        vertical-align: top;
       }
 
       .words-beyond {
@@ -84,17 +83,17 @@
 
       .publish {
         display: inline-block;
-        vertical-align: top;
         width: 46px;
         height: 25px;
-        background: url(~@/assets/image/my-music/icon-button.png);
-        background-position: -84px -64px;
+        line-height: 25px;
         color: #fff;
         text-align: center;
-        line-height: 25px;
-        outline: none;
-        border: none;
+        vertical-align: top;
         cursor: pointer;
+        background: url('~@/assets/image/my-music/icon-button.png');
+        border: none;
+        outline: none;
+        background-position: -84px -64px;
 
         &:hover {
           background-position: -84px -94px;
@@ -113,23 +112,23 @@
       position: absolute;
       top: -5px;
       left: -12px;
+      z-index: 100;
       width: 260px;
       height: 160px;
       padding: 17px 17px 0 13px;
-      z-index: 100;
-      background: url(~@/assets/image/my-music/emtbg.png) no-repeat;
+      background: url('~@/assets/image/my-music/emtbg.png') no-repeat;
 
       .emtwrap {
-        white-space: pre-wrap;
         height: 130px;
+        white-space: pre-wrap;
 
         .emtwrap-img {
           float: left;
           width: 21px;
           height: 21px;
           margin: 1px 2px 2px 1px;
-          border: 1px solid #fff;
           cursor: pointer;
+          border: 1px solid #fff;
 
           &:hover {
             border-color: #3d91ec;
@@ -142,13 +141,13 @@
         text-align: center;
 
         a {
-          width: 9px;
-          height: 9px;
           position: relative;
           top: 4px;
+          width: 9px;
+          height: 9px;
 
           &.u-btn {
-            background: url(~@/assets/image/my-music/icon-button.png) no-repeat 0 9999px;
+            background: url('~@/assets/image/my-music/icon-button.png') no-repeat 0 9999px;
           }
 
           &.u-btn-prv {
@@ -165,8 +164,8 @@
           display: inline-block;
           height: 15px;
           margin: 0 16px;
-          vertical-align: middle;
           line-height: 16px;
+          vertical-align: middle;
         }
 
         .s-fc3,
