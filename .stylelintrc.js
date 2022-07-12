@@ -22,8 +22,13 @@ module.exports = {
     'string-quotes': 'single', // 单引号
     'at-rule-empty-line-before': null,
     'at-rule-no-unknown': null,
-    'selector-pseudo-element-no-unknown': null,
-    'value-no-vendor-prefix': null,
+    'selector-pseudo-element-no-unknown': [
+      true,
+      {
+        ignorePseudoElements: ['v-deep']
+      }
+    ], // 使用未知的伪元素选择器
+    'value-no-vendor-prefix': null, // 使用媒体功能名称的前缀
     'at-rule-name-case': 'lower', // 指定@规则名的大小写
     'length-zero-no-unit': true, // 禁止零长度的单位（可自动修复）
     'shorthand-property-no-redundant-values': true, // 简写属性
