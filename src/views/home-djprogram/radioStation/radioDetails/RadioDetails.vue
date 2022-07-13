@@ -167,7 +167,6 @@ export default defineComponent({
         if (res?.code === 200) {
           songs.details = res;
           list.value = res.programs;
-          console.log('songs', songs);
         }
       });
     }
@@ -180,8 +179,6 @@ export default defineComponent({
     // 播放全部 - 默认播放列表第一项
     const playAllMusic = throttle(
       function () {
-        // // console.log('', songs.details.programs);
-        // console.log('', list.value);
         // if (list.value.length === 0) {
         //   return false;
         // }
@@ -189,7 +186,6 @@ export default defineComponent({
         // const songList: Partial<SongType>[] = [];
         //
         // list.value.forEach((item: { id: number }) => {
-        //   console.log('item', item)
         //   songList.push({
         //     ...item.mainSong,
         //     img80x80: item.coverUrl

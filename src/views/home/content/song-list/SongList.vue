@@ -142,12 +142,9 @@ export default defineComponent({
           return false;
         }
 
-        const songList: Partial<SongType>[] = [];
-
-        list.value[index].playlist?.tracks.forEach(
-          (item: Partial<SongType>) => {
-            songList.push(item);
-          }
+        // 过滤无版权
+        const songList = list.value[index].playlist?.tracks.filter(
+          (item: Partial<SongType>) => item
         );
 
         usePlaySingleMusic(songList[0]);

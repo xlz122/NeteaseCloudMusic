@@ -57,8 +57,6 @@ export default defineComponent({
       return new Promise((resolve, reject) => {
         djCatelist()
           .then((res: ResponseType) => {
-            console.log('res', res);
-
             if (res?.code === 200) {
               resolve(res.categories || []);
             } else {

@@ -207,18 +207,11 @@ export default defineComponent({
           return false;
         }
 
-        const songList: Partial<SongType>[] = [];
-
-        songSheetDetail.value?.playlist?.tracks.forEach(
-          (item: { id: number }) => {
-            // 无版权
-            if (isCopyright(item.id)) {
-              return false;
-            }
-
-            songList.push(item);
-          }
-        );
+        // 过滤无版权
+        const songList: Partial<SongType>[] =
+          songSheetDetail.value?.playlist?.tracks.filter(
+            (item: { id: number }) => !isCopyright(item.id)
+          );
 
         usePlaySingleMusic(songList[0]);
         useMusicToPlayList({ music: songList, clear: true });
@@ -236,18 +229,11 @@ export default defineComponent({
         return false;
       }
 
-      const songList: Partial<SongType>[] = [];
-
-      songSheetDetail.value?.playlist?.tracks.forEach(
-        (item: { id: number }) => {
-          // 无版权
-          if (isCopyright(item.id)) {
-            return false;
-          }
-
-          songList.push(item);
-        }
-      );
+      // 过滤无版权
+      const songList: Partial<SongType>[] =
+        songSheetDetail.value?.playlist?.tracks.filter(
+          (item: { id: number }) => !isCopyright(item.id)
+        );
 
       useMusicToPlayList({ music: songList });
     }

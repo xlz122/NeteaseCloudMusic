@@ -264,16 +264,13 @@ export default defineComponent({
               return false;
             }
 
-            const songList: Partial<SongType>[] = [];
+            // 截取前20首歌
+            res.songs = res.songs.slice(0, 20);
 
-            res?.songs.forEach((item: Partial<SongType>) => {
-              // 无版权过滤
-              if ((item as { copyright: number })?.copyright === 0) {
-                return false;
-              }
-
-              songList.push(item);
-            });
+            // 过滤无版权
+            const songList: Partial<SongType>[] = res?.songs.filter(
+              (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
+            );
 
             usePlaySingleMusic(songList[0]);
             useMusicToPlayList({ music: songList, clear: true });
@@ -407,16 +404,11 @@ export default defineComponent({
               return false;
             }
 
-            const songList: Partial<SongType>[] = [];
-
-            res?.songs.forEach((item: Record<string, { cp: number }>) => {
-              // 无版权过滤
-              if (item?.privilege?.cp === 0) {
-                return false;
-              }
-
-              songList.push(item);
-            });
+            // 过滤无版权
+            const songList: Partial<SongType>[] = res?.songs.filter(
+              (item: Record<string, { cp: number }>) =>
+                item?.privilege?.cp !== 0
+            );
 
             usePlaySingleMusic(songList[0]);
             useMusicToPlayList({ music: songList, clear: true });

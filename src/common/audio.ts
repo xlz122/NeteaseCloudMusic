@@ -9,6 +9,9 @@ export type SongType = {
   album: {
     picUrl: string;
   };
+  radio: {
+    picUrl: string;
+  };
   img80x80: string;
   dt: number;
   duration: number;
@@ -33,7 +36,12 @@ export function handleAudioSong<T extends Partial<SongType>>(
   const musicItem: PlayMusicItem = {
     id: song?.id || 0,
     name: song?.name || '',
-    picUrl: song?.al?.picUrl || song?.album?.picUrl || song?.img80x80 || '',
+    picUrl:
+      song?.al?.picUrl ||
+      song?.album?.picUrl ||
+      song?.img80x80 ||
+      song?.radio?.picUrl ||
+      '',
     time: song?.dt || song?.duration || 0,
     mv: song?.mv || 0,
     singerList: []
