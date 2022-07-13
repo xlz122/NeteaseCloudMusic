@@ -154,9 +154,28 @@
           </ul>
         </div>
         <div class="desc" v-if="songSheetDetail?.playlist?.description">
-          <div class="content">
+          <div
+            class="content"
+            v-if="songSheetDetail?.playlist?.description?.length < 170"
+          >
             <pre>介绍：{{ songSheetDetail?.playlist?.description }}</pre>
           </div>
+          <div class="content" v-else :class="{ 'text-hide': !toggleShow }">
+            <pre>介绍：{{ songSheetDetail?.playlist?.description }}</pre>
+          </div>
+        </div>
+        <div
+          class="toggle-btn"
+          v-if="songSheetDetail?.playlist?.description?.length > 170"
+        >
+          <span v-if="!toggleShow" @click="toggle">
+            <span class="text">展开</span>
+            <i class="icon"></i>
+          </span>
+          <span v-else @click="toggle">
+            <span class="text">收起</span>
+            <i class="icon hide"></i>
+          </span>
         </div>
       </div>
     </div>
@@ -164,7 +183,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
@@ -187,6 +206,12 @@ export default defineComponent({
     const playMusicId = computed(() => $store.getters['music/playMusicId']);
     // 歌单详情数据
     const songSheetDetail = computed(() => $store.getters.songSheetDetail);
+
+    // 简介展开/收缩
+    const toggleShow = ref<boolean>(false);
+    function toggle(): void {
+      toggleShow.value = !toggleShow.value;
+    }
 
     // 歌曲是否有版权
     function isCopyright(id: number): boolean | undefined {
@@ -311,6 +336,8 @@ export default defineComponent({
       playMusicId,
       songSheetDetail,
       description: songSheetDetail?.value.playlist?.description,
+      toggleShow,
+      toggle,
       isCopyright,
       playAllMusic,
       allMusicToPlayList,

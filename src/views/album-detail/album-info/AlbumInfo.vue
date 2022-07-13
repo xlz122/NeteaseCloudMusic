@@ -85,17 +85,30 @@
         </div>
       </div>
     </div>
-    <div class="album-desc">
+    <div class="album-desc" v-if="userInfo?.description">
       <h3 class="album-desc-title">专辑介绍：</h3>
-      <div class="album-desc-text">
+      <div class="album-desc-text" v-if="userInfo?.description?.length < 170">
         <pre class="text">{{ userInfo?.description }}</pre>
       </div>
+      <div class="album-desc-text" v-else :class="{ 'text-hide': !toggleShow }">
+        <pre class="text">{{ userInfo?.description }}</pre>
+      </div>
+    </div>
+    <div class="toggle-btn" v-if="userInfo?.description?.length > 170">
+      <span v-if="!toggleShow" @click="toggle">
+        <span class="text">展开</span>
+        <i class="icon"></i>
+      </span>
+      <span v-else @click="toggle">
+        <span class="text">收起</span>
+        <i class="icon hide"></i>
+      </span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, toRefs } from 'vue';
+import { defineComponent, ref, computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
@@ -122,6 +135,12 @@ export default defineComponent({
     const $store = useStore();
 
     const isLogin = computed<boolean>(() => $store.getters.isLogin);
+
+    // 简介展开/收缩
+    const toggleShow = ref<boolean>(false);
+    function toggle(): void {
+      toggleShow.value = !toggleShow.value;
+    }
 
     // 播放全部 - 默认播放列表第一项
     const playAllMusic = throttle(
@@ -250,6 +269,8 @@ export default defineComponent({
 
     return {
       formatDateTime,
+      toggleShow,
+      toggle,
       playAllMusic,
       allMusicToPlayList,
       handleCollectAll,

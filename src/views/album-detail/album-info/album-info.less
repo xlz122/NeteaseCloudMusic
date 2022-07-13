@@ -272,11 +272,44 @@
       white-space: -moz-pre-wrap;
       white-space: -pre-wrap;
       white-space: -o-pre-wrap;
-      // overflow: hidden;
-      // text-overflow: ellipsis;
-      // display: -webkit-box;
-      // -webkit-line-clamp: 3;
-      // -webkit-box-orient: vertical;
     }
+  }
+
+  .text-hide {
+    .text {
+      display: -webkit-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+  }
+}
+
+.toggle-btn {
+  padding-right: 30px;
+  margin-top: 8px;
+  text-align: right;
+
+  .text {
+    display: inline-block;
+    color: #0c73c2;
+    vertical-align: middle;
+    cursor: pointer;
+  }
+
+  .icon {
+    display: inline-block;
+    width: 11px;
+    height: 8px;
+    margin-top: 2px;
+    vertical-align: middle;
+    cursor: pointer;
+    background: url('~@assets/image/icon.png');
+    background-position: -65px -520px;
+  }
+
+  .hide {
+    background-position: -45px -520px;
   }
 }
