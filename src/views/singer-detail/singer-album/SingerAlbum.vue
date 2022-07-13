@@ -117,14 +117,10 @@ export default defineComponent({
             }
 
             // 歌曲是否全部无版权
-            let noCopyrightNum = 0;
-            res?.songs?.forEach((item: Record<string, { cp: number }>) => {
-              if (item.privilege?.cp === 0) {
-                noCopyrightNum += 1;
-              }
-            });
-
-            if (noCopyrightNum === res?.songs?.length) {
+            const allNoCopyright = res?.songs?.some(
+              (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+            );
+            if (!allNoCopyright) {
               $store.commit('setCopyright', {
                 visible: true,
                 message:
