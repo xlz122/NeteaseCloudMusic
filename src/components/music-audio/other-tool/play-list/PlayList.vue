@@ -218,7 +218,7 @@ export default defineComponent({
 
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
+      $store.commit('jumpSingerDetail', id);
       closePlayList();
     }
 
