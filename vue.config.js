@@ -7,7 +7,6 @@ const externals = {
   'vue-router': 'VueRouter',
   'vuex': 'Vuex',
   'axios': 'axios',
-  'lodash': '_',
 };
 // 使用cdn引入的文件
 const cdn = {
@@ -17,7 +16,6 @@ const cdn = {
     'https://lib.baomitu.com/vue-router/4.0.3/vue-router.global.prod.min.js',
     'https://lib.baomitu.com/vuex/4.0.0/vuex.global.prod.min.js',
     'https://lib.baomitu.com/axios/0.27.2/axios.min.js',
-    'https://lib.baomitu.com/lodash.js/4.17.21/lodash.min.js',
   ],
 };
 
