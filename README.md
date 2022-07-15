@@ -13,7 +13,7 @@
 
 本项目是一个仿写网易云PC端网站项目。
 
-后端接口部分使用 Binaryify 的 NodeJS 版 Api项目。
+后端接口部分使用 Binaryify 的 NodeJS 版Api项目。
 
 Api项目github地址: [https://github.com/Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)。
 
@@ -46,6 +46,16 @@ yarn serve
 ```
 yarn build
 ```
+
+## Vercel 部署
+
+1. fork 此项目
+2. 在 [Vercel](https://vercel.com/) 官网点击 `New Project`
+3. 点击 `Import Git Repository` 并选择你 fork 的此项目并点击`import`
+4. 进入部署配置页面，默认配置即可
+5. 直接点 `Deploy` 接着等部署完成即可
+
+项目使用 vercel 部署地址：[https://netease-cloud-music-ochre.vercel.app/](https://netease-cloud-music-ochre.vercel.app/)
 
 ## 效果图
 
