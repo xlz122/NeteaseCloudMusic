@@ -163,5 +163,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './home-recommend.less';
+@import url('./home-recommend.less');
 </style>

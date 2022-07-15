@@ -141,6 +141,7 @@ export default defineComponent({
     // 分页
     function changPage(current: number): void {
       commentParams.offset = current;
+      jumpToComments();
       getCommentData();
     }
 
@@ -156,5 +157,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './song-sheet-detail.less';
+@import url('./song-sheet-detail.less');
 </style>

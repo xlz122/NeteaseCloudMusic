@@ -175,6 +175,16 @@ function getRandomPlayId(list: PlayMusicItem[]): Promise<number> {
       cacheId.push(playMusicId);
     }
 
+    // 删除不在播放列表的缓存id
+    const playMusicList = store.getters['music/playMusicList'];
+    cacheId.forEach((item: number, index: number) => {
+      const exist = playMusicList.find((p: PlayMusicItem) => p.id === item);
+
+      if (!exist) {
+        cacheId.splice(index, 1);
+      }
+    });
+
     // 筛选缓存数组
     const filterMusic = list.filter(item => !cacheId.includes(item.id));
 
@@ -192,11 +202,11 @@ function getRandomPlayId(list: PlayMusicItem[]): Promise<number> {
     }
 
     // 歌曲列表大于5项，最大缓存5项
-    if (list.length > 5 && cacheId.length > 5) {
+    if (list.length > 5 && cacheId.length >= 5) {
       cacheId.splice(0, 1);
       cacheId.push(playId);
     }
-    if (list.length > 5 && cacheId.length <= 5) {
+    if (list.length > 5 && cacheId.length < 5) {
       cacheId.push(playId);
     }
 

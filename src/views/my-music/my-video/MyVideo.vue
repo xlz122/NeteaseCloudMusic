@@ -110,5 +110,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scopde>
-@import './my-video.less';
+@import url('./my-video.less');
 </style>

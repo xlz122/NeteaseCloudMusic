@@ -17,11 +17,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
+import { defineComponent, ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { getPlayMusicUrl } from '@api/my-music';
 import type { ResponseType } from '@/types/types';
+import type { PlayMusicItem } from '@store/music/state';
 import { playNextMusic } from '@components/music-audio/play-action/play-action';
 
 export default defineComponent({
@@ -110,7 +111,10 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res?.code === 200) {
             if (!res?.data[0]?.url) {
-              setMessage({ type: 'error', title: '音乐播放链接获取失败' });
+              audioSrc.value = '';
+
+              handleMusicUrlError();
+              return false;
             }
 
             // 重置播放进度
@@ -130,6 +134,70 @@ export default defineComponent({
         .catch(() => ({}));
     }
     getAudioSrc();
+
+    // 获取播放链接失败
+    const cacheId = ref<number[]>([]);
+    const errorTimer = ref<number>(0);
+
+    function handleMusicUrlError(): boolean | undefined {
+      // 播放停止/只有一首歌
+      if (!musicPlayStatus.value.look || playMusicList.value.length <= 1) {
+        setMessage({ type: 'error', title: '音乐播放链接获取失败' });
+        return false;
+      }
+
+      // 缓存当前播放
+      if (!cacheId.value.includes(playMusicId.value)) {
+        cacheId.value.push(playMusicId.value);
+      }
+
+      // 删除不在播放列表的缓存id
+      cacheId.value.forEach((item: number, index: number) => {
+        const exist = playMusicList.value.find(
+          (p: PlayMusicItem) => p.id === item
+        );
+
+        if (!exist) {
+          cacheId.value.splice(index, 1);
+        }
+      });
+
+      // 最大缓存2首，停止下一首播放
+      if (cacheId.value.length > 2) {
+        setMessage({ type: 'error', title: '播放失败' });
+
+        $store.commit('music/setMusicPlayStatus', {
+          look: false,
+          loading: false,
+          refresh: false
+        });
+
+        if (errorTimer.value) {
+          clearTimeout(errorTimer.value);
+        }
+        cacheId.value = [];
+
+        return false;
+      }
+
+      setMessage({
+        type: 'error',
+        title: '播放失败,3秒后自动播放下一首'
+      });
+
+      if (errorTimer.value) {
+        clearTimeout(errorTimer.value);
+      }
+
+      errorTimer.value = setTimeout(() => {
+        // 播放链接有效
+        if (audioSrc.value) {
+          return false;
+        }
+
+        playNextMusic();
+      }, 3000);
+    }
 
     const playTimer = ref<number>();
 
@@ -225,6 +293,14 @@ export default defineComponent({
 
       playNextMusic();
     }
+
+    onMounted(() => {
+      $store.commit('music/setMusicPlayStatus', {
+        look: false,
+        loading: false,
+        refresh: false
+      });
+    });
 
     return {
       musicAudio,

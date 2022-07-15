@@ -87,7 +87,10 @@ export default defineComponent({
         .catch(() => ({}));
     }
 
-    function handleOptions(params: Record<string, any>): void {
+    function handleOptions(params: {
+      type: string;
+      data: (typeof options)[keyof typeof options];
+    }): void {
       for (const value in options) {
         options[value].visible = false;
       }
@@ -141,5 +144,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './my-music.less';
+@import url('./my-music.less');
 </style>

@@ -67,5 +67,5 @@ export default defineComponent({
 });
 </script>
 <style lang="less" scoped>
-@import './recommend.less';
+@import url('./recommend.less');
 </style>

@@ -145,5 +145,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './album-detail-side.less';
+@import url('./album-detail-side.less');
 </style>

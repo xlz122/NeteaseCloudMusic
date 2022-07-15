@@ -240,5 +240,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './home-new-disc.less';
+@import url('./home-new-disc.less');
 </style>

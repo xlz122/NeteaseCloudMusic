@@ -263,9 +263,18 @@ export default defineComponent({
     // 分页
     function changPage(current: number): void {
       commentParams.offset = current;
+      jumpToComments();
       getCommentData();
     }
 
+    // 跳转至评论
+    function jumpToComments(): void {
+      const commentDom = document.querySelector(
+        '.comment-component'
+      ) as HTMLElement;
+
+      window.scrollTo(0, Number(commentDom.offsetTop) + 20);
+    }
     // 跳转歌手详情
     function jumpSingerDetail(id: number): void {
       $store.commit('jumpSingerDetail', id);
@@ -292,5 +301,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './mv-detail.less';
+@import url('./mv-detail.less');
 </style>

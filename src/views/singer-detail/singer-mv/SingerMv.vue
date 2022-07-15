@@ -125,5 +125,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './singer-mv.less';
+@import url('./singer-mv.less');
 </style>

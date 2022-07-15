@@ -273,7 +273,17 @@ export default defineComponent({
     // 分页
     function changPage(current: number): void {
       commentParams.offset = current;
+      jumpToComments();
       getCommentData();
+    }
+
+    // 跳转至评论
+    function jumpToComments(): void {
+      const commentDom = document.querySelector(
+        '.comment-component'
+      ) as HTMLElement;
+
+      window.scrollTo(0, Number(commentDom.offsetTop) + 20);
     }
 
     // 跳转用户资料
@@ -302,5 +312,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './video-detail.less';
+@import url('./video-detail.less');
 </style>

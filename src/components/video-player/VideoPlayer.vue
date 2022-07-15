@@ -36,10 +36,7 @@
         {{ timeStampToDuration(videoPlayProgress.currentTime || 0) || '00:00' }}
       </span>
       <div class="progress">
-        <PlayProgress
-          :playProgress="videoPlayProgress"
-          @progressChange="progressChange"
-        />
+        <PlayProgress />
       </div>
       <span class="time">
         {{ timeStampToDuration(videoPlayProgress.duration || 0) || '00:00' }}
@@ -50,7 +47,9 @@
           :class="{ 'no-volume': Number(videoVolume) === 0 }"
           @click="setVolumeProgress"
         ></i>
-        <volume-progress v-if="volumeProgressShow" />
+        <div class="video-volume-progress">
+          <volume-progress v-if="volumeProgressShow" />
+        </div>
         <p class="mode">高清</p>
         <i class="full" v-if="!fullscreen" @click="lanchFullscreen"></i>
         <i class="narrow" v-else @click="exitFullscreen"></i>
@@ -148,16 +147,6 @@ export default defineComponent({
       videoStatus.value = 'replay';
     }
 
-    // 视频进度更改
-    function progressChange(value: number): void {
-      const currentTime = videoPlayProgress.value.duration * value;
-      $store.commit('video/setVideoPlayProgress', {
-        progress: value * 100,
-        currentTime,
-        timeChange: true
-      });
-    }
-
     // 全屏切换
     const fullscreen = ref<boolean>(false);
 
@@ -229,7 +218,6 @@ export default defineComponent({
       togglePlayStatus,
       videoEnded,
       videoReplay,
-      progressChange,
       fullscreen,
       lanchFullscreen,
       exitFullscreen,
@@ -244,5 +232,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './video-player.less';
+@import url('./video-player.less');
 </style>

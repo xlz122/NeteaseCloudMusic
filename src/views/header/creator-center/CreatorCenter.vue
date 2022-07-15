@@ -120,5 +120,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './creator-center.less';
+@import url('./creator-center.less');
 </style>

@@ -34,7 +34,13 @@
               <i class="info-icon-right" title="播放"></i>
             </div>
           </div>
-          <p class="item-desc" :title="item?.name">{{ item?.name }}</p>
+          <p
+            class="item-desc"
+            :title="item?.name"
+            @click="jumpSongSheetDetail(item?.id)"
+          >
+            {{ item?.name }}
+          </p>
         </li>
       </ul>
     </template>
@@ -171,5 +177,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './song-sheet-list.less';
+@import url('./song-sheet-list.less');
 </style>

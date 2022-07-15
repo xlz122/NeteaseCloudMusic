@@ -14,7 +14,9 @@
       title="音量"
       @click="setVolumeProgress"
     ></button>
-    <VolumeProgress v-if="volumeShow" />
+    <div class="music-volue-progress">
+      <VolumeProgress v-if="volumeShow" />
+    </div>
     <!-- 模式切换 -->
     <button
       class="btn"
@@ -55,6 +57,7 @@ import VolumeProgress from '../volume-progress/VolumeProgress.vue';
 import PlayList from './play-list/PlayList.vue';
 
 export default defineComponent({
+  name: 'OtherTool',
   components: {
     VolumeProgress,
     PlayList
@@ -190,5 +193,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './other-tool.less';
+@import url('./other-tool.less');
 </style>

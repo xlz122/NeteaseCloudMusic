@@ -17,18 +17,28 @@
       <i class="loading-icon"></i>
       加载中...
     </div>
-    <ul class="list">
-      <li class="item" v-for="(item, index) in eventList" :key="index">
-        <Item
-          :item="item"
-          @jumpUserProfile="jumpUserProfile"
-          @playSingleMusic="playSingleMusic"
-          @jumpSongDetail="jumpSongDetail"
-          @jumpSingerDetail="jumpSingerDetail"
-          @jumpAlbumDetail="jumpAlbumDetail"
-        />
-      </li>
-    </ul>
+    <template v-if="eventList.length > 0">
+      <ul class="list">
+        <li class="item" v-for="(item, index) in eventList" :key="index">
+          <Item
+            :item="item"
+            @jumpUserProfile="jumpUserProfile"
+            @playSingleMusic="playSingleMusic"
+            @jumpSongDetail="jumpSongDetail"
+            @jumpSingerDetail="jumpSingerDetail"
+            @jumpAlbumDetail="jumpAlbumDetail"
+          />
+        </li>
+      </ul>
+    </template>
+    <template v-if="!loading && eventList.length === 0">
+      <div class="no-data">
+        <div class="no-data-title">
+          <i class="icon"></i>
+          <p class="text">暂时还没有动态</p>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -184,5 +194,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './content.less';
+@import url('./content.less');
 </style>

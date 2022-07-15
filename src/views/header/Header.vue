@@ -38,7 +38,7 @@
                 :src="userInfo?.profile?.avatarUrl"
                 alt="头像"
               />
-              <div class="msg-tag">{{ msgCode }}</div>
+              <div class="msg-tag" v-if="msgCode > 0">{{ msgCode }}</div>
             </div>
             <User class="user-list" :msgCode="msgCode" />
           </div>
@@ -144,18 +144,27 @@ export default defineComponent({
     }
 
     const msgCode = ref<number>(0);
-    function loadMessage(): boolean | undefined {
-      if (!isLogin.value) {
-        return false;
-      }
-
+    function loadMessage(): void {
       messageEv({ limit: 1, offset: 100 }).then((res: ResponseType) => {
         if (res?.code === 200) {
           msgCode.value = res?.newMsgCount;
         }
       });
     }
-    loadMessage();
+
+    watch(
+      () => isLogin.value,
+      () => {
+        if (!isLogin.value) {
+          return false;
+        }
+
+        loadMessage();
+      },
+      {
+        deep: true
+      }
+    );
 
     return {
       isLogin,
@@ -172,5 +181,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './header.less';
+@import url('./header.less');
 </style>

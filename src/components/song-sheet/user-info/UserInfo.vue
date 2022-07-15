@@ -353,5 +353,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './user-info.less';
+@import url('./user-info.less');
 </style>

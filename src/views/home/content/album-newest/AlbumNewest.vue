@@ -8,7 +8,7 @@
               <img
                 class="img"
                 :src="`${item?.picUrl}?param=100y100`"
-                @click="jumpAlbumDetail"
+                @click="jumpAlbumDetail(item?.id)"
                 alt=""
               />
               <i class="icon" @click="albumToPlayListPlay(item?.id)"></i>
@@ -182,5 +182,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './album-newest.less';
+@import url('./album-newest.less');
 </style>

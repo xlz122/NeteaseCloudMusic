@@ -318,5 +318,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './comment.less';
+@import url('./comment.less');
 </style>

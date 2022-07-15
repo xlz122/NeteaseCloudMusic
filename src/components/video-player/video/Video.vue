@@ -114,7 +114,9 @@ export default defineComponent({
     );
 
     // 播放进度
-    function updateTime(e: any): void {
+    function updateTime(
+      e: Record<string, { currentTime: number; duration: number }>
+    ): void {
       const progress = e.target.currentTime / e.target.duration;
       $store.commit('video/setVideoPlayProgress', {
         progress: progress * 100,

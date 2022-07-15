@@ -61,5 +61,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './mv-detail-side.less';
+@import url('./mv-detail-side.less');
 </style>

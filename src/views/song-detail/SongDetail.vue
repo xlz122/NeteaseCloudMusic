@@ -203,24 +203,37 @@ export default defineComponent({
       });
     }
 
-    // 格式化歌词的时间 转换成 sss:ms
-    function formatLyricTime(time: any): number {
+    // 格式化歌词的时间 转换成 s.ms
+    function formatLyricTime(time: string): number {
       const regMin = /.*:/;
       const regSec = /:.*\./;
       const regMs = /\./;
 
-      const min = parseInt(time.match(regMin)[0].slice(0, 2));
-      let sec = parseInt(time.match(regSec)[0].slice(1, 3));
-      const ms = time.slice(
-        time.match(regMs).index + 1,
-        time.match(regMs).index + 3
-      );
-
-      if (min !== 0) {
-        sec += min * 60;
+      // 分
+      let min = '';
+      const rMin = time.match(regMin);
+      if (rMin instanceof Array) {
+        min = rMin[0].slice(0, 2);
+      }
+      // 秒
+      let second = '';
+      const rSec = time.match(regSec);
+      if (rSec instanceof Array) {
+        second = rSec[0].slice(1, 3);
+      }
+      // 毫秒
+      let ms = '';
+      const rMs = time.match(regMs);
+      if (rMs?.index) {
+        ms = time.slice(rMs.index + 1, rMs.index + 3);
       }
 
-      return Number(sec + '.' + ms);
+      // 分 + 秒
+      if (min && parseInt(min) !== 0) {
+        second = (parseInt(min) * 60 + parseInt(second)).toString();
+      }
+
+      return Number(second + '.' + ms);
     }
 
     // 获取评论数据
@@ -265,6 +278,7 @@ export default defineComponent({
     // 分页
     function changPage(current: number): void {
       commentParams.offset = current;
+      jumpToComments();
       getCommentData();
     }
 
@@ -313,5 +327,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './song-detail.less';
+@import url('./song-detail.less');
 </style>

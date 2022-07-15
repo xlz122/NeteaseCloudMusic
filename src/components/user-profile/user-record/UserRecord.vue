@@ -1,8 +1,8 @@
 <template>
-  <div class="user-record-container" v-if="recordList?.length > 0">
+  <div class="user-record-container">
     <div class="title">
       <span class="title-text">听歌排行</span>
-      <h4 class="title-desc">累积听歌0首</h4>
+      <h4 class="title-desc">累积听歌{{ listenSongs }}首</h4>
       <i class="title-desc-icon"></i>
       <div class="title-operate">
         <span
@@ -27,7 +27,11 @@
       加载中...
     </div>
     <ul class="list" v-if="!loading">
-      <li class="item" v-for="(item, index) in recordList" :key="index">
+      <li
+        class="item"
+        v-for="(item, index) in recordList?.slice(0, 10)"
+        :key="index"
+      >
         <div class="hd">
           <span class="text">{{ index + 1 }}.</span>
           <i
@@ -48,7 +52,7 @@
                 <em class="em">-</em>
                 <span
                   class="desc-text"
-                  @click="jumpSingerDetail(item?.song?.ar[0]?.id)"
+                  @click.stop="jumpSingerDetail(item?.song?.ar[0]?.id)"
                 >
                   {{ item?.song?.ar[0]?.name }}
                 </span>
@@ -78,6 +82,13 @@
         </div>
       </li>
     </ul>
+    <div class="more" v-if="recordList?.length > 10">查看更多></div>
+    <div class="no-data" v-if="!loading && recordList?.length === 0">
+      <div class="no-data-title">
+        <i class="icon"></i>
+        <h3 class="text">暂无听歌记录</h3>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -92,6 +103,12 @@ import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/common/audio';
 
 export default defineComponent({
+  props: {
+    listenSongs: {
+      type: Number,
+      default: 0
+    }
+  },
   setup() {
     const $store = useStore();
 
@@ -103,7 +120,7 @@ export default defineComponent({
 
     const loading = ref<boolean>(false);
 
-    const type = ref<number>(1);
+    const type = ref<number>(0);
     function typeChange(t: number): void {
       type.value = t;
     }
@@ -126,9 +143,9 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res.code === 200) {
             if (type.value === 0) {
-              recordList.value = res?.allData?.slice(0, 10);
+              recordList.value = res?.allData;
             } else {
-              recordList.value = res?.weekData?.slice(0, 10);
+              recordList.value = res?.weekData;
             }
 
             loading.value = false;
@@ -204,5 +221,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './user-record.less';
+@import url('./user-record.less');
 </style>

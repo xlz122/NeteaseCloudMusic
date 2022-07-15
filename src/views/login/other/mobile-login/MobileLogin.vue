@@ -403,5 +403,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './mobile-login.less';
+@import url('./mobile-login.less');
 </style>

@@ -123,7 +123,7 @@
       </tbody>
     </table>
     <div
-      class="no-list-data"
+      class="no-data"
       v-if="!loading && songSheetDetail?.playlist?.tracks.length === 0"
     >
       <div class="title">
@@ -333,5 +333,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './music-table.less';
+@import url('./music-table.less');
 </style>

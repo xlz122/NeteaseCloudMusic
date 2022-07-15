@@ -63,7 +63,7 @@ export default defineComponent({
               reject();
             }
           })
-          .catch((err: any) => reject(err));
+          .catch(err => reject(err));
       });
     }
     // 根据电台类型id获取对应推荐
@@ -136,5 +136,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './home-djprogram.less';
+@import url('./home-djprogram.less');
 </style>

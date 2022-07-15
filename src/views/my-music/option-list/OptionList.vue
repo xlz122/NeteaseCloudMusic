@@ -107,25 +107,24 @@ export default defineComponent({
                   name: string;
                   cannotEdit: boolean;
                   cannotDelete: boolean;
-                  subscribed: boolean;
                 }) => {
                   if (item?.name?.includes('喜欢的音乐')) {
                     item.name = '我喜欢的音乐';
                     item.cannotEdit = true;
                     item.cannotDelete = true;
                   }
-
-                  // 收藏列表判断
-                  if (!item.subscribed) {
-                    songSheetList.createSongSheet.push(item);
-                  } else {
-                    item.cannotEdit = true;
-                    songSheetList.collectSongSheet.push(item);
-                  }
-
-                  resolve(res?.playlist);
                 }
               );
+
+              // 创建/收藏歌单
+              songSheetList.createSongSheet = res?.playlist.filter(
+                (item: { subscribed: boolean }) => !item.subscribed
+              );
+              songSheetList.collectSongSheet = res?.playlist.filter(
+                (item: { subscribed: boolean }) => item.subscribed
+              );
+
+              resolve(res?.playlist);
             }
           })
           .catch(() => ({}));
@@ -283,5 +282,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './option-list.less';
+@import url('./option-list.less');
 </style>

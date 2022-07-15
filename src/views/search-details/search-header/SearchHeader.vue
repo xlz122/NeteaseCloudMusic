@@ -245,5 +245,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './search-header.less';
+@import url('./search-header.less');
 </style>

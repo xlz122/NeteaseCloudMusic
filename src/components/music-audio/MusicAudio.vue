@@ -77,11 +77,22 @@
             ></span>
           </div>
           <div class="play-progress">
-            <PlayProgress
-              :playStatus="musicPlayStatus"
-              :playProgress="musicPlayProgress"
-              @progressChange="progressChange"
-            />
+            <PlayProgress />
+            <div class="time">
+              <span class="duration">
+                {{
+                  timeStampToDuration(musicPlayProgress.currentTime || 0) ||
+                  '00:00'
+                }}
+              </span>
+              <span class="total-duration">
+                /
+                {{
+                  timeStampToDuration(musicPlayProgress.duration || 0) ||
+                  '00:00'
+                }}
+              </span>
+            </div>
           </div>
         </div>
         <OtherTool />
@@ -95,6 +106,7 @@ import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
+import { timeStampToDuration } from '@utils/utils';
 import AudioView from './audio/Audio.vue';
 import PlayAction from './play-action/PlayAction.vue';
 import PlayProgress from './play-progress/PlayProgress.vue';
@@ -114,10 +126,6 @@ export default defineComponent({
     // 当前播放音乐
     const playMusicItem = computed<number>(
       () => $store.getters['music/playMusicItem']
-    );
-    // 播放状态
-    const musicPlayStatus = computed(
-      () => $store.getters['music/musicPlayStatus']
     );
     // 播放进度数据
     const musicPlayProgress = computed(
@@ -155,16 +163,6 @@ export default defineComponent({
       audioEnter.value = false;
     }
 
-    // 音乐进度更改
-    function progressChange(value: number): void {
-      const currentTime = musicPlayProgress.value.duration * value;
-      $store.commit('music/setMusicPlayProgress', {
-        progress: value * 100,
-        currentTime,
-        timeChange: true
-      });
-    }
-
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
       $store.commit('jumpSongDetail', id);
@@ -187,15 +185,14 @@ export default defineComponent({
     }
 
     return {
+      timeStampToDuration,
       playMusicItem,
-      musicPlayStatus,
       musicPlayProgress,
       musicAudioLock,
       audioEnter,
       audioLock,
       musicAudioEnter,
       musicAudioLeave,
-      progressChange,
       jumpSongDetail,
       jumpVideoDetail,
       jumpSingerDetail,
@@ -206,5 +203,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './music-audio.less';
+@import url('./music-audio.less');
 </style>

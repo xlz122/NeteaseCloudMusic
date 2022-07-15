@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-@import './rankiList.less';
+@import url('./rankiList.less');
 </style>
 
 <template>

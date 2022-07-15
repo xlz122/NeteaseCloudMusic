@@ -122,5 +122,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './classify-modal.less';
+@import url('./classify-modal.less');
 </style>

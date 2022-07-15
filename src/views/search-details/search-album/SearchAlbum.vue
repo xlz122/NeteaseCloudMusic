@@ -194,5 +194,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './search-album.less';
+@import url('./search-album.less');
 </style>

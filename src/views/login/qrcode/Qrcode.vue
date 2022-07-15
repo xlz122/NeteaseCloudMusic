@@ -191,5 +191,5 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-@import './qrcode.less';
+@import url('./qrcode.less');
 </style>

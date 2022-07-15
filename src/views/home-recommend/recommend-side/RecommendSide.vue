@@ -58,5 +58,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './recommend-side.less';
+@import url('./recommend-side.less');
 </style>

@@ -233,5 +233,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './song-list.less';
+@import url('./song-list.less');
 </style>

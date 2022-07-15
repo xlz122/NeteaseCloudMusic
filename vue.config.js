@@ -7,7 +7,6 @@ const externals = {
   'vue-router': 'VueRouter',
   'vuex': 'Vuex',
   'axios': 'axios',
-  'lodash': '_',
 };
 // 使用cdn引入的文件
 const cdn = {
@@ -16,8 +15,7 @@ const cdn = {
     'https://lib.baomitu.com/vue/3.2.13/vue.global.prod.min.js',
     'https://lib.baomitu.com/vue-router/4.0.3/vue-router.global.prod.min.js',
     'https://lib.baomitu.com/vuex/4.0.0/vuex.global.prod.min.js',
-    'https://lib.baomitu.com/axios/0.27.2/axios.min.js',
-    'https://lib.baomitu.com/lodash.js/4.17.21/lodash.min.js',
+    'https://lib.baomitu.com/axios/1.2.2/axios.min.js',
   ],
 };
 
@@ -28,7 +26,7 @@ const productionGzipExtensions = ['js', 'css', 'json'];
 
 module.exports = {
   // 基础路径
-  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
   // 打包生成文件目录(默认dist)
   outputDir: 'dist',
   // 静态资源放置路径(默认为空,静态资源放置在根目录)

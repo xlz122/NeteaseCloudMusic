@@ -294,5 +294,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './search-song.less';
+@import url('./search-song.less');
 </style>

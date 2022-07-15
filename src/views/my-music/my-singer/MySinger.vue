@@ -82,5 +82,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scopde>
-@import './my-singer.less';
+@import url('./my-singer.less');
 </style>

@@ -102,7 +102,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="no-list-data" v-if="!loading && recommendSong?.length === 0">
+    <div class="no-data" v-if="!loading && recommendSong?.length === 0">
       <div class="title">
         <i class="icon"></i>
         <h3 class="text">暂无音乐！</h3>
@@ -223,5 +223,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './recommend-song.less';
+@import url('./recommend-song.less');
 </style>

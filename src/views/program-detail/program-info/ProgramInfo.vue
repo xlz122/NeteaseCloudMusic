@@ -160,5 +160,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './program-info.less';
+@import url('./program-info.less');
 </style>

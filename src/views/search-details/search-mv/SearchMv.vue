@@ -178,5 +178,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './search-mv.less';
+@import url('./search-mv.less');
 </style>

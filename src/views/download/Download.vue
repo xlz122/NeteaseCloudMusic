@@ -260,5 +260,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './download.less';
+@import url('./download.less');
 </style>
