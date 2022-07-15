@@ -26,7 +26,7 @@ const productionGzipExtensions = ['js', 'css', 'json'];
 
 module.exports = {
   // 基础路径
-  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/' : '/',
   // 打包生成文件目录(默认dist)
   outputDir: 'dist',
   // 静态资源放置路径(默认为空,静态资源放置在根目录)
