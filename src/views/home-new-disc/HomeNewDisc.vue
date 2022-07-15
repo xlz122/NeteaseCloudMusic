@@ -30,18 +30,20 @@
           >
             {{ item?.name }}
           </p>
-          <template v-for="(i, ind) in item?.artists" :key="ind">
-            <span
-              class="name"
-              :title="i?.name"
-              @click="jumpSingerDetail(i?.id)"
-            >
-              {{ i?.name }}
-            </span>
-            <span class="line" v-if="ind !== item?.artists.length - 1">
-              /
-            </span>
-          </template>
+          <div class="singer">
+            <template v-for="(i, ind) in item?.artists" :key="ind">
+              <span
+                class="name"
+                :title="i?.name"
+                @click="jumpSingerDetail(i?.id)"
+              >
+                {{ i?.name }}
+              </span>
+              <span class="line" v-if="ind !== item?.artists.length - 1">
+                /
+              </span>
+            </template>
+          </div>
         </li>
       </ul>
       <div class="new-disc-title">
@@ -82,18 +84,20 @@
           >
             {{ item?.name }}
           </p>
-          <template v-for="(i, ind) in item?.artists" :key="ind">
-            <span
-              class="name"
-              :title="i?.name"
-              @click="jumpSingerDetail(i?.id)"
-            >
-              {{ i?.name }}
-            </span>
-            <span class="line" v-if="ind !== item?.artists?.length - 1">
-              /
-            </span>
-          </template>
+          <div class="singer">
+            <template v-for="(i, ind) in item?.artists" :key="ind">
+              <span
+                class="name"
+                :title="i?.name"
+                @click="jumpSingerDetail(i?.id)"
+              >
+                {{ i?.name }}
+              </span>
+              <span class="line" v-if="ind !== item?.artists?.length - 1">
+                /
+              </span>
+            </template>
+          </div>
         </li>
       </ul>
       <Page
