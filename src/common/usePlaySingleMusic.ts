@@ -31,6 +31,7 @@ function usePlaySingleMusic<T extends PlayMusicItem | Partial<SongType>>(
   });
 
   if (playMusicItem?.value?.id === musicItem?.id) {
+    playStatus.loading = false;
     playStatus.refresh = false;
   }
 
