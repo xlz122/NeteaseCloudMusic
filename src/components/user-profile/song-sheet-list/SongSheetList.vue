@@ -34,7 +34,13 @@
               <i class="info-icon-right" title="播放"></i>
             </div>
           </div>
-          <p class="item-desc" :title="item?.name">{{ item?.name }}</p>
+          <p
+            class="item-desc"
+            :title="item?.name"
+            @click="jumpSongSheetDetail(item?.id)"
+          >
+            {{ item?.name }}
+          </p>
         </li>
       </ul>
     </template>
