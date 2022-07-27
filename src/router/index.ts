@@ -232,13 +232,13 @@ const routes: Array<RouteRecordRaw> = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-});
+  routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    }
 
-router.beforeEach(to => {
-  const unwanted: string[] = [];
-  if (!unwanted.includes(to.path)) {
-    window.scrollTo(0, 0);
+    return { left: 0, top: 0 };
   }
 });
 
