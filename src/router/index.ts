@@ -235,4 +235,11 @@ const router = createRouter({
   routes
 });
 
+router.beforeEach(to => {
+  const unwanted: string[] = [];
+  if (!unwanted.includes(to.path)) {
+    window.scrollTo(0, 0);
+  }
+});
+
 export default router;
