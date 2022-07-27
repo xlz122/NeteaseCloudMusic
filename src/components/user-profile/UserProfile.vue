@@ -9,14 +9,8 @@
         :cityName="cityName"
       />
     </div>
-    <div
-      class="user-record"
-      v-if="
-        currentUserInfo?.profile?.userType === 0 ||
-        currentUserInfo?.profile?.userType === 4
-      "
-    >
-      <UserRecord />
+    <div class="user-record" v-if="currentUserInfo?.peopleCanSeeMyPlayRecord">
+      <UserRecord :listenSongs="currentUserInfo?.listenSongs" />
     </div>
     <div class="song-sheet">
       <SongSheetList />

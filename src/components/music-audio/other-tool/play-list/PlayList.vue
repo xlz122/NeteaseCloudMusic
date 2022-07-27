@@ -68,7 +68,7 @@
             <i class="share" @click.stop="jumpSongPosition"></i>
           </li>
         </ul>
-        <div class="no-list-data" v-else>
+        <div class="no-data" v-else>
           <div class="title">
             <i class="icon"></i>
             <span class="text">你还没有添加任何歌曲</span>

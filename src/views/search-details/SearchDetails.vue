@@ -57,7 +57,7 @@
           @searchCountChange="searchCountChange"
         />
       </template>
-      <div class="no-list-data" v-if="searchCount === 0">
+      <div class="no-data" v-if="searchCount === 0">
         <div class="title">
           <i class="icon"></i>
           <h3 class="text">很抱歉，未能找到相关搜索结果！</h3>
