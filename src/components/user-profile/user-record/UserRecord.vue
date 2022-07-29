@@ -52,7 +52,7 @@
                 <em class="em">-</em>
                 <span
                   class="desc-text"
-                  @click="jumpSingerDetail(item?.song?.ar[0]?.id)"
+                  @click.stop="jumpSingerDetail(item?.song?.ar[0]?.id)"
                 >
                   {{ item?.song?.ar[0]?.name }}
                 </span>
