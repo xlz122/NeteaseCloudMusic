@@ -74,8 +74,9 @@
       class="supplement"
       href="https://music.163.com/#/wiki/task-center/m/st/wiki/task-center/recommend"
       target="_blank"
-      >用户wiki任务中心></a
     >
+      用户wiki任务中心>
+    </a>
   </div>
 </template>
 
