@@ -36,10 +36,7 @@
         {{ timeStampToDuration(videoPlayProgress.currentTime || 0) || '00:00' }}
       </span>
       <div class="progress">
-        <PlayProgress
-          :playProgress="videoPlayProgress"
-          @progressChange="progressChange"
-        />
+        <PlayProgress />
       </div>
       <span class="time">
         {{ timeStampToDuration(videoPlayProgress.duration || 0) || '00:00' }}
