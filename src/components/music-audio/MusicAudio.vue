@@ -78,6 +78,21 @@
           </div>
           <div class="play-progress">
             <PlayProgress />
+            <div class="time">
+              <span class="duration">
+                {{
+                  timeStampToDuration(musicPlayProgress.currentTime || 0) ||
+                  '00:00'
+                }}
+              </span>
+              <span class="total-duration">
+                /
+                {{
+                  timeStampToDuration(musicPlayProgress.duration || 0) ||
+                  '00:00'
+                }}
+              </span>
+            </div>
           </div>
         </div>
         <OtherTool />
@@ -91,6 +106,7 @@ import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
+import { timeStampToDuration } from '@utils/utils';
 import AudioView from './audio/Audio.vue';
 import PlayAction from './play-action/PlayAction.vue';
 import PlayProgress from './play-progress/PlayProgress.vue';
@@ -110,6 +126,10 @@ export default defineComponent({
     // 当前播放音乐
     const playMusicItem = computed<number>(
       () => $store.getters['music/playMusicItem']
+    );
+    // 播放进度数据
+    const musicPlayProgress = computed(
+      () => $store.getters['music/musicPlayProgress']
     );
     // 播放器锁定
     const musicAudioLock = computed<boolean>(
@@ -165,7 +185,9 @@ export default defineComponent({
     }
 
     return {
+      timeStampToDuration,
       playMusicItem,
+      musicPlayProgress,
       musicAudioLock,
       audioEnter,
       audioLock,

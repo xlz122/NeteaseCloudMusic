@@ -9,20 +9,11 @@
       @progressChange="progressChange"
     />
   </div>
-  <div class="time">
-    <span class="duration">
-      {{ timeStampToDuration(musicPlayProgress.currentTime || 0) || '00:00' }}
-    </span>
-    <span class="total-duration">
-      / {{ timeStampToDuration(musicPlayProgress.duration || 0) || '00:00' }}
-    </span>
-  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { timeStampToDuration } from '@utils/utils';
 import XProgress from '@components/progress/Progress.vue';
 
 export default defineComponent({
@@ -66,7 +57,6 @@ export default defineComponent({
     }
 
     return {
-      timeStampToDuration,
       musicPlayStatus,
       musicPlayProgress,
       progress,
