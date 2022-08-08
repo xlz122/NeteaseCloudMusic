@@ -77,11 +77,7 @@
             ></span>
           </div>
           <div class="play-progress">
-            <PlayProgress
-              :playStatus="musicPlayStatus"
-              :playProgress="musicPlayProgress"
-              @progressChange="progressChange"
-            />
+            <PlayProgress />
           </div>
         </div>
         <OtherTool />
@@ -115,14 +111,6 @@ export default defineComponent({
     const playMusicItem = computed<number>(
       () => $store.getters['music/playMusicItem']
     );
-    // 播放状态
-    const musicPlayStatus = computed(
-      () => $store.getters['music/musicPlayStatus']
-    );
-    // 播放进度数据
-    const musicPlayProgress = computed(
-      () => $store.getters['music/musicPlayProgress']
-    );
     // 播放器锁定
     const musicAudioLock = computed<boolean>(
       () => $store.getters['music/musicAudioLock']
@@ -155,16 +143,6 @@ export default defineComponent({
       audioEnter.value = false;
     }
 
-    // 音乐进度更改
-    function progressChange(value: number): void {
-      const currentTime = musicPlayProgress.value.duration * value;
-      $store.commit('music/setMusicPlayProgress', {
-        progress: value * 100,
-        currentTime,
-        timeChange: true
-      });
-    }
-
     // 跳转歌曲详情
     function jumpSongDetail(id: number): void {
       $store.commit('jumpSongDetail', id);
@@ -188,14 +166,11 @@ export default defineComponent({
 
     return {
       playMusicItem,
-      musicPlayStatus,
-      musicPlayProgress,
       musicAudioLock,
       audioEnter,
       audioLock,
       musicAudioEnter,
       musicAudioLeave,
-      progressChange,
       jumpSongDetail,
       jumpVideoDetail,
       jumpSingerDetail,

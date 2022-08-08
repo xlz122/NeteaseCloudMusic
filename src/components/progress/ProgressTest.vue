@@ -1,10 +1,48 @@
+<template>
+  <!-- 进度条组件测试用例 -->
+  <div class="progress-test">
+    <Xprogress
+      class="progress"
+      :range="'.progress-test'"
+      @progressChange="progressChange"
+    />
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent } from 'vue';
+import Xprogress from './Progress.vue';
+
+export default defineComponent({
+  name: 'ProgressTestView',
+  components: {
+    Xprogress
+  },
+  setup() {
+    function progressChange(progress: number): void {
+      console.log(progress);
+    }
+
+    return {
+      progressChange
+    };
+  }
+});
+</script>
+
+<style lang="less" scoped>
+.progress-test {
+  width: 493px;
+  height: 100px;
+  margin: 200px auto 0;
+}
+
 ::v-deep(.progress) {
   height: 9px;
   background: url('~@/assets/image/music-audio/progress.png') no-repeat;
   background-position: right 0;
 
   .current-progress {
-    width: 0;
     background: url('~@/assets/image/music-audio/progress.png');
     background-position: left -66px;
 
@@ -25,20 +63,8 @@
   }
 
   .cache-progress {
-    width: 0;
     background: url('~@/assets/image/music-audio/progress.png');
     background-position: right -30px;
   }
 }
-
-.time {
-  position: absolute;
-  top: -3px;
-  right: -84px;
-  color: #797979;
-  text-shadow: 0 1px 0 #121212;
-
-  .duration {
-    color: #a1a1a1;
-  }
-}
+</style>
