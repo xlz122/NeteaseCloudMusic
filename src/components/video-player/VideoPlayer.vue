@@ -145,16 +145,6 @@ export default defineComponent({
       videoStatus.value = 'replay';
     }
 
-    // 视频进度更改
-    function progressChange(value: number): void {
-      const currentTime = videoPlayProgress.value.duration * value;
-      $store.commit('video/setVideoPlayProgress', {
-        progress: value * 100,
-        currentTime,
-        timeChange: true
-      });
-    }
-
     // 全屏切换
     const fullscreen = ref<boolean>(false);
 
@@ -226,7 +216,6 @@ export default defineComponent({
       togglePlayStatus,
       videoEnded,
       videoReplay,
-      progressChange,
       fullscreen,
       lanchFullscreen,
       exitFullscreen,
