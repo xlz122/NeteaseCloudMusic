@@ -1,55 +1,8 @@
-.video-volume-progress {
-  position: relative;
-  position: absolute;
-  top: -5px;
-  left: 2px;
-}
-
-.volume-progress-bar {
-  position: relative;
-  position: absolute;
-  bottom: -2px;
-  left: 14px;
-  z-index: 2;
-  width: 4px;
-  height: 70px;
-  margin: 6px 9px;
-  background-color: rgb(255 255 255 / 20%);
-  border-radius: 2px;
-}
-
-.current-progress {
-  position: absolute;
-  bottom: 0;
-  z-index: -1;
-  width: 4px;
-  height: 0%;
-  background: url('~@/assets/image/music-audio/playbar.png');
-  background-position: -40px bottom;
-  border-radius: 2px;
-}
-
-.volume-icon {
-  position: relative;
-  position: absolute;
-  right: -6px;
-  bottom: 0;
-  z-index: 10;
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-  background: url('~@/assets/image/video/volume-dot.png') no-repeat center;
-
-  &:hover {
-    background: url('~@/assets/image/video/volume-hover-dot.png') no-repeat center;
-  }
-}
-
-.volume-progress-bar-bg {
+.volume-progress {
   position: relative;
   position: absolute;
   top: 4px;
-  left: 13px;
+  left: 16px;
   z-index: 1;
   width: 22px;
   height: 86px;
@@ -71,5 +24,30 @@
     cursor: default;
     background: url('~@/assets/image/video/volume-dot-arrow.png') no-repeat;
     background-position: center top;
+  }
+}
+
+::v-deep(.progress) {
+  position: absolute;
+  top: 12px;
+  left: 9px;
+  width: 4px;
+  height: 64px;
+  background: transparent;
+
+  .current-progress {
+    height: 0;
+    background-color: #b2072a;
+
+    .icon-round {
+      bottom: -10px;
+      width: 20px;
+      height: 20px;
+      background: url('~@/assets/image/video/volume-dot.png') no-repeat center;
+    }
+
+    .icon-round:hover {
+      background: url('~@/assets/image/video/volume-hover-dot.png') no-repeat center;
+    }
   }
 }

@@ -47,7 +47,9 @@
           :class="{ 'no-volume': Number(videoVolume) === 0 }"
           @click="setVolumeProgress"
         ></i>
-        <volume-progress v-if="volumeProgressShow" />
+        <div class="video-volume-progress">
+          <volume-progress v-if="volumeProgressShow" />
+        </div>
         <p class="mode">高清</p>
         <i class="full" v-if="!fullscreen" @click="lanchFullscreen"></i>
         <i class="narrow" v-else @click="exitFullscreen"></i>

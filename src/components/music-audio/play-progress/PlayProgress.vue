@@ -1,8 +1,8 @@
 <template>
   <div>
-    <XProgress
+    <HorizontalProgress
       class="progress"
-      :range="'#musicAudio .wrap'"
+      :range="'#musicAudio .play'"
       :loading="musicPlayStatus.loading"
       :current="progress.current"
       :cache="progress.cache"
@@ -14,11 +14,12 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import XProgress from '@components/progress/Progress.vue';
+import HorizontalProgress from '@components/progress/Progress.vue';
 
 export default defineComponent({
+  name: 'PlayProgress',
   components: {
-    XProgress
+    HorizontalProgress
   },
   setup() {
     const $store = useStore();

@@ -1,14 +1,12 @@
 <template>
-  <div id="progress" class="progress" @click="handleProgressClick">
+  <div id="VerticalProgress" class="progress" @click="handleProgressClick">
     <div
       class="current-progress"
       ref="currentProgressRef"
-      :style="{ width: currentProgress }"
+      :style="{ height: currentProgress }"
     >
       <i class="icon-round" ref="roundProgressRef"></i>
-      <i class="icon-loading" v-if="loading"></i>
     </div>
-    <div class="cache-progress" :style="{ width: cacheProgress }"></div>
     <div class="total-progress" ref="totalProgressRef"></div>
   </div>
 </template>
@@ -26,19 +24,10 @@ import {
 type ProgressRef = HTMLDivElement | HTMLElement | null;
 
 export default defineComponent({
-  name: 'ProgressView',
+  name: 'VerticalProgress',
   props: {
-    loading: {
-      type: Boolean,
-      default: false
-    },
     // 当前进度
     current: {
-      type: String,
-      default: ''
-    },
-    // 缓存进度
-    cache: {
       type: String,
       default: ''
     },
@@ -76,16 +65,11 @@ export default defineComponent({
 
       return props.current;
     });
-    // 缓存进度
-    const cacheProgress = computed(() => props.cache);
 
     // 鼠标按下
     function mousedown(e: MouseEvent): boolean | undefined {
       const target = e.target as HTMLElement;
-      if (
-        target.className !== 'icon-round' &&
-        target.className !== 'icon-loading'
-      ) {
+      if (target.className !== 'icon-round') {
         return false;
       }
 
@@ -93,7 +77,9 @@ export default defineComponent({
 
       // 初始偏移量(当前偏移量 - 当前进度偏移量)
       const current = currentProgressRef.value as HTMLDivElement;
-      progress.initOffest = e.clientX - current.offsetWidth;
+      const total = totalProgressRef.value as HTMLDivElement;
+      progress.initOffest =
+        e.clientY - total.clientHeight + current.offsetHeight;
     }
 
     // 鼠标移动
@@ -107,21 +93,22 @@ export default defineComponent({
       const total = totalProgressRef.value as HTMLDivElement;
 
       // 当前偏移量 - 初始偏移量
-      let moveX = e.clientX - progress.initOffest;
+      let moveY = e.clientY - progress.initOffest;
       // 边界判断
-      if (moveX >= total.offsetWidth) {
-        moveX = total.offsetWidth;
+      if (moveY >= total.offsetHeight) {
+        moveY = total.offsetHeight;
       }
-      if (moveX <= 0) {
-        moveX = 0;
+      if (moveY <= 0) {
+        moveY = 0;
       }
 
       // 拖动
       progress.isDrag = true;
       // 存储当前进度
-      progress.current = moveX / total.offsetWidth;
+      progress.current = (total.offsetHeight - moveY) / total.offsetHeight;
       // 进度样式
-      current.style.width = (moveX / total.offsetWidth) * 100 + '%';
+      current.style.height =
+        ((total.offsetHeight - moveY) / total.offsetHeight) * 100 + '%';
     }
 
     // 鼠标放开
@@ -138,10 +125,7 @@ export default defineComponent({
     // 进度点击
     function handleProgressClick(e: MouseEvent): boolean | undefined {
       const target = e.target as HTMLElement;
-      if (
-        target.className === 'icon-round' ||
-        target.className === 'icon-loading'
-      ) {
+      if (target.className === 'icon-round') {
         return false;
       }
 
@@ -149,14 +133,14 @@ export default defineComponent({
       const total = totalProgressRef.value as HTMLDivElement;
 
       // 当前进度
-      const totalOffestWidth = total.offsetWidth || 0;
-      current.style.width = (e.offsetX / totalOffestWidth) * 100 + '%';
+      const totalOffestHeight = total.offsetHeight || 0;
+      current.style.height = (e.offsetY / totalOffestHeight) * 100 + '%';
 
-      emit('progressChange', e.offsetX / totalOffestWidth);
+      emit('progressChange', e.offsetY / totalOffestHeight);
     }
 
     onMounted(() => {
-      const selector = props.range || '#progress';
+      const selector = props.range || '#VerticalProgress';
       const progressDom = document.querySelector(selector) as HTMLDivElement;
 
       // 监听鼠标按下、移动、放开事件
@@ -166,7 +150,7 @@ export default defineComponent({
     });
 
     onBeforeUnmount(() => {
-      const selector = props.range || '#progress';
+      const selector = props.range || '#VerticalProgress';
       const progressDom = document.querySelector(selector) as HTMLDivElement;
 
       // 移除监听鼠标按下、移动、放开事件
@@ -177,7 +161,6 @@ export default defineComponent({
 
     return {
       currentProgress,
-      cacheProgress,
       roundProgressRef,
       currentProgressRef,
       totalProgressRef,
@@ -188,5 +171,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './progress.less';
+@import './vertical-progress.less';
 </style>

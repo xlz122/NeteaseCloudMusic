@@ -1,5 +1,5 @@
 <template>
-  <!-- 进度条组件测试用例 -->
+  <!-- 横向进度条组件测试用例 -->
   <div class="progress-test">
     <Xprogress
       class="progress"
