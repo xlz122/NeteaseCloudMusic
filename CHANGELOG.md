@@ -1,3 +1,27 @@
+# [1.3.0](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.2.2...v1.3.0) (2022-08-09)
+
+
+### ♻ Code Refactoring | 代码重构
+
+* 重构视频进度条，修复已知bug [#c71b456](https://github.com/xlz122/NeteaseCloudMusic/commit/c71b456) 
+* 重构音乐、视频音量进度条，修复已知bug [#c48e7a3](https://github.com/xlz122/NeteaseCloudMusic/commit/c48e7a3) 
+* 重构音乐进度条，修复已知bug [#f332765](https://github.com/xlz122/NeteaseCloudMusic/commit/f332765) 
+
+
+### ✨ Features | 新功能
+
+* 播放失败自动播放下一首（最大2次） [#e065731](https://github.com/xlz122/NeteaseCloudMusic/commit/e065731) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 创建/收藏歌单判断修改 [#a2520e2](https://github.com/xlz122/NeteaseCloudMusic/commit/a2520e2) 
+* 修复随机播放模式，播放列表歌曲变化，缓存歌曲id没有更新的bug [#5f5a207](https://github.com/xlz122/NeteaseCloudMusic/commit/5f5a207) 
+* 音乐进度条无关代码抽离 [#35903c5](https://github.com/xlz122/NeteaseCloudMusic/commit/35903c5) 
+* **css:** 修复搜索专辑点击封面无法进入详情的bug [#0964a23](https://github.com/xlz122/NeteaseCloudMusic/commit/0964a23) 
+
+
+
 ## [1.2.2](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.2.1...v1.2.2) (2022-07-29)
 
 
@@ -21,6 +45,7 @@
 * build不再默认有--report，而是使用build:report [#c5155ae](https://github.com/xlz122/NeteaseCloudMusic/commit/c5155ae) 
 * lodash不再使用cdn(经常性server error) [#9ec4cac](https://github.com/xlz122/NeteaseCloudMusic/commit/9ec4cac) 
 * release 1.2.1 [#d219c99](https://github.com/xlz122/NeteaseCloudMusic/commit/d219c99) 
+* release 1.2.2 [#38c7f59](https://github.com/xlz122/NeteaseCloudMusic/commit/38c7f59) 
 * update config publicPath field [#b898147](https://github.com/xlz122/NeteaseCloudMusic/commit/b898147) 
 * update engines field [#cac93b4](https://github.com/xlz122/NeteaseCloudMusic/commit/cac93b4) 
 
