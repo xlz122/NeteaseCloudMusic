@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
+import { defineComponent, ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { getPlayMusicUrl } from '@api/my-music';
@@ -293,6 +293,14 @@ export default defineComponent({
 
       playNextMusic();
     }
+
+    onMounted(() => {
+      $store.commit('music/setMusicPlayStatus', {
+        look: false,
+        loading: false,
+        refresh: false
+      });
+    });
 
     return {
       musicAudio,
