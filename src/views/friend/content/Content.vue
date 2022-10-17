@@ -31,7 +31,7 @@
         </li>
       </ul>
     </template>
-    <template v-else>
+    <template v-if="!loading && eventList.length === 0">
       <div class="no-data">
         <div class="no-data-title">
           <i class="icon"></i>
