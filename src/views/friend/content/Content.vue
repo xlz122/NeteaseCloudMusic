@@ -17,18 +17,28 @@
       <i class="loading-icon"></i>
       加载中...
     </div>
-    <ul class="list">
-      <li class="item" v-for="(item, index) in eventList" :key="index">
-        <Item
-          :item="item"
-          @jumpUserProfile="jumpUserProfile"
-          @playSingleMusic="playSingleMusic"
-          @jumpSongDetail="jumpSongDetail"
-          @jumpSingerDetail="jumpSingerDetail"
-          @jumpAlbumDetail="jumpAlbumDetail"
-        />
-      </li>
-    </ul>
+    <template v-if="eventList.length > 0">
+      <ul class="list">
+        <li class="item" v-for="(item, index) in eventList" :key="index">
+          <Item
+            :item="item"
+            @jumpUserProfile="jumpUserProfile"
+            @playSingleMusic="playSingleMusic"
+            @jumpSongDetail="jumpSongDetail"
+            @jumpSingerDetail="jumpSingerDetail"
+            @jumpAlbumDetail="jumpAlbumDetail"
+          />
+        </li>
+      </ul>
+    </template>
+    <template v-else>
+      <div class="no-data">
+        <div class="no-data-title">
+          <i class="icon"></i>
+          <p class="text">暂时还没有动态</p>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
