@@ -48,5 +48,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './abnormal-modal.less';
+@import url('./abnormal-modal.less');
 </style>

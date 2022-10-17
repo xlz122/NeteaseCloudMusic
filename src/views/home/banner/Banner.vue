@@ -247,5 +247,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './banner.less';
+@import url('./banner.less');
 </style>

@@ -203,5 +203,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './music-audio.less';
+@import url('./music-audio.less');
 </style>

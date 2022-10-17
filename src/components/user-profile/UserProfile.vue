@@ -89,5 +89,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './user-profile.less';
+@import url('./user-profile.less');
 </style>

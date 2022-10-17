@@ -197,6 +197,6 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import '../option-list.less';
-@import './song-sheet-toggle.less';
+@import url('../option-list.less');
+@import url('./song-sheet-toggle.less');
 </style>

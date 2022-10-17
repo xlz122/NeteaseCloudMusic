@@ -209,5 +209,5 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-@import './home-toplist.less';
+@import url('./home-toplist.less');
 </style>

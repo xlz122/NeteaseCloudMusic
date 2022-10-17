@@ -162,5 +162,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './mailbox.less';
+@import url('./mailbox.less');
 </style>

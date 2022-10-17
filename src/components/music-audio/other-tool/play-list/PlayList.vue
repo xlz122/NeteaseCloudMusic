@@ -248,5 +248,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './play-list.less';
+@import url('./play-list.less');
 </style>

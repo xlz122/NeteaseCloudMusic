@@ -182,5 +182,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './album-newest.less';
+@import url('./album-newest.less');
 </style>

@@ -152,5 +152,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './search-anchor.less';
+@import url('./search-anchor.less');
 </style>

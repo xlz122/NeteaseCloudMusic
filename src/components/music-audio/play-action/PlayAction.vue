@@ -59,5 +59,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './play-action.less';
+@import url('./play-action.less');
 </style>

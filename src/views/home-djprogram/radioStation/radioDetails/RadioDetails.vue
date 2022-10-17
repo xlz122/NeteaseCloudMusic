@@ -1,5 +1,5 @@
 <style lang="less" scoped>
-@import './radioDetails.less';
+@import url('./radioDetails.less');
 </style>
 
 <template>

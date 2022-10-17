@@ -271,5 +271,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './search.less';
+@import url('./search.less');
 </style>

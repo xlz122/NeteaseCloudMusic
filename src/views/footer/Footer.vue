@@ -155,5 +155,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './footer.less';
+@import url('./footer.less');
 </style>

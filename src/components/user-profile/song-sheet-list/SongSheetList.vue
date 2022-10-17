@@ -177,5 +177,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './song-sheet-list.less';
+@import url('./song-sheet-list.less');
 </style>

@@ -388,5 +388,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './mobile-register.less';
+@import url('./mobile-register.less');
 </style>

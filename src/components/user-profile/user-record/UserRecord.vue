@@ -221,5 +221,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './user-record.less';
+@import url('./user-record.less');
 </style>

@@ -88,5 +88,5 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-@import './toplist-content.less';
+@import url('./toplist-content.less');
 </style>

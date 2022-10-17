@@ -159,5 +159,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './category.less';
+@import url('./category.less');
 </style>

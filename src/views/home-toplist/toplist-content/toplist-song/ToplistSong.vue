@@ -331,5 +331,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './toplist-song.less';
+@import url('./toplist-song.less');
 </style>

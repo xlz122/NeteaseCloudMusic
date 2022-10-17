@@ -232,5 +232,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './video-player.less';
+@import url('./video-player.less');
 </style>

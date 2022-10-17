@@ -223,5 +223,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './recommend-song.less';
+@import url('./recommend-song.less');
 </style>

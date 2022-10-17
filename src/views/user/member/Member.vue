@@ -744,8 +744,9 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './member.less';
+@import url('./member.less');
 </style>
+
 <style lang="less">
 .vip-service-modal .my-dialog-box {
   width: 760px !important;

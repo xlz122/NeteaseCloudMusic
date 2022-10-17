@@ -49,5 +49,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './friend.less';
+@import url('./friend.less');
 </style>

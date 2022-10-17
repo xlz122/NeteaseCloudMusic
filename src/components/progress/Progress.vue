@@ -188,5 +188,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './progress.less';
+@import url('./progress.less');
 </style>

@@ -54,5 +54,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './volume-progress.less';
+@import url('./volume-progress.less');
 </style>

@@ -136,5 +136,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './home-djprogram.less';
+@import url('./home-djprogram.less');
 </style>

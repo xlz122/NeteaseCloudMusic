@@ -244,5 +244,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './home-song-sheet.less';
+@import url('./home-song-sheet.less');
 </style>

@@ -49,5 +49,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './search-tabs.less';
+@import url('./search-tabs.less');
 </style>

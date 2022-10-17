@@ -233,5 +233,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './comment-replay.less';
+@import url('./comment-replay.less');
 </style>

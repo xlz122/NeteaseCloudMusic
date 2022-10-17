@@ -166,5 +166,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './singer-album.less';
+@import url('./singer-album.less');
 </style>

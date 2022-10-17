@@ -282,5 +282,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './option-list.less';
+@import url('./option-list.less');
 </style>

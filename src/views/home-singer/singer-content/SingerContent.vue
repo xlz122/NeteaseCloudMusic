@@ -251,5 +251,5 @@ export default defineComponent({
 </script>
 
 <style lang="less">
-@import './singer-content.less';
+@import url('./singer-content.less');
 </style>

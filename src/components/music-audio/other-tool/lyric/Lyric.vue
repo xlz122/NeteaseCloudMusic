@@ -306,5 +306,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './lyric.less';
+@import url('./lyric.less');
 </style>

@@ -104,5 +104,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './sub-menu.less';
+@import url('./sub-menu.less');
 </style>

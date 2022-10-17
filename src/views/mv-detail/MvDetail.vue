@@ -292,5 +292,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './mv-detail.less';
+@import url('./mv-detail.less');
 </style>

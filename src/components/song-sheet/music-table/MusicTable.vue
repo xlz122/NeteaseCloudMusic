@@ -333,5 +333,5 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import './music-table.less';
+@import url('./music-table.less');
 </style>
