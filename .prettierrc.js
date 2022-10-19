@@ -1,6 +1,4 @@
 module.exports = {
-  // 是否使用单引号
-  singleQuote: true,
   // 字符串是否使用单引号
   singleQuote: true,
   // 大括号首尾是否需要空格
