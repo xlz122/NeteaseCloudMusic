@@ -11,13 +11,9 @@
 
 ## 简介
 
-本项目是一个仿写网易云PC端网站项目。
+本项目是一个仿写网易云PC端网站项目
 
-后端接口部分使用 Binaryify 的 NodeJS 版Api项目。
-
-Api项目github地址: [https://github.com/Binaryify/NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)。
-
-Api接口文档地址: [https://binaryify.github.io/NeteaseCloudMusicApi/#/](https://binaryify.github.io/NeteaseCloudMusicApi/#/)。
+后端接口部分使用[Binaryify的NodeJS版Api项目](https://github.com/Binaryify/NeteaseCloudMusicApi)
 
 ## 项目使用技术栈
 
