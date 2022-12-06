@@ -177,6 +177,7 @@ export default defineComponent({
     // 分页
     function changPage(current: number): void {
       commentParams.offset = current;
+      jumpToComments();
       getCommentData();
     }
 
