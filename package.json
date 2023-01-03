@@ -12,7 +12,7 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 -n ./.changelog.config.js"
   },
   "dependencies": {
-    "axios": "^1.2.0",
+    "axios": "^1.2.2",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
@@ -20,8 +20,8 @@
   "devDependencies": {
     "@commitlint/cli": "^17.3.0",
     "@commitlint/config-conventional": "^17.3.0",
-    "@typescript-eslint/eslint-plugin": "^5.45.0",
-    "@typescript-eslint/parser": "^5.45.0",
+    "@typescript-eslint/eslint-plugin": "^5.48.0",
+    "@typescript-eslint/parser": "^5.48.0",
     "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-plugin-router": "^5.0.8",
     "@vue/cli-plugin-typescript": "^5.0.8",
@@ -31,8 +31,8 @@
     "compression-webpack-plugin": "^10.0.0",
     "conventional-changelog": "^3.1.25",
     "conventional-changelog-cli": "^2.2.2",
-    "eslint": "^8.28.0",
-    "eslint-config-prettier": "^8.5.0",
+    "eslint": "^8.31.0",
+    "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.8.0",
     "husky": "^8.0.2",
@@ -41,12 +41,12 @@
     "lint-staged": "^13.0.4",
     "postcss-html": "^1.5.0",
     "postcss-less": "^6.0.0",
-    "prettier": "^2.8.0",
-    "stylelint": "^14.15.0",
+    "prettier": "^2.8.1",
+    "stylelint": "^14.16.1",
     "stylelint-config-standard": "^29.0.0",
     "stylelint-order": "^5.0.0",
     "stylelint-webpack-plugin": "^3.3.0",
-    "typescript": "4.9.3"
+    "typescript": "4.9.4"
   },
   "engines": {
     "node": ">=14.18.0"
