@@ -15,7 +15,7 @@ const cdn = {
     'https://lib.baomitu.com/vue/3.2.13/vue.global.prod.min.js',
     'https://lib.baomitu.com/vue-router/4.0.3/vue-router.global.prod.min.js',
     'https://lib.baomitu.com/vuex/4.0.0/vuex.global.prod.min.js',
-    'https://lib.baomitu.com/axios/0.27.2/axios.min.js',
+    'https://lib.baomitu.com/axios/1.2.2/axios.min.js',
   ],
 };
 
