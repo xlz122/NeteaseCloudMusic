@@ -1,3 +1,35 @@
+## [1.3.1](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.3.0...v1.3.1) (2023-01-06)
+
+
+### ✨ Features | 新功能
+
+* 各页面评论改变页数回到评论顶部 [#219a4a1](https://github.com/xlz122/NeteaseCloudMusic/commit/219a4a1) 
+* 关注页面无动态展示 [#080f970](https://github.com/xlz122/NeteaseCloudMusic/commit/080f970) 
+
+
+### 🎫 Chores | 其他更新
+
+* 更新项目所需依赖 [#2fa7a90](https://github.com/xlz122/NeteaseCloudMusic/commit/2fa7a90) 
+* 更新项目所需依赖 [#4365ee3](https://github.com/xlz122/NeteaseCloudMusic/commit/4365ee3) 
+* 更新项目所需依赖 [#6b5bff3](https://github.com/xlz122/NeteaseCloudMusic/commit/6b5bff3) 
+* 更新项目所需依赖 [#7c6a322](https://github.com/xlz122/NeteaseCloudMusic/commit/7c6a322) 
+* 更新项目所需依赖 [#99898a4](https://github.com/xlz122/NeteaseCloudMusic/commit/99898a4) 
+* 更新项目所需依赖 [#a723b2d](https://github.com/xlz122/NeteaseCloudMusic/commit/a723b2d) 
+* 更新项目所需依赖 [#d4548e1](https://github.com/xlz122/NeteaseCloudMusic/commit/d4548e1) 
+* 更新axios的cdn链接版本 [#66effc1](https://github.com/xlz122/NeteaseCloudMusic/commit/66effc1) 
+* 更新typescript版本至4.9.3 [#1d97450](https://github.com/xlz122/NeteaseCloudMusic/commit/1d97450) 
+* update .prettierrc.js [#c05d7fa](https://github.com/xlz122/NeteaseCloudMusic/commit/c05d7fa) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 修复关注页加载未完成显示无动态的bug [#ad2ce7a](https://github.com/xlz122/NeteaseCloudMusic/commit/ad2ce7a) 
+* 修复首页新碟上架，点击进入详情无数据bug [#5e4cbd3](https://github.com/xlz122/NeteaseCloudMusic/commit/5e4cbd3) 
+* 修复跳转外部链接后返回音乐播放状态没有重置为暂停的bug [#b6b28b2](https://github.com/xlz122/NeteaseCloudMusic/commit/b6b28b2) 
+* **css:** 修复音乐音量样式bug [#44e4cc7](https://github.com/xlz122/NeteaseCloudMusic/commit/44e4cc7) 
+
+
+
 # [1.3.0](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.2.2...v1.3.0) (2022-08-09)
 
 
@@ -11,6 +43,11 @@
 ### ✨ Features | 新功能
 
 * 播放失败自动播放下一首（最大2次） [#e065731](https://github.com/xlz122/NeteaseCloudMusic/commit/e065731) 
+
+
+### 🎫 Chores | 其他更新
+
+* release 1.3.0 [#f76c047](https://github.com/xlz122/NeteaseCloudMusic/commit/f76c047) 
 
 
 ### 🐛 Bug Fixes | Bug 修复
