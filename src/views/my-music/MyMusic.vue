@@ -89,7 +89,7 @@ export default defineComponent({
 
     function handleOptions(params: {
       type: string;
-      data: typeof options[keyof typeof options];
+      data: (typeof options)[keyof typeof options];
     }): void {
       for (const value in options) {
         options[value].visible = false;
