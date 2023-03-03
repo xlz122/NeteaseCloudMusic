@@ -1,3 +1,5 @@
+export default {};
+
 // 获取函数返回值的工具类型 ReturnType示例
 /*
 function foo(): string {
