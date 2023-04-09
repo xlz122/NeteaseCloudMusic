@@ -208,14 +208,14 @@ import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { getWeekDate, formatDateTime, bigNumberTransform } from '@utils/utils';
+import { getWeekDate, formatDateTime, bigNumberTransform } from '@/utils/utils';
 import {
   recommendSongList,
   recommendDjprogram,
   recommendResource
-} from '@api/home';
-import { playlistTrack } from '@api/song-sheet-detail';
-import { albumDetail } from '@api/album-detail';
+} from '@/api/home';
+import { playlistTrack } from '@/api/song-sheet-detail';
+import { albumDetail } from '@/api/album-detail';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/common/audio';
 const AlbumNewest = defineAsyncComponent(

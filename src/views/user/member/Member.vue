@@ -393,10 +393,11 @@ import {
   onMounted
 } from 'vue';
 import { useStore } from 'vuex';
-import { userVipInfo } from '@api/user';
+import { require } from '@/utils/utils';
+import { userVipInfo } from '@/api/user';
 import type { ResponseType } from '@/types/types';
-import MyPrompt from '@components/MyPrompt.vue';
-import MyDialog from '@components/MyDialog.vue';
+import MyPrompt from '@/components/MyPrompt.vue';
+import MyDialog from '@/components/MyDialog.vue';
 
 type listType = {
   name: string;

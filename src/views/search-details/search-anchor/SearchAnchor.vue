@@ -44,11 +44,11 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
-import { timeStampToDuration, handleMatchString } from '@utils/utils';
+import { timeStampToDuration, handleMatchString } from '@/utils/utils';
 import { setMessage } from '@/components/message/useMessage';
-import { searchKeywords } from '@api/search';
+import { searchKeywords } from '@/api/search';
 import type { ResponseType } from '@/types/types';
-import Page from '@components/page/Page.vue';
+import Page from '@/components/page/Page.vue';
 
 type AnchorData = {
   loading: boolean;

@@ -23,7 +23,7 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
-import { artistDesc } from '@api/singer-detail';
+import { artistDesc } from '@/api/singer-detail';
 import type { ResponseType } from '@/types/types';
 
 export default defineComponent({

@@ -104,6 +104,7 @@ export default defineComponent({
       default: ''
     }
   },
+  emits: ['submit'],
   setup(
     props: {
       isClearText: boolean;

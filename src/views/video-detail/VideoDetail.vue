@@ -91,18 +91,18 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import { handleCommentData } from '@components/comment/handleCommentData';
-import { MyVideoSbulist } from '@api/my-music';
-import { videoDetail } from '@api/video-detail';
-import { commentVideo } from '@api/comment';
-import { videoUrl, videoSub } from '@api/video-detail';
+import { handleCommentData } from '@/components/comment/handleCommentData';
+import { MyVideoSbulist } from '@/api/my-music';
+import { videoDetail } from '@/api/video-detail';
+import { commentVideo } from '@/api/comment';
+import { videoUrl, videoSub } from '@/api/video-detail';
 import type { ResponseType } from '@/types/types';
-import type { CommentParams } from '@components/comment/Comment.vue';
-import type { Video } from '@store/video/state';
-import VideoPlayer from '@components/video-player/VideoPlayer.vue';
-import Comment from '@components/comment/Comment.vue';
+import type { CommentParams } from '@/components/comment/Comment.vue';
+import type { Video } from '@/store/video/state';
+import VideoPlayer from '@/components/video-player/VideoPlayer.vue';
+import Comment from '@/components/comment/Comment.vue';
 import VideoDetailSide from './video-detail-side/VideoDetailSide.vue';
-import Page from '@components/page/Page.vue';
+import Page from '@/components/page/Page.vue';
 
 export default defineComponent({
   name: 'VideoDetail',
@@ -248,7 +248,9 @@ export default defineComponent({
       };
       // 精彩评论不加offset
       if (commentParams.offset > 1) {
-        params['offset'] = (commentParams.offset - 1) * commentParams.limit;
+        Object.assign(params, {
+          offset: (commentParams.offset - 1) * commentParams.limit
+        });
       }
       commentVideo({ ...params })
         .then((res: ResponseType) => {

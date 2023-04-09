@@ -40,9 +40,9 @@ import { defineComponent, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import { programList } from '@api/program-detail';
+import { programList } from '@/api/program-detail';
 import type { ResponseType } from '@/types/types';
-import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
+import SideDownload from '@/views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 export default defineComponent({
   components: {
@@ -50,7 +50,7 @@ export default defineComponent({
   },
   props: {
     rid: {
-      typs: Number,
+      type: Number,
       default: 0
     }
   },

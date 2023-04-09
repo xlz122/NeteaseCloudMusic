@@ -26,12 +26,12 @@ import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import { handleCommentData } from '@components/comment/handleCommentData';
-import { playlistDetail } from '@api/song-sheet-detail';
-import { commentPlayList } from '@api/comment';
-import { topList } from '@api/home-toplist';
+import { handleCommentData } from '@/components/comment/handleCommentData';
+import { playlistDetail } from '@/api/song-sheet-detail';
+import { commentPlayList } from '@/api/comment';
+import { topList } from '@/api/home-toplist';
 import type { ResponseType } from '@/types/types';
-import type { CommentParams } from '@components/comment/Comment.vue';
+import type { CommentParams } from '@/components/comment/Comment.vue';
 import ToplistMenu from './toplist-menu/ToplistMenu.vue';
 import ToplistContent from './toplist-content/ToplistContent.vue';
 
@@ -41,7 +41,7 @@ type List = {
 };
 
 export default defineComponent({
-  name: 'home-toplist',
+  name: 'HomeToplist',
   components: {
     ToplistMenu,
     ToplistContent
@@ -167,7 +167,9 @@ export default defineComponent({
       };
       // 精彩评论不加offset
       if (commentParams.offset > 1) {
-        params['offset'] = (commentParams.offset - 1) * commentParams.limit;
+        Object.assign(params, {
+          offset: (commentParams.offset - 1) * commentParams.limit
+        });
       }
       commentPlayList({ ...params })
         .then((res: ResponseType) => {

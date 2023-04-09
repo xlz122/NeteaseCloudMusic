@@ -120,7 +120,7 @@ import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { timeStampToDuration } from '@utils/utils';
+import { timeStampToDuration } from '@/utils/utils';
 import type { SongType } from '@/common/audio';
 
 export default defineComponent({

@@ -1,6 +1,6 @@
-import Router from '@router/index';
-import type { State } from '@store/state';
-import { clearAllCookie } from '@utils/cookie';
+import Router from '@/router/index';
+import type { State } from '@/store/state';
+import { clearAllCookie } from '@/utils/cookie';
 
 type Mutations<T, U = any> = {
   [key: string]: (state: T, payload: U) => void;
@@ -156,6 +156,7 @@ const mutations: Mutations<State> = {
     const keys = Object.keys(tip);
 
     for (const key of keys) {
+      // @ts-ignore
       state.abnormal[key] = tip[key];
     }
   }

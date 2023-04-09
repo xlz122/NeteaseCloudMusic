@@ -1,5 +1,5 @@
-import store from '@store/index';
-import type { PlayMusicItem } from '@store/music/state';
+import store from '@/store/index';
+import type { PlayMusicItem } from '@/store/music/state';
 
 const audio = {
   timer: 0,

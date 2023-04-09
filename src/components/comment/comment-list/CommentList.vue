@@ -82,7 +82,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
-import { formatDate } from '@utils/utils';
+import { formatDate } from '@/utils/utils';
 import CommentReplay from '@/components/comment/comment-replay/CommentReplay.vue';
 
 export default defineComponent({

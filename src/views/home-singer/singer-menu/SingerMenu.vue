@@ -216,7 +216,7 @@ export default defineComponent({
       padding-left: 27px;
       color: #333;
       cursor: pointer;
-      background: url('~@/assets/image/singer/singer.png') no-repeat 0 9999px;
+      background: url('@/assets/image/singer/singer.png') no-repeat 0 9999px;
       background-position: 0 -30px;
 
       &:hover {

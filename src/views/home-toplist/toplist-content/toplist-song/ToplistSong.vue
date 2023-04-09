@@ -157,8 +157,8 @@ import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { timeStampToDuration } from '@utils/utils';
-import { deleteMusic } from '@api/my-music';
+import { timeStampToDuration } from '@/utils/utils';
+import { deleteMusic } from '@/api/my-music';
 import type { SongType } from '@/common/audio';
 import MyDialog from '@/components/MyDialog.vue';
 

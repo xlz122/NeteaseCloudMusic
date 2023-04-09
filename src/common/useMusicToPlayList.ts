@@ -1,10 +1,10 @@
 import { computed } from 'vue';
-import store from '@store/index';
+import store from '@/store/index';
 import lodash from 'lodash';
 import { handleAudioSong } from '@/common/audio';
-import { toRawType } from '@utils/tool';
+import { toRawType } from '@/utils/tool';
 import type { SongType } from '@/common/audio';
-import type { PlayMusicItem } from '@store/music/state';
+import type { PlayMusicItem } from '@/store/music/state';
 
 type UseMusicToPlayList = {
   music:

@@ -46,7 +46,7 @@ import {
   qrcodeStatus,
   accountInfo,
   userInfo
-} from '@api/login';
+} from '@/api/login';
 import type { ResponseType } from '@/types/types';
 
 export default defineComponent({

@@ -90,8 +90,8 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { bigNumberTransform } from '@utils/utils';
-import { userPlayList } from '@api/my-music';
+import { bigNumberTransform } from '@/utils/utils';
+import { userPlayList } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
 
 type SongList = {

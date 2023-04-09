@@ -94,7 +94,7 @@ import {
   testCellphone,
   cellphoneLogin,
   userInfo
-} from '@api/login';
+} from '@/api/login';
 import type { ResponseType } from '@/types/types';
 
 type MobileFormData = {

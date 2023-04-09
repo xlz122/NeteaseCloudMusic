@@ -46,7 +46,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed } from 'vue';
 import { throttle } from 'lodash';
-import { albumNewest } from '@api/home';
+import { albumNewest } from '@/api/home';
 import type { ResponseType } from '@/types/types';
 
 type ListOffest = {

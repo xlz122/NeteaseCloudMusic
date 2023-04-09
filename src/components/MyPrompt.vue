@@ -92,7 +92,7 @@ export default defineComponent({
     width: 35px;
     height: 35px;
     margin: 27px 0 6px;
-    background: url('~@/assets/image/user/prompt-icon.png') no-repeat;
+    background: url('@/assets/image/user/prompt-icon.png') no-repeat;
     background-size: 35px auto;
 
     &.fail-icon {

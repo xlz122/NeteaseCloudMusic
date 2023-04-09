@@ -39,18 +39,18 @@ export default defineComponent({
 
 ::v-deep(.progress) {
   height: 9px;
-  background: url('~@/assets/image/music-audio/progress.png') no-repeat;
+  background: url('@/assets/image/music-audio/progress.png') no-repeat;
   background-position: right 0;
 
   .current-progress {
-    background: url('~@/assets/image/music-audio/progress.png');
+    background: url('@/assets/image/music-audio/progress.png');
     background-position: left -66px;
 
     .icon-round {
       right: -11px;
       width: 22px;
       height: 22px;
-      background: url('~@/assets/image/music-audio/play-btn-hover.png');
+      background: url('@/assets/image/music-audio/play-btn-hover.png');
       background-position: 0 -288px;
     }
 
@@ -58,12 +58,12 @@ export default defineComponent({
       right: -6px;
       width: 12px;
       height: 12px;
-      background: url('~@/assets/image/music-audio/loading.gif');
+      background: url('@/assets/image/music-audio/loading.gif');
     }
   }
 
   .cache-progress {
-    background: url('~@/assets/image/music-audio/progress.png');
+    background: url('@/assets/image/music-audio/progress.png');
     background-position: right -30px;
   }
 }

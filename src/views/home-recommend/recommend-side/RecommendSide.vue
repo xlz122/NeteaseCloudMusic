@@ -39,7 +39,7 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
-import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
+import SideDownload from '@/views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 export default defineComponent({
   components: {

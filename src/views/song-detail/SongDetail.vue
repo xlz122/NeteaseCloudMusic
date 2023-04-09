@@ -92,16 +92,16 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import { handleCommentData } from '@components/comment/handleCommentData';
-import { songDetail } from '@api/song-detail';
-import { getLyric } from '@api/my-music';
-import { commentMusic } from '@api/comment';
+import { handleCommentData } from '@/components/comment/handleCommentData';
+import { songDetail } from '@/api/song-detail';
+import { getLyric } from '@/api/my-music';
+import { commentMusic } from '@/api/comment';
 import type { ResponseType } from '@/types/types';
-import type { CommentParams } from '@components/comment/Comment.vue';
-import Comment from '@components/comment/Comment.vue';
+import type { CommentParams } from '@/components/comment/Comment.vue';
+import Comment from '@/components/comment/Comment.vue';
 import SongInfo from './song-info/SongInfo.vue';
 import SongDateilSide from './song-detail-side/SongDetailSide.vue';
-import Page from '@components/page/Page.vue';
+import Page from '@/components/page/Page.vue';
 
 type Lyric = {
   lyricUser: unknown;
@@ -253,7 +253,9 @@ export default defineComponent({
       };
       // 精彩评论不加offset
       if (commentParams.offset > 1) {
-        params['offset'] = (commentParams.offset - 1) * commentParams.limit;
+        Object.assign(params, {
+          offset: (commentParams.offset - 1) * commentParams.limit
+        });
       }
       commentMusic({ ...params })
         .then((res: ResponseType) => {

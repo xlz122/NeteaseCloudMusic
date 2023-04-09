@@ -95,8 +95,8 @@ import { defineComponent, computed, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { timeStampToDuration } from '@utils/utils';
-import type { PlayMusicItem } from '@store/music/state';
+import { timeStampToDuration } from '@/utils/utils';
+import type { PlayMusicItem } from '@/store/music/state';
 import Lyric from '../lyric/Lyric.vue';
 
 export default defineComponent({
@@ -109,6 +109,7 @@ export default defineComponent({
       default: false
     }
   },
+  emits: ['closePlayList'],
   setup(props, { emit }) {
     const $store = useStore();
 

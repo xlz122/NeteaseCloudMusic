@@ -38,7 +38,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { programRecommend } from '@api/home-djprogram';
+import { programRecommend } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types/types';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 

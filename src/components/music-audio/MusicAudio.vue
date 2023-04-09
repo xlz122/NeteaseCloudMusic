@@ -106,7 +106,7 @@ import { defineComponent, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import { timeStampToDuration } from '@utils/utils';
+import { timeStampToDuration } from '@/utils/utils';
 import AudioView from './audio/Audio.vue';
 import PlayAction from './play-action/PlayAction.vue';
 import PlayProgress from './play-progress/PlayProgress.vue';

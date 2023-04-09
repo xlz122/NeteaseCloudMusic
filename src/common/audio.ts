@@ -1,4 +1,4 @@
-import type { PlayMusicItem } from '@store/music/state';
+import type { PlayMusicItem } from '@/store/music/state';
 
 export type SongType = {
   id: number;

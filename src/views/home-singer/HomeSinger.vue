@@ -23,13 +23,13 @@
 import { defineComponent, reactive, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import { topArtists, artistList, ArtistList } from '@api/home-singer';
+import { topArtists, artistList, ArtistList } from '@/api/home-singer';
 import type { ResponseType } from '@/types/types';
 import SingerMenu from './singer-menu/SingerMenu.vue';
 import SingerContent from './singer-content/SingerContent.vue';
 
 export default defineComponent({
-  name: 'home-singer',
+  name: 'HomeSinger',
   components: {
     SingerMenu,
     SingerContent

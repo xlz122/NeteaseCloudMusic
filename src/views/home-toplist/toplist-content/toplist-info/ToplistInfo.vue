@@ -9,7 +9,7 @@
             alt=""
           />
         </template>
-        <template>
+        <template v-else>
           <img class="img" src="" alt="" />
         </template>
         <i class="icon"></i>
@@ -117,7 +117,7 @@ import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { formatDateTime } from '@utils/utils';
+import { formatDateTime } from '@/utils/utils';
 import type { SongType } from '@/common/audio';
 
 export default defineComponent({

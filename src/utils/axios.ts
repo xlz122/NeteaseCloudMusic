@@ -1,4 +1,4 @@
-import store from '@store/index';
+import store from '@/store/index';
 import axios from 'axios';
 import {
   AxiosRequestConfig,
@@ -148,7 +148,7 @@ class HttpRequest {
 }
 
 const Axios = new HttpRequest({
-  baseURL: process.env.VUE_APP_BASE_URL
+  baseURL: import.meta.env.VITE_AXIOS_BASE_URL
 });
 
 export default Axios;

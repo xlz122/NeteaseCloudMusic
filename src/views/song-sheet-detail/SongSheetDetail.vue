@@ -70,16 +70,16 @@ import {
   nextTick
 } from 'vue';
 import { useStore } from 'vuex';
-import { handleCommentData } from '@components/comment/handleCommentData';
-import { playlistDetail } from '@api/song-sheet-detail';
-import { commentPlayList } from '@api/comment';
+import { handleCommentData } from '@/components/comment/handleCommentData';
+import { playlistDetail } from '@/api/song-sheet-detail';
+import { commentPlayList } from '@/api/comment';
 import type { ResponseType } from '@/types/types';
-import type { CommentParams } from '@components/comment/Comment.vue';
-import UserInfo from '@components/song-sheet/user-info/UserInfo.vue';
-import MusicTable from '@components/song-sheet/music-table/MusicTable.vue';
-import Comment from '@components/comment/Comment.vue';
+import type { CommentParams } from '@/components/comment/Comment.vue';
+import UserInfo from '@/components/song-sheet/user-info/UserInfo.vue';
+import MusicTable from '@/components/song-sheet/music-table/MusicTable.vue';
+import Comment from '@/components/comment/Comment.vue';
 import SongSheetSide from './song-sheet-side/SongSheetSide.vue';
-import Page from '@components/page/Page.vue';
+import Page from '@/components/page/Page.vue';
 
 export default defineComponent({
   components: {
@@ -152,7 +152,9 @@ export default defineComponent({
       };
       // 精彩评论不加offset
       if (commentParams.offset > 1) {
-        params['offset'] = (commentParams.offset - 1) * commentParams.limit;
+        Object.assign(params, {
+          offset: (commentParams.offset - 1) * commentParams.limit
+        });
       }
       commentPlayList({ ...params })
         .then((res: ResponseType) => {

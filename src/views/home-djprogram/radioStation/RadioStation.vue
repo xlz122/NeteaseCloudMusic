@@ -1,7 +1,3 @@
-<style lang="less" scoped>
-@import url('./radioStation.less');
-</style>
-
 <template>
   <div class="radio-station">
     <div class="top dis-flex align-center justify-between">
@@ -60,3 +56,7 @@ export default defineComponent({
   }
 });
 </script>
+
+<style lang="less" scoped>
+@import url('./radioStation.less');
+</style>

@@ -18,8 +18,8 @@
 import { defineComponent, ref, computed, watch, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import MyDialog from '@/components/MyDialog.vue';
-import Qrcode from '@views/login/qrcode/Qrcode.vue';
-import Other from '@views/login/other/Other.vue';
+import Qrcode from '@/views/login/qrcode/Qrcode.vue';
+import Other from '@/views/login/other/Other.vue';
 
 export default defineComponent({
   name: 'LoginView',

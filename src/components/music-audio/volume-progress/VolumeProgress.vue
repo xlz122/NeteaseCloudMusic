@@ -12,7 +12,7 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import VerticalProgress from '@components/vertical-progress/VerticalProgress.vue';
+import VerticalProgress from '@/components/vertical-progress/VerticalProgress.vue';
 
 export default defineComponent({
   name: 'VolumeProgress',

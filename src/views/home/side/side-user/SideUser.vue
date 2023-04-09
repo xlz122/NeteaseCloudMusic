@@ -62,9 +62,9 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { formatDateTime } from '@utils/utils';
-import { dailySignin } from '@api/home';
-import { userVipInfo } from '@api/user';
+import { formatDateTime } from '@/utils/utils';
+import { dailySignin } from '@/api/home';
+import { userVipInfo } from '@/api/user';
 import type { ResponseType } from '@/types/types';
 
 type VipInfo = {

@@ -77,7 +77,7 @@ export default defineComponent({
       width: 24px;
       height: 24px;
       vertical-align: middle;
-      background: url('~@/assets/image/icon.png');
+      background: url('@/assets/image/icon.png');
     }
 
     .info-icon {

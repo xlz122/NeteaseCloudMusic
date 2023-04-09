@@ -85,9 +85,9 @@ import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { simiPlaylist, simiSong } from '@api/song-detail';
+import { simiPlaylist, simiSong } from '@/api/song-detail';
 import type { ResponseType } from '@/types/types';
-import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
+import SideDownload from '@/views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 export default defineComponent({
   components: {

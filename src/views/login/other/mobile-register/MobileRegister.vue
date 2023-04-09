@@ -118,7 +118,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted, onUnmounted } from 'vue';
 import { setMessage } from '@/components/message/useMessage';
-import { countryCode, captchaSent, captchaVerify } from '@api/login';
+import { countryCode, captchaSent, captchaVerify } from '@/api/login';
 import type { ResponseType } from '@/types/types';
 
 type MobileFormData = {

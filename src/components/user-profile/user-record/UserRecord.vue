@@ -98,7 +98,7 @@ import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { userRecord } from '@api/user';
+import { userRecord } from '@/api/user';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/common/audio';
 

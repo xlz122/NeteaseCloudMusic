@@ -57,7 +57,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, watch, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
-import { bannerImgUrl } from '@api/home';
+import { bannerImgUrl } from '@/api/home';
 import type { ResponseType } from '@/types/types';
 
 type Banner = {

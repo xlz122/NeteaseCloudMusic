@@ -139,11 +139,11 @@ export default defineComponent({
       default: () => ({})
     },
     lyric: {
-      typs: Object,
+      type: Object,
       default: () => ({})
     },
     commentTotal: {
-      typs: Number,
+      type: Number,
       default: 0
     }
   },

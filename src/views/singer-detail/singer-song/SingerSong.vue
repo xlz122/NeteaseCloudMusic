@@ -131,8 +131,8 @@ import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { timeStampToDuration } from '@utils/utils';
-import { artistSong } from '@api/singer-detail';
+import { timeStampToDuration } from '@/utils/utils';
+import { artistSong } from '@/api/singer-detail';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/common/audio';
 

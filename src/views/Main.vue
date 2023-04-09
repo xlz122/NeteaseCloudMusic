@@ -12,9 +12,9 @@
 
 <script lang="ts">
 import { defineComponent, onMounted } from 'vue';
-import HeaderView from '@views/header/Header.vue';
-import FooterView from '@views/footer/Footer.vue';
-import JumpTop from '@components/jump-top/JumpTop.vue';
+import HeaderView from '@/views/header/Header.vue';
+import FooterView from '@/views/footer/Footer.vue';
+import JumpTop from '@/components/jump-top/JumpTop.vue';
 
 export default defineComponent({
   name: 'MainView',

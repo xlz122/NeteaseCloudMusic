@@ -55,10 +55,10 @@
 import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import { handleMatchString } from '@utils/utils';
-import { searchKeywords, followUser } from '@api/search';
+import { handleMatchString } from '@/utils/utils';
+import { searchKeywords, followUser } from '@/api/search';
 import type { ResponseType } from '@/types/types';
-import Page from '@components/page/Page.vue';
+import Page from '@/components/page/Page.vue';
 
 type AlbumData = {
   loading: boolean;

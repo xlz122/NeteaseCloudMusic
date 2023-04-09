@@ -1,4 +1,4 @@
-import { formatMixedText } from '@utils/formatMixedText';
+import { formatMixedText } from '@/utils/formatMixedText';
 import type { ResponseType } from '@/types/types';
 
 type CommentReturn = {

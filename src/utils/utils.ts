@@ -53,7 +53,7 @@ export function timeStampToDuration(timeStamp: number): string {
   const i2 = zero(i);
   const s2 = zero(s);
   let ok = '';
-  if (h2 <= 0) {
+  if (Number(h2) <= 0) {
     ok = [i2, s2].join(':');
   } else {
     ok = [h2, i2, s2].join(':');
@@ -111,6 +111,7 @@ export function formatDateTime(
     if (new RegExp('(' + k + ')').test(fmt)) {
       fmt = fmt.replace(
         RegExp.$1,
+        // @ts-ignore
         RegExp.$1.length === 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
       );
     }
@@ -305,3 +306,12 @@ export function filterTime(time: number): string {
   const D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
   return `${Y}-${M}-${D}`;
 }
+
+export const require = (imgPath: string) => {
+  try {
+    const handlePath = imgPath.replace('@', '..');
+    return new URL(handlePath, import.meta.url).href;
+  } catch (error) {
+    console.warn(error);
+  }
+};

@@ -43,7 +43,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
-import { playlistCatlist } from '@api/home-song-sheet';
+import { playlistCatlist } from '@/api/home-song-sheet';
 import type { ResponseType } from '@/types/types';
 
 type CatList = {
@@ -83,6 +83,7 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res.code === 200) {
             for (const value in res.categories) {
+              // @ts-ignore
               catlist[value].title = res.categories[value];
             }
             res?.sub.forEach((item: { category: number }) => {

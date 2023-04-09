@@ -20,10 +20,10 @@
 import { defineComponent, ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import { getPlayMusicUrl } from '@api/my-music';
+import { getPlayMusicUrl } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
-import type { PlayMusicItem } from '@store/music/state';
-import { playNextMusic } from '@components/music-audio/play-action/play-action';
+import type { PlayMusicItem } from '@/store/music/state';
+import { playNextMusic } from '@/components/music-audio/play-action/play-action';
 
 export default defineComponent({
   name: 'AudioView',

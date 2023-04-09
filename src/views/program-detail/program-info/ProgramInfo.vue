@@ -107,7 +107,7 @@
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import { formatDateTime } from '@utils/utils';
+import { formatDateTime } from '@/utils/utils';
 
 export default defineComponent({
   props: {
@@ -116,7 +116,7 @@ export default defineComponent({
       default: () => ({})
     },
     commentTotal: {
-      typs: Number,
+      type: Number,
       default: 0
     }
   },

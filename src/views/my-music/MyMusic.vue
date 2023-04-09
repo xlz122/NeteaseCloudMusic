@@ -39,15 +39,15 @@ import {
   nextTick
 } from 'vue';
 import { useStore } from 'vuex';
-import { userSubcount } from '@api/my-music';
+import { userSubcount } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
-import OptionList from '@views/my-music/option-list/OptionList.vue';
+import OptionList from '@/views/my-music/option-list/OptionList.vue';
 import MySinger from '@/views/my-music/my-singer/MySinger.vue';
 import MyVideo from '@/views/my-music/my-video/MyVideo.vue';
 import SongSheetDetail from '@/views/my-music/song-sheet-detail/SongSheetDetail.vue';
 
 export default defineComponent({
-  name: 'my-music',
+  name: 'MyMusic',
   components: {
     OptionList,
     MySinger,
@@ -92,9 +92,10 @@ export default defineComponent({
       data: (typeof options)[keyof typeof options];
     }): void {
       for (const value in options) {
+        // @ts-ignore
         options[value].visible = false;
       }
-
+      // @ts-ignore
       options[params.type] = { ...options[params.type], ...params.data };
     }
 

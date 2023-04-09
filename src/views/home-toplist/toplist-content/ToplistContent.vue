@@ -43,8 +43,8 @@
 import { defineComponent } from 'vue';
 import ToplistInfo from './toplist-info/ToplistInfo.vue';
 import ToplistSong from './toplist-song/ToplistSong.vue';
-import Comment from '@components/comment/Comment.vue';
-import Page from '@components/page/Page.vue';
+import Comment from '@/components/comment/Comment.vue';
+import Page from '@/components/page/Page.vue';
 
 export default defineComponent({
   components: {

@@ -37,8 +37,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { bigNumberTransform, timeStampToDuration } from '@utils/utils';
-import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
+import { bigNumberTransform, timeStampToDuration } from '@/utils/utils';
+import SideDownload from '@/views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 export default defineComponent({
   name: 'VideoDetailSide',

@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import HeaderView from '@views/header/Header.vue';
+import HeaderView from '@/views/header/Header.vue';
 
 export default defineComponent({
   name: 'NotFound',
@@ -36,7 +36,7 @@ export default defineComponent({
       width: 281px;
       height: 115px;
       text-align: center;
-      background: url('~@/assets/image/not-found.jpg');
+      background: url('@/assets/image/not-found.jpg');
     }
 
     .text {

@@ -53,7 +53,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
-import { userVipInfo } from '@api/user';
+import { userVipInfo } from '@/api/user';
 import type { ResponseType } from '@/types/types';
 
 export default defineComponent({

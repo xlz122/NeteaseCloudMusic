@@ -49,9 +49,9 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
-import { topArtists, simiArtist } from '@api/singer-detail';
+import { topArtists, simiArtist } from '@/api/singer-detail';
 import type { ResponseType } from '@/types/types';
-import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
+import SideDownload from '@/views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 export default defineComponent({
   components: {

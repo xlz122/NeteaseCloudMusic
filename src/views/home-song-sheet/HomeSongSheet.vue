@@ -83,13 +83,13 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { bigNumberTransform } from '@utils/utils';
-import { topPlaylist } from '@api/home-song-sheet';
-import { playlistTrack } from '@api/song-sheet-detail';
+import { bigNumberTransform } from '@/utils/utils';
+import { topPlaylist } from '@/api/home-song-sheet';
+import { playlistTrack } from '@/api/song-sheet-detail';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/common/audio';
 import ClassifyModal from './classify-modal/ClassifyModal.vue';
-import Page from '@components/page/Page.vue';
+import Page from '@/components/page/Page.vue';
 
 type SongParams = {
   order: string;
@@ -100,7 +100,7 @@ type SongParams = {
 };
 
 export default defineComponent({
-  name: 'home-song-sheet',
+  name: 'HomeSongSheet',
   components: {
     ClassifyModal,
     Page

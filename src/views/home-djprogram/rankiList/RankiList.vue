@@ -1,7 +1,3 @@
-<style lang="less" scoped>
-@import url('./rankiList.less');
-</style>
-
 <template>
   <div class="recommend">
     <div class="title dis-flex justify-between align-end">
@@ -56,7 +52,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { programTopList } from '@api/home-djprogram';
+import { programTopList } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types/types';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import type { SongType } from '@/common/audio';
@@ -85,3 +81,7 @@ export default defineComponent({
   }
 });
 </script>
+
+<style lang="less" scoped>
+@import url('./rankiList.less');
+</style>

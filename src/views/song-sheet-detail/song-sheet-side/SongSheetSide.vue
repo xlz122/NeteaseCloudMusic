@@ -58,9 +58,9 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed } from 'vue';
 import { useStore } from 'vuex';
-import { topPlaylist } from '@api/home-song-sheet';
+import { topPlaylist } from '@/api/home-song-sheet';
 import type { ResponseType } from '@/types/types';
-import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
+import SideDownload from '@/views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 type ParamsType = {
   order: string;

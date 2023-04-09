@@ -1,4 +1,4 @@
-import type { State, VideoPlayProgress } from '@store/video/state';
+import type { State, VideoPlayProgress } from '@/store/video/state';
 
 type Mutations<T, U = any> = {
   [key: string]: (state: T, payload: U) => void;

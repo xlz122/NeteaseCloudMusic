@@ -50,12 +50,12 @@ import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { timeStampToDuration, handleMatchString } from '@utils/utils';
-import { searchKeywords } from '@api/search';
-import { albumDetail } from '@api/album-detail';
+import { timeStampToDuration, handleMatchString } from '@/utils/utils';
+import { searchKeywords } from '@/api/search';
+import { albumDetail } from '@/api/album-detail';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/common/audio';
-import Page from '@components/page/Page.vue';
+import Page from '@/components/page/Page.vue';
 
 type AlbumData = {
   loading: boolean;

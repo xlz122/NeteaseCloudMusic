@@ -51,10 +51,10 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
-import { formatDateTime } from '@utils/utils';
-import { artistAlbum } from '@api/album-detail';
+import { formatDateTime } from '@/utils/utils';
+import { artistAlbum } from '@/api/album-detail';
 import type { ResponseType } from '@/types/types';
-import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
+import SideDownload from '@/views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 type AlbumParams = {
   offset: number;

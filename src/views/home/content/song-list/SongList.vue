@@ -76,9 +76,9 @@ import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { topList } from '@api/home-toplist';
-import { playlistDetail } from '@api/song-sheet-detail';
-import { playlistSubscribe } from '@api/song-sheet-detail';
+import { topList } from '@/api/home-toplist';
+import { playlistDetail } from '@/api/song-sheet-detail';
+import { playlistSubscribe } from '@/api/song-sheet-detail';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/common/audio';
 

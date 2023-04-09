@@ -1,33 +1,34 @@
 module.exports = {
-  root: true,
-  env: {
-    node: true,
-  },
+  env: { browser: true, es2020: true },
   extends: [
-    'plugin:vue/vue3-essential',
     'eslint:recommended',
-    '@vue/typescript/recommended',
+    'plugin:vue/vue3-recommended',
+    'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
+    'eslint-config-prettier'
   ],
+  parser: 'vue-eslint-parser',
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    parser: '@typescript-eslint/parser'
   },
+  plugins: ['vue', 'prettier'],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    // any类型
-    // fixToUnknown: 提供自动修复,其中“any”类型转换为“unknown”类型
-    // ignoreRestArgs: 允许 rest 运算符数组
-    '@typescript-eslint/no-explicit-any': [0, {
-      fixToUnknown: true,
-      ignoreRestArgs: true
-    }],
-    // 组件name ignores数组为忽略(string[])
-    'vue/multi-word-component-names': ['error', {
+
+    '@typescript-eslint/ban-ts-comment': 0,
+    '@typescript-eslint/no-explicit-any': 0,
+    // 组件name, 忽略ignores
+    'vue/multi-word-component-names': [0, {
       'ignores': []
     }],
+    'vue/attributes-order': 0,
+    'vue/v-on-event-hyphenation': 0,
+    'vue/attribute-hyphenation': 0,
 
-    // 禁用var，使用let、const
+    // 禁用var, 使用let、const
     'no-var': 2,
     // 禁止在变量定义之前使用
     '@typescript-eslint/no-use-before-define': [
@@ -53,6 +54,6 @@ module.exports = {
     // 单行代码最大长度
     'max-len': [2, { code: 120 }],
     // 空格缩进
-    'indent': [2, 2],
+    'indent': [2, 2]
   }
 };

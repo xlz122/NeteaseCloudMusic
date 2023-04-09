@@ -84,12 +84,12 @@ import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { bigNumberTransform, handleMatchString } from '@utils/utils';
-import { searchKeywords } from '@api/search';
-import { playlistTrack, playlistSubscribe } from '@api/song-sheet-detail';
+import { bigNumberTransform, handleMatchString } from '@/utils/utils';
+import { searchKeywords } from '@/api/search';
+import { playlistTrack, playlistSubscribe } from '@/api/song-sheet-detail';
 import type { SongType } from '@/common/audio';
 import type { ResponseType } from '@/types/types';
-import Page from '@components/page/Page.vue';
+import Page from '@/components/page/Page.vue';
 
 type songSheetData = {
   loading: boolean;

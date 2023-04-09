@@ -34,9 +34,9 @@
 <script lang="ts">
 import { defineComponent, reactive, watch, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import { getLyric } from '@api/my-music';
+import { getLyric } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
-import type { PlayLyrics } from '@store/music/state';
+import type { PlayLyrics } from '@/store/music/state';
 
 type Lyric = {
   noData: boolean;

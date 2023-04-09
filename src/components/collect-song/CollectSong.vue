@@ -36,7 +36,7 @@
 import { defineComponent, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import { userPlayList, collectMusic } from '@api/my-music';
+import { userPlayList, collectMusic } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
 import MyDialog from '@/components/MyDialog.vue';
 

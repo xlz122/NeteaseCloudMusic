@@ -68,7 +68,7 @@ import {
   onUnmounted
 } from 'vue';
 import { useStore } from 'vuex';
-import { timeStampToDuration } from '@utils/utils';
+import { timeStampToDuration } from '@/utils/utils';
 import { setMessage } from '@/components/message/useMessage';
 import VideoView from './video/Video.vue';
 import PlayProgress from './play-progress/PlayProgress.vue';

@@ -1,14 +1,14 @@
 import { createStore } from 'vuex';
-import state from '@store/state';
-import getters from '@store/getters';
-import mutations from '@store/mutations';
-import actions from '@store/actions';
+import state from '@/store/state';
+import getters from '@/store/getters';
+import mutations from '@/store/mutations';
+import actions from '@/store/actions';
 // 音乐模块
-import music from '@store/music';
+import music from '@/store/music';
 // 视频模块
-import video from '@store/video';
+import video from '@/store/video';
 // 电台
-import radio from '@store/radio';
+import radio from '@/store/radio';
 
 export default createStore({
   state,

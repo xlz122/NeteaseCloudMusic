@@ -44,8 +44,8 @@
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { timeStampToDuration } from '@utils/utils';
-import { MyVideoSbulist } from '@api/my-music';
+import { timeStampToDuration } from '@/utils/utils';
+import { MyVideoSbulist } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
 
 export default defineComponent({

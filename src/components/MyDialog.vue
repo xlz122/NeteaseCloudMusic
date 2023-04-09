@@ -35,7 +35,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { drag } from '@utils/drag.ts';
+import { drag } from '@/utils/drag';
 
 export default defineComponent({
   directives: {
@@ -169,7 +169,7 @@ export default defineComponent({
   overflow: hidden;
   text-indent: -9999px;
   cursor: pointer;
-  background: url('~@/assets/image/dialog-title.png');
+  background: url('@/assets/image/dialog-title.png');
   background-position: 0 -95px;
 }
 
@@ -207,13 +207,13 @@ export default defineComponent({
 .confirm-btn {
   padding: 0 5px 0 0;
   color: #fff;
-  background: url('~@/assets/image/icon-button.png') no-repeat;
+  background: url('@/assets/image/icon-button.png') no-repeat;
   background-position: right -428px;
 
   .icon {
     display: inline-block;
     padding: 0 23px 0 28px;
-    background: url('~@/assets/image/icon-button.png') no-repeat;
+    background: url('@/assets/image/icon-button.png') no-repeat;
     background-position: 0 -387px;
   }
 }
@@ -229,13 +229,13 @@ export default defineComponent({
 .cancel-btn {
   padding: 0 5px 0 0;
   color: #333;
-  background: url('~@/assets/image/icon-button.png') no-repeat;
+  background: url('@/assets/image/icon-button.png') no-repeat;
   background-position: right -100px;
 
   .icon {
     display: inline-block;
     padding: 0 23px 0 28px;
-    background: url('~@/assets/image/icon-button.png') no-repeat;
+    background: url('@/assets/image/icon-button.png') no-repeat;
     background-position: 0 -59px;
   }
 }
@@ -268,7 +268,7 @@ button + button {
     text-align: center;
     vertical-align: top;
     cursor: pointer;
-    background: url('~@/assets/image/icon-button.png') no-repeat;
+    background: url('@/assets/image/icon-button.png') no-repeat;
     border: none;
     border-radius: 3px;
     background-position: right -387px;

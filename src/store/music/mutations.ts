@@ -4,7 +4,7 @@ import type {
   MusicPlayProgress,
   MusicPlayStatus,
   PlayLyrics
-} from '@store/music/state';
+} from '@/store/music/state';
 
 type Mutations<T, U = any> = {
   [key: string]: (state: T, payload: U) => void;
@@ -37,6 +37,7 @@ const mutations: Mutations<State> = {
     const keys = Object.keys(playStatus);
 
     for (const key of keys) {
+      // @ts-ignore
       state.musicPlayStatus[key] = playStatus[key];
     }
   },

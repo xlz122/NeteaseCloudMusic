@@ -69,10 +69,10 @@ import {
   formatDateTime,
   bigNumberTransform,
   timeStampToDuration
-} from '@utils/utils';
-import { relatedVideo } from '@api/video-detail';
+} from '@/utils/utils';
+import { relatedVideo } from '@/api/video-detail';
 import type { ResponseType } from '@/types/types';
-import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
+import SideDownload from '@/views/song-sheet-detail/side-downlod/SideDownload.vue';
 
 export default defineComponent({
   name: 'VideoDetailSide',

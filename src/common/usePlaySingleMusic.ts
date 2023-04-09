@@ -1,10 +1,10 @@
 import { reactive, computed } from 'vue';
-import store from '@store/index';
+import store from '@/store/index';
 import { handleAudioSong } from '@/common/audio';
-import { toRawType } from '@utils/tool';
+import { toRawType } from '@/utils/tool';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import type { SongType } from '@/common/audio';
-import type { PlayMusicItem, MusicPlayStatus } from '@store/music/state';
+import type { PlayMusicItem, MusicPlayStatus } from '@/store/music/state';
 
 /**
  * @description 播放单个歌曲

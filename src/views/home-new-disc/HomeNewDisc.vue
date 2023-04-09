@@ -116,14 +116,14 @@ import { defineComponent, ref, reactive } from 'vue';
 import { useStore } from 'vuex';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { hotNewDisc, nweDiscAlbum, NweDiscAlbum } from '@api/home-new-disc';
-import { albumDetail } from '@api/album-detail';
+import { hotNewDisc, nweDiscAlbum, NweDiscAlbum } from '@/api/home-new-disc';
+import { albumDetail } from '@/api/album-detail';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/common/audio';
-import Page from '@components/page/Page.vue';
+import Page from '@/components/page/Page.vue';
 
 export default defineComponent({
-  name: 'home-new-disc',
+  name: 'HomeNewDisc',
   components: {
     Page
   },

@@ -97,7 +97,7 @@
 import { defineComponent, ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { userLevel } from '@api/user';
+import { userLevel } from '@/api/user';
 import type { ResponseType } from '@/types/types';
 
 type NextLevel = {

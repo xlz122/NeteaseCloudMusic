@@ -37,7 +37,7 @@ export default defineComponent({
     width: 980px;
     min-height: 700px;
     margin: 0 auto;
-    background: url('~@/assets/image/home/wrap1.png') repeat-y 100% 100%;
+    background: url('@/assets/image/home/wrap1.png') repeat-y 100% 100%;
     background-color: #fff;
     border: 1px solid #d3d3d3;
     border-width: 0 1px;

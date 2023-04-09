@@ -1,5 +1,5 @@
 import { AppContext, createVNode, render } from 'vue';
-import Component from '@views/login/Login.vue';
+import Component from '@/views/login/Login.vue';
 
 const Login = {
   install: (app: { _context: AppContext | null }): void => {

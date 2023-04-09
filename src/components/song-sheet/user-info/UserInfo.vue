@@ -9,7 +9,7 @@
             alt=""
           />
         </template>
-        <template>
+        <template v-else>
           <img class="img" src="" alt="" />
         </template>
         <i class="icon"></i>
@@ -190,13 +190,13 @@ import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { formatDateTime } from '@utils/utils';
-import { playlistSubscribe } from '@api/song-sheet-detail';
+import { formatDateTime } from '@/utils/utils';
+import { playlistSubscribe } from '@/api/song-sheet-detail';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/common/audio';
 
 export default defineComponent({
-  emit: ['jumpToComments'],
+  emits: ['jumpToComments'],
   setup(props, { emit }) {
     const $router = useRouter();
     const $store = useStore();

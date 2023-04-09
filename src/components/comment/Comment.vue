@@ -69,12 +69,12 @@ import {
   deleteComment,
   commentLike,
   replyComment
-} from '@api/comment';
+} from '@/api/comment';
 import type { ResponseType } from '@/types/types';
 import CommentReplay from '@/components/comment/comment-replay/CommentReplay.vue';
 import CommentList from '@/components/comment/comment-list/CommentList.vue';
 import MyDialog from '@/components/MyDialog.vue';
-import defaultAvatarImg from '@assets/image/user/default_avatar.jpg';
+import defaultAvatarImg from '@/assets/image/user/default_avatar.jpg';
 
 export type CommentParams = {
   type: number;

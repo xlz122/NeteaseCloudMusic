@@ -12,7 +12,7 @@
 <script lang="ts">
 import { defineComponent, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import XProgress from '@components/progress/Progress.vue';
+import XProgress from '@/components/progress/Progress.vue';
 
 export default defineComponent({
   components: {

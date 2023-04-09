@@ -52,12 +52,12 @@ import { defineComponent, ref, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { formatDateTime } from '@utils/utils';
-import { artistAlbum } from '@api/album-detail';
-import { albumDetail } from '@api/album-detail';
+import { formatDateTime } from '@/utils/utils';
+import { artistAlbum } from '@/api/album-detail';
+import { albumDetail } from '@/api/album-detail';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/common/audio';
-import Page from '@components/page/Page.vue';
+import Page from '@/components/page/Page.vue';
 
 type AlbumParams = {
   offset: number;

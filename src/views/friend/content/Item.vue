@@ -362,7 +362,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { formatDate } from '@utils/utils';
+import { formatDate } from '@/utils/utils';
 import type { SongType } from '@/common/audio';
 
 export default defineComponent({

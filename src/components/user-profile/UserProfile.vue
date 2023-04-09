@@ -22,10 +22,10 @@
 import { defineComponent, ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import findCityZipCode from './city';
-import { userDetail } from '@api/user';
+import { userDetail } from '@/api/user';
 import type { ResponseType } from '@/types/types';
 import UserInfo from '@/components/user-profile/user-info/UserInfo.vue';
-import UserRecord from '@components/user-profile/user-record/UserRecord.vue';
+import UserRecord from '@/components/user-profile/user-record/UserRecord.vue';
 import SongSheetList from '@/components/user-profile/song-sheet-list/SongSheetList.vue';
 
 export default defineComponent({

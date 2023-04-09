@@ -59,7 +59,7 @@ export default defineComponent({
   margin-left: 505px;
   text-indent: -9999px;
   cursor: pointer;
-  background: url('~@/assets/image/song-sheet/song-sheet-detail-download.png');
+  background: url('@/assets/image/song-sheet/song-sheet-detail-download.png');
   background-position: -265px -47px;
 
   &:hover {

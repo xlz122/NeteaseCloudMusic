@@ -1,7 +1,3 @@
-<style lang="less" scoped>
-@import url('./radioDetails.less');
-</style>
-
 <template>
   <div class="bg-gray-f2 detail">
     <div class="box-border dis-flex">
@@ -119,13 +115,13 @@
 <script lang="ts">
 import { computed, defineComponent, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { djDetail, djProgram } from '@api/home-djprogram';
+import { djDetail, djProgram } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types/types';
 import {
   filterTime,
   bigNumberTransform,
   timeStampToDuration
-} from '@utils/utils';
+} from '@/utils/utils';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 // import { SongType } from '@/common/audio';
@@ -217,3 +213,7 @@ export default defineComponent({
   }
 });
 </script>
+
+<style lang="less" scoped>
+@import url('./radioDetails.less');
+</style>

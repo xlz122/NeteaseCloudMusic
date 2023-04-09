@@ -30,8 +30,8 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
-import { timeStampToDuration } from '@utils/utils';
-import { subPlayList } from '@api/my-music';
+import { timeStampToDuration } from '@/utils/utils';
+import { subPlayList } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
 
 export default defineComponent({
