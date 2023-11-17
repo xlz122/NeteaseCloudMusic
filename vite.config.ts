@@ -11,10 +11,7 @@ export default ({ mode }: ConfigEnv) => {
 
   return defineConfig({
     base: '',
-    plugins: [
-      vue(),
-      viteCompression()
-    ],
+    plugins: [vue(), viteCompression()],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
@@ -23,7 +20,6 @@ export default ({ mode }: ConfigEnv) => {
     },
     server: {
       host: true,
-      https: false,
       open: false,
       port: 8018,
       proxy: {
@@ -53,10 +49,10 @@ export default ({ mode }: ConfigEnv) => {
         // js/css/img分不同文件存放
         output: {
           chunkFileNames: 'static/js/[name]-[hash].js',
-          entryFileNames: "static/js/[name]-[hash].js",
-          assetFileNames: "static/[ext]/name-[hash].[ext]"
+          entryFileNames: 'static/js/[name]-[hash].js',
+          assetFileNames: 'static/[ext]/name-[hash].[ext]'
         }
       }
     }
   });
-}
+};
