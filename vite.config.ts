@@ -15,7 +15,6 @@ export default ({ mode }: ConfigEnv) => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
-        '@views': path.resolve(__dirname, './src/views')
       }
     },
     server: {
