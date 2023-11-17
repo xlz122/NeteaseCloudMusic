@@ -37,8 +37,8 @@ const mutations: Mutations<State> = {
     const keys = Object.keys(playStatus);
 
     for (const key of keys) {
-      // @ts-ignore
-      state.musicPlayStatus[key] = playStatus[key];
+      // eslint-disable-next-line
+      state.musicPlayStatus[key as keyof typeof state.musicPlayStatus] = playStatus[key as keyof typeof playStatus];
     }
   },
   // 播放器锁定在底部

@@ -14,7 +14,7 @@ export default ({ mode }: ConfigEnv) => {
     plugins: [vue(), viteCompression()],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './src'),
+        '@': path.resolve(__dirname, './src')
       }
     },
     server: {

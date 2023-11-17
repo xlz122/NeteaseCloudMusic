@@ -92,10 +92,9 @@ export default defineComponent({
       data: (typeof options)[keyof typeof options];
     }): void {
       for (const value in options) {
-        // @ts-ignore
-        options[value].visible = false;
+        options[value as keyof typeof options].visible = false;
       }
-      // @ts-ignore
+      // @ts-expect-error - unknown
       options[params.type] = { ...options[params.type], ...params.data };
     }
 

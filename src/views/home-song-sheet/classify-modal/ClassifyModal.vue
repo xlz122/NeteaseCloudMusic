@@ -83,8 +83,8 @@ export default defineComponent({
         .then((res: ResponseType) => {
           if (res.code === 200) {
             for (const value in res.categories) {
-              // @ts-ignore
-              catlist[value].title = res.categories[value];
+              // eslint-disable-next-line
+              catlist[value as typeof res.categories].title = res.categories[value];
             }
             res?.sub.forEach((item: { category: number }) => {
               if (item.category === 0) {

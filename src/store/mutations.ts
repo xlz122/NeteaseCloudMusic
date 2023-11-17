@@ -156,8 +156,8 @@ const mutations: Mutations<State> = {
     const keys = Object.keys(tip);
 
     for (const key of keys) {
-      // @ts-ignore
-      state.abnormal[key] = tip[key];
+      // @ts-expect-error - unknown
+      state.abnormal[key as keyof typeof keys] = tip[key];
     }
   }
 };
