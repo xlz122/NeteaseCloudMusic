@@ -2,7 +2,7 @@
   <div class="home-song-sheet">
     <div class="home-song-sheet-container">
       <div class="title">
-        <span class="text">{{ songTitle }}</span>
+        <span class="text">{{ title }}</span>
         <div class="classify-btn" @click="classifyModal">
           <i class="icon">
             <span class="text">选择分类</span>
@@ -17,9 +17,9 @@
       <ul class="list-content">
         <li
           class="item"
-          v-for="(item, index) in songSheetList"
+          v-for="(item, index) in songSheet"
           :key="index"
-          :class="{ 'last-item': songSheetList.length > 2 && !(index % 5) }"
+          :class="{ 'last-item': songSheet.length > 2 && !(index % 5) }"
         >
           <div class="item-top">
             <img
@@ -67,18 +67,18 @@
         </li>
       </ul>
       <Page
-        v-if="songParams.total > songParams.limit"
-        :page="songParams.offset"
-        :pageSize="songParams.limit"
-        :total="songParams.total"
-        @changPage="changPage"
+        v-if="params.total > params.limit"
+        :page="params.offset"
+        :pageSize="params.limit"
+        :total="params.total"
+        @pageChange="pageChange"
       />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, reactive, watch, onMounted } from 'vue';
+<script lang="ts" setup>
+import { ref, reactive, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
@@ -91,155 +91,143 @@ import type { SongType } from '@/common/audio';
 import ClassifyModal from './classify-modal/ClassifyModal.vue';
 import Page from '@/components/page/Page.vue';
 
-type SongParams = {
-  order: string;
-  cat: string;
-  offset: number;
-  limit: number;
-  total: number;
+type SongSheetItem = {
+  id: number;
+  name: string;
+  coverImgUrl: string;
+  playCount: number;
+  creator: {
+    userId: number;
+    nickname: string;
+    avatarDetail: {
+      identityIconUrl: string;
+    };
+  };
 };
 
-export default defineComponent({
-  name: 'HomeSongSheet',
-  components: {
-    ClassifyModal,
-    Page
+const $route = useRoute();
+const $store = useStore();
+
+// 获取热门歌单
+const params = reactive({
+  order: 'hot',
+  cat: '全部',
+  offset: 1,
+  limit: 50,
+  total: 0
+});
+const title = ref<string>('全部');
+const songSheet = ref<SongSheetItem[]>([]);
+
+function getTopPlaylist(): void {
+  topPlaylist({
+    order: params.order,
+    cat: params.cat,
+    offset: (params.offset - 1) * params.limit,
+    limit: params.limit
+  })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        params.total = res.total;
+        title.value = res.cat;
+        // 统计数格式化
+        res?.playlists.forEach((item: { playCount: number | string }) => {
+          item.playCount = bigNumberTransform(item.playCount);
+        });
+        songSheet.value = res.playlists;
+      }
+    })
+    .catch(() => ({}));
+}
+
+watch(
+  () => $route.params,
+  (curVal: { name: string }) => {
+    if (curVal) {
+      params.cat = curVal.name;
+    } else {
+      params.cat = '全部';
+    }
+
+    getTopPlaylist();
   },
-  setup() {
-    const $route = useRoute();
-    const $store = useStore();
-
-    const songTitle = ref<string>('全部');
-    const songSheetList = ref<unknown[]>([]);
-    const songParams = reactive<SongParams>({
-      order: 'hot',
-      cat: '全部',
-      offset: 1,
-      limit: 50,
-      total: 0
-    });
-    // 获取热门歌单数据
-    function getTopPlaylist(): void {
-      topPlaylist({
-        order: songParams.order,
-        cat: songParams.cat,
-        offset: (songParams.offset - 1) * songParams.limit,
-        limit: songParams.limit
-      })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            songTitle.value = res.cat;
-            // 统计数格式化
-            res?.playlists.forEach((item: { playCount: number | string }) => {
-              item.playCount = bigNumberTransform(item.playCount);
-            });
-            songSheetList.value = res.playlists;
-            songParams.total = res.total;
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    watch(
-      () => $route.params,
-      (curVal: { name: string }) => {
-        songParams.cat = '全部';
-        if (curVal) {
-          songParams.cat = curVal.name;
-        }
-        getTopPlaylist();
-      },
-      {
-        immediate: true
-      }
-    );
-
-    // 热门
-    function hotSong(): boolean | undefined {
-      if (songParams.cat === '全部') {
-        return false;
-      }
-
-      songParams.cat = '全部';
-      songParams.offset = 1;
-      getTopPlaylist();
-    }
-
-    // 分类弹框
-    const classifyShow = ref<boolean>(false);
-    function classifyModal(): void {
-      classifyShow.value = !classifyShow.value;
-    }
-
-    // 分类点击
-    function catChange(name: string): boolean | undefined {
-      if (songParams.cat === '全部' && name === '全部') {
-        return false;
-      }
-      songParams.cat = name;
-      songParams.offset = 1;
-      getTopPlaylist();
-      classifyShow.value = false;
-    }
-
-    // 歌单歌曲添加到播放器并播放
-    function songSheetToPlayListPlay(id: number): void {
-      playlistTrack({ id })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            if (res?.songs.length === 0) {
-              return false;
-            }
-
-            // 截取前20首歌
-            res.songs = res.songs.slice(0, 20);
-
-            // 过滤无版权
-            const songList: Partial<SongType>[] = res?.songs.filter(
-              (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
-            );
-
-            usePlaySingleMusic(songList[0]);
-            useMusicToPlayList({ music: songList, clear: true });
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 分页
-    function changPage(current: number): void {
-      songParams.offset = current;
-      getTopPlaylist();
-    }
-
-    // 跳转歌单详情
-    function jumpSongSheetDetail(id: number): void {
-      $store.commit('jumpSongSheetDetail', id);
-    }
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
-    onMounted(() => {
-      $store.commit('setMenuIndex', 0);
-    });
-
-    return {
-      songTitle,
-      songSheetList,
-      songParams,
-      hotSong,
-      classifyShow,
-      classifyModal,
-      catChange,
-      songSheetToPlayListPlay,
-      changPage,
-      jumpSongSheetDetail,
-      jumpUserProfile
-    };
+  {
+    immediate: true
   }
+);
+
+// 热门
+function hotSong(): boolean | undefined {
+  if (params.cat === '全部') {
+    return;
+  }
+
+  params.cat = '全部';
+  params.offset = 1;
+  getTopPlaylist();
+}
+
+// 分类弹框
+const classifyShow = ref<boolean>(false);
+
+function classifyModal(): void {
+  classifyShow.value = !classifyShow.value;
+}
+
+// 分类点击
+function catChange(name: string): boolean | undefined {
+  if (params.cat === '全部' && name === '全部') {
+    return;
+  }
+
+  params.cat = name;
+  params.offset = 1;
+  getTopPlaylist();
+  classifyShow.value = false;
+}
+
+// 歌单歌曲添加到播放器并播放
+function songSheetToPlayListPlay(id: number | undefined): void {
+  playlistTrack({ id: id! })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        if (res?.songs.length === 0) {
+          return;
+        }
+
+        // 截取前20首歌
+        res.songs = res?.songs?.slice(0, 20) || [];
+
+        // 过滤无版权
+        const songList: Partial<SongType>[] = res?.songs.filter(
+          (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
+        );
+
+        usePlaySingleMusic(songList[0]);
+        useMusicToPlayList({ music: songList, clear: true });
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 分页
+function pageChange(current: number): void {
+  params.offset = current;
+  getTopPlaylist();
+}
+
+// 跳转歌单详情
+function jumpSongSheetDetail(id: number | undefined): void {
+  $store.commit('jumpSongSheetDetail', id);
+}
+
+// 跳转用户资料
+function jumpUserProfile(id: number | undefined): void {
+  $store.commit('jumpUserProfile', id);
+}
+
+onMounted(() => {
+  $store.commit('setMenuIndex', 0);
 });
 </script>
 

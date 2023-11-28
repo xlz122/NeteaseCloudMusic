@@ -21,7 +21,9 @@
           <img class="cover-img" :src="item?.coverUrl" alt="" />
           <div class="play-volume">
             <span class="icon-mv"></span>
-            <span class="text">{{ bigNumberTransform(item?.playTime) }}</span>
+            <span class="text">
+              {{ bigNumberTransform(item?.playTime || 0) }}
+            </span>
           </div>
         </div>
         <div class="desc">
@@ -33,15 +35,19 @@
             {{ item?.title }}
           </p>
           <p class="desc-time hide">
-            {{ timeStampToDuration(item?.durationms / 1000) }}
+            {{
+              item?.durationms && timeStampToDuration(item?.durationms / 1000)
+            }}
           </p>
           <div class="desc-name">
             <span class="text">by</span>
             <span
               class="name hide"
-              @click="jumpUserProfile(item?.creator[0]?.userId)"
+              @click="
+                jumpUserProfile(item?.creator && item?.creator[0]?.userId)
+              "
             >
-              {{ item?.creator[0]?.userName }}
+              {{ item?.creator && item?.creator[0]?.userName }}
             </span>
           </div>
         </div>
@@ -61,8 +67,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import {
@@ -72,62 +78,57 @@ import {
 } from '@/utils/utils';
 import { relatedVideo } from '@/api/video-detail';
 import type { ResponseType } from '@/types/types';
-import SideDownload from '@/views/song-sheet-detail/side-downlod/SideDownload.vue';
+import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
 
-export default defineComponent({
-  name: 'VideoDetailSide',
-  components: {
-    SideDownload
-  },
-  props: {
-    detail: {
-      type: Object,
-      default: () => ({})
-    }
-  },
-  setup() {
-    const $router = useRouter();
-    const $store = useStore();
+type VideoItem = {
+  vid: number;
+  title: string;
+  coverUrl: string;
+  playTime: number;
+  durationms: number;
+  creator: {
+    userId: number;
+    userName: string;
+  }[];
+};
 
-    const video = computed(() => $store.getters['video/video']);
-
-    const videoList = ref<unknown[]>([]);
-
-    // 获取相关推荐视频
-    function getRelatedVideo(): void {
-      relatedVideo({ id: video.value.id })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            videoList.value = res?.data;
-          }
-        })
-        .catch(() => ({}));
-    }
-    getRelatedVideo();
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
-    // 跳转视频详情
-    function jumpVideoDetail(id: number): void {
-      $router.push({ name: 'video-detail', params: { id } });
-      $store.commit('video/setVideo', { id, url: '' });
-
-      getRelatedVideo();
-    }
-
-    return {
-      formatDateTime,
-      bigNumberTransform,
-      timeStampToDuration,
-      videoList,
-      jumpUserProfile,
-      jumpVideoDetail
-    };
+defineProps({
+  detail: {
+    type: Object,
+    default: () => {}
   }
 });
+
+const $router = useRouter();
+const $store = useStore();
+const video = computed(() => $store.getters['video/video']);
+
+const videoList = ref<VideoItem[]>([]);
+
+// 获取相关推荐视频
+function getRelatedVideo(): void {
+  relatedVideo({ id: video.value.id })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        videoList.value = res?.data || [];
+      }
+    })
+    .catch(() => ({}));
+}
+getRelatedVideo();
+
+// 跳转用户资料
+function jumpUserProfile(id: number | undefined): void {
+  $store.commit('jumpUserProfile', id);
+}
+
+// 跳转视频详情
+function jumpVideoDetail(id: number | undefined): void {
+  $router.push({ name: 'video-detail', params: { id } });
+  $store.commit('video/setVideo', { id, url: '' });
+
+  getRelatedVideo();
+}
 </script>
 
 <style lang="less" scoped>

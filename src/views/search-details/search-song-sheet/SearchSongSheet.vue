@@ -31,7 +31,9 @@
           :title="item?.name"
           @click="jumpSongSheetDetail(item?.id)"
         >
-          <span v-html="handleMatchString(item?.name, searchDetailText)"></span>
+          <span
+            v-html="handleMatchString(item?.name || '', searchDetailText)"
+          ></span>
         </span>
       </div>
       <div class="td td3-sheet">
@@ -57,7 +59,7 @@
           <span
             class="text"
             :title="item?.creator?.nickname"
-            @click="jump(item?.userId)"
+            @click="jumpUserProfile(item?.userId)"
           >
             {{ item?.creator?.nickname }}
           </span>
@@ -74,12 +76,12 @@
     :page="songSheetData.offset"
     :pageSize="songSheetData.limit"
     :total="songSheetData.total"
-    @changPage="changPage"
+    @pageChange="pageChange"
   />
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
+<script lang="ts" setup>
+import { reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
@@ -91,201 +93,186 @@ import type { SongType } from '@/common/audio';
 import type { ResponseType } from '@/types/types';
 import Page from '@/components/page/Page.vue';
 
-type songSheetData = {
+type SongSheetData = {
   loading: boolean;
   offset: number;
   limit: number;
   total: number;
-  list: unknown[];
+  list: {
+    id: number;
+    userId: number;
+    name: string;
+    coverImgUrl: string;
+    subscribed: boolean;
+    bookCount: number;
+    playCount: number;
+    creator: {
+      nickname: string;
+    };
+  }[];
 };
 
-export default defineComponent({
-  components: {
-    Page
-  },
-  props: {
-    searchDetailText: {
-      type: String,
-      default: ''
-    }
-  },
-  emits: ['searchCountChange'],
-  setup(props, { emit }) {
-    const $store = useStore();
-
-    const { searchDetailText } = toRefs(props);
-
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const userInfo = computed(() => $store.getters.userInfo);
-    const playMusicId = computed<number>(
-      () => $store.getters['music/playMusicId']
-    );
-    // 搜索关键词
-    const searchText = computed<string>(() =>
-      $store.getters.searchText.replace(/"/g, '')
-    );
-
-    const songSheetData = reactive<songSheetData>({
-      loading: true,
-      offset: 1,
-      limit: 30,
-      total: 0,
-      list: []
-    });
-
-    watch(
-      () => searchDetailText.value,
-      () => {
-        getSearchSongSheet();
-      }
-    );
-
-    // 获取歌单列表
-    function getSearchSongSheet(): void {
-      searchKeywords({
-        keywords: searchDetailText.value || searchText.value,
-        offset: (songSheetData.offset - 1) * songSheetData.limit,
-        limit: isLogin.value ? songSheetData.limit : 20,
-        type: 1000
-      })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            const total = isLogin.value
-              ? res?.result?.playlistCount
-              : res?.result?.playlists.length;
-
-            songSheetData.total = total;
-            songSheetData.list = res?.result?.playlists;
-
-            emit('searchCountChange', total || 0);
-          }
-
-          songSheetData.loading = false;
-        })
-        .catch(() => ({}));
-    }
-    getSearchSongSheet();
-
-    // 歌单歌曲添加到播放器并播放
-    function songSheetToPlayListPlay(id: number): void {
-      playlistTrack({ id })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            if (res?.songs.length === 0) {
-              return false;
-            }
-
-            // 截取前20首歌
-            res.songs = res.songs.slice(0, 20);
-
-            // 过滤无版权
-            const songList: Partial<SongType>[] = res?.songs.filter(
-              (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
-            );
-
-            usePlaySingleMusic(songList[0]);
-            useMusicToPlayList({ music: songList, clear: true });
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 歌单歌曲添加到播放器
-    function songSheetToPlayList(id: number): void {
-      playlistTrack({ id })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            if (res?.songs.length === 0) {
-              return false;
-            }
-
-            // 截取前20首歌
-            res.songs = res.songs.slice(0, 20);
-
-            // 过滤无版权
-            const songList: Partial<SongType>[] = res?.songs.filter(
-              (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
-            );
-
-            useMusicToPlayList({ music: songList, clear: true });
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 收藏歌单
-    function handleCollection(
-      id: number,
-      subscribed: boolean
-    ): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      if (subscribed) {
-        return false;
-      }
-
-      playlistSubscribe({ id, t: 1 })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            setMessage({ type: 'info', title: '收藏成功' });
-
-            songSheetData.list.forEach((item: unknown) => {
-              if (id === (item as { id: number }).id) {
-                (item as { subscribed: boolean }).subscribed = true;
-              }
-            });
-          } else {
-            setMessage({ type: 'error', title: '收藏失败' });
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 分享
-    function shareClick(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 分页
-    function changPage(current: number): void {
-      songSheetData.offset = current;
-      getSearchSongSheet();
-    }
-
-    // 跳转歌单详情
-    function jumpSongSheetDetail(id: number): void {
-      $store.commit('jumpSongSheetDetail', id);
-    }
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
-    return {
-      bigNumberTransform,
-      handleMatchString,
-      playMusicId,
-      userInfo,
-      songSheetData,
-      songSheetToPlayListPlay,
-      songSheetToPlayList,
-      handleCollection,
-      shareClick,
-      changPage,
-      jumpSongSheetDetail,
-      jumpUserProfile
-    };
+const props = defineProps({
+  searchDetailText: {
+    type: String,
+    default: ''
   }
 });
+const emits = defineEmits(['searchCountChange']);
+
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
+const searchText = computed<string>(() =>
+  $store.getters.searchText.replace(/"/g, '')
+);
+
+const { searchDetailText } = toRefs(props);
+
+// 获取歌单列表
+const songSheetData = reactive<SongSheetData>({
+  loading: true,
+  offset: 1,
+  limit: 30,
+  total: 0,
+  list: []
+});
+
+watch(
+  () => searchDetailText.value,
+  () => {
+    getSearchSongSheet();
+  }
+);
+
+function getSearchSongSheet(): void {
+  searchKeywords({
+    type: 1000,
+    keywords: searchDetailText.value || searchText.value,
+    offset: (songSheetData.offset - 1) * songSheetData.limit,
+    limit: isLogin.value ? songSheetData.limit : 20
+  })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        const total = isLogin.value
+          ? res?.result?.playlistCount
+          : res?.result?.playlists.length;
+
+        songSheetData.total = total;
+        songSheetData.list = res?.result?.playlists;
+
+        emits('searchCountChange', total || 0);
+      }
+
+      songSheetData.loading = false;
+    })
+    .catch(() => ({}));
+}
+getSearchSongSheet();
+
+// 歌单歌曲添加到播放器并播放
+function songSheetToPlayListPlay(id: number): void {
+  playlistTrack({ id })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        if (res?.songs.length === 0) {
+          return;
+        }
+
+        // 截取前20首歌
+        res.songs = res?.songs?.slice(0, 20) || [];
+
+        // 过滤无版权
+        const songList: Partial<SongType>[] = res?.songs.filter(
+          (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
+        );
+
+        usePlaySingleMusic(songList[0]);
+        useMusicToPlayList({ music: songList, clear: true });
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 歌单歌曲添加到播放器
+function songSheetToPlayList(id: number): void {
+  playlistTrack({ id })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        if (res?.songs.length === 0) {
+          return;
+        }
+
+        // 截取前20首歌
+        res.songs = res?.songs?.slice(0, 20) || [];
+
+        // 过滤无版权
+        const songList: Partial<SongType>[] = res?.songs.filter(
+          (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
+        );
+
+        useMusicToPlayList({ music: songList, clear: true });
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 收藏歌单
+function handleCollection(
+  id: number,
+  subscribed: boolean
+): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  if (subscribed) {
+    return;
+  }
+
+  playlistSubscribe({ id: id!, t: 1 })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        setMessage({ type: 'info', title: '收藏成功' });
+
+        songSheetData.list.forEach((item: unknown) => {
+          if (id === (item as { id: number }).id) {
+            (item as { subscribed: boolean }).subscribed = true;
+          }
+        });
+      } else {
+        setMessage({ type: 'error', title: '收藏失败' });
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 分享
+function shareClick(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 分页
+function pageChange(current: number): void {
+  songSheetData.offset = current;
+  getSearchSongSheet();
+}
+
+// 跳转歌单详情
+function jumpSongSheetDetail(id: number): void {
+  $store.commit('jumpSongSheetDetail', id);
+}
+
+// 跳转用户资料
+function jumpUserProfile(id: number): void {
+  $store.commit('jumpUserProfile', id);
+}
 </script>
 
 <style lang="less" scoped>

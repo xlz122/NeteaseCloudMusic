@@ -2,15 +2,16 @@ import axios from '@/utils/axios';
 import type { AxiosPromise } from 'axios';
 
 /**
- * @description 获取 banner ( 轮播图 )
+ * @description 获取轮播图
  * @param { Number } timestamp - 防止接口缓存
- * @param { Number } type - 资源类型，0为pc
+ * @param { Number } type - 资源类型(0为pc)
  */
 export const bannerImgUrl = (): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     type: 0
   };
+
   return axios.request({
     url: '/banner',
     method: 'get',
@@ -21,7 +22,7 @@ export const bannerImgUrl = (): AxiosPromise => {
 /**
  * @description 获取热门推荐 - 推荐歌单
  * @param { Number } timestamp - 防止接口缓存
- * @param { Number } limit - 条数，可选
+ * @param { Number } limit - 偏移量
  */
 export const recommendSongList = ({
   limit
@@ -32,6 +33,7 @@ export const recommendSongList = ({
     timestamp: new Date().getTime(),
     limit
   };
+
   return axios.request({
     url: '/personalized',
     method: 'get',
@@ -45,6 +47,7 @@ export const recommendSongList = ({
  */
 export const recommendDjprogram = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
+
   return axios.request({
     url: '/personalized/djprogram',
     method: 'get',
@@ -58,6 +61,7 @@ export const recommendDjprogram = (): AxiosPromise => {
  */
 export const recommendResource = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
+
   return axios.request({
     url: '/recommend/resource',
     method: 'get',
@@ -71,6 +75,7 @@ export const recommendResource = (): AxiosPromise => {
  */
 export const albumNewest = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
+
   return axios.request({
     url: '/album/newest',
     method: 'get',
@@ -84,6 +89,7 @@ export const albumNewest = (): AxiosPromise => {
  */
 export const userEvent = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
+
   return axios.request({
     url: '/user/event',
     method: 'get',
@@ -97,6 +103,7 @@ export const userEvent = (): AxiosPromise => {
  */
 export const userFollows = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
+
   return axios.request({
     url: '/user/follows',
     method: 'get',
@@ -110,6 +117,7 @@ export const userFollows = (): AxiosPromise => {
  */
 export const userFolloweds = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
+
   return axios.request({
     url: '/user/followeds',
     method: 'get',
@@ -120,13 +128,14 @@ export const userFolloweds = (): AxiosPromise => {
 /**
  * @description 获取用户粉丝列表
  * @param { Number } timestamp - 防止接口缓存
- * @param { Number } type - 签到类型 , 默认 0, 其中 0 为安卓端签到 ,1 为 web/PC 签到
+ * @param { Number } type - 签到类型(0: 安卓端签到 ,1: web/PC 签到)
  */
 export const dailySignin = (): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     type: 1
   };
+
   return axios.request({
     url: '/daily_signin',
     method: 'get',

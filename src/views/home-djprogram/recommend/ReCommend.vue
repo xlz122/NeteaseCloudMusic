@@ -14,7 +14,7 @@
           <div
             class="cover-img"
             title="播放"
-            @click="playSingleMusic(item?.mainSong)"
+            @click="playSingleMusic(item?.mainSong!)"
           >
             <img :src="item?.coverUrl" alt="" />
             <i class="play"></i>
@@ -36,36 +36,45 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
+import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { programRecommend } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types/types';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import type { SongType } from '@/common/audio';
 
-export default defineComponent({
-  setup() {
-    const recommendList = ref([]);
-    function recommendHandle() {
-      programRecommend().then((res: ResponseType) => {
-        if (res.code === 200) {
-          recommendList.value = res?.programs || [];
-        }
-      });
-    }
-    recommendHandle();
+type RecommendItem = {
+  id: number;
+  name: string;
+  coverUrl: string;
+  mainSong: SongType;
+  dj: {
+    brand: string;
+  };
+  radio: {
+    category: string;
+  };
+};
 
-    // 播放单个歌曲
-    function playSingleMusic(item: object) {
-      usePlaySingleMusic(item);
-    }
+const recommendList = ref<RecommendItem[]>([]);
 
-    return {
-      recommendList,
-      playSingleMusic
-    };
-  }
-});
+function getRecommendList() {
+  programRecommend()
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        recommendList.value = res?.programs || [];
+      }
+    })
+    .catch(() => ({}));
+}
+getRecommendList();
+
+// 播放单个歌曲
+function playSingleMusic(item: SongType): void {
+  usePlaySingleMusic(item);
+}
 </script>
+
 <style lang="less" scoped>
 @import url('./recommend.less');
 </style>

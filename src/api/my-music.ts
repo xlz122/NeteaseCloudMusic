@@ -2,13 +2,12 @@ import axios from '@/utils/axios';
 import type { AxiosPromise } from 'axios';
 
 /**
- * @description 获取用户歌单，收藏，mv, dj 数量
+ * @description 获取用户歌单(收藏、mv、dj数量)
  * @param { Number } timestamp - 防止接口缓存
  */
 export const userSubcount = (): AxiosPromise => {
-  const params = {
-    timestamp: new Date().getTime()
-  };
+  const params = { timestamp: new Date().getTime() };
+
   return axios.request({
     url: '/user/subcount',
     method: 'get',
@@ -21,9 +20,8 @@ export const userSubcount = (): AxiosPromise => {
  * @param { Number } timestamp - 防止接口缓存
  */
 export const subPlayList = (): AxiosPromise => {
-  const params = {
-    timestamp: new Date().getTime()
-  };
+  const params = { timestamp: new Date().getTime() };
+
   return axios.request({
     url: '/artist/sublist',
     method: 'get',
@@ -35,10 +33,9 @@ export const subPlayList = (): AxiosPromise => {
  * @description 获取我的视频列表
  * @param { Number } timestamp - 防止接口缓存
  */
-export const MyVideoSbulist = (): AxiosPromise => {
-  const params = {
-    timestamp: new Date().getTime()
-  };
+export const videoSbulist = (): AxiosPromise => {
+  const params = { timestamp: new Date().getTime() };
+
   return axios.request({
     url: '/mv/sublist',
     method: 'get',
@@ -49,13 +46,14 @@ export const MyVideoSbulist = (): AxiosPromise => {
 /**
  * @description 获取用户歌单列表
  * @param { Number } timestamp - 防止接口缓存
- * @param { Number } uid - 账号id
+ * @param { Number } uid - 用户id
  */
 export const userPlayList = ({ uid }: { uid: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     uid
   };
+
   return axios.request({
     url: '/user/playlist',
     method: 'get',
@@ -73,6 +71,7 @@ export const addPlayList = ({ name }: { name: string }): AxiosPromise => {
     timestamp: new Date().getTime(),
     name
   };
+
   return axios.request({
     url: '/playlist/create',
     method: 'post',
@@ -90,6 +89,7 @@ export const deletePlayList = ({ id }: { id: number }): AxiosPromise => {
     timestamp: new Date().getTime(),
     id
   };
+
   return axios.request({
     url: '/playlist/delete',
     method: 'post',
@@ -107,6 +107,7 @@ export const playListDetail = ({ id }: { id: number }): AxiosPromise => {
     timestamp: new Date().getTime(),
     id
   };
+
   return axios.request({
     url: '/playlist/detail',
     method: 'get',
@@ -114,19 +115,18 @@ export const playListDetail = ({ id }: { id: number }): AxiosPromise => {
   });
 };
 
-/**
- * @description 添加歌曲到歌单
- * @param { Number } timestamp - 防止接口缓存
- * @param { String } op - 添加歌曲到歌单 add, 删除为 del
- * @param { Number } pid: 歌单 id
- * @param { Number } id - 歌曲id
- */
-
 type CollectMusic = {
   pid: number | string;
   tracks: number | string;
 };
 
+/**
+ * @description 添加歌曲到歌单
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { String } op - 添加为add, 删除为del
+ * @param { Number } pid: 歌单id
+ * @param { Number } id - 歌曲id
+ */
 export const collectMusic = ({ pid, tracks }: CollectMusic): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
@@ -134,6 +134,7 @@ export const collectMusic = ({ pid, tracks }: CollectMusic): AxiosPromise => {
     pid,
     tracks
   };
+
   return axios.request({
     url: '/playlist/tracks',
     method: 'get',
@@ -141,19 +142,18 @@ export const collectMusic = ({ pid, tracks }: CollectMusic): AxiosPromise => {
   });
 };
 
-/**
- * @description 删除歌单歌曲
- * @param { Number } timestamp - 防止接口缓存
- * @param { String } op - 添加歌曲到歌单 add, 删除为 del
- * @param { Number } pid: 歌单 id
- * @param { Number } id - 歌曲id
- */
-
 type DeleteMusic = {
   pid: number | string;
   tracks: number | string;
 };
 
+/**
+ * @description 删除歌单歌曲
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { String } op - 添加为add, 删除为del
+ * @param { Number } pid: 歌单id
+ * @param { Number } id - 歌曲id
+ */
 export const deleteMusic = ({ pid, tracks }: DeleteMusic): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
@@ -161,6 +161,7 @@ export const deleteMusic = ({ pid, tracks }: DeleteMusic): AxiosPromise => {
     pid,
     tracks
   };
+
   return axios.request({
     url: '/playlist/tracks',
     method: 'get',
@@ -168,24 +169,24 @@ export const deleteMusic = ({ pid, tracks }: DeleteMusic): AxiosPromise => {
   });
 };
 
-/**
- * @description 获取播放url
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 歌曲id
- * @param { Number } [br] - 码率,默认设置了 999000 即最大码率,如果要 320k 则可设置为 320000,其他类推
- */
-
 type GetPlayMusicUrl = {
   id: number | string;
   br?: number | string;
 };
 
+/**
+ * @description 获取播放url
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } id - 歌曲id
+ * @param { Number } [br] - 码率, 默认设置了 999000 即最大码率,如果要 320k 则可设置为 320000,其他类推
+ */
 export const getPlayMusicUrl = ({ id, br }: GetPlayMusicUrl): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
     br
   };
+
   return axios.request({
     url: '/song/url',
     method: 'get',
@@ -197,12 +198,17 @@ type GetLyric = {
   id: number | string;
 };
 
-// 获取歌词
+/**
+ * @description 获取歌词
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } id - 歌曲id
+ */
 export const getLyric = ({ id }: GetLyric): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id
   };
+
   return axios.request({
     url: '/lyric',
     method: 'get',

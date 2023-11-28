@@ -26,7 +26,7 @@
     <div class="comment-component">
       <Comment
         :commentParams="commentParams"
-        @commentRefresh="commentRefresh"
+        @refreshComment="refreshComment"
       />
     </div>
     <Page
@@ -34,57 +34,42 @@
       :page="commentParams.offset"
       :pageSize="commentParams.limit"
       :total="commentParams.total"
-      @changPage="changPage"
+      @pageChange="pageChange"
     />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
 import ToplistInfo from './toplist-info/ToplistInfo.vue';
 import ToplistSong from './toplist-song/ToplistSong.vue';
 import Comment from '@/components/comment/Comment.vue';
 import Page from '@/components/page/Page.vue';
 
-export default defineComponent({
-  components: {
-    ToplistInfo,
-    ToplistSong,
-    Comment,
-    Page
+defineProps({
+  updateFrequency: {
+    type: String,
+    default: ''
   },
-  props: {
-    updateFrequency: {
-      type: String,
-      default: ''
-    },
-    songSheetDetail: {
-      type: Object,
-      default: () => ({})
-    },
-    commentParams: {
-      type: Object,
-      default: () => ({})
-    }
+  songSheetDetail: {
+    type: Object,
+    default: () => {}
   },
-  emits: ['changPage', 'commentRefresh'],
-  setup(props, { emit }) {
-    // 刷新评论
-    function commentRefresh(): void {
-      emit('commentRefresh');
-    }
-
-    // 分页
-    function changPage(current: number): void {
-      emit('changPage', current);
-    }
-
-    return {
-      commentRefresh,
-      changPage
-    };
+  commentParams: {
+    type: Object,
+    default: () => {}
   }
 });
+const emits = defineEmits(['pageChange', 'refreshComment']);
+
+// 刷新评论
+function refreshComment(): void {
+  emits('refreshComment');
+}
+
+// 分页
+function pageChange(current: number): void {
+  emits('pageChange', current);
+}
 </script>
 
 <style lang="less">

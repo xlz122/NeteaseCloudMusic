@@ -4,15 +4,13 @@
       <div class="album-content">
         <AlbumInfo
           class="user-info"
-          :userInfo="albumData.userInfo"
-          :songs="albumData.songs"
-          @jumpToComments="jumpToComments"
+          :userInfo="album.userInfo"
+          :songs="album.songs"
+          @jumpToComment="jumpToComment"
         />
         <div class="list-title">
           <h3 class="title-text">包含歌曲列表</h3>
-          <span class="title-text-num">
-            {{ albumData?.songs?.length }}首歌
-          </span>
+          <span class="title-text-num">{{ album?.songs?.length }}首歌</span>
           <div class="title-right">
             <div class="out">
               <i class="icon"></i>
@@ -27,13 +25,13 @@
         </div>
         <AlbumSong
           class="music-table"
-          :loading="albumData.loading"
-          :songs="albumData.songs"
+          :loading="album.loading"
+          :songs="album.songs"
         />
         <div class="comment-component">
           <Comment
             :commentParams="commentParams"
-            @commentRefresh="commentRefresh"
+            @refreshComment="refreshComment"
           />
         </div>
         <Page
@@ -41,7 +39,7 @@
           :page="commentParams.offset"
           :pageSize="commentParams.limit"
           :total="commentParams.total"
-          @changPage="changPage"
+          @pageChange="pageChange"
         />
       </div>
       <div class="album-side">
@@ -51,18 +49,11 @@
   </div>
 </template>
 
-<script lang="ts">
-import {
-  defineComponent,
-  reactive,
-  computed,
-  watch,
-  nextTick,
-  onMounted
-} from 'vue';
+<script lang="ts" setup>
+import { reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { albumDetail } from '@/api/album-detail';
-import { commentAlbum } from '@/api/comment';
+import { albumComment } from '@/api/comment';
 import type { ResponseType } from '@/types/types';
 import type { CommentParams } from '@/components/comment/Comment.vue';
 import { handleCommentData } from '@/components/comment/handleCommentData';
@@ -72,138 +63,111 @@ import Comment from '@/components/comment/Comment.vue';
 import SongSheetSide from './album-detail-side/AlbumDetailSide.vue';
 import Page from '@/components/page/Page.vue';
 
-type AlbumData = {
+type Album = {
   loading: boolean;
-  userInfo: unknown;
-  songs: unknown[];
+  userInfo: Record<string, any>;
+  songs: [];
 };
 
-export default defineComponent({
-  components: {
-    AlbumInfo,
-    AlbumSong,
-    Comment,
-    SongSheetSide,
-    Page
+const $store = useStore();
+const albumId = computed<number>(() => $store.getters.albumId);
+
+const album = reactive<Album>({
+  loading: true,
+  userInfo: {},
+  songs: []
+});
+
+// 获取专辑详情
+function getAlbumDetail(): void {
+  album.loading = true;
+  album.songs = [];
+
+  albumDetail({ id: albumId.value })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        album.userInfo = res?.album || {};
+        album.songs = res?.songs || [];
+
+        $store.commit('setSingerId', res?.album?.artist?.id);
+      }
+
+      album.loading = false;
+    })
+    .catch(() => ({}));
+}
+
+// 跳转至评论
+function jumpToComment(): void {
+  const commentDom = document.querySelector(
+    '.comment-component'
+  ) as HTMLElement;
+
+  window.scrollTo(0, Number(commentDom.offsetTop) + 20);
+}
+
+// 获取评论
+const commentParams = reactive<CommentParams>({
+  type: 3,
+  id: albumId.value,
+  offset: 1,
+  limit: 20,
+  total: 0,
+  hotList: [],
+  list: []
+});
+
+function getCommentList(): void {
+  const params = {
+    id: albumId.value,
+    offset: (commentParams.offset - 1) * commentParams.limit,
+    limit: commentParams.limit
+  };
+
+  albumComment({ ...params })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        const result = handleCommentData(res);
+        // 精彩评论
+        commentParams.hotList = result.hotList;
+        // 最新评论
+        commentParams.list = result.list;
+        commentParams.total = res.total;
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 刷新评论
+function refreshComment(): void {
+  getCommentList();
+}
+
+// 分页
+function pageChange(current: number): void {
+  commentParams.offset = current;
+  jumpToComment();
+  getCommentList();
+}
+
+watch(
+  () => albumId.value,
+  curVal => {
+    if (!curVal) {
+      return;
+    }
+
+    getAlbumDetail();
+    getCommentList();
   },
-  setup() {
-    const $store = useStore();
-
-    const albumId = computed<number>(() => $store.getters.albumId);
-
-    const albumData = reactive<AlbumData>({
-      loading: true,
-      userInfo: {},
-      songs: []
-    });
-
-    watch(
-      () => albumId.value,
-      curVal => {
-        if (curVal) {
-          nextTick(() => {
-            getAlbumDetail();
-            getCommentData();
-          });
-        }
-      },
-      {
-        immediate: true
-      }
-    );
-
-    // 获取专辑详情
-    function getAlbumDetail(): void {
-      albumData.loading = true;
-      albumData.songs = [];
-
-      albumDetail({
-        id: albumId.value
-      })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            albumData.userInfo = res?.album;
-            albumData.songs = res?.songs;
-
-            // 存储歌手id
-            $store.commit('setSingerId', res?.album?.artist?.id);
-          }
-          albumData.loading = false;
-        })
-        .catch(() => ({}));
-    }
-
-    // 跳转至评论
-    function jumpToComments(): void {
-      const commentDom = document.querySelector(
-        '.comment-component'
-      ) as HTMLElement;
-
-      window.scrollTo(0, Number(commentDom.offsetTop) + 20);
-    }
-
-    // 获取评论数据
-    const commentParams = reactive<CommentParams>({
-      type: 3,
-      id: albumId.value,
-      offset: 1,
-      limit: 20,
-      total: 0,
-      hotList: [],
-      list: []
-    });
-    function getCommentData(): void {
-      const params = {
-        id: albumId.value,
-        limit: commentParams.limit
-      };
-      // 精彩评论不加offset
-      if (commentParams.offset > 1) {
-        Object.assign(params, {
-          offset: (commentParams.offset - 1) * commentParams.limit
-        });
-      }
-      commentAlbum({ ...params })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            const result = handleCommentData(res);
-            // 精彩评论
-            commentParams.hotList = result.hotList;
-            // 最新评论
-            commentParams.list = result.list;
-            // 最新评论 - 总数
-            commentParams.total = res.total;
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 刷新评论
-    function commentRefresh(): void {
-      getCommentData();
-    }
-
-    // 分页
-    function changPage(current: number): void {
-      commentParams.offset = current;
-      jumpToComments();
-      getCommentData();
-    }
-
-    onMounted(() => {
-      $store.commit('setMenuIndex', 0);
-      $store.commit('setSubMenuIndex', -1);
-    });
-
-    return {
-      albumId,
-      albumData,
-      jumpToComments,
-      commentParams,
-      commentRefresh,
-      changPage
-    };
+  {
+    immediate: true
   }
+);
+
+onMounted(() => {
+  $store.commit('setMenuIndex', 0);
+  $store.commit('setSubMenuIndex', -1);
 });
 </script>
 

@@ -19,43 +19,29 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script lang="ts" setup>
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { playPrevMusic, playNextMusic } from './play-action';
 
-export default defineComponent({
-  setup() {
-    const $store = useStore();
+const $store = useStore();
+const musicPlayStatus = computed(() => $store.getters['music/musicPlayStatus']);
 
-    const musicPlayStatus = computed(
-      () => $store.getters['music/musicPlayStatus']
-    );
-
-    function lookPlayMusic(): void {
-      if (musicPlayStatus.value.look) {
-        $store.commit('music/setMusicPlayStatus', {
-          look: false,
-          loading: false,
-          refresh: false
-        });
-      } else {
-        $store.commit('music/setMusicPlayStatus', {
-          look: true,
-          loading: true,
-          refresh: false
-        });
-      }
-    }
-
-    return {
-      musicPlayStatus,
-      playPrevMusic,
-      playNextMusic,
-      lookPlayMusic
-    };
+function lookPlayMusic(): void {
+  if (musicPlayStatus.value.look) {
+    $store.commit('music/setMusicPlayStatus', {
+      look: false,
+      loading: false,
+      refresh: false
+    });
+  } else {
+    $store.commit('music/setMusicPlayStatus', {
+      look: true,
+      loading: true,
+      refresh: false
+    });
   }
-});
+}
 </script>
 
 <style lang="less" scoped>

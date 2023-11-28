@@ -16,9 +16,9 @@
         <!-- 未登录展示5条推荐歌单，登录后，后3条替换未个性化推荐 -->
         <li
           class="item"
-          v-for="(item, index) in songListData"
+          v-for="(item, index) in hotSongSheet"
           :key="index"
-          :class="{ 'last-item': songListData?.length > 2 && index === 3 }"
+          :class="{ 'last-item': hotSongSheet?.length > 2 && index === 3 }"
         >
           <div class="item-top">
             <img
@@ -49,7 +49,7 @@
         <template v-if="isLogin">
           <li
             class="item"
-            v-for="(item, index) in individualizatSongSheet"
+            v-for="(item, index) in individualizat.slice(0, 3)"
             :key="index"
             :class="{ 'last-item': index === 1 }"
           >
@@ -82,7 +82,7 @@
         <!-- 推荐电台部分 -->
         <li
           class="item"
-          v-for="(item, index) in djprogramData"
+          v-for="(item, index) in hotDjprogram"
           :key="index"
           :class="{ 'last-item': index === 2 }"
         >
@@ -118,7 +118,7 @@
         <li class="item individualization">
           <div class="item-top" @click="jumpRecommend">
             <i class="img"></i>
-            <span class="head">{{ weekText }}</span>
+            <span class="head">{{ getWeekDate() }}</span>
             <span class="head-text">{{ dateText }}</span>
             <span class="mask"></span>
           </div>
@@ -131,10 +131,10 @@
         </li>
         <li
           class="item individualization"
-          v-for="(item, index) in individualizatData?.slice(0, 3)"
+          v-for="(item, index) in individualizat?.slice(0, 3)"
           :key="index"
           :class="{
-            'last-item': index === individualizatData?.slice(0, 3).length - 1
+            'last-item': index === individualizat?.slice(0, 3).length - 1
           }"
         >
           <div class="item-top">
@@ -179,7 +179,7 @@
         <span class="title" @click="albumNewestMore">新碟上架</span>
         <span class="more" @click="albumNewestMore">更多</span>
       </div>
-      <album-newest
+      <AlbumNewest
         @albumToPlayListPlay="albumToPlayListPlay"
         @jumpAlbumDetail="jumpAlbumDetail"
         @jumpSingerDetail="jumpSingerDetail"
@@ -190,19 +190,13 @@
         <span class="title" @click="songListMore">榜单</span>
         <span class="more" @click="songListMore">更多</span>
       </div>
-      <song-list />
+      <SongSheetList />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import {
-  defineAsyncComponent,
-  defineComponent,
-  ref,
-  computed,
-  watch
-} from 'vue';
+<script lang="ts" setup>
+import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
@@ -218,255 +212,231 @@ import { playlistTrack } from '@/api/song-sheet-detail';
 import { albumDetail } from '@/api/album-detail';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/common/audio';
-const AlbumNewest = defineAsyncComponent(
-  () => import('./album-newest/AlbumNewest.vue')
-);
-const SongList = defineAsyncComponent(() => import('./song-list/SongList.vue'));
+import AlbumNewest from './album-newest/AlbumNewest.vue';
+import SongSheetList from './song-sheet-list/SongSheetList.vue';
 
-export default defineComponent({
-  name: 'HomeContent',
-  components: {
-    AlbumNewest,
-    SongList
-  },
-  setup() {
-    const $router = useRouter();
-    const $store = useStore();
+type HotSongSheetItem = {
+  id: number;
+  name: string;
+  picUrl: string;
+  playCount: number;
+  playcount: number;
+  copywriter: string;
+};
 
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
+type HotDjprogramItem = {
+  id: number;
+  name: string;
+  picUrl: string;
+  program: {
+    adjustedPlayCount: number;
+  };
+};
 
-    watch(
-      () => isLogin.value,
-      (curVal: boolean) => {
-        if (curVal) {
-          getSongList();
-          getIndividualizat();
-        }
-      }
-    );
+const $router = useRouter();
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
-    // 热门推荐 - 跳转歌单
-    function jumpSongSheet(name: string): void {
-      $router.push({ name: 'home-song-sheet', params: { name } });
+watch(
+  () => isLogin.value,
+  curVal => {
+    if (!curVal) {
+      return;
     }
 
-    // 热门推荐 - 更多
-    function songSheetMore(): void {
-      $router.push({ name: 'home-song-sheet' });
-    }
-
-    // 歌单歌曲添加到播放器并播放
-    function songSheetToPlayListPlay(id: number): void {
-      playlistTrack({ id })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            if (res?.songs.length === 0) {
-              return false;
-            }
-
-            // 截取前20首歌
-            res.songs = res.songs.slice(0, 20);
-
-            // 过滤无版权
-            const songList: Partial<SongType>[] = res?.songs.filter(
-              (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
-            );
-
-            usePlaySingleMusic(songList[0]);
-            useMusicToPlayList({ music: songList, clear: true });
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 获取热门推荐 - 推荐歌单
-    const songListData = ref<unknown[]>([]);
-    function getSongList() {
-      // 已登录只获取两条，未登录获取5条
-      let limit = 0;
-      if (isLogin.value) {
-        limit = 2;
-      } else {
-        limit = 5;
-      }
-      recommendSongList({ limit })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            res?.result.forEach((item: { playCount: number | string }) => {
-              item.playCount = bigNumberTransform(item?.playCount);
-            });
-            songListData.value = res?.result;
-          }
-        })
-        .catch(() => ({}));
-    }
-    getSongList();
-
-    // 获取热门推荐 - 推荐电台
-    const djprogramData = ref<unknown[]>([]);
-    function getDjprogram() {
-      recommendDjprogram()
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            res?.result.forEach(
-              (
-                item: Record<string, { adjustedPlayCount: number | string }>
-              ) => {
-                item.program.adjustedPlayCount = bigNumberTransform(
-                  item?.program?.adjustedPlayCount
-                );
-              }
-            );
-            // 截取前三项
-            djprogramData.value = res?.result.slice(0, 3);
-          }
-        })
-        .catch(() => ({}));
-    }
-    getDjprogram();
-
-    const individualizatSongSheet = ref<unknown[]>([]);
-    const individualizatData = ref<unknown[]>([]);
-    // 获取个性化推荐歌单
-    function getIndividualizat(): boolean | undefined {
-      if (!isLogin.value) {
-        return false;
-      }
-      recommendResource()
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            res?.recommend.forEach((item: { playcount: number | string }) => {
-              item.playcount = bigNumberTransform(item.playcount);
-            });
-            // 截取前三项
-            individualizatSongSheet.value = JSON.parse(
-              JSON.stringify(res?.recommend.slice(0, 3))
-            );
-            individualizatData.value = JSON.parse(
-              JSON.stringify(res?.recommend)
-            );
-          }
-        })
-        .catch(() => ({}));
-    }
+    getHotSongSheet();
     getIndividualizat();
-
-    // 获取当前星期几
-    const weekText = ref<string>('');
-    weekText.value = getWeekDate();
-
-    // 获取当前日期
-    const dateText = ref<string>('');
-    dateText.value = formatDateTime(new Date().getTime() / 1000, 'dd').replace(
-      /\b(0+)/gi,
-      ''
-    );
-
-    // 个性化推荐 - 跳转每日推荐
-    function jumpRecommend(): void {
-      $router.push({ name: 'home-recommend' });
-    }
-
-    // 个性化推荐 - 不感兴趣
-    function uninterested(index: number): boolean | undefined {
-      if (individualizatData.value.length <= 3) {
-        setMessage({ type: 'info', title: '暂无更多推荐' });
-        return false;
-      }
-
-      individualizatData.value.splice(index, 1, individualizatData.value[3]);
-      individualizatData.value.splice(3, 1);
-    }
-
-    // 专辑歌曲添加到播放器
-    function albumToPlayListPlay(id: number): void {
-      albumDetail({ id })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            if (res?.songs.length === 0) {
-              return false;
-            }
-
-            // 歌曲是否全部无版权
-            const allNoCopyright = res?.songs?.some(
-              (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
-            );
-            if (!allNoCopyright) {
-              $store.commit('setCopyright', {
-                visible: true,
-                message:
-                  '版权方要求，当前专辑需单独付费，购买数字专辑即可无限畅享'
-              });
-              return false;
-            }
-
-            // 过滤无版权
-            const songList: Partial<SongType>[] = res?.songs.filter(
-              (item: Record<string, { cp: number }>) =>
-                item?.privilege?.cp !== 0
-            );
-
-            usePlaySingleMusic(songList[0]);
-            useMusicToPlayList({ music: songList, clear: true });
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 新碟上架 - 更多
-    function albumNewestMore(): void {
-      $router.push({ name: 'home-new-disc' });
-    }
-
-    // 榜单 - 更多
-    function songListMore(): void {
-      $router.push({ name: 'home-toplist' });
-    }
-
-    // 跳转歌单详情
-    function jumpSongSheetDetail(id: number): void {
-      $store.commit('jumpSongSheetDetail', id);
-    }
-
-    // 跳转专辑详情
-    function jumpAlbumDetail(id: number): void {
-      $store.commit('jumpAlbumDetail', id);
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    // 跳转电台节目详情
-    function jumpProgramDetail(id: number): void {
-      $router.push({ name: 'program-detail', params: { programId: id } });
-      $store.commit('setProgramId', id);
-    }
-
-    return {
-      isLogin,
-      jumpSongSheet,
-      songSheetMore,
-      songSheetToPlayListPlay,
-      songListData,
-      djprogramData,
-      individualizatSongSheet,
-      individualizatData,
-      weekText,
-      dateText,
-      jumpRecommend,
-      uninterested,
-      albumToPlayListPlay,
-      albumNewestMore,
-      songListMore,
-      jumpSongSheetDetail,
-      jumpAlbumDetail,
-      jumpSingerDetail,
-      jumpProgramDetail
-    };
   }
-});
+);
+
+// 热门推荐 - 跳转歌单
+function jumpSongSheet(name: string): void {
+  $router.push({ name: 'home-song-sheet', params: { name } });
+}
+
+// 热门推荐 - 更多
+function songSheetMore(): void {
+  $router.push({ name: 'home-song-sheet' });
+}
+
+// 歌单歌曲添加到播放器并播放
+function songSheetToPlayListPlay(id: number | undefined): void {
+  playlistTrack({ id: id! })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        if (res?.songs.length === 0) {
+          return;
+        }
+
+        // 截取前20首歌
+        res.songs = res?.songs?.slice(0, 20) || [];
+
+        // 过滤无版权
+        const songList: Partial<SongType>[] = res?.songs.filter(
+          (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
+        );
+
+        usePlaySingleMusic(songList[0]);
+        useMusicToPlayList({ music: songList, clear: true });
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 获取热门推荐 - 推荐歌单
+const hotSongSheet = ref<HotSongSheetItem[]>([]);
+
+function getHotSongSheet() {
+  // 未登录获取5条, 登录获取2条
+  let limit = 0;
+  if (isLogin.value) {
+    limit = 2;
+  } else {
+    limit = 5;
+  }
+
+  recommendSongList({ limit })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        res?.result.forEach((item: { playCount: number | string }) => {
+          item.playCount = bigNumberTransform(item?.playCount);
+        });
+        hotSongSheet.value = res?.result || [];
+      }
+    })
+    .catch(() => ({}));
+}
+getHotSongSheet();
+
+// 获取热门推荐 - 推荐电台
+const hotDjprogram = ref<HotDjprogramItem[]>([]);
+
+function getHotDjprogram() {
+  recommendDjprogram()
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        res?.result.forEach(
+          (item: Record<string, { adjustedPlayCount: number | string }>) => {
+            item.program.adjustedPlayCount = bigNumberTransform(
+              item?.program?.adjustedPlayCount
+            );
+          }
+        );
+        // 截取前三项
+        hotDjprogram.value = res?.result?.slice(0, 3) || [];
+      }
+    })
+    .catch(() => ({}));
+}
+getHotDjprogram();
+
+// 获取个性化推荐歌单
+const individualizat = ref<HotSongSheetItem[]>([]);
+
+function getIndividualizat(): boolean | undefined {
+  if (!isLogin.value) {
+    return;
+  }
+
+  recommendResource()
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        res?.recommend.forEach((item: { playcount: number | string }) => {
+          item.playcount = bigNumberTransform(item.playcount);
+        });
+        individualizat.value = JSON.parse(JSON.stringify(res?.recommend));
+      }
+    })
+    .catch(() => ({}));
+}
+getIndividualizat();
+
+// 获取当前日期
+const dateText = ref<string>('');
+dateText.value = formatDateTime(new Date().getTime() / 1000, 'dd').replace(
+  /\b(0+)/gi,
+  ''
+);
+
+// 个性化推荐 - 跳转每日推荐
+function jumpRecommend(): void {
+  $router.push({ name: 'home-recommend' });
+}
+
+// 个性化推荐 - 不感兴趣
+function uninterested(index: number): boolean | undefined {
+  if (individualizat.value.length <= 3) {
+    setMessage({ type: 'info', title: '暂无更多推荐' });
+    return;
+  }
+
+  individualizat.value.splice(index, 1, individualizat.value[3]);
+  individualizat.value.splice(3, 1);
+}
+
+// 专辑歌曲添加到播放器
+function albumToPlayListPlay(id: number): void {
+  albumDetail({ id })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        if (res?.songs.length === 0) {
+          return;
+        }
+
+        // 是否全部无版权
+        const allNoCopyright = res?.songs?.some(
+          (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+        );
+        if (!allNoCopyright) {
+          $store.commit('setCopyright', {
+            visible: true,
+            message: '版权方要求，当前专辑需单独付费，购买数字专辑即可无限畅享'
+          });
+          return;
+        }
+
+        // 过滤无版权
+        const songList: Partial<SongType>[] = res?.songs.filter(
+          (item: Record<string, { cp: number }>) => item?.privilege?.cp !== 0
+        );
+
+        usePlaySingleMusic(songList[0]);
+        useMusicToPlayList({ music: songList, clear: true });
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 新碟上架 - 更多
+function albumNewestMore(): void {
+  $router.push({ name: 'home-new-disc' });
+}
+
+// 榜单 - 更多
+function songListMore(): void {
+  $router.push({ name: 'home-toplist' });
+}
+
+// 跳转歌单详情
+function jumpSongSheetDetail(id: number | undefined): void {
+  $store.commit('jumpSongSheetDetail', id);
+}
+
+// 跳转专辑详情
+function jumpAlbumDetail(id: number | undefined): void {
+  $store.commit('jumpAlbumDetail', id);
+}
+
+// 跳转歌手详情
+function jumpSingerDetail(id: number | undefined): void {
+  $store.commit('jumpSingerDetail', id);
+}
+
+// 跳转电台节目详情
+function jumpProgramDetail(id: number | undefined): void {
+  $router.push({ name: 'program-detail', params: { programId: id } });
+  $store.commit('setProgramId', id);
+}
 </script>
 
 <style lang="less" scoped>

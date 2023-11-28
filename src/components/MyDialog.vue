@@ -33,66 +33,57 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
 import { drag } from '@/utils/drag';
 
-export default defineComponent({
+defineOptions({
   directives: {
     drag
-  },
-  props: {
-    visible: {
-      type: Boolean,
-      default: false
-    },
-    title: {
-      type: String,
-      default: '提示'
-    },
-    confirmtext: {
-      type: String,
-      default: '确定'
-    },
-    canceltext: {
-      type: String,
-      default: '取消'
-    },
-    customText: {
-      type: String,
-      default: '我知道了'
-    },
-    showConfirmButton: {
-      type: Boolean,
-      default: false
-    },
-    showCancelButton: {
-      type: Boolean,
-      default: false
-    },
-    showCustomButton: {
-      type: Boolean,
-      default: false
-    }
-  },
-  emits: ['cancel', 'confirm'],
-  setup(props, { emit }) {
-    // 关闭
-    function cancel(): void {
-      emit('cancel');
-    }
-
-    // 确认
-    function confirm(): void {
-      emit('confirm');
-    }
-
-    return {
-      cancel,
-      confirm
-    };
   }
 });
+defineProps({
+  visible: {
+    type: Boolean,
+    default: false
+  },
+  title: {
+    type: String,
+    default: '提示'
+  },
+  confirmtext: {
+    type: String,
+    default: '确定'
+  },
+  canceltext: {
+    type: String,
+    default: '取消'
+  },
+  customText: {
+    type: String,
+    default: '我知道了'
+  },
+  showConfirmButton: {
+    type: Boolean,
+    default: false
+  },
+  showCancelButton: {
+    type: Boolean,
+    default: false
+  },
+  showCustomButton: {
+    type: Boolean,
+    default: false
+  }
+});
+const eimts = defineEmits(['confirm', 'cancel']);
+
+function confirm(): void {
+  eimts('confirm');
+}
+
+function cancel(): void {
+  eimts('cancel');
+}
 </script>
 
 <style lang="less" scoped>

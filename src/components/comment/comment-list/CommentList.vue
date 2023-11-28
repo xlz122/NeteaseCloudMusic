@@ -62,7 +62,9 @@
               ({{ item?.likedCount }})
             </span>
             <span class="line">|</span>
-            <span class="reply" @click="setComments(index)"> 回复 </span>
+            <span class="reply" @click="setComments(Number(index))">
+              回复
+            </span>
           </div>
         </div>
         <!-- 回复他人 -->
@@ -79,78 +81,57 @@
   </ul>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script lang="ts" setup>
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { formatDate } from '@/utils/utils';
 import CommentReplay from '@/components/comment/comment-replay/CommentReplay.vue';
 
-export default defineComponent({
-  components: {
-    CommentReplay
+const props = defineProps({
+  // 0: 精彩评论 1: 最新评论
+  type: {
+    type: Number,
+    default: 0
   },
-  props: {
-    // 0: 精彩评论 1: 最新评论
-    type: {
-      type: Number,
-      default: 0
-    },
-    list: {
-      type: Object,
-      default: () => ({})
-    }
-  },
-  emits: [
-    'handleDeleteComment',
-    'handleLikeComment',
-    'setComments',
-    'replySubmit'
-  ],
-  setup(props, { emit }) {
-    const $store = useStore();
-
-    const userInfo = computed(() => $store.getters.userInfo);
-
-    // 删除
-    function handleDeleteComment(commentId: number): void {
-      emit('handleDeleteComment', commentId);
-    }
-
-    // 点赞
-    function handleLikeComment(
-      t: number,
-      commentId: number,
-      type: number
-    ): void {
-      emit('handleLikeComment', t, commentId, type);
-    }
-
-    // 打开当前评论回复框
-    function setComments(index: number): void {
-      emit('setComments', props.type, index);
-    }
-
-    // 回复提交
-    function replySubmit(replayText: string, commentId: number): void {
-      emit('replySubmit', replayText, commentId);
-    }
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
-    return {
-      formatDate,
-      userInfo,
-      handleDeleteComment,
-      handleLikeComment,
-      setComments,
-      replySubmit,
-      jumpUserProfile
-    };
+  list: {
+    type: Object,
+    default: () => {}
   }
 });
+const emits = defineEmits([
+  'handleDeleteComment',
+  'handleLikeComment',
+  'setComments',
+  'replySubmit'
+]);
+
+const $store = useStore();
+const userInfo = computed(() => $store.getters.userInfo);
+
+// 删除
+function handleDeleteComment(commentId: number): void {
+  emits('handleDeleteComment', commentId);
+}
+
+// 点赞
+function handleLikeComment(t: number, commentId: number, type: number): void {
+  emits('handleLikeComment', t, commentId, type);
+}
+
+// 打开当前评论回复
+function setComments(index: number): void {
+  emits('setComments', props.type, index);
+}
+
+// 回复提交
+function replySubmit(replayText: string, commentId: number): void {
+  emits('replySubmit', replayText, commentId);
+}
+
+// 跳转用户资料
+function jumpUserProfile(id: number): void {
+  $store.commit('jumpUserProfile', id);
+}
 </script>
 
 <style lang="less" scoped>

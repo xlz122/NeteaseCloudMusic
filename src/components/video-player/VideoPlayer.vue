@@ -58,15 +58,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import {
-  defineComponent,
-  ref,
-  computed,
-  watch,
-  onMounted,
-  onUnmounted
-} from 'vue';
+<script lang="ts" setup>
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@/utils/utils';
 import { setMessage } from '@/components/message/useMessage';
@@ -74,160 +67,131 @@ import VideoView from './video/Video.vue';
 import PlayProgress from './play-progress/PlayProgress.vue';
 import VolumeProgress from './volume-progress/VolumeProgress.vue';
 
-export default defineComponent({
-  components: {
-    VideoView,
-    PlayProgress,
-    VolumeProgress
+defineProps({
+  detail: {
+    type: Object,
+    default: () => {}
   },
-  props: {
-    detail: {
-      type: Object,
-      default: () => ({})
-    },
-    subed: {
-      type: Boolean,
-      default: false
-    }
-  },
-  emits: ['handleCollection'],
-  setup(props, { emit }) {
-    const $store = useStore();
-
-    const videoVolume = computed(() => $store.getters['video/videoVolume']);
-    // 播放进度数据
-    const videoPlayProgress = computed(
-      () => $store.getters['video/videoPlayProgress']
-    );
-    // 播放状态
-    const musicPlayStatus = computed(
-      () => $store.getters['music/musicPlayStatus']
-    );
-
-    const videoStatus = ref<string>('pause');
-
-    // 播放视频暂停音乐,播放音乐暂停视频
-    watch(
-      () => videoStatus.value,
-      () => {
-        if (videoStatus.value === 'play') {
-          $store.commit('music/setMusicPlayStatus', {
-            look: false,
-            loading: false,
-            refresh: false
-          });
-        }
-      }
-    );
-    watch(
-      () => musicPlayStatus.value,
-      () => {
-        if (musicPlayStatus.value.look) {
-          videoStatus.value = 'pause';
-        }
-      }
-    );
-
-    // 切换播放/暂停状态
-    function togglePlayStatus(): void {
-      videoStatus.value = videoStatus.value === 'play' ? 'pause' : 'play';
-    }
-
-    // 播放完成
-    function videoEnded(): void {
-      videoStatus.value = 'ended';
-
-      setTimeout(() => {
-        videoReplay();
-      }, 10);
-    }
-
-    // 重播
-    function videoReplay(): void {
-      videoStatus.value = 'replay';
-    }
-
-    // 全屏切换
-    const fullscreen = ref<boolean>(false);
-
-    // 进入全屏
-    function lanchFullscreen() {
-      fullscreen.value = true;
-
-      const element = document.documentElement;
-      element.requestFullscreen && element.requestFullscreen();
-    }
-
-    // 退出全屏
-    function exitFullscreen() {
-      fullscreen.value = false;
-
-      document.exitFullscreen && document.exitFullscreen();
-    }
-
-    // 音量条显隐
-    const volumeProgressShow = ref<boolean>(false);
-    function setVolumeProgress(): void {
-      volumeProgressShow.value = !volumeProgressShow.value;
-    }
-
-    // 喜欢
-    function handleLike(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 收藏
-    function handleCollection(followed: boolean): void {
-      emit('handleCollection', followed);
-    }
-
-    // 分享
-    function handleShare(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    onMounted(() => {
-      window.addEventListener('keydown', (e: KeyboardEvent) => {
-        const key = e.key;
-        if (key === 'F11') {
-          // 阻止默认的键盘事件
-          e.preventDefault();
-        }
-      });
-
-      window.addEventListener('fullscreenchange', () => {
-        if (document.fullscreenElement) {
-          // 进入大屏
-        } else {
-          // 退出大屏
-          fullscreen.value = false;
-        }
-      });
-    });
-
-    onUnmounted(() => {
-      window.removeEventListener('keydown', () => ({}));
-      window.removeEventListener('fullscreenchange', () => ({}));
-    });
-
-    return {
-      timeStampToDuration,
-      videoVolume,
-      videoPlayProgress,
-      videoStatus,
-      togglePlayStatus,
-      videoEnded,
-      videoReplay,
-      fullscreen,
-      lanchFullscreen,
-      exitFullscreen,
-      volumeProgressShow,
-      setVolumeProgress,
-      handleLike,
-      handleCollection,
-      handleShare
-    };
+  subed: {
+    type: Boolean,
+    default: false
   }
+});
+const emits = defineEmits(['handleCollection']);
+
+const $store = useStore();
+const videoVolume = computed(() => $store.getters['video/videoVolume']);
+// 播放进度数据
+const videoPlayProgress = computed(
+  () => $store.getters['video/videoPlayProgress']
+);
+// 播放状态
+const musicPlayStatus = computed(() => $store.getters['music/musicPlayStatus']);
+
+// 播放视频暂停音乐, 播放音乐暂停视频
+const videoStatus = ref<string>('pause');
+
+watch(
+  () => videoStatus.value,
+  () => {
+    if (videoStatus.value === 'play') {
+      $store.commit('music/setMusicPlayStatus', {
+        look: false,
+        loading: false,
+        refresh: false
+      });
+    }
+  }
+);
+watch(
+  () => musicPlayStatus.value,
+  () => {
+    if (musicPlayStatus.value.look) {
+      videoStatus.value = 'pause';
+    }
+  }
+);
+
+// 切换播放/暂停状态
+function togglePlayStatus(): void {
+  videoStatus.value = videoStatus.value === 'play' ? 'pause' : 'play';
+}
+
+// 播放完成
+function videoEnded(): void {
+  videoStatus.value = 'ended';
+
+  setTimeout(() => {
+    videoReplay();
+  }, 10);
+}
+
+// 重播
+function videoReplay(): void {
+  videoStatus.value = 'replay';
+}
+
+// 全屏切换
+const fullscreen = ref<boolean>(false);
+
+// 进入全屏
+function lanchFullscreen() {
+  fullscreen.value = true;
+
+  const element = document.documentElement;
+  element.requestFullscreen && element.requestFullscreen();
+}
+
+// 退出全屏
+function exitFullscreen() {
+  fullscreen.value = false;
+
+  document.exitFullscreen && document.exitFullscreen();
+}
+
+// 音量条显隐
+const volumeProgressShow = ref<boolean>(false);
+function setVolumeProgress(): void {
+  volumeProgressShow.value = !volumeProgressShow.value;
+}
+
+// 喜欢
+function handleLike(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 收藏
+function handleCollection(followed: boolean): void {
+  emits('handleCollection', followed);
+}
+
+// 分享
+function handleShare(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', (e: KeyboardEvent) => {
+    const key = e.key;
+    if (key === 'F11') {
+      // 阻止默认的键盘事件
+      e.preventDefault();
+    }
+  });
+
+  window.addEventListener('fullscreenchange', () => {
+    if (document.fullscreenElement) {
+      // 进入大屏
+    } else {
+      // 退出大屏
+      fullscreen.value = false;
+    }
+  });
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', () => ({}));
+  window.removeEventListener('fullscreenchange', () => ({}));
 });
 </script>
 

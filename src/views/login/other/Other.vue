@@ -1,5 +1,5 @@
 <template>
-  <!-- 所有其他登录方式 -->
+  <!-- 其他登录方式 -->
   <div class="other" v-if="loginMode.allOtherLogin">
     <div class="phone-login">
       <i class="icon-phone"></i>
@@ -77,17 +77,17 @@
   ></i>
   <!-- 手机登录 -->
   <div class="mobile-phone-form" v-if="loginMode.mobileLogin">
-    <mobile-phone-login />
+    <MobilePhoneLogin />
   </div>
   <!-- 手机注册 -->
   <div class="mobile-phone-form" v-if="loginMode.mobileRegister">
-    <mobile-phone-register />
+    <MobilePhoneRegister />
   </div>
   <!-- 邮箱登录 -->
   <div class="mailbox-form" v-if="loginMode.mailboxLogin">
-    <mailbox />
+    <Mailbox />
   </div>
-  <!-- 返回所有其他登录方式 -->
+  <!-- 返回其他登录方式 -->
   <div class="return-other-login" v-if="!loginMode.allOtherLogin">
     <!-- 手机号注册 -->
     <template v-if="loginMode.mobileRegister">
@@ -106,112 +106,92 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
+<script lang="ts" setup>
+import { ref, reactive } from 'vue';
 import { setMessage } from '@/components/message/useMessage';
 import MobilePhoneLogin from './mobile-login/MobileLogin.vue';
 import MobilePhoneRegister from './mobile-register/MobileRegister.vue';
 import Mailbox from './mailbox/Mailbox.vue';
 
-export default defineComponent({
-  name: 'LoginOther',
-  components: {
-    MobilePhoneLogin,
-    MobilePhoneRegister,
-    Mailbox
-  },
-  emits: ['qrcodeLogin'],
-  setup(props, ctx) {
-    // 扫码登录
-    function qrcodeLogin() {
-      ctx.emit('qrcodeLogin');
-    }
+const emits = defineEmits(['qrcodeLogin']);
 
-    // 协议勾选
-    const officialCheckbox = ref<boolean>(false);
-    // 登录方式
-    const loginMode = reactive({
-      mobileLogin: false,
-      mobileRegister: false,
-      mailboxLogin: false,
-      allOtherLogin: true
-    });
+// 扫码登录
+function qrcodeLogin() {
+  emits('qrcodeLogin');
+}
 
-    // 手机号登录
-    function phoneLogin(): boolean | undefined {
-      if (!officialCheckbox.value) {
-        alert('请先勾选同意《服务条款》、《隐私政策》、《儿童隐私政策》');
-        return false;
-      }
-      loginMode.allOtherLogin = false;
-      loginMode.mobileLogin = true;
-    }
-
-    // 注册
-    function register(): boolean | undefined {
-      if (!officialCheckbox.value) {
-        alert('请先勾选同意《服务条款》、《隐私政策》、《儿童隐私政策》');
-        return false;
-      }
-      loginMode.allOtherLogin = false;
-      loginMode.mobileRegister = true;
-    }
-
-    // 登录切换注册
-    function mobileTypeSwitch(): void {
-      loginMode.allOtherLogin = false;
-      loginMode.mobileLogin = false;
-      loginMode.mobileRegister = true;
-    }
-
-    // 邮箱登录部分
-    function mailbox(): boolean | undefined {
-      if (!officialCheckbox.value) {
-        alert('请先勾选同意《服务条款》、《隐私政策》、《儿童隐私政策》');
-        return false;
-      }
-      loginMode.allOtherLogin = false;
-      loginMode.mailboxLogin = true;
-    }
-
-    // 微信登录
-    function weChatLogin() {
-      setMessage({ type: 'error', title: '暂不支持微信登录' });
-    }
-
-    // qq登录
-    function qqLogin() {
-      setMessage({ type: 'error', title: '暂不支持QQ登录' });
-    }
-
-    // 微博登录
-    function microBlogLogin() {
-      setMessage({ type: 'error', title: '暂不支持微博登录' });
-    }
-
-    // 返回其他登录
-    function returnOtherLogin(): void {
-      loginMode.mailboxLogin = false;
-      loginMode.mobileRegister = false;
-      loginMode.mobileLogin = false;
-      loginMode.allOtherLogin = true;
-    }
-
-    return {
-      qrcodeLogin,
-      officialCheckbox,
-      loginMode,
-      mobileTypeSwitch,
-      phoneLogin,
-      register,
-      mailbox,
-      weChatLogin,
-      qqLogin,
-      microBlogLogin,
-      returnOtherLogin
-    };
-  }
+// 登录方式
+const loginMode = reactive({
+  mobileLogin: false,
+  mobileRegister: false,
+  mailboxLogin: false,
+  allOtherLogin: true
 });
+// 协议勾选
+const officialCheckbox = ref<boolean>(false);
+
+// 手机号登录
+function phoneLogin(): boolean | undefined {
+  if (!officialCheckbox.value) {
+    alert('请先勾选同意《服务条款》、《隐私政策》、《儿童隐私政策》');
+    return;
+  }
+
+  loginMode.allOtherLogin = false;
+  loginMode.mobileLogin = true;
+}
+
+// 注册
+function register(): boolean | undefined {
+  if (!officialCheckbox.value) {
+    alert('请先勾选同意《服务条款》、《隐私政策》、《儿童隐私政策》');
+    return;
+  }
+
+  loginMode.allOtherLogin = false;
+  loginMode.mobileRegister = true;
+}
+
+// 登录切换注册
+function mobileTypeSwitch(): void {
+  loginMode.allOtherLogin = false;
+  loginMode.mobileLogin = false;
+  loginMode.mobileRegister = true;
+}
+
+// 邮箱登录部分
+function mailbox(): boolean | undefined {
+  if (!officialCheckbox.value) {
+    alert('请先勾选同意《服务条款》、《隐私政策》、《儿童隐私政策》');
+    return;
+  }
+
+  loginMode.allOtherLogin = false;
+  loginMode.mailboxLogin = true;
+}
+
+// 微信登录
+function weChatLogin() {
+  setMessage({ type: 'error', title: '暂不支持微信登录' });
+}
+
+// qq登录
+function qqLogin() {
+  setMessage({ type: 'error', title: '暂不支持QQ登录' });
+}
+
+// 微博登录
+function microBlogLogin() {
+  setMessage({ type: 'error', title: '暂不支持微博登录' });
+}
+
+// 返回其他登录
+function returnOtherLogin(): void {
+  loginMode.mailboxLogin = false;
+  loginMode.mobileRegister = false;
+  loginMode.mobileLogin = false;
+  loginMode.allOtherLogin = true;
+}
 </script>
 
 <style lang="less" scoped>

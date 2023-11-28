@@ -30,9 +30,6 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: '/download',
         name: 'download',
-        // meta: {
-        //   keepAlive: true
-        // },
         component: () =>
           import(
             /* webpackChunkName: "download" */ '../views/download/Download.vue'

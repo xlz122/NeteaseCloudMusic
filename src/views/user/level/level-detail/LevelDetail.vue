@@ -37,95 +37,85 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-export default defineComponent({
-  name: 'LevelDetail',
-  setup() {
-    const $router = useRouter();
+const $router = useRouter();
 
-    const list = ref([
-      {
-        level: 1,
-        capacity: '5G音乐云盘免费容量',
-        blacklist: '黑名单上限20'
-      },
-      {
-        level: 2,
-        capacity: '20G音乐云盘免费容量',
-        blacklist: '黑名单上限20'
-      },
-      {
-        level: 3,
-        capacity: '40G音乐云盘免费容量',
-        blacklist: '黑名单上限20',
-        additional: {
-          coupon: '云音乐商城满100减3元优惠券',
-          value: '价值50云贝'
-        }
-      },
-      {
-        level: 4,
-        capacity: '40G音乐云盘免费容量',
-        blacklist: '黑名单上限20'
-      },
-      {
-        level: 5,
-        capacity: '40G音乐云盘免费容量',
-        blacklist: '黑名单上限20',
-        additional: {
-          coupon: '云音乐商城满100减6元优惠券',
-          value: '价值100云贝'
-        }
-      },
-      {
-        level: 6,
-        capacity: '60G音乐云盘免费容量',
-        blacklist: '黑名单上限40'
-      },
-      {
-        level: 7,
-        capacity: '60G音乐云盘免费容量',
-        blacklist: '黑名单上限80',
-        additional: {
-          coupon: '云音乐商城满100减9元优惠券',
-          value: '价值400云贝'
-        }
-      },
-      {
-        level: 8,
-        capacity: '60G音乐云盘免费容量',
-        blacklist: '黑名单上限100'
-      },
-      {
-        level: 9,
-        capacity: '60G音乐云盘免费容量',
-        blacklist: '黑名单上限120',
-        additional: {
-          coupon: '云音乐商城满100减12元优惠券',
-          value: '价值1200云贝'
-        }
-      },
-      {
-        level: 10,
-        capacity: '100G音乐云盘免费容量',
-        blacklist: '黑名单上限140'
-      }
-    ]);
-
-    // 跳转等级
-    function jumpLevel(): void {
-      $router.push({ name: 'level' });
+const list = ref([
+  {
+    level: 1,
+    capacity: '5G音乐云盘免费容量',
+    blacklist: '黑名单上限20'
+  },
+  {
+    level: 2,
+    capacity: '20G音乐云盘免费容量',
+    blacklist: '黑名单上限20'
+  },
+  {
+    level: 3,
+    capacity: '40G音乐云盘免费容量',
+    blacklist: '黑名单上限20',
+    additional: {
+      coupon: '云音乐商城满100减3元优惠券',
+      value: '价值50云贝'
     }
-
-    return {
-      list,
-      jumpLevel
-    };
+  },
+  {
+    level: 4,
+    capacity: '40G音乐云盘免费容量',
+    blacklist: '黑名单上限20'
+  },
+  {
+    level: 5,
+    capacity: '40G音乐云盘免费容量',
+    blacklist: '黑名单上限20',
+    additional: {
+      coupon: '云音乐商城满100减6元优惠券',
+      value: '价值100云贝'
+    }
+  },
+  {
+    level: 6,
+    capacity: '60G音乐云盘免费容量',
+    blacklist: '黑名单上限40'
+  },
+  {
+    level: 7,
+    capacity: '60G音乐云盘免费容量',
+    blacklist: '黑名单上限80',
+    additional: {
+      coupon: '云音乐商城满100减9元优惠券',
+      value: '价值400云贝'
+    }
+  },
+  {
+    level: 8,
+    capacity: '60G音乐云盘免费容量',
+    blacklist: '黑名单上限100'
+  },
+  {
+    level: 9,
+    capacity: '60G音乐云盘免费容量',
+    blacklist: '黑名单上限120',
+    additional: {
+      coupon: '云音乐商城满100减12元优惠券',
+      value: '价值1200云贝'
+    }
+  },
+  {
+    level: 10,
+    capacity: '100G音乐云盘免费容量',
+    blacklist: '黑名单上限140'
   }
-});
+]);
+
+// 跳转等级
+function jumpLevel(): void {
+  $router.push({ name: 'level' });
+}
 </script>
 
 <style lang="less" scoped>

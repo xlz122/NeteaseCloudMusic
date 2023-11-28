@@ -101,105 +101,82 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { timeStampToDuration } from '@/utils/utils';
+import type { PlayMusicItem } from '@/store/music/state';
 import AudioView from './audio/Audio.vue';
 import PlayAction from './play-action/PlayAction.vue';
 import PlayProgress from './play-progress/PlayProgress.vue';
 import OtherTool from './other-tool/OtherTool.vue';
 
-export default defineComponent({
-  components: {
-    AudioView,
-    PlayAction,
-    PlayProgress,
-    OtherTool
-  },
-  setup() {
-    const $router = useRouter();
-    const $store = useStore();
+const $router = useRouter();
+const $store = useStore();
 
-    // 当前播放音乐
-    const playMusicItem = computed<number>(
-      () => $store.getters['music/playMusicItem']
-    );
-    // 播放进度数据
-    const musicPlayProgress = computed(
-      () => $store.getters['music/musicPlayProgress']
-    );
-    // 播放器锁定
-    const musicAudioLock = computed<boolean>(
-      () => $store.getters['music/musicAudioLock']
-    );
+// 当前播放音乐
+const playMusicItem = computed<PlayMusicItem>(
+  () => $store.getters['music/playMusicItem']
+);
+// 播放进度数据
+const musicPlayProgress = computed(
+  () => $store.getters['music/musicPlayProgress']
+);
+// 播放器锁定
+const musicAudioLock = computed<boolean>(
+  () => $store.getters['music/musicAudioLock']
+);
 
-    function audioLock(): void {
-      if (musicAudioLock.value) {
-        $store.commit('music/setMsicAudioLock', false);
-      } else {
-        $store.commit('music/setMsicAudioLock', true);
-      }
-    }
-
-    // 播放器鼠标移入事件
-    const audioEnter = ref<boolean>(false);
-    function musicAudioEnter(): boolean | undefined {
-      if (musicAudioLock.value) {
-        return false;
-      }
-
-      audioEnter.value = true;
-    }
-
-    // 播放器鼠标移出事件
-    function musicAudioLeave(): boolean | undefined {
-      if (musicAudioLock.value) {
-        return false;
-      }
-
-      audioEnter.value = false;
-    }
-
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
-    }
-
-    // 跳转视频详情
-    function jumpVideoDetail(id: number): void {
-      $router.push({ name: 'mv-detail', params: { id } });
-      $store.commit('video/setVideo', { id, url: '' });
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    // 跳转歌曲位置
-    function jumpSongPosition(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    return {
-      timeStampToDuration,
-      playMusicItem,
-      musicPlayProgress,
-      musicAudioLock,
-      audioEnter,
-      audioLock,
-      musicAudioEnter,
-      musicAudioLeave,
-      jumpSongDetail,
-      jumpVideoDetail,
-      jumpSingerDetail,
-      jumpSongPosition
-    };
+function audioLock(): void {
+  if (musicAudioLock.value) {
+    $store.commit('music/setMsicAudioLock', false);
+  } else {
+    $store.commit('music/setMsicAudioLock', true);
   }
-});
+}
+
+// 播放器鼠标移入事件
+const audioEnter = ref<boolean>(false);
+
+function musicAudioEnter(): boolean | undefined {
+  if (musicAudioLock.value) {
+    return;
+  }
+
+  audioEnter.value = true;
+}
+
+// 播放器鼠标移出事件
+function musicAudioLeave(): boolean | undefined {
+  if (musicAudioLock.value) {
+    return;
+  }
+
+  audioEnter.value = false;
+}
+
+// 跳转歌曲详情
+function jumpSongDetail(id: number): void {
+  $store.commit('jumpSongDetail', id);
+}
+
+// 跳转视频详情
+function jumpVideoDetail(id: number): void {
+  $router.push({ name: 'mv-detail', params: { id } });
+  $store.commit('video/setVideo', { id, url: '' });
+}
+
+// 跳转歌手详情
+function jumpSingerDetail(id: string | number): void {
+  $store.commit('jumpSingerDetail', id);
+}
+
+// 跳转歌曲位置
+function jumpSongPosition(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
 </script>
 
 <style lang="less" scoped>

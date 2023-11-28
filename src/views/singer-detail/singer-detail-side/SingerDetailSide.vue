@@ -1,11 +1,11 @@
 <template>
   <div class="singer-side-container">
-    <template v-if="hotSingerList?.length > 0">
+    <template v-if="hotSinger?.length > 0">
       <h3 class="title">热门歌手</h3>
       <ul class="like-list">
         <li
           class="item"
-          v-for="(item, index) in hotSingerList"
+          v-for="(item, index) in hotSinger"
           :key="index"
           :class="{ 'first-item': !(index % 3) }"
           @click="jumpSingerDetail(item?.id)"
@@ -17,12 +17,12 @@
         </li>
       </ul>
     </template>
-    <template v-if="singerList?.length > 0">
+    <template v-if="similarSinger?.length > 0">
       <h3 class="title">相似歌手</h3>
       <ul class="like-list">
         <li
           class="item"
-          v-for="(item, index) in singerList"
+          v-for="(item, index) in similarSinger"
           :key="index"
           :class="{ 'first-item': !(index % 3) }"
           @click="jumpSingerDetail(item?.id)"
@@ -46,74 +46,75 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { topArtists, simiArtist } from '@/api/singer-detail';
 import type { ResponseType } from '@/types/types';
-import SideDownload from '@/views/song-sheet-detail/side-downlod/SideDownload.vue';
+import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
 
-export default defineComponent({
-  components: {
-    SideDownload
-  },
-  props: {
-    likePeople: {
-      type: Array,
-      default: () => []
-    }
-  },
-  setup() {
-    const $store = useStore();
+type HotSingerItem = {
+  id: number;
+  name: string;
+  picUrl: string;
+};
 
-    const singerId = computed<number>(() => $store.getters.singerId);
+type SimilarSingerItem = {
+  id: number;
+  name: string;
+  picUrl: string;
+};
 
-    const hotSingerList = ref<unknown[]>([]);
-    // 获取热门歌手
-    function getTopArtists(): void {
-      topArtists({
-        offset: 0,
-        limit: 6
-      })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            // 热门歌手为空时，获取相似歌手
-            if (res?.artists?.length === 0) {
-              getSimiArtist();
-            }
-
-            hotSingerList.value = res?.artists?.slice(0, 6);
-          }
-        })
-        .catch(() => ({}));
-    }
-    getTopArtists();
-
-    const singerList = ref<unknown[]>([]);
-
-    // 获取相似歌手
-    function getSimiArtist(): void {
-      simiArtist({ id: singerId.value })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            singerList.value = res?.artists?.slice(0, 6);
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    return {
-      hotSingerList,
-      singerList,
-      jumpSingerDetail
-    };
+defineProps({
+  likePeople: {
+    type: Array,
+    default: () => []
   }
 });
+
+const $store = useStore();
+const singerId = computed<number>(() => $store.getters.singerId);
+
+// 获取热门歌手
+const hotSinger = ref<HotSingerItem[]>([]);
+
+function getTopArtists(): void {
+  topArtists({
+    offset: 0,
+    limit: 6
+  })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        // 热门歌手为空时, 获取相似歌手
+        if (res?.artists?.length === 0) {
+          getSimiArtist();
+          return;
+        }
+
+        hotSinger.value = res?.artists?.slice(0, 6) || [];
+      }
+    })
+    .catch(() => ({}));
+}
+getTopArtists();
+
+// 获取相似歌手
+const similarSinger = ref<SimilarSingerItem[]>([]);
+
+function getSimiArtist(): void {
+  simiArtist({ id: singerId.value })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        similarSinger.value = res?.artists?.slice(0, 6) || [];
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 跳转歌手详情
+function jumpSingerDetail(id: number | undefined): void {
+  $store.commit('jumpSingerDetail', id);
+}
 </script>
 
 <style lang="less" scoped>

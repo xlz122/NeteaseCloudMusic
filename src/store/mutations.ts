@@ -138,7 +138,7 @@ const mutations: Mutations<State> = {
     // 清除所有cookie
     clearAllCookie();
   },
-  // 歌单详情数据
+  // 歌单详情
   setSongSheetDetail(state, songSheetDetail: unknown) {
     state.songSheetDetail = songSheetDetail;
     localStorage.setItem('songSheetDetail', JSON.stringify(songSheetDetail));

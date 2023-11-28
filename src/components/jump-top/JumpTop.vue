@@ -2,49 +2,40 @@
   <i
     class="jump-top"
     title="回到顶部"
-    :class="{ 'jump-top-show': jumpTopShow }"
+    :class="{ 'jump-top-show': visible }"
     @click="jumpTop"
   ></i>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted } from 'vue';
+<script lang="ts" setup>
+import { ref, onMounted, onUnmounted } from 'vue';
 import { debounce } from 'lodash';
 
-export default defineComponent({
-  setup() {
-    const jumpTopShow = ref<boolean>(false);
+const visible = ref<boolean>(false);
 
-    function setJumpTopShow(e: { target: Document }): void {
-      const scrollTop =
-        e.target.documentElement.scrollTop || e.target.body.scrollTop;
+function toggleVisible(e: { target: Document }): void {
+  const scrollTop =
+    e.target.documentElement.scrollTop || e.target.body.scrollTop;
 
-      if (!jumpTopShow.value && scrollTop >= 20) {
-        jumpTopShow.value = true;
-      }
-
-      if (scrollTop < 20) {
-        jumpTopShow.value = false;
-      }
-    }
-
-    function jumpTop(): void {
-      window.scrollTo(0, 0);
-    }
-
-    onMounted(() => {
-      document.addEventListener('scroll', debounce(setJumpTopShow, 100), false);
-    });
-
-    onUnmounted(() => {
-      document.removeEventListener('scroll', () => ({}));
-    });
-
-    return {
-      jumpTopShow,
-      jumpTop
-    };
+  if (scrollTop < 20) {
+    visible.value = false;
   }
+
+  if (!visible.value && scrollTop >= 20) {
+    visible.value = true;
+  }
+}
+
+function jumpTop(): void {
+  window.scrollTo(0, 0);
+}
+
+onMounted(() => {
+  document.addEventListener('scroll', debounce(toggleVisible, 100), false);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('scroll', () => ({}));
 });
 </script>
 

@@ -47,7 +47,7 @@
             <span class="icon">喜欢</span>
           </template>
         </div>
-        <div class="other comment" @click="jumpToComments">
+        <div class="other comment" @click="jumpToComment">
           <template v-if="commentTotal > 0">
             <span class="icon"> ({{ commentTotal }}) </span>
           </template>
@@ -103,60 +103,46 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script lang="ts" setup>
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { formatDateTime } from '@/utils/utils';
 
-export default defineComponent({
-  props: {
-    detail: {
-      type: Object,
-      default: () => ({})
-    },
-    commentTotal: {
-      type: Number,
-      default: 0
-    }
+defineProps({
+  detail: {
+    type: Object,
+    default: () => {}
   },
-  emits: ['jumpToComments'],
-  setup(props, { emit }) {
-    const $store = useStore();
-
-    // 电台节目id
-    const programId = computed<number>(() => $store.getters.programId);
-
-    // 喜欢
-    function handleLike(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 评论
-    function jumpToComments(): void {
-      emit('jumpToComments');
-    }
-
-    // 分享
-    function handleShare(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 下载
-    function handleDownload(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    return {
-      formatDateTime,
-      programId,
-      handleLike,
-      jumpToComments,
-      handleShare,
-      handleDownload
-    };
+  commentTotal: {
+    type: Number,
+    default: 0
   }
 });
+const emits = defineEmits(['jumpToComment']);
+
+const $store = useStore();
+const programId = computed<number>(() => $store.getters.programId);
+
+// 喜欢
+function handleLike(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 评论
+function jumpToComment(): void {
+  emits('jumpToComment');
+}
+
+// 分享
+function handleShare(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 下载
+function handleDownload(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
 </script>
 
 <style lang="less" scoped>

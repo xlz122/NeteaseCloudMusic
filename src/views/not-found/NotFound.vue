@@ -8,16 +8,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
 import HeaderView from '@/views/header/Header.vue';
-
-export default defineComponent({
-  name: 'NotFound',
-  components: {
-    HeaderView
-  }
-});
 </script>
 
 <style lang="less" scoped>

@@ -1,22 +1,22 @@
 <template>
   <div class="song-sheet-container">
-    <template v-if="songSheetList?.createSongList?.length > 0">
+    <template v-if="songSheetList?.createSongSheet?.length > 0">
       <div class="title">
         <span class="text">
           <span v-if="userInfo?.profile?.userId === userId">我创建的歌单</span>
           <span v-else>
-            {{ songSheetList?.createSongList[0]?.creator?.nickname }}创建的歌单
+            {{ songSheetList?.createSongSheet[0]?.creator?.nickname }}创建的歌单
           </span>
           <i class="icon-r"></i>
         </span>
         <span class="text-length">
-          ({{ songSheetList?.createSongList?.length }})
+          ({{ songSheetList?.createSongSheet?.length }})
         </span>
       </div>
       <ul class="song-sheet-list">
         <li
           class="list-item"
-          v-for="(item, index) in songSheetList?.createSongList"
+          v-for="(item, index) in songSheetList?.createSongSheet"
           :key="index"
           :class="{ 'first-list-item': !(index % 5) }"
         >
@@ -44,25 +44,25 @@
         </li>
       </ul>
     </template>
-    <template v-if="songSheetList?.collectionSongList?.length > 0">
+    <template v-if="songSheetList?.collectSongSheet?.length > 0">
       <div class="title">
         <span class="text">
           <span v-if="userInfo?.profile?.userId === userId">我收藏的歌单</span>
           <span v-else>
             {{
-              songSheetList?.collectionSongList[0]?.creator?.nickname
+              songSheetList?.collectSongSheet[0]?.creator?.nickname
             }}收藏的歌单
           </span>
           <i class="icon-r"></i>
         </span>
         <span class="text-length">
-          ({{ songSheetList?.collectionSongList?.length }})
+          ({{ songSheetList?.collectSongSheet?.length }})
         </span>
       </div>
       <ul class="song-sheet-list">
         <li
           class="list-item"
-          v-for="(item, index) in songSheetList?.collectionSongList"
+          v-for="(item, index) in songSheetList?.collectSongSheet"
           :key="index"
           :class="{ 'first-list-item': index === 0 }"
         >
@@ -87,93 +87,87 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, computed, watch } from 'vue';
+<script lang="ts" setup>
+import { reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { bigNumberTransform } from '@/utils/utils';
 import { userPlayList } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
 
-type SongList = {
-  createSongList: unknown[];
-  collectionSongList: unknown[];
+type SongSheet = {
+  createSongSheet: SongSheetItem[];
+  collectSongSheet: SongSheetItem[];
 };
 
-export default defineComponent({
-  setup() {
-    const $store = useStore();
+type SongSheetItem = {
+  id: number;
+  name: string;
+  coverImgUrl: string;
+  playCount: string | number;
+  subscribed: boolean;
+  creator: {
+    nickname: string;
+  };
+};
 
-    const userInfo = computed(() => $store.getters.userInfo);
-    const userId = computed<number>(() => $store.getters.userId);
+const $store = useStore();
+const userInfo = computed(() => $store.getters.userInfo);
+const userId = computed<number>(() => $store.getters.userId);
 
-    watch(
-      () => userId.value,
-      curVal => {
-        if (curVal) {
-          getUserPlayList();
-        }
-      },
-      {
-        immediate: true
-      }
-    );
-
-    const songSheetList = reactive<SongList>({
-      createSongList: [],
-      collectionSongList: []
-    });
-
-    // 获取用户歌单列表
-    function getUserPlayList(): void {
-      userPlayList({
-        uid: userId.value
-      })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            songSheetList.createSongList = [];
-            songSheetList.collectionSongList = [];
-
-            res.playlist.forEach(
-              (item: {
-                name: string;
-                subscribed: boolean;
-                playCount: number | string;
-              }) => {
-                if (
-                  userInfo.value?.profile?.userId === userId.value &&
-                  item?.name?.includes('喜欢的音乐')
-                ) {
-                  item.name = '我喜欢的音乐';
-                }
-
-                // 收藏列表判断
-                if (!item.subscribed) {
-                  songSheetList.createSongList.push(item);
-                } else {
-                  songSheetList.collectionSongList.push(item);
-                }
-
-                item.playCount = bigNumberTransform(item?.playCount);
-              }
-            );
-          }
-        })
-        .catch(() => ({}));
+watch(
+  () => userId.value,
+  curVal => {
+    if (!curVal) {
+      return;
     }
 
-    // 跳转歌单详情
-    function jumpSongSheetDetail(id: number): void {
-      $store.commit('jumpSongSheetDetail', id);
-    }
-
-    return {
-      userInfo,
-      userId,
-      songSheetList,
-      jumpSongSheetDetail
-    };
+    getUserPlayList();
+  },
+  {
+    immediate: true
   }
+);
+
+const songSheetList = reactive<SongSheet>({
+  createSongSheet: [],
+  collectSongSheet: []
 });
+
+// 获取用户歌单列表
+function getUserPlayList(): void {
+  userPlayList({ uid: userId.value })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        songSheetList.createSongSheet = [];
+        songSheetList.collectSongSheet = [];
+
+        res.playlist.forEach((item: SongSheetItem) => {
+          if (
+            userInfo.value?.profile?.userId === userId.value &&
+            item?.name?.includes('喜欢的音乐')
+          ) {
+            item.name = '我喜欢的音乐';
+          }
+
+          item.playCount = bigNumberTransform(item?.playCount);
+        });
+
+        // 创建/收藏的歌单
+        songSheetList.createSongSheet = res?.playlist.filter(
+          (item: SongSheetItem) => !item.subscribed
+        );
+        songSheetList.collectSongSheet = res?.playlist.filter(
+          (item: SongSheetItem) => item.subscribed
+        );
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 跳转歌单详情
+function jumpSongSheetDetail(id: number): void {
+  $store.commit('jumpSongSheetDetail', id);
+}
 </script>
 
 <style lang="less" scoped>

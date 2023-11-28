@@ -37,8 +37,8 @@
   <button class="other-btn" @click="otherLogin">选择其他登录模式</button>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onUnmounted } from 'vue';
+<script lang="ts" setup>
+import { ref, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import {
   qrcodeKey,
@@ -49,144 +49,133 @@ import {
 } from '@/api/login';
 import type { ResponseType } from '@/types/types';
 
-export default defineComponent({
-  name: 'LoginQrcode',
-  emits: ['otherLogin'],
-  setup(props, ctx) {
-    const $store = useStore();
+const emits = defineEmits(['otherLogin']);
 
-    // 获取二维码登录key
-    const qrcodeImgKey = ref<string>('');
-    function getQrcodeImgKey() {
-      qrcodeKey()
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            qrcodeImgKey.value = res.data.unikey;
-            getQrcodeImg();
-          }
-        })
-        .catch(() => ({}));
-    }
-    getQrcodeImgKey();
+const $store = useStore();
 
-    // 二维码图片路径
-    const qrcodeImgSrc = ref<string>('');
-    function getQrcodeImg() {
-      qrcodeImg({
-        key: qrcodeImgKey.value,
-        qrimg: true
-      })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            qrcodeImgSrc.value = res.data.qrimg;
-            getQrcodeStatus();
-          }
-        })
-        .catch(() => ({}));
-    }
+// 获取二维码登录key
+const qrcodeImgKey = ref<string>('');
 
-    // 二维码失效
-    const qrcodeInvalid = ref<boolean>(false);
-    // 二维码待确认
-    const qrcodeAuthorized = ref<boolean>(false);
-
-    function getQrcodeStatus() {
-      qrcodeStatus({
-        key: qrcodeImgKey.value
-      })
-        .then((res: ResponseType) => {
-          // 800失效，
-          if (res.code === 800) {
-            qrcodeInvalid.value = true;
-          }
-          // 801等待扫码，
-          if (res.code === 801) {
-            scanPolling(1000);
-          }
-          // 802待确认
-          if (res.code === 802) {
-            scanPolling(1000);
-            qrcodeAuthorized.value = true;
-          }
-          // 803授权成功
-          if (res.code === 803) {
-            const cookie = res.cookie as string;
-            const cookieArr: string[] = cookie.split(';;');
-            cookieArr.forEach(item => {
-              document.cookie = item;
-            });
-            // 存储用户cookie
-            $store.commit('setCookie', res.cookie);
-            getAccount();
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 轮询扫码状态
-    const timer = ref<number>(0);
-    function scanPolling(time: number): void {
-      if (timer.value) {
-        clearTimeout(timer.value);
+function getQrcodeImgKey() {
+  qrcodeKey()
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        qrcodeImgKey.value = res.data.unikey;
+        getQrcodeImg();
       }
-      timer.value = setTimeout(() => {
+    })
+    .catch(() => ({}));
+}
+getQrcodeImgKey();
+
+// 获取二维码图片
+const qrcodeImgSrc = ref<string>('');
+
+function getQrcodeImg() {
+  qrcodeImg({
+    key: qrcodeImgKey.value,
+    qrimg: true
+  })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        qrcodeImgSrc.value = res.data.qrimg;
         getQrcodeStatus();
-      }, time);
-    }
-
-    // 获取账号信息
-    function getAccount(): void {
-      accountInfo()
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            // 获取用户详情
-            getUserInfo(res?.account?.id);
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 获取用户详情
-    function getUserInfo(uid: number): void {
-      userInfo({ uid })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            // 存储用户信息
-            $store.commit('setUserInfo', res);
-            // 关闭登录对话框
-            $store.commit('setLoginDialog', false);
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 刷新
-    function refresh(): void {
-      getQrcodeImgKey();
-      qrcodeInvalid.value = false;
-    }
-
-    // 其他登录
-    function otherLogin(): void {
-      ctx.emit('otherLogin');
-    }
-
-    onUnmounted(() => {
-      if (timer.value) {
-        clearTimeout(timer.value);
       }
-      qrcodeImgKey.value = '';
-      qrcodeImgSrc.value = '';
-    });
+    })
+    .catch(() => ({}));
+}
 
-    return {
-      qrcodeImgSrc,
-      qrcodeInvalid,
-      qrcodeAuthorized,
-      refresh,
-      otherLogin
-    };
+// 二维码失效
+const qrcodeInvalid = ref<boolean>(false);
+// 二维码待确认
+const qrcodeAuthorized = ref<boolean>(false);
+
+function getQrcodeStatus() {
+  qrcodeStatus({
+    key: qrcodeImgKey.value
+  })
+    .then((res: ResponseType) => {
+      // 失效
+      if (res.code === 800) {
+        qrcodeInvalid.value = true;
+      }
+      // 等待扫码
+      if (res.code === 801) {
+        scanPolling(1000);
+      }
+      // 待确认
+      if (res.code === 802) {
+        scanPolling(1000);
+        qrcodeAuthorized.value = true;
+      }
+      // 授权成功
+      if (res.code === 803) {
+        const cookie = res.cookie as string;
+        const cookieArr: string[] = cookie.split(';;');
+        cookieArr.forEach(item => {
+          document.cookie = item;
+        });
+        $store.commit('setCookie', res.cookie);
+        getAccount();
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 扫码状态轮询
+const timer = ref<NodeJS.Timeout | null>(null);
+
+function scanPolling(time: number): void {
+  if (timer.value) {
+    clearTimeout(timer.value);
   }
+
+  timer.value = setTimeout(() => {
+    getQrcodeStatus();
+  }, time);
+}
+
+// 获取账号信息
+function getAccount(): void {
+  accountInfo()
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        getUserInfo(res?.account?.id);
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 获取用户详情
+function getUserInfo(uid: number): void {
+  userInfo({ uid })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        $store.commit('setUserInfo', res);
+        $store.commit('setLoginDialog', false);
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 刷新
+function refresh(): void {
+  getQrcodeImgKey();
+  qrcodeInvalid.value = false;
+}
+
+// 其他登录
+function otherLogin(): void {
+  emits('otherLogin');
+}
+
+onUnmounted(() => {
+  if (timer.value) {
+    clearTimeout(timer.value);
+  }
+
+  qrcodeImgKey.value = '';
+  qrcodeImgSrc.value = '';
 });
 </script>
 

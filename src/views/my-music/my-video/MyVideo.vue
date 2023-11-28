@@ -6,9 +6,9 @@
     <ul class="list">
       <li
         class="item"
-        v-for="(item, index) in myVideoList"
+        v-for="(item, index) in videoList"
         :key="index"
-        @click="jumpVideoDetail(item?.type, item?.vid)"
+        @click="jumpVideoDetail(item?.vid, item?.type)"
       >
         <div class="cover">
           <template v-if="item?.coverUrl">
@@ -40,73 +40,77 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { timeStampToDuration } from '@/utils/utils';
-import { MyVideoSbulist } from '@/api/my-music';
+import { videoSbulist } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
 
-export default defineComponent({
-  props: {
-    options: {
-      type: Object,
-      default: () => ({})
-    }
-  },
-  emits: ['handleOptions'],
-  setup(props, { emit }) {
-    const $router = useRouter();
-    const $store = useStore();
+type VideoItem = {
+  vid: number;
+  title: string;
+  type: number;
+  coverUrl: string;
+  playTime: number;
+  durationms: number;
+  creator: {
+    userId: number;
+    userName: string;
+  }[];
+};
 
-    const myVideoList = ref<unknown[]>([]);
-
-    // 获取视频列表
-    function getMyVideoList(): void {
-      MyVideoSbulist()
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            myVideoList.value = res?.data || [];
-
-            emit('handleOptions', {
-              type: 'myVideo',
-              data: {
-                visible: true,
-                count: res?.count
-              }
-            });
-          }
-        })
-        .catch(() => ({}));
-    }
-    getMyVideoList();
-
-    // 跳转视频详情
-    function jumpVideoDetail(type: number, id: number): void {
-      // type 0为mv, 1为视频
-      if (type === 0) {
-        $router.push({ name: 'mv-detail', params: { id } });
-      }
-      if (type === 1) {
-        $router.push({ name: 'video-detail', params: { id } });
-      }
-      $store.commit('video/setVideo', { id, url: '' });
-    }
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
-    return {
-      timeStampToDuration,
-      myVideoList,
-      jumpVideoDetail,
-      jumpUserProfile
-    };
+defineProps({
+  options: {
+    type: Object,
+    default: () => {}
   }
 });
+const emits = defineEmits(['handleOptions']);
+
+const $router = useRouter();
+const $store = useStore();
+
+// 获取视频列表
+const videoList = ref<VideoItem[]>([]);
+
+function getVideoList(): void {
+  videoSbulist()
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        videoList.value = res?.data || [];
+
+        emits('handleOptions', {
+          type: 'myVideo',
+          data: {
+            visible: true,
+            count: res?.count || 0
+          }
+        });
+      }
+    })
+    .catch(() => ({}));
+}
+getVideoList();
+
+// 跳转视频详情
+function jumpVideoDetail(id: number, type: number): void {
+  // 0: mv, 1: 视频
+  if (type === 0) {
+    $router.push({ name: 'mv-detail', params: { id } });
+  }
+  if (type === 1) {
+    $router.push({ name: 'video-detail', params: { id } });
+  }
+
+  $store.commit('video/setVideo', { id, url: '' });
+}
+
+// 跳转用户资料
+function jumpUserProfile(id: number): void {
+  $store.commit('jumpUserProfile', id);
+}
 </script>
 
 <style lang="less" scopde>

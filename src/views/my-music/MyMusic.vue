@@ -28,9 +28,8 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import {
-  defineComponent,
   reactive,
   computed,
   watch,
@@ -46,100 +45,87 @@ import MySinger from '@/views/my-music/my-singer/MySinger.vue';
 import MyVideo from '@/views/my-music/my-video/MyVideo.vue';
 import SongSheetDetail from '@/views/my-music/song-sheet-detail/SongSheetDetail.vue';
 
-export default defineComponent({
-  name: 'MyMusic',
-  components: {
-    OptionList,
-    MySinger,
-    MyVideo,
-    SongSheetDetail
+type ParamsType = {
+  type: string;
+  data: (typeof options)[keyof typeof options];
+};
+
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+
+// 打开登录框
+function openLogin(): void {
+  $store.commit('setLoginDialog', true);
+}
+
+// 获取统计数量
+const options = reactive({
+  mySinger: {
+    visible: false,
+    count: 0
   },
-  setup() {
-    const $store = useStore();
-
-    const isLogin = computed(() => $store.getters.isLogin);
-
-    const options = reactive({
-      mySinger: {
-        visible: false,
-        count: 0
-      },
-      myVideo: {
-        visible: false,
-        count: 0
-      },
-      songSheet: {
-        visible: true,
-        createCount: 0,
-        collectionCount: 0
-      }
-    });
-
-    // 获取统计数量
-    function getUserSubcount(): void {
-      userSubcount()
-        .then((res: ResponseType) => {
-          options.mySinger.count = res?.artistCount || 0;
-          options.myVideo.count = res?.mvCount || 0;
-          options.songSheet.createCount = res?.createdPlaylistCount || 0;
-          options.songSheet.collectionCount = res?.subPlaylistCount || 0;
-        })
-        .catch(() => ({}));
-    }
-
-    function handleOptions(params: {
-      type: string;
-      data: (typeof options)[keyof typeof options];
-    }): void {
-      for (const value in options) {
-        options[value as keyof typeof options].visible = false;
-      }
-      // @ts-expect-error - unknown
-      options[params.type] = { ...options[params.type], ...params.data };
-    }
-
-    function openLogin(): void {
-      $store.commit('setLoginDialog', true);
-    }
-
-    watch(
-      () => isLogin.value,
-      () => {
-        // 处理样式
-        nextTick(() => {
-          const footerDom = document.querySelector('.footer') as HTMLElement;
-          if (isLogin.value) {
-            footerDom.style.display = 'none';
-            getUserSubcount();
-          } else {
-            footerDom.style.display = 'block';
-          }
-        });
-      }
-    );
-
-    onMounted(() => {
-      const footerDom = document.querySelector('.footer') as HTMLElement;
-      if (isLogin.value) {
-        footerDom.style.display = 'none';
-        getUserSubcount();
-      } else {
-        footerDom.style.display = 'block';
-      }
-    });
-
-    onUnmounted(() => {
-      const footerDom = document.querySelector('.footer') as HTMLElement;
-      footerDom.style.display = 'block';
-    });
-
-    return {
-      isLogin,
-      options,
-      handleOptions,
-      openLogin
-    };
+  myVideo: {
+    visible: false,
+    count: 0
+  },
+  songSheet: {
+    visible: true,
+    createCount: 0,
+    collectionCount: 0
   }
+});
+
+function getUserSubcount(): void {
+  userSubcount()
+    .then((res: ResponseType) => {
+      options.mySinger.count = res?.artistCount || 0;
+      options.myVideo.count = res?.mvCount || 0;
+      options.songSheet.createCount = res?.createdPlaylistCount || 0;
+      options.songSheet.collectionCount = res?.subPlaylistCount || 0;
+    })
+    .catch(() => ({}));
+}
+
+function handleOptions(params: ParamsType): void {
+  for (const value in options) {
+    options[value as keyof typeof options].visible = false;
+  }
+
+  // @ts-expect-error - unknown
+  options[params.type] = { ...options[params.type], ...params.data };
+}
+
+// 页脚(未登录显示页脚, 登录不显示页脚)
+watch(
+  () => isLogin.value,
+  () => {
+    nextTick(() => {
+      const footer = document.querySelector('.footer') as HTMLDivElement;
+
+      if (isLogin.value) {
+        getUserSubcount();
+        footer.style.display = 'none';
+      } else {
+        footer.style.display = 'block';
+      }
+    });
+  }
+);
+
+onMounted(() => {
+  const footer = document.querySelector('.footer') as HTMLDivElement;
+
+  if (isLogin.value) {
+    getUserSubcount();
+    footer.style.display = 'none';
+  } else {
+    footer.style.display = 'block';
+  }
+});
+
+onUnmounted(() => {
+  const footer = document.querySelector('.footer') as HTMLDivElement;
+  footer.style.display = 'block';
 });
 </script>
 

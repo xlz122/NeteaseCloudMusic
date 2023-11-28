@@ -27,58 +27,56 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue';
+<script lang="ts" setup>
+import { ref } from 'vue';
 import { useStore } from 'vuex';
-import { timeStampToDuration } from '@/utils/utils';
 import { subPlayList } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
 
-export default defineComponent({
-  props: {
-    options: {
-      type: Object,
-      default: () => ({})
-    }
-  },
-  emits: ['handleOptions'],
-  setup(props, { emit }) {
-    const $store = useStore();
+type SingerItem = {
+  id: number;
+  name: string;
+  picUrl: string;
+  albumSize: number;
+  mvSize: number;
+};
 
-    const singerList = ref<unknown[]>([]);
-
-    // 获取歌手列表
-    function getSingerList(): void {
-      subPlayList()
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            singerList.value = res?.data || [];
-
-            emit('handleOptions', {
-              type: 'mySinger',
-              data: {
-                visible: true,
-                count: res?.count
-              }
-            });
-          }
-        })
-        .catch(() => ({}));
-    }
-    getSingerList();
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    return {
-      timeStampToDuration,
-      singerList,
-      jumpSingerDetail
-    };
+defineProps({
+  options: {
+    type: Object,
+    default: () => {}
   }
 });
+const emits = defineEmits(['handleOptions']);
+
+const $store = useStore();
+
+// 获取歌手列表
+const singerList = ref<SingerItem[]>([]);
+
+function getSingerList(): void {
+  subPlayList()
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        singerList.value = res?.data || [];
+
+        emits('handleOptions', {
+          type: 'mySinger',
+          data: {
+            visible: true,
+            count: res?.count || 0
+          }
+        });
+      }
+    })
+    .catch(() => ({}));
+}
+getSingerList();
+
+// 跳转歌手详情
+function jumpSingerDetail(id: number | undefined): void {
+  $store.commit('jumpSingerDetail', id);
+}
 </script>
 
 <style lang="less" scopde>

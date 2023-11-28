@@ -1,8 +1,14 @@
 import store from '@/store/index';
 import type { PlayMusicItem } from '@/store/music/state';
 
-const audio = {
-  timer: 0,
+type AudioType = {
+  timer: NodeJS.Timeout | null;
+  storage: boolean;
+  look: boolean;
+};
+
+const audio: AudioType = {
+  timer: null,
   storage: false,
   look: false
 };
@@ -21,7 +27,7 @@ export async function playPrevMusic(): Promise<boolean | undefined> {
   }
 
   if (playMusicList.length === 0) {
-    return false;
+    return;
   }
 
   // 重置播放状态
@@ -98,7 +104,7 @@ export async function playNextMusic(): Promise<boolean | undefined> {
   }
 
   if (playMusicList.length === 0) {
-    return false;
+    return;
   }
 
   // 重置播放状态

@@ -1,4 +1,3 @@
-// 接口返回值类型
 export type ResponseType<T = any> = {
   msg?: string;
   message?: string;

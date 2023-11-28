@@ -87,7 +87,7 @@
           <div class="other download" @click="handleDownload">
             <span class="icon">下载</span>
           </div>
-          <div class="other comment" @click="jumpToComments">
+          <div class="other comment" @click="jumpToComment">
             <template v-if="commentTotal > 0">
               <span class="icon"> ({{ commentTotal }}) </span>
             </template>
@@ -125,138 +125,121 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 
-export default defineComponent({
-  props: {
-    songDetailData: {
-      type: Object,
-      default: () => ({})
-    },
-    lyric: {
-      type: Object,
-      default: () => ({})
-    },
-    commentTotal: {
-      type: Number,
-      default: 0
-    }
+const props = defineProps({
+  songDetailData: {
+    type: Object,
+    default: () => {}
   },
-  emits: ['jumpToComments'],
-  setup(props, { emit }) {
-    const $store = useStore();
-
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const songId = computed(() => $store.getters.songId);
-
-    // 播放单个歌曲
-    function playSingleMusic(): boolean | undefined {
-      if (!props?.songDetailData?.songs.length) {
-        return false;
-      }
-
-      usePlaySingleMusic(props?.songDetailData?.songs[0]);
-    }
-
-    // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(): boolean | undefined {
-      if (!props?.songDetailData?.songs.length) {
-        return false;
-      }
-
-      useMusicToPlayList({ music: props?.songDetailData?.songs[0] });
-    }
-
-    // 收藏
-    function handleCollection(id: number): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      if (props?.songDetailData?.privileges[0]?.cp === 0) {
-        $store.commit('setCopyright', {
-          visible: true,
-          message: '由于版权保护，您所在的地区暂时无法使用。'
-        });
-        return false;
-      }
-
-      $store.commit('collectPlayMusic', {
-        visible: true,
-        songIds: id
-      });
-    }
-
-    // 分享
-    function handleShare(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      if (props?.songDetailData?.privileges[0]?.cp === 0) {
-        $store.commit('setCopyright', {
-          visible: true,
-          message: '由于版权保护，您所在的地区暂时无法使用。'
-        });
-        return false;
-      }
-
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 下载
-    function handleDownload(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 跳转至评论
-    function jumpToComments(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      emit('jumpToComments');
-    }
-
-    // 歌词展开/收缩
-    const toggleShow = ref<boolean>(false);
-    function toggle(): void {
-      toggleShow.value = !toggleShow.value;
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    // 跳转专辑详情
-    function jumpAlbumDetail(id: number): void {
-      $store.commit('jumpAlbumDetail', id);
-    }
-
-    return {
-      songId,
-      playSingleMusic,
-      singleMusicToPlayList,
-      handleCollection,
-      handleShare,
-      handleDownload,
-      jumpToComments,
-      toggleShow,
-      toggle,
-      jumpSingerDetail,
-      jumpAlbumDetail
-    };
+  lyric: {
+    type: Object,
+    default: () => {}
+  },
+  commentTotal: {
+    type: Number,
+    default: 0
   }
 });
+const emits = defineEmits(['jumpToComment']);
+
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const songId = computed<number>(() => $store.getters.songId);
+
+// 播放单个歌曲
+function playSingleMusic(): boolean | undefined {
+  if (!props?.songDetailData?.songs.length) {
+    return;
+  }
+
+  usePlaySingleMusic(props?.songDetailData?.songs[0]);
+}
+
+// 单个歌曲添加到播放列表
+function singleMusicToPlayList(): boolean | undefined {
+  if (!props?.songDetailData?.songs.length) {
+    return;
+  }
+
+  useMusicToPlayList({ music: props?.songDetailData?.songs[0] });
+}
+
+// 收藏
+function handleCollection(id: number): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  if (props?.songDetailData?.privileges[0]?.cp === 0) {
+    $store.commit('setCopyright', {
+      visible: true,
+      message: '由于版权保护，您所在的地区暂时无法使用。'
+    });
+    return;
+  }
+
+  $store.commit('collectPlayMusic', {
+    visible: true,
+    songIds: id
+  });
+}
+
+// 分享
+function handleShare(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  if (props?.songDetailData?.privileges[0]?.cp === 0) {
+    $store.commit('setCopyright', {
+      visible: true,
+      message: '由于版权保护，您所在的地区暂时无法使用。'
+    });
+    return;
+  }
+
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 下载
+function handleDownload(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 跳转至评论
+function jumpToComment(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  emits('jumpToComment');
+}
+
+// 歌词展开/收缩
+const toggleShow = ref<boolean>(false);
+
+function toggle(): void {
+  toggleShow.value = !toggleShow.value;
+}
+
+// 跳转歌手详情
+function jumpSingerDetail(id: number): void {
+  $store.commit('jumpSingerDetail', id);
+}
+
+// 跳转专辑详情
+function jumpAlbumDetail(id: number): void {
+  $store.commit('jumpAlbumDetail', id);
+}
 </script>
 
 <style lang="less" scoped>

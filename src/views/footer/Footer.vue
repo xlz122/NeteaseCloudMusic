@@ -146,14 +146,6 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'FooterView'
-});
-</script>
-
 <style lang="less" scoped>
 @import url('./footer.less');
 </style>

@@ -112,106 +112,86 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, reactive, ref } from 'vue';
+<script lang="ts" setup>
+// @ts-nocheck
+import { ref, reactive, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { djDetail, djProgram } from '@/api/home-djprogram';
-import type { ResponseType } from '@/types/types';
-import {
-  filterTime,
-  bigNumberTransform,
-  timeStampToDuration
-} from '@/utils/utils';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
+import { filterTime, timeStampToDuration } from '@/utils/utils';
+import { djDetail, djProgram } from '@/api/home-djprogram';
+import type { ResponseType } from '@/types/types';
 // import { SongType } from '@/common/audio';
 // import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 // import useMusicToPlayList from '@/common/useMusicToPlayList';
 
-export default defineComponent({
-  setup() {
-    const $route = useRoute();
-    const $store = useStore();
+const $route = useRoute();
+const $store = useStore();
+const rid = computed<number>(
+  () => Number($route.params.id) || $store.getters['radio/radioDetailId']
+);
 
-    const rid = computed<number>(
-      () => Number($route.params.id) || $store.getters['radio/radioDetailId']
-    );
+const toggleDesc = ref(true);
+const sortSong = ref(true);
 
-    const toggleDesc = ref(true);
-    const sortSong = ref(true);
-
-    const details = ref({});
-    const songs = reactive({
-      rid: 0,
-      details: {}
-    });
-    const list = ref([]);
-
-    function detailsHandle(id: number) {
-      djDetail({ rid: id }).then((res: ResponseType) => {
-        if (res?.code === 200) {
-          details.value = res.data;
-          songs.rid = res?.data?.id;
-          djProgramDetails(res?.data?.id);
-        }
-      });
-    }
-    detailsHandle(rid.value);
-
-    function djProgramDetails(id: number) {
-      djProgram({ rid: id, asc: sortSong.value }).then((res: ResponseType) => {
-        if (res?.code === 200) {
-          songs.details = res;
-          list.value = res.programs;
-        }
-      });
-    }
-
-    function changeSongSort(change: boolean) {
-      sortSong.value = change;
-      djProgramDetails(songs.rid);
-    }
-
-    // 播放全部 - 默认播放列表第一项
-    const playAllMusic = throttle(
-      function () {
-        // if (list.value.length === 0) {
-        //   return false;
-        // }
-        //
-        // const songList: Partial<SongType>[] = [];
-        //
-        // list.value.forEach((item: { id: number }) => {
-        //   songList.push({
-        //     ...item.mainSong,
-        //     img80x80: item.coverUrl
-        //
-        //   });
-        // });
-        //
-        // usePlaySingleMusic(songList[0]);
-        // useMusicToPlayList({ music: songList, clear: true });
-      },
-      800,
-      {
-        leading: true, // 点击第一下是否执行
-        trailing: false // 节流时间内，多次点击，节流结束后，是否执行一次
-      }
-    );
-
-    return {
-      details,
-      toggleDesc,
-      sortSong,
-      changeSongSort,
-      filterTime,
-      bigNumberTransform,
-      timeStampToDuration,
-      songs,
-      playAllMusic
-    };
-  }
+const details = ref({});
+const songs = reactive({
+  rid: 0,
+  details: {}
 });
+const list = ref([]);
+
+function detailsHandle(id: number) {
+  djDetail({ rid: id }).then((res: ResponseType) => {
+    if (res?.code === 200) {
+      details.value = res.data;
+      songs.rid = res?.data?.id;
+      djProgramDetails(res?.data?.id);
+    }
+  });
+}
+detailsHandle(rid.value);
+
+function djProgramDetails(id: number) {
+  djProgram({ rid: id, asc: sortSong.value }).then((res: ResponseType) => {
+    if (res?.code === 200) {
+      songs.details = res;
+      list.value = res.programs;
+    }
+  });
+}
+
+function changeSongSort(change: boolean) {
+  sortSong.value = change;
+  djProgramDetails(songs.rid);
+}
+
+// 播放全部 - 默认播放列表第一项
+const playAllMusic = throttle(
+  function () {
+    // if (list.value.length === 0) {
+    //   return;
+    // }
+    //
+    // const songList: Partial<SongType>[] = [];
+    //
+    // list.value.forEach((item: { id: number }) => {
+    //   songList.push({
+    //     ...item.mainSong,
+    //     img80x80: item.coverUrl
+    //
+    //   });
+    // });
+    //
+    // usePlaySingleMusic(songList[0]);
+    // useMusicToPlayList({ music: songList, clear: true });
+  },
+  800,
+  {
+    leading: true, // 点击第一下是否执行
+    trailing: false // 节流结束后, 是否执行一次
+  }
+);
 </script>
 
 <style lang="less" scoped>

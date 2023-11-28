@@ -64,8 +64,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, onMounted } from 'vue';
+<script lang="ts" setup>
+import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import Qrcode from '@/views/login/qrcode/Qrcode.vue';
 import Other from '@/views/login/other/Other.vue';
@@ -73,49 +73,22 @@ import musicianSvg from '../../../assets/image/header/creator-center/musician.sv
 import talentSvg from '../../../assets/image/header/creator-center/talent.svg';
 import anchorSvg from '../../../assets/image/header/creator-center/anchor.svg';
 
-export default defineComponent({
-  name: 'CreatorCenter',
-  components: {
-    Qrcode,
-    Other
-  },
-  setup() {
-    const $store = useStore();
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
+// 扫码/其他登录方式切换
+const qrcodeLoginShow = ref<boolean>(true);
 
-    // 扫码/其他登录方式切换
-    const qrcodeLoginShow = ref<boolean>(true);
+function qrcodeLogin(): void {
+  qrcodeLoginShow.value = true;
+}
 
-    function qrcodeLogin(): void {
-      qrcodeLoginShow.value = true;
-    }
+function otherLogin(): void {
+  qrcodeLoginShow.value = false;
+}
 
-    function otherLogin(): void {
-      qrcodeLoginShow.value = false;
-    }
-
-    // 关闭登录对话框
-    function dialogCancel(): void {
-      qrcodeLoginShow.value = true;
-      $store.commit('setLoginDialog', false);
-    }
-
-    onMounted(() => {
-      $store.commit('setMenuIndex', -1);
-    });
-
-    return {
-      musicianSvg,
-      talentSvg,
-      anchorSvg,
-      isLogin,
-      qrcodeLoginShow,
-      qrcodeLogin,
-      otherLogin,
-      dialogCancel
-    };
-  }
+onMounted(() => {
+  $store.commit('setMenuIndex', -1);
 });
 </script>
 

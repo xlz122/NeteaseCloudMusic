@@ -119,138 +119,120 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 
-type List = {
+type MenuItem = {
   src: string;
   name: string;
   desc: string;
   follow: boolean;
 };
 
-export default defineComponent({
-  name: 'FriendSide',
-  setup() {
-    const $store = useStore();
+const $store = useStore();
+const userInfo = computed(() => $store.getters.userInfo);
 
-    const userInfo = computed(() => $store.getters.userInfo);
-
-    const starList = ref<List[]>([
-      {
-        src: 'http://p1.music.126.net/RQT6l2Vd9mQ9bSA_9MdWBw==/109951163720144425.jpg?param=45y45',
-        name: '品冠victor',
-        desc: '台湾流行歌手品冠',
-        follow: false
-      },
-      {
-        src: 'http://p1.music.126.net/fBd9G5UPnAkN5GJhD27f7w==/109951164233456965.jpg?param=45y45',
-        name: '池约翰CJohnny',
-        desc: 'MIC男团成员池约翰',
-        follow: false
-      },
-      {
-        src: 'http://p1.music.126.net/HiaQmvjTbEXfo8bsiPv9rQ==/109951165312873539.jpg?param=45y45',
-        name: '朱云',
-        desc: '北京音乐台资深DJ',
-        follow: false
-      }
-    ]);
-
-    const interestedList = ref<List[]>([
-      {
-        src: 'http://p1.music.126.net/cX7kFto1nsneNwo6jA9LfQ==/18531168976478340.jpg?param=30y30',
-        name: '倒影着稚嫩的少年QAQ',
-        desc: '手机联系人：好巧',
-        follow: false
-      },
-      {
-        src: 'http://p1.music.126.net/5SbSJXBSKFf7L_Etq0uNfA==/109951164928424086.jpg?param=30y30',
-        name: '谈情了解一下啊',
-        desc: '手机联系人：好巧',
-        follow: false
-      },
-      {
-        src: 'http://p1.music.126.net/KMqDxNvSaFIiZzE-crDTaA==/109951163209469519.jpg?param=30y30',
-        name: 'Decennium青春世界',
-        desc: '手机联系人：好巧',
-        follow: false
-      },
-      {
-        src: 'http://p1.music.126.net/464PBoavkf5z7a5hIwvhWw==/18738976673835955.jpg?param=30y30',
-        name: 'Dreads丶流年',
-        desc: '手机联系人：好巧',
-        follow: false
-      },
-      {
-        src: 'http://p1.music.126.net/SUeqMM8HOIpHv9Nhl9qt9w==/109951165647004069.jpg?param=30y30',
-        name: 'E晓fire',
-        desc: '手机联系人：好巧',
-        follow: false
-      }
-    ]);
-
-    // 换一批
-    function changeABatch(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 明星 - 关注
-    function starFollow(index: number): void {
-      starList.value.forEach((item, ind) => {
-        if (index === ind) {
-          item.follow = true;
-        }
-      });
-      // 1秒后从列表删除
-      setTimeout(() => {
-        starList.value.splice(index, 1);
-      }, 1000);
-    }
-
-    // 明星 - 删除
-    function deleteStar(index: number): void {
-      starList.value.splice(index, 1);
-    }
-
-    // 感兴趣 - 关注
-    function interestedFollow(index: number): void {
-      interestedList.value.forEach((item, ind) => {
-        if (index === ind) {
-          item.follow = true;
-        }
-      });
-      // 1秒后从列表删除
-      setTimeout(() => {
-        interestedList.value.splice(index, 1);
-      }, 1000);
-    }
-
-    // 感兴趣 - 删除
-    function deleteInterested(index: number): void {
-      interestedList.value.splice(index, 1);
-    }
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
-    return {
-      userInfo,
-      starList,
-      interestedList,
-      changeABatch,
-      starFollow,
-      deleteStar,
-      interestedFollow,
-      deleteInterested,
-      jumpUserProfile
-    };
+const starList = ref<MenuItem[]>([
+  {
+    src: 'http://p1.music.126.net/RQT6l2Vd9mQ9bSA_9MdWBw==/109951163720144425.jpg?param=45y45',
+    name: '品冠victor',
+    desc: '台湾流行歌手品冠',
+    follow: false
+  },
+  {
+    src: 'http://p1.music.126.net/fBd9G5UPnAkN5GJhD27f7w==/109951164233456965.jpg?param=45y45',
+    name: '池约翰CJohnny',
+    desc: 'MIC男团成员池约翰',
+    follow: false
+  },
+  {
+    src: 'http://p1.music.126.net/HiaQmvjTbEXfo8bsiPv9rQ==/109951165312873539.jpg?param=45y45',
+    name: '朱云',
+    desc: '北京音乐台资深DJ',
+    follow: false
   }
-});
+]);
+
+const interestedList = ref<MenuItem[]>([
+  {
+    src: 'http://p1.music.126.net/cX7kFto1nsneNwo6jA9LfQ==/18531168976478340.jpg?param=30y30',
+    name: '倒影着稚嫩的少年QAQ',
+    desc: '手机联系人: xlz122',
+    follow: false
+  },
+  {
+    src: 'http://p1.music.126.net/5SbSJXBSKFf7L_Etq0uNfA==/109951164928424086.jpg?param=30y30',
+    name: '谈情了解一下啊',
+    desc: '手机联系人: xlz122',
+    follow: false
+  },
+  {
+    src: 'http://p1.music.126.net/KMqDxNvSaFIiZzE-crDTaA==/109951163209469519.jpg?param=30y30',
+    name: 'Decennium青春世界',
+    desc: '手机联系人: xlz122',
+    follow: false
+  },
+  {
+    src: 'http://p1.music.126.net/464PBoavkf5z7a5hIwvhWw==/18738976673835955.jpg?param=30y30',
+    name: 'Dreads丶流年',
+    desc: '手机联系人: xlz122',
+    follow: false
+  },
+  {
+    src: 'http://p1.music.126.net/SUeqMM8HOIpHv9Nhl9qt9w==/109951165647004069.jpg?param=30y30',
+    name: 'E晓fire',
+    desc: '手机联系人: xlz122',
+    follow: false
+  }
+]);
+
+// 换一批
+function changeABatch(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 明星 - 关注
+function starFollow(index: number): void {
+  starList.value.forEach((item, ind) => {
+    if (index === ind) {
+      item.follow = true;
+    }
+  });
+
+  setTimeout(() => {
+    deleteStar(index);
+  }, 1000);
+}
+
+// 明星 - 删除
+function deleteStar(index: number): void {
+  starList.value.splice(index, 1);
+}
+
+// 感兴趣 - 关注
+function interestedFollow(index: number): void {
+  interestedList.value.forEach((item, ind) => {
+    if (index === ind) {
+      item.follow = true;
+    }
+  });
+
+  setTimeout(() => {
+    deleteInterested(index);
+  }, 1000);
+}
+
+// 感兴趣 - 删除
+function deleteInterested(index: number): void {
+  interestedList.value.splice(index, 1);
+}
+
+// 跳转用户资料
+function jumpUserProfile(id: number): void {
+  $store.commit('jumpUserProfile', id);
+}
 </script>
 
 <style lang="less" scoped>

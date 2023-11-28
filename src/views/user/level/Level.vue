@@ -47,7 +47,7 @@
           <ul class="privilege-list" v-if="level.current !== 0">
             <li
               class="privilege-list-item"
-              v-for="(item, index) in privilegeList"
+              v-for="(item, index) in privilege"
               :key="index"
             >
               {{ item }}
@@ -93,8 +93,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, reactive, onMounted } from 'vue';
+<script lang="ts" setup>
+import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { userLevel } from '@/api/user';
@@ -107,66 +107,53 @@ type NextLevel = {
   playProgress: number;
 };
 
-export default defineComponent({
-  name: 'UserLevel',
-  setup() {
-    const $store = useStore();
-    const $router = useRouter();
+const $store = useStore();
+const $router = useRouter();
 
-    const level = reactive({
-      list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      current: 0
-    });
+const level = reactive({
+  list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  current: 0
+});
 
-    const privilegeList = ref<string[]>([]);
-    // 下一级数据
-    const nextLevel = reactive<NextLevel>({
-      loginCount: 0,
-      playCount: 0,
-      loginProgress: 0,
-      playProgress: 0
-    });
+const privilege = ref<string[]>([]);
+// 下一级数据
+const nextLevel = reactive<NextLevel>({
+  loginCount: 0,
+  playCount: 0,
+  loginProgress: 0,
+  playProgress: 0
+});
 
-    // 获取用户等级
-    function getUserLevel(): void {
-      userLevel()
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            level.current = res?.data?.level;
-            privilegeList.value = res?.data?.info?.split('$');
-            // 下一级(计算剩余)
-            nextLevel.loginCount =
-              res.data.nextLoginCount - res?.data?.nowLoginCount;
-            nextLevel.playCount =
-              res.data.nextPlayCount - res?.data?.nowPlayCount;
-            // 下一级(计算百分比)
-            nextLevel.loginProgress =
-              res.data.nowLoginCount / res?.data?.nextLoginCount.toFixed(3);
-            nextLevel.playProgress =
-              res.data.nowPlayCount / res?.data?.nextPlayCount.toFixed(3);
-          }
-        })
-        .catch(() => ({}));
-    }
-    getUserLevel();
+// 获取用户等级
+function getUserLevel(): void {
+  userLevel()
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        level.current = res?.data?.level;
+        privilege.value = res?.data?.info?.split('$');
+        // 下一级(计算剩余)
+        nextLevel.loginCount =
+          res.data.nextLoginCount - res?.data?.nowLoginCount;
+        nextLevel.playCount = res.data.nextPlayCount - res?.data?.nowPlayCount;
+        // 下一级(计算百分比)
+        nextLevel.loginProgress =
+          res.data.nowLoginCount / res?.data?.nextLoginCount.toFixed(3);
+        nextLevel.playProgress =
+          res.data.nowPlayCount / res?.data?.nextPlayCount.toFixed(3);
+      }
+    })
+    .catch(() => ({}));
+}
+getUserLevel();
 
-    // 跳转等级详情
-    function jumpLevelDetail(): void {
-      $router.push({ name: 'level-detail' });
-    }
+// 跳转等级详情
+function jumpLevelDetail(): void {
+  $router.push({ name: 'level-detail' });
+}
 
-    onMounted(() => {
-      $store.commit('setMenuIndex', -1);
-      $store.commit('setSubMenuIndex', -1);
-    });
-
-    return {
-      level,
-      privilegeList,
-      nextLevel,
-      jumpLevelDetail
-    };
-  }
+onMounted(() => {
+  $store.commit('setMenuIndex', -1);
+  $store.commit('setSubMenuIndex', -1);
 });
 </script>
 

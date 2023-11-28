@@ -38,7 +38,7 @@
               <i
                 class="icon collect"
                 title="收藏"
-                @click.stop="handleCollection(item?.id, $event)"
+                @click.stop="handleCollection(item?.id)"
               ></i>
               <i class="icon share" title="分享" @click.stop="handleShare"></i>
               <i
@@ -90,8 +90,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed, watch, nextTick } from 'vue';
+<script lang="ts" setup>
+import { computed, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
@@ -99,153 +99,125 @@ import { timeStampToDuration } from '@/utils/utils';
 import type { PlayMusicItem } from '@/store/music/state';
 import Lyric from '../lyric/Lyric.vue';
 
-export default defineComponent({
-  components: {
-    Lyric
-  },
-  props: {
-    playListShow: {
-      type: Boolean,
-      default: false
-    }
-  },
-  emits: ['closePlayList'],
-  setup(props, { emit }) {
-    const $store = useStore();
-
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const playMusicId = computed<number>(
-      () => $store.getters['music/playMusicId']
-    );
-    const playMusicItem = computed<number>(
-      () => $store.getters['music/playMusicItem']
-    );
-    const playMusicList = computed(() => $store.getters['music/playMusicList']);
-
-    watch(
-      () => props.playListShow,
-      () => {
-        if (props.playListShow) {
-          playSongPosition();
-        }
-      }
-    );
-
-    // 列表播放歌曲定位
-    function playSongPosition(): boolean | undefined {
-      const isExist = playMusicList.value?.find(
-        (item: PlayMusicItem) => item.id === playMusicId.value
-      );
-      if (!isExist) {
-        return false;
-      }
-
-      nextTick(() => {
-        const listDom = document.querySelector('.p-list') as HTMLElement;
-        const activeItem = document.querySelector(
-          '.p-active-item'
-        ) as HTMLElement;
-
-        listDom.scrollTo(0, activeItem.offsetTop - activeItem.clientHeight * 4);
-      });
-    }
-
-    // 收藏全部歌曲
-    function collectAll(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      let ids = '';
-      playMusicList.value.forEach((item: PlayMusicItem) => {
-        ids += `${item.id},`;
-      });
-
-      $store.commit('collectPlayMusic', {
-        visible: true,
-        songIds: ids
-      });
-    }
-
-    // 清除列表
-    function emptyMusicList(): void {
-      $store.commit('music/emptyPlayMusicList');
-    }
-
-    // 收藏
-    function handleCollection(id: number): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      $store.commit('collectPlayMusic', {
-        visible: true,
-        songIds: id
-      });
-    }
-
-    // 分享
-    function handleShare(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 下载
-    function handleDownload(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 列表项删除
-    function deleteMusic(id: number, event: MouseEvent): void {
-      event.stopPropagation();
-      $store.commit('music/deletePlayMusicList', id);
-    }
-
-    // 列表项点击
-    function playlistItem(item: PlayMusicItem): void {
-      usePlaySingleMusic(item);
-    }
-
-    // 关闭列表
-    function closePlayList(): void {
-      emit('closePlayList');
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-      closePlayList();
-    }
-
-    // 跳转歌曲位置
-    function jumpSongPosition(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    return {
-      timeStampToDuration,
-      playMusicId,
-      playMusicItem,
-      playMusicList,
-      collectAll,
-      emptyMusicList,
-      handleCollection,
-      handleShare,
-      handleDownload,
-      deleteMusic,
-      playlistItem,
-      closePlayList,
-      jumpSingerDetail,
-      jumpSongPosition
-    };
+const props = defineProps({
+  playListShow: {
+    type: Boolean,
+    default: false
   }
 });
+const emits = defineEmits(['closePlayList']);
+
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
+const playMusicItem = computed<PlayMusicItem>(
+  () => $store.getters['music/playMusicItem']
+);
+const playMusicList = computed(() => $store.getters['music/playMusicList']);
+
+watch(
+  () => props.playListShow,
+  () => {
+    if (props.playListShow) {
+      playSongPosition();
+    }
+  }
+);
+
+// 列表播放歌曲定位
+function playSongPosition(): boolean | undefined {
+  const isExist = playMusicList.value?.find(
+    (item: PlayMusicItem) => item.id === playMusicId.value
+  );
+  if (!isExist) {
+    return;
+  }
+
+  nextTick(() => {
+    const listDom = document.querySelector('.p-list') as HTMLElement;
+    const activeItem = document.querySelector('.p-active-item') as HTMLElement;
+
+    listDom.scrollTo(0, activeItem.offsetTop - activeItem.clientHeight * 4);
+  });
+}
+
+// 收藏全部歌曲
+function collectAll(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  let ids = '';
+  playMusicList.value.forEach((item: PlayMusicItem) => {
+    ids += `${item.id},`;
+  });
+
+  $store.commit('collectPlayMusic', {
+    visible: true,
+    songIds: ids
+  });
+}
+
+// 清除列表
+function emptyMusicList(): void {
+  $store.commit('music/emptyPlayMusicList');
+}
+
+// 收藏
+function handleCollection(id: number): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  $store.commit('collectPlayMusic', {
+    visible: true,
+    songIds: id
+  });
+}
+
+// 分享
+function handleShare(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 下载
+function handleDownload(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 列表项删除
+function deleteMusic(id: number, event: MouseEvent): void {
+  event.stopPropagation();
+  $store.commit('music/deletePlayMusicList', id);
+}
+
+// 列表项点击
+function playlistItem(item: PlayMusicItem): void {
+  usePlaySingleMusic(item);
+}
+
+// 关闭列表
+function closePlayList(): void {
+  emits('closePlayList');
+}
+
+// 跳转歌手详情
+function jumpSingerDetail(id: number): void {
+  $store.commit('jumpSingerDetail', id);
+  closePlayList();
+}
+
+// 跳转歌曲位置
+function jumpSongPosition(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
 </script>
 
 <style lang="less" scoped>

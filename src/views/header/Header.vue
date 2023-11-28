@@ -13,7 +13,7 @@
               { 'active-item': index === menuIndex },
               { 'last-item': index === menu.length - 1 }
             ]"
-            @click="menuChange(index)"
+            @click="menuChange(item, index)"
           >
             <router-link class="link" v-if="item?.link" :to="item?.link">
               {{ item?.title }}
@@ -50,15 +50,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
+<script lang="ts" setup>
+import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { messageEv } from '@/api/user';
 import SubMenu from '@/views/header/sub-menu/SubMenu.vue';
 import Search from '@/views/header/search/Search.vue';
 import User from '@/views/user/User.vue';
 import type { ResponseType } from '@/types/types';
-import { messageEv } from '@/api/my-message';
 
 type MenuItem = {
   title: string;
@@ -66,118 +66,99 @@ type MenuItem = {
   href?: string;
 };
 
-export default defineComponent({
-  name: 'HeaderView',
-  components: {
-    SubMenu,
-    Search,
-    User
+const $route = useRoute();
+const $router = useRouter();
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const userInfo = computed(() => $store.getters.userInfo);
+const menuIndex = computed<number>(() => $store.getters.menuIndex);
+
+function logoJump(): void {
+  if ($route.path !== '/') {
+    $router.push({ name: 'home' });
+  }
+}
+
+const menu = ref<MenuItem[]>([
+  {
+    title: '发现音乐',
+    link: '/'
   },
-  setup() {
-    const $route = useRoute();
-    const $router = useRouter();
-    const $store = useStore();
+  {
+    title: '我的音乐',
+    link: '/my-music'
+  },
+  {
+    title: '关注',
+    link: '/friend'
+  },
+  {
+    title: '商城',
+    href: 'https://music.163.com/store/product'
+  },
+  {
+    title: '音乐人',
+    href: 'https://music.163.com/st/musician'
+  },
+  {
+    title: '下载客户端',
+    link: '/download'
+  }
+]);
 
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const userInfo = computed(() => $store.getters.userInfo);
-    const menuIndex = computed<number>(() => $store.getters.menuIndex);
+function menuChange(item: MenuItem, index: number): boolean | undefined {
+  if (!item.link) {
+    return;
+  }
 
-    const menu = ref<MenuItem[]>([
-      {
-        title: '发现音乐',
-        link: '/'
-      },
-      {
-        title: '我的音乐',
-        link: '/my-music'
-      },
-      {
-        title: '关注',
-        link: '/friend'
-      },
-      {
-        title: '商城',
-        href: 'https://music.163.com/store/product'
-      },
-      {
-        title: '音乐人',
-        href: 'https://music.163.com/st/musician'
-      },
-      {
-        title: '下载客户端',
-        link: '/download'
+  $store.commit('setMenuIndex', index);
+}
+
+// 消息提示
+const msgCode = ref<number>(0);
+
+function loadMessage(): void {
+  messageEv({ limit: 1, offset: 100 })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        msgCode.value = res?.newMsgCount || 0;
       }
-    ]);
+    })
+    .catch(() => ({}));
+}
 
-    function menuChange(item: MenuItem, index: number): boolean | undefined {
-      if (!item.link) {
-        return false;
-      }
+// 登录
+function openLogin(): void {
+  $store.commit('setLoginDialog', true);
+}
 
+watch(
+  () => isLogin.value,
+  () => {
+    if (!isLogin.value) {
+      return;
+    }
+
+    loadMessage();
+  },
+  {
+    deep: true
+  }
+);
+
+watch(
+  () => $route.path,
+  path => {
+    const index = menu.value.findIndex(item => item.link === path);
+
+    if (index !== -1) {
       $store.commit('setMenuIndex', index);
     }
-
-    watch(
-      () => $route.path,
-      (path: string) => {
-        const index = menu.value.findIndex(
-          (item: MenuItem) => item.link === path
-        );
-        if (index !== -1) {
-          $store.commit('setMenuIndex', index);
-        }
-      },
-      {
-        immediate: true
-      }
-    );
-
-    function logoJump(): void {
-      if ($route.path !== '/') {
-        $router.push({ name: 'home' });
-      }
-    }
-
-    // 打开登录对话框
-    function openLogin(): void {
-      $store.commit('setLoginDialog', true);
-    }
-
-    const msgCode = ref<number>(0);
-    function loadMessage(): void {
-      messageEv({ limit: 1, offset: 100 }).then((res: ResponseType) => {
-        if (res?.code === 200) {
-          msgCode.value = res?.newMsgCount;
-        }
-      });
-    }
-
-    watch(
-      () => isLogin.value,
-      () => {
-        if (!isLogin.value) {
-          return false;
-        }
-
-        loadMessage();
-      },
-      {
-        deep: true
-      }
-    );
-
-    return {
-      isLogin,
-      userInfo,
-      menuIndex,
-      menu,
-      menuChange,
-      logoJump,
-      openLogin,
-      msgCode
-    };
+  },
+  {
+    immediate: true
   }
-});
+);
 </script>
 
 <style lang="less" scoped>

@@ -75,7 +75,7 @@
         <div class="other download" @click="handleDownload">
           <span class="icon">下载</span>
         </div>
-        <div class="other comment" @click="jumpToComments">
+        <div class="other comment" @click="jumpToComment">
           <template v-if="userInfo?.info?.commentCount > 0">
             <span class="icon">({{ userInfo?.info?.commentCount }})</span>
           </template>
@@ -107,8 +107,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, toRefs } from 'vue';
+<script lang="ts" setup>
+import { ref, computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
@@ -117,170 +117,154 @@ import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { formatDateTime } from '@/utils/utils';
 import type { SongType } from '@/common/audio';
 
-export default defineComponent({
-  props: {
-    userInfo: {
-      type: Object,
-      default: () => ({})
-    },
-    songs: {
-      type: Object,
-      default: () => ({})
-    }
+const props = defineProps({
+  userInfo: {
+    type: Object,
+    default: () => {}
   },
-  emits: ['jumpToComments'],
-  setup(props, { emit }) {
-    const { songs } = toRefs(props);
-
-    const $store = useStore();
-
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-
-    // 简介展开/收缩
-    const toggleShow = ref<boolean>(false);
-    function toggle(): void {
-      toggleShow.value = !toggleShow.value;
-    }
-
-    // 播放全部 - 默认播放列表第一项
-    const playAllMusic = throttle(
-      function () {
-        if (songs.value.length === 0) {
-          return false;
-        }
-
-        // 歌曲是否全部无版权
-        const allNoCopyright = props?.songs?.some(
-          (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
-        );
-        if (!allNoCopyright) {
-          $store.commit('setCopyright', {
-            visible: true,
-            message: '由于版权保护，您所在的地区暂时无法使用。'
-          });
-          return false;
-        }
-
-        // 过滤无版权
-        const songList: Partial<SongType>[] = songs.value.filter(
-          (item: Record<string, { cp: number }>) => item?.privilege?.cp !== 0
-        );
-
-        usePlaySingleMusic(songList[0]);
-        useMusicToPlayList({ music: songList, clear: true });
-      },
-      800,
-      {
-        leading: true, // 点击第一下是否执行
-        trailing: false // 节流时间内，多次点击，节流结束后，是否执行一次
-      }
-    );
-
-    // 全部音乐添加到播放列表
-    function allMusicToPlayList(): boolean | undefined {
-      if (songs.value.length === 0) {
-        return false;
-      }
-
-      // 歌曲是否全部无版权
-      const allNoCopyright = props?.songs?.some(
-        (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
-      );
-      if (!allNoCopyright) {
-        $store.commit('setCopyright', {
-          visible: true,
-          message: '由于版权保护，您所在的地区暂时无法使用。'
-        });
-        return false;
-      }
-
-      // 过滤无版权
-      const songList: Partial<SongType>[] = songs.value.filter(
-        (item: Record<string, { cp: number }>) => item?.privilege?.cp !== 0
-      );
-
-      useMusicToPlayList({ music: songList });
-    }
-
-    // 收藏全部
-    function handleCollectAll(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      // 歌曲是否全部无版权
-      const allNoCopyright = props?.songs?.some(
-        (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
-      );
-      if (!allNoCopyright) {
-        $store.commit('setCopyright', {
-          visible: true,
-          message: '由于版权保护，您所在的地区暂时无法使用。'
-        });
-        return false;
-      }
-
-      let ids = '';
-      songs.value.forEach((item: Record<string, { cp: number }>) => {
-        // 无版权过滤
-        if (item?.privilege?.cp === 0) {
-          return false;
-        }
-
-        ids += `${item.id},`;
-      });
-
-      $store.commit('collectPlayMusic', {
-        visible: true,
-        songIds: ids
-      });
-    }
-
-    // 分享
-    function handleShare(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 下载
-    function handleDownload(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 跳转至评论
-    function jumpToComments(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      emit('jumpToComments');
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    return {
-      formatDateTime,
-      toggleShow,
-      toggle,
-      playAllMusic,
-      allMusicToPlayList,
-      handleCollectAll,
-      handleShare,
-      handleDownload,
-      jumpToComments,
-      jumpSingerDetail
-    };
+  songs: {
+    type: Object,
+    default: () => {}
   }
 });
+const emits = defineEmits(['jumpToComment']);
+
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+
+const { songs } = toRefs(props);
+
+// 展开/收缩简介
+const toggleShow = ref<boolean>(false);
+
+function toggle(): void {
+  toggleShow.value = !toggleShow.value;
+}
+
+// 播放全部 - 默认播放列表第一项
+const playAllMusic = throttle(
+  function () {
+    if (songs.value.length === 0) {
+      return;
+    }
+
+    // 是否全部无版权
+    const allNoCopyright = props?.songs?.some(
+      (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+    );
+    if (!allNoCopyright) {
+      $store.commit('setCopyright', {
+        visible: true,
+        message: '由于版权保护，您所在的地区暂时无法使用。'
+      });
+      return;
+    }
+
+    // 过滤无版权
+    const songList: Partial<SongType>[] = songs.value.filter(
+      (item: Record<string, { cp: number }>) => item?.privilege?.cp !== 0
+    );
+
+    usePlaySingleMusic(songList[0]);
+    useMusicToPlayList({ music: songList, clear: true });
+  },
+  800,
+  {
+    leading: true, // 点击第一下是否执行
+    trailing: false // 节流结束后, 是否执行一次
+  }
+);
+
+// 全部音乐添加到播放列表
+function allMusicToPlayList(): boolean | undefined {
+  if (songs.value.length === 0) {
+    return;
+  }
+
+  // 是否全部无版权
+  const allNoCopyright = props?.songs?.some(
+    (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+  );
+  if (!allNoCopyright) {
+    $store.commit('setCopyright', {
+      visible: true,
+      message: '由于版权保护，您所在的地区暂时无法使用。'
+    });
+    return;
+  }
+
+  // 过滤无版权
+  const songList: Partial<SongType>[] = songs.value.filter(
+    (item: Record<string, { cp: number }>) => item?.privilege?.cp !== 0
+  );
+
+  useMusicToPlayList({ music: songList });
+}
+
+// 收藏全部
+function handleCollectAll(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  // 是否全部无版权
+  const allNoCopyright = props?.songs?.some(
+    (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+  );
+  if (!allNoCopyright) {
+    $store.commit('setCopyright', {
+      visible: true,
+      message: '由于版权保护，您所在的地区暂时无法使用。'
+    });
+    return;
+  }
+
+  let ids = '';
+  songs.value.forEach((item: Record<string, { cp: number }>) => {
+    // 无版权
+    if (item?.privilege?.cp === 0) {
+      return;
+    }
+
+    ids += `${item.id},`;
+  });
+
+  $store.commit('collectPlayMusic', {
+    visible: true,
+    songIds: ids
+  });
+}
+
+// 分享
+function handleShare(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 下载
+function handleDownload(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 跳转至评论
+function jumpToComment(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  emits('jumpToComment');
+}
+
+// 跳转歌手详情
+function jumpSingerDetail(id: number): void {
+  $store.commit('jumpSingerDetail', id);
+}
 </script>
 
 <style lang="less" scoped>

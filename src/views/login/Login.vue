@@ -14,65 +14,43 @@
   </my-dialog>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, watch, onUnmounted } from 'vue';
+<script lang="ts" setup>
+import { ref, computed, watch, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import MyDialog from '@/components/MyDialog.vue';
 import Qrcode from '@/views/login/qrcode/Qrcode.vue';
 import Other from '@/views/login/other/Other.vue';
 
-export default defineComponent({
-  name: 'LoginView',
-  components: {
-    MyDialog,
-    Qrcode,
-    Other
-  },
-  setup() {
-    const $store = useStore();
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const loginDialog = computed<boolean>(() => $store.getters.loginDialog);
 
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    // 登录框
-    const loginDialog = computed<boolean>(() => $store.getters.loginDialog);
+// 扫码/其他登录方式切换
+const loginType = ref<string>('qrcode');
 
-    // 扫码/其他登录方式切换
-    const loginType = ref<string>('qrcode');
+function qrcodeLogin(): void {
+  loginType.value = 'qrcode';
+}
 
-    // 扫码登录
-    function qrcodeLogin(): void {
-      loginType.value = 'qrcode';
-    }
+function otherLogin(): void {
+  loginType.value = 'other';
+}
 
-    // 其他方式登录
-    function otherLogin(): void {
-      loginType.value = 'other';
-    }
+// 关闭登录
+function dialogCancel(): void {
+  loginType.value = 'qrcode';
+  $store.commit('setLoginDialog', false);
+}
 
-    // 关闭登录对话框
-    function dialogCancel(): void {
-      loginType.value = 'qrcode';
-      $store.commit('setLoginDialog', false);
-    }
-
-    // 监听登录重置
-    watch(
-      () => isLogin.value,
-      () => {
-        loginType.value = 'qrcode';
-      }
-    );
-
-    onUnmounted(() => {
-      loginType.value = 'qrcode';
-    });
-
-    return {
-      loginDialog,
-      loginType,
-      qrcodeLogin,
-      otherLogin,
-      dialogCancel
-    };
+// 监听登录重置
+watch(
+  () => isLogin.value,
+  () => {
+    loginType.value = 'qrcode';
   }
+);
+
+onUnmounted(() => {
+  loginType.value = 'qrcode';
 });
 </script>

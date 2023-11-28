@@ -9,9 +9,8 @@ const Message = {
     // 关联数据
     vm.appContext = app._context;
 
-    const element = document.getElementById('message') as HTMLDivElement;
-
     // 挂载
+    const element = document.getElementById('message') as HTMLDivElement;
     render(vm, element);
   }
 };

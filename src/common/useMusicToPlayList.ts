@@ -17,15 +17,15 @@ type UseMusicToPlayList = {
 
 /**
  * @description 音乐添加到播放列表(新数据往最后面添加)
- * @param { Object } - music: 音乐数据
- *                     clear 是否清空原播放列表
+ * @param { Object } music - 音乐数据
+ * @param { Boolean } [clear] - 是否清空原播放列表
  */
 function useMusicToPlayList({
   music,
   clear = false
 }: UseMusicToPlayList): void {
   if (toRawType(music) !== 'Object' && toRawType(music) !== 'Array') {
-    throw new Error('添加的播放数据类型错误');
+    throw new Error('添加的歌曲数据类型错误!');
   }
 
   const list: PlayMusicItem[] = [];

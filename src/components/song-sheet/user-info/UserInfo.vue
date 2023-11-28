@@ -128,7 +128,7 @@
             :class="{
               'disable-comment': songSheetDetail?.playlist?.tracks.length === 0
             }"
-            @click="jumpToComments"
+            @click="jumpToComment"
           >
             <template v-if="songSheetDetail?.playlist?.commentCount > 0">
               <span class="icon">
@@ -182,8 +182,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
@@ -195,161 +195,138 @@ import { playlistSubscribe } from '@/api/song-sheet-detail';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/common/audio';
 
-export default defineComponent({
-  emits: ['jumpToComments'],
-  setup(props, { emit }) {
-    const $router = useRouter();
-    const $store = useStore();
+const emits = defineEmits(['jumpToComment']);
 
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const userInfo = computed(() => $store.getters.userInfo);
-    const playMusicId = computed(() => $store.getters['music/playMusicId']);
-    // 歌单详情数据
-    const songSheetDetail = computed(() => $store.getters.songSheetDetail);
+const $router = useRouter();
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const userInfo = computed(() => $store.getters.userInfo);
+const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
-    // 简介展开/收缩
-    const toggleShow = ref<boolean>(false);
-    function toggle(): void {
-      toggleShow.value = !toggleShow.value;
+// 展开/收缩简介
+const toggleShow = ref<boolean>(false);
+
+function toggle(): void {
+  toggleShow.value = !toggleShow.value;
+}
+
+// 歌曲是否有版权
+function isCopyright(id: number): boolean | undefined {
+  const privilege = songSheetDetail.value?.privileges.find(
+    (item: { id: number }) => item.id === id
+  );
+
+  if (privilege?.cp === 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+// 播放全部 - 默认播放列表第一项
+const playAllMusic = throttle(
+  function () {
+    if (songSheetDetail.value?.playlist?.tracks.length === 0) {
+      return;
     }
 
-    // 歌曲是否有版权
-    function isCopyright(id: number): boolean | undefined {
-      const privilege = songSheetDetail.value?.privileges.find(
-        (item: { id: number }) => item.id === id
+    // 过滤无版权
+    const songList: Partial<SongType>[] =
+      songSheetDetail.value?.playlist?.tracks.filter(
+        (item: { id: number }) => !isCopyright(item.id)
       );
-      if (privilege?.cp === 0) {
-        return true;
-      } else {
-        return false;
-      }
-    }
 
-    // 播放全部 - 默认播放列表第一项
-    const playAllMusic = throttle(
-      function () {
-        if (songSheetDetail.value?.playlist?.tracks.length === 0) {
-          return false;
-        }
+    usePlaySingleMusic(songList[0]);
+    useMusicToPlayList({ music: songList, clear: true });
+  },
+  800,
+  {
+    leading: true, // 点击第一下是否执行
+    trailing: false // 节流结束后, 是否执行一次
+  }
+);
 
-        // 过滤无版权
-        const songList: Partial<SongType>[] =
-          songSheetDetail.value?.playlist?.tracks.filter(
-            (item: { id: number }) => !isCopyright(item.id)
-          );
+// 全部音乐添加到播放列表
+function allMusicToPlayList(): boolean | undefined {
+  if (songSheetDetail.value?.playlist?.tracks.length === 0) {
+    return;
+  }
 
-        usePlaySingleMusic(songList[0]);
-        useMusicToPlayList({ music: songList, clear: true });
-      },
-      800,
-      {
-        leading: true, // 点击第一下是否执行
-        trailing: false // 节流时间内，多次点击，节流结束后，是否执行一次
-      }
+  // 过滤无版权
+  const songList: Partial<SongType>[] =
+    songSheetDetail.value?.playlist?.tracks.filter(
+      (item: { id: number }) => !isCopyright(item.id)
     );
 
-    // 全部音乐添加到播放列表
-    function allMusicToPlayList(): boolean | undefined {
-      if (songSheetDetail.value?.playlist?.tracks.length === 0) {
-        return false;
-      }
+  useMusicToPlayList({ music: songList });
+}
 
-      // 过滤无版权
-      const songList: Partial<SongType>[] =
-        songSheetDetail.value?.playlist?.tracks.filter(
-          (item: { id: number }) => !isCopyright(item.id)
-        );
-
-      useMusicToPlayList({ music: songList });
-    }
-
-    // 收藏
-    function handleCollection(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      // 歌单是否已收藏
-      if (songSheetDetail.value?.playlist?.subscribed) {
-        return false;
-      }
-
-      // 1:收藏 2:取消收藏
-      playlistSubscribe({
-        id: songSheetDetail.value?.playlist?.id,
-        t: 1
-      })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            setMessage({ type: 'info', title: '收藏成功' });
-
-            songSheetDetail.value.playlist.subscribed = true;
-
-            // 更新歌单详情
-            $store.commit('setSongSheetDetail', songSheetDetail.value);
-          } else {
-            setMessage({ type: 'error', title: '收藏失败' });
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 分享
-    function handleShare(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 下载
-    function handleDownload(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 跳转至评论
-    function jumpToComments(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      emit('jumpToComments');
-    }
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
-    // 跳转歌单
-    function jumpSongSheet(name: string): void {
-      $router.push({ name: 'home-song-sheet', params: { name } });
-    }
-
-    return {
-      formatDateTime,
-      userInfo,
-      playMusicId,
-      songSheetDetail,
-      description: songSheetDetail?.value.playlist?.description,
-      toggleShow,
-      toggle,
-      isCopyright,
-      playAllMusic,
-      allMusicToPlayList,
-      handleCollection,
-      handleShare,
-      handleDownload,
-      jumpToComments,
-      jumpUserProfile,
-      jumpSongSheet
-    };
+// 收藏
+function handleCollection(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
   }
-});
+
+  // 歌单是否已收藏
+  if (songSheetDetail.value?.playlist?.subscribed) {
+    return;
+  }
+
+  // 1: 收藏 2: 取消收藏
+  playlistSubscribe({
+    id: songSheetDetail.value?.playlist?.id,
+    t: 1
+  })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        songSheetDetail.value.playlist.subscribed = true;
+
+        // 更新歌单详情
+        $store.commit('setSongSheetDetail', songSheetDetail.value);
+
+        setMessage({ type: 'info', title: '收藏成功' });
+      } else {
+        setMessage({ type: 'error', title: '收藏失败' });
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 分享
+function handleShare(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 下载
+function handleDownload(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 跳转至评论
+function jumpToComment(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  emits('jumpToComment');
+}
+
+// 跳转用户资料
+function jumpUserProfile(id: number): void {
+  $store.commit('jumpUserProfile', id);
+}
+
+// 跳转歌单
+function jumpSongSheet(name: string): void {
+  $router.push({ name: 'home-song-sheet', params: { name } });
+}
 </script>
 
 <style lang="less" scoped>

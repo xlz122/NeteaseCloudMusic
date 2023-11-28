@@ -115,8 +115,8 @@
   </template>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, reactive, onMounted, onUnmounted } from 'vue';
+<script lang="ts" setup>
+import { ref, reactive, onMounted, onUnmounted } from 'vue';
 import { setMessage } from '@/components/message/useMessage';
 import { countryCode, captchaSent, captchaVerify } from '@/api/login';
 import type { ResponseType } from '@/types/types';
@@ -127,7 +127,13 @@ type MobileFormData = {
   password: string;
 };
 
+type CountryCodeItem = {
+  code: string;
+  zh: string;
+};
+
 type MobileVerify = {
+  type?: string;
   show: boolean;
   space: boolean;
   contain: boolean;
@@ -146,244 +152,227 @@ type VerificationCodeVerify = {
   time: number;
 };
 
-export default defineComponent({
-  setup() {
-    // 表单数据
-    const mobileFormData = reactive<MobileFormData>({
-      code: '86',
-      phone: '',
-      password: ''
+// 表单数据
+const mobileFormData = reactive<MobileFormData>({
+  code: '86',
+  phone: '',
+  password: ''
+});
+
+// 获取国家编码列表
+const countryCodeList = ref<CountryCodeItem[]>([]);
+
+function getCountryCode(): void {
+  countryCode()
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        res.data.forEach((item: { countryList: CountryCodeItem[] }) => {
+          item?.countryList.forEach(i => {
+            countryCodeList.value.push(i);
+          });
+        });
+      }
+    })
+    .catch(() => ({}));
+}
+getCountryCode();
+
+// 编码列表显隐
+const countryCodeShow = ref<boolean>(false);
+
+function toggleCountryCode(): void {
+  countryCodeShow.value = !countryCodeShow.value;
+}
+
+// 编码改变
+function countryCodeChange(code: string): void {
+  mobileFormData.code = code;
+  countryCodeShow.value = false;
+}
+
+// 手机号正则验证
+function mobilePhoneChange(): void {
+  mobileFormData.phone = mobileFormData.phone.replace(/[^\d]/g, '');
+}
+
+// 登录验证信息
+const mobileVerify = reactive<MobileVerify>({
+  show: false,
+  space: false,
+  contain: false,
+  length: false,
+  allPassed: false // 验证全部通过
+});
+
+// 密码输入
+function passwordChange(): void {
+  passwordVerify();
+}
+
+// 密码获得焦点
+function passwordFocus(): void {
+  passwordVerify();
+}
+
+// 密码验证
+function passwordVerify(): void {
+  mobileVerify.show = true;
+
+  // 是否包含空格
+  if (/\s/.test(mobileFormData.password)) {
+    mobileVerify.space = false;
+  } else {
+    mobileVerify.space = true;
+  }
+  // 包含字母、数字、符号中至少两种
+  if (
+    /(?!^(\d+|[a-zA-Z]+|[~!@#$%^&*?]+)$)^[\w~!@#$%^&*?]/.test(
+      mobileFormData.password
+    )
+  ) {
+    mobileVerify.contain = true;
+  } else {
+    mobileVerify.contain = false;
+  }
+  // 长度在8~20之间
+  if (
+    mobileFormData.password.length >= 8 &&
+    mobileFormData.password.length <= 20
+  ) {
+    mobileVerify.length = true;
+  } else {
+    mobileVerify.length = false;
+  }
+
+  // 全部通过
+  if (mobileVerify.space && mobileVerify.contain && mobileVerify.length) {
+    mobileVerify.show = false;
+    mobileVerify.allPassed = true;
+  }
+}
+
+// 下一步
+const nextLook = ref<boolean>(false);
+
+function nextStep(): void {
+  // 发送验证码
+  sendVerificationCode();
+}
+
+// 验证码
+const verificationCodeText = ref<string>('');
+
+// 验证码验证
+const verificationCodeVerify = reactive<VerificationCodeVerify>({
+  show: false,
+  text: '',
+  time: 60 // 验证码定时器时间
+});
+
+// 表单验证方法
+function verifyMethod({ text }: VerifyMethod) {
+  verificationCodeVerify.show = true;
+  verificationCodeVerify.text = text;
+}
+
+// 发送验证码
+function sendVerificationCode(): void {
+  captchaSent({
+    ctcode: mobileFormData.code,
+    phone: mobileFormData.phone
+  })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        nextLook.value = true;
+        verificationCodeTiming();
+      }
+    })
+    .catch(err => {
+      // 发送超过限制次数
+      if (err.response.status === 400) {
+        setMessage({ type: 'error', title: err.response.data.message });
+      }
+      // 发送时间间隔太短
+      if (err.response.status === 405) {
+        setMessage({ type: 'error', title: err.response.data.message });
+      }
     });
+}
 
-    // 获取国家编码列表
-    const countryCodeList = ref<unknown[]>([]);
-    function getCountryCode(): void {
-      countryCode()
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            res.data.forEach((item: { countryList: unknown[] }) => {
-              item?.countryList.forEach((i: unknown) => {
-                countryCodeList.value.push(i);
-              });
-            });
-          }
-        })
-        .catch(() => ({}));
+// 验证码定时器计时
+const verificationCodeTimer = ref<NodeJS.Timeout | null>(null);
+
+function verificationCodeTiming(): void {
+  if (verificationCodeTimer.value) {
+    clearInterval(verificationCodeTimer.value);
+  }
+
+  verificationCodeVerify.time = 60;
+  verificationCodeTimer.value = setInterval(() => {
+    verificationCodeVerify.time--;
+    if (verificationCodeVerify.time <= 0) {
+      verificationCodeTimer.value && clearInterval(verificationCodeTimer.value);
     }
-    getCountryCode();
+  }, 1000);
+}
 
-    // 编码列表显隐
-    const countryCodeShow = ref<boolean>(false);
-    function toggleCountryCode(): void {
-      countryCodeShow.value = !countryCodeShow.value;
-    }
+// 重新发送
+function resend(): void {
+  sendVerificationCode();
+}
 
-    // 编码改变
-    function countryCodeChange(code: string): void {
-      mobileFormData.code = code;
+// 验证码下一步
+function verifyNextStep(): boolean | undefined {
+  verificationCodeVerify.show = false;
+  if (!verificationCodeText.value) {
+    verifyMethod({ text: '请输入验证码' });
+    return;
+  }
+
+  getCaptchaVerify()
+    .then(() => {
+      setMessage({ type: 'info', title: '很抱歉，余下功能未开发' });
+    })
+    .catch(() => ({}));
+}
+
+// 验证验证码
+function getCaptchaVerify(): Promise<void> {
+  return new Promise(resolve => {
+    captchaVerify({
+      captcha: verificationCodeText.value,
+      phone: mobileFormData.phone,
+      ctcode: mobileFormData.code
+    })
+      .then(() => {
+        resolve();
+      })
+      .catch(err => {
+        // 验证码错误
+        if (err.response.status === 503) {
+          verifyMethod({ text: err.response.data.message });
+        }
+      });
+  });
+}
+
+// 监听点击
+onMounted(() => {
+  document.addEventListener('click', function (e: MouseEvent): void {
+    const target = e.target as HTMLDivElement;
+    if (
+      target.className !== 'country-code' &&
+      target.className !== 'country-code-text' &&
+      target.className !== 'country-code-icon'
+    ) {
       countryCodeShow.value = false;
     }
+  });
+});
 
-    // 手机号正则验证
-    function mobilePhoneChange(): void {
-      mobileFormData.phone = mobileFormData.phone.replace(/[^\d]/g, '');
-    }
-
-    // 登录验证信息
-    const mobileVerify = reactive<MobileVerify>({
-      show: false,
-      space: false,
-      contain: false,
-      length: false,
-      allPassed: false // 验证全部通过
-    });
-
-    // 密码输入
-    function passwordChange(): void {
-      passwordVerify();
-    }
-
-    // 密码获得焦点
-    function passwordFocus(): void {
-      passwordVerify();
-    }
-
-    // 密码验证
-    function passwordVerify(): void {
-      mobileVerify.show = true;
-
-      // 是否包含空格
-      if (/\s/.test(mobileFormData.password)) {
-        mobileVerify.space = false;
-      } else {
-        mobileVerify.space = true;
-      }
-      // 包含字母、数字、符号中至少两种
-      if (
-        /(?!^(\d+|[a-zA-Z]+|[~!@#$%^&*?]+)$)^[\w~!@#$%^&*?]/.test(
-          mobileFormData.password
-        )
-      ) {
-        mobileVerify.contain = true;
-      } else {
-        mobileVerify.contain = false;
-      }
-      // 长度在8~20之间
-      if (
-        mobileFormData.password.length >= 8 &&
-        mobileFormData.password.length <= 20
-      ) {
-        mobileVerify.length = true;
-      } else {
-        mobileVerify.length = false;
-      }
-
-      // 全部通过
-      if (mobileVerify.space && mobileVerify.contain && mobileVerify.length) {
-        mobileVerify.show = false;
-        mobileVerify.allPassed = true;
-      }
-    }
-
-    // 下一步
-    const nextLook = ref<boolean>(false);
-    function nextStep(): void {
-      // 发送验证码
-      sendVerificationCode();
-    }
-
-    // 验证码
-    const verificationCodeText = ref<string>('');
-
-    // 验证码验证
-    const verificationCodeVerify = reactive<VerificationCodeVerify>({
-      show: false,
-      text: '',
-      time: 60 // 验证码定时器时间
-    });
-
-    // 表单验证方法
-    function verifyMethod({ text }: VerifyMethod) {
-      verificationCodeVerify.show = true;
-      verificationCodeVerify.text = text;
-    }
-
-    // 发送验证码
-    function sendVerificationCode(): void {
-      captchaSent({
-        ctcode: mobileFormData.code,
-        phone: mobileFormData.phone
-      })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            nextLook.value = true;
-            verificationCodeTiming();
-          }
-        })
-        .catch(err => {
-          // 发送超过限制次数
-          if (err.response.status === 400) {
-            setMessage({ type: 'error', title: err.response.data.message });
-          }
-          // 发送时间间隔太短
-          if (err.response.status === 405) {
-            setMessage({ type: 'error', title: err.response.data.message });
-          }
-        });
-    }
-
-    // 验证码定时器计时
-    const verificationCodeTimer = ref<number>(0);
-    function verificationCodeTiming(): void {
-      if (verificationCodeTimer.value) {
-        clearInterval(verificationCodeTimer.value);
-      }
-      verificationCodeVerify.time = 60;
-      verificationCodeTimer.value = setInterval(() => {
-        verificationCodeVerify.time--;
-        if (verificationCodeVerify.time <= 0) {
-          clearInterval(verificationCodeTimer.value);
-        }
-      }, 1000);
-    }
-
-    // 重新发送
-    function resend(): void {
-      sendVerificationCode();
-    }
-    // 验证码下一步
-    function verifyNextStep(): boolean | undefined {
-      // 验证
-      verificationCodeVerify.show = false;
-      if (!verificationCodeText.value) {
-        verifyMethod({ text: '请输入验证码' });
-        return false;
-      }
-
-      getCaptchaVerify()
-        .then(() => {
-          setMessage({ type: 'info', title: '很抱歉，余下功能未开发' });
-        })
-        .catch(() => ({}));
-    }
-
-    // 验证验证码
-    function getCaptchaVerify(): Promise<void> {
-      return new Promise(resolve => {
-        captchaVerify({
-          captcha: verificationCodeText.value,
-          phone: mobileFormData.phone,
-          ctcode: mobileFormData.code
-        })
-          .then(() => {
-            resolve();
-          })
-          .catch(err => {
-            // 验证码错误
-            if (err.response.status === 503) {
-              verifyMethod({ text: err.response.data.message });
-            }
-          });
-      });
-    }
-
-    // 监听点击
-    onMounted(() => {
-      document.addEventListener('click', function (e: MouseEvent): void {
-        const target = e.target as HTMLElement;
-        if (
-          target.className !== 'country-code' &&
-          target.className !== 'country-code-text' &&
-          target.className !== 'country-code-icon'
-        ) {
-          countryCodeShow.value = false;
-        }
-      });
-    });
-
-    // 销毁点击监听
-    onUnmounted(() => {
-      document.removeEventListener('click', () => ({}));
-    });
-
-    return {
-      countryCodeList,
-      mobileFormData,
-      countryCodeShow,
-      toggleCountryCode,
-      countryCodeChange,
-      mobilePhoneChange,
-      nextLook,
-      passwordChange,
-      passwordFocus,
-      mobileVerify,
-      nextStep,
-      verificationCodeText,
-      verificationCodeVerify,
-      resend,
-      verifyNextStep
-    };
-  }
+// 销毁监听
+onUnmounted(() => {
+  document.removeEventListener('click', () => ({}));
 });
 </script>
 

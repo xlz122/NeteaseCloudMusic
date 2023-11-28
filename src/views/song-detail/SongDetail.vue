@@ -7,12 +7,12 @@
             :songDetailData="songDetailData"
             :lyric="lyric"
             :commentTotal="commentParams.total"
-            @jumpToComments="jumpToComments"
+            @jumpToComment="jumpToComment"
           />
         </div>
         <!--
-          歌曲被翻译有transUser,没有lyricUser
-          歌曲没被翻译有lyricUser,没有transUser
+          歌曲被翻译有transUser, 没有lyricUser
+          歌曲没被翻译有lyricUser, 没有transUser
         -->
         <div class="song-user-operate">
           <div class="operate-top">
@@ -62,7 +62,7 @@
         <div class="comment-component">
           <Comment
             :commentParams="commentParams"
-            @commentRefresh="commentRefresh"
+            @refreshComment="refreshComment"
           />
         </div>
         <Page
@@ -70,7 +70,7 @@
           :page="commentParams.offset"
           :pageSize="commentParams.limit"
           :total="commentParams.total"
-          @changPage="changPage"
+          @pageChange="pageChange"
         />
       </div>
       <div class="detail-side">
@@ -80,22 +80,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import {
-  defineComponent,
-  ref,
-  reactive,
-  computed,
-  watch,
-  onMounted,
-  nextTick
-} from 'vue';
+<script lang="ts" setup>
+import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { handleCommentData } from '@/components/comment/handleCommentData';
 import { songDetail } from '@/api/song-detail';
 import { getLyric } from '@/api/my-music';
-import { commentMusic } from '@/api/comment';
+import { musicComment } from '@/api/comment';
 import type { ResponseType } from '@/types/types';
 import type { CommentParams } from '@/components/comment/Comment.vue';
 import Comment from '@/components/comment/Comment.vue';
@@ -104,227 +96,201 @@ import SongDateilSide from './song-detail-side/SongDetailSide.vue';
 import Page from '@/components/page/Page.vue';
 
 type Lyric = {
-  lyricUser: unknown;
-  transUser: unknown;
-  list: List[];
+  lyricUser: {
+    userid?: number;
+    nickname?: string;
+  };
+  transUser: {
+    userid?: number;
+    nickname?: string;
+  };
+  list: {
+    lyric: string;
+    time: number;
+  }[];
 };
 
-type List = {
-  lyric: string;
-  time: number;
-};
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const songId = computed<number>(() => $store.getters.songId);
 
-export default defineComponent({
-  components: {
-    SongInfo,
-    Comment,
-    SongDateilSide,
-    Page
-  },
-  setup() {
-    const $store = useStore();
+// 获取歌曲详情
+const songDetailData = ref({});
 
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const songId = computed<number>(() => $store.getters.songId);
-
-    watch(
-      () => songId.value,
-      curVal => {
-        if (curVal) {
-          nextTick(() => {
-            getSongDetail();
-            getLyricData();
-            getCommentData();
-          });
-        }
-      },
-      {
-        immediate: true
+function getSongDetail(): void {
+  songDetail({ ids: songId.value })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        songDetailData.value = res || {};
       }
-    );
+    })
+    .catch(() => ({}));
+}
 
-    const songDetailData = ref({});
-    // 获取歌曲详情
-    function getSongDetail(): void {
-      songDetail({ ids: songId.value })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            songDetailData.value = res;
-          }
-        })
-        .catch(() => ({}));
-    }
+// 获取歌词
+const lyric = reactive<Lyric>({
+  lyricUser: {},
+  transUser: {},
+  list: []
+});
 
-    const lyric = reactive<Lyric>({
-      lyricUser: {},
-      transUser: {},
-      list: []
-    });
+function getLyricData() {
+  getLyric({ id: songId.value })
+    .then((res: ResponseType) => {
+      lyric.lyricUser = res?.lyricUser;
+      lyric.transUser = res?.transUser;
+      handlerLyric(res?.lrc?.lyric);
+    })
+    .catch(() => ({}));
+}
 
-    // 获取歌词
-    function getLyricData() {
-      getLyric({
-        id: songId.value
-      })
-        .then((res: ResponseType) => {
-          // 歌词作者
-          lyric.lyricUser = res?.lyricUser;
-          lyric.transUser = res?.transUser;
-          handlerLyric(res?.lrc?.lyric);
-        })
-        .catch(() => ({}));
-    }
+// 处理歌词数据
+function handlerLyric(lyricStr: string): void {
+  lyric.list = [];
 
-    // 处理歌词数据
-    function handlerLyric(lyricStr: string): void {
-      lyric.list = [];
-
-      const regNewLine = /\n/;
-      // 每行歌词的数组
-      const lineArr = lyricStr.split(regNewLine);
-      const regTime = /\[\d{2}:\d{2}.\d{2,3}\]/;
-      lineArr.forEach((item: string) => {
-        if (item === '') return;
-        const obj = {
-          lyric: '',
-          time: -1
-        };
-        const time = item.match(regTime);
-        if (item.includes('[')) {
-          obj.lyric =
-            item.split(']')[1].trim() === '' ? '' : item.split(']')[1].trim();
-          obj.time = time
-            ? formatLyricTime(time[0].slice(1, time[0].length - 1))
-            : 0;
-        } else {
-          obj.lyric = item;
-        }
-        lyric.list.push(obj);
-      });
-    }
-
-    // 格式化歌词的时间 转换成 s.ms
-    function formatLyricTime(time: string): number {
-      const regMin = /.*:/;
-      const regSec = /:.*\./;
-      const regMs = /\./;
-
-      // 分
-      let min = '';
-      const rMin = time.match(regMin);
-      if (rMin instanceof Array) {
-        min = rMin[0].slice(0, 2);
-      }
-      // 秒
-      let second = '';
-      const rSec = time.match(regSec);
-      if (rSec instanceof Array) {
-        second = rSec[0].slice(1, 3);
-      }
-      // 毫秒
-      let ms = '';
-      const rMs = time.match(regMs);
-      if (rMs?.index) {
-        ms = time.slice(rMs.index + 1, rMs.index + 3);
-      }
-
-      // 分 + 秒
-      if (min && parseInt(min) !== 0) {
-        second = (parseInt(min) * 60 + parseInt(second)).toString();
-      }
-
-      return Number(second + '.' + ms);
-    }
-
-    // 获取评论数据
-    const commentParams = reactive<CommentParams>({
-      type: 0,
-      id: songId.value,
-      offset: 1,
-      limit: 20,
-      total: 0,
-      hotList: [],
-      list: []
-    });
-    function getCommentData(): void {
-      const params = {
-        id: songId.value,
-        limit: commentParams.limit
-      };
-      // 精彩评论不加offset
-      if (commentParams.offset > 1) {
-        Object.assign(params, {
-          offset: (commentParams.offset - 1) * commentParams.limit
-        });
-      }
-      commentMusic({ ...params })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            const result = handleCommentData(res);
-            // 精彩评论
-            commentParams.hotList = result.hotList;
-            // 最新评论
-            commentParams.list = result.list;
-            // 最新评论 - 总数
-            commentParams.total = res.total;
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 刷新评论
-    function commentRefresh(): void {
-      getCommentData();
-    }
-
-    // 分页
-    function changPage(current: number): void {
-      commentParams.offset = current;
-      jumpToComments();
-      getCommentData();
-    }
-
-    // 跳转至评论
-    function jumpToComments(): void {
-      const commentDom = document.querySelector(
-        '.comment-component'
-      ) as HTMLElement;
-
-      window.scrollTo(0, Number(commentDom.offsetTop) + 20);
-    }
-
-    // 求翻译
-    function lyricTranslate(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
-    onMounted(() => {
-      $store.commit('setMenuIndex', 0);
-      $store.commit('setSubMenuIndex', -1);
-    });
-
-    return {
-      songId,
-      songDetailData,
-      lyric,
-      commentParams,
-      commentRefresh,
-      changPage,
-      jumpToComments,
-      lyricTranslate,
-      jumpUserProfile
+  const regNewLine = /\n/;
+  // 每行歌词的数组
+  const lineArr = lyricStr.split(regNewLine);
+  const regTime = /\[\d{2}:\d{2}.\d{2,3}\]/;
+  lineArr.forEach((item: string) => {
+    if (item === '') return;
+    const obj = {
+      lyric: '',
+      time: -1
     };
+    const time = item.match(regTime);
+    if (item.includes('[')) {
+      obj.lyric =
+        item.split(']')[1].trim() === '' ? '' : item.split(']')[1].trim();
+      obj.time = time
+        ? formatLyricTime(time[0].slice(1, time[0].length - 1))
+        : 0;
+    } else {
+      obj.lyric = item;
+    }
+    lyric.list.push(obj);
+  });
+}
+
+// 格式化歌词的时间(转换成 s.ms)
+function formatLyricTime(time: string): number {
+  const regMin = /.*:/;
+  const regSec = /:.*\./;
+  const regMs = /\./;
+
+  // 分
+  let min = '';
+  const rMin = time.match(regMin);
+  if (rMin instanceof Array) {
+    min = rMin[0].slice(0, 2);
   }
+  // 秒
+  let second = '';
+  const rSec = time.match(regSec);
+  if (rSec instanceof Array) {
+    second = rSec[0].slice(1, 3);
+  }
+  // 毫秒
+  let ms = '';
+  const rMs = time.match(regMs);
+  if (rMs?.index) {
+    ms = time.slice(rMs.index + 1, rMs.index + 3);
+  }
+  // 分 + 秒
+  if (min && parseInt(min) !== 0) {
+    second = (parseInt(min) * 60 + parseInt(second)).toString();
+  }
+
+  return Number(second + '.' + ms);
+}
+
+// 获取评论
+const commentParams = reactive<CommentParams>({
+  type: 0,
+  id: songId.value,
+  offset: 1,
+  limit: 20,
+  total: 0,
+  hotList: [],
+  list: []
+});
+
+function getCommentList(): void {
+  const params = {
+    id: songId.value,
+    offset: (commentParams.offset - 1) * commentParams.limit,
+    limit: commentParams.limit
+  };
+
+  musicComment({ ...params })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        const result = handleCommentData(res);
+        // 精彩评论
+        commentParams.hotList = result.hotList;
+        // 最新评论
+        commentParams.list = result.list;
+        commentParams.total = res.total;
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 刷新评论
+function refreshComment(): void {
+  getCommentList();
+}
+
+// 分页
+function pageChange(current: number): void {
+  commentParams.offset = current;
+  jumpToComment();
+  getCommentList();
+}
+
+// 跳转至评论
+function jumpToComment(): void {
+  const commentDom = document.querySelector(
+    '.comment-component'
+  ) as HTMLDivElement;
+
+  window.scrollTo(0, Number(commentDom.offsetTop) + 20);
+}
+
+// 求翻译
+function lyricTranslate(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 跳转用户资料
+function jumpUserProfile(id: number | undefined): void {
+  $store.commit('jumpUserProfile', id);
+}
+
+watch(
+  () => songId.value,
+  curVal => {
+    if (!curVal) {
+      return;
+    }
+
+    getSongDetail();
+    getLyricData();
+    getCommentList();
+  },
+  {
+    immediate: true
+  }
+);
+
+onMounted(() => {
+  $store.commit('setMenuIndex', 0);
+  $store.commit('setSubMenuIndex', -1);
 });
 </script>
 

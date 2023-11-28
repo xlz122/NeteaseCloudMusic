@@ -54,7 +54,7 @@ const state: State = {
   albumId: Number(localStorage.getItem('albumId')) || 0, // 专辑id
   singerTabIndex: Number(localStorage.getItem('singerTabIndex')) || 0, // 歌手详情导航
   searchIndex: Number(localStorage.getItem('searchIndex')) || 0, // 搜索详情导航
-  songSheetDetail: faultTolerant('songSheetDetail') || {}, // 歌单详情数据
+  songSheetDetail: faultTolerant('songSheetDetail') || {}, // 歌单详情
   collectSong: {
     visible: false,
     songIds: ''

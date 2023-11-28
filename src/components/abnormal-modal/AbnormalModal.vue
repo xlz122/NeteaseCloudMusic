@@ -24,27 +24,16 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script lang="ts" setup>
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 
-export default defineComponent({
-  name: 'AbnormalModal',
-  setup() {
-    const $store = useStore();
+const $store = useStore();
+const abnormal = computed(() => $store.getters.abnormal);
 
-    const abnormal = computed(() => $store.getters.abnormal);
-
-    function close(): void {
-      $store.commit('setAbnormal', { visible: false });
-    }
-
-    return {
-      abnormal,
-      close
-    };
-  }
-});
+function close(): void {
+  $store.commit('setAbnormal', { visible: false });
+}
 </script>
 
 <style lang="less" scoped>

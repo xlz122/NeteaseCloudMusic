@@ -202,60 +202,47 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted } from 'vue';
+<script lang="ts" setup>
+import { ref, onMounted, onUnmounted } from 'vue';
 
-export default defineComponent({
-  name: 'DownloadView',
-  setup() {
-    // 其他操作系统
-    const otherDownloadModal = ref<boolean>(false);
-    function otherDownload(): void {
-      otherDownloadModal.value = !otherDownloadModal.value;
+// 其他操作系统
+const otherDownloadModal = ref<boolean>(false);
+
+function otherDownload(): void {
+  otherDownloadModal.value = !otherDownloadModal.value;
+}
+
+// 下载电脑/手机端
+const downloadQrcode = ref<boolean>(false);
+const isPcDownLoad = ref<boolean>(false);
+
+function downloadPc(): void {
+  downloadQrcode.value = true;
+  isPcDownLoad.value = true;
+}
+
+function downloadMobile(): void {
+  downloadQrcode.value = true;
+  isPcDownLoad.value = false;
+}
+
+onMounted(() => {
+  document.addEventListener('click', function (e: MouseEvent): void {
+    const target = e.target as HTMLElement;
+    // pc、mobile下载
+    if (
+      target.className !== 'download-qrcode' &&
+      target.className !== 'qrcode-img' &&
+      target.className !== 'download-btn' &&
+      target.className !== 'text'
+    ) {
+      downloadQrcode.value = false;
     }
+  });
+});
 
-    // 下载电脑，手机端
-    const downloadQrcode = ref<boolean>(false);
-    // 是否pc下载
-    const isPcDownLoad = ref<boolean>(false);
-    function downloadPc(): void {
-      downloadQrcode.value = true;
-      isPcDownLoad.value = true;
-    }
-
-    function downloadMobile(): void {
-      downloadQrcode.value = true;
-      isPcDownLoad.value = false;
-    }
-
-    onMounted(() => {
-      document.addEventListener('click', function (e: MouseEvent): void {
-        const target = e.target as HTMLElement;
-        // pc mobile下载
-        if (
-          target.className !== 'download-qrcode' &&
-          target.className !== 'qrcode-img' &&
-          target.className !== 'download-btn' &&
-          target.className !== 'text'
-        ) {
-          downloadQrcode.value = false;
-        }
-      });
-    });
-
-    onUnmounted(() => {
-      document.removeEventListener('click', () => ({}));
-    });
-
-    return {
-      otherDownload,
-      otherDownloadModal,
-      downloadQrcode,
-      isPcDownLoad,
-      downloadPc,
-      downloadMobile
-    };
-  }
+onUnmounted(() => {
+  document.removeEventListener('click', () => ({}));
 });
 </script>
 

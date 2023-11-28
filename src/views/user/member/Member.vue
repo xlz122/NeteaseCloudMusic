@@ -96,7 +96,7 @@
             到期自动续费13元，可取消，芒果月卡限领1次
             <span
               class="help pointer inline-block"
-              @click="dialogShow = true"
+              @click="dialog.dialogShow = true"
             ></span>
           </template>
           <template v-else>到期自动续费，可随时取消</template>
@@ -105,12 +105,12 @@
           <span class="f14 text-gray3 ml10">选择优惠券</span>
           <span
             class="f12 text-blued4 ml10 pointer"
-            @click="exchange = !exchange"
+            @click="coupon.exchange = !coupon.exchange"
           >
-            {{ exchange ? '兑换优惠券' : '取消兑换优惠券' }}
+            {{ coupon.exchange ? '兑换优惠券' : '取消兑换优惠券' }}
           </span>
         </div>
-        <div class="coupon" v-show="exchange">
+        <div class="coupon" v-show="coupon.exchange">
           <div
             class="coupon-form-select mt20 ml10 pointer"
             @click="dropdownHandle"
@@ -120,21 +120,21 @@
               type="text"
               autocomplete="off"
               placeholder="该活动价不支持使用优惠券"
-              v-model="couponValue"
+              v-model="coupon.couponValue"
             />
             <span class="select-arrow"></span>
           </div>
-          <div class="select-dropdown" v-show="dropdown">
+          <div class="select-dropdown" v-show="coupon.dropdown">
             <ul>
               <li
                 class="dropdown-menu not-allowed text-grayc"
-                v-if="couponList.length === 0"
+                v-if="coupon.couponList.length === 0"
               >
                 无可用优惠券
               </li>
               <li
                 class="dropdown-menu pointer"
-                v-for="(item, index) in couponList"
+                v-for="(item, index) in coupon.couponList"
                 :key="index"
                 @click="chooseCoupon(item)"
               >
@@ -145,13 +145,13 @@
         </div>
         <div
           class="exchange dis-flex align-center ml10 mt20"
-          v-show="!exchange"
+          v-show="!coupon.exchange"
         >
           <input
             type="text"
             placeholder="请输入优惠券兑换码"
             class="f12 text-graya"
-            v-model="exchangeCode"
+            v-model="coupon.exchangeCode"
           />
           <button type="button" class="pointer" @click="exchangeCoupons">
             兑换
@@ -251,14 +251,14 @@
     <!--  连续包月服务须知  -->
     <my-dialog
       class="vip-service-modal"
-      :visible="dialogShow"
+      :visible="dialog.dialogShow"
       title="连续包月服务须知"
-      @cancel="dialogShow = false"
+      @cancel="dialog.dialogShow = false"
     >
       <div class="dialog-content">
         <p
           class="f14 text-gray3"
-          v-for="(item, index) in dialogContent"
+          v-for="(item, index) in dialog.dialogContent"
           :key="index"
         >
           {{ item }}
@@ -269,9 +269,9 @@
     <!--  兑换优惠券提示  -->
     <my-prompt
       class=""
-      :show="promptShow"
-      :icon="promptIcon"
-      :content="promptContent"
+      :show="dialog.promptShow"
+      :icon="dialog.promptIcon"
+      :content="dialog.promptContent"
       @close="closePrompt"
     >
     </my-prompt>
@@ -382,24 +382,20 @@
   </div>
 </template>
 
-<script lang="ts">
-import {
-  defineComponent,
-  ref,
-  computed,
-  watch,
-  reactive,
-  toRefs,
-  onMounted
-} from 'vue';
+<script lang="ts" setup>
+import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { require } from '@/utils/utils';
 import { userVipInfo } from '@/api/user';
 import type { ResponseType } from '@/types/types';
-import MyPrompt from '@/components/MyPrompt.vue';
 import MyDialog from '@/components/MyDialog.vue';
+import MyPrompt from '@/components/MyPrompt.vue';
 
-type listType = {
+type VipInfo = {
+  redVipLevelIcon?: string;
+};
+
+type ListType = {
   name: string;
   desc: string;
   price: number;
@@ -407,14 +403,16 @@ type listType = {
   type: number;
   discount: string;
 }[];
-type couponType = {
+
+type CouponType = {
   exchange: boolean;
   dropdown: boolean;
   couponList: string[];
   couponValue: string;
   exchangeCode: string;
 };
-type dialogType = {
+
+type DialogType = {
   dialogShow: boolean;
   dialogContent: string[];
   promptShow: boolean;
@@ -422,325 +420,307 @@ type dialogType = {
   promptContent: string;
 };
 
-export default defineComponent({
-  name: 'MemberView',
-  components: { MyDialog, MyPrompt },
-  setup() {
-    const $store = useStore();
-    const userInfo = computed(() => $store.getters.userInfo);
-    const vipInfo = ref({});
+const $store = useStore();
+const userInfo = computed(() => $store.getters.userInfo);
 
-    // 获取登录用户vip信息
-    function getVipInfo() {
-      userVipInfo()
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            vipInfo.value = res?.data;
-          }
-        })
-        .catch(() => ({}));
-    }
-    getVipInfo();
+// 获取用户vip信息
+const vipInfo = ref<VipInfo>({});
 
-    // 黑胶VIP列表
-    const vip = [
-      {
-        name: '连续包月',
-        desc: '免费送芒果月卡',
-        price: 13,
-        amount: 13,
-        type: 1,
-        discount: ''
-      },
-      {
-        name: '连续包年',
-        desc: '私信领爱奇艺季卡',
-        price: 128,
-        amount: 138,
-        type: 2,
-        discount: '9.3'
-      },
-      {
-        name: '连续包季',
-        desc: '私信领喜马月卡',
-        price: 30,
-        amount: 10,
-        type: 1,
-        discount: '7.7'
-      },
-      {
-        name: '12个月',
-        desc: '私信领严选年卡',
-        price: 158,
-        amount: 216,
-        type: 2,
-        discount: ''
-      },
-      {
-        name: '6个月',
-        desc: '',
-        price: 88,
-        amount: 108,
-        type: 2,
-        discount: ''
-      },
-      {
-        name: '3个月',
-        desc: '',
-        price: 45,
-        amount: 54,
-        type: 2,
-        discount: ''
-      },
-      {
-        name: '1个月',
-        desc: '',
-        price: 16,
-        amount: 18,
-        type: 2,
-        discount: ''
+function getVipInfo() {
+  userVipInfo()
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        vipInfo.value = res?.data;
       }
-    ];
-    // 音乐包
-    const music = [
-      {
-        name: '连续包月',
-        desc: '推荐',
-        price: 8,
-        amount: 8,
-        type: 1,
-        discount: ''
-      },
-      {
-        name: '12个月',
-        desc: '',
-        price: 88,
-        amount: 7.33,
-        type: 1,
-        discount: ''
-      },
-      {
-        name: '6个月',
-        desc: '',
-        price: 45,
-        amount: 7.5,
-        type: 1,
-        discount: ''
-      },
-      {
-        name: '1个月',
-        desc: '',
-        price: 8,
-        amount: 8,
-        type: 1,
-        discount: ''
-      }
-    ];
-    // 页面显示列表
-    const listData = ref<listType>(vip);
+    })
+    .catch(() => ({}));
+}
+getVipInfo();
 
-    // 特权列表
-    const privilege = reactive({
-      status: 1,
-      list: [
-        {
-          code: 1,
-          name: '会员曲库',
-          img: require('@/assets/image/user/privilege/1.png')
-        },
-        {
-          code: 2,
-          name: '免费下载',
-          img: require('@/assets/image/user/privilege/2.png')
-        },
-        {
-          code: 1,
-          name: '铃声',
-          img: require('@/assets/image/user/privilege/1.png')
-        },
-        {
-          code: 3,
-          name: '历史日推',
-          img: require('@/assets/image/user/privilege/3.png')
-        },
-        {
-          code: 4,
-          name: '歌词图片',
-          img: require('@/assets/image/user/privilege/4.png'),
-          imgNo: require('@/assets/image/user/privilege/4-no.png')
-        },
-        {
-          code: 5,
-          name: '无损音质',
-          img: require('@/assets/image/user/privilege/5.png')
-        },
-        {
-          code: 6,
-          name: '广告特权',
-          img: require('@/assets/image/user/privilege/6.png'),
-          imgNo: require('@/assets/image/user/privilege/6-no.png')
-        },
-        {
-          code: 7,
-          name: '鲸云音效',
-          img: require('@/assets/image/user/privilege/7.png'),
-          imgNo: require('@/assets/image/user/privilege/7-no.png')
-        },
-        {
-          code: 8,
-          name: '头像挂件',
-          img: require('@/assets/image/user/privilege/8.png'),
-          imgNo: require('@/assets/image/user/privilege/8-no.png')
-        },
-        {
-          code: 9,
-          name: '个性皮肤',
-          img: require('@/assets/image/user/privilege/9.png'),
-          imgNo: require('@/assets/image/user/privilege/9-no.png')
-        }
-      ]
-    });
-
-    const tabInd = ref(0);
-    const itemInd = ref(0);
-    // tab切换
-    function changeTab(ind: number) {
-      tabInd.value = ind;
-      itemInd.value = 0;
-      if (ind === 0) {
-        listData.value = vip;
-        privilege.status = 1;
-      } else {
-        listData.value = music;
-        privilege.status = 2;
-      }
-    }
-    // 充值模块选择
-    function changeItem(index: number) {
-      itemInd.value = index;
-    }
-
-    // 优惠券
-    const coupon = reactive<couponType>({
-      exchange: true, // 优惠券兑换选择
-      dropdown: false, // 优惠券选择
-      couponList: ['优惠券1', '优惠券2', '优惠券3'], // 优惠券列表
-      couponValue: '', // 优惠券选择
-      exchangeCode: '' // 兑换码
-    });
-    // 优惠券选择显示下拉
-    function dropdownHandle() {
-      if (!coupon.dropdown) return (coupon.dropdown = true);
-    }
-    // 优惠券选择
-    function chooseCoupon(item: string) {
-      coupon.couponValue = item;
-      coupon.dropdown = false;
-    }
-
-    // 监听鼠标按下事件
-    function mousedown(e: MouseEvent): void {
-      const target = e.target as HTMLElement;
-      if (
-        target.className !== 'coupon' &&
-        !target.className.includes('dropdown-menu') &&
-        !target.className.includes('coupon-form-select-menu') &&
-        !target.className.includes('coupon-form-select') &&
-        !target.className.includes('select-placeholder')
-      ) {
-        coupon.dropdown = false;
-        document.body.removeEventListener('mousedown', mousedown);
-      }
-    }
-    watch(
-      () => coupon.dropdown,
-      (newVal: boolean) => {
-        if (newVal) {
-          document.body.addEventListener('mousedown', mousedown);
-        } else {
-          document.body.removeEventListener('mousedown', mousedown);
-        }
-      }
-    );
-
-    // help问号提示
-    const dialog = reactive<dialogType>({
-      dialogShow: false, // 弹框
-      dialogContent: [
-        '1.开通本服务后，将在会员到期前1天为您自动续费，续费成功会员自动延长相应时长；',
-        '2.您的连续包月费用将从您绑定的支付账号中扣除；',
-        '3.如您希望取消续订，请在扣除费期前至少24小时关闭自动续订；',
-        '4. 购买成功后，若您的云音乐账户已绑定手机号，1个月芒果TV会员将为您充值至您绑定的手机号；若您的云音乐账户未绑定手机号，支付成功页将提示您绑定手机号，1个月芒果TV会员将跟随手机号到账，每个用户仅限领取1次；',
-        '5.您也可以在[账号页-我的订单-订单详情页]领取1个月芒果TV会员；',
-        '6. 若您填写的手机号注册过芒果TV，我们将为该手机账号开通会员；',
-        '7. 若您填写的手机号没有注册过芒果TV，我们将自动注册手机号并开通会员。您可以用“手机号+动态验证码”快速登录芒果TV；',
-        '8.仅支持中国大陆手机号绑定；',
-        '9.使用手机话费支付不能参与领取芒果TV会员；',
-        '10. 芒果TV会员权益为PC移动影视会员，权益支持在电脑/手机/PAD端体验；',
-        '11. 取消自动续费：进入“网易云音乐”-点击左侧边栏-我的客服-管理自动续费，取消订阅自动续费即可，您也可以直接在微信、支付宝等第三方支付客户端内取消自动扣款设置（具体操作方式以各产品实际功能为准）。'
-      ], //弹框内容
-      promptShow: false, // 提示
-      promptIcon: 'success', // 提示图标
-      promptContent: '' // 提示文字
-    });
-    // 兑换提示
-    function exchangeCoupons() {
-      dialog.promptIcon = 'error';
-      dialog.promptContent = '请输入兑换码';
-      dialog.promptShow = true;
-    }
-    // 关闭兑换提示框
-    function closePrompt(val: boolean) {
-      dialog.promptShow = val;
-    }
-
-    // 曲库
-    const songList = ref([
-      {
-        id: 1,
-        img: require('@/assets/image/user/songs/1.png')
-      },
-      {
-        id: 2,
-        img: require('@/assets/image/user/songs/2.png')
-      },
-      {
-        id: 3,
-        img: require('@/assets/image/user/songs/3.png')
-      },
-      {
-        id: 4,
-        img: require('@/assets/image/user/songs/4.png')
-      }
-    ]);
-
-    // vip常见问题
-    const dialogProblem = ref(false);
-
-    onMounted(() => {
-      $store.commit('setMenuIndex', -1);
-      $store.commit('setSubMenuIndex', -1);
-    });
-
-    return {
-      userInfo,
-      vipInfo,
-      tabInd,
-      listData,
-      itemInd,
-      ...toRefs(coupon),
-      ...toRefs(dialog),
-      privilege,
-      songList,
-      dialogProblem,
-      chooseCoupon,
-      changeTab,
-      changeItem,
-      dropdownHandle,
-      exchangeCoupons,
-      closePrompt
-    };
+// 黑胶VIP列表
+const vip = [
+  {
+    name: '连续包月',
+    desc: '免费送芒果月卡',
+    price: 13,
+    amount: 13,
+    type: 1,
+    discount: ''
+  },
+  {
+    name: '连续包年',
+    desc: '私信领爱奇艺季卡',
+    price: 128,
+    amount: 138,
+    type: 2,
+    discount: '9.3'
+  },
+  {
+    name: '连续包季',
+    desc: '私信领喜马月卡',
+    price: 30,
+    amount: 10,
+    type: 1,
+    discount: '7.7'
+  },
+  {
+    name: '12个月',
+    desc: '私信领严选年卡',
+    price: 158,
+    amount: 216,
+    type: 2,
+    discount: ''
+  },
+  {
+    name: '6个月',
+    desc: '',
+    price: 88,
+    amount: 108,
+    type: 2,
+    discount: ''
+  },
+  {
+    name: '3个月',
+    desc: '',
+    price: 45,
+    amount: 54,
+    type: 2,
+    discount: ''
+  },
+  {
+    name: '1个月',
+    desc: '',
+    price: 16,
+    amount: 18,
+    type: 2,
+    discount: ''
   }
+];
+// 音乐包列表
+const music = [
+  {
+    name: '连续包月',
+    desc: '推荐',
+    price: 8,
+    amount: 8,
+    type: 1,
+    discount: ''
+  },
+  {
+    name: '12个月',
+    desc: '',
+    price: 88,
+    amount: 7.33,
+    type: 1,
+    discount: ''
+  },
+  {
+    name: '6个月',
+    desc: '',
+    price: 45,
+    amount: 7.5,
+    type: 1,
+    discount: ''
+  },
+  {
+    name: '1个月',
+    desc: '',
+    price: 8,
+    amount: 8,
+    type: 1,
+    discount: ''
+  }
+];
+// 特权列表
+const privilege = reactive({
+  status: 1,
+  list: [
+    {
+      code: 1,
+      name: '会员曲库',
+      img: require('@/assets/image/user/privilege/1.png')
+    },
+    {
+      code: 2,
+      name: '免费下载',
+      img: require('@/assets/image/user/privilege/2.png')
+    },
+    {
+      code: 1,
+      name: '铃声',
+      img: require('@/assets/image/user/privilege/1.png')
+    },
+    {
+      code: 3,
+      name: '历史日推',
+      img: require('@/assets/image/user/privilege/3.png')
+    },
+    {
+      code: 4,
+      name: '歌词图片',
+      img: require('@/assets/image/user/privilege/4.png'),
+      imgNo: require('@/assets/image/user/privilege/4-no.png')
+    },
+    {
+      code: 5,
+      name: '无损音质',
+      img: require('@/assets/image/user/privilege/5.png')
+    },
+    {
+      code: 6,
+      name: '广告特权',
+      img: require('@/assets/image/user/privilege/6.png'),
+      imgNo: require('@/assets/image/user/privilege/6-no.png')
+    },
+    {
+      code: 7,
+      name: '鲸云音效',
+      img: require('@/assets/image/user/privilege/7.png'),
+      imgNo: require('@/assets/image/user/privilege/7-no.png')
+    },
+    {
+      code: 8,
+      name: '头像挂件',
+      img: require('@/assets/image/user/privilege/8.png'),
+      imgNo: require('@/assets/image/user/privilege/8-no.png')
+    },
+    {
+      code: 9,
+      name: '个性皮肤',
+      img: require('@/assets/image/user/privilege/9.png'),
+      imgNo: require('@/assets/image/user/privilege/9-no.png')
+    }
+  ]
+});
+
+// 页面显示列表
+const listData = ref<ListType>(vip);
+const tabInd = ref(0);
+const itemInd = ref(0);
+
+// tab切换
+function changeTab(ind: number) {
+  tabInd.value = ind;
+  itemInd.value = 0;
+  if (ind === 0) {
+    listData.value = vip;
+    privilege.status = 1;
+  } else {
+    listData.value = music;
+    privilege.status = 2;
+  }
+}
+
+// 充值模块选择
+function changeItem(index: number) {
+  itemInd.value = index;
+}
+
+// 优惠券
+const coupon = reactive<CouponType>({
+  exchange: true, // 优惠券兑换选择
+  dropdown: false, // 优惠券选择
+  couponList: ['优惠券1', '优惠券2', '优惠券3'], // 优惠券列表
+  couponValue: '', // 优惠券选择
+  exchangeCode: '' // 兑换码
+});
+
+// 优惠券选择显示下拉
+function dropdownHandle() {
+  if (!coupon.dropdown) return (coupon.dropdown = true);
+}
+
+// 优惠券选择
+function chooseCoupon(item: string) {
+  coupon.couponValue = item;
+  coupon.dropdown = false;
+}
+
+// 监听鼠标按下事件
+function mousedown(e: MouseEvent): void {
+  const target = e.target as HTMLElement;
+  if (
+    target.className !== 'coupon' &&
+    !target.className.includes('dropdown-menu') &&
+    !target.className.includes('coupon-form-select-menu') &&
+    !target.className.includes('coupon-form-select') &&
+    !target.className.includes('select-placeholder')
+  ) {
+    coupon.dropdown = false;
+    document.body.removeEventListener('mousedown', mousedown);
+  }
+}
+
+watch(
+  () => coupon.dropdown,
+  (newVal: boolean) => {
+    if (newVal) {
+      document.body.addEventListener('mousedown', mousedown);
+    } else {
+      document.body.removeEventListener('mousedown', mousedown);
+    }
+  }
+);
+
+// help问号提示
+const dialog = reactive<DialogType>({
+  dialogShow: false,
+  dialogContent: [
+    '1.开通本服务后，将在会员到期前1天为您自动续费，续费成功会员自动延长相应时长；',
+    '2.您的连续包月费用将从您绑定的支付账号中扣除；',
+    '3.如您希望取消续订，请在扣除费期前至少24小时关闭自动续订；',
+    '4. 购买成功后，若您的云音乐账户已绑定手机号，1个月芒果TV会员将为您充值至您绑定的手机号；若您的云音乐账户未绑定手机号，支付成功页将提示您绑定手机号，1个月芒果TV会员将跟随手机号到账，每个用户仅限领取1次；',
+    '5.您也可以在[账号页-我的订单-订单详情页]领取1个月芒果TV会员；',
+    '6. 若您填写的手机号注册过芒果TV，我们将为该手机账号开通会员；',
+    '7. 若您填写的手机号没有注册过芒果TV，我们将自动注册手机号并开通会员。您可以用“手机号+动态验证码”快速登录芒果TV；',
+    '8.仅支持中国大陆手机号绑定；',
+    '9.使用手机话费支付不能参与领取芒果TV会员；',
+    '10. 芒果TV会员权益为PC移动影视会员，权益支持在电脑/手机/PAD端体验；',
+    '11. 取消自动续费：进入“网易云音乐”-点击左侧边栏-我的客服-管理自动续费，取消订阅自动续费即可，您也可以直接在微信、支付宝等第三方支付客户端内取消自动扣款设置（具体操作方式以各产品实际功能为准）。'
+  ],
+  promptShow: false, // 提示
+  promptIcon: 'success', // 提示图标
+  promptContent: '' // 提示文字
+});
+
+// 兑换提示
+function exchangeCoupons() {
+  dialog.promptIcon = 'error';
+  dialog.promptContent = '请输入兑换码';
+  dialog.promptShow = true;
+}
+
+// 关闭兑换提示
+function closePrompt(val: boolean) {
+  dialog.promptShow = val;
+}
+
+// 曲库
+const songList = ref([
+  {
+    id: 1,
+    img: require('@/assets/image/user/songs/1.png')
+  },
+  {
+    id: 2,
+    img: require('@/assets/image/user/songs/2.png')
+  },
+  {
+    id: 3,
+    img: require('@/assets/image/user/songs/3.png')
+  },
+  {
+    id: 4,
+    img: require('@/assets/image/user/songs/4.png')
+  }
+]);
+
+// vip常见问题
+const dialogProblem = ref(false);
+
+onMounted(() => {
+  $store.commit('setMenuIndex', -1);
+  $store.commit('setSubMenuIndex', -1);
 });
 </script>
 

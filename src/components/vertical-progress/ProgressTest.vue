@@ -1,7 +1,7 @@
 <template>
   <!-- 竖向进度条组件测试用例 -->
   <div class="progress-test">
-    <Xprogress
+    <VerticalProgress
       class="progress"
       :range="'.progress-test'"
       @progressChange="progressChange"
@@ -9,25 +9,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import Xprogress from './Progress.vue';
+<script lang="ts" setup>
+import VerticalProgress from './VerticalProgress.vue';
 
-export default defineComponent({
-  name: 'ProgressTestView',
-  components: {
-    Xprogress
-  },
-  setup() {
-    function progressChange(progress: number): void {
-      console.log(progress);
-    }
-
-    return {
-      progressChange
-    };
-  }
-});
+function progressChange(progress: number): void {
+  console.log(progress);
+}
 </script>
 
 <style lang="less" scoped>

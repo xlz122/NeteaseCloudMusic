@@ -13,45 +13,38 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, watch } from 'vue';
+<script lang="ts" setup>
+import { reactive, watch } from 'vue';
 import useMessage from '@/components/message/useMessage';
 
-export default defineComponent({
-  name: 'MessageView',
-  setup() {
-    // 提示数据
-    const message = useMessage();
+type MessageTip = {
+  visible: boolean;
+  timer: NodeJS.Timeout | null;
+};
 
-    const messageTip = reactive({
-      visible: false,
-      timer: 0
-    });
+// 获取提示数据
+const message = useMessage();
 
-    watch(
-      () => message,
-      () => {
-        messageTip.visible = true;
-
-        if (messageTip.timer) {
-          clearTimeout(messageTip.timer);
-        }
-
-        messageTip.timer = setTimeout(() => {
-          messageTip.visible = false;
-        }, message.time);
-      },
-      {
-        deep: true
-      }
-    );
-
-    return {
-      message,
-      messageTip
-    };
-  }
+const messageTip = reactive<MessageTip>({
+  visible: false,
+  timer: null
 });
+
+watch(
+  () => message,
+  () => {
+    messageTip.visible = true;
+
+    messageTip.timer && clearTimeout(messageTip.timer);
+
+    messageTip.timer = setTimeout(() => {
+      messageTip.visible = false;
+    }, message.time);
+  },
+  {
+    deep: true
+  }
+);
 </script>
 
 <style lang="less" scoped>

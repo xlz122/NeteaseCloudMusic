@@ -16,10 +16,10 @@
         </li>
       </ul>
     </template>
-    <template v-if="songSheetList.length > 0">
+    <template v-if="songSheet.length > 0">
       <h3 class="title">热门歌单</h3>
       <ul class="song-sheet-list">
-        <li class="item" v-for="(item, index) in songSheetList" :key="index">
+        <li class="item" v-for="(item, index) in songSheet" :key="index">
           <div class="item-cover" @click="jumpSongSheetDetail(item?.id)">
             <img
               class="cover-img"
@@ -55,81 +55,69 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, reactive, computed } from 'vue';
+<script lang="ts" setup>
+import { ref, reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 import { topPlaylist } from '@/api/home-song-sheet';
 import type { ResponseType } from '@/types/types';
-import SideDownload from '@/views/song-sheet-detail/side-downlod/SideDownload.vue';
+import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
 
-type ParamsType = {
-  order: string;
-  cat: string;
-  page: number;
-  pageSize: number;
+type SongSheetItem = {
+  id: number;
+  name: string;
+  coverImgUrl: string;
+  creator: {
+    userId: number;
+    nickname: string;
+  };
 };
 
-export default defineComponent({
-  components: {
-    SideDownload
-  },
-  props: {
-    likePeople: {
-      type: Array,
-      default: () => []
-    }
-  },
-  setup() {
-    const $store = useStore();
-
-    // 歌单详情数据
-    const songSheetDetail = computed(() => $store.getters.songSheetDetail);
-
-    const songSheetList = ref<unknown[]>([]);
-    const params = reactive<ParamsType>({
-      order: 'hot',
-      cat: '全部',
-      page: 1,
-      pageSize: 5
-    });
-
-    // 获取热门歌单数据
-    function getTopPlaylist(): void {
-      topPlaylist({
-        order: params.order,
-        cat: params.cat,
-        offset: params.page - 1,
-        limit: params.pageSize
-      })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            songSheetList.value = res?.playlists;
-          }
-        })
-        .catch(() => ({}));
-    }
-    getTopPlaylist();
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
-    // 跳转歌单详情
-    function jumpSongSheetDetail(id: number): void {
-      $store.commit('jumpSongSheetDetail', id);
-
-      getTopPlaylist();
-    }
-
-    return {
-      songSheetDetail,
-      songSheetList,
-      jumpUserProfile,
-      jumpSongSheetDetail
-    };
+defineProps({
+  likePeople: {
+    type: Array,
+    default: () => []
   }
 });
+
+const $store = useStore();
+const songSheetDetail = computed(() => $store.getters.songSheetDetail);
+
+// 获取热门歌单
+const params = reactive({
+  order: 'hot',
+  cat: '全部',
+  page: 1,
+  pageSize: 5
+});
+const songSheet = ref<SongSheetItem[]>([]);
+
+function getTopPlaylist(): void {
+  topPlaylist({
+    order: params.order,
+    cat: params.cat,
+    offset: params.page - 1,
+    limit: params.pageSize
+  })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        songSheet.value = res?.playlists || [];
+      }
+    })
+    .catch(() => ({}));
+}
+getTopPlaylist();
+
+// 跳转用户资料
+function jumpUserProfile(id: number | undefined): void {
+  $store.commit('jumpUserProfile', id);
+}
+
+// 跳转歌单详情
+function jumpSongSheetDetail(id: number | undefined): void {
+  $store.commit('jumpSongSheetDetail', id);
+
+  getTopPlaylist();
+}
 </script>
 
 <style lang="less" scoped>

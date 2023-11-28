@@ -5,7 +5,7 @@
       <ul class="new-disc-list">
         <li
           class="new-disc-item"
-          v-for="(item, index) in hotNewDiscList"
+          v-for="(item, index) in hotAlbum"
           :key="index"
         >
           <div class="item-cover">
@@ -59,7 +59,7 @@
       <ul class="new-disc-list">
         <li
           class="new-disc-item"
-          v-for="(item, index) in newDiscAlbumList"
+          v-for="(item, index) in albumList"
           :key="index"
         >
           <div class="item-cover">
@@ -101,142 +101,126 @@
         </li>
       </ul>
       <Page
-        v-if="pageTotal > newDiscFormData.limit"
-        :page="newDiscFormData.offset"
-        :pageSize="newDiscFormData.limit"
-        :total="pageTotal"
-        @changPage="changPage"
+        v-if="albumTotal > params.limit"
+        :page="params.offset"
+        :pageSize="params.limit"
+        :total="albumTotal"
+        @pageChange="pageChange"
       />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
+<script lang="ts" setup>
+import { ref, reactive } from 'vue';
 import { useStore } from 'vuex';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { hotNewDisc, nweDiscAlbum, NweDiscAlbum } from '@/api/home-new-disc';
+import { hotNewDisc, nweDiscAlbum } from '@/api/home-new-disc';
 import { albumDetail } from '@/api/album-detail';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/common/audio';
 import Page from '@/components/page/Page.vue';
 
-export default defineComponent({
-  name: 'HomeNewDisc',
-  components: {
-    Page
-  },
-  setup() {
-    const $store = useStore();
+type AlbumItem = {
+  picUrl: string;
+} & SongType;
 
-    const hotNewDiscList = ref<unknown[]>([]);
-    // 获取热门新碟
-    function getHotNewDisc(): void {
-      hotNewDisc()
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            hotNewDiscList.value = res.albums.slice(0, 10);
-          }
-        })
-        .catch(() => ({}));
-    }
-    getHotNewDisc();
+const $store = useStore();
 
-    // 专辑歌曲添加到播放器
-    function albumToPlayListPlay(id: number): void {
-      albumDetail({ id })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            if (res?.songs.length === 0) {
-              return false;
-            }
+// 获取热门新碟
+const hotAlbum = ref<AlbumItem[]>([]);
 
-            // 歌曲是否全部无版权
-            const allNoCopyright = res?.songs?.some(
-              (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
-            );
-            if (!allNoCopyright) {
-              $store.commit('setCopyright', {
-                visible: true,
-                message:
-                  '版权方要求，当前专辑需单独付费，购买数字专辑即可无限畅享'
-              });
-              return false;
-            }
+function getHotAlbum(): void {
+  hotNewDisc()
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        hotAlbum.value = res?.albums?.slice(0, 10) || [];
+      }
+    })
+    .catch(() => ({}));
+}
+getHotAlbum();
 
-            // 过滤无版权
-            const songList: Partial<SongType>[] = res?.songs.filter(
-              (item: Record<string, { cp: number }>) =>
-                item?.privilege?.cp !== 0
-            );
+// 专辑歌曲添加到播放器
+function albumToPlayListPlay(id: number): void {
+  albumDetail({ id })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        if (res?.songs?.length === 0) {
+          return;
+        }
 
-            usePlaySingleMusic(songList[0]);
-            useMusicToPlayList({ music: songList, clear: true });
-          }
-        })
-        .catch(() => ({}));
-    }
+        // 是否全部无版权
+        const allNoCopyright = res?.songs?.some(
+          (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+        );
+        if (!allNoCopyright) {
+          $store.commit('setCopyright', {
+            visible: true,
+            message: '版权方要求，当前专辑需单独付费，购买数字专辑即可无限畅享'
+          });
+          return;
+        }
 
-    // 跳转专辑详情
-    function jumpAlbumDetail(id: number): void {
-      $store.commit('jumpAlbumDetail', id);
-    }
+        // 过滤无版权
+        const songList: Partial<SongType>[] = res?.songs.filter(
+          (item: Record<string, { cp: number }>) => item?.privilege?.cp !== 0
+        );
 
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
+        usePlaySingleMusic(songList[0]);
+        useMusicToPlayList({ music: songList, clear: true });
+      }
+    })
+    .catch(() => ({}));
+}
 
-    const pageTotal = ref<number>(0);
-    const newDiscFormData = reactive<NweDiscAlbum>({
-      offset: 1, // 页数
-      limit: 35, // 条数
-      area: 'ALL' // 类型
-    });
-    const newDiscAlbumList = ref<unknown[]>([]);
-    // 全部新碟
-    function getNweDiscAlbum(): void {
-      nweDiscAlbum({
-        offset: (newDiscFormData.offset - 1) * newDiscFormData.limit,
-        limit: newDiscFormData.limit,
-        area: newDiscFormData.area
-      })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            pageTotal.value = res.total;
-            newDiscAlbumList.value = res.albums;
-          }
-        })
-        .catch(() => ({}));
-    }
-    getNweDiscAlbum();
+// 跳转专辑详情
+function jumpAlbumDetail(id: number): void {
+  $store.commit('jumpAlbumDetail', id);
+}
 
-    // 全部新碟类型切换
-    function newDiscType(type: string): void {
-      newDiscFormData.area = type;
-      getNweDiscAlbum();
-    }
+// 跳转歌手详情
+function jumpSingerDetail(id: number): void {
+  $store.commit('jumpSingerDetail', id);
+}
 
-    // 分页
-    function changPage(current: number): void {
-      newDiscFormData.offset = current;
-      getNweDiscAlbum();
-    }
-
-    return {
-      hotNewDiscList,
-      albumToPlayListPlay,
-      jumpAlbumDetail,
-      jumpSingerDetail,
-      newDiscAlbumList,
-      pageTotal,
-      newDiscFormData,
-      newDiscType,
-      changPage
-    };
-  }
+// 全部新碟
+const params = reactive({
+  offset: 1,
+  limit: 35,
+  area: 'ALL'
 });
+const albumList = ref<AlbumItem[]>([]);
+const albumTotal = ref<number>(0);
+
+function getAlbumList(): void {
+  nweDiscAlbum({
+    offset: (params.offset - 1) * params.limit,
+    limit: params.limit,
+    area: params.area
+  })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        albumList.value = res?.albums || [];
+        albumTotal.value = res?.total || 0;
+      }
+    })
+    .catch(() => ({}));
+}
+getAlbumList();
+
+// 全部新碟 - 类型切换
+function newDiscType(type: string): void {
+  params.area = type;
+  getAlbumList();
+}
+
+// 分页
+function pageChange(current: number): void {
+  params.offset = current;
+  getAlbumList();
+}
 </script>
 
 <style lang="less" scoped>

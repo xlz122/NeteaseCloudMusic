@@ -39,106 +39,37 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script lang="ts" setup>
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 
-export default defineComponent({
-  props: {
-    character: {
-      type: Array,
-      default: () => []
-    },
-    media: {
-      type: Array,
-      default: () => []
-    }
+type ItemType = {
+  id: number;
+  name?: string;
+  updateFrequency: string;
+  coverImgUrl?: string;
+};
+
+defineProps({
+  character: {
+    type: Array as () => ItemType[],
+    default: () => []
   },
-  emits: ['menuChange'],
-  setup(props, { emit }) {
-    const $store = useStore();
-
-    const songSheetId = computed<number>(() => $store.getters.songSheetId);
-
-    function menuChange(id: number, updateFrequency: string): void {
-      emit('menuChange', id, updateFrequency);
-    }
-
-    return {
-      songSheetId,
-      menuChange
-    };
+  media: {
+    type: Array as () => ItemType[],
+    default: () => []
   }
 });
+const emits = defineEmits(['menuChange']);
+
+const $store = useStore();
+const songSheetId = computed<number>(() => $store.getters.songSheetId);
+
+function menuChange(id: number, updateFrequency: string): void {
+  emits('menuChange', id, updateFrequency);
+}
 </script>
 
 <style lang="less">
-.toplist-menu {
-  padding-top: 20px;
-
-  .menu-title {
-    padding: 0 10px 12px 15px;
-    margin-top: 20px;
-    font-family: simsun, '\5b8b\4f53', sans-serif;
-    font-size: 14px;
-    color: #000;
-    text-align: left;
-  }
-
-  .menu-list {
-    text-align: left;
-
-    .item {
-      height: 42px;
-      padding: 10px 0 10px 20px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #f4f2f2;
-      }
-
-      .item-cover {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        margin-right: 10px;
-        vertical-align: middle;
-
-        .cover-img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-
-      .item-info {
-        display: inline-block;
-        vertical-align: middle;
-
-        .info-name {
-          width: 150px;
-          margin-bottom: 6px;
-          overflow: hidden;
-          font-size: 12px;
-          color: #000;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          cursor: pointer;
-        }
-
-        .info-desc {
-          color: #999;
-          cursor: pointer;
-        }
-      }
-    }
-
-    .active-item {
-      background: #e6e6e6;
-
-      &:hover {
-        background: #e6e6e6;
-      }
-    }
-  }
-}
+@import url('./toplist-menu.less');
 </style>

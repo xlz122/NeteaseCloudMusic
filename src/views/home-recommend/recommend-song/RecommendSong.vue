@@ -4,7 +4,7 @@
       <i class="loading-icon"></i>
       加载中...
     </div>
-    <table class="play-list-table" v-if="recommendSong?.length > 0">
+    <table class="play-list-table" v-if="list?.length > 0">
       <thead>
         <tr>
           <th class="th first-th">
@@ -26,7 +26,7 @@
       </thead>
       <tbody class="tbody">
         <tr
-          v-for="(item, index) in recommendSong"
+          v-for="(item, index) in list"
           :key="index"
           :class="[{ 'even-item': (index + 1) % 2 }]"
         >
@@ -46,17 +46,17 @@
                 <span class="title" :title="`${item?.name}`">
                   {{ item?.name }}
                 </span>
-                <span class="no-click" v-if="item?.alia[0]">
+                <span class="no-click" v-if="item?.alia && item?.alia[0]">
                   - {{ item?.alia[0] }}
                 </span>
               </span>
-              <i class="icon-play" v-if="item?.mv > 0"></i>
+              <i class="icon-play" v-if="item?.mv && item?.mv > 0"></i>
             </div>
           </td>
           <td class="tbody-td">
             <div class="hd">
               <span class="text time">
-                {{ timeStampToDuration(item.dt / 1000) }}
+                {{ timeStampToDuration(item?.dt || 0 / 1000) }}
               </span>
               <div class="operate-btn">
                 <i
@@ -102,7 +102,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="no-data" v-if="!loading && recommendSong?.length === 0">
+    <div class="no-data" v-if="!loading && list?.length === 0">
       <div class="title">
         <i class="icon"></i>
         <h3 class="text">暂无音乐！</h3>
@@ -118,8 +118,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, watch, toRefs } from 'vue';
+<script lang="ts" setup>
+import { ref, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
@@ -127,99 +127,87 @@ import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { timeStampToDuration } from '@/utils/utils';
 import type { SongType } from '@/common/audio';
 
-export default defineComponent({
-  props: {
-    recommendSong: {
-      type: Array,
-      default: () => []
-    }
-  },
-  setup(props) {
-    const { recommendSong } = toRefs(props);
+type ItemType = {
+  alia?: string[];
+  al?: {
+    id?: number;
+    name?: string;
+  };
+} & SongType;
 
-    const $store = useStore();
-
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const playMusicId = computed<number>(
-      () => $store.getters['music/playMusicId']
-    );
-
-    const loading = ref<boolean>(true);
-    watch(
-      () => recommendSong.value,
-      () => {
-        loading.value = false;
-      }
-    );
-
-    // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(item: Partial<SongType>): void {
-      useMusicToPlayList({ music: item });
-    }
-
-    // 播放单个歌曲
-    function playSingleMusic(item: Partial<SongType>): void {
-      usePlaySingleMusic(item);
-    }
-
-    // 收藏
-    function handleCollection(id: number): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      $store.commit('collectPlayMusic', {
-        visible: true,
-        songIds: id
-      });
-    }
-
-    // 分享
-    function handleShare(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 下载
-    function handleDownload(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    // 跳转专辑详情
-    function jumpAlbumDetail(id: number): void {
-      $store.commit('jumpAlbumDetail', id);
-    }
-
-    return {
-      timeStampToDuration,
-      playMusicId,
-      loading,
-      playSingleMusic,
-      singleMusicToPlayList,
-      handleCollection,
-      handleShare,
-      handleDownload,
-      jumpSongDetail,
-      jumpSingerDetail,
-      jumpAlbumDetail
-    };
+const props = defineProps({
+  list: {
+    type: Array as () => ItemType[],
+    default: () => []
   }
 });
+
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
+
+const { list } = toRefs(props);
+
+const loading = ref<boolean>(true);
+watch(
+  () => list.value,
+  () => {
+    loading.value = false;
+  }
+);
+
+// 单个歌曲添加到播放列表
+function singleMusicToPlayList(item: Partial<SongType>): void {
+  useMusicToPlayList({ music: item });
+}
+
+// 播放单个歌曲
+function playSingleMusic(item: Partial<SongType>): void {
+  usePlaySingleMusic(item);
+}
+
+// 收藏
+function handleCollection(id: number | undefined): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  $store.commit('collectPlayMusic', {
+    visible: true,
+    songIds: id
+  });
+}
+
+// 分享
+function handleShare(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 下载
+function handleDownload(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 跳转歌曲详情
+function jumpSongDetail(id: number | undefined): void {
+  $store.commit('jumpSongDetail', id);
+}
+
+// 跳转歌手详情
+function jumpSingerDetail(id: number | undefined): void {
+  $store.commit('jumpSingerDetail', id);
+}
+
+// 跳转专辑详情
+function jumpAlbumDetail(id: number | undefined): void {
+  $store.commit('jumpAlbumDetail', id);
+}
 </script>
 
 <style lang="less" scoped>

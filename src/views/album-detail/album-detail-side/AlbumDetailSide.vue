@@ -2,7 +2,8 @@
   <div class="song-sheet-side-container">
     <h3 class="title">喜欢这张专辑的人</h3>
     <ul class="like-list">
-      <li
+      <li class="item"></li>
+      <!-- <li
         class="item"
         v-for="(item, index) in []"
         :key="index"
@@ -12,7 +13,7 @@
         <router-link class="item-link" to="" :title="item?.nickname">
           <img class="item-img" :src="`${item?.avatarUrl}?param=40y40`" />
         </router-link>
-      </li>
+      </li> -->
     </ul>
     <h3 class="title">
       Ta的其他热门专辑
@@ -37,7 +38,7 @@
           </p>
           <div class="info-desc">
             <span class="text">
-              {{ formatDateTime(item?.publishTime / 1000, 'yyyy-MM-dd') }}
+              {{ formatDateTime(item?.publishTime || 0 / 1000, 'yyyy-MM-dd') }}
             </span>
           </div>
         </div>
@@ -48,100 +49,81 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, reactive, computed, watch, nextTick } from 'vue';
+<script lang="ts" setup>
+import { ref, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { formatDateTime } from '@/utils/utils';
 import { artistAlbum } from '@/api/album-detail';
 import type { ResponseType } from '@/types/types';
-import SideDownload from '@/views/song-sheet-detail/side-downlod/SideDownload.vue';
+import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
 
-type AlbumParams = {
-  offset: number;
-  limit: number;
+type AlbumItem = {
+  id: number;
+  name: string;
+  picUrl: string;
+  publishTime: number;
 };
 
-export default defineComponent({
-  components: {
-    SideDownload
-  },
-  props: {
-    likePeople: {
-      type: Array,
-      default: () => []
-    }
-  },
-  setup() {
-    const $store = useStore();
-
-    const singerId = computed<number>(() => $store.getters.singerId);
-    const albumId = computed(() => $store.getters.albumId);
-
-    watch(
-      () => singerId.value,
-      curVal => {
-        if (curVal && Number(curVal) > 0) {
-          nextTick(() => {
-            getArtistAlbum();
-          });
-        }
-      },
-      {
-        immediate: true
-      }
-    );
-
-    const albumList = ref();
-    const albumParams = reactive<AlbumParams>({
-      offset: 1, // 页数
-      limit: 5 // 条数
-    });
-
-    // 获取歌手辑列表
-    function getArtistAlbum(): void {
-      artistAlbum({
-        id: singerId.value,
-        offset: albumParams.offset - 1,
-        limit: albumParams.limit
-      })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            albumList.value = res.hotAlbums;
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 跳转专辑详情
-    function jumpAlbumDetail(id: number): boolean | undefined {
-      if (albumId.value === id) {
-        return false;
-      }
-
-      $store.commit('jumpAlbumDetail', id);
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(): void {
-      // 歌手详情导航选中
-      $store.commit('setSingerTabIndex', 1);
-      $store.commit('jumpSingerDetail', singerId.value);
-    }
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
-    return {
-      formatDateTime,
-      albumList,
-      jumpAlbumDetail,
-      jumpSingerDetail,
-      jumpUserProfile
-    };
+defineProps({
+  likePeople: {
+    type: Array,
+    default: () => []
   }
 });
+
+const $store = useStore();
+const singerId = computed<number>(() => $store.getters.singerId);
+const albumId = computed<number>(() => $store.getters.albumId);
+
+const params = reactive({
+  offset: 1,
+  limit: 5
+});
+const albumList = ref<AlbumItem[]>([]);
+
+// 获取歌手辑列表
+function getArtistAlbum(): void {
+  artistAlbum({
+    id: singerId.value,
+    offset: params.offset - 1,
+    limit: params.limit
+  })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        albumList.value = res.hotAlbums;
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 跳转专辑详情
+function jumpAlbumDetail(id: number | undefined): boolean | undefined {
+  if (albumId.value === id) {
+    return;
+  }
+
+  $store.commit('jumpAlbumDetail', id);
+}
+
+// 跳转歌手详情
+function jumpSingerDetail(): void {
+  $store.commit('setSingerTabIndex', 1);
+  $store.commit('jumpSingerDetail', singerId.value);
+}
+
+watch(
+  () => singerId.value,
+  curVal => {
+    if (!curVal) {
+      return;
+    }
+
+    getArtistAlbum();
+  },
+  {
+    immediate: true
+  }
+);
 </script>
 
 <style lang="less" scoped>

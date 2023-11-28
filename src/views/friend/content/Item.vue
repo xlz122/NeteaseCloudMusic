@@ -370,17 +370,22 @@ export default defineComponent({
   props: {
     item: {
       type: Object,
-      default: () => ({})
+      default: () => {}
     }
   },
   emits: [
+    'setDynamicLike',
     'jumpUserProfile',
     'playSingleMusic',
     'jumpSongDetail',
     'jumpSingerDetail',
     'jumpAlbumDetail'
   ],
-  setup(props, { emit }) {
+  setup(_props, { emit }) {
+    function setDynamicLike(id: number, threadId: number, type: number): void {
+      emit('setDynamicLike', id, threadId, type);
+    }
+
     function jumpUserProfile(userId: number): void {
       emit('jumpUserProfile', userId);
     }
@@ -403,6 +408,7 @@ export default defineComponent({
 
     return {
       formatDate,
+      setDynamicLike,
       jumpUserProfile,
       playSingleMusic,
       jumpSongDetail,

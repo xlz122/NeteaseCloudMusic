@@ -13,42 +13,27 @@
   </my-dialog>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script lang="ts" setup>
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 import MyDialog from '@/components/MyDialog.vue';
 
-export default defineComponent({
-  name: 'NoCopyright',
-  components: {
-    MyDialog
-  },
-  setup() {
-    const $store = useStore();
+const $store = useStore();
+const copyright = computed(() => $store.getters.copyright);
 
-    const copyright = computed(() => $store.getters.copyright);
+function confirm(): void {
+  $store.commit('setCopyright', {
+    visible: false,
+    message: ''
+  });
+}
 
-    function confirm(): void {
-      $store.commit('setCopyright', {
-        visible: false,
-        message: ''
-      });
-    }
-
-    function cancel(): void {
-      $store.commit('setCopyright', {
-        visible: false,
-        message: ''
-      });
-    }
-
-    return {
-      copyright,
-      confirm,
-      cancel
-    };
-  }
-});
+function cancel(): void {
+  $store.commit('setCopyright', {
+    visible: false,
+    message: ''
+  });
+}
 </script>
 
 <style lang="less" scoped>

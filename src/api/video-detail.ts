@@ -11,6 +11,7 @@ export const videoDetail = ({ id }: { id: number }): AxiosPromise => {
     timestamp: new Date().getTime(),
     id
   };
+
   return axios.request({
     url: '/video/detail',
     method: 'get',
@@ -28,6 +29,7 @@ export const relatedVideo = ({ id }: { id: number }): AxiosPromise => {
     timestamp: new Date().getTime(),
     id
   };
+
   return axios.request({
     url: '/related/allvideo',
     method: 'get',
@@ -40,11 +42,12 @@ export const relatedVideo = ({ id }: { id: number }): AxiosPromise => {
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 视频id
  */
-export const videoUrl = ({ id }: { id: number }): AxiosPromise => {
+export const videoPlayUrl = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id
   };
+
   return axios.request({
     url: '/video/url',
     method: 'get',
@@ -61,7 +64,7 @@ type VideoSub = {
  * @description 收藏/取消收藏视频
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 视频id
- * @param { Number } t - t : 1 为收藏,其他为取消收藏
+ * @param { Number } t - 1: 收藏, 其他为取消收藏
  */
 export const videoSub = ({ id, t }: VideoSub): AxiosPromise => {
   const params = {
@@ -69,6 +72,7 @@ export const videoSub = ({ id, t }: VideoSub): AxiosPromise => {
     id,
     t
   };
+
   return axios.request({
     url: '/video/sub',
     method: 'get',

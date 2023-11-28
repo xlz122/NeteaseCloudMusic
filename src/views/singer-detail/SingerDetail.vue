@@ -54,11 +54,18 @@
             <span class="text">{{ item?.title }}</span>
           </li>
         </ul>
-        <!-- 根据选中，渲染对应组件 -->
-        <component
-          :is="`${singerTabs[singerTabIndex]?.component}`"
-          :singerDetail="singerDetail"
-        ></component>
+        <template v-if="singerTabIndex === 0">
+          <SingerSong :singerDetail="singerDetail" />
+        </template>
+        <template v-if="singerTabIndex === 1">
+          <SingerAlbum :singerDetail="singerDetail" />
+        </template>
+        <template v-if="singerTabIndex === 2">
+          <SingerMv :singerDetail="singerDetail" />
+        </template>
+        <template v-if="singerTabIndex === 3">
+          <SingerIntroduce :singerDetail="singerDetail" />
+        </template>
       </div>
       <div class="detail-side">
         <SingerDetailSide />
@@ -67,8 +74,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, reactive, computed, watch } from 'vue';
+<script lang="ts" setup>
+import { ref, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { artistDetail, artistSub } from '@/api/singer-detail';
@@ -79,123 +86,123 @@ import SingerAlbum from './singer-album/SingerAlbum.vue';
 import SingerMv from './singer-mv/SingerMv.vue';
 import SingerIntroduce from './singer-introduce/SingerIntroduce.vue';
 
-export default defineComponent({
-  components: {
-    SingerSong,
-    SingerAlbum,
-    SingerMv,
-    SingerIntroduce,
-    SingerDetailSide
+type SingerDetail = {
+  artist?: {
+    name?: string;
+    englishName?: string;
+    cover?: string;
+  };
+  user?: {
+    userId?: number;
+    followed?: boolean;
+  };
+};
+
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const singerId = computed<number>(() => $store.getters.singerId);
+const singerTabIndex = computed<number>(() => $store.getters.singerTabIndex);
+
+watch(
+  () => singerId.value,
+  curVal => {
+    if (!curVal) {
+      return;
+    }
+
+    getArtistDetail();
   },
-  setup() {
-    const $store = useStore();
-
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const singerId = computed<number>(() => $store.getters.singerId);
-    const singerTabIndex = computed(() => $store.getters.singerTabIndex);
-
-    watch(
-      () => singerId.value,
-      curVal => {
-        if (curVal) {
-          getArtistDetail();
-        }
-      },
-      {
-        immediate: true
-      }
-    );
-
-    const singerDetail = ref<Record<string, any>>([]);
-
-    // 获取歌手详情
-    function getArtistDetail(): void {
-      artistDetail({ id: singerId.value })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            // 处理英文名
-            const briefDesc = res.data.artist.briefDesc;
-            if (briefDesc.indexOf('（') && briefDesc.indexOf('）')) {
-              res.data.artist.englishName = briefDesc.substring(
-                briefDesc.indexOf('（') + 1,
-                briefDesc.indexOf('）')
-              );
-            }
-            singerDetail.value = res.data;
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 收藏/取消收藏歌手
-    function setArtistSub(followed: boolean): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      // 1:收藏 2:取消收藏
-      const t = followed ? 2 : 1;
-
-      artistSub({ id: singerId.value, t })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            if (t === 1) {
-              setMessage({ type: 'info', title: '收藏成功' });
-
-              singerDetail.value.user.followed = true;
-            }
-            if (t === 2) {
-              setMessage({ type: 'info', title: '取消收藏成功' });
-
-              singerDetail.value.user.followed = false;
-            }
-          } else {
-            setMessage({ type: 'error', title: res?.message });
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // tab部分
-    const singerTabs = reactive([
-      {
-        title: '热门作品',
-        component: 'SingerSong'
-      },
-      {
-        title: '所有专辑',
-        component: 'SingerAlbum'
-      },
-      {
-        title: '相似MV',
-        component: 'SingerMv'
-      },
-      {
-        title: '艺人介绍',
-        component: 'SingerIntroduce'
-      }
-    ]);
-
-    function tabChange(index: number): void {
-      $store.commit('setSingerTabIndex', index);
-    }
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
-    return {
-      singerDetail,
-      setArtistSub,
-      singerTabs,
-      singerTabIndex,
-      tabChange,
-      jumpUserProfile
-    };
+  {
+    immediate: true
   }
-});
+);
+
+// 获取歌手详情
+const singerDetail = ref<SingerDetail>({});
+
+function getArtistDetail(): void {
+  artistDetail({ id: singerId.value })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        // 处理英文名
+        const briefDesc = res.data.artist.briefDesc;
+        if (briefDesc.indexOf('（') && briefDesc.indexOf('）')) {
+          res.data.artist.englishName = briefDesc.substring(
+            briefDesc.indexOf('（') + 1,
+            briefDesc.indexOf('）')
+          );
+        }
+        singerDetail.value = res.data;
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 收藏/取消收藏歌手
+function setArtistSub(followed: boolean | undefined): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  // 1: 收藏 2: 取消收藏
+  const t = followed ? 2 : 1;
+
+  artistSub({ id: singerId.value, t })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        if (t === 1) {
+          Object.assign(singerDetail.value, {
+            ...singerDetail.value.user,
+            followed: true
+          });
+
+          setMessage({ type: 'info', title: '收藏成功' });
+        }
+        if (t === 2) {
+          Object.assign(singerDetail.value, {
+            ...singerDetail.value.user,
+            followed: false
+          });
+
+          setMessage({ type: 'info', title: '取消收藏成功' });
+        }
+
+        return;
+      }
+
+      setMessage({ type: 'error', title: res?.message });
+    })
+    .catch(() => ({}));
+}
+
+const singerTabs = reactive([
+  {
+    title: '热门作品',
+    component: 'SingerSong'
+  },
+  {
+    title: '所有专辑',
+    component: 'SingerAlbum'
+  },
+  {
+    title: '相似MV',
+    component: 'SingerMv'
+  },
+  {
+    title: '艺人介绍',
+    component: 'SingerIntroduce'
+  }
+]);
+
+function tabChange(index: number): void {
+  $store.commit('setSingerTabIndex', index);
+}
+
+// 跳转用户资料
+function jumpUserProfile(id: number | undefined): void {
+  $store.commit('jumpUserProfile', id);
+}
 </script>
 
 <style lang="less" scoped>

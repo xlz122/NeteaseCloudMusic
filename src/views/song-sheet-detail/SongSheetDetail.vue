@@ -2,7 +2,7 @@
   <div class="song-sheet-detail">
     <div class="detail-container">
       <div class="detail-content">
-        <UserInfo class="user-info" @jumpToComments="jumpToComments" />
+        <UserInfo class="user-info" @jumpToComment="jumpToComment" />
         <div class="list-title">
           <h3 class="title-text">歌曲列表</h3>
           <span class="title-text-num">
@@ -42,7 +42,7 @@
         <div class="comment-component">
           <Comment
             :commentParams="commentParams"
-            @commentRefresh="commentRefresh"
+            @refreshComment="refreshComment"
           />
         </div>
         <Page
@@ -50,7 +50,7 @@
           :page="commentParams.offset"
           :pageSize="commentParams.limit"
           :total="commentParams.total"
-          @changPage="changPage"
+          @pageChange="pageChange"
         />
       </div>
       <div class="detail-side">
@@ -60,19 +60,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import {
-  defineComponent,
-  reactive,
-  computed,
-  watch,
-  onMounted,
-  nextTick
-} from 'vue';
+<script lang="ts" setup>
+import { reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { handleCommentData } from '@/components/comment/handleCommentData';
 import { playlistDetail } from '@/api/song-sheet-detail';
-import { commentPlayList } from '@/api/comment';
+import { playlistComment } from '@/api/comment';
 import type { ResponseType } from '@/types/types';
 import type { CommentParams } from '@/components/comment/Comment.vue';
 import UserInfo from '@/components/song-sheet/user-info/UserInfo.vue';
@@ -81,122 +74,94 @@ import Comment from '@/components/comment/Comment.vue';
 import SongSheetSide from './song-sheet-side/SongSheetSide.vue';
 import Page from '@/components/page/Page.vue';
 
-export default defineComponent({
-  components: {
-    UserInfo,
-    MusicTable,
-    Comment,
-    SongSheetSide,
-    Page
+const $store = useStore();
+const songSheetId = computed<number>(() => $store.getters.songSheetId);
+const songSheetDetail = computed(() => $store.getters.songSheetDetail);
+
+// 获取歌单详情
+function getSongDetail(): void {
+  $store.commit('setSongSheetDetail', {});
+
+  playlistDetail({ id: songSheetId.value })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        $store.commit('setSongSheetDetail', res);
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 跳转至评论
+function jumpToComment(): void {
+  const commentDom = document.querySelector(
+    '.comment-component'
+  ) as HTMLDivElement;
+
+  window.scrollTo(0, Number(commentDom.offsetTop) + 20);
+}
+
+// 获取评论
+const commentParams = reactive<CommentParams>({
+  type: 2,
+  id: songSheetId.value,
+  offset: 1,
+  limit: 20,
+  total: 0,
+  hotList: [],
+  list: []
+});
+
+function getCommentList(): void {
+  const params = {
+    id: songSheetId.value,
+    offset: (commentParams.offset - 1) * commentParams.limit,
+    limit: commentParams.limit
+  };
+
+  playlistComment({ ...params })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        const result = handleCommentData(res);
+        // 精彩评论
+        commentParams.hotList = result.hotList;
+        // 最新评论
+        commentParams.list = result.list;
+        commentParams.total = res.total;
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 刷新评论
+function refreshComment(): void {
+  getCommentList();
+}
+
+// 分页
+function pageChange(current: number): void {
+  commentParams.offset = current;
+  jumpToComment();
+  getCommentList();
+}
+
+watch(
+  () => songSheetId.value,
+  curVal => {
+    if (!curVal) {
+      return;
+    }
+
+    getSongDetail();
+    getCommentList();
   },
-  setup() {
-    const $store = useStore();
-
-    const songSheetId = computed<number>(() => $store.getters.songSheetId);
-    // 歌单详情数据
-    const songSheetDetail = computed(() => $store.getters.songSheetDetail);
-
-    watch(
-      () => songSheetId.value,
-      curVal => {
-        if (curVal) {
-          nextTick(() => {
-            getSongDetail();
-            getCommentData();
-          });
-        }
-      },
-      {
-        immediate: true
-      }
-    );
-
-    // 获取歌单详情
-    function getSongDetail(): void {
-      $store.commit('setSongSheetDetail', {});
-
-      playlistDetail({
-        id: songSheetId.value
-      })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            $store.commit('setSongSheetDetail', res);
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 跳转至评论
-    function jumpToComments(): void {
-      const commentDom = document.querySelector(
-        '.comment-component'
-      ) as HTMLElement;
-
-      window.scrollTo(0, Number(commentDom.offsetTop) + 20);
-    }
-
-    // 获取评论数据
-    const commentParams = reactive<CommentParams>({
-      type: 2,
-      id: songSheetId.value,
-      offset: 1,
-      limit: 20,
-      total: 0,
-      hotList: [],
-      list: []
-    });
-    function getCommentData(): void {
-      const params = {
-        id: songSheetId.value,
-        limit: commentParams.limit
-      };
-      // 精彩评论不加offset
-      if (commentParams.offset > 1) {
-        Object.assign(params, {
-          offset: (commentParams.offset - 1) * commentParams.limit
-        });
-      }
-      commentPlayList({ ...params })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            const result = handleCommentData(res);
-            // 精彩评论
-            commentParams.hotList = result.hotList;
-            // 最新评论
-            commentParams.list = result.list;
-            // 最新评论 - 总数
-            commentParams.total = res.total;
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 刷新评论
-    function commentRefresh(): void {
-      getCommentData();
-    }
-
-    // 分页
-    function changPage(current: number): void {
-      commentParams.offset = current;
-      jumpToComments();
-      getCommentData();
-    }
-
-    onMounted(() => {
-      $store.commit('setMenuIndex', 0);
-      $store.commit('setSubMenuIndex', -1);
-    });
-
-    return {
-      songSheetId,
-      songSheetDetail,
-      jumpToComments,
-      commentParams,
-      commentRefresh,
-      changPage
-    };
+  {
+    immediate: true
   }
+);
+
+onMounted(() => {
+  $store.commit('setMenuIndex', 0);
+  $store.commit('setSubMenuIndex', -1);
 });
 </script>
 

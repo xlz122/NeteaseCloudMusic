@@ -26,8 +26,8 @@
   ></div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
+<script lang="ts" setup>
+import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 
@@ -36,71 +36,57 @@ type SubMenuItem = {
   link: string;
 };
 
-export default defineComponent({
-  name: 'SubMenu',
-  setup() {
-    const $route = useRoute();
-    const $router = useRouter();
-    const $store = useStore();
+const $route = useRoute();
+const $router = useRouter();
+const $store = useStore();
+const menuIndex = computed<number>(() => $store.getters.menuIndex);
+const subMenuIndex = computed<number>(() => $store.getters.subMenuIndex);
 
-    const menuIndex = computed<number>(() => $store.getters.menuIndex);
-    const subMenuIndex = computed<number>(() => $store.getters.subMenuIndex);
+const subMenu = ref<SubMenuItem[]>([
+  {
+    title: '推荐',
+    link: '/'
+  },
+  {
+    title: '排行榜',
+    link: '/home-toplist'
+  },
+  {
+    title: '歌单',
+    link: '/home-song-sheet'
+  },
+  {
+    title: '主播电台',
+    link: '/home-djprogram'
+  },
+  {
+    title: '歌手',
+    link: '/home-singer'
+  },
+  {
+    title: '新碟上架',
+    link: '/home-new-disc'
+  }
+]);
 
-    const subMenu = ref<SubMenuItem[]>([
-      {
-        title: '推荐',
-        link: '/'
-      },
-      {
-        title: '排行榜',
-        link: '/home-toplist'
-      },
-      {
-        title: '歌单',
-        link: '/home-song-sheet'
-      },
-      {
-        title: '主播电台',
-        link: '/home-djprogram'
-      },
-      {
-        title: '歌手',
-        link: '/home-singer'
-      },
-      {
-        title: '新碟上架',
-        link: '/home-new-disc'
-      }
-    ]);
+function subMenuChange(item: SubMenuItem, index: number): void {
+  $router.push({ path: item.link });
+  $store.commit('setSubMenuIndex', index);
+}
 
-    function subMenuChange(item: SubMenuItem, index: number): void {
-      $router.push({ path: item.link });
+watch(
+  () => $route.path,
+  path => {
+    const index = subMenu.value.findIndex(item => item.link === path);
+
+    if (index !== -1) {
       $store.commit('setSubMenuIndex', index);
     }
-
-    watch(
-      () => $route.path,
-      (path: string) => {
-        const index = subMenu.value.findIndex(
-          (item: SubMenuItem) => item.link === path
-        );
-        if (index !== -1) {
-          $store.commit('setSubMenuIndex', index);
-        }
-      },
-      {
-        immediate: true
-      }
-    );
-
-    return {
-      menuIndex,
-      subMenuIndex,
-      subMenu,
-      subMenuChange
-    };
+  },
+  {
+    immediate: true
   }
-});
+);
 </script>
 
 <style lang="less" scoped>

@@ -150,8 +150,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, watch, toRefs } from 'vue';
+<script lang="ts" setup>
+import { ref, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
@@ -162,172 +162,144 @@ import { deleteMusic } from '@/api/my-music';
 import type { SongType } from '@/common/audio';
 import MyDialog from '@/components/MyDialog.vue';
 
-export default defineComponent({
-  components: {
-    MyDialog
-  },
-  props: {
-    songSheetDetail: {
-      type: Object,
-      default: () => ({})
-    }
-  },
-  setup(props) {
-    const { songSheetDetail } = toRefs(props);
-
-    const $router = useRouter();
-    const $store = useStore();
-
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const userInfo = computed(() => $store.getters.userInfo);
-    const playMusicId = computed<number>(
-      () => $store.getters['music/playMusicId']
-    );
-
-    const loading = ref<boolean>(true);
-    watch(
-      () => songSheetDetail.value,
-      () => {
-        loading.value = false;
-      }
-    );
-
-    // 歌曲是否有版权
-    function isCopyright(id: number): boolean | undefined {
-      const privilege = songSheetDetail.value?.privileges.find(
-        (item: { id: number }) => item.id === id
-      );
-      if (privilege?.cp === 0) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-    // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(item: Partial<SongType>): void {
-      useMusicToPlayList({ music: item });
-    }
-
-    // 播放单个歌曲
-    function playSingleMusic(item: { id: number }): boolean | undefined {
-      // 无版权
-      if (isCopyright(item.id)) {
-        $store.commit('setCopyright', {
-          visible: true,
-          message: '由于版权保护，您所在的地区暂时无法使用。'
-        });
-        return false;
-      }
-
-      usePlaySingleMusic(item);
-    }
-
-    // 收藏
-    function handleCollection(id: number): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      // 无版权
-      if (isCopyright(id)) {
-        $store.commit('setCopyright', {
-          visible: true,
-          message: '由于版权保护，您所在的地区暂时无法使用。'
-        });
-        return false;
-      }
-
-      $store.commit('collectPlayMusic', {
-        visible: true,
-        songIds: id
-      });
-    }
-
-    // 分享
-    function handleShare(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 下载
-    function handleDownload(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 删除歌曲弹框
-    const deleteMusicDialog = ref<boolean>(false);
-    // 即将删除的歌曲id
-    const deleteMuiscId = ref<number>(0);
-    // 列表 - 删除图标点击
-    function deleteMusicShow(id: number): void {
-      deleteMusicDialog.value = !deleteMusicDialog.value;
-      deleteMuiscId.value = id;
-    }
-
-    // 删除歌曲 - 确定
-    function deleteMusicConfirm(): void {
-      deleteMusicDialog.value = false;
-      deleteMusic({
-        pid: songSheetDetail.value.playlist.id,
-        tracks: deleteMuiscId.value
-      })
-        .then(() => {
-          const index = songSheetDetail.value?.playlist?.tracks?.findIndex(
-            (item: { id: number }) => item.id === deleteMuiscId.value
-          );
-          songSheetDetail.value?.playlist?.tracks?.splice(index, 1);
-        })
-        .catch(() => ({}));
-    }
-
-    // 删除歌曲 - 取消
-    function deleteMusicCancel(): void {
-      deleteMusicDialog.value = false;
-    }
-
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
-    }
-
-    // 跳转视频详情
-    function jumpVideoDetail(id: number): void {
-      $router.push({ name: 'mv-detail', params: { id } });
-      $store.commit('video/setVideo', { id, url: '' });
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    return {
-      timeStampToDuration,
-      userInfo,
-      playMusicId,
-      loading,
-      isCopyright,
-      singleMusicToPlayList,
-      handleCollection,
-      handleShare,
-      handleDownload,
-      playSingleMusic,
-      deleteMusicDialog,
-      deleteMusicShow,
-      deleteMusicConfirm,
-      deleteMusicCancel,
-      jumpSongDetail,
-      jumpVideoDetail,
-      jumpSingerDetail
-    };
+const props = defineProps({
+  songSheetDetail: {
+    type: Object,
+    default: () => {}
   }
 });
+
+const $router = useRouter();
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const userInfo = computed(() => $store.getters.userInfo);
+const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
+
+const { songSheetDetail } = toRefs(props);
+
+const loading = ref<boolean>(true);
+watch(
+  () => songSheetDetail.value,
+  () => {
+    loading.value = false;
+  }
+);
+
+// 歌曲是否有版权
+function isCopyright(id: number): boolean | undefined {
+  const privilege = songSheetDetail.value?.privileges.find(
+    (item: { id: number }) => item.id === id
+  );
+
+  if (privilege?.cp === 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+// 单个歌曲添加到播放列表
+function singleMusicToPlayList(item: Partial<SongType>): void {
+  useMusicToPlayList({ music: item });
+}
+
+// 播放单个歌曲
+function playSingleMusic(item: { id: number }): boolean | undefined {
+  // 无版权
+  if (isCopyright(item.id)) {
+    $store.commit('setCopyright', {
+      visible: true,
+      message: '由于版权保护，您所在的地区暂时无法使用。'
+    });
+    return;
+  }
+
+  usePlaySingleMusic(item);
+}
+
+// 收藏
+function handleCollection(id: number): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  // 无版权
+  if (isCopyright(id)) {
+    $store.commit('setCopyright', {
+      visible: true,
+      message: '由于版权保护，您所在的地区暂时无法使用。'
+    });
+    return;
+  }
+
+  $store.commit('collectPlayMusic', {
+    visible: true,
+    songIds: id
+  });
+}
+
+// 分享
+function handleShare(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 下载
+function handleDownload(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 删除歌曲
+const deleteMusicDialog = ref<boolean>(false);
+const deleteMuiscId = ref<number>(0);
+
+function deleteMusicShow(id: number): void {
+  deleteMusicDialog.value = !deleteMusicDialog.value;
+  deleteMuiscId.value = id;
+}
+
+// 删除歌曲 - 确定
+function deleteMusicConfirm(): void {
+  deleteMusicDialog.value = false;
+
+  deleteMusic({
+    pid: songSheetDetail.value.playlist.id,
+    tracks: deleteMuiscId.value
+  })
+    .then(() => {
+      const index = songSheetDetail.value?.playlist?.tracks?.findIndex(
+        (item: { id: number }) => item.id === deleteMuiscId.value
+      );
+      songSheetDetail.value?.playlist?.tracks?.splice(index, 1);
+    })
+    .catch(() => ({}));
+}
+
+// 删除歌曲 - 取消
+function deleteMusicCancel(): void {
+  deleteMusicDialog.value = false;
+}
+
+// 跳转歌曲详情
+function jumpSongDetail(id: number): void {
+  $store.commit('jumpSongDetail', id);
+}
+
+// 跳转视频详情
+function jumpVideoDetail(id: number): void {
+  $router.push({ name: 'mv-detail', params: { id } });
+  $store.commit('video/setVideo', { id, url: '' });
+}
+
+// 跳转歌手详情
+function jumpSingerDetail(id: number): void {
+  $store.commit('jumpSingerDetail', id);
+}
 </script>
 
 <style lang="less" scoped>

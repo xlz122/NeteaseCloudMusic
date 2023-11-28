@@ -92,8 +92,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
+<script lang="ts" setup>
+import { ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
@@ -102,122 +102,117 @@ import { userRecord } from '@/api/user';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/common/audio';
 
-export default defineComponent({
-  props: {
-    listenSongs: {
-      type: Number,
-      default: 0
-    }
-  },
-  setup() {
-    const $store = useStore();
+type RecordItem = {
+  score: string;
+  playCount: number;
+  song: {
+    id: number;
+    name: string;
+    ar: {
+      id: number;
+      name: string;
+    }[];
+  };
+};
 
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const playMusicId = computed<number>(
-      () => $store.getters['music/playMusicId']
-    );
-    const uid = computed<number>(() => $store.getters.userId);
-
-    const loading = ref<boolean>(false);
-
-    const type = ref<number>(0);
-    function typeChange(t: number): void {
-      type.value = t;
-    }
-
-    watch(
-      () => type.value,
-      () => {
-        loading.value = true;
-        getUserRecord();
-      },
-      {
-        immediate: true
-      }
-    );
-
-    const recordList = ref<unknown[]>([]);
-    // 获取用户播放记录
-    function getUserRecord(): void {
-      userRecord({ uid: uid.value, type: type.value })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            if (type.value === 0) {
-              recordList.value = res?.allData;
-            } else {
-              recordList.value = res?.weekData;
-            }
-
-            loading.value = false;
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 播放单个歌曲
-    function playSingleMusic(item: Partial<SongType>): void {
-      usePlaySingleMusic(item);
-    }
-
-    // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(item: Partial<SongType>): void {
-      useMusicToPlayList({ music: item });
-    }
-
-    // 收藏
-    function handleCollection(id: number): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      $store.commit('collectPlayMusic', {
-        visible: true,
-        songIds: id
-      });
-    }
-
-    // 分享
-    function handleShare(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 下载
-    function handleDownload(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    return {
-      playMusicId,
-      type,
-      typeChange,
-      loading,
-      recordList,
-      playSingleMusic,
-      singleMusicToPlayList,
-      handleCollection,
-      handleShare,
-      handleDownload,
-      jumpSongDetail,
-      jumpSingerDetail
-    };
+defineProps({
+  listenSongs: {
+    type: Number,
+    default: 0
   }
 });
+
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
+const uid = computed<number>(() => $store.getters.userId);
+
+// 最近一周/所有时间
+const type = ref<number>(0);
+
+function typeChange(t: number): void {
+  type.value = t;
+}
+
+const loading = ref<boolean>(false);
+
+watch(
+  () => type.value,
+  () => {
+    loading.value = true;
+    getUserRecord();
+  },
+  {
+    immediate: true
+  }
+);
+
+// 获取用户播放记录
+const recordList = ref<RecordItem[]>([]);
+
+function getUserRecord(): void {
+  userRecord({ uid: uid.value, type: type.value })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        if (type.value === 0) {
+          recordList.value = res?.allData;
+        } else {
+          recordList.value = res?.weekData;
+        }
+
+        loading.value = false;
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 播放单个歌曲
+function playSingleMusic(item: Partial<SongType>): void {
+  usePlaySingleMusic(item);
+}
+
+// 单个歌曲添加到播放列表
+function singleMusicToPlayList(item: Partial<SongType>): void {
+  useMusicToPlayList({ music: item });
+}
+
+// 收藏
+function handleCollection(id: number): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  $store.commit('collectPlayMusic', {
+    visible: true,
+    songIds: id
+  });
+}
+
+// 分享
+function handleShare(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 下载
+function handleDownload(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 跳转歌曲详情
+function jumpSongDetail(id: number): void {
+  $store.commit('jumpSongDetail', id);
+}
+
+// 跳转歌手详情
+function jumpSingerDetail(id: number): void {
+  $store.commit('jumpSingerDetail', id);
+}
 </script>
 
 <style lang="less" scoped>

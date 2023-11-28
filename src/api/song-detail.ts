@@ -11,6 +11,7 @@ export const songDetail = ({ ids }: { ids: number }): AxiosPromise => {
     timestamp: new Date().getTime(),
     ids
   };
+
   return axios.request({
     url: '/song/detail',
     method: 'get',
@@ -28,6 +29,7 @@ export const simiPlaylist = ({ id }: { id: number }): AxiosPromise => {
     timestamp: new Date().getTime(),
     id
   };
+
   return axios.request({
     url: '/simi/playlist',
     method: 'get',
@@ -45,6 +47,7 @@ export const simiSong = ({ id }: { id: number }): AxiosPromise => {
     timestamp: new Date().getTime(),
     id
   };
+
   return axios.request({
     url: '/simi/song',
     method: 'get',

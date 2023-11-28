@@ -18,8 +18,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, watch, onMounted } from 'vue';
+<script lang="ts" setup>
+import { ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import findCityZipCode from './city';
 import { userDetail } from '@/api/user';
@@ -28,63 +28,53 @@ import UserInfo from '@/components/user-profile/user-info/UserInfo.vue';
 import UserRecord from '@/components/user-profile/user-record/UserRecord.vue';
 import SongSheetList from '@/components/user-profile/song-sheet-list/SongSheetList.vue';
 
-export default defineComponent({
-  components: {
-    UserInfo,
-    UserRecord,
-    SongSheetList
-  },
-  setup() {
-    const $store = useStore();
+type CurrentUserInfo = {
+  peopleCanSeeMyPlayRecord?: boolean;
+  listenSongs?: number;
+};
 
-    const userInfo = computed(() => $store.getters.userInfo);
-    const userId = computed<number>(() => $store.getters.userId);
+const $store = useStore();
+const userInfo = computed(() => $store.getters.userInfo);
+const userId = computed<number>(() => $store.getters.userId);
 
-    watch(
-      () => userId.value,
-      curVal => {
-        if (curVal) {
-          getUserDetail();
-        }
-      },
-      {
-        immediate: true
-      }
-    );
-
-    const currentUserInfo = ref({});
-    // 省、市
-    const provinceName = ref<string>('');
-    const cityName = ref<string>('');
-
-    // 获取当前用户详情
-    function getUserDetail() {
-      userDetail({ uid: userId.value })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            currentUserInfo.value = res;
-            if (res?.profile?.province) {
-              provinceName.value = findCityZipCode(res?.profile?.province || 0);
-              cityName.value = findCityZipCode(res?.profile?.city || 0);
-            }
-          }
-        })
-        .catch(() => ({}));
+watch(
+  () => userId.value,
+  curVal => {
+    if (!curVal) {
+      return;
     }
 
-    onMounted(() => {
-      $store.commit('setMenuIndex', -1);
-      $store.commit('setSubMenuIndex', -1);
-    });
-
-    return {
-      userId,
-      userInfo,
-      currentUserInfo,
-      provinceName,
-      cityName
-    };
+    getUserDetail();
+  },
+  {
+    immediate: true
   }
+);
+
+// 获取当前用户详情
+const currentUserInfo = ref<CurrentUserInfo>({});
+const provinceName = ref<string>('');
+const cityName = ref<string>('');
+
+function getUserDetail() {
+  userDetail({ uid: userId.value })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        currentUserInfo.value = res as CurrentUserInfo;
+
+        // 省、市
+        if (res?.profile?.province) {
+          provinceName.value = findCityZipCode(res?.profile?.province || 0);
+          cityName.value = findCityZipCode(res?.profile?.city || 0);
+        }
+      }
+    })
+    .catch(() => ({}));
+}
+
+onMounted(() => {
+  $store.commit('setMenuIndex', -1);
+  $store.commit('setSubMenuIndex', -1);
 });
 </script>
 

@@ -14,7 +14,7 @@ function usePlaySingleMusic<T extends PlayMusicItem | Partial<SongType>>(
   music: T
 ): void {
   if (toRawType(music) !== 'Object') {
-    throw new Error('播放所需数据类型错误');
+    throw new Error('播放歌曲数据类型错误!');
   }
 
   const musicItem: PlayMusicItem =

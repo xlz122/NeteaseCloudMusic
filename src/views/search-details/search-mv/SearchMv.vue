@@ -10,7 +10,7 @@
       :key="index"
       :class="{ 'first-item': index % 5 }"
     >
-      <div class="cover" @click="jumpVideoDetail(item?.type, item?.vid)">
+      <div class="cover" @click="jumpVideoDetail(item?.vid, item?.type)">
         <img class="img" :src="item?.coverUrl" alt="" />
         <div class="play-volume">
           <span class="icon-mv"></span>
@@ -21,13 +21,13 @@
         </div>
       </div>
       <div class="item-title">
-        <i class="icon" v-if="item?.type === 0"></i>
+        <i class="icon" v-if="item?.type && item?.type === 0"></i>
         <span
           :title="item?.title"
-          @click="jumpVideoDetail(item?.type, item?.vid)"
+          @click="jumpVideoDetail(item?.vid, item?.type)"
         >
           <span
-            v-html="handleMatchString(item?.title, searchDetailText)"
+            v-html="handleMatchString(item?.title || '', searchDetailText)"
           ></span>
         </span>
       </div>
@@ -48,12 +48,12 @@
     :page="mvData.offset"
     :pageSize="mvData.limit"
     :total="mvData.total"
-    @changPage="changPage"
+    @pageChange="pageChange"
   />
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
+<script lang="ts" setup>
+import { reactive, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import {
@@ -70,111 +70,102 @@ type MvData = {
   offset: number;
   limit: number;
   total: number;
-  list: unknown[];
+  list: {
+    vid: number;
+    title: string;
+    type: number;
+    coverUrl: string;
+    playTime: number;
+    durationms: number;
+    creator: {
+      userId: number;
+      userName: string;
+    }[];
+  }[];
 };
 
-export default defineComponent({
-  components: {
-    Page
-  },
-  props: {
-    searchDetailText: {
-      type: String,
-      default: ''
-    }
-  },
-  emits: ['searchCountChange'],
-  setup(props, { emit }) {
-    const $router = useRouter();
-    const $store = useStore();
-
-    const { searchDetailText } = toRefs(props);
-
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const userInfo = computed(() => $store.getters.userInfo);
-    // 搜索关键词
-    const searchText = computed<string>(() =>
-      $store.getters.searchText.replace(/"/g, '')
-    );
-
-    watch(
-      () => searchDetailText.value,
-      () => {
-        getSearchMv();
-      }
-    );
-
-    const mvData = reactive<MvData>({
-      loading: true,
-      offset: 1,
-      limit: 30,
-      total: 0,
-      list: []
-    });
-
-    // 获取视频列表
-    function getSearchMv(): void {
-      searchKeywords({
-        keywords: searchDetailText.value || searchText.value,
-        offset: (mvData.offset - 1) * mvData.limit,
-        limit: isLogin.value ? mvData.limit : 20,
-        type: 1014
-      })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            const total = isLogin.value
-              ? res?.result?.videoCount
-              : res?.result?.videos.length;
-
-            mvData.total = total;
-            mvData.list = res?.result?.videos;
-
-            emit('searchCountChange', total || 0);
-          }
-
-          mvData.loading = false;
-        })
-        .catch(() => ({}));
-    }
-    getSearchMv();
-
-    // 分页
-    function changPage(current: number): void {
-      mvData.offset = current;
-      getSearchMv();
-    }
-
-    // 跳转视频详情
-    function jumpVideoDetail(type: number, id: number): void {
-      // type 0为mv, 1为视频
-      if (type === 0) {
-        $router.push({ name: 'mv-detail', params: { id } });
-      }
-
-      if (type === 1) {
-        $router.push({ name: 'video-detail', params: { id } });
-      }
-
-      $store.commit('video/setVideo', { id, url: '' });
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    return {
-      bigNumberTransform,
-      timeStampToDuration,
-      handleMatchString,
-      userInfo,
-      mvData,
-      changPage,
-      jumpVideoDetail,
-      jumpSingerDetail
-    };
+const props = defineProps({
+  searchDetailText: {
+    type: String,
+    default: ''
   }
 });
+const emits = defineEmits(['searchCountChange']);
+
+const $router = useRouter();
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const searchText = computed<string>(() =>
+  $store.getters.searchText.replace(/"/g, '')
+);
+
+const { searchDetailText } = toRefs(props);
+
+// 获取视频列表
+const mvData = reactive<MvData>({
+  loading: true,
+  offset: 1,
+  limit: 30,
+  total: 0,
+  list: []
+});
+
+watch(
+  () => searchDetailText.value,
+  () => {
+    getSearchMv();
+  }
+);
+
+function getSearchMv(): void {
+  searchKeywords({
+    type: 1014,
+    keywords: searchDetailText.value || searchText.value,
+    offset: (mvData.offset - 1) * mvData.limit,
+    limit: isLogin.value ? mvData.limit : 20
+  })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        const total = isLogin.value
+          ? res?.result?.videoCount
+          : res?.result?.videos.length;
+
+        mvData.total = total;
+        mvData.list = res?.result?.videos;
+
+        emits('searchCountChange', total || 0);
+      }
+
+      mvData.loading = false;
+    })
+    .catch(() => ({}));
+}
+getSearchMv();
+
+// 分页
+function pageChange(current: number): void {
+  mvData.offset = current;
+  getSearchMv();
+}
+
+// 跳转视频详情
+function jumpVideoDetail(id: number, type: number): void {
+  // 0: mv, 1: 视频
+  if (type === 0) {
+    $router.push({ name: 'mv-detail', params: { id } });
+  }
+
+  if (type === 1) {
+    $router.push({ name: 'video-detail', params: { id } });
+  }
+
+  $store.commit('video/setVideo', { id, url: '' });
+}
+
+// 跳转歌手详情
+function jumpSingerDetail(id: number | undefined): void {
+  $store.commit('jumpSingerDetail', id);
+}
 </script>
 
 <style lang="less" scoped>

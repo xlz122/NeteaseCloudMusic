@@ -35,27 +35,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { bigNumberTransform, timeStampToDuration } from '@/utils/utils';
-import SideDownload from '@/views/song-sheet-detail/side-downlod/SideDownload.vue';
+<script lang="ts" setup>
+import { bigNumberTransform } from '@/utils/utils';
+import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
 
-export default defineComponent({
-  name: 'VideoDetailSide',
-  components: {
-    SideDownload
-  },
-  props: {
-    detail: {
-      type: Object,
-      default: () => ({})
-    }
-  },
-  setup() {
-    return {
-      bigNumberTransform,
-      timeStampToDuration
-    };
+defineProps({
+  detail: {
+    type: Object,
+    default: () => {}
   }
 });
 </script>

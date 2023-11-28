@@ -9,9 +9,8 @@ const VideoPlayer = {
     // 关联数据
     vm.appContext = app._context;
 
-    const element = document.getElementById('video-palyer') as HTMLDivElement;
-
     // 挂载
+    const element = document.getElementById('video-palyer') as HTMLDivElement;
     render(vm, element);
   }
 };

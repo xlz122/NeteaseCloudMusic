@@ -11,47 +11,40 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, toRefs, ref, watch } from 'vue';
+<script lang="ts" setup>
+import { ref, watch } from 'vue';
 
-export default defineComponent({
-  props: {
-    show: {
-      type: Boolean,
-      default: false
-    },
-    content: {
-      type: String,
-      default: '提示'
-    },
-    icon: {
-      type: String,
-      default: 'success'
-    }
+const props = defineProps({
+  show: {
+    type: Boolean,
+    default: false
   },
-  emits: ['close'],
-  setup(props, { emit }) {
-    const { show } = toRefs(props);
-    const dialogShow = ref(show.value);
-    watch(
-      () => show.value,
-      val => {
-        dialogShow.value = val;
-        if (val) close();
-      }
-    );
-    // 关闭
-    function close(): void {
-      setTimeout(() => {
-        dialogShow.value = false;
-        emit('close', dialogShow.value);
-      }, 1000);
-    }
-    return {
-      dialogShow
-    };
+  icon: {
+    type: String,
+    default: 'success'
+  },
+  content: {
+    type: String,
+    default: '提示'
   }
 });
+const emits = defineEmits(['close']);
+
+const dialogShow = ref(props.show);
+watch(
+  () => props.show,
+  val => {
+    dialogShow.value = val;
+    if (val) close();
+  }
+);
+
+function close(): void {
+  setTimeout(() => {
+    dialogShow.value = false;
+    emits('close', dialogShow.value);
+  }, 1000);
+}
 </script>
 
 <style lang="less" scoped>

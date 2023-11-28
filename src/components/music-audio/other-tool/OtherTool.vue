@@ -48,148 +48,133 @@
   />
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, watch, reactive } from 'vue';
+<script lang="ts" setup>
+import { ref, reactive, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import VolumeProgress from '../volume-progress/VolumeProgress.vue';
 import PlayList from './play-list/PlayList.vue';
 
-export default defineComponent({
-  name: 'OtherTool',
-  components: {
-    VolumeProgress,
-    PlayList
-  },
-  setup() {
-    const $route = useRoute();
-    const $store = useStore();
+type ModeTip = {
+  visible: boolean;
+  timer: NodeJS.Timeout | null;
+};
 
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const playMusicId = computed<number>(
-      () => $store.getters['music/playMusicId']
-    );
-    const playMusicList = computed(() => $store.getters['music/playMusicList']);
-    const musicVolume = computed(() => $store.getters['music/musicVolume']);
+type PlayTip = {
+  visible: boolean;
+  title: string;
+  timer: NodeJS.Timeout | null;
+};
 
-    // 收藏
-    function handleCollection(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
+const $route = useRoute();
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
+const playMusicList = computed(() => $store.getters['music/playMusicList']);
+const musicVolume = computed(() => $store.getters['music/musicVolume']);
 
-      $store.commit('collectPlayMusic', {
-        visible: true,
-        songIds: playMusicId.value
-      });
-    }
-
-    // 分享
-    function handleShare(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 音量条显隐
-    const volumeShow = ref<boolean>(false);
-    function setVolumeProgress(): void {
-      volumeShow.value = !volumeShow.value;
-    }
-
-    // 模式切换
-    const musicModeType = computed(() => $store.getters['music/musicModeType']);
-    const modeTip = reactive({
-      visible: false,
-      timer: 0
-    });
-    function modeChange(): void {
-      modeTip.visible = true;
-
-      if (modeTip.timer) {
-        clearTimeout(modeTip.timer);
-      }
-      modeTip.timer = setTimeout(() => {
-        modeTip.visible = false;
-      }, 3000);
-
-      let modeType = JSON.parse(JSON.stringify(musicModeType.value));
-      if (modeType === 2) {
-        modeType = 0;
-      } else {
-        modeType++;
-      }
-
-      $store.commit('music/setMusicModeType', modeType);
-    }
-
-    // 播放器提示
-    const playTip = reactive({
-      visible: false,
-      title: '',
-      timer: 0
-    });
-    watch(
-      () => playMusicList.value,
-      (curVal, oldVal) => {
-        if (curVal.length !== oldVal.length && curVal.length > 0) {
-          return false;
-        }
-
-        playTip.visible = true;
-        playTip.title = '已添加到播放列表';
-
-        if (playTip.timer) {
-          clearTimeout(playTip.timer);
-        }
-        playTip.timer = setTimeout(() => {
-          playTip.visible = false;
-        }, 3000);
-      }
-    );
-
-    // 显示播放列表
-    const playListShow = ref<boolean>(false);
-    function setPlayListShow(): void {
-      playListShow.value = !playListShow.value;
-    }
-
-    // 关闭播放列表
-    function closePlayList(): void {
-      playListShow.value = false;
-    }
-
-    // 路由切换，关闭播放列表
-    watch(
-      () => $route.params,
-      () => {
-        playListShow.value = false;
-      }
-    );
-
-    return {
-      playMusicId,
-      playMusicList,
-      musicVolume,
-      handleCollection,
-      handleShare,
-      volumeShow,
-      setVolumeProgress,
-      musicModeType,
-      modeTip,
-      modeChange,
-      playTip,
-      playListShow,
-      setPlayListShow,
-      closePlayList
-    };
+// 收藏
+function handleCollection(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
   }
+
+  $store.commit('collectPlayMusic', {
+    visible: true,
+    songIds: playMusicId.value
+  });
+}
+
+// 分享
+function handleShare(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 音量条显隐
+const volumeShow = ref<boolean>(false);
+
+function setVolumeProgress(): void {
+  volumeShow.value = !volumeShow.value;
+}
+
+// 播放模式切换
+const musicModeType = computed(() => $store.getters['music/musicModeType']);
+const modeTip = reactive<ModeTip>({
+  visible: false,
+  timer: null
 });
+
+function modeChange(): void {
+  modeTip.visible = true;
+
+  modeTip.timer && clearTimeout(modeTip.timer);
+
+  modeTip.timer = setTimeout(() => {
+    modeTip.visible = false;
+  }, 3000);
+
+  let modeType = JSON.parse(JSON.stringify(musicModeType.value));
+  if (modeType === 2) {
+    modeType = 0;
+  } else {
+    modeType++;
+  }
+
+  $store.commit('music/setMusicModeType', modeType);
+}
+
+// 播放器提示
+const playTip = reactive<PlayTip>({
+  visible: false,
+  title: '',
+  timer: null
+});
+
+watch(
+  () => playMusicList.value,
+  (curVal, oldVal) => {
+    if (curVal.length !== oldVal.length && curVal.length > 0) {
+      return;
+    }
+
+    playTip.visible = true;
+    playTip.title = '已添加到播放列表';
+
+    if (playTip.timer) {
+      clearTimeout(playTip.timer);
+    }
+    playTip.timer = setTimeout(() => {
+      playTip.visible = false;
+    }, 3000);
+  }
+);
+
+// 显示播放列表
+const playListShow = ref<boolean>(false);
+
+function setPlayListShow(): void {
+  playListShow.value = !playListShow.value;
+}
+
+// 关闭播放列表
+function closePlayList(): void {
+  playListShow.value = false;
+}
+
+// 路由切换，关闭播放列表
+watch(
+  () => $route.params,
+  () => {
+    playListShow.value = false;
+  }
+);
 </script>
 
 <style lang="less" scoped>

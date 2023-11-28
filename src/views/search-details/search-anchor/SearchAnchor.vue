@@ -10,21 +10,23 @@
       v-for="(item, index) in anchorData?.list"
       :key="index"
     >
-      <div class="item-cover" @click="jumpDjradioDetail(item?.id)">
+      <div class="item-cover" @click="jumpDjradioDetail()">
         <img
           class="item-cover-img"
           :src="`${item?.picUrl}?param=150y150`"
           alt=""
         />
       </div>
-      <p class="desc" @click="jumpDjradioDetail(item?.id)">
+      <p class="desc" @click="jumpDjradioDetail()">
         <span v-html="handleMatchString(item?.name, searchDetailText)"></span>
       </p>
       <p class="name" @click="jumpUserProfile(item?.dj?.userId)">
         <span class="by">by</span>
         <span class="text">
           <span
-            v-html="handleMatchString(item?.dj?.nickname, searchDetailText)"
+            v-html="
+              handleMatchString(item?.dj?.nickname || '', searchDetailText)
+            "
           ></span>
         </span>
         <i class="icon-sex male" v-if="item?.dj?.gender === 1"></i>
@@ -37,14 +39,14 @@
     :page="anchorData.offset"
     :pageSize="anchorData.limit"
     :total="anchorData.total"
-    @changPage="changPage"
+    @pageChange="pageChange"
   />
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, computed, watch, toRefs } from 'vue';
+<script lang="ts" setup>
+import { reactive, computed, watch, toRefs } from 'vue';
 import { useStore } from 'vuex';
-import { timeStampToDuration, handleMatchString } from '@/utils/utils';
+import { handleMatchString } from '@/utils/utils';
 import { setMessage } from '@/components/message/useMessage';
 import { searchKeywords } from '@/api/search';
 import type { ResponseType } from '@/types/types';
@@ -55,100 +57,90 @@ type AnchorData = {
   offset: number;
   limit: number;
   total: number;
-  list: unknown[];
+  list: {
+    id: number;
+    name: string;
+    picUrl: string;
+    dj: {
+      userId: number;
+      nickname: string;
+      gender: number;
+    };
+  }[];
 };
 
-export default defineComponent({
-  components: {
-    Page
-  },
-  props: {
-    searchDetailText: {
-      type: String,
-      default: ''
-    }
-  },
-  emits: ['searchCountChange'],
-  setup(props, { emit }) {
-    const $store = useStore();
-
-    const { searchDetailText } = toRefs(props);
-
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const userInfo = computed(() => $store.getters.userInfo);
-    // 搜索关键词
-    const searchText = computed<string>(() =>
-      $store.getters.searchText.replace(/"/g, '')
-    );
-
-    watch(
-      () => searchDetailText.value,
-      () => {
-        getSearchAnchor();
-      }
-    );
-
-    const anchorData = reactive<AnchorData>({
-      loading: true,
-      offset: 1,
-      limit: 30,
-      total: 0,
-      list: []
-    });
-
-    // 获取声音主播列表
-    function getSearchAnchor(): void {
-      searchKeywords({
-        keywords: searchDetailText.value || searchText.value,
-        offset: (anchorData.offset - 1) * anchorData.limit,
-        limit: isLogin.value ? anchorData.limit : 20,
-        type: 1009
-      })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            const total = isLogin.value
-              ? res?.result?.djRadiosCount
-              : res?.result?.djRadios.length;
-
-            anchorData.total = total;
-            anchorData.list = res?.result?.djRadios;
-
-            emit('searchCountChange', total || 0);
-          }
-
-          anchorData.loading = false;
-        })
-        .catch(() => ({}));
-    }
-    getSearchAnchor();
-
-    // 分页
-    function changPage(current: number): void {
-      anchorData.offset = current;
-      getSearchAnchor();
-    }
-
-    // 跳转电台详情
-    function jumpDjradioDetail(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
-    return {
-      timeStampToDuration,
-      handleMatchString,
-      userInfo,
-      anchorData,
-      changPage,
-      jumpDjradioDetail,
-      jumpUserProfile
-    };
+const props = defineProps({
+  searchDetailText: {
+    type: String,
+    default: ''
   }
 });
+const emits = defineEmits(['searchCountChange']);
+
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const searchText = computed<string>(() =>
+  $store.getters.searchText.replace(/"/g, '')
+);
+
+const { searchDetailText } = toRefs(props);
+
+// 获取声音主播列表
+const anchorData = reactive<AnchorData>({
+  loading: true,
+  offset: 1,
+  limit: 30,
+  total: 0,
+  list: []
+});
+
+watch(
+  () => searchDetailText.value,
+  () => {
+    getSearchAnchor();
+  }
+);
+
+function getSearchAnchor(): void {
+  searchKeywords({
+    type: 1009,
+    keywords: searchDetailText.value || searchText.value,
+    offset: (anchorData.offset - 1) * anchorData.limit,
+    limit: isLogin.value ? anchorData.limit : 20
+  })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        const total = isLogin.value
+          ? res?.result?.djRadiosCount
+          : res?.result?.djRadios.length;
+
+        anchorData.total = total || 0;
+        anchorData.list = res?.result?.djRadios || [];
+
+        emits('searchCountChange', total || 0);
+      }
+
+      anchorData.loading = false;
+    })
+    .catch(() => ({}));
+}
+getSearchAnchor();
+
+// 分页
+function pageChange(current: number): void {
+  anchorData.offset = current;
+  getSearchAnchor();
+}
+
+// 跳转电台详情
+function jumpDjradioDetail(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 跳转用户资料
+function jumpUserProfile(id: number): void {
+  $store.commit('jumpUserProfile', id);
+}
 </script>
 
 <style lang="less" scoped>

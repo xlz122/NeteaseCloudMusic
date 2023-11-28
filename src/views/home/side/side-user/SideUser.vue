@@ -58,8 +58,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
+<script lang="ts" setup>
+import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { formatDateTime } from '@/utils/utils';
@@ -71,104 +71,81 @@ type VipInfo = {
   redVipLevelIcon?: string;
 };
 
-export default defineComponent({
-  setup() {
-    const $router = useRouter();
-    const $store = useStore();
+const $router = useRouter();
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const userInfo = computed(() => $store.getters.userInfo);
+const isSignIn = computed<boolean>(() => $store.getters.userInfo.pcSign);
 
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const userInfo = computed(() => $store.getters.userInfo);
-
-    watch(
-      () => isLogin.value,
-      () => {
-        if (isLogin.value) {
-          getVipInfo();
-        }
-      },
-      {
-        immediate: true
-      }
-    );
-
-    const vipInfo = ref<VipInfo>({});
-
-    // 获取登录用户vip信息
-    function getVipInfo() {
-      userVipInfo()
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            vipInfo.value = res?.data;
-          }
-        })
-        .catch(() => ({}));
+watch(
+  () => isLogin.value,
+  () => {
+    if (isLogin.value) {
+      getVipInfo();
     }
-
-    // 重置签到
-    function resetSignIn(): boolean | undefined {
-      const signInTimestamp = localStorage.getItem('signInTimestamp') || 0;
-      if (Number(signInTimestamp) === 0) {
-        return false;
-      }
-
-      const signInDay = formatDateTime(
-        Number(signInTimestamp) / 1000,
-        'yyyyMMdd'
-      );
-      const today = formatDateTime(new Date().getTime() / 1000, 'yyyyMMdd');
-
-      if (Number(today) > Number(signInDay)) {
-        $store.commit('setSignIn', false);
-      }
-    }
-    resetSignIn();
-
-    // 是否已签到
-    const isSignIn = computed<boolean>(() => $store.getters.userInfo.pcSign);
-
-    // 签到
-    function signIn(): void {
-      // 存储签到时间戳，用于重置签到
-      localStorage.setItem(
-        'signInTimestamp',
-        JSON.stringify(new Date().getTime())
-      );
-      dailySignin()
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            $store.commit('setSignIn', true);
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 打开登录对话框
-    function openLogin(): void {
-      $store.commit('setLoginDialog', true);
-    }
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
-    // 跳转等级
-    function jumpLevel(): void {
-      $router.push({ path: '/level' });
-    }
-
-    return {
-      isLogin,
-      userInfo,
-      vipInfo,
-      isSignIn,
-      signIn,
-      openLogin,
-      jumpUserProfile,
-      jumpLevel
-    };
+  },
+  {
+    immediate: true
   }
-});
+);
+
+// 获取用户vip信息
+const vipInfo = ref<VipInfo>({});
+
+function getVipInfo() {
+  userVipInfo()
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        vipInfo.value = res?.data || {};
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 重置签到
+function resetSignIn(): boolean | undefined {
+  const signInTimestamp = localStorage.getItem('signInTimestamp') || 0;
+  if (Number(signInTimestamp) === 0) {
+    return;
+  }
+
+  const signInDay = formatDateTime(Number(signInTimestamp) / 1000, 'yyyyMMdd');
+  const today = formatDateTime(new Date().getTime() / 1000, 'yyyyMMdd');
+
+  if (Number(today) > Number(signInDay)) {
+    $store.commit('setSignIn', false);
+  }
+}
+resetSignIn();
+
+// 签到
+function signIn(): void {
+  // 存储签到时间戳，用于重置签到
+  localStorage.setItem('signInTimestamp', JSON.stringify(new Date().getTime()));
+
+  dailySignin()
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        $store.commit('setSignIn', true);
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 打开登录框
+function openLogin(): void {
+  $store.commit('setLoginDialog', true);
+}
+
+// 跳转用户资料
+function jumpUserProfile(id: number): void {
+  $store.commit('jumpUserProfile', id);
+}
+
+// 跳转等级
+function jumpLevel(): void {
+  $router.push({ path: '/level' });
+}
 </script>
 
 <style lang="less" scoped>

@@ -6,9 +6,8 @@ import type { AxiosPromise } from 'axios';
  * @param { Number } timestamp - 防止接口缓存
  */
 export const topList = (): AxiosPromise => {
-  const params = {
-    timestamp: new Date().getTime()
-  };
+  const params = { timestamp: new Date().getTime() };
+
   return axios.request({
     url: '/toplist',
     method: 'get',

@@ -34,251 +34,216 @@
   />
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, computed, watch } from 'vue';
+<script lang="ts" setup>
+import { reactive, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { userPlayList, addPlayList, deletePlayList } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
 import SongSheetToggle from './song-sheet-toggle/SongSheetToggle.vue';
 
-type SongSheetList = {
-  createSongSheet: Record<string, any>;
-  collectSongSheet: Record<string, any>;
+type SongSheet = {
+  createSongSheet: SongSheetItem[];
+  collectSongSheet: SongSheetItem[];
 };
 
-export default defineComponent({
-  components: {
-    SongSheetToggle
-  },
-  props: {
-    options: {
-      type: Object,
-      default: () => ({})
-    }
-  },
-  emits: ['handleOptions'],
-  setup(props, { emit }) {
-    const $route = useRoute();
-    const $store = useStore();
+type SongSheetItem = {
+  id: number;
+  name: string;
+  coverImgUrl: string;
+  trackCount: number;
+  subscribed: boolean;
+  creator: {
+    nickname: string;
+  };
+  cannotEdit: boolean;
+  cannotDelete: boolean;
+};
 
-    const isLogin = computed(() => $store.getters.isLogin);
-    const userInfo = computed(() => $store.getters.userInfo);
-    const songSheetId = computed(() => $store.getters.songSheetId);
+defineProps({
+  options: {
+    type: Object,
+    default: () => {}
+  }
+});
+const emits = defineEmits(['handleOptions']);
 
-    // 我的歌手
-    function handleMySinger(): void {
-      emit('handleOptions', {
-        type: 'mySinger',
-        data: {
-          visible: true
-        }
-      });
-    }
+const $route = useRoute();
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const userInfo = computed(() => $store.getters.userInfo);
+const songSheetId = computed<number>(() => $store.getters.songSheetId);
 
-    // 我的视频
-    function handleMyVideo(): void {
-      emit('handleOptions', {
-        type: 'myVideo',
-        data: {
-          visible: true
-        }
-      });
-    }
+// 我的歌手
+function handleMySinger(): void {
+  emits('handleOptions', { type: 'mySinger', data: { visible: true } });
+}
 
-    const songSheetList = reactive<SongSheetList>({
-      createSongSheet: [],
-      collectSongSheet: []
-    });
+// 我的视频
+function handleMyVideo(): void {
+  emits('handleOptions', { type: 'myVideo', data: { visible: true } });
+}
 
-    // 获取用户歌单列表
-    function getUserPlayList(): Promise<Record<string, any>> {
-      songSheetList.createSongSheet = [];
-      songSheetList.collectSongSheet = [];
+// 获取用户歌单列表
+const songSheetList = reactive<SongSheet>({
+  createSongSheet: [],
+  collectSongSheet: []
+});
 
-      return new Promise(resolve => {
-        userPlayList({
-          uid: userInfo.value?.profile?.userId
-        })
-          .then((res: ResponseType) => {
-            if (res.code === 200) {
-              res?.playlist.forEach(
-                (item: {
-                  name: string;
-                  cannotEdit: boolean;
-                  cannotDelete: boolean;
-                }) => {
-                  if (item?.name?.includes('喜欢的音乐')) {
-                    item.name = '我喜欢的音乐';
-                    item.cannotEdit = true;
-                    item.cannotDelete = true;
-                  }
-                }
-              );
+function getUserPlayList(): Promise<SongSheetItem[]> {
+  songSheetList.createSongSheet = [];
+  songSheetList.collectSongSheet = [];
 
-              // 创建/收藏歌单
-              songSheetList.createSongSheet = res?.playlist.filter(
-                (item: { subscribed: boolean }) => !item.subscribed
-              );
-              songSheetList.collectSongSheet = res?.playlist.filter(
-                (item: { subscribed: boolean }) => item.subscribed
-              );
-
-              resolve(res?.playlist);
+  return new Promise(resolve => {
+    userPlayList({ uid: userInfo.value?.profile?.userId })
+      .then((res: ResponseType) => {
+        if (res.code === 200) {
+          res?.playlist.forEach((item: SongSheetItem) => {
+            if (item?.name?.includes('喜欢的音乐')) {
+              item.name = '我喜欢的音乐';
+              item.cannotEdit = true;
+              item.cannotDelete = true;
             }
-          })
-          .catch(() => ({}));
-      });
+          });
+
+          // 创建/收藏的歌单
+          songSheetList.createSongSheet = res?.playlist.filter(
+            (item: SongSheetItem) => !item.subscribed
+          );
+          songSheetList.collectSongSheet = res?.playlist.filter(
+            (item: SongSheetItem) => item.subscribed
+          );
+
+          resolve(res?.playlist);
+        }
+      })
+      .catch(() => ({}));
+  });
+}
+
+watch(
+  () => $route.path,
+  async (to, from) => {
+    if (!isLogin.value) {
+      return;
     }
 
-    watch(
-      () => $route.path,
-      (to, from) => {
-        if (!isLogin.value) {
-          return false;
-        }
+    // 刷新
+    if (to && !from) {
+      const playlist = await getUserPlayList();
+      const isExist = playlist.find(item => item.id === songSheetId.value);
 
-        (async () => {
-          // 刷新
-          if (to && !from) {
-            const playlist = await getUserPlayList();
-            const isExist = playlist.find(
-              (item: { id: number }) => item.id === songSheetId.value
-            );
+      if (isExist) {
+        $store.commit('setSongSheetId', songSheetId.value);
+      } else {
+        $store.commit('setSongSheetId', playlist[0].id);
+      }
+    }
 
-            if (isExist) {
-              $store.commit('setSongSheetId', songSheetId.value);
-            } else {
-              $store.commit('setSongSheetId', playlist[0].id);
-            }
+    // 离开
+    if (to && from) {
+      $store.commit(
+        'setSongSheetId',
+        songSheetList.createSongSheet[0]?.id || 0
+      );
+    }
+  },
+  {
+    immediate: true
+  }
+);
+
+// 创建/收藏歌单点击
+function handleListChange(id: number): void {
+  emits('handleOptions', { type: 'songSheet', data: { visible: true } });
+
+  $store.commit('setSongSheetId', id);
+}
+
+// 添加/删除歌单
+function handleConfirm(data: {
+  type: string;
+  name: string;
+  id: number;
+}): boolean | undefined {
+  if (data.type === 'add') {
+    handleAddConfirm(data.name);
+    return;
+  }
+
+  handleDeleteConfirm(data.id);
+}
+
+// 创建歌单项
+function handleAddConfirm(name: string): void {
+  addPlayList({ name })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        emits('handleOptions', {
+          type: 'songSheet',
+          data: {
+            visible: true,
+            createCount: songSheetList.createSongSheet.length + 1
           }
+        });
+        songSheetList.createSongSheet.splice(1, 0, res.playlist);
 
-          // 离开当前路由
-          if (to && from) {
+        $store.commit('setSongSheetId', res.id);
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 删除歌单项
+function handleDeleteConfirm(id: number): void {
+  deletePlayList({ id })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        songSheetList.createSongSheet.forEach((item, index) => {
+          if (id === item.id) {
             $store.commit(
               'setSongSheetId',
-              songSheetList.createSongSheet[0]?.id || 0
+              songSheetList.createSongSheet[index - 1].id
             );
-          }
-        })();
-      },
-      {
-        immediate: true
-      }
-    );
 
-    // 创建/收藏歌单点击
-    function handleListChange(id: number): void {
-      emit('handleOptions', {
-        type: 'songSheet',
-        data: {
-          visible: true
-        }
-      });
-
-      $store.commit('setSongSheetId', id);
-    }
-
-    // 添加/删除歌单
-    function handleConfirm(data: {
-      type: string;
-      name: string;
-      id: number;
-    }): boolean | undefined {
-      if (data.type === 'add') {
-        handleAddConfirm(data.name);
-        return false;
-      }
-
-      handleDeleteConfirm(data.id);
-    }
-
-    // 创建歌单项
-    function handleAddConfirm(name: string): void {
-      addPlayList({ name })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            emit('handleOptions', {
+            emits('handleOptions', {
               type: 'songSheet',
               data: {
                 visible: true,
-                createCount: songSheetList.createSongSheet.length + 1
+                createCount: songSheetList.createSongSheet.length - 1
               }
             });
-            songSheetList.createSongSheet.splice(1, 0, res.playlist);
-
-            $store.commit('setSongSheetId', res.id);
+            songSheetList.createSongSheet.splice(index, 1);
           }
-        })
-        .catch(() => ({}));
-    }
+        });
+        songSheetList.collectSongSheet.forEach((item, index) => {
+          if (id === item.id) {
+            if (songSheetList.collectSongSheet[index - 1]?.id) {
+              $store.commit(
+                'setSongSheetId',
+                songSheetList.collectSongSheet[index - 1].id
+              );
+            } else {
+              $store.commit(
+                'setSongSheetId',
+                songSheetList.createSongSheet[0].id
+              );
+            }
 
-    // 删除歌单项
-    function handleDeleteConfirm(id: number): void {
-      deletePlayList({ id })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            songSheetList.createSongSheet.forEach(
-              (item: unknown, index: number) => {
-                const itemId = (item as { id: number }).id;
-
-                if (id === itemId) {
-                  $store.commit(
-                    'setSongSheetId',
-                    songSheetList.createSongSheet[index - 1].id
-                  );
-
-                  emit('handleOptions', {
-                    type: 'songSheet',
-                    data: {
-                      visible: true,
-                      createCount: songSheetList.createSongSheet.length - 1
-                    }
-                  });
-                  songSheetList.createSongSheet.splice(index, 1);
-                }
+            emits('handleOptions', {
+              type: 'songSheet',
+              data: {
+                visible: true,
+                collectionCount: songSheetList.collectSongSheet.length - 1
               }
-            );
-            songSheetList.collectSongSheet.forEach(
-              (item: { id: number }, index: number) => {
-                if (id === item.id) {
-                  if (songSheetList.collectSongSheet[index - 1]?.id) {
-                    $store.commit(
-                      'setSongSheetId',
-                      songSheetList.collectSongSheet[index - 1].id
-                    );
-                  } else {
-                    $store.commit(
-                      'setSongSheetId',
-                      songSheetList.createSongSheet[0].id
-                    );
-                  }
-
-                  emit('handleOptions', {
-                    type: 'songSheet',
-                    data: {
-                      visible: true,
-                      collectionCount: songSheetList.collectSongSheet.length - 1
-                    }
-                  });
-                  songSheetList.collectSongSheet.splice(index, 1);
-                }
-              }
-            );
+            });
+            songSheetList.collectSongSheet.splice(index, 1);
           }
-        })
-        .catch(() => ({}));
-    }
-
-    return {
-      handleMySinger,
-      handleMyVideo,
-      songSheetList,
-      handleListChange,
-      handleConfirm
-    };
-  }
-});
+        });
+      }
+    })
+    .catch(() => ({}));
+}
 </script>
 
 <style lang="less" scoped>

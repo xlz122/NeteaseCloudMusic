@@ -22,7 +22,7 @@
               </span>
               <span
                 class="line"
-                v-if="index !== mvDetailData?.artists.length - 1"
+                v-if="index !== mvDetailData?.artists?.length - 1"
                 >/</span
               >
             </template>
@@ -31,13 +31,17 @@
         <div class="video-container">
           <VideoPlayer
             :detail="mvDetailData"
-            :subed="mvsubed"
+            :subed="mvSubed"
             @handleCollection="handleCollection"
           />
         </div>
         <div class="operate-btn">
           <div class="other like" @click="handleLike">
-            <template v-if="mvDetailData?.praisedCount > 0">
+            <template
+              v-if="
+                mvDetailData?.praisedCount && mvDetailData?.praisedCount > 0
+              "
+            >
               <i class="like-icon"></i>
               <span class="icon"> ({{ mvDetailData?.praisedCount }}) </span>
             </template>
@@ -48,10 +52,12 @@
           </div>
           <div
             class="other collection"
-            :class="{ 'collection-sub': mvsubed }"
-            @click="handleCollection(mvsubed)"
+            :class="{ 'collection-sub': mvSubed }"
+            @click="handleCollection(mvSubed)"
           >
-            <template v-if="mvDetailData?.subCount > 0">
+            <template
+              v-if="mvDetailData?.subCount && mvDetailData?.subCount > 0"
+            >
               <span class="icon">({{ mvDetailData?.subCount }})</span>
             </template>
             <template v-else>
@@ -59,7 +65,9 @@
             </template>
           </div>
           <div class="other share" @click="handleShare">
-            <template v-if="mvDetailData?.shareCount > 0">
+            <template
+              v-if="mvDetailData?.shareCount && mvDetailData?.shareCount > 0"
+            >
               <span class="icon">({{ mvDetailData?.shareCount }})</span>
             </template>
             <template v-else>
@@ -70,7 +78,7 @@
         <div class="comment-component">
           <Comment
             :commentParams="commentParams"
-            @commentRefresh="commentRefresh"
+            @refreshComment="refreshComment"
           />
         </div>
         <Page
@@ -78,7 +86,7 @@
           :page="commentParams.offset"
           :pageSize="commentParams.limit"
           :total="commentParams.total"
-          @changPage="changPage"
+          @pageChange="pageChange"
         />
       </div>
       <div class="detail-side">
@@ -88,22 +96,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import {
-  defineComponent,
-  ref,
-  reactive,
-  computed,
-  watch,
-  nextTick,
-  onMounted
-} from 'vue';
+<script lang="ts" setup>
+import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { handleCommentData } from '@/components/comment/handleCommentData';
 import { mvDetail } from '@/api/mv-detail';
 import { mvUrl, mvSub } from '@/api/mv-detail';
-import { commentMv } from '@/api/comment';
+import { mvComment } from '@/api/comment';
 import type { ResponseType } from '@/types/types';
 import type { CommentParams } from '@/components/comment/Comment.vue';
 import type { Video } from '@/store/video/state';
@@ -112,193 +112,178 @@ import Comment from '@/components/comment/Comment.vue';
 import MvDetailSide from './mv-detail-side/MvDetailSide.vue';
 import Page from '@/components/page/Page.vue';
 
-export default defineComponent({
-  name: 'VideoDetail',
-  components: {
-    VideoPlayer,
-    Comment,
-    MvDetailSide,
-    Page
-  },
-  setup() {
-    const $store = useStore();
+type MvDetailData = {
+  name?: string;
+  artists: {
+    id?: number;
+    name?: string;
+  }[];
+  praisedCount?: number;
+  subCount?: number;
+  shareCount?: number;
+  subed?: boolean;
+};
 
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const video = computed<Video>(() => $store.getters['video/video']);
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const video = computed<Video>(() => $store.getters['video/video']);
 
-    watch(
-      () => video.value.id,
-      curVal => {
-        if (curVal) {
-          nextTick(() => {
-            getMvDetail();
-            getVideoSrc();
-            getCommentData();
-          });
-        }
-      },
-      {
-        immediate: true
+// 获取详情
+const mvDetailData = ref<MvDetailData>({
+  artists: []
+});
+const mvSubed = ref<boolean>(false);
+
+function getMvDetail(): void {
+  mvDetail({ mvid: video.value.id })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        mvDetailData.value = res?.data || {};
+        mvSubed.value = res?.subed || false;
       }
-    );
+    })
+    .catch(() => ({}));
+}
 
-    const mvDetailData = ref<unknown>({});
-    // 是否收藏
-    const mvsubed = ref<boolean>(false);
-    // 获取mv详情
-    function getMvDetail(): void {
-      mvDetail({
-        mvid: video.value.id
-      })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            mvDetailData.value = res?.data;
-            mvsubed.value = res?.subed;
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 获取播放地址
-    function getVideoSrc(): void {
-      mvUrl({ id: video.value.id })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            $store.commit('video/setVideo', {
-              ...video.value,
-              url: res?.data?.url
-            });
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 喜欢
-    function handleLike(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 收藏
-    function handleCollection(followed: boolean): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      // 1:收藏 2:取消收藏
-      const t = followed ? 2 : 1;
-
-      mvSub({ mvid: video.value.id, t })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            if (t === 1) {
-              setMessage({ type: 'info', title: '收藏成功' });
-
-              mvsubed.value = true;
-            }
-            if (t === 2) {
-              setMessage({ type: 'info', title: '取消收藏成功' });
-
-              mvsubed.value = false;
-            }
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 分享
-    function handleShare(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 获取评论数据
-    const commentParams = reactive<CommentParams>({
-      type: 1,
-      id: video.value.id,
-      offset: 1,
-      limit: 20,
-      total: 0,
-      hotList: [],
-      list: []
-    });
-    function getCommentData(): void {
-      const params = {
-        id: video.value.id,
-        limit: commentParams.limit
-      };
-      // 精彩评论不加offset
-      if (commentParams.offset > 1) {
-        Object.assign(params, {
-          offset: (commentParams.offset - 1) * commentParams.limit
+// 获取播放地址
+function getVideoPlaySrc(): void {
+  mvUrl({ id: video.value.id })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        $store.commit('video/setVideo', {
+          ...video.value,
+          url: res?.data?.url || ''
         });
       }
-      commentMv({ ...params })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            const result = handleCommentData(res);
-            // 精彩评论
-            commentParams.hotList = result.hotList;
-            // 最新评论
-            commentParams.list = result.list;
-            // 最新评论 - 总数
-            commentParams.total = res.total;
-          }
-        })
-        .catch(() => ({}));
-    }
+    })
+    .catch(() => ({}));
+}
 
-    // 刷新评论
-    function commentRefresh(): void {
-      getCommentData();
-    }
-
-    // 分页
-    function changPage(current: number): void {
-      commentParams.offset = current;
-      jumpToComments();
-      getCommentData();
-    }
-
-    // 跳转至评论
-    function jumpToComments(): void {
-      const commentDom = document.querySelector(
-        '.comment-component'
-      ) as HTMLElement;
-
-      window.scrollTo(0, Number(commentDom.offsetTop) + 20);
-    }
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    onMounted(() => {
-      $store.commit('setMenuIndex', 0);
-      $store.commit('setSubMenuIndex', -1);
-    });
-
-    return {
-      mvDetailData,
-      mvsubed,
-      handleLike,
-      handleCollection,
-      handleShare,
-      commentParams,
-      commentRefresh,
-      changPage,
-      jumpSingerDetail
-    };
+// 喜欢
+function handleLike(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
   }
+
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 收藏
+function handleCollection(followed: boolean | undefined): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  // 1: 收藏 2: 取消收藏
+  const t = followed ? 2 : 1;
+
+  mvSub({ mvid: video.value.id, t })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        if (t === 1) {
+          mvSubed.value = true;
+
+          setMessage({ type: 'info', title: '收藏成功' });
+        }
+        if (t === 2) {
+          mvSubed.value = false;
+
+          setMessage({ type: 'info', title: '取消收藏成功' });
+        }
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 分享
+function handleShare(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 获取评论
+const commentParams = reactive<CommentParams>({
+  type: 1,
+  id: video.value.id,
+  offset: 1,
+  limit: 20,
+  total: 0,
+  hotList: [],
+  list: []
+});
+
+function getCommentList(): void {
+  const params = {
+    id: video.value.id,
+    offset: (commentParams.offset - 1) * commentParams.limit,
+    limit: commentParams.limit
+  };
+
+  mvComment({ ...params })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        const result = handleCommentData(res);
+        // 精彩评论
+        commentParams.hotList = result.hotList;
+        // 最新评论
+        commentParams.list = result.list;
+        commentParams.total = res.total;
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 刷新评论
+function refreshComment(): void {
+  getCommentList();
+}
+
+// 分页
+function pageChange(current: number): void {
+  commentParams.offset = current;
+  jumpToComment();
+  getCommentList();
+}
+
+// 跳转至评论
+function jumpToComment(): void {
+  const commentDom = document.querySelector(
+    '.comment-component'
+  ) as HTMLDivElement;
+
+  window.scrollTo(0, Number(commentDom.offsetTop) + 20);
+}
+
+// 跳转歌手详情
+function jumpSingerDetail(id: number | undefined): void {
+  $store.commit('jumpSingerDetail', id);
+}
+
+watch(
+  () => video.value.id,
+  curVal => {
+    if (!curVal) {
+      return;
+    }
+
+    getMvDetail();
+    getVideoPlaySrc();
+    getCommentList();
+  },
+  {
+    immediate: true
+  }
+);
+
+onMounted(() => {
+  $store.commit('setMenuIndex', 0);
+  $store.commit('setSubMenuIndex', -1);
 });
 </script>
 

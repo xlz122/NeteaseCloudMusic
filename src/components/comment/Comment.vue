@@ -60,8 +60,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, nextTick, toRefs } from 'vue';
+<script lang="ts" setup>
+import { ref, computed, nextTick, toRefs } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import {
@@ -94,227 +94,194 @@ export type CommentParams = {
   }[];
 };
 
-export default defineComponent({
-  name: 'CommentView',
-  components: {
-    CommentReplay,
-    CommentList,
-    MyDialog
-  },
-  props: {
-    commentParams: {
-      type: Object,
-      default: () => ({})
-    }
-  },
-  emits: ['commentRefresh'],
-  setup(props, { emit }) {
-    const { commentParams } = toRefs(props);
-
-    const $store = useStore();
-
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const userInfo = computed(() => $store.getters.userInfo);
-
-    // 是否清除回复内容
-    const isClearText = ref<boolean>(false);
-
-    // 顶部评论提交
-    function submit(replayText: string): boolean | undefined {
-      if (!isLogin.value) {
-        return false;
-      }
-
-      if (replayText.length === 0) {
-        setMessage({
-          type: 'error',
-          title: '输入点内容再提交吧'
-        });
-        return false;
-      }
-      if (replayText.length > 140) {
-        setMessage({
-          type: 'error',
-          title: '输入不能超过140个字符'
-        });
-        return false;
-      }
-
-      addComment({
-        type: commentParams.value?.type,
-        id: commentParams.value?.id,
-        content: replayText
-      })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            setMessage({ type: 'info', title: '评论成功' });
-            // 清空回复内容
-            isClearText.value = true;
-            // 延迟重置
-            nextTick(() => {
-              isClearText.value = false;
-            });
-            emit('commentRefresh');
-          } else {
-            setMessage({ type: 'error', title: '评论失败' });
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 删除评论
-    const deleteCommentDialog = ref<boolean>(false);
-    const deleteCommentId = ref<number>(0);
-    function handleDeleteComment(commentId: number): void {
-      deleteCommentDialog.value = true;
-      deleteCommentId.value = commentId;
-    }
-
-    // 删除评论 - 确定
-    function deleteCommentConfirm() {
-      deleteComment({
-        type: commentParams.value?.type,
-        id: props?.commentParams?.id,
-        commentId: deleteCommentId.value
-      })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            deleteCommentDialog.value = false;
-            emit('commentRefresh');
-          } else {
-            deleteCommentDialog.value = false;
-            setMessage({ type: 'error', title: '删除失败' });
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 删除评论 - 取消
-    function deleteCommentCancel() {
-      deleteCommentDialog.value = false;
-    }
-
-    // 点赞(0精彩评论，1最新评论)
-    function handleLikeComment(
-      t: number,
-      commentId: number,
-      type: number
-    ): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      // 页面静态修改
-      let likeIndex = 0;
-      if (t === 0) {
-        likeIndex = commentParams.value.hotList.findIndex(
-          (item: { commentId: number }) => item.commentId === commentId
-        );
-        if (type === 0) {
-          commentParams.value.hotList[likeIndex].liked = false;
-          commentParams.value.hotList[likeIndex].likedCount--;
-        } else {
-          commentParams.value.hotList[likeIndex].liked = true;
-          commentParams.value.hotList[likeIndex].likedCount++;
-        }
-      }
-      if (t === 1) {
-        likeIndex = commentParams.value.list.findIndex(
-          (item: { commentId: number }) => item.commentId === commentId
-        );
-        if (type === 0) {
-          commentParams.value.list[likeIndex].liked = false;
-          commentParams.value.list[likeIndex].likedCount--;
-        } else {
-          commentParams.value.list[likeIndex].liked = true;
-          commentParams.value.list[likeIndex].likedCount++;
-        }
-      }
-
-      // 接口修改
-      commentLike({
-        type: commentParams.value?.type,
-        id: props?.commentParams?.id,
-        cid: commentId,
-        t: type
-      });
-    }
-
-    // 打开当前评论回复框
-    function setComments(type: number, index: number): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      commentParams.value.hotList.forEach((item: { replyShow: boolean }) => {
-        item.replyShow = false;
-      });
-      commentParams.value.list.forEach((item: { replyShow: boolean }) => {
-        item.replyShow = false;
-      });
-
-      if (type === 0) {
-        commentParams.value.hotList[index].replyShow = true;
-      }
-      if (type === 1) {
-        commentParams.value.list[index].replyShow = true;
-      }
-    }
-
-    // 回复提交（精彩评论、最新回复）
-    function replySubmit(
-      replayText: string,
-      commentId: number
-    ): boolean | undefined {
-      if (replayText.length === 0) {
-        setMessage({
-          type: 'error',
-          title: '输入点内容再提交吧'
-        });
-        return false;
-      }
-      if (replayText.length > 140) {
-        setMessage({
-          type: 'error',
-          title: '输入不能超过140个字符'
-        });
-        return false;
-      }
-
-      replyComment({
-        type: commentParams.value?.type,
-        id: props?.commentParams?.id,
-        content: replayText,
-        commentId
-      })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            setMessage({ type: 'info', title: '评论成功' });
-            emit('commentRefresh');
-          } else {
-            setMessage({ type: 'error', title: '评论失败' });
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    return {
-      defaultAvatarImg,
-      userInfo,
-      isClearText,
-      submit,
-      handleDeleteComment,
-      deleteCommentDialog,
-      deleteCommentConfirm,
-      deleteCommentCancel,
-      handleLikeComment,
-      setComments,
-      replySubmit
-    };
+const props = defineProps({
+  commentParams: {
+    type: Object,
+    default: () => {}
   }
 });
+const emits = defineEmits(['refreshComment']);
+
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
+const userInfo = computed(() => $store.getters.userInfo);
+
+const { commentParams } = toRefs(props);
+
+// 是否清除回复内容
+const isClearText = ref<boolean>(false);
+
+// 顶部评论提交
+function submit(replayText: string): boolean | undefined {
+  if (!isLogin.value) {
+    return;
+  }
+
+  if (replayText.length === 0) {
+    setMessage({ type: 'error', title: '输入点内容再提交吧' });
+    return;
+  }
+  if (replayText.length > 140) {
+    setMessage({ type: 'error', title: '输入不能超过140个字符' });
+    return;
+  }
+
+  addComment({
+    type: commentParams.value?.type,
+    id: commentParams.value?.id,
+    content: replayText
+  })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        // 清空回复内容
+        isClearText.value = true;
+        emits('refreshComment');
+        setMessage({ type: 'info', title: '评论成功' });
+
+        // 延迟重置
+        nextTick(() => {
+          isClearText.value = false;
+        });
+        return;
+      }
+
+      setMessage({ type: 'error', title: '评论失败' });
+    })
+    .catch(() => ({}));
+}
+
+// 删除评论
+const deleteCommentDialog = ref<boolean>(false);
+const deleteCommentId = ref<number>(0);
+
+function handleDeleteComment(commentId: number): void {
+  deleteCommentDialog.value = true;
+  deleteCommentId.value = commentId;
+}
+
+// 删除评论 - 确定
+function deleteCommentConfirm() {
+  deleteComment({
+    type: commentParams.value?.type,
+    id: props?.commentParams?.id,
+    commentId: deleteCommentId.value
+  })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        deleteCommentDialog.value = false;
+        emits('refreshComment');
+      } else {
+        deleteCommentDialog.value = false;
+        setMessage({ type: 'error', title: '删除失败' });
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 删除评论 - 取消
+function deleteCommentCancel() {
+  deleteCommentDialog.value = false;
+}
+
+// 点赞(0精彩评论，1最新评论)
+function handleLikeComment(
+  t: number,
+  commentId: number,
+  type: number
+): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  // 页面静态修改
+  let likeIndex = 0;
+  if (t === 0) {
+    likeIndex = commentParams.value.hotList.findIndex(
+      (item: { commentId: number }) => item.commentId === commentId
+    );
+    if (type === 0) {
+      commentParams.value.hotList[likeIndex].liked = false;
+      commentParams.value.hotList[likeIndex].likedCount--;
+    } else {
+      commentParams.value.hotList[likeIndex].liked = true;
+      commentParams.value.hotList[likeIndex].likedCount++;
+    }
+  }
+  if (t === 1) {
+    likeIndex = commentParams.value.list.findIndex(
+      (item: { commentId: number }) => item.commentId === commentId
+    );
+    if (type === 0) {
+      commentParams.value.list[likeIndex].liked = false;
+      commentParams.value.list[likeIndex].likedCount--;
+    } else {
+      commentParams.value.list[likeIndex].liked = true;
+      commentParams.value.list[likeIndex].likedCount++;
+    }
+  }
+
+  // 接口修改
+  commentLike({
+    type: commentParams.value?.type,
+    id: props?.commentParams?.id,
+    cid: commentId,
+    t: type
+  });
+}
+
+// 打开当前评论回复框
+function setComments(type: number, index: number): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  commentParams.value.hotList.forEach((item: { replyShow: boolean }) => {
+    item.replyShow = false;
+  });
+  commentParams.value.list.forEach((item: { replyShow: boolean }) => {
+    item.replyShow = false;
+  });
+
+  if (type === 0) {
+    commentParams.value.hotList[index].replyShow = true;
+  }
+  if (type === 1) {
+    commentParams.value.list[index].replyShow = true;
+  }
+}
+
+// 回复提交（精彩评论、最新回复）
+function replySubmit(
+  replayText: string,
+  commentId: number
+): boolean | undefined {
+  if (replayText.length === 0) {
+    setMessage({ type: 'error', title: '输入点内容再提交吧' });
+    return;
+  }
+  if (replayText.length > 140) {
+    setMessage({ type: 'error', title: '输入不能超过140个字符' });
+    return;
+  }
+
+  replyComment({
+    type: commentParams.value?.type,
+    id: props?.commentParams?.id,
+    content: replayText,
+    commentId
+  })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        emits('refreshComment');
+        setMessage({ type: 'info', title: '评论成功' });
+      } else {
+        setMessage({ type: 'error', title: '评论失败' });
+      }
+    })
+    .catch(() => ({}));
+}
 </script>
 
 <style lang="less" scoped>

@@ -1,9 +1,9 @@
 <template>
   <div class="detail-side-container">
-    <template v-if="songSheetList?.length > 0">
+    <template v-if="songSheet?.length > 0">
       <h3 class="title">包含这首歌的歌单</h3>
       <ul class="song-sheet-list">
-        <li class="item" v-for="(item, index) in songSheetList" :key="index">
+        <li class="item" v-for="(item, index) in songSheet" :key="index">
           <div
             class="item-cover"
             :title="item?.name"
@@ -37,10 +37,10 @@
         </li>
       </ul>
     </template>
-    <template v-if="simiSongList?.length > 0">
+    <template v-if="similarSong?.length > 0">
       <h3 class="title">相似歌曲</h3>
       <ul class="simi-song-list">
-        <li class="item" v-for="(item, index) in simiSongList" :key="index">
+        <li class="item" v-for="(item, index) in similarSong" :key="index">
           <div class="item-info">
             <p
               class="info-title"
@@ -51,10 +51,12 @@
             </p>
             <div
               class="info-desc"
-              :title="item?.artists[0]?.name"
-              @click="jumpSingerDetail(item?.artists[0]?.id)"
+              :title="item?.artists && item?.artists[0]?.name"
+              @click="jumpSingerDetail(item?.artists && item?.artists[0]?.id)"
             >
-              <span class="text">{{ item?.artists[0]?.name }}</span>
+              <span class="text">
+                {{ item?.artists && item?.artists[0]?.name }}
+              </span>
             </div>
           </div>
           <div class="item-operate">
@@ -80,109 +82,105 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { simiPlaylist, simiSong } from '@/api/song-detail';
 import type { ResponseType } from '@/types/types';
-import SideDownload from '@/views/song-sheet-detail/side-downlod/SideDownload.vue';
+import type { SongType } from '@/common/audio';
+import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
 
-export default defineComponent({
-  components: {
-    SideDownload
-  },
-  setup() {
-    const $store = useStore();
+type SongSheetItem = {
+  id: number;
+  name: string;
+  coverImgUrl: string;
+  creator: {
+    userId: number;
+    nickname: string;
+  };
+};
 
-    const songId = computed<number>(() => $store.getters.songId);
+type SimiSongItem = {
+  privilege: {
+    cp: number;
+  };
+} & SongType;
 
-    const songSheetList = ref<unknown[]>([]);
-    // 获取歌曲的歌单
-    function getSimiPlaylist(): void {
-      simiPlaylist({ id: songId.value })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            songSheetList.value = res?.playlists;
-          }
-        })
-        .catch(() => ({}));
-    }
-    getSimiPlaylist();
+const $store = useStore();
+const songId = computed<number>(() => $store.getters.songId);
 
-    const simiSongList = ref<unknown[]>([]);
-    // 获取歌曲的相似歌曲
-    function getSimiSong(): void {
-      simiSong({ id: songId.value })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            simiSongList.value = res?.songs;
-          }
-        })
-        .catch(() => ({}));
-    }
-    getSimiSong();
+// 获取歌曲 - 歌单
+const songSheet = ref<SongSheetItem[]>([]);
 
-    // 播放单个歌曲
-    function playSingleMusic(
-      item: Record<string, { cp: number }>
-    ): boolean | undefined {
-      // 无版权过滤
-      if (item?.privilege?.cp === 0) {
-        return false;
+function getSimiPlaylist(): void {
+  simiPlaylist({ id: songId.value })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        songSheet.value = res?.playlists || [];
       }
+    })
+    .catch(() => ({}));
+}
+getSimiPlaylist();
 
-      usePlaySingleMusic(item);
-    }
+// 获取歌曲 - 相似歌曲
+const similarSong = ref<SimiSongItem[]>([]);
 
-    // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(
-      item: Record<string, { cp: number }>
-    ): boolean | undefined {
-      // 无版权过滤
-      if (item?.privilege?.cp === 0) {
-        return false;
+function getSimiSong(): void {
+  simiSong({ id: songId.value })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        similarSong.value = res?.songs || [];
       }
+    })
+    .catch(() => ({}));
+}
+getSimiSong();
 
-      useMusicToPlayList({ music: item });
-    }
-
-    // 跳转歌单详情
-    function jumpSongSheetDetail(id: number): void {
-      $store.commit('jumpSongSheetDetail', id);
-    }
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      getSimiPlaylist();
-      getSimiSong();
-
-      $store.commit('jumpSongDetail', id);
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    return {
-      songSheetList,
-      simiSongList,
-      playSingleMusic,
-      singleMusicToPlayList,
-      jumpSongSheetDetail,
-      jumpUserProfile,
-      jumpSongDetail,
-      jumpSingerDetail
-    };
+// 播放单个歌曲
+function playSingleMusic(item: SimiSongItem): boolean | undefined {
+  // 无版权
+  if (item?.privilege?.cp === 0) {
+    return;
   }
-});
+
+  usePlaySingleMusic(item);
+}
+
+// 单个歌曲添加到播放列表
+function singleMusicToPlayList(item: SimiSongItem): boolean | undefined {
+  // 无版权
+  if (item?.privilege?.cp === 0) {
+    return;
+  }
+
+  useMusicToPlayList({ music: item });
+}
+
+// 跳转歌单详情
+function jumpSongSheetDetail(id: number | undefined): void {
+  $store.commit('jumpSongSheetDetail', id);
+}
+
+// 跳转用户资料
+function jumpUserProfile(id: number | undefined): void {
+  $store.commit('jumpUserProfile', id);
+}
+
+// 跳转歌曲详情
+function jumpSongDetail(id: number | undefined): void {
+  getSimiPlaylist();
+  getSimiSong();
+
+  $store.commit('jumpSongDetail', id);
+}
+
+// 跳转歌手详情
+function jumpSingerDetail(id: number | undefined): void {
+  $store.commit('jumpSingerDetail', id);
+}
 </script>
 
 <style lang="less" scoped>

@@ -2,50 +2,40 @@
   <ul class="search-tabs">
     <li
       class="item-tab"
-      v-for="(item, index) in tabList"
+      v-for="(item, index) in tab"
       :key="index"
       :class="{ 'item-active-tab': searchIndex === index }"
-      @click="changeActiveIndex(item, index)"
+      @click="tabChange(item, index)"
     >
       {{ item }}
     </li>
   </ul>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 
-export default defineComponent({
-  emits: ['changeTab'],
-  setup(props, { emit }) {
-    const $store = useStore();
+const emits = defineEmits(['tabChange']);
 
-    const tabList = ref<string[]>([
-      '单曲',
-      '歌手',
-      '专辑',
-      '视频',
-      '歌词',
-      '歌单',
-      '声音主播',
-      '用户'
-    ]);
+const $store = useStore();
+const searchIndex = computed<number>(() => $store.getters.searchIndex);
 
-    // 选中
-    const searchIndex = computed<number>(() => $store.getters.searchIndex);
-    function changeActiveIndex(item: string, index: number): void {
-      $store.commit('setSearchIndex', index);
-      emit('changeTab', item, index);
-    }
+const tab = ref<string[]>([
+  '单曲',
+  '歌手',
+  '专辑',
+  '视频',
+  '歌词',
+  '歌单',
+  '声音主播',
+  '用户'
+]);
 
-    return {
-      tabList,
-      searchIndex,
-      changeActiveIndex
-    };
-  }
-});
+function tabChange(item: string, index: number): void {
+  $store.commit('setSearchIndex', index);
+  emits('tabChange', item, index);
+}
 </script>
 
 <style lang="less" scoped>

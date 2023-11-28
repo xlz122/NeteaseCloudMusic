@@ -51,63 +51,59 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+<script lang="ts" setup>
+import { ref, watch } from 'vue';
 import { userVipInfo } from '@/api/user';
 import type { ResponseType } from '@/types/types';
 
-export default defineComponent({
-  name: 'UserInfoView',
-  props: {
-    userId: {
-      type: Number,
-      default: 0
-    },
-    userInfo: {
-      type: Object,
-      default: () => ({})
-    },
-    currentUserInfo: {
-      type: Object,
-      default: () => ({})
-    },
-    provinceName: {
-      type: String,
-      default: ''
-    },
-    cityName: {
-      type: String,
-      default: ''
-    }
+type VipInfo = {
+  redVipLevelIcon?: string;
+};
+
+const props = defineProps({
+  userId: {
+    type: Number,
+    default: 0
   },
-  setup(props) {
-    watch(
-      () => props.currentUserInfo,
-      () => {
-        if (props.userInfo?.profile?.userId === props?.userId) {
-          getVipInfo();
-        }
-      }
-    );
-
-    const vipInfo = ref({});
-
-    // 获取登录用户vip信息
-    function getVipInfo() {
-      userVipInfo()
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            vipInfo.value = res?.data;
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    return {
-      vipInfo
-    };
+  userInfo: {
+    type: Object,
+    default: () => {}
+  },
+  currentUserInfo: {
+    type: Object,
+    default: () => {}
+  },
+  provinceName: {
+    type: String,
+    default: ''
+  },
+  cityName: {
+    type: String,
+    default: ''
   }
 });
+
+watch(
+  () => props.currentUserInfo,
+  () => {
+    if (props.userInfo?.profile?.userId === props?.userId) {
+      getVipInfo();
+    }
+  }
+);
+
+// 获取用户vip信息
+const vipInfo = ref<VipInfo>({});
+
+function getVipInfo() {
+  userVipInfo()
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        vipInfo.value = res?.data || {};
+      }
+    })
+    .catch(() => ({}));
+}
 </script>
 
 <style lang="less" scoped>

@@ -36,7 +36,7 @@ export default defineComponent({
         '.music-audio-playbar'
       ) as HTMLElement;
 
-      // 解决pc端滚动条跳动样式,在移动端需还原样式
+      // 解决pc端滚动条跳动样式, 在移动端需还原样式
       if (reg.test(userAgent)) {
         header.style.width = '100%';
         munuBg.style.width = '100%';

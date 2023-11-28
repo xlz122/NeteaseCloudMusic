@@ -9,25 +9,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script lang="ts" setup>
 import Xprogress from './Progress.vue';
 
-export default defineComponent({
-  name: 'ProgressTestView',
-  components: {
-    Xprogress
-  },
-  setup() {
-    function progressChange(progress: number): void {
-      console.log(progress);
-    }
-
-    return {
-      progressChange
-    };
-  }
-});
+function progressChange(progress: number): void {
+  console.log(progress);
+}
 </script>
 
 <style lang="less" scoped>

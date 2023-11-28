@@ -17,130 +17,126 @@
   ></video>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
+<script lang="ts" setup>
+import { ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 
-export default defineComponent({
-  name: 'VideoView',
-  props: {
-    videoStatus: {
-      type: String,
-      default: ''
-    }
-  },
-  emits: ['videoEnded'],
-  setup(props, { emit }) {
-    const $store = useStore();
-
-    const videoVolume = computed(() => $store.getters['video/videoVolume']);
-    // 视频/mv
-    const video = computed(() => $store.getters['video/video']);
-
-    watch(
-      () => video.value.url,
-      () => {
-        if (video.value.url) {
-          initVideoSrc();
-        }
-      }
-    );
-
-    // 播放地址
-    const videoSrc = ref<string>('');
-
-    // 初始获取播放地址
-    function initVideoSrc(): void {
-      videoSrc.value = video.value.url;
-    }
-    initVideoSrc();
-
-    // 播放器实例
-    const videoRef = ref<HTMLVideoElement>();
-
-    watch(
-      () => props.videoStatus,
-      () => {
-        // 播放
-        if (props.videoStatus === 'play') {
-          (videoRef.value as HTMLVideoElement).play();
-        }
-        // 暂停
-        if (props.videoStatus === 'pause') {
-          (videoRef.value as HTMLVideoElement).pause();
-        }
-        // 重播
-        if (props.videoStatus === 'replay') {
-          (videoRef.value as HTMLVideoElement).load();
-          (videoRef.value as HTMLVideoElement).play();
-        }
-      }
-    );
-
-    // 开始播放
-    // function videoPlay(): void {}
-
-    // 播放暂停
-    // function videoPause(): void {}
-
-    // 播放进度数据
-    const videoPlayProgress = computed(
-      () => $store.getters['video/videoPlayProgress']
-    );
-
-    // 监听手动更新时间
-    watch(
-      () => videoPlayProgress.value.timeChange,
-      (curVal: boolean) => {
-        if (curVal) {
-          // 设置播放时间
-          const videoMp3 = videoRef.value as HTMLVideoElement;
-
-          // 当前时间是NaN,不进行更新
-          if (isNaN(videoPlayProgress.value.currentTime)) {
-            return false;
-          }
-
-          videoMp3.currentTime = videoPlayProgress.value.currentTime;
-          // 重置手动更新
-          $store.commit('video/setVideoPlayProgress', {
-            timeChange: false
-          });
-        }
-      },
-      {
-        deep: true
-      }
-    );
-
-    // 播放进度
-    function updateTime(
-      e: Record<string, { currentTime: number; duration: number }>
-    ): void {
-      const progress = e.target.currentTime / e.target.duration;
-      $store.commit('video/setVideoPlayProgress', {
-        progress: progress * 100,
-        currentTime: e.target.currentTime || 0,
-        duration: e.target.duration || 0
-      });
-    }
-
-    // 播放完成
-    function videoEnded(): void {
-      emit('videoEnded');
-    }
-
-    return {
-      videoVolume,
-      videoSrc,
-      videoRef,
-      // videoPlay,
-      // videoPause,
-      updateTime,
-      videoEnded
-    };
+const props = defineProps({
+  videoStatus: {
+    type: String,
+    default: ''
   }
 });
+const emits = defineEmits(['videoEnded']);
+
+const $store = useStore();
+const videoVolume = computed(() => $store.getters['video/videoVolume']);
+// 视频/mv
+const video = computed(() => $store.getters['video/video']);
+
+watch(
+  () => video.value.url,
+  () => {
+    if (video.value.url) {
+      getVideoSrc();
+    }
+  }
+);
+
+// 获取播放地址
+const videoSrc = ref<string>('');
+
+function getVideoSrc(): void {
+  videoSrc.value = video.value.url;
+}
+getVideoSrc();
+
+// 播放器实例
+const videoRef = ref<HTMLVideoElement | null>(null);
+
+watch(
+  () => props.videoStatus,
+  () => {
+    if (!videoRef.value) {
+      return;
+    }
+
+    // 播放
+    if (props.videoStatus === 'play') {
+      videoRef.value.play();
+    }
+    // 暂停
+    if (props.videoStatus === 'pause') {
+      videoRef.value.pause();
+    }
+    // 重播
+    if (props.videoStatus === 'replay') {
+      videoRef.value.load();
+      videoRef.value.play();
+    }
+  }
+);
+
+// 开始播放
+function videoPlay(): void {
+  console.log('开始播放');
+}
+
+// 播放暂停
+function videoPause(): void {
+  console.log('播放暂停');
+}
+
+// 播放进度数据
+const videoPlayProgress = computed(
+  () => $store.getters['video/videoPlayProgress']
+);
+
+// 监听手动更新时间
+watch(
+  () => videoPlayProgress.value.timeChange,
+  (curVal: boolean) => {
+    if (curVal) {
+      // 设置播放时间
+      const videoMp3 = videoRef.value as HTMLVideoElement;
+
+      // 当前时间是NaN,不进行更新
+      if (isNaN(videoPlayProgress.value.currentTime)) {
+        return;
+      }
+
+      videoMp3.currentTime = videoPlayProgress.value.currentTime;
+      // 重置手动更新
+      $store.commit('video/setVideoPlayProgress', {
+        timeChange: false
+      });
+    }
+  },
+  {
+    deep: true
+  }
+);
+
+// 播放进度
+function updateTime(e: Event): void {
+  const target = e.target as { currentTime?: number; duration?: number };
+
+  if (!target.currentTime || !target.duration) {
+    return;
+  }
+
+  const progress = target.currentTime / target.duration;
+  $store.commit('video/setVideoPlayProgress', {
+    progress: progress * 100,
+    currentTime: target.currentTime || 0,
+    duration: target.duration || 0
+  });
+}
+
+// 播放完成
+function videoEnded(): void {
+  emits('videoEnded');
+}
 </script>
 
 <style lang="less" scoped>

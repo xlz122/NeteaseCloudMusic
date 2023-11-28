@@ -2,13 +2,12 @@ import axios from '@/utils/axios';
 import type { AxiosPromise } from 'axios';
 
 /**
- * @description 获取账号信息（需登录）
+ * @description 获取账号信息(需登录)
  * @param { Number } timestamp - 防止接口缓存
  */
 export const userAccount = (): AxiosPromise => {
-  const params = {
-    timestamp: new Date().getTime()
-  };
+  const params = { timestamp: new Date().getTime() };
+
   return axios.request({
     url: '/user/account',
     method: 'get',
@@ -17,13 +16,12 @@ export const userAccount = (): AxiosPromise => {
 };
 
 /**
- * @description 获取VIP信息（需登录）
+ * @description 获取VIP信息(需登录)
  * @param { Number } timestamp - 防止接口缓存
  */
 export const userVipInfo = (): AxiosPromise => {
-  const params = {
-    timestamp: new Date().getTime()
-  };
+  const params = { timestamp: new Date().getTime() };
+
   return axios.request({
     url: '/vip/info',
     method: 'get',
@@ -32,10 +30,10 @@ export const userVipInfo = (): AxiosPromise => {
 };
 
 /**
- * @description 获取用户播放记录
+ * @description 获取用户播放记录(需登录)
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } uid - 用户id
- * @param { Number } [type] 1返回 weekData, 0返回 allData
+ * @param { Number } [type] 0: 全部数据(allData), 1: 周数据(weekData)
  */
 
 type UserRecord = {
@@ -49,6 +47,7 @@ export const userRecord = ({ uid, type }: UserRecord): AxiosPromise => {
     uid,
     type
   };
+
   return axios.request({
     url: '/user/record',
     method: 'get',
@@ -57,13 +56,12 @@ export const userRecord = ({ uid, type }: UserRecord): AxiosPromise => {
 };
 
 /**
- * @description 获取用户等级信息
+ * @description 获取用户等级信息(需登录)
  * @param { Number } timestamp - 防止接口缓存
  */
 export const userLevel = (): AxiosPromise => {
-  const params = {
-    timestamp: new Date().getTime()
-  };
+  const params = { timestamp: new Date().getTime() };
+
   return axios.request({
     url: '/user/level',
     method: 'get',
@@ -72,7 +70,7 @@ export const userLevel = (): AxiosPromise => {
 };
 
 /**
- * @description 获取用户详情
+ * @description 获取用户详情(需登录)
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } uid - 用户id
  */
@@ -81,9 +79,34 @@ export const userDetail = ({ uid }: { uid: number }): AxiosPromise => {
     timestamp: new Date().getTime(),
     uid
   };
+
   return axios.request({
     url: '/user/detail',
     method: 'get',
+    params
+  });
+};
+
+type MessagType = {
+  limit?: number;
+  offset?: number;
+};
+
+/**
+ * @description 获取消息提示(需登录)
+ * @param { Number } timestamp - 防止接口缓存
+ * @param { Number } [offset] - 页数(默认为0)
+ * @param { Number } [limit] - 偏移量
+ */
+export const messageEv = ({ offset, limit }: MessagType): AxiosPromise => {
+  const params = {
+    timestamp: new Date().getTime(),
+    offset,
+    limit
+  };
+
+  return axios.request({
+    url: '/msg/private',
     params
   });
 };
