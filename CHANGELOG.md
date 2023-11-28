@@ -1,3 +1,18 @@
+# [1.5.0](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.4.0...v1.5.0) (2023-11-28)
+
+
+### ✨ Features | 新功能
+
+* 补全类型定义 [#37ecb32](https://github.com/xlz122/NeteaseCloudMusic/commit/37ecb32) 
+
+
+### 🎫 Chores | 其他更新
+
+* 更新eslint配置 [#1cee030](https://github.com/xlz122/NeteaseCloudMusic/commit/1cee030) 
+* 更新vite 5.0.2 [#cb499d2](https://github.com/xlz122/NeteaseCloudMusic/commit/cb499d2) 
+
+
+
 # [1.4.0](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.3.1...v1.4.0) (2023-11-17)
 
 
@@ -24,6 +39,7 @@
 * 移除无用全局变量 [#b9c6398](https://github.com/xlz122/NeteaseCloudMusic/commit/b9c6398) 
 * 移除suppressImplicitAnyIndexErrors配置项，将被弃用 [#f595da2](https://github.com/xlz122/NeteaseCloudMusic/commit/f595da2) 
 * release 1.3.1 [#f818142](https://github.com/xlz122/NeteaseCloudMusic/commit/f818142) 
+* release 1.4.0 [#5954439](https://github.com/xlz122/NeteaseCloudMusic/commit/5954439) 
 * stylelint不检测声明块无冗余长手属性 [#79f06fb](https://github.com/xlz122/NeteaseCloudMusic/commit/79f06fb) 
 * update license year [#996fe06](https://github.com/xlz122/NeteaseCloudMusic/commit/996fe06) 
 * update stylelint config [#9189dd8](https://github.com/xlz122/NeteaseCloudMusic/commit/9189dd8) 
