@@ -23,7 +23,7 @@ export const playlistTrack = ({ id }: { id: number }): AxiosPromise => {
  * @description 获取歌单详情
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - 歌单id
- * @param { Number } s - 歌单最近收藏者(默认为8)
+ * @param { Number } [s] - 歌单最近收藏者(默认为8)
  */
 export const playlistDetail = ({
   id,

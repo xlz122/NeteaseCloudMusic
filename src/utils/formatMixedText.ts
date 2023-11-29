@@ -2,17 +2,18 @@ import { expressionList } from '@/components/comment/comment-replay/comment-repl
 
 /**
  * @description 混合文本格式化
- * @param { String } - content 内容字符串
- * @return { String } 格式化后内容字符串
+ * @param { String } content - 内容字符串
  */
 export function formatMixedText(content: string): string {
   if (!content) {
     return '';
   }
+
   let contentStr = JSON.parse(JSON.stringify(content));
   const reg = /\[.+?\]/g;
+
   content.replace(reg, function (item: string) {
-    // 去重 去除重复的[]符号
+    // 去除重复的[]符号
     item = character(item);
     // 表情文本
     const expressionText = item.split('[')[1].split(']')[0];
@@ -20,6 +21,7 @@ export function formatMixedText(content: string): string {
     const expressionItem = expressionList.find(
       (item: { title: string }) => item.title === expressionText
     );
+
     // 表情替换为img标签
     if (expressionItem) {
       contentStr = contentStr.replace(
@@ -30,20 +32,22 @@ export function formatMixedText(content: string): string {
         />`
       );
     }
+
     return item;
   });
+
   return contentStr;
 }
 
 /**
  * @description 去除重复的[]符号
- * @param { String } - chareacterStr 带有重复[]的表情字符串
- * @return { String } 返回去除重复[]符号的表情字符串
+ * @param { String } chareacterStr - 带有重复[]的表情字符串
  */
 function character(chareacterStr: string): string {
   const result = [];
   // 字符串转换成数组
   const arr = chareacterStr.split('');
+
   // 去重
   for (let j = 0; j < arr.length; j++) {
     if (arr[j] === '[' && result.indexOf('[') < 0) {
@@ -59,6 +63,7 @@ function character(chareacterStr: string): string {
       }
     }
   }
+
   // 数组转换成字符串
   return result.join('');
 }

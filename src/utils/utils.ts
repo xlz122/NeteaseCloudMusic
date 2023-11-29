@@ -1,7 +1,6 @@
 /**
  * @description 日期字符串转时间戳
- * @param { String} - 日期字符串
- * @returns { Nubmer } 时间戳
+ * @param { String} datestr - 日期字符串
  */
 export function datestrToTimestamp(datestr: string): number {
   return new Date(Date.parse(datestr.replace(/-/g, '/'))).getTime();
@@ -9,7 +8,6 @@ export function datestrToTimestamp(datestr: string): number {
 
 /**
  * @description 获取当前星期几
- * @return { String } 星期几
  */
 export function getWeekDate(): string {
   const now = new Date();
@@ -30,6 +28,7 @@ export function getWeekDate(): string {
 
 /**
  * @description 时间戳转视频时长
+ * @param { Number } timeStamp - 时间戳
  * @return { String } 视频时长 01:23:45
  */
 export function timeStampToDuration(timeStamp: number): string {
@@ -45,6 +44,7 @@ export function timeStampToDuration(timeStamp: number): string {
       i = parseInt((i % 60).toString());
     }
   }
+
   // 补零
   const zero = function (v: number) {
     return v >> 0 < 10 ? '0' + v : v;
@@ -64,8 +64,8 @@ export function timeStampToDuration(timeStamp: number): string {
 
 /**
  * @description 日期字符串/时间戳转日期字符串
- * @param { String | Number | Date } - date 日期字符串/时间戳/Date
- * @param { String } - 日期字符串格式
+ * @param { String | Number | Date } date - 日期字符串/时间戳/Date
+ * @param { String } fmt - 日期字符串格式
  */
 export function formatDateTime(
   date: string | Date | number,
@@ -121,9 +121,8 @@ export function formatDateTime(
 }
 
 /**
- * @description 时间戳转日期字符串，主要用于评论时间
- * @param { Nubmer} - 时间戳
- * @returns { String } 格式化后的日期字符串
+ * @description 时间戳转日期字符串, 主要用于评论时间
+ * @param { Nubmer } timestamp - 时间戳
  */
 export function formatDate(timestamp: number): string {
   // 补全为13位，缺少补0
@@ -228,8 +227,8 @@ export function formatDate(timestamp: number): string {
 }
 
 /**
- * 大数字转换，将大额数字转换为万、千万、亿等
- * @param value 数字值
+ * @description 大数字转换，将大额数字转换为万、千万、亿等
+ * @param { Number | String } value 数字值
  */
 export function bigNumberTransform(value: number | string): number | string {
   const newValue = Number(value);
@@ -295,7 +294,10 @@ export function handleMatchString(str: string, value: string): string {
   return html || str;
 }
 
-// 时间戳转为正常时间的公共方法---2020-02-02
+/**
+ * @description 时间戳转为正常时间
+ * @param { Number } time - 时间戳
+ */
 export function filterTime(time: number): string {
   const date = new Date(time);
   const Y = date.getFullYear();

@@ -53,7 +53,7 @@ class HttpRequest {
   getInsideConfig(): AxiosRequestConfig {
     let config = {
       baseURL: '',
-      // 允许跨域带token,cookie
+      // 允许跨域带token, cookie
       withCredentials: true,
       timeout: 60000,
       headers: {
