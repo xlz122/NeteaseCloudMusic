@@ -1,384 +1,394 @@
 <template>
-  <div class="message box-border">
-    <!--  用户信息  -->
-    <div class="user-info">
-      <div class="user-head">
-        <div class="payment">
-          <router-link to="">
-            本月已下载的付费歌曲
-            <i>></i>
-          </router-link>
-          <router-link to="">
-            我购买的单曲
-            <i>></i>
-          </router-link>
+  <div class="member">
+    <div class="member-container">
+      <!--  用户信息  -->
+      <div class="user-info">
+        <div class="user-head">
+          <div class="payment">
+            <router-link to="">
+              本月已下载的付费歌曲
+              <i>></i>
+            </router-link>
+            <router-link to="">
+              我购买的单曲
+              <i>></i>
+            </router-link>
+          </div>
+          <div class="user-profile dis-flex">
+            <div class="avatar">
+              <img
+                class="avatar-img"
+                :src="userInfo?.profile?.avatarUrl"
+                alt="头像"
+              />
+            </div>
+            <div class="user-content dis-flex direction-column justify-between">
+              <div>
+                <div class="dis-flex align-center">
+                  <div class="f22">{{ userInfo?.profile?.nickname }}</div>
+                  <template v-if="vipInfo?.redVipLevelIcon">
+                    <img
+                      class="vip-level"
+                      :src="vipInfo?.redVipLevelIcon"
+                      alt="等级"
+                    />
+                  </template>
+                </div>
+                <div class="mt6">当前未开通</div>
+              </div>
+              <div class="dis-flex">
+                <div class="text-gray6 f14 btn-gray">买会员赠好友</div>
+                <div class="text-gray6 f14 btn-gray">使用兑换码</div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="member dis-flex">
-          <div class="avatar">
+      </div>
+
+      <!--  充值模块  -->
+      <div class="scene-card">
+        <div class="vip-tab dis-flex">
+          <div
+            class="f14 text-gray9 pointer lia"
+            :class="{ active: tabInd === 0 }"
+            @click="changeTab(0)"
+          >
+            黑胶VIP
+            <img src="../../../assets/image/user/member-vip.png" alt="VIP" />
+          </div>
+          <div
+            class="f14 text-gray9 pointer lia"
+            :class="{ active: tabInd === 1 }"
+            @click="changeTab(1)"
+          >
+            音乐包
             <img
-              class="avatar-img"
-              :src="userInfo?.profile?.avatarUrl"
-              alt="头像"
+              src="../../../assets/image/user/member-music.png"
+              alt="音乐包"
             />
           </div>
-          <div class="user-content dis-flex direction-column justify-between">
-            <div>
-              <div class="dis-flex align-center">
-                <div class="f22">{{ userInfo?.profile?.nickname }}</div>
-                <template v-if="vipInfo?.redVipLevelIcon">
-                  <img
-                    class="vip-level"
-                    :src="vipInfo?.redVipLevelIcon"
-                    alt="等级"
-                  />
-                </template>
+        </div>
+        <div class="vip-product">
+          <ul class="dis-flex flex-wrap">
+            <li
+              class="lia"
+              :class="{ active: index === itemInd }"
+              v-for="(item, index) in listData"
+              :key="index"
+              @click="changeItem(index)"
+            >
+              <div class="corner" v-show="item.desc">{{ item.desc }}</div>
+              <div class="name">{{ item.name }}</div>
+              <div class="origin">
+                ￥<span class="f30">{{ item.price }}</span>
               </div>
-              <div class="mt6">当前未开通</div>
+              <div class="price">
+                <template v-if="item.type === 1">
+                  折合￥{{ item.amount }}/月
+                </template>
+                <span class="line-through" v-else-if="item.type === 2">
+                  ￥{{ item.amount }}
+                </span>
+              </div>
+              <div class="discount" v-show="item.discount">
+                限时{{ item.discount }}折
+              </div>
+            </li>
+          </ul>
+          <div class="text-gray9 ml10">
+            <template v-if="tabInd === 0">
+              到期自动续费13元，可取消，芒果月卡限领1次
+              <span
+                class="help pointer inline-block"
+                @click="dialog.dialogShow = true"
+              ></span>
+            </template>
+            <template v-else>到期自动续费，可随时取消</template>
+          </div>
+          <div class="mt10">
+            <span class="f14 text-gray3 ml10">选择优惠券</span>
+            <span
+              class="f12 text-blued4 ml10 pointer"
+              @click="coupon.exchange = !coupon.exchange"
+            >
+              {{ coupon.exchange ? '兑换优惠券' : '取消兑换优惠券' }}
+            </span>
+          </div>
+          <div class="coupon" v-show="coupon.exchange">
+            <div
+              class="coupon-form-select mt20 ml10 pointer"
+              @click="dropdownHandle"
+            >
+              <input
+                class="select-placeholder f12 ml10"
+                type="text"
+                autocomplete="off"
+                placeholder="该活动价不支持使用优惠券"
+                v-model="coupon.couponValue"
+              />
+              <span class="select-arrow"></span>
             </div>
-            <div class="dis-flex">
-              <div class="text-gray6 f14 btn-gray">买会员赠好友</div>
-              <div class="text-gray6 f14 btn-gray">使用兑换码</div>
+            <div class="select-dropdown" v-show="coupon.dropdown">
+              <ul>
+                <li
+                  class="dropdown-menu not-allowed text-grayc"
+                  v-if="coupon.couponList.length === 0"
+                >
+                  无可用优惠券
+                </li>
+                <li
+                  class="dropdown-menu pointer"
+                  v-for="(item, index) in coupon.couponList"
+                  :key="index"
+                  @click="chooseCoupon(item)"
+                >
+                  {{ item }}
+                </li>
+              </ul>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!--  充值模块  -->
-    <div class="scene-card">
-      <div class="vip-tab dis-flex">
-        <div
-          class="f14 text-gray9 pointer lia"
-          :class="{ active: tabInd === 0 }"
-          @click="changeTab(0)"
-        >
-          黑胶VIP
-          <img src="../../../assets/image/user/member-vip.png" alt="VIP" />
-        </div>
-        <div
-          class="f14 text-gray9 pointer lia"
-          :class="{ active: tabInd === 1 }"
-          @click="changeTab(1)"
-        >
-          音乐包
-          <img src="../../../assets/image/user/member-music.png" alt="音乐包" />
-        </div>
-      </div>
-      <div class="vip-product">
-        <ul class="dis-flex flex-wrap">
-          <li
-            class="lia"
-            :class="{ active: index === itemInd }"
-            v-for="(item, index) in listData"
-            :key="index"
-            @click="changeItem(index)"
-          >
-            <div class="corner" v-show="item.desc">{{ item.desc }}</div>
-            <div class="name">{{ item.name }}</div>
-            <div class="origin">
-              ￥<span class="f30">{{ item.price }}</span>
-            </div>
-            <div class="price">
-              <template v-if="item.type === 1">
-                折合￥{{ item.amount }}/月
-              </template>
-              <span class="line-through" v-else-if="item.type === 2">
-                ￥{{ item.amount }}
-              </span>
-            </div>
-            <div class="discount" v-show="item.discount">
-              限时{{ item.discount }}折
-            </div>
-          </li>
-        </ul>
-        <div class="text-gray9 ml10">
-          <template v-if="tabInd === 0">
-            到期自动续费13元，可取消，芒果月卡限领1次
-            <span
-              class="help pointer inline-block"
-              @click="dialog.dialogShow = true"
-            ></span>
-          </template>
-          <template v-else>到期自动续费，可随时取消</template>
-        </div>
-        <div class="mt10">
-          <span class="f14 text-gray3 ml10">选择优惠券</span>
-          <span
-            class="f12 text-blued4 ml10 pointer"
-            @click="coupon.exchange = !coupon.exchange"
-          >
-            {{ coupon.exchange ? '兑换优惠券' : '取消兑换优惠券' }}
-          </span>
-        </div>
-        <div class="coupon" v-show="coupon.exchange">
           <div
-            class="coupon-form-select mt20 ml10 pointer"
-            @click="dropdownHandle"
+            class="exchange dis-flex align-center ml10 mt20"
+            v-show="!coupon.exchange"
           >
             <input
-              class="select-placeholder f12 ml10"
               type="text"
-              autocomplete="off"
-              placeholder="该活动价不支持使用优惠券"
-              v-model="coupon.couponValue"
+              placeholder="请输入优惠券兑换码"
+              class="f12 text-graya"
+              v-model="coupon.exchangeCode"
             />
-            <span class="select-arrow"></span>
+            <button type="button" class="pointer" @click="exchangeCoupons">
+              兑换
+            </button>
           </div>
-          <div class="select-dropdown" v-show="coupon.dropdown">
-            <ul>
-              <li
-                class="dropdown-menu not-allowed text-grayc"
-                v-if="coupon.couponList.length === 0"
-              >
-                无可用优惠券
-              </li>
-              <li
-                class="dropdown-menu pointer"
-                v-for="(item, index) in coupon.couponList"
-                :key="index"
-                @click="chooseCoupon(item)"
-              >
-                {{ item }}
+          <div class="payment mt20 ml10">
+            <div class="f14 text-gray3">支付方式</div>
+            <div class="scan dis-flex">
+              <div class="scan-img">
+                <img
+                  src="../../../assets/image/user/scanImg.png"
+                  alt="二维码"
+                />
+              </div>
+              <div class="ml20">
+                <div class="f14 text-gray3">使用支付宝、微信扫码支付</div>
+                <div class="pay-img mt10">
+                  <img
+                    src="../../../assets/image/user/pay-zfb.png"
+                    alt="支付宝"
+                  />
+                  <img
+                    src="../../../assets/image/user/pay-wx.png"
+                    alt="微信"
+                    class="ml10"
+                  />
+                </div>
+                <div class="text-gray3"><span class="f45">13</span>元</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--  vip特权  -->
+      <div class="privilege">
+        <p class="title f22 tc"><em>黑胶VIP特权</em></p>
+        <div class="privilege-icon-list">
+          <ul class="dis-flex flex-wrap">
+            <li v-for="(item, index) in privilege.list" :key="index">
+              <img
+                :src="
+                  privilege.status === 2 ? item.imgNo || item.img : item.img
+                "
+                alt="特权图标"
+              />
+              <p class="f14">{{ item.name }}</p>
+            </li>
+          </ul>
+        </div>
+        <p class="title f22 tc mt60"><em>VIP专享下载曲库</em></p>
+        <p class="slogan">畅享2574万首VIP下载歌曲</p>
+        <div class="song mt10">
+          <div class="more">
+            <p class="tc">
+              <a href="/" class="text-blued4 f12 pointer">查看全部</a>
+              <i class="ff1 text-blued4 f12">></i>
+            </p>
+          </div>
+          <div class="songlist">
+            <ul class="dis-flex flex-wrap justify-between">
+              <li class="pointer" v-for="item in songList" :key="item.id">
+                <img :src="item.img" alt="音乐" />
+                <span class="mask"></span>
               </li>
             </ul>
           </div>
         </div>
-        <div
-          class="exchange dis-flex align-center ml10 mt20"
-          v-show="!coupon.exchange"
+      </div>
+
+      <!--  服务协议  -->
+      <div class="service tc">
+        <a
+          target="_blank"
+          href="https://music.163.com/prime/vip-contract"
+          class="mr15 pointer outline-none text-gray9 f12 text-decoration-underline"
         >
-          <input
-            type="text"
-            placeholder="请输入优惠券兑换码"
-            class="f12 text-graya"
-            v-model="coupon.exchangeCode"
-          />
-          <button type="button" class="pointer" @click="exchangeCoupons">
-            兑换
-          </button>
-        </div>
-        <div class="payment mt20 ml10">
-          <div class="f14 text-gray3">支付方式</div>
-          <div class="scan dis-flex">
-            <div class="scan-img">
-              <img src="../../../assets/image/user/scanImg.png" alt="二维码" />
-            </div>
-            <div class="ml20">
-              <div class="f14 text-gray3">使用支付宝、微信扫码支付</div>
-              <div class="pay-img mt10">
-                <img
-                  src="../../../assets/image/user/pay-zfb.png"
-                  alt="支付宝"
-                />
-                <img
-                  src="../../../assets/image/user/pay-wx.png"
-                  alt="微信"
-                  class="ml10"
-                />
-              </div>
-              <div class="text-gray3"><span class="f45">13</span>元</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!--  vip特权  -->
-    <div class="privilege">
-      <p class="title f22 tc"><em>黑胶VIP特权</em></p>
-      <div class="privilege-icon-list">
-        <ul class="dis-flex flex-wrap">
-          <li v-for="(item, index) in privilege.list" :key="index">
-            <img
-              :src="privilege.status === 2 ? item.imgNo || item.img : item.img"
-              alt="特权图标"
-            />
-            <p class="f14">{{ item.name }}</p>
-          </li>
-        </ul>
-      </div>
-      <p class="title f22 tc mt60"><em>VIP专享下载曲库</em></p>
-      <p class="slogan">畅享2574万首VIP下载歌曲</p>
-      <div class="song mt10">
-        <div class="more">
-          <p class="tc">
-            <a href="/" class="text-blued4 f12 pointer">查看全部</a>
-            <i class="ff1 text-blued4 f12">></i>
-          </p>
-        </div>
-        <div class="songlist">
-          <ul class="dis-flex flex-wrap justify-between">
-            <li class="pointer" v-for="item in songList" :key="item.id">
-              <img :src="item.img" alt="音乐" />
-              <span class="mask"></span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!--  服务协议  -->
-    <div class="service tc">
-      <a
-        target="_blank"
-        href="https://music.163.com/prime/vip-contract"
-        class="mr15 pointer outline-none text-gray9 f12 text-decoration-underline"
-      >
-        黑胶VIP服务协议
-      </a>
-      <a
-        target="_blank"
-        href="https://music.163.com/prime/package-contract"
-        class="mr15 pointer outline-none text-gray9 f12 text-decoration-underline"
-      >
-        音乐包服务协议
-      </a>
-      <a
-        target="_blank"
-        href="https://music.163.com/html/web2/vipAndroidAutopay.html"
-        class="mr15 pointer outline-none text-gray9 f12 text-decoration-underline"
-      >
-        自动续费服务协议
-      </a>
-      <span
-        class="pointer outline-none text-gray9 f12 text-decoration-underline"
-        @click="dialogProblem = !dialogProblem"
-      >
-        常见问题解答
-      </span>
-    </div>
-
-    <!--  连续包月服务须知  -->
-    <my-dialog
-      class="vip-service-modal"
-      :visible="dialog.dialogShow"
-      title="连续包月服务须知"
-      @cancel="dialog.dialogShow = false"
-    >
-      <div class="dialog-content">
-        <p
-          class="f14 text-gray3"
-          v-for="(item, index) in dialog.dialogContent"
-          :key="index"
+          黑胶VIP服务协议
+        </a>
+        <a
+          target="_blank"
+          href="https://music.163.com/prime/package-contract"
+          class="mr15 pointer outline-none text-gray9 f12 text-decoration-underline"
         >
-          {{ item }}
-        </p>
+          音乐包服务协议
+        </a>
+        <a
+          target="_blank"
+          href="https://music.163.com/html/web2/vipAndroidAutopay.html"
+          class="mr15 pointer outline-none text-gray9 f12 text-decoration-underline"
+        >
+          自动续费服务协议
+        </a>
+        <span
+          class="pointer outline-none text-gray9 f12 text-decoration-underline"
+          @click="dialogProblem = !dialogProblem"
+        >
+          常见问题解答
+        </span>
       </div>
-    </my-dialog>
 
-    <!--  兑换优惠券提示  -->
-    <my-prompt
-      class=""
-      :show="dialog.promptShow"
-      :icon="dialog.promptIcon"
-      :content="dialog.promptContent"
-      @close="closePrompt"
-    >
-    </my-prompt>
+      <!--  连续包月服务须知  -->
+      <my-dialog
+        class="vip-service-modal"
+        :visible="dialog.dialogShow"
+        title="连续包月服务须知"
+        @cancel="dialog.dialogShow = false"
+      >
+        <div class="dialog-content">
+          <p
+            class="f14 text-gray3"
+            v-for="(item, index) in dialog.dialogContent"
+            :key="index"
+          >
+            {{ item }}
+          </p>
+        </div>
+      </my-dialog>
 
-    <!--  会员常见问题  -->
-    <my-dialog
-      class="problem-modal"
-      :visible="dialogProblem"
-      title="会员常见问题"
-      customText="我知道了"
-      showCustomButton
-      @cancel="dialogProblem = false"
-    >
-      <div class="dialog-content">
-        <h2 class="tc f16 text-gray3 fw-bold">会员常见问题</h2>
-        <div>
-          <p class="h text-gray3 fw-bold">
-            【黑胶VIP和音乐包分别是什么，有什么权益？】
-          </p>
-          <div class="fold-content">
-            <p>
-              答：黑胶VIP是网易云音乐站内全平台的最高级别付费包月服务，畅享付费曲库、无损音质、免费下载、会员电台、头像挂件、歌词图片、个性皮肤、票务特权、福利券等丰富权益。
+      <!--  兑换优惠券提示  -->
+      <my-prompt
+        class=""
+        :show="dialog.promptShow"
+        :icon="dialog.promptIcon"
+        :content="dialog.promptContent"
+        @close="closePrompt"
+      >
+      </my-prompt>
+
+      <!--  会员常见问题  -->
+      <my-dialog
+        class="problem-modal"
+        :visible="dialogProblem"
+        title="会员常见问题"
+        customText="我知道了"
+        showCustomButton
+        @cancel="dialogProblem = false"
+      >
+        <div class="dialog-content">
+          <h2 class="tc f16 text-gray3 fw-bold">会员常见问题</h2>
+          <div>
+            <p class="h text-gray3 fw-bold">
+              【黑胶VIP和音乐包分别是什么，有什么权益？】
             </p>
-            <p>
-              ·
-              音乐包是网易云音乐和版权方合作推出的正版音乐付费包月服务，开通音乐包即可免费下载会员专属曲库歌曲、畅享在线试听高音质等付费音乐权益；
+            <div class="fold-content">
+              <p>
+                答：黑胶VIP是网易云音乐站内全平台的最高级别付费包月服务，畅享付费曲库、无损音质、免费下载、会员电台、头像挂件、歌词图片、个性皮肤、票务特权、福利券等丰富权益。
+              </p>
+              <p>
+                ·
+                音乐包是网易云音乐和版权方合作推出的正版音乐付费包月服务，开通音乐包即可免费下载会员专属曲库歌曲、畅享在线试听高音质等付费音乐权益；
+              </p>
+            </div>
+          </div>
+          <div>
+            <p class="h text-gray3 fw-bold">
+              【音乐包的播放下载权益具体指什么？】
             </p>
+            <div class="fold-content">
+              <p>
+                答：黑胶VIP、音乐包都可以免费播放及下载会员包内歌曲（不包括数字专辑、下架歌曲，此外极少数特殊歌曲应版权方要求可能不允许在线播放或下载），黑胶VIP、普通音乐包
+                每月可下载300首付费歌曲，豪华音乐包每月可下载500首付费歌曲；
+              </p>
+            </div>
+          </div>
+          <div>
+            <p class="h text-gray3 fw-bold">
+              【普通音乐包可否升级为豪华音乐包？】
+            </p>
+            <div class="fold-content">
+              <p>
+                答：可以，路径：进入我的会员页—点击会员身份片上的[本月下载]，进入付费歌曲下载量页面—点击[升级到500首]，即可进入豪华音乐包购买页，购买成功后您的豪华音乐包即刻生效，下载限额变为500首，
+                未用完的普通音乐包剩余时长及其下载限额不会受影响，将会后移至豪华音乐包有效期之后。
+              </p>
+            </div>
+          </div>
+          <div>
+            <p class="h text-gray3 fw-bold">【音乐包和黑胶VIP是什么关系？】</p>
+            <div class="fold-content">
+              <p>
+                答：·
+                音乐包和黑胶VIP是2个独立计费、独立计时的2个会员服务，用户可以同时是黑胶VIP和音乐包身份。
+              </p>
+            </div>
+          </div>
+          <div>
+            <p class="h text-gray3 fw-bold">
+              【原普通会员和豪华会员对应什么身份？】
+            </p>
+            <div class="fold-content">
+              <p>
+                答：
+                2018年6月12日前购买的普通会员在其剩余有效期内对应新会员体系下的音乐包身份，其权益没有任何变化。2018年6月12日前购买的豪华会员在其剩余有效期内将免费升级为黑胶VIP+豪华音乐包身份，
+                在原有权益基础上新增头像挂件、票务特权、福利券3大权益。
+              </p>
+            </div>
+          </div>
+          <div>
+            <p class="h text-gray3 fw-bold">【付费歌曲的下载限额】</p>
+            <div class="fold-content">
+              <p>
+                答：每个计时周期内，黑胶VIP和音乐包专属歌曲的下载限额合计为300首（豪华音乐包为500首）。
+              </p>
+              <p>
+                在会员套餐有效期内下载过的所有会员专属歌曲，都可在“会员中心-本月下载”中查看。
+              </p>
+              <p>· 同一首歌曲的不同音质下载都只算作一首；</p>
+              <p>· 这部分已下载过的歌曲，可在会员有效期内无限下载；</p>
+              <p>
+                ·
+                但如果会员到期，只有用户再次开通会员才能重新下载这部分歌曲，而之前已下载到本地的歌曲文件仍可以正常播放，但是部分付费歌曲应版权方要求仅可在会员有效期内本地使用，会员到期后需重新开通才可继续本地使用；
+              </p>
+            </div>
+          </div>
+          <div>
+            <p class="h text-gray3 fw-bold">【会员在海外能用吗？】</p>
+            <div class="fold-content">
+              <p>
+                答：抱歉，因版权限制，部分歌曲仅限在中国大陆地区使用，购买会员后并不能在海外正常使用，请海外用户慎重购买。
+              </p>
+            </div>
+          </div>
+          <div>
+            <p class="h text-gray3 fw-bold">【会员购买成功后没生效？】</p>
+            <div class="fold-content">
+              <p>
+                答：因网络延迟问题，有可能出现会员购买成功后未及时到账，请尝试在5分钟后重启客户端查看。
+              </p>
+            </div>
           </div>
         </div>
-        <div>
-          <p class="h text-gray3 fw-bold">
-            【音乐包的播放下载权益具体指什么？】
-          </p>
-          <div class="fold-content">
-            <p>
-              答：黑胶VIP、音乐包都可以免费播放及下载会员包内歌曲（不包括数字专辑、下架歌曲，此外极少数特殊歌曲应版权方要求可能不允许在线播放或下载），黑胶VIP、普通音乐包
-              每月可下载300首付费歌曲，豪华音乐包每月可下载500首付费歌曲；
-            </p>
-          </div>
-        </div>
-        <div>
-          <p class="h text-gray3 fw-bold">
-            【普通音乐包可否升级为豪华音乐包？】
-          </p>
-          <div class="fold-content">
-            <p>
-              答：可以，路径：进入我的会员页—点击会员身份片上的[本月下载]，进入付费歌曲下载量页面—点击[升级到500首]，即可进入豪华音乐包购买页，购买成功后您的豪华音乐包即刻生效，下载限额变为500首，
-              未用完的普通音乐包剩余时长及其下载限额不会受影响，将会后移至豪华音乐包有效期之后。
-            </p>
-          </div>
-        </div>
-        <div>
-          <p class="h text-gray3 fw-bold">【音乐包和黑胶VIP是什么关系？】</p>
-          <div class="fold-content">
-            <p>
-              答：·
-              音乐包和黑胶VIP是2个独立计费、独立计时的2个会员服务，用户可以同时是黑胶VIP和音乐包身份。
-            </p>
-          </div>
-        </div>
-        <div>
-          <p class="h text-gray3 fw-bold">
-            【原普通会员和豪华会员对应什么身份？】
-          </p>
-          <div class="fold-content">
-            <p>
-              答：
-              2018年6月12日前购买的普通会员在其剩余有效期内对应新会员体系下的音乐包身份，其权益没有任何变化。2018年6月12日前购买的豪华会员在其剩余有效期内将免费升级为黑胶VIP+豪华音乐包身份，
-              在原有权益基础上新增头像挂件、票务特权、福利券3大权益。
-            </p>
-          </div>
-        </div>
-        <div>
-          <p class="h text-gray3 fw-bold">【付费歌曲的下载限额】</p>
-          <div class="fold-content">
-            <p>
-              答：每个计时周期内，黑胶VIP和音乐包专属歌曲的下载限额合计为300首（豪华音乐包为500首）。
-            </p>
-            <p>
-              在会员套餐有效期内下载过的所有会员专属歌曲，都可在“会员中心-本月下载”中查看。
-            </p>
-            <p>· 同一首歌曲的不同音质下载都只算作一首；</p>
-            <p>· 这部分已下载过的歌曲，可在会员有效期内无限下载；</p>
-            <p>
-              ·
-              但如果会员到期，只有用户再次开通会员才能重新下载这部分歌曲，而之前已下载到本地的歌曲文件仍可以正常播放，但是部分付费歌曲应版权方要求仅可在会员有效期内本地使用，会员到期后需重新开通才可继续本地使用；
-            </p>
-          </div>
-        </div>
-        <div>
-          <p class="h text-gray3 fw-bold">【会员在海外能用吗？】</p>
-          <div class="fold-content">
-            <p>
-              答：抱歉，因版权限制，部分歌曲仅限在中国大陆地区使用，购买会员后并不能在海外正常使用，请海外用户慎重购买。
-            </p>
-          </div>
-        </div>
-        <div>
-          <p class="h text-gray3 fw-bold">【会员购买成功后没生效？】</p>
-          <div class="fold-content">
-            <p>
-              答：因网络延迟问题，有可能出现会员购买成功后未及时到账，请尝试在5分钟后重启客户端查看。
-            </p>
-          </div>
-        </div>
-      </div>
-    </my-dialog>
+      </my-dialog>
+    </div>
   </div>
 </template>
 
