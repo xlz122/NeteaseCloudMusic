@@ -72,13 +72,13 @@ type Album = {
 const $store = useStore();
 const albumId = computed<number>(() => $store.getters.albumId);
 
+// 获取专辑详情
 const album = reactive<Album>({
   loading: true,
   userInfo: {},
   songs: []
 });
 
-// 获取专辑详情
 function getAlbumDetail(): void {
   album.loading = true;
   album.songs = [];

@@ -46,7 +46,7 @@ import { reactive } from 'vue';
 import { playlistCatlist } from '@/api/home-song-sheet';
 import type { ResponseType } from '@/types/types';
 
-type ItemType = {
+type MenuItem = {
   title: string;
   list: {
     name?: string;
@@ -57,7 +57,7 @@ type ItemType = {
 const emits = defineEmits(['catChange']);
 
 // 获取分类标签
-const catlist = reactive<ItemType[]>([
+const catlist = reactive<MenuItem[]>([
   {
     title: '',
     list: []

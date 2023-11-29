@@ -115,8 +115,8 @@ const level = reactive({
   current: 0
 });
 
+// 获取用户等级
 const privilege = ref<string[]>([]);
-// 下一级数据
 const nextLevel = reactive<NextLevel>({
   loginCount: 0,
   playCount: 0,
@@ -124,7 +124,6 @@ const nextLevel = reactive<NextLevel>({
   playProgress: 0
 });
 
-// 获取用户等级
 function getUserLevel(): void {
   userLevel()
     .then((res: ResponseType) => {

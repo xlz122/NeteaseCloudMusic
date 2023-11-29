@@ -87,7 +87,7 @@ function getAlbumNewest() {
 }
 getAlbumNewest();
 
-// 列表偏移样式
+// 列表偏移、样式
 const listOffest = reactive({
   index: 0,
   transform: 0,

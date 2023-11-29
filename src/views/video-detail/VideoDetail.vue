@@ -148,7 +148,7 @@ function handleLike(): boolean | undefined {
   setMessage({ type: 'error', title: '该功能暂未开发' });
 }
 
-// 获取收藏的视频列表,判断当前视频是否被收藏
+// 获取收藏的视频列表, 判断当前视频是否被收藏
 const videoSubed = ref<boolean>(false);
 
 function getVideoSbulist(): void {

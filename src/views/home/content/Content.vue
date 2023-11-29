@@ -268,7 +268,6 @@ function songSheetToPlayListPlay(id: number | undefined): void {
           return;
         }
 
-        // 截取前20首歌
         res.songs = res?.songs?.slice(0, 20) || [];
 
         // 过滤无版权
@@ -322,7 +321,7 @@ function getHotDjprogram() {
             );
           }
         );
-        // 截取前三项
+
         hotDjprogram.value = res?.result?.slice(0, 3) || [];
       }
     })

@@ -44,7 +44,7 @@ defineProps({
 const $store = useStore();
 const singerId = computed<number>(() => $store.getters.singerId);
 
-// 获取歌手描述
+// 获取歌手 - 简介
 const singerDesc = ref<SingerDesc>({
   briefDesc: '',
   introduction: []

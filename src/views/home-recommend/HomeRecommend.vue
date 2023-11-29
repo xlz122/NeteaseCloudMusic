@@ -81,7 +81,7 @@ function getRecommendSong(): void {
   recommendSongs()
     .then((res: ResponseType) => {
       if (res.code === 200) {
-        recommend.value = res.data.dailySongs;
+        recommend.value = res?.data?.dailySongs || [];
       }
     })
     .catch(() => ({}));

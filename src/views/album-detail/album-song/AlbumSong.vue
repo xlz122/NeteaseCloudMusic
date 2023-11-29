@@ -124,13 +124,13 @@ import { timeStampToDuration } from '@/utils/utils';
 import type { SongType } from '@/common/audio';
 
 type ItemType = {
-  alia?: string[];
-  al?: {
-    id?: number;
-    name?: string;
+  alia: string[];
+  al: {
+    id: number;
+    name: string;
   };
-  privilege?: {
-    cp?: number;
+  privilege: {
+    cp: number;
   };
 } & SongType;
 

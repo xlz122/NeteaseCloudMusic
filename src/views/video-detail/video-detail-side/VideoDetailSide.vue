@@ -103,9 +103,9 @@ const $router = useRouter();
 const $store = useStore();
 const video = computed(() => $store.getters['video/video']);
 
+// 获取相关推荐视频
 const videoList = ref<VideoItem[]>([]);
 
-// 获取相关推荐视频
 function getRelatedVideo(): void {
   relatedVideo({ id: video.value.id })
     .then((res: ResponseType) => {

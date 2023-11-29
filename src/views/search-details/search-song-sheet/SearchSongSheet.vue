@@ -179,7 +179,6 @@ function songSheetToPlayListPlay(id: number): void {
           return;
         }
 
-        // 截取前20首歌
         res.songs = res?.songs?.slice(0, 20) || [];
 
         // 过滤无版权
@@ -203,7 +202,6 @@ function songSheetToPlayList(id: number): void {
           return;
         }
 
-        // 截取前20首歌
         res.songs = res?.songs?.slice(0, 20) || [];
 
         // 过滤无版权

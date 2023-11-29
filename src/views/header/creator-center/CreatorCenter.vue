@@ -56,7 +56,7 @@
         <div class="login">
           <!-- 扫码登录 -->
           <qrcode v-if="qrcodeLoginShow" @otherLogin="otherLogin" />
-          <!-- 其他登录方式 -->
+          <!-- 其他登录 -->
           <other v-else @qrcodeLogin="qrcodeLogin" />
         </div>
       </div>
@@ -76,7 +76,7 @@ import anchorSvg from '../../../assets/image/header/creator-center/anchor.svg';
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
-// 扫码/其他登录方式切换
+// 扫码/其他登录切换
 const qrcodeLoginShow = ref<boolean>(true);
 
 function qrcodeLogin(): void {

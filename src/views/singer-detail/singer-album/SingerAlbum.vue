@@ -82,7 +82,7 @@ watch(
   }
 );
 
-// 获取歌手专辑
+// 获取歌手 - 专辑
 const params = reactive({
   offset: 1,
   limit: 12,

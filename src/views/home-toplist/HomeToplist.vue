@@ -36,12 +36,14 @@ import ToplistMenu from './toplist-menu/ToplistMenu.vue';
 import ToplistContent from './toplist-content/ToplistContent.vue';
 
 type TopList = {
-  character: ItemType[];
-  media: ItemType[];
+  character: SongSheetItem[];
+  media: SongSheetItem[];
 };
 
-type ItemType = {
+type SongSheetItem = {
   id: number;
+  name: string;
+  coverImgUrl: string;
   updateFrequency: string;
 };
 
@@ -97,7 +99,7 @@ const toplist = reactive<TopList>({
   media: []
 });
 
-function getTopList(): Promise<ItemType[]> {
+function getTopList(): Promise<SongSheetItem[]> {
   return new Promise(resolve => {
     topList()
       .then((res: ResponseType) => {

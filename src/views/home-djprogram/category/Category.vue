@@ -148,6 +148,7 @@ function next(): void {
 // 小圆点
 function dotChange(index: number): void {
   dotIndex.value = index;
+
   if (index === 0) {
     mainMenuShow.value = true;
   } else {

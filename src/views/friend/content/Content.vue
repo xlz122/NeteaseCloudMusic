@@ -78,6 +78,7 @@ function releaseVideo(): void {
   );
 }
 
+// 获取动态列表
 const params = reactive({
   pagesize: 20,
   lasttime: -1
@@ -87,7 +88,6 @@ const eventList = ref<EventItem[]>([]);
 // 是否继续加载
 const lock = ref<boolean>(true);
 
-// 获取动态列表
 function getFriendEvent(): void {
   loading.value = true;
 
@@ -163,6 +163,7 @@ function jumpUserProfile(id: number): void {
 onMounted(() => {
   document.addEventListener('scroll', function (e: Event): void {
     const bottomHeight = getPageBottomHeight(e);
+
     // 并非第一次加载 & 距离底部高度 & 是否可请求
     if (eventList.value.length > 0 && bottomHeight <= 400 && lock.value) {
       lock.value = false;

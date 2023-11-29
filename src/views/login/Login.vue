@@ -8,7 +8,7 @@
     <div class="login">
       <!-- 扫码登录 -->
       <qrcode v-if="loginType === 'qrcode'" @otherLogin="otherLogin" />
-      <!-- 其他登录方式 -->
+      <!-- 其他登录 -->
       <other v-if="loginType === 'other'" @qrcodeLogin="qrcodeLogin" />
     </div>
   </my-dialog>
@@ -25,7 +25,7 @@ const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const loginDialog = computed<boolean>(() => $store.getters.loginDialog);
 
-// 扫码/其他登录方式切换
+// 扫码/其他登录切换
 const loginType = ref<string>('qrcode');
 
 function qrcodeLogin(): void {
@@ -42,7 +42,7 @@ function dialogCancel(): void {
   $store.commit('setLoginDialog', false);
 }
 
-// 监听登录重置
+// 登录方式重置
 watch(
   () => isLogin.value,
   () => {

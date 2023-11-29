@@ -124,7 +124,6 @@ defineProps({
     type: Number,
     default: 0
   },
-  // 新建按钮
   addBtnShow: {
     type: Boolean,
     default: false
@@ -146,6 +145,7 @@ function handleListChange(id: number): void {
   emits('handleListChange', id);
 }
 
+// 歌单收藏
 const dialog = reactive<DialogType>({
   visible: false,
   type: 'add',

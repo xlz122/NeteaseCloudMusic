@@ -127,7 +127,7 @@ function loadMessage(): void {
     .catch(() => ({}));
 }
 
-// 登录
+// 打开登录框
 function openLogin(): void {
   $store.commit('setLoginDialog', true);
 }

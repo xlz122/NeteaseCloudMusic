@@ -72,16 +72,16 @@
 <script lang="ts" setup>
 import { ref, reactive, toRefs, watch } from 'vue';
 
+type ItemType = {
+  id: number;
+  name: string;
+  picUrl: string;
+  accountId: number;
+};
+
 type MenuItem = {
   large: string;
   small: string | number;
-};
-
-type ItemType = {
-  id?: number;
-  name?: string;
-  picUrl?: string;
-  accountId?: number;
 };
 
 const props = defineProps({

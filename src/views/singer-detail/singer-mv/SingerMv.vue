@@ -76,7 +76,6 @@ const singerMv = ref<SingerMv>({
   mvs: []
 });
 
-// 获取歌手 - MV总数
 watch(
   () => props.singerDetail,
   () => {

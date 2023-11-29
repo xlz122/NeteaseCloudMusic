@@ -1,5 +1,5 @@
 <template>
-  <!-- 其他登录方式 -->
+  <!-- 其他登录 -->
   <div class="other" v-if="loginMode.allOtherLogin">
     <div class="phone-login">
       <i class="icon-phone"></i>
@@ -87,7 +87,7 @@
   <div class="mailbox-form" v-if="loginMode.mailboxLogin">
     <Mailbox />
   </div>
-  <!-- 返回其他登录方式 -->
+  <!-- 返回其他登录 -->
   <div class="return-other-login" v-if="!loginMode.allOtherLogin">
     <!-- 手机号注册 -->
     <template v-if="loginMode.mobileRegister">

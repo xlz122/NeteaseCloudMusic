@@ -45,9 +45,9 @@ import { useStore } from 'vuex';
 
 type ItemType = {
   id: number;
-  name?: string;
+  name: string;
+  coverImgUrl: string;
   updateFrequency: string;
-  coverImgUrl?: string;
 };
 
 defineProps({

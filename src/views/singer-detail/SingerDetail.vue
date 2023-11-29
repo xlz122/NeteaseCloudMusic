@@ -132,6 +132,7 @@ function getArtistDetail(): void {
             briefDesc.indexOf('）')
           );
         }
+
         singerDetail.value = res.data;
       }
     })

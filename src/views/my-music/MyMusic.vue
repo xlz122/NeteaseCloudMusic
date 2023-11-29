@@ -95,7 +95,7 @@ function handleOptions(params: ParamsType): void {
   options[params.type] = { ...options[params.type], ...params.data };
 }
 
-// 页脚(未登录显示页脚, 登录不显示页脚)
+// 未登录显示页脚, 登录不显示页脚
 watch(
   () => isLogin.value,
   () => {

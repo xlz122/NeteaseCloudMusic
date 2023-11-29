@@ -2,7 +2,6 @@
   <div class="song-sheet-side-container">
     <h3 class="title">喜欢这张专辑的人</h3>
     <ul class="like-list">
-      <li class="item"></li>
       <!-- <li
         class="item"
         v-for="(item, index) in []"
@@ -75,13 +74,13 @@ const $store = useStore();
 const singerId = computed<number>(() => $store.getters.singerId);
 const albumId = computed<number>(() => $store.getters.albumId);
 
+// 获取歌手辑列表
 const params = reactive({
   offset: 1,
   limit: 5
 });
 const albumList = ref<AlbumItem[]>([]);
 
-// 获取歌手辑列表
 function getArtistAlbum(): void {
   artistAlbum({
     id: singerId.value,
@@ -90,7 +89,7 @@ function getArtistAlbum(): void {
   })
     .then((res: ResponseType) => {
       if (res.code === 200) {
-        albumList.value = res.hotAlbums;
+        albumList.value = res?.hotAlbums || [];
       }
     })
     .catch(() => ({}));
