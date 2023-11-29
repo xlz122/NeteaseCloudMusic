@@ -1,3 +1,12 @@
+## [1.5.1](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.5.0...v1.5.1) (2023-11-29)
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* **css:** 修复我的会员页面滚动时的布局bug [#7d6952a](https://github.com/xlz122/NeteaseCloudMusic/commit/7d6952a) 
+
+
+
 # [1.5.0](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.4.0...v1.5.0) (2023-11-28)
 
 
@@ -10,6 +19,7 @@
 
 * 更新eslint配置 [#1cee030](https://github.com/xlz122/NeteaseCloudMusic/commit/1cee030) 
 * 更新vite 5.0.2 [#cb499d2](https://github.com/xlz122/NeteaseCloudMusic/commit/cb499d2) 
+* release 1.5.0 [#045dc1b](https://github.com/xlz122/NeteaseCloudMusic/commit/045dc1b) 
 
 
 
