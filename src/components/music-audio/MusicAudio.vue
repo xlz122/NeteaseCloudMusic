@@ -137,9 +137,9 @@ function audioLock(): void {
   }
 }
 
-// 播放器鼠标移入事件
 const audioEnter = ref<boolean>(false);
 
+// 播放器鼠标移入事件
 function musicAudioEnter(): boolean | undefined {
   if (musicAudioLock.value) {
     return;

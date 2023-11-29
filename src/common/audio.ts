@@ -28,7 +28,7 @@ export type SongType = {
 
 /**
  * @description 歌曲数据处理成音乐播放器所需数据
- * @param { Object } song 歌曲数据
+ * @param { Object } song - 歌曲数据
  */
 export function handleAudioSong<T extends Partial<SongType>>(
   song: T

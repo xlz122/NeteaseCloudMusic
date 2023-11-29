@@ -8,7 +8,7 @@ import type { PlayMusicItem, MusicPlayStatus } from '@/store/music/state';
 
 /**
  * @description 播放单个歌曲
- * @param { Object } music 歌曲数据
+ * @param { Object } music - 歌曲数据
  */
 function usePlaySingleMusic<T extends PlayMusicItem | Partial<SongType>>(
   music: T

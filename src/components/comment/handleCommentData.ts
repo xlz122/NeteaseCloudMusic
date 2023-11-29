@@ -23,6 +23,7 @@ export function handleCommentData(data: ResponseType): CommentReturn {
     hotList: [],
     list: []
   };
+
   // 精彩评论
   if (data.hotComments) {
     data.hotComments.forEach((item: List) => {
@@ -47,6 +48,7 @@ export function handleCommentData(data: ResponseType): CommentReturn {
       item.beReplied[0].content = formatMixedText(item?.beReplied[0]?.content);
     }
   });
+
   result.list = data.comments;
 
   return result;

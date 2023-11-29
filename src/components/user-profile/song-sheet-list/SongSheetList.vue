@@ -128,12 +128,12 @@ watch(
   }
 );
 
+// 获取用户歌单列表
 const songSheetList = reactive<SongSheet>({
   createSongSheet: [],
   collectSongSheet: []
 });
 
-// 获取用户歌单列表
 function getUserPlayList(): void {
   userPlayList({ uid: userId.value })
     .then((res: ResponseType) => {

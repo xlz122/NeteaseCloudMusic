@@ -11,60 +11,43 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, computed, watch } from 'vue';
+<script lang="ts" setup>
+import { reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import HorizontalProgress from '@/components/progress/Progress.vue';
 
-export default defineComponent({
-  name: 'PlayProgress',
-  components: {
-    HorizontalProgress
-  },
-  setup() {
-    const $store = useStore();
+const $store = useStore();
+// 播放状态
+const musicPlayStatus = computed(() => $store.getters['music/musicPlayStatus']);
+// 播放进度数据
+const musicPlayProgress = computed(
+  () => $store.getters['music/musicPlayProgress']
+);
 
-    // 播放状态
-    const musicPlayStatus = computed(
-      () => $store.getters['music/musicPlayStatus']
-    );
-    // 播放进度数据
-    const musicPlayProgress = computed(
-      () => $store.getters['music/musicPlayProgress']
-    );
-
-    const progress = reactive({
-      current: '',
-      cache: ''
-    });
-
-    // 更新进度数据
-    watch(
-      () => musicPlayProgress.value,
-      curVal => {
-        progress.current = curVal.progress + '%';
-        progress.cache = curVal.cacheProgress + '%';
-      }
-    );
-
-    // 音乐进度更改
-    function progressChange(value: number): void {
-      const currentTime = musicPlayProgress.value.duration * value;
-      $store.commit('music/setMusicPlayProgress', {
-        progress: value * 100,
-        currentTime,
-        timeChange: true
-      });
-    }
-
-    return {
-      musicPlayStatus,
-      musicPlayProgress,
-      progress,
-      progressChange
-    };
-  }
+// 更新进度数据
+const progress = reactive({
+  current: '',
+  cache: ''
 });
+
+watch(
+  () => musicPlayProgress.value,
+  curVal => {
+    progress.current = curVal.progress + '%';
+    progress.cache = curVal.cacheProgress + '%';
+  }
+);
+
+// 音乐进度更改
+function progressChange(value: number): void {
+  const currentTime = musicPlayProgress.value.duration * value;
+
+  $store.commit('music/setMusicPlayProgress', {
+    progress: value * 100,
+    currentTime,
+    timeChange: true
+  });
+}
 </script>
 
 <style lang="less" scoped>

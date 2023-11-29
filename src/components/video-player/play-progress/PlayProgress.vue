@@ -15,7 +15,6 @@ import { useStore } from 'vuex';
 import XProgress from '@/components/progress/Progress.vue';
 
 const $store = useStore();
-
 // 播放进度数据
 const videoPlayProgress = computed(
   () => $store.getters['video/videoPlayProgress']

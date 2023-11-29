@@ -96,10 +96,7 @@ function addSongSheet(): void {
 
 // 收藏
 function handleCollection(id: number): void {
-  collectMusic({
-    pid: id,
-    tracks: collectSong.value.songIds
-  })
+  collectMusic({ pid: id, tracks: collectSong.value.songIds })
     .then((res: ResponseType) => {
       if (res.body.code === 200) {
         $store.commit('collectPlayMusic', {
