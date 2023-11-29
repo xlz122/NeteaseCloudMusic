@@ -38,7 +38,7 @@ type TopListType = {
  * @description 获取节目排行榜
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } [offset] - 页数(默认为0)
- * @param { Number } [limit] - 偏移量
+ * @param { Number } [limit] - 偏移量(默认为100)
  */
 export const programTopList = ({
   limit,

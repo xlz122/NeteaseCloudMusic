@@ -22,7 +22,7 @@ export const bannerImgUrl = (): AxiosPromise => {
 /**
  * @description 获取热门推荐 - 推荐歌单
  * @param { Number } timestamp - 防止接口缓存
- * @param { Number } limit - 偏移量
+ * @param { Number } [limit] - 偏移量(默认为30)
  */
 export const recommendSongList = ({
   limit
@@ -128,7 +128,7 @@ export const userFolloweds = (): AxiosPromise => {
 /**
  * @description 获取用户粉丝列表
  * @param { Number } timestamp - 防止接口缓存
- * @param { Number } type - 签到类型(0: 安卓端签到 ,1: web/PC 签到)
+ * @param { Number } type - 签到类型(0: 安卓端签到 , 1: web/PC 签到)
  */
 export const dailySignin = (): AxiosPromise => {
   const params = {

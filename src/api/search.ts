@@ -24,10 +24,10 @@ export const searchPropose = ({
 };
 
 type SearchKeywords = {
+  type: number;
   keywords: string;
   offset?: number;
   limit?: number;
-  type?: number;
 };
 
 /**

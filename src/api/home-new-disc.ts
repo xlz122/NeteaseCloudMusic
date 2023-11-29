@@ -16,28 +16,28 @@ export const hotNewDisc = (): AxiosPromise => {
 };
 
 type NweDiscAlbum = {
+  area: string;
   offset?: number;
   limit?: number;
-  area: string;
 };
 
 /**
  * @description 获取全部新碟
  * @param { Number } timestamp - 防止接口缓存
- * @param { Number } offset - 页数(默认为0)
- * @param { Number } limit - 偏移量
  * @param { Number } area - ALL: 全部, ZH: 华语, EA: 欧美, KR: 韩国, JP: 日本
+ * @param { Number } [offset] - 页数(默认为0)
+ * @param { Number } [limit] - 偏移量(默认为30)
  */
 export const nweDiscAlbum = ({
+  area,
   limit,
-  offset,
-  area
+  offset
 }: NweDiscAlbum): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
+    area,
     limit,
-    offset,
-    area
+    offset
   };
 
   return axios.request({

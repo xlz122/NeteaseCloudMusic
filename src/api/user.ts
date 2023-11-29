@@ -88,15 +88,15 @@ export const userDetail = ({ uid }: { uid: number }): AxiosPromise => {
 };
 
 type MessagType = {
-  limit?: number;
   offset?: number;
+  limit?: number;
 };
 
 /**
  * @description 获取消息提示(需登录)
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } [offset] - 页数(默认为0)
- * @param { Number } [limit] - 偏移量
+ * @param { Number } [limit] - 偏移量(默认为30)
  */
 export const messageEv = ({ offset, limit }: MessagType): AxiosPromise => {
   const params = {

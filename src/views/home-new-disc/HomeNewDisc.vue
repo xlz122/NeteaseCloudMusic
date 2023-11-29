@@ -187,18 +187,18 @@ function jumpSingerDetail(id: number): void {
 
 // 全部新碟
 const params = reactive({
+  area: 'ALL',
   offset: 1,
-  limit: 35,
-  area: 'ALL'
+  limit: 35
 });
 const albumList = ref<AlbumItem[]>([]);
 const albumTotal = ref<number>(0);
 
 function getAlbumList(): void {
   nweDiscAlbum({
+    area: params.area,
     offset: (params.offset - 1) * params.limit,
-    limit: params.limit,
-    area: params.area
+    limit: params.limit
   })
     .then((res: ResponseType) => {
       if (res.code === 200) {

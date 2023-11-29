@@ -1,7 +1,7 @@
 import axios from '@/utils/axios';
 import type { AxiosPromise } from 'axios';
 
-export type CommentParams = {
+type CommentParams = {
   id: number;
   offset?: number;
   limit?: number;
@@ -154,7 +154,7 @@ export const videoComment = ({
 };
 
 /**
- * @description 获取视频评论列表
+ * @description 获取MV评论列表
  * @param { Number } timestamp - 防止接口缓存
  * @param { Number } id - mvid
  * @param { Number } [offset] - 页数(默认0)
