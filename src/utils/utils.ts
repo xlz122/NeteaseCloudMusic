@@ -1,17 +1,7 @@
 /**
- * @description 日期字符串转时间戳
- * @param { String} datestr - 日期字符串
- */
-export function datestrToTimestamp(datestr: string): number {
-  return new Date(Date.parse(datestr.replace(/-/g, '/'))).getTime();
-}
-
-/**
  * @description 获取当前星期几
  */
 export function getWeekDate(): string {
-  const now = new Date();
-  const day = now.getDay();
   const weeks = [
     '星期日',
     '星期一',
@@ -21,6 +11,8 @@ export function getWeekDate(): string {
     '星期五',
     '星期六'
   ];
+  const now = new Date();
+  const day = now.getDay();
   const week = weeks[day];
 
   return week;
@@ -257,30 +249,6 @@ export function bigNumberTransform(value: number | string): number | string {
 }
 
 /**
- * @description 获取滚动条距离页面底部的高度
- * @param { MouseEvent } event 滚动条事件对象
- */
-export function getPageBottomHeight(e: Event): number {
-  const target = e.target as Document;
-  // 总的滚动的高度
-  const scrollHeight =
-    (target ? target.documentElement.scrollHeight : false) ||
-    (target ? target.body.scrollHeight : 0);
-  // 视口高度
-  const clientHeight =
-    (target ? target.documentElement.clientHeight : false) ||
-    (target ? target.body.clientHeight : 0);
-  // 当前滚动的高度
-  const scrollTop =
-    (target ? target.documentElement.scrollTop : false) ||
-    (target ? target.body.scrollTop : 0);
-  // 距离底部高度(总的高度 - 视口高度 - 滚动高度)
-  const bottomHeight = scrollHeight - clientHeight - scrollTop;
-
-  return bottomHeight;
-}
-
-/**
  * @description 字符串匹配
  * @param { String } str - 原始字符串
  * @param { String } value - 匹配值
@@ -306,14 +274,14 @@ export function filterTime(time: number): string {
       ? '0' + (date.getMonth() + 1)
       : date.getMonth() + 1;
   const D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+
   return `${Y}-${M}-${D}`;
 }
 
-export const require = (imgPath: string) => {
-  try {
-    const handlePath = imgPath.replace('@', '..');
-    return new URL(handlePath, import.meta.url).href;
-  } catch (error) {
-    console.warn(error);
-  }
-};
+/**
+ * @description 动态加载图片
+ * @param { String } path - 图片路径(相对于src目录)
+ */
+export function getImageUrl(path: string): string {
+  return new URL(`../${path}`, import.meta.url).href;
+}

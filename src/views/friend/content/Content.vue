@@ -49,7 +49,6 @@ import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { formatMixedText } from '@/utils/formatMixedText';
-import { getPageBottomHeight } from '@/utils/utils';
 import { friendEvent, dynamicLike } from '@/api/friend';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/common/audio';
@@ -162,7 +161,21 @@ function jumpUserProfile(id: number): void {
 // 监听滚动
 onMounted(() => {
   document.addEventListener('scroll', function (e: Event): void {
-    const bottomHeight = getPageBottomHeight(e);
+    const target = e.target as Document;
+    // 滚动条高度
+    const scrollHeight =
+      (target ? target.documentElement.scrollHeight : false) ||
+      (target ? target.body.scrollHeight : 0);
+    // 视口高度
+    const clientHeight =
+      (target ? target.documentElement.clientHeight : false) ||
+      (target ? target.body.clientHeight : 0);
+    // 当前滚动的高度
+    const scrollTop =
+      (target ? target.documentElement.scrollTop : false) ||
+      (target ? target.body.scrollTop : 0);
+    // 距离底部高度(滚动条高度 - 视口高度 - 当前滚动的高度)
+    const bottomHeight = scrollHeight - clientHeight - scrollTop;
 
     // 并非第一次加载 & 距离底部高度 & 是否可请求
     if (eventList.value.length > 0 && bottomHeight <= 400 && lock.value) {

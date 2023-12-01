@@ -395,7 +395,7 @@
 <script lang="ts" setup>
 import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import { require } from '@/utils/utils';
+import { getImageUrl } from '@/utils/utils';
 import { userVipInfo } from '@/api/user';
 import type { ResponseType } from '@/types/types';
 import MyDialog from '@/components/MyDialog.vue';
@@ -548,57 +548,57 @@ const privilege = reactive({
     {
       code: 1,
       name: '会员曲库',
-      img: require('@/assets/image/user/privilege/1.png')
+      img: getImageUrl('assets/image/user/privilege/1.png')
     },
     {
       code: 2,
       name: '免费下载',
-      img: require('@/assets/image/user/privilege/2.png')
+      img: getImageUrl('assets/image/user/privilege/2.png')
     },
     {
       code: 1,
       name: '铃声',
-      img: require('@/assets/image/user/privilege/1.png')
+      img: getImageUrl('assets/image/user/privilege/1.png')
     },
     {
       code: 3,
       name: '历史日推',
-      img: require('@/assets/image/user/privilege/3.png')
+      img: getImageUrl('assets/image/user/privilege/3.png')
     },
     {
       code: 4,
       name: '歌词图片',
-      img: require('@/assets/image/user/privilege/4.png'),
-      imgNo: require('@/assets/image/user/privilege/4-no.png')
+      img: getImageUrl('assets/image/user/privilege/4.png'),
+      imgNo: getImageUrl('assets/image/user/privilege/4-no.png')
     },
     {
       code: 5,
       name: '无损音质',
-      img: require('@/assets/image/user/privilege/5.png')
+      img: getImageUrl('assets/image/user/privilege/5.png')
     },
     {
       code: 6,
       name: '广告特权',
-      img: require('@/assets/image/user/privilege/6.png'),
-      imgNo: require('@/assets/image/user/privilege/6-no.png')
+      img: getImageUrl('assets/image/user/privilege/6.png'),
+      imgNo: getImageUrl('assets/image/user/privilege/6-no.png')
     },
     {
       code: 7,
       name: '鲸云音效',
-      img: require('@/assets/image/user/privilege/7.png'),
-      imgNo: require('@/assets/image/user/privilege/7-no.png')
+      img: getImageUrl('assets/image/user/privilege/7.png'),
+      imgNo: getImageUrl('assets/image/user/privilege/7-no.png')
     },
     {
       code: 8,
       name: '头像挂件',
-      img: require('@/assets/image/user/privilege/8.png'),
-      imgNo: require('@/assets/image/user/privilege/8-no.png')
+      img: getImageUrl('assets/image/user/privilege/8.png'),
+      imgNo: getImageUrl('assets/image/user/privilege/8-no.png')
     },
     {
       code: 9,
       name: '个性皮肤',
-      img: require('@/assets/image/user/privilege/9.png'),
-      imgNo: require('@/assets/image/user/privilege/9-no.png')
+      img: getImageUrl('assets/image/user/privilege/9.png'),
+      imgNo: getImageUrl('assets/image/user/privilege/9-no.png')
     }
   ]
 });
@@ -709,19 +709,19 @@ function closePrompt(val: boolean) {
 const songList = ref([
   {
     id: 1,
-    img: require('@/assets/image/user/songs/1.png')
+    img: getImageUrl('assets/image/user/songs/1.png')
   },
   {
     id: 2,
-    img: require('@/assets/image/user/songs/2.png')
+    img: getImageUrl('assets/image/user/songs/2.png')
   },
   {
     id: 3,
-    img: require('@/assets/image/user/songs/3.png')
+    img: getImageUrl('assets/image/user/songs/3.png')
   },
   {
     id: 4,
-    img: require('@/assets/image/user/songs/4.png')
+    img: getImageUrl('assets/image/user/songs/4.png')
   }
 ]);
 
