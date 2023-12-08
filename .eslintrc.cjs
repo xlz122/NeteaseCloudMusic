@@ -4,8 +4,8 @@ module.exports = {
     'eslint:recommended',
     'plugin:vue/vue3-recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
-    'eslint-config-prettier'
+    'eslint-config-prettier',
+    'plugin:prettier/recommended'
   ],
   parser: 'vue-eslint-parser',
   parserOptions: {
@@ -21,7 +21,17 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
 
-    // 禁用var, 使用let、const
+    '@typescript-eslint/no-explicit-any': 0,
+    'vue/attributes-order': 0,
+    'vue/attribute-hyphenation': 0,
+    'vue/v-on-event-hyphenation': 0,
+    'vue/no-v-html': 0,
+    // 组件name
+    'vue/multi-word-component-names': [0, {
+      'ignores': []
+    }],
+
+    // 禁用var
     'no-var': 2,
     // 禁止在变量定义之前使用
     '@typescript-eslint/no-use-before-define': [
@@ -47,16 +57,6 @@ module.exports = {
     // 单行代码最大长度
     'max-len': [2, { code: 120 }],
     // 空格缩进
-    'indent': [2, 2],
-
-    '@typescript-eslint/no-explicit-any': 0,
-    'vue/attributes-order': 0,
-    'vue/attribute-hyphenation': 0,
-    'vue/v-on-event-hyphenation': 0,
-    'vue/no-v-html': 0,
-    // 组件name, 忽略ignores
-    'vue/multi-word-component-names': [0, {
-      'ignores': []
-    }]
+    'indent': [2, 2]
   }
 };
