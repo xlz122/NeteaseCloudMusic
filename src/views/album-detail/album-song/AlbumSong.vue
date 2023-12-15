@@ -182,7 +182,7 @@ function isCopyright(id?: number): boolean | undefined {
 }
 
 // 收藏
-function handleCollection(id: number | undefined): boolean | undefined {
+function handleCollection(id: number): boolean | undefined {
   if (!isLogin.value) {
     $store.commit('setLoginDialog', true);
     return;
@@ -210,20 +210,17 @@ function handleDownload(): void {
 }
 
 // 跳转歌曲详情
-function jumpSongDetail(id: number | undefined): void {
-  $store.commit('jumpSongDetail', id);
+function jumpSongDetail(id: number): void {
+  $router.push({ path: '/song-detail', query: { id } });
 }
 
 // 跳转歌手详情
-function jumpSingerDetail(id: number | undefined): void {
-  $store.commit('jumpSingerDetail', id);
+function jumpSingerDetail(id: number): void {
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 
 // 跳转视频详情
-function jumpVideoDetail(
-  songId: number | undefined,
-  id: number | undefined
-): boolean | undefined {
+function jumpVideoDetail(songId: number, id: number): boolean | undefined {
   // 无版权
   if (isCopyright(songId)) {
     $store.commit('setCopyright', {
@@ -233,8 +230,7 @@ function jumpVideoDetail(
     return;
   }
 
-  $router.push({ name: 'mv-detail', params: { id } });
-  $store.commit('video/setVideo', { id, url: '' });
+  $router.push({ path: '/mv-detail', query: { id } });
 }
 </script>
 

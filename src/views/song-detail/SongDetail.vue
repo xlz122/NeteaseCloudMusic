@@ -19,14 +19,14 @@
             <a
               v-if="lyric?.lyricUser?.nickname"
               class="text lyric"
-              :href="`https://music.163.com/#/wiki/song?songId=${songId}&type=3`"
+              :href="`https://music.163.com/#/wiki/song?songId=${$route.query.id}&type=3`"
               target="_blank"
             >
               翻译歌词
             </a>
             <a
               class="text"
-              :href="`https://music.163.com/#/lyric/report?id=${songId}`"
+              :href="`https://music.163.com/#/lyric/report?id=${$route.query.id}`"
               target="_blank"
             >
               报错
@@ -82,6 +82,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive, computed, watch, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { handleCommentData } from '@/components/comment/handleCommentData';
@@ -110,15 +111,16 @@ type Lyric = {
   }[];
 };
 
+const $route = useRoute();
+const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
-const songId = computed<number>(() => $store.getters.songId);
 
 // 获取歌曲详情
 const songDetailData = ref({});
 
 function getSongDetail(): void {
-  songDetail({ ids: songId.value })
+  songDetail({ ids: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         songDetailData.value = res || {};
@@ -135,7 +137,7 @@ const lyric = reactive<Lyric>({
 });
 
 function getLyricData() {
-  getLyric({ id: songId.value })
+  getLyric({ id: Number($route.query.id) })
     .then((res: ResponseType) => {
       lyric.lyricUser = res?.lyricUser;
       lyric.transUser = res?.transUser;
@@ -207,7 +209,7 @@ function formatLyricTime(time: string): number {
 // 获取评论
 const commentParams = reactive<CommentParams>({
   type: 0,
-  id: songId.value,
+  id: 0,
   offset: 1,
   limit: 20,
   total: 0,
@@ -217,7 +219,7 @@ const commentParams = reactive<CommentParams>({
 
 function getCommentList(): void {
   const params = {
-    id: songId.value,
+    id: Number($route.query.id),
     offset: (commentParams.offset - 1) * commentParams.limit,
     limit: commentParams.limit
   };
@@ -269,11 +271,11 @@ function lyricTranslate(): boolean | undefined {
 
 // 跳转用户资料
 function jumpUserProfile(id: number | undefined): void {
-  $store.commit('jumpUserProfile', id);
+  $router.push({ path: '/user-profile', query: { id } });
 }
 
 watch(
-  () => songId.value,
+  () => $route.query.id,
   curVal => {
     if (!curVal) {
       return;

@@ -113,6 +113,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
@@ -126,6 +127,7 @@ type AlbumItem = {
   picUrl: string;
 } & SongType;
 
+const $router = useRouter();
 const $store = useStore();
 
 // 获取热门新碟
@@ -177,12 +179,12 @@ function albumToPlayListPlay(id: number): void {
 
 // 跳转专辑详情
 function jumpAlbumDetail(id: number): void {
-  $store.commit('jumpAlbumDetail', id);
+  $router.push({ path: '/album-detail', query: { id } });
 }
 
 // 跳转歌手详情
 function jumpSingerDetail(id: number): void {
-  $store.commit('jumpSingerDetail', id);
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 
 // 全部新碟

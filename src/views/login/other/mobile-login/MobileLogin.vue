@@ -253,11 +253,11 @@ function sendVerificationCode(): boolean | undefined {
     .catch(err => {
       // 发送超过限制次数
       if (err.response.status === 400) {
-        setMessage({ type: 'error', title: err.response.data.message });
+        setMessage({ type: 'error', title: err.response.data?.message });
       }
       // 发送时间间隔太短
       if (err.response.status === 405) {
-        setMessage({ type: 'error', title: err.response.data.message });
+        setMessage({ type: 'error', title: err.response.data?.message });
       }
     });
 }

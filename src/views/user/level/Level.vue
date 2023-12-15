@@ -147,7 +147,7 @@ getUserLevel();
 
 // 跳转等级详情
 function jumpLevelDetail(): void {
-  $router.push({ name: 'level-detail' });
+  $router.push({ path: '/level-detail' });
 }
 
 onMounted(() => {

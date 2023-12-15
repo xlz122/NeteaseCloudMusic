@@ -108,7 +108,7 @@ function handleCollection(id: number): void {
         return;
       }
 
-      setMessage({ type: 'error', title: res.body.message });
+      setMessage({ type: 'error', title: res.body?.message });
     })
     .catch(() => ({}));
 }

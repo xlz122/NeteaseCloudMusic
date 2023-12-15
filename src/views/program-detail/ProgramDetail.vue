@@ -29,7 +29,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, watch, onMounted } from 'vue';
+import { ref, reactive, watch, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { handleCommentData } from '@/components/comment/handleCommentData';
 import { djProgramDetail } from '@/api/program-detail';
@@ -47,14 +48,14 @@ type ProgramDetail = {
   };
 };
 
+const $route = useRoute();
 const $store = useStore();
-const programId = computed<number>(() => $store.getters.programId);
 
 // 获取电台节目详情
 const programDetail = ref<ProgramDetail>({});
 
 function getProgramDetail(): void {
-  djProgramDetail({ id: programId.value })
+  djProgramDetail({ id: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res.code === 200) {
         programDetail.value = res?.program || {};
@@ -66,7 +67,7 @@ function getProgramDetail(): void {
 // 获取评论
 const commentParams = reactive<CommentParams>({
   type: 4,
-  id: programId.value,
+  id: 0,
   offset: 1,
   limit: 20,
   total: 0,
@@ -76,7 +77,7 @@ const commentParams = reactive<CommentParams>({
 
 function getCommentList(): void {
   const params = {
-    id: programId.value,
+    id: Number($route.query.id),
     offset: (commentParams.offset - 1) * commentParams.limit,
     limit: commentParams.limit
   };
@@ -117,7 +118,7 @@ function jumpToComment(): void {
 }
 
 watch(
-  () => programId.value,
+  () => $route.query.id,
   curVal => {
     if (!curVal) {
       return;

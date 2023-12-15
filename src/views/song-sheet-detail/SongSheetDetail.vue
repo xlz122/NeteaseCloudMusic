@@ -16,7 +16,7 @@
               <i class="icon"></i>
               <a
                 class="link"
-                :href="`https://music.163.com/#/outchain/0/${songSheetId}`"
+                :href="`https://music.163.com/#/outchain/0/${$route.query.id}`"
               >
                 生成外链播放器
               </a>
@@ -62,6 +62,7 @@
 
 <script lang="ts" setup>
 import { reactive, computed, watch, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { handleCommentData } from '@/components/comment/handleCommentData';
 import { playlistDetail } from '@/api/song-sheet-detail';
@@ -74,15 +75,15 @@ import Comment from '@/components/comment/Comment.vue';
 import SongSheetSide from './song-sheet-side/SongSheetSide.vue';
 import Page from '@/components/page/Page.vue';
 
+const $route = useRoute();
 const $store = useStore();
-const songSheetId = computed<number>(() => $store.getters.songSheetId);
 const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
 // 获取歌单详情
 function getSongDetail(): void {
   $store.commit('setSongSheetDetail', {});
 
-  playlistDetail({ id: songSheetId.value })
+  playlistDetail({ id: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         $store.commit('setSongSheetDetail', res);
@@ -103,7 +104,7 @@ function jumpToComment(): void {
 // 获取评论
 const commentParams = reactive<CommentParams>({
   type: 2,
-  id: songSheetId.value,
+  id: 0,
   offset: 1,
   limit: 20,
   total: 0,
@@ -113,7 +114,7 @@ const commentParams = reactive<CommentParams>({
 
 function getCommentList(): void {
   const params = {
-    id: songSheetId.value,
+    id: Number($route.query.id),
     offset: (commentParams.offset - 1) * commentParams.limit,
     limit: commentParams.limit
   };
@@ -145,7 +146,7 @@ function pageChange(current: number): void {
 }
 
 watch(
-  () => songSheetId.value,
+  () => $route.query.id,
   curVal => {
     if (!curVal) {
       return;

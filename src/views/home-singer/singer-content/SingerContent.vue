@@ -241,12 +241,12 @@ watch(
 );
 
 // 跳转歌手详情
-function jumpSingerDetail(id: number | undefined): void {
+function jumpSingerDetail(id: number): void {
   emits('jumpSingerDetail', id);
 }
 
 // 跳转用户资料
-function jumpUserProfile(id: number | undefined): void {
+function jumpUserProfile(id: number): void {
   emits('jumpUserProfile', id);
 }
 </script>

@@ -27,7 +27,7 @@
               <button type="button" class="btn subscribe">
                 <i>订阅({{ details?.subCount }})</i>
               </button>
-              <button type="button" class="btn play" @click="playAllMusic">
+              <button type="button" class="btn play">
                 <i>播放全部</i>
               </button>
               <button type="button" class="btn share">
@@ -114,22 +114,13 @@
 
 <script lang="ts" setup>
 // @ts-nocheck
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive } from 'vue';
 import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
-import { throttle } from 'lodash';
 import { filterTime, timeStampToDuration } from '@/utils/utils';
 import { djDetail, djProgram } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types/types';
-// import { SongType } from '@/common/audio';
-// import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-// import useMusicToPlayList from '@/common/useMusicToPlayList';
 
 const $route = useRoute();
-const $store = useStore();
-const rid = computed<number>(
-  () => Number($route.params.id) || $store.getters['radio/radioDetailId']
-);
 
 const toggleDesc = ref(true);
 const sortSong = ref(true);
@@ -141,59 +132,36 @@ const songs = reactive({
 });
 const list = ref([]);
 
-function detailsHandle(id: number) {
-  djDetail({ rid: id }).then((res: ResponseType) => {
-    if (res?.code === 200) {
-      details.value = res.data;
-      songs.rid = res?.data?.id;
-      djProgramDetails(res?.data?.id);
-    }
-  });
+function detailsHandle() {
+  djDetail({ rid: Number($route.query.id) })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        details.value = res.data;
+        songs.rid = res?.data?.id;
+        djProgramDetails(res?.data?.id);
+      }
+    })
+    .catch(() => ({}));
 }
-detailsHandle(rid.value);
+detailsHandle();
 
 function djProgramDetails(id: number) {
-  djProgram({ rid: id, asc: sortSong.value }).then((res: ResponseType) => {
-    if (res?.code === 200) {
-      songs.details = res;
-      list.value = res.programs;
-    }
-  });
+  djProgram({ rid: id, asc: sortSong.value })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        songs.details = res;
+        list.value = res.programs;
+      }
+    })
+    .catch(() => ({}));
 }
 
 function changeSongSort(change: boolean) {
   sortSong.value = change;
   djProgramDetails(songs.rid);
 }
-
-// 播放全部 - 默认播放列表第一项
-const playAllMusic = throttle(
-  function () {
-    // if (list.value.length === 0) {
-    //   return;
-    // }
-    //
-    // const songList: Partial<SongType>[] = [];
-    //
-    // list.value.forEach((item: { id: number }) => {
-    //   songList.push({
-    //     ...item.mainSong,
-    //     img80x80: item.coverUrl
-    //
-    //   });
-    // });
-    //
-    // usePlaySingleMusic(songList[0]);
-    // useMusicToPlayList({ music: songList, clear: true });
-  },
-  800,
-  {
-    leading: true, // 点击第一下是否执行
-    trailing: false // 节流结束后, 是否执行一次
-  }
-);
 </script>
 
 <style lang="less" scoped>
-@import url('./radioDetails.less');
+@import url('./radio-station-detail.less');
 </style>

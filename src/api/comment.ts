@@ -2,7 +2,7 @@ import axios from '@/utils/axios';
 import type { AxiosPromise } from 'axios';
 
 type CommentParams = {
-  id: number;
+  id: number | string;
   offset?: number;
   limit?: number;
   before?: number;
@@ -127,7 +127,7 @@ export const djprogramComment = ({
 /**
  * @description 获取视频评论列表
  * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 视频id
+ * @param { String } id - 视频id
  * @param { Number } [offset] - 页数(默认0)
  * @param { Number } [limit] - 偏移量(默认20)
  * @param { Number } [before] - 分页参数, 取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到)

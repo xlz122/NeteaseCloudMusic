@@ -98,6 +98,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive, computed, watch, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { handleCommentData } from '@/components/comment/handleCommentData';
@@ -124,6 +125,8 @@ type MvDetailData = {
   subed?: boolean;
 };
 
+const $route = useRoute();
+const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const video = computed<Video>(() => $store.getters['video/video']);
@@ -135,7 +138,7 @@ const mvDetailData = ref<MvDetailData>({
 const mvSubed = ref<boolean>(false);
 
 function getMvDetail(): void {
-  mvDetail({ mvid: video.value.id })
+  mvDetail({ mvid: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         mvDetailData.value = res?.data || {};
@@ -147,7 +150,7 @@ function getMvDetail(): void {
 
 // 获取播放地址
 function getVideoPlaySrc(): void {
-  mvUrl({ id: video.value.id })
+  mvUrl({ id: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         $store.commit('video/setVideo', {
@@ -179,7 +182,7 @@ function handleCollection(followed: boolean | undefined): boolean | undefined {
   // 1: 收藏 2: 取消收藏
   const t = followed ? 2 : 1;
 
-  mvSub({ mvid: video.value.id, t })
+  mvSub({ mvid: Number($route.query.id), t })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         if (t === 1) {
@@ -210,7 +213,7 @@ function handleShare(): boolean | undefined {
 // 获取评论
 const commentParams = reactive<CommentParams>({
   type: 1,
-  id: video.value.id,
+  id: 0,
   offset: 1,
   limit: 20,
   total: 0,
@@ -220,7 +223,7 @@ const commentParams = reactive<CommentParams>({
 
 function getCommentList(): void {
   const params = {
-    id: video.value.id,
+    id: Number($route.query.id),
     offset: (commentParams.offset - 1) * commentParams.limit,
     limit: commentParams.limit
   };
@@ -262,11 +265,11 @@ function jumpToComment(): void {
 
 // 跳转歌手详情
 function jumpSingerDetail(id: number | undefined): void {
-  $store.commit('jumpSingerDetail', id);
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 
 watch(
-  () => video.value.id,
+  () => $route.query.id,
   curVal => {
     if (!curVal) {
       return;

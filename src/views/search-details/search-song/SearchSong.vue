@@ -114,13 +114,13 @@ type SongData = {
   total: number;
   list: Partial<
     {
-      tns?: string[];
+      tns: string[];
       al: {
-        id?: number;
-        name?: string;
+        id: number;
+        name: string;
       };
-      privilege?: {
-        cp?: number;
+      privilege: {
+        cp: number;
       };
     } & SongType
   >[];
@@ -252,7 +252,7 @@ function pageChange(current: number): void {
 
 // 跳转歌曲详情
 function jumpSongDetail(id: number | undefined): void {
-  $store.commit('jumpSongDetail', id);
+  $router.push({ path: '/song-detail', query: { id } });
 }
 
 // 跳转视频详情
@@ -265,18 +265,17 @@ function jumpVideoDetail(
     return;
   }
 
-  $router.push({ name: 'mv-detail', params: { id } });
-  $store.commit('video/setVideo', { id, url: '' });
+  $router.push({ path: '/mv-detail', query: { id } });
 }
 
 // 跳转歌手详情
 function jumpSingerDetail(id: number | undefined): void {
-  $store.commit('jumpSingerDetail', id);
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 
 // 跳转专辑详情
 function jumpAlbumDetail(id: number | undefined): void {
-  $store.commit('jumpAlbumDetail', id);
+  $router.push({ path: '/album-detail', query: { id } });
 }
 </script>
 

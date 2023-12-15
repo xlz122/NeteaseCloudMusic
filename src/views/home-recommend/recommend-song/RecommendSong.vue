@@ -120,6 +120,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
@@ -128,10 +129,10 @@ import { timeStampToDuration } from '@/utils/utils';
 import type { SongType } from '@/common/audio';
 
 type ItemType = {
-  alia?: string[];
-  al?: {
-    id?: number;
-    name?: string;
+  alia: string[];
+  al: {
+    id: number;
+    name: string;
   };
 } & SongType;
 
@@ -142,6 +143,7 @@ const props = defineProps({
   }
 });
 
+const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
@@ -167,7 +169,7 @@ function playSingleMusic(item: Partial<SongType>): void {
 }
 
 // 收藏
-function handleCollection(id: number | undefined): boolean | undefined {
+function handleCollection(id: number): boolean | undefined {
   if (!isLogin.value) {
     $store.commit('setLoginDialog', true);
     return;
@@ -195,18 +197,18 @@ function handleDownload(): void {
 }
 
 // 跳转歌曲详情
-function jumpSongDetail(id: number | undefined): void {
-  $store.commit('jumpSongDetail', id);
+function jumpSongDetail(id: number): void {
+  $router.push({ path: '/song-detail', query: { id } });
 }
 
 // 跳转歌手详情
-function jumpSingerDetail(id: number | undefined): void {
-  $store.commit('jumpSingerDetail', id);
+function jumpSingerDetail(id: number): void {
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 
 // 跳转专辑详情
-function jumpAlbumDetail(id: number | undefined): void {
-  $store.commit('jumpAlbumDetail', id);
+function jumpAlbumDetail(id: number): void {
+  $router.push({ path: '/album-detail', query: { id } });
 }
 </script>
 

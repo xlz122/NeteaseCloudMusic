@@ -2,8 +2,6 @@
   <div class="user-profile-container">
     <div class="user-info">
       <UserInfo
-        :userId="userId"
-        :userInfo="userInfo"
         :currentUserInfo="currentUserInfo"
         :provinceName="provinceName"
         :cityName="cityName"
@@ -19,7 +17,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import findCityZipCode from './city';
 import { userDetail } from '@/api/user';
@@ -33,23 +32,8 @@ type CurrentUserInfo = {
   listenSongs?: number;
 };
 
+const $route = useRoute();
 const $store = useStore();
-const userInfo = computed(() => $store.getters.userInfo);
-const userId = computed<number>(() => $store.getters.userId);
-
-watch(
-  () => userId.value,
-  curVal => {
-    if (!curVal) {
-      return;
-    }
-
-    getUserDetail();
-  },
-  {
-    immediate: true
-  }
-);
 
 // 获取当前用户详情
 const currentUserInfo = ref<CurrentUserInfo>({});
@@ -57,7 +41,7 @@ const provinceName = ref<string>('');
 const cityName = ref<string>('');
 
 function getUserDetail() {
-  userDetail({ uid: userId.value })
+  userDetail({ uid: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         currentUserInfo.value = res as CurrentUserInfo;
@@ -71,6 +55,20 @@ function getUserDetail() {
     })
     .catch(() => ({}));
 }
+
+watch(
+  () => $route.query.id,
+  curVal => {
+    if (!curVal) {
+      return;
+    }
+
+    getUserDetail();
+  },
+  {
+    immediate: true
+  }
+);
 
 onMounted(() => {
   $store.commit('setMenuIndex', -1);

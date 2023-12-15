@@ -81,6 +81,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive, computed, watch, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { handleCommentData } from '@/components/comment/handleCommentData';
@@ -107,6 +108,8 @@ type VideoDetailData = {
   shareCount?: number;
 };
 
+const $route = useRoute();
+const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const video = computed<Video>(() => $store.getters['video/video']);
@@ -115,7 +118,7 @@ const video = computed<Video>(() => $store.getters['video/video']);
 const videoDetailData = ref<VideoDetailData>({});
 
 function getVideoDetail(): void {
-  videoDetail({ id: video.value.id })
+  videoDetail({ id: String($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         videoDetailData.value = res?.data || {};
@@ -126,7 +129,7 @@ function getVideoDetail(): void {
 
 // 获取播放地址
 function getVideoPlaySrc(): void {
-  videoPlayUrl({ id: video.value.id })
+  videoPlayUrl({ id: String($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         $store.commit('video/setVideo', {
@@ -156,7 +159,7 @@ function getVideoSbulist(): void {
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         res?.data?.forEach((item: { vid: number }) => {
-          if (item?.vid === video.value.id) {
+          if (item?.vid === Number($route.query.id)) {
             videoSubed.value = true;
           }
         });
@@ -175,7 +178,7 @@ function handleCollection(followed: boolean | undefined): boolean | undefined {
   // 1: 收藏 2: 取消收藏
   const t = followed ? 2 : 1;
 
-  videoSub({ id: video.value.id, t })
+  videoSub({ id: String($route.query.id), t })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         if (t === 1) {
@@ -210,7 +213,7 @@ function handleShare(): boolean | undefined {
 // 获取评论
 const commentParams = reactive<CommentParams>({
   type: 5,
-  id: video.value.id,
+  id: '',
   offset: 1,
   limit: 20,
   total: 0,
@@ -220,7 +223,7 @@ const commentParams = reactive<CommentParams>({
 
 function getCommentList(): void {
   const params = {
-    id: video.value.id,
+    id: String($route.query.id),
     offset: (commentParams.offset - 1) * commentParams.limit,
     limit: commentParams.limit
   };
@@ -262,11 +265,11 @@ function jumpToComment(): void {
 
 // 跳转用户资料
 function jumpUserProfile(id: number | undefined): void {
-  $store.commit('jumpUserProfile', id);
+  $router.push({ path: '/user-profile', query: { id } });
 }
 
 watch(
-  () => video.value.id,
+  () => $route.query.id,
   curVal => {
     if (!curVal) {
       return;

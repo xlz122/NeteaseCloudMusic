@@ -94,6 +94,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
@@ -122,10 +123,11 @@ defineProps({
   }
 });
 
+const $route = useRoute();
+const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
-const uid = computed<number>(() => $store.getters.userId);
 
 // 最近一周/所有时间
 const type = ref<number>(0);
@@ -151,7 +153,7 @@ watch(
 const recordList = ref<RecordItem[]>([]);
 
 function getUserRecord(): void {
-  userRecord({ uid: uid.value, type: type.value })
+  userRecord({ uid: Number($route.query.id), type: type.value })
     .then((res: ResponseType) => {
       if (res.code === 200) {
         if (type.value === 0) {
@@ -206,12 +208,12 @@ function handleDownload(): void {
 
 // 跳转歌曲详情
 function jumpSongDetail(id: number): void {
-  $store.commit('jumpSongDetail', id);
+  $router.push({ path: '/song-detail', query: { id } });
 }
 
 // 跳转歌手详情
 function jumpSingerDetail(id: number): void {
-  $store.commit('jumpSingerDetail', id);
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 </script>
 

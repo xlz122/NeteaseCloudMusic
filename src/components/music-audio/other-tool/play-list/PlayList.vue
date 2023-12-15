@@ -92,6 +92,7 @@
 
 <script lang="ts" setup>
 import { computed, watch, nextTick } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
@@ -107,6 +108,7 @@ const props = defineProps({
 });
 const emits = defineEmits(['closePlayList']);
 
+const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
@@ -210,7 +212,7 @@ function closePlayList(): void {
 
 // 跳转歌手详情
 function jumpSingerDetail(id: number): void {
-  $store.commit('jumpSingerDetail', id);
+  $router.push({ path: '/singer-detail', query: { id } });
   closePlayList();
 }
 

@@ -251,16 +251,16 @@ watch(
 
 // 热门推荐 - 跳转歌单
 function jumpSongSheet(name: string): void {
-  $router.push({ name: 'home-song-sheet', params: { name } });
+  $router.push({ path: '/home-song-sheet', query: { name } });
 }
 
 // 热门推荐 - 更多
 function songSheetMore(): void {
-  $router.push({ name: 'home-song-sheet' });
+  $router.push({ path: '/home-song-sheet' });
 }
 
 // 歌单歌曲添加到播放器并播放
-function songSheetToPlayListPlay(id: number | undefined): void {
+function songSheetToPlayListPlay(id: number): void {
   playlistTrack({ id: id! })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
@@ -359,7 +359,7 @@ dateText.value = formatDateTime(new Date().getTime() / 1000, 'dd').replace(
 
 // 个性化推荐 - 跳转每日推荐
 function jumpRecommend(): void {
-  $router.push({ name: 'home-recommend' });
+  $router.push({ path: '/home-recommend' });
 }
 
 // 个性化推荐 - 不感兴趣
@@ -408,33 +408,32 @@ function albumToPlayListPlay(id: number): void {
 
 // 新碟上架 - 更多
 function albumNewestMore(): void {
-  $router.push({ name: 'home-new-disc' });
+  $router.push({ path: '/home-new-disc' });
 }
 
 // 榜单 - 更多
 function songListMore(): void {
-  $router.push({ name: 'home-toplist' });
+  $router.push({ path: '/home-toplist' });
 }
 
 // 跳转歌单详情
-function jumpSongSheetDetail(id: number | undefined): void {
-  $store.commit('jumpSongSheetDetail', id);
+function jumpSongSheetDetail(id: number): void {
+  $router.push({ path: '/song-sheet-detail', query: { id } });
 }
 
 // 跳转专辑详情
-function jumpAlbumDetail(id: number | undefined): void {
-  $store.commit('jumpAlbumDetail', id);
+function jumpAlbumDetail(id: number): void {
+  $router.push({ path: '/album-detail', query: { id } });
 }
 
 // 跳转歌手详情
-function jumpSingerDetail(id: number | undefined): void {
-  $store.commit('jumpSingerDetail', id);
+function jumpSingerDetail(id: number): void {
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 
 // 跳转电台节目详情
-function jumpProgramDetail(id: number | undefined): void {
-  $router.push({ name: 'program-detail', params: { programId: id } });
-  $store.commit('setProgramId', id);
+function jumpProgramDetail(id: number): void {
+  $router.push({ path: '/program-detail', query: { id } });
 }
 </script>
 

@@ -109,6 +109,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
@@ -129,6 +130,7 @@ const props = defineProps({
 });
 const emits = defineEmits(['jumpToComment']);
 
+const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
@@ -263,7 +265,7 @@ function jumpToComment(): boolean | undefined {
 
 // 跳转歌手详情
 function jumpSingerDetail(id: number): void {
-  $store.commit('jumpSingerDetail', id);
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 </script>
 

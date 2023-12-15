@@ -45,7 +45,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive, onMounted, onUnmounted } from 'vue';
-import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import { setMessage } from '@/components/message/useMessage';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { formatMixedText } from '@/utils/formatMixedText';
@@ -62,7 +62,7 @@ type EventItem = {
   };
 };
 
-const $store = useStore();
+const $router = useRouter();
 
 // 发动态
 function releaseDynamic(): void {
@@ -140,22 +140,22 @@ function setDynamicLike(id: number, threadId: number, type: number): void {
 
 // 跳转歌曲详情
 function jumpSongDetail(id: number): void {
-  $store.commit('jumpSongDetail', id);
+  $router.push({ path: '/song-detail', query: { id } });
 }
 
 // 跳转歌手详情
 function jumpSingerDetail(id: number): void {
-  $store.commit('jumpSingerDetail', id);
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 
 // 跳转专辑详情
 function jumpAlbumDetail(id: number): void {
-  $store.commit('jumpAlbumDetail', id);
+  $router.push({ path: '/album-detail', query: { id } });
 }
 
 // 跳转用户资料
 function jumpUserProfile(id: number): void {
-  $store.commit('jumpUserProfile', id);
+  $router.push({ path: '/user-profile', query: { id } });
 }
 
 // 监听滚动

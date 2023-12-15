@@ -28,7 +28,6 @@
 
 <script lang="ts" setup>
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 
 type ItemType = {
   id: number;
@@ -49,11 +48,9 @@ defineProps({
 });
 
 const $router = useRouter();
-const $store = useStore();
 
 function jumpDetail(id: number): void {
-  $router.push({ name: 'home-djDetail', params: { id } });
-  $store.commit('radio/setRadioDetailId', id);
+  $router.push({ path: '/radio-station-detail', query: { id } });
 }
 </script>
 

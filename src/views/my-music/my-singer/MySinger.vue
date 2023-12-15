@@ -29,7 +29,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import { subPlayList } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
 
@@ -49,7 +49,7 @@ defineProps({
 });
 const emits = defineEmits(['handleOptions']);
 
-const $store = useStore();
+const $router = useRouter();
 
 // 获取歌手列表
 const singerList = ref<SingerItem[]>([]);
@@ -74,8 +74,8 @@ function getSingerList(): void {
 getSingerList();
 
 // 跳转歌手详情
-function jumpSingerDetail(id: number | undefined): void {
-  $store.commit('jumpSingerDetail', id);
+function jumpSingerDetail(id: number): void {
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 </script>
 

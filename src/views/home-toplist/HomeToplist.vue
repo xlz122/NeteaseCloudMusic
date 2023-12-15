@@ -10,7 +10,6 @@
       </div>
       <div class="home-toplist-content">
         <ToplistContent
-          :updateFrequency="updateFrequency"
           :songSheetDetail="songSheetDetail"
           :commentParams="commentParams"
           @refreshComment="refreshComment"
@@ -22,10 +21,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { ref, reactive, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { handleCommentData } from '@/components/comment/handleCommentData';
 import { playlistDetail } from '@/api/song-sheet-detail';
 import { playlistComment } from '@/api/comment';
@@ -48,50 +45,7 @@ type SongSheetItem = {
 };
 
 const $route = useRoute();
-const $store = useStore();
-const songSheetId = computed<number>(() => $store.getters.songSheetId);
-
-// 监听路由传参, 获取歌单详情
-const updateFrequency = ref<string>('');
-
-watch(
-  () => $route,
-  curVal => {
-    if (curVal.path !== '/home-toplist') {
-      return;
-    }
-
-    if (curVal.params?.id) {
-      (async () => {
-        const list = await getTopList();
-        const ItemId = list.findIndex(item => item.id === songSheetId.value);
-        list.forEach(item => {
-          if (ItemId !== -1) {
-            if (item.id === songSheetId.value) {
-              updateFrequency.value = item.updateFrequency;
-            }
-          } else {
-            $store.commit('setSongSheetId', list[0].id);
-            updateFrequency.value = list[0].updateFrequency;
-          }
-        });
-        getSongSheetDetail();
-        getCommentList();
-      })();
-    } else {
-      (async () => {
-        const list = await getTopList();
-        $store.commit('setSongSheetId', list[0].id);
-        updateFrequency.value = list[0].updateFrequency;
-        getSongSheetDetail();
-        getCommentList();
-      })();
-    }
-  },
-  {
-    immediate: true
-  }
-);
+const $router = useRouter();
 
 // 获取特色榜、媒体榜
 const toplist = reactive<TopList>({
@@ -99,16 +53,14 @@ const toplist = reactive<TopList>({
   media: []
 });
 
-function getTopList(): Promise<SongSheetItem[]> {
+function getTopList(): Promise<null> {
   return new Promise(resolve => {
     topList()
       .then((res: ResponseType) => {
         if (res?.code === 200) {
           toplist.character = res?.list?.slice(0, 4) || [];
           toplist.media = res?.list?.slice(4) || [];
-          resolve(res.list);
-        } else {
-          setMessage({ type: 'error', title: res?.msg });
+          resolve(null);
         }
       })
       .catch(() => ({}));
@@ -116,18 +68,15 @@ function getTopList(): Promise<SongSheetItem[]> {
 }
 
 // 菜单选择
-function menuChange(id: number, frequency: string): void {
-  $store.commit('setSongSheetId', id);
-  updateFrequency.value = frequency;
-  getSongSheetDetail();
-  getCommentList();
+function menuChange(id: number): void {
+  $router.push({ path: '/home-toplist', query: { id } });
 }
 
 // 获取歌单详情
 const songSheetDetail = ref({});
 
 function getSongSheetDetail(): void {
-  playlistDetail({ id: songSheetId.value })
+  playlistDetail({ id: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         songSheetDetail.value = res || {};
@@ -147,16 +96,9 @@ const commentParams = reactive<CommentParams>({
   list: []
 });
 
-watch(
-  () => songSheetId.value,
-  () => {
-    commentParams.id = songSheetId.value;
-  }
-);
-
 function getCommentList(): void {
   const params = {
-    id: songSheetId.value,
+    id: Number($route.query.id),
     offset: (commentParams.offset - 1) * commentParams.limit,
     limit: commentParams.limit
   };
@@ -185,6 +127,32 @@ function pageChange(current: number): void {
   commentParams.offset = current;
   getCommentList();
 }
+
+watch(
+  () => $route,
+  async () => {
+    if ($route.path !== '/home-toplist') {
+      return;
+    }
+
+    await getTopList();
+
+    if (!$route.query.id) {
+      $router.push({
+        path: '/home-toplist',
+        query: { id: toplist.character[0].id }
+      });
+      return;
+    }
+
+    getSongSheetDetail();
+    getCommentList();
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
 </script>
 
 <style lang="less">

@@ -79,7 +79,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive, watch, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
@@ -106,6 +106,7 @@ type SongSheetItem = {
 };
 
 const $route = useRoute();
+const $router = useRouter();
 const $store = useStore();
 
 // 获取热门歌单
@@ -140,22 +141,6 @@ function getTopPlaylist(): void {
     .catch(() => ({}));
 }
 
-watch(
-  () => $route.params,
-  (curVal: { name: string }) => {
-    if (curVal) {
-      params.cat = curVal.name;
-    } else {
-      params.cat = '全部';
-    }
-
-    getTopPlaylist();
-  },
-  {
-    immediate: true
-  }
-);
-
 // 热门
 function hotSong(): boolean | undefined {
   if (params.cat === '全部') {
@@ -187,8 +172,8 @@ function catChange(name: string): boolean | undefined {
 }
 
 // 歌单歌曲添加到播放器并播放
-function songSheetToPlayListPlay(id: number | undefined): void {
-  playlistTrack({ id: id! })
+function songSheetToPlayListPlay(id: number): void {
+  playlistTrack({ id: id })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         if (res?.songs.length === 0) {
@@ -216,14 +201,30 @@ function pageChange(current: number): void {
 }
 
 // 跳转歌单详情
-function jumpSongSheetDetail(id: number | undefined): void {
-  $store.commit('jumpSongSheetDetail', id);
+function jumpSongSheetDetail(id: number): void {
+  $router.push({ path: '/song-sheet-detail', query: { id } });
 }
 
 // 跳转用户资料
-function jumpUserProfile(id: number | undefined): void {
-  $store.commit('jumpUserProfile', id);
+function jumpUserProfile(id: number): void {
+  $router.push({ path: '/user-profile', query: { id } });
 }
+
+watch(
+  () => $route.query,
+  (curVal: { name: string }) => {
+    if (curVal) {
+      params.cat = curVal.name;
+    } else {
+      params.cat = '全部';
+    }
+
+    getTopPlaylist();
+  },
+  {
+    immediate: true
+  }
+);
 
 onMounted(() => {
   $store.commit('setMenuIndex', 0);

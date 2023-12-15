@@ -75,7 +75,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, watch } from 'vue';
+import { ref, reactive, computed, watch, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { artistDetail, artistSub } from '@/api/singer-detail';
@@ -98,30 +99,17 @@ type SingerDetail = {
   };
 };
 
+const $route = useRoute();
+const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
-const singerId = computed<number>(() => $store.getters.singerId);
 const singerTabIndex = computed<number>(() => $store.getters.singerTabIndex);
-
-watch(
-  () => singerId.value,
-  curVal => {
-    if (!curVal) {
-      return;
-    }
-
-    getArtistDetail();
-  },
-  {
-    immediate: true
-  }
-);
 
 // 获取歌手详情
 const singerDetail = ref<SingerDetail>({});
 
 function getArtistDetail(): void {
-  artistDetail({ id: singerId.value })
+  artistDetail({ id: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res.code === 200) {
         // 处理英文名
@@ -149,7 +137,7 @@ function setArtistSub(followed: boolean | undefined): boolean | undefined {
   // 1: 收藏 2: 取消收藏
   const t = followed ? 2 : 1;
 
-  artistSub({ id: singerId.value, t })
+  artistSub({ id: Number($route.query.id), t })
     .then((res: ResponseType) => {
       if (res.code === 200) {
         if (t === 1) {
@@ -202,8 +190,28 @@ function tabChange(index: number): void {
 
 // 跳转用户资料
 function jumpUserProfile(id: number | undefined): void {
-  $store.commit('jumpUserProfile', id);
+  $router.push({ path: '/user-profile', query: { id } });
 }
+
+watch(
+  () => $route.query.id,
+  curVal => {
+    if (!curVal) {
+      return;
+    }
+
+    getArtistDetail();
+  },
+  {
+    immediate: true
+  }
+);
+
+onMounted(() => {
+  $store.commit('setMenuIndex', 0);
+  $store.commit('setSubMenuIndex', -1);
+  $store.commit('setSingerTabIndex', 0);
+});
 </script>
 
 <style lang="less" scoped>

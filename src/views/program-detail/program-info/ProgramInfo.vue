@@ -71,7 +71,7 @@
         <i class="icon"></i>
         <a
           class="link"
-          :href="`https://music.163.com/#/outchain/3/${programId}`"
+          :href="`https://music.163.com/#/outchain/3/${$route.query.id}`"
         >
           生成外链播放器
         </a>
@@ -104,8 +104,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
-import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 import { setMessage } from '@/components/message/useMessage';
 import { formatDateTime } from '@/utils/utils';
 
@@ -121,8 +120,7 @@ defineProps({
 });
 const emits = defineEmits(['jumpToComment']);
 
-const $store = useStore();
-const programId = computed<number>(() => $store.getters.programId);
+const $route = useRoute();
 
 // 喜欢
 function handleLike(): void {

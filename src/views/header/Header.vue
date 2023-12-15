@@ -75,7 +75,7 @@ const menuIndex = computed<number>(() => $store.getters.menuIndex);
 
 function logoJump(): void {
   if ($route.path !== '/') {
-    $router.push({ name: 'home' });
+    $router.push({ path: '/' });
   }
 }
 

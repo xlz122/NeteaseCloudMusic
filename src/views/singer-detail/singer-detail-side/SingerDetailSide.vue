@@ -47,8 +47,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
+import { ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { topArtists, simiArtist } from '@/api/singer-detail';
 import type { ResponseType } from '@/types/types';
 import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
@@ -72,8 +72,8 @@ defineProps({
   }
 });
 
-const $store = useStore();
-const singerId = computed<number>(() => $store.getters.singerId);
+const $route = useRoute();
+const $router = useRouter();
 
 // 获取热门歌手
 const hotSinger = ref<HotSingerItem[]>([]);
@@ -102,7 +102,7 @@ getTopArtists();
 const similarSinger = ref<SimilarSingerItem[]>([]);
 
 function getSimiArtist(): void {
-  simiArtist({ id: singerId.value })
+  simiArtist({ id: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         similarSinger.value = res?.artists?.slice(0, 6) || [];
@@ -112,8 +112,8 @@ function getSimiArtist(): void {
 }
 
 // 跳转歌手详情
-function jumpSingerDetail(id: number | undefined): void {
-  $store.commit('jumpSingerDetail', id);
+function jumpSingerDetail(id: number): void {
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 </script>
 

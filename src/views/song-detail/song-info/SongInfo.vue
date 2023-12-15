@@ -14,7 +14,7 @@
           <i class="icon"></i>
           <a
             class="link"
-            :href="`https://music.163.com/#/outchain/2/${songId}`"
+            :href="`https://music.163.com/#/outchain/2/${$route.query.id}`"
           >
             生成外链播放器
           </a>
@@ -127,6 +127,7 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
@@ -148,9 +149,10 @@ const props = defineProps({
 });
 const emits = defineEmits(['jumpToComment']);
 
+const $route = useRoute();
+const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
-const songId = computed<number>(() => $store.getters.songId);
 
 // 播放单个歌曲
 function playSingleMusic(): boolean | undefined {
@@ -233,12 +235,12 @@ function toggle(): void {
 
 // 跳转歌手详情
 function jumpSingerDetail(id: number): void {
-  $store.commit('jumpSingerDetail', id);
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 
 // 跳转专辑详情
 function jumpAlbumDetail(id: number): void {
-  $store.commit('jumpAlbumDetail', id);
+  $router.push({ path: '/album-detail', query: { id } });
 }
 </script>
 

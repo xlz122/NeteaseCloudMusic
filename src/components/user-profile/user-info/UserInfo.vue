@@ -18,7 +18,7 @@
         <i class="sex female display-overflow" v-else></i>
         <div
           class="edit-btn display-overflow"
-          v-if="userInfo?.profile?.userId === userId"
+          v-if="userInfo?.profile?.userId === Number($route.query.id)"
         >
           <i class="wei display-overflow edit">编辑个人资料</i>
         </div>
@@ -52,7 +52,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
+import { ref, computed, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
 import { userVipInfo } from '@/api/user';
 import type { ResponseType } from '@/types/types';
 
@@ -60,15 +62,7 @@ type VipInfo = {
   redVipLevelIcon?: string;
 };
 
-const props = defineProps({
-  userId: {
-    type: Number,
-    default: 0
-  },
-  userInfo: {
-    type: Object,
-    default: () => {}
-  },
+defineProps({
   currentUserInfo: {
     type: Object,
     default: () => {}
@@ -83,10 +77,14 @@ const props = defineProps({
   }
 });
 
+const $route = useRoute();
+const $store = useStore();
+const userInfo = computed(() => $store.getters.userInfo);
+
 watch(
-  () => props.currentUserInfo,
+  () => $route.query.id,
   () => {
-    if (props.userInfo?.profile?.userId === props?.userId) {
+    if (userInfo.value?.profile?.userId === Number($route.query.id)) {
       getVipInfo();
     }
   }

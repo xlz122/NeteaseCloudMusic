@@ -16,7 +16,7 @@
               <i class="icon"></i>
               <a
                 class="link"
-                :href="`https://music.163.com/#/outchain/1/${albumId}`"
+                :href="`https://music.163.com/#/outchain/1/${$route.query.id}`"
               >
                 生成外链播放器
               </a>
@@ -43,14 +43,15 @@
         />
       </div>
       <div class="album-side">
-        <SongSheetSide />
+        <AlbumDetailSide :singerId="album.userInfo?.artist?.id" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, watch, onMounted } from 'vue';
+import { reactive, watch, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { albumDetail } from '@/api/album-detail';
 import { albumComment } from '@/api/comment';
@@ -60,7 +61,7 @@ import { handleCommentData } from '@/components/comment/handleCommentData';
 import AlbumInfo from './album-info/AlbumInfo.vue';
 import AlbumSong from './album-song/AlbumSong.vue';
 import Comment from '@/components/comment/Comment.vue';
-import SongSheetSide from './album-detail-side/AlbumDetailSide.vue';
+import AlbumDetailSide from './album-detail-side/AlbumDetailSide.vue';
 import Page from '@/components/page/Page.vue';
 
 type Album = {
@@ -69,8 +70,8 @@ type Album = {
   songs: [];
 };
 
+const $route = useRoute();
 const $store = useStore();
-const albumId = computed<number>(() => $store.getters.albumId);
 
 // 获取专辑详情
 const album = reactive<Album>({
@@ -83,13 +84,11 @@ function getAlbumDetail(): void {
   album.loading = true;
   album.songs = [];
 
-  albumDetail({ id: albumId.value })
+  albumDetail({ id: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         album.userInfo = res?.album || {};
         album.songs = res?.songs || [];
-
-        $store.commit('setSingerId', res?.album?.artist?.id);
       }
 
       album.loading = false;
@@ -109,7 +108,7 @@ function jumpToComment(): void {
 // 获取评论
 const commentParams = reactive<CommentParams>({
   type: 3,
-  id: albumId.value,
+  id: 0,
   offset: 1,
   limit: 20,
   total: 0,
@@ -119,7 +118,7 @@ const commentParams = reactive<CommentParams>({
 
 function getCommentList(): void {
   const params = {
-    id: albumId.value,
+    id: Number($route.query.id),
     offset: (commentParams.offset - 1) * commentParams.limit,
     limit: commentParams.limit
   };
@@ -151,7 +150,7 @@ function pageChange(current: number): void {
 }
 
 watch(
-  () => albumId.value,
+  () => $route.query.id,
   curVal => {
     if (!curVal) {
       return;

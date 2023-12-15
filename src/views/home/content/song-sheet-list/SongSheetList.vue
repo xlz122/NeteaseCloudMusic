@@ -85,13 +85,13 @@ import type { SongType } from '@/common/audio';
 type SongSheetItem = {
   id?: number;
   playlist?: {
-    id?: number;
-    name?: string;
-    coverImgUrl?: string;
-    subscribed?: boolean;
-    tracks?: {
-      id?: number;
-      name?: string;
+    id: number;
+    name: string;
+    coverImgUrl: string;
+    subscribed: boolean;
+    tracks: {
+      id: number;
+      name: string;
     }[];
   };
 };
@@ -203,7 +203,7 @@ function singleMusicToPlayList(item: Partial<SongType>): void {
 }
 
 // 收藏
-function handleCollection(id: number | undefined): boolean | undefined {
+function handleCollection(id: number): boolean | undefined {
   if (!isLogin.value) {
     $store.commit('setLoginDialog', true);
     return;
@@ -217,13 +217,12 @@ function handleCollection(id: number | undefined): boolean | undefined {
 
 // 查看全部
 function songListMore(id: number | undefined): void {
-  $store.commit('setSongSheetId', id);
-  $router.push({ name: 'home-toplist', params: { id } });
+  $router.push({ path: '/home-toplist', query: { id } });
 }
 
 // 跳转歌曲详情
-function jumpSongDetail(id: number | undefined): void {
-  $store.commit('jumpSongDetail', id);
+function jumpSongDetail(id: number): void {
+  $router.push({ path: '/song-detail', query: { id } });
 }
 </script>
 

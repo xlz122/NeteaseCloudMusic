@@ -49,8 +49,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, watch } from 'vue';
-import { useStore } from 'vuex';
+import { ref, reactive, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { formatDateTime } from '@/utils/utils';
 import { artistAlbum } from '@/api/album-detail';
 import type { ResponseType } from '@/types/types';
@@ -63,16 +63,14 @@ type AlbumItem = {
   publishTime: number;
 };
 
-defineProps({
-  likePeople: {
-    type: Array,
-    default: () => []
+const props = defineProps({
+  singerId: {
+    type: Number,
+    default: () => 0
   }
 });
 
-const $store = useStore();
-const singerId = computed<number>(() => $store.getters.singerId);
-const albumId = computed<number>(() => $store.getters.albumId);
+const $router = useRouter();
 
 // 获取歌手辑列表
 const params = reactive({
@@ -83,7 +81,7 @@ const albumList = ref<AlbumItem[]>([]);
 
 function getArtistAlbum(): void {
   artistAlbum({
-    id: singerId.value,
+    id: props.singerId,
     offset: params.offset - 1,
     limit: params.limit
   })
@@ -96,22 +94,17 @@ function getArtistAlbum(): void {
 }
 
 // 跳转专辑详情
-function jumpAlbumDetail(id: number | undefined): boolean | undefined {
-  if (albumId.value === id) {
-    return;
-  }
-
-  $store.commit('jumpAlbumDetail', id);
+function jumpAlbumDetail(id: number): void {
+  $router.push({ path: '/album-detail', query: { id } });
 }
 
 // 跳转歌手详情
 function jumpSingerDetail(): void {
-  $store.commit('setSingerTabIndex', 1);
-  $store.commit('jumpSingerDetail', singerId.value);
+  $router.push({ path: '/singer-detail', query: { id: props.singerId } });
 }
 
 watch(
-  () => singerId.value,
+  () => props.singerId,
   curVal => {
     if (!curVal) {
       return;

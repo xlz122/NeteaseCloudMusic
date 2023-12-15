@@ -125,7 +125,7 @@
 
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
@@ -138,29 +138,29 @@ import type { PlayMusicItem } from '@/store/music/state';
 
 type SingerSong = {
   hotSongs: {
-    id?: number;
-    name?: string;
-    al?: {
-      id?: number;
-      name?: string;
+    id: number;
+    name: string;
+    al: {
+      id: number;
+      name: string;
     };
-    alia?: string[];
-    mv?: number;
-    dt?: number;
-    privilege?: {
-      cp?: number;
+    alia: string[];
+    mv: number;
+    dt: number;
+    privilege: {
+      cp: number;
     };
   }[];
 };
 
+const $route = useRoute();
 const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
-const singerId = computed<number>(() => $store.getters.singerId);
 
 watch(
-  () => singerId.value,
+  () => $route.query.id,
   curVal => {
     if (!curVal) {
       return;
@@ -170,15 +170,14 @@ watch(
   }
 );
 
+// 获取歌手 - 歌曲
 const singerSong = ref<SingerSong>({
   hotSongs: []
 });
-
-// 获取歌手 - 歌曲
 const loading = ref<boolean>(true);
 
 function getArtistSong(): void {
-  artistSong({ id: singerId.value })
+  artistSong({ id: Number($route.query.id) })
     .then((res: ResponseType) => {
       loading.value = false;
       if (res?.code === 200) {
@@ -278,7 +277,7 @@ function isCopyright(id: number | undefined): boolean | undefined {
 }
 
 // 收藏
-function handleCollection(id: number | undefined): boolean | undefined {
+function handleCollection(id: number): boolean | undefined {
   if (!isLogin.value) {
     $store.commit('setLoginDialog', true);
     return;
@@ -306,15 +305,12 @@ function handleDownload(): void {
 }
 
 // 跳转歌曲详情
-function jumpSongDetail(id: number | undefined): void {
-  $store.commit('jumpSongDetail', id);
+function jumpSongDetail(id: number): void {
+  $router.push({ path: '/song-detail', query: { id } });
 }
 
 // 跳转视频详情
-function jumpVideoDetail(
-  songId: number | undefined,
-  id: number | undefined
-): boolean | undefined {
+function jumpVideoDetail(songId: number, id: number): boolean | undefined {
   // 无版权
   if (isCopyright(songId)) {
     $store.commit('setCopyright', {
@@ -324,13 +320,12 @@ function jumpVideoDetail(
     return;
   }
 
-  $router.push({ name: 'mv-detail', params: { id } });
-  $store.commit('video/setVideo', { id, url: '' });
+  $router.push({ path: '/mv-detail', query: { id } });
 }
 
 // 跳转专辑详情
-function jumpAlbumDetail(id: number | undefined): void {
-  $store.commit('jumpAlbumDetail', id);
+function jumpAlbumDetail(id: number): void {
+  $router.push({ path: '/album-detail', query: { id } });
 }
 </script>
 

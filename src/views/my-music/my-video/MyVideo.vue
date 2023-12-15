@@ -4,13 +4,8 @@
       <span class="text">我的视频({{ options?.myVideo?.count }})</span>
     </div>
     <ul class="list">
-      <li
-        class="item"
-        v-for="(item, index) in videoList"
-        :key="index"
-        @click="jumpVideoDetail(item?.vid, item?.type)"
-      >
-        <div class="cover">
+      <li class="item" v-for="(item, index) in videoList" :key="index">
+        <div class="cover" @click="jumpVideoDetail(item?.vid, item?.type)">
           <template v-if="item?.coverUrl">
             <img class="img" :src="item?.coverUrl" alt="" />
           </template>
@@ -25,13 +20,20 @@
             {{ timeStampToDuration(item?.durationms / 1000) }}
           </div>
         </div>
-        <div class="item-title" :title="item?.title">
+        <div
+          class="item-title"
+          :title="item?.title"
+          @click="jumpVideoDetail(item?.vid, item?.type)"
+        >
           <i class="icon-mv" v-if="item?.type === 0"></i>
           {{ item?.title }}
         </div>
         <div class="item-name">
           <span class="text" v-if="item?.type === 1">by</span>
-          <span class="name" @click="jumpUserProfile(item?.creator[0]?.userId)">
+          <span
+            class="name"
+            @click="jumpUserProfile(item?.creator[0]?.userId, item?.type)"
+          >
             {{ item?.creator[0]?.userName }}
           </span>
         </div>
@@ -43,7 +45,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 import { timeStampToDuration } from '@/utils/utils';
 import { videoSbulist } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
@@ -70,7 +71,6 @@ defineProps({
 const emits = defineEmits(['handleOptions']);
 
 const $router = useRouter();
-const $store = useStore();
 
 // 获取视频列表
 const videoList = ref<VideoItem[]>([]);
@@ -98,18 +98,22 @@ getVideoList();
 function jumpVideoDetail(id: number, type: number): void {
   // 0: mv, 1: 视频
   if (type === 0) {
-    $router.push({ name: 'mv-detail', params: { id } });
+    $router.push({ path: '/mv-detail', query: { id } });
   }
   if (type === 1) {
-    $router.push({ name: 'video-detail', params: { id } });
+    $router.push({ path: '/video-detail', query: { id } });
   }
-
-  $store.commit('video/setVideo', { id, url: '' });
 }
 
 // 跳转用户资料
-function jumpUserProfile(id: number): void {
-  $store.commit('jumpUserProfile', id);
+function jumpUserProfile(id: number, type: number): void {
+  // 0: mv, 1: 视频
+  if (type === 0) {
+    $router.push({ path: '/singer-detail', query: { id } });
+  }
+  if (type === 1) {
+    $router.push({ path: '/user-profile', query: { id } });
+  }
 }
 </script>
 

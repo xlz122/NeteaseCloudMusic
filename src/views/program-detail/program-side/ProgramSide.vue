@@ -37,7 +37,6 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { djProgramList } from '@/api/program-detail';
 import type { ResponseType } from '@/types/types';
@@ -58,7 +57,6 @@ const props = defineProps({
 });
 
 const $router = useRouter();
-const $store = useStore();
 
 // 获取电台节目列表
 const programList = ref<ProgramItem[]>([]);
@@ -79,9 +77,8 @@ function jumpRadioDetail(rid: number): void {
 }
 
 // 跳转电台节目详情
-function jumpProgramDetail(id: number | undefined): void {
-  $router.push({ name: 'program-detail', params: { programId: id } });
-  $store.commit('setProgramId', id);
+function jumpProgramDetail(id: number): void {
+  $router.push({ path: '/program-detail', query: { id } });
 }
 
 watch(

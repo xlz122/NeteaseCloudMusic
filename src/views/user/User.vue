@@ -95,11 +95,11 @@ function jumpDetail(item: MenuItem): boolean | undefined {
     return;
   }
 
-  // 一级导航取消选中
-  $store.commit('setMenuIndex', -1);
-
   if (item?.link === '/user-profile') {
-    $store.commit('jumpUserProfile', userInfo.value?.profile?.userId);
+    $router.push({
+      path: '/user-profile',
+      query: { id: userInfo.value?.profile?.userId }
+    });
     return;
   }
 

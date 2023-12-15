@@ -21,6 +21,7 @@
 
 <script lang="ts" setup>
 import { reactive, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { topArtists, artistList } from '@/api/home-singer';
@@ -28,6 +29,7 @@ import type { ResponseType } from '@/types/types';
 import SingerMenu from './singer-menu/SingerMenu.vue';
 import SingerContent from './singer-content/SingerContent.vue';
 
+const $router = useRouter();
 const $store = useStore();
 
 const singer = reactive({
@@ -107,12 +109,12 @@ function getArtistList(): void {
 
 // 跳转歌手详情
 function jumpSingerDetail(id: number): void {
-  $store.commit('jumpSingerDetail', id);
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 
 // 跳转用户资料
 function jumpUserProfile(id: number): void {
-  $store.commit('jumpUserProfile', id);
+  $router.push({ path: '/user-profile', query: { id } });
 }
 
 onMounted(() => {

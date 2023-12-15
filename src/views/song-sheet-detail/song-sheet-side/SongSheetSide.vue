@@ -57,6 +57,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { topPlaylist } from '@/api/home-song-sheet';
 import type { ResponseType } from '@/types/types';
@@ -79,6 +80,7 @@ defineProps({
   }
 });
 
+const $router = useRouter();
 const $store = useStore();
 const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
@@ -108,13 +110,13 @@ function getTopPlaylist(): void {
 getTopPlaylist();
 
 // 跳转用户资料
-function jumpUserProfile(id: number | undefined): void {
-  $store.commit('jumpUserProfile', id);
+function jumpUserProfile(id: number): void {
+  $router.push({ path: '/user-profile', query: { id } });
 }
 
 // 跳转歌单详情
-function jumpSongSheetDetail(id: number | undefined): void {
-  $store.commit('jumpSongSheetDetail', id);
+function jumpSongSheetDetail(id: number): void {
+  $router.push({ path: '/song-sheet-detail', query: { id } });
 
   getTopPlaylist();
 }

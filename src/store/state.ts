@@ -7,12 +7,7 @@ export type State = {
   isLogin: boolean;
   searchText: string;
   searchDetailText: string;
-  userId: number;
-  songId: number;
   songSheetId: number;
-  singerId: number;
-  programId: number;
-  albumId: number;
   singerTabIndex: number;
   searchIndex: number;
   songSheetDetail: unknown;
@@ -46,12 +41,7 @@ const state: State = {
   isLogin: faultTolerant('isLogin') || false, // 是否登录
   searchText: '', // 搜索关键字
   searchDetailText: localStorage.getItem('searchDetailText') || '', // 搜索关键字
-  userId: Number(localStorage.getItem('userId')) || 0, // 用户uid(自己或其他人)
-  songId: Number(localStorage.getItem('songId')) || 0, // 歌曲id
   songSheetId: Number(localStorage.getItem('songSheetId')) || 0, // 歌单id
-  singerId: Number(localStorage.getItem('singerId')) || 0, // 歌手id
-  programId: Number(localStorage.getItem('programId')) || 0, // 电台节目id
-  albumId: Number(localStorage.getItem('albumId')) || 0, // 专辑id
   singerTabIndex: Number(localStorage.getItem('singerTabIndex')) || 0, // 歌手详情导航
   searchIndex: Number(localStorage.getItem('searchIndex')) || 0, // 搜索详情导航
   songSheetDetail: faultTolerant('songSheetDetail') || {}, // 歌单详情

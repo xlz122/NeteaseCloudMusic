@@ -121,6 +121,7 @@
 
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 
@@ -131,6 +132,7 @@ type MenuItem = {
   follow: boolean;
 };
 
+const $router = useRouter();
 const $store = useStore();
 const userInfo = computed(() => $store.getters.userInfo);
 
@@ -231,7 +233,7 @@ function deleteInterested(index: number): void {
 
 // 跳转用户资料
 function jumpUserProfile(id: number): void {
-  $store.commit('jumpUserProfile', id);
+  $router.push({ path: '/user-profile', query: { id } });
 }
 </script>
 

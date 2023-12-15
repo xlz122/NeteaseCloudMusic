@@ -48,7 +48,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, watch } from 'vue';
+import { ref, reactive, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
@@ -68,11 +69,12 @@ type SingerAlbum = {
   }[];
 };
 
+const $route = useRoute();
+const $router = useRouter();
 const $store = useStore();
-const singerId = computed<number>(() => $store.getters.singerId);
 
 watch(
-  () => singerId.value,
+  () => $route.query.id,
   curVal => {
     if (!curVal) {
       return;
@@ -94,7 +96,7 @@ const singerAlbum = ref<SingerAlbum>({
 
 function getArtistAlbum(): void {
   artistAlbum({
-    id: singerId.value,
+    id: Number($route.query.id),
     offset: (params.offset - 1) * params.limit,
     limit: params.limit
   })
@@ -149,7 +151,7 @@ function pageChange(current: number): void {
 
 // 跳转专辑详情
 function jumpAlbumDetail(id: number | undefined): void {
-  $store.commit('jumpAlbumDetail', id);
+  $router.push({ path: '/album-detail', query: { id } });
 }
 </script>
 

@@ -159,18 +159,17 @@ function musicAudioLeave(): boolean | undefined {
 
 // 跳转歌曲详情
 function jumpSongDetail(id: number): void {
-  $store.commit('jumpSongDetail', id);
+  $router.push({ path: '/song-detail', query: { id } });
 }
 
 // 跳转视频详情
 function jumpVideoDetail(id: number): void {
-  $router.push({ name: 'mv-detail', params: { id } });
-  $store.commit('video/setVideo', { id, url: '' });
+  $router.push({ path: '/mv-detail', query: { id } });
 }
 
 // 跳转歌手详情
 function jumpSingerDetail(id: string | number): void {
-  $store.commit('jumpSingerDetail', id);
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 
 // 跳转歌曲位置

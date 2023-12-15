@@ -4,10 +4,10 @@
     <ul class="menu-list">
       <li
         class="item"
-        :class="{ 'active-item': songSheetId === item?.id }"
+        :class="{ 'active-item': Number($route.query.id) === item?.id }"
         v-for="(item, index) in character"
         :key="index"
-        @click="menuChange(item?.id, item?.updateFrequency)"
+        @click="menuChange(item.id)"
       >
         <div class="item-cover">
           <img class="cover-img" :src="item?.coverImgUrl" alt="" />
@@ -22,10 +22,10 @@
     <ul class="menu-list">
       <li
         class="item"
-        :class="{ 'active-item': songSheetId === item?.id }"
+        :class="{ 'active-item': Number($route.query.id) === item?.id }"
         v-for="(item, index) in media"
         :key="index"
-        @click="menuChange(item?.id, item?.updateFrequency)"
+        @click="menuChange(item?.id)"
       >
         <div class="item-cover">
           <img class="cover-img" :src="item?.coverImgUrl" alt="" />
@@ -40,8 +40,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
-import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 
 type ItemType = {
   id: number;
@@ -62,11 +61,10 @@ defineProps({
 });
 const emits = defineEmits(['menuChange']);
 
-const $store = useStore();
-const songSheetId = computed<number>(() => $store.getters.songSheetId);
+const $route = useRoute();
 
-function menuChange(id: number, updateFrequency: string): void {
-  emits('menuChange', id, updateFrequency);
+function menuChange(id: number): void {
+  emits('menuChange', id);
 }
 </script>
 

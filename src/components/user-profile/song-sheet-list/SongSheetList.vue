@@ -3,9 +3,12 @@
     <template v-if="songSheetList?.createSongSheet?.length > 0">
       <div class="title">
         <span class="text">
-          <span v-if="userInfo?.profile?.userId === userId">我创建的歌单</span>
+          <span v-if="userInfo?.profile?.userId === Number($route.query.id)">
+            我创建的歌单
+          </span>
           <span v-else>
-            {{ songSheetList?.createSongSheet[0]?.creator?.nickname }}创建的歌单
+            {{ songSheetList?.createSongSheet[0]?.creator?.nickname }}
+            创建的歌单
           </span>
           <i class="icon-r"></i>
         </span>
@@ -47,7 +50,9 @@
     <template v-if="songSheetList?.collectSongSheet?.length > 0">
       <div class="title">
         <span class="text">
-          <span v-if="userInfo?.profile?.userId === userId">我收藏的歌单</span>
+          <span v-if="userInfo?.profile?.userId === Number($route.query.id)">
+            我收藏的歌单
+          </span>
           <span v-else>
             {{
               songSheetList?.collectSongSheet[0]?.creator?.nickname
@@ -89,6 +94,7 @@
 
 <script lang="ts" setup>
 import { reactive, computed, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { bigNumberTransform } from '@/utils/utils';
 import { userPlayList } from '@/api/my-music';
@@ -110,12 +116,13 @@ type SongSheetItem = {
   };
 };
 
+const $route = useRoute();
+const $router = useRouter();
 const $store = useStore();
 const userInfo = computed(() => $store.getters.userInfo);
-const userId = computed<number>(() => $store.getters.userId);
 
 watch(
-  () => userId.value,
+  () => $route.query.id,
   curVal => {
     if (!curVal) {
       return;
@@ -135,7 +142,7 @@ const songSheetList = reactive<SongSheet>({
 });
 
 function getUserPlayList(): void {
-  userPlayList({ uid: userId.value })
+  userPlayList({ uid: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res.code === 200) {
         songSheetList.createSongSheet = [];
@@ -143,7 +150,7 @@ function getUserPlayList(): void {
 
         res.playlist.forEach((item: SongSheetItem) => {
           if (
-            userInfo.value?.profile?.userId === userId.value &&
+            userInfo.value?.profile?.userId === Number($route.query.id) &&
             item?.name?.includes('喜欢的音乐')
           ) {
             item.name = '我喜欢的音乐';
@@ -166,7 +173,7 @@ function getUserPlayList(): void {
 
 // 跳转歌单详情
 function jumpSongSheetDetail(id: number): void {
-  $store.commit('jumpSongSheetDetail', id);
+  $router.push({ path: '/song-sheet-detail', query: { id } });
 }
 </script>
 

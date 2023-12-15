@@ -21,8 +21,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 import { artistDesc } from '@/api/singer-detail';
 import type { ResponseType } from '@/types/types';
 
@@ -41,8 +41,7 @@ defineProps({
   }
 });
 
-const $store = useStore();
-const singerId = computed<number>(() => $store.getters.singerId);
+const $route = useRoute();
 
 // 获取歌手 - 简介
 const singerDesc = ref<SingerDesc>({
@@ -51,7 +50,7 @@ const singerDesc = ref<SingerDesc>({
 });
 
 function getArtistDetail(): void {
-  artistDesc({ id: singerId.value })
+  artistDesc({ id: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         singerDesc.value.briefDesc = res?.briefDesc || '';

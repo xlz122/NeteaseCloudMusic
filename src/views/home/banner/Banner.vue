@@ -56,6 +56,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive, watch, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { bannerImgUrl } from '@/api/home';
 import type { ResponseType } from '@/types/types';
@@ -73,6 +74,7 @@ type BannerItem = {
   url: string;
 };
 
+const $router = useRouter();
 const $store = useStore();
 
 const banner = reactive<Banner>({
@@ -206,12 +208,12 @@ function jumpDetail(item: BannerItem): void {
 
   // 专辑
   if (targetType === 10) {
-    $store.commit('jumpAlbumDetail', targetId);
+    $router.push({ path: '/album-detail', query: { id: targetId } });
   }
 
   // 歌单
   if (targetType === 1000) {
-    $store.commit('jumpSongSheetDetail', targetId);
+    $router.push({ path: '/song-sheet-detail', query: { id: targetId } });
   }
 
   // 外部链接

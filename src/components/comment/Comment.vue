@@ -78,7 +78,7 @@ import defaultAvatarImg from '@/assets/image/user/default_avatar.jpg';
 
 export type CommentParams = {
   type: number;
-  id: number;
+  id: number | string;
   offset: number;
   limit: number;
   total: number;

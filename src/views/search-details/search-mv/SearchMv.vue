@@ -152,19 +152,17 @@ function pageChange(current: number): void {
 function jumpVideoDetail(id: number, type: number): void {
   // 0: mv, 1: 视频
   if (type === 0) {
-    $router.push({ name: 'mv-detail', params: { id } });
+    $router.push({ path: '/mv-detail', query: { id } });
   }
 
   if (type === 1) {
-    $router.push({ name: 'video-detail', params: { id } });
+    $router.push({ path: '/video-detail', query: { id } });
   }
-
-  $store.commit('video/setVideo', { id, url: '' });
 }
 
 // 跳转歌手详情
-function jumpSingerDetail(id: number | undefined): void {
-  $store.commit('jumpSingerDetail', id);
+function jumpSingerDetail(id: number): void {
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 </script>
 

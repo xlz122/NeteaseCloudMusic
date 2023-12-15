@@ -139,7 +139,7 @@ function openLogin(): void {
 
 // 跳转用户资料
 function jumpUserProfile(id: number): void {
-  $store.commit('jumpUserProfile', id);
+  $router.push({ path: '/user-profile', query: { id } });
 }
 
 // 跳转等级

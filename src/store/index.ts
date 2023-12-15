@@ -7,8 +7,6 @@ import actions from '@/store/actions';
 import music from '@/store/music';
 // 视频模块
 import video from '@/store/video';
-// 电台
-import radio from '@/store/radio';
 
 export default createStore({
   state,
@@ -17,7 +15,6 @@ export default createStore({
   actions,
   modules: {
     music,
-    video,
-    radio
+    video
   }
 });

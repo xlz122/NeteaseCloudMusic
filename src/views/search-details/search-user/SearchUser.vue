@@ -53,6 +53,7 @@
 
 <script lang="ts" setup>
 import { reactive, computed, watch, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { handleMatchString } from '@/utils/utils';
@@ -84,6 +85,7 @@ const props = defineProps({
 });
 const emits = defineEmits(['searchCountChange']);
 
+const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const searchText = computed<string>(() =>
@@ -158,7 +160,7 @@ function pageChange(current: number): void {
 
 // 跳转用户资料
 function jumpUserProfile(id: number): void {
-  $store.commit('jumpUserProfile', id);
+  $router.push({ path: '/user-profile', query: { id } });
 }
 </script>
 

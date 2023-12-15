@@ -83,8 +83,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
+import { ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { simiPlaylist, simiSong } from '@/api/song-detail';
@@ -108,14 +108,14 @@ type SimiSongItem = {
   };
 } & SongType;
 
-const $store = useStore();
-const songId = computed<number>(() => $store.getters.songId);
+const $route = useRoute();
+const $router = useRouter();
 
 // 获取歌曲 - 歌单
 const songSheet = ref<SongSheetItem[]>([]);
 
 function getSimiPlaylist(): void {
-  simiPlaylist({ id: songId.value })
+  simiPlaylist({ id: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         songSheet.value = res?.playlists || [];
@@ -129,7 +129,7 @@ getSimiPlaylist();
 const similarSong = ref<SimiSongItem[]>([]);
 
 function getSimiSong(): void {
-  simiSong({ id: songId.value })
+  simiSong({ id: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         similarSong.value = res?.songs || [];
@@ -160,26 +160,26 @@ function singleMusicToPlayList(item: SimiSongItem): boolean | undefined {
 }
 
 // 跳转歌单详情
-function jumpSongSheetDetail(id: number | undefined): void {
-  $store.commit('jumpSongSheetDetail', id);
+function jumpSongSheetDetail(id: number): void {
+  $router.push({ path: '/song-sheet-detail', query: { id } });
 }
 
 // 跳转用户资料
-function jumpUserProfile(id: number | undefined): void {
-  $store.commit('jumpUserProfile', id);
+function jumpUserProfile(id: number): void {
+  $router.push({ path: '/user-profile', query: { id } });
 }
 
 // 跳转歌曲详情
-function jumpSongDetail(id: number | undefined): void {
+function jumpSongDetail(id: number): void {
   getSimiPlaylist();
   getSimiSong();
 
-  $store.commit('jumpSongDetail', id);
+  $router.push({ path: '/song-detail', query: { id } });
 }
 
 // 跳转歌手详情
-function jumpSingerDetail(id: number | undefined): void {
-  $store.commit('jumpSingerDetail', id);
+function jumpSingerDetail(id: number): void {
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 </script>
 

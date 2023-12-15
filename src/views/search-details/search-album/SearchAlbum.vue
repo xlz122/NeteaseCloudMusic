@@ -49,6 +49,7 @@
 
 <script lang="ts" setup>
 import { reactive, computed, watch, toRefs } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
@@ -83,6 +84,7 @@ const props = defineProps({
 });
 const emits = defineEmits(['searchCountChange']);
 
+const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const searchText = computed<string>(() =>
@@ -173,12 +175,12 @@ function pageChange(current: number): void {
 
 // 跳转专辑详情
 function jumpAlbumDetail(id: number): void {
-  $store.commit('jumpAlbumDetail', id);
+  $router.push({ path: '/album-detail', query: { id } });
 }
 
 // 跳转歌手详情
 function jumpSingerDetail(id: number): void {
-  $store.commit('jumpSingerDetail', id);
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 </script>
 

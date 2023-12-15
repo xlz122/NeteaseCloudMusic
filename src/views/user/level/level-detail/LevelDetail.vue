@@ -114,7 +114,7 @@ const list = ref([
 
 // 跳转等级
 function jumpLevel(): void {
-  $router.push({ name: 'level' });
+  $router.push({ path: '/level' });
 }
 </script>
 

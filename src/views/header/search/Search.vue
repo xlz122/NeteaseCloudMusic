@@ -259,22 +259,22 @@ function jumpSearchUser(): void {
 
 // 跳转歌曲详情
 function jumpSongDetail(id: number | undefined): void {
-  $store.commit('jumpSongDetail', id);
+  $router.push({ path: '/song-detail', query: { id } });
 }
 
 // 跳转歌手详情
 function jumpSingerDetail(id: number | undefined): void {
-  $store.commit('jumpSingerDetail', id);
+  $router.push({ path: '/singer-detail', query: { id } });
 }
 
 // 跳转专辑详情
 function jumpAlbumDetail(id: number | undefined): void {
-  $store.commit('jumpAlbumDetail', id);
+  $router.push({ path: '/album-detail', query: { id } });
 }
 
 // 跳转歌单详情
 function jumpSongSheetDetail(id: number | undefined): void {
-  $store.commit('jumpSongSheetDetail', id);
+  $router.push({ path: '/song-sheet-detail', query: { id } });
 }
 </script>
 

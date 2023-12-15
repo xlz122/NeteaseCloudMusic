@@ -58,7 +58,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import SideUser from './side-user/SideUser.vue';
 
 type MenuItem = {
@@ -68,7 +68,7 @@ type MenuItem = {
   userId: number;
 };
 
-const $store = useStore();
+const $router = useRouter();
 
 // 入驻歌手(无接口)
 const singerList = ref<MenuItem[]>([
@@ -140,7 +140,7 @@ const anchorList = ref<MenuItem[]>([
 
 // 跳转用户资料
 function jumpUserProfile(id: number): void {
-  $store.commit('jumpUserProfile', id);
+  $router.push({ path: '/user-profile', query: { id } });
 }
 </script>
 

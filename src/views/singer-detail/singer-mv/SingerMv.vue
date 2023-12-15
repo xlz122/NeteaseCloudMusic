@@ -31,9 +31,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed, watch } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { ref, reactive, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { artistMv } from '@/api/singer-detail';
 import type { ResponseType } from '@/types/types';
 import Page from '@/components/page/Page.vue';
@@ -53,16 +52,17 @@ const props = defineProps({
   }
 });
 
+const $route = useRoute();
 const $router = useRouter();
-const $store = useStore();
-const singerId = computed<number>(() => $store.getters.singerId);
 
 watch(
-  () => singerId.value,
+  () => $route.query.id,
   curVal => {
-    if (curVal) {
-      getArtistMv();
+    if (!curVal) {
+      return;
     }
+
+    getArtistMv();
   }
 );
 
@@ -85,7 +85,7 @@ watch(
 
 function getArtistMv(): void {
   artistMv({
-    id: singerId.value,
+    id: Number($route.query.id),
     offset: (params.offset - 1) * params.limit,
     limit: params.limit
   })
@@ -106,8 +106,7 @@ function pageChange(current: number): void {
 
 // 跳转Mv详情
 function jumpMvDetail(id: number | undefined): void {
-  $router.push({ name: 'mv-detail', params: { id } });
-  $store.commit('video/setVideo', { id, url: '' });
+  $router.push({ path: '/mv-detail', query: { id } });
 }
 </script>
 

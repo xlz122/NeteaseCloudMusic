@@ -164,17 +164,17 @@ const albumNext = throttle(
 );
 
 // 专辑歌曲添加到播放器
-function albumToPlayListPlay(id: number | undefined): void {
+function albumToPlayListPlay(id: number): void {
   emits('albumToPlayListPlay', id);
 }
 
 // 跳转专辑详情
-function jumpAlbumDetail(id: number | undefined): void {
+function jumpAlbumDetail(id: number): void {
   emits('jumpAlbumDetail', id);
 }
 
 // 跳转歌手详情
-function jumpSingerDetail(id: number | undefined): void {
+function jumpSingerDetail(id: number): void {
   emits('jumpSingerDetail', id);
 }
 </script>

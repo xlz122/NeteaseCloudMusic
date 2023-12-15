@@ -320,12 +320,12 @@ function jumpToComment(): boolean | undefined {
 
 // 跳转用户资料
 function jumpUserProfile(id: number): void {
-  $store.commit('jumpUserProfile', id);
+  $router.push({ path: '/user-profile', query: { id } });
 }
 
 // 跳转歌单
 function jumpSongSheet(name: string): void {
-  $router.push({ name: 'home-song-sheet', params: { name } });
+  $router.push({ path: '/home-song-sheet', query: { name } });
 }
 </script>
 

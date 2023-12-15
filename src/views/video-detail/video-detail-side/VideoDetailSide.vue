@@ -118,14 +118,13 @@ function getRelatedVideo(): void {
 getRelatedVideo();
 
 // 跳转用户资料
-function jumpUserProfile(id: number | undefined): void {
-  $store.commit('jumpUserProfile', id);
+function jumpUserProfile(id: number): void {
+  $router.push({ path: '/user-profile', query: { id } });
 }
 
 // 跳转视频详情
-function jumpVideoDetail(id: number | undefined): void {
-  $router.push({ name: 'video-detail', params: { id } });
-  $store.commit('video/setVideo', { id, url: '' });
+function jumpVideoDetail(id: number): void {
+  $router.push({ path: '/video-detail', query: { id } });
 
   getRelatedVideo();
 }
