@@ -17,10 +17,7 @@
               </div>
               <div class="name">
                 <span> {{ details?.dj?.nickname }} </span>
-                <img
-                  src="../../../../assets/image/user/member-music.png"
-                  alt=""
-                />
+                <img src="../../assets/image/user/member-music.png" alt="" />
               </div>
             </div>
             <div class="btns">

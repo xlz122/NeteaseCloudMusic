@@ -58,6 +58,11 @@ import RecommendSong from './recommend-song/RecommendSong.vue';
 import RecommendSide from './recommend-side/RecommendSide.vue';
 
 type RecommendItem = {
+  alia: string[];
+  al: {
+    id: number;
+    name: string;
+  };
   privilege: {
     cp: number;
   };
