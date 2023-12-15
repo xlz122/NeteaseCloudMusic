@@ -1,4 +1,29 @@
+# [1.6.0](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.5.1...v1.6.0) (2023-12-15)
+
+
+### ✨ Features | 新功能
+
+* 修改页面路由跳转，不再依赖vuex [#1924d63](https://github.com/xlz122/NeteaseCloudMusic/commit/1924d63) 
+
+
+### 🎫 Chores | 其他更新
+
+* update eslint config [#d9b9e41](https://github.com/xlz122/NeteaseCloudMusic/commit/d9b9e41) 
+* update prettier config [#2687e92](https://github.com/xlz122/NeteaseCloudMusic/commit/2687e92) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 修复我的会员页面-生产环境动态引入的图片路径无法正确解析的bug [#be63560](https://github.com/xlz122/NeteaseCloudMusic/commit/be63560) 
+
+
+
 ## [1.5.1](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.5.0...v1.5.1) (2023-11-29)
+
+
+### 🎫 Chores | 其他更新
+
+* release 1.5.1 [#40644ce](https://github.com/xlz122/NeteaseCloudMusic/commit/40644ce) 
 
 
 ### 🐛 Bug Fixes | Bug 修复
