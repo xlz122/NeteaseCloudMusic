@@ -108,7 +108,7 @@ const singerTabIndex = computed<number>(() => $store.getters.singerTabIndex);
 // 获取歌手详情
 const singerDetail = ref<SingerDetail>({});
 
-function getArtistDetail(): void {
+function getSingerDetail(): void {
   artistDetail({ id: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res.code === 200) {
@@ -200,7 +200,7 @@ watch(
       return;
     }
 
-    getArtistDetail();
+    getSingerDetail();
   },
   {
     immediate: true

@@ -18,7 +18,9 @@
           <img :src="item.picUrl" alt="电台图片" />
         </div>
         <div class="cnt">
-          <div class="name" :title="item.name">{{ item.name }}</div>
+          <div class="name" :title="item.name" @click="jumpDetail(item.id)">
+            {{ item.name }}
+          </div>
           <div class="note">{{ item.rcmdtext }}</div>
         </div>
       </div>

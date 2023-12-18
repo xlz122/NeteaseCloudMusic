@@ -281,6 +281,8 @@ watch(
       return;
     }
 
+    commentParams.offset = 1;
+
     getSongDetail();
     getLyricData();
     getCommentList();

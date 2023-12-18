@@ -124,6 +124,8 @@ watch(
       return;
     }
 
+    commentParams.offset = 1;
+
     getProgramDetail();
     getCommentList();
   },

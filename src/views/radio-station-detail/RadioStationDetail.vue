@@ -104,7 +104,7 @@
           </table>
         </div>
       </div>
-      <div class="detail-ri">2</div>
+      <div class="detail-ri"></div>
     </div>
   </div>
 </template>

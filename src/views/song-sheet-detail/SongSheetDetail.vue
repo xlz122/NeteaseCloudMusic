@@ -152,6 +152,8 @@ watch(
       return;
     }
 
+    commentParams.offset = 1;
+
     getSongDetail();
     getCommentList();
   },
