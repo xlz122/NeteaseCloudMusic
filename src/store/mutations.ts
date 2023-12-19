@@ -42,11 +42,6 @@ const mutations: Mutations<State> = {
     state.searchDetailText = searchDetailText;
     localStorage.setItem('searchDetailText', JSON.stringify(searchDetailText));
   },
-  // 歌单id
-  setSongSheetId(state, songSheetId: number) {
-    state.songSheetId = songSheetId;
-    localStorage.setItem('songSheetId', JSON.stringify(songSheetId));
-  },
   // 歌手详情tab
   setSingerTabIndex(state, singerTabIndex: number) {
     state.singerTabIndex = singerTabIndex;
@@ -73,6 +68,11 @@ const mutations: Mutations<State> = {
     localStorage.clear();
     // 清除所有cookie
     clearAllCookie();
+  },
+  // 歌单id
+  setSongSheetId(state, songSheetId: number) {
+    state.songSheetId = songSheetId;
+    localStorage.setItem('songSheetId', JSON.stringify(songSheetId));
   },
   // 歌单详情
   setSongSheetDetail(state, songSheetDetail: unknown) {

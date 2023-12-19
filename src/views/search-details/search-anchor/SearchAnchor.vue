@@ -10,14 +10,14 @@
       v-for="(item, index) in anchorData?.list"
       :key="index"
     >
-      <div class="item-cover" @click="jumpDjradioDetail()">
+      <div class="item-cover" @click="jumpDjradioDetail(item.id)">
         <img
           class="item-cover-img"
           :src="`${item?.picUrl}?param=150y150`"
           alt=""
         />
       </div>
-      <p class="desc" @click="jumpDjradioDetail()">
+      <p class="desc" @click="jumpDjradioDetail(item.id)">
         <span v-html="handleMatchString(item?.name, searchDetailText)"></span>
       </p>
       <p class="name" @click="jumpUserProfile(item?.dj?.userId)">
@@ -48,7 +48,6 @@ import { reactive, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { handleMatchString } from '@/utils/utils';
-import { setMessage } from '@/components/message/useMessage';
 import { searchKeywords } from '@/api/search';
 import type { ResponseType } from '@/types/types';
 import Page from '@/components/page/Page.vue';
@@ -135,8 +134,8 @@ function pageChange(current: number): void {
 }
 
 // 跳转电台详情
-function jumpDjradioDetail(): void {
-  setMessage({ type: 'error', title: '该功能暂未开发' });
+function jumpDjradioDetail(id: number): void {
+  $router.push({ path: '/djradio-detail', query: { id } });
 }
 
 // 跳转用户资料

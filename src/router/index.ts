@@ -154,11 +154,11 @@ const routes: Array<RouteRecordRaw> = [
       },
       // 电台详情
       {
-        path: '/radio-station-detail',
-        name: 'radio-station-detail',
+        path: '/djradio-detail',
+        name: 'djradio-detail',
         component: () =>
           import(
-            /* webpackChunkName: "home-djprogram" */ '../views/radio-station-detail/RadioStationDetail.vue'
+            /* webpackChunkName: "djradio-detail" */ '../views/djradio-detail/DjradioDetail.vue'
           )
       },
       // 电台节目详情

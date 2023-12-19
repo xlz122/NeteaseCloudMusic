@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-f2 detail">
+  <div class="bg-gray-f2 djradio-detail">
     <div class="box-border dis-flex">
       <div class="detail-lf">
         <div class="dis-flex detail-top">
@@ -160,5 +160,5 @@ function changeSongSort(change: boolean) {
 </script>
 
 <style lang="less" scoped>
-@import url('./radio-station-detail.less');
+@import url('./djradio-detail.less');
 </style>

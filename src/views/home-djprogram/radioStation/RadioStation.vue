@@ -14,11 +14,15 @@
         v-for="item in list.slice(0, 4)"
         :key="item.id"
       >
-        <div class="pic-url pointer" @click="jumpDetail(item.id)">
+        <div class="pic-url pointer" @click="jumpDjradioDetail(item.id)">
           <img :src="item.picUrl" alt="电台图片" />
         </div>
         <div class="cnt">
-          <div class="name" :title="item.name" @click="jumpDetail(item.id)">
+          <div
+            class="name"
+            :title="item.name"
+            @click="jumpDjradioDetail(item.id)"
+          >
             {{ item.name }}
           </div>
           <div class="note">{{ item.rcmdtext }}</div>
@@ -51,8 +55,9 @@ defineProps({
 
 const $router = useRouter();
 
-function jumpDetail(id: number): void {
-  $router.push({ path: '/radio-station-detail', query: { id } });
+// 跳转电台详情
+function jumpDjradioDetail(id: number): void {
+  $router.push({ path: '/djradio-detail', query: { id } });
 }
 </script>
 

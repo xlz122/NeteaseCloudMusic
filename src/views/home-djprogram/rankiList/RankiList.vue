@@ -35,12 +35,17 @@
             <i class="play"></i>
           </div>
           <div class="item-content">
-            <div class="f12 text-gray3 ellipsis" :title="item?.program?.name">
+            <div
+              class="f12 text-gray3 ellipsis"
+              :title="item?.program?.name"
+              @click="jumpProgramDetail(item.program.id)"
+            >
               {{ item?.program?.name }}
             </div>
             <div
               class="f12 text-gray9 ellipsis"
               :title="item?.program?.radio?.name"
+              @click="jumpDjradioDetail(item.program.radio.id)"
             >
               {{ item?.program?.radio?.name }}
             </div>
@@ -58,6 +63,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { programTopList } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types/types';
@@ -72,11 +78,15 @@ type RecommendItem = {
     coverUrl: string;
     mainSong: SongType;
     radio: {
+      id: number;
       name: string;
     };
   };
 };
 
+const $router = useRouter();
+
+// 获取节目排行榜
 const recommendList = ref<RecommendItem[]>([]);
 
 function getRecommendList() {
@@ -93,6 +103,16 @@ getRecommendList();
 // 播放单个歌曲
 function playSingleMusic(item: SongType): void {
   usePlaySingleMusic(item);
+}
+
+// 跳转电台详情
+function jumpDjradioDetail(id: number): void {
+  $router.push({ path: '/djradio-detail', query: { id } });
+}
+
+// 跳转电台节目详情
+function jumpProgramDetail(id: number): void {
+  $router.push({ path: '/program-detail', query: { id } });
 }
 </script>
 

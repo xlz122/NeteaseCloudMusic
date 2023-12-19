@@ -2,7 +2,7 @@
   <div class="program-side-container">
     <h3 class="title">
       更多节目
-      <span class="title-all" @click="jumpRadioDetail(rid)"> 全部> </span>
+      <span class="title-all" @click="jumpDjradioDetail(rid)">全部></span>
     </h3>
     <ul class="program-side-list">
       <li class="item" v-for="(item, index) in programList" :key="index">
@@ -37,7 +37,6 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { setMessage } from '@/components/message/useMessage';
 import { djProgramList } from '@/api/program-detail';
 import type { ResponseType } from '@/types/types';
 import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
@@ -72,8 +71,8 @@ function getProgramList(): void {
 }
 
 // 跳转电台详情
-function jumpRadioDetail(rid: number): void {
-  setMessage({ type: 'info', title: `电台详情id: ${rid}` });
+function jumpDjradioDetail(id: number): void {
+  $router.push({ path: '/djradio-detail', query: { id } });
 }
 
 // 跳转电台节目详情
