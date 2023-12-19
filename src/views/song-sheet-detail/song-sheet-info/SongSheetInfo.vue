@@ -1,5 +1,5 @@
 <template>
-  <div class="song-sheet-user-info">
+  <div class="song-sheet-info">
     <div class="header-info">
       <div class="info-img">
         <template v-if="songSheetDetail?.playlist?.coverImgUrl">
@@ -48,7 +48,7 @@
           <div
             class="play"
             :class="{
-              'disable-play': songSheetDetail?.playlist?.tracks.length === 0
+              'disable-play': songSheetDetail?.playlist?.tracks?.length === 0
             }"
             title="播放"
             @click="playAllMusic"
@@ -58,7 +58,7 @@
           <div
             class="play-add"
             :class="{
-              'disable-add': songSheetDetail?.playlist?.tracks.length === 0
+              'disable-add': songSheetDetail?.playlist?.tracks?.length === 0
             }"
             title="添加到播放列表"
             @click="allMusicToPlayList"
@@ -101,7 +101,7 @@
           <div
             class="other share"
             :class="{
-              'disable-share': songSheetDetail?.playlist?.tracks.length === 0
+              'disable-share': songSheetDetail?.playlist?.tracks?.length === 0
             }"
             @click="handleShare"
           >
@@ -117,7 +117,8 @@
           <div
             class="other download"
             :class="{
-              'disable-download': songSheetDetail?.playlist?.tracks.length === 0
+              'disable-download':
+                songSheetDetail?.playlist?.tracks?.length === 0
             }"
             @click="handleDownload"
           >
@@ -126,7 +127,7 @@
           <div
             class="other comment"
             :class="{
-              'disable-comment': songSheetDetail?.playlist?.tracks.length === 0
+              'disable-comment': songSheetDetail?.playlist?.tracks?.length === 0
             }"
             @click="jumpToComment"
           >
@@ -140,7 +141,7 @@
             </template>
           </div>
         </div>
-        <div class="tags" v-if="songSheetDetail?.playlist?.tags.length > 0">
+        <div class="tags" v-if="songSheetDetail?.playlist?.tags?.length > 0">
           <b class="title">标签：</b>
           <ul class="list">
             <li
@@ -191,17 +192,20 @@ import { setMessage } from '@/components/message/useMessage';
 import useMusicToPlayList from '@/common/useMusicToPlayList';
 import usePlaySingleMusic from '@/common/usePlaySingleMusic';
 import { formatDateTime } from '@/utils/utils';
-import { playlistSubscribe } from '@/api/song-sheet-detail';
-import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/common/audio';
 
-const emits = defineEmits(['jumpToComment']);
+const props = defineProps({
+  songSheetDetail: {
+    type: Object,
+    default: () => ({})
+  }
+});
+const emits = defineEmits(['handleCollection', 'jumpToComment']);
 
 const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const userInfo = computed(() => $store.getters.userInfo);
-const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
 // 展开/收缩简介
 const toggleShow = ref<boolean>(false);
@@ -212,7 +216,7 @@ function toggle(): void {
 
 // 歌曲是否有版权
 function isCopyright(id: number): boolean | undefined {
-  const privilege = songSheetDetail.value?.privileges.find(
+  const privilege = props.songSheetDetail.privileges.find(
     (item: { id: number }) => item.id === id
   );
 
@@ -226,13 +230,13 @@ function isCopyright(id: number): boolean | undefined {
 // 播放全部 - 默认播放列表第一项
 const playAllMusic = throttle(
   function () {
-    if (songSheetDetail.value?.playlist?.tracks.length === 0) {
+    if (props.songSheetDetail.playlist?.tracks?.length === 0) {
       return;
     }
 
     // 过滤无版权
     const songList: Partial<SongType>[] =
-      songSheetDetail.value?.playlist?.tracks.filter(
+      props.songSheetDetail.playlist?.tracks.filter(
         (item: { id: number }) => !isCopyright(item.id)
       );
 
@@ -248,13 +252,13 @@ const playAllMusic = throttle(
 
 // 全部音乐添加到播放列表
 function allMusicToPlayList(): boolean | undefined {
-  if (songSheetDetail.value?.playlist?.tracks.length === 0) {
+  if (props.songSheetDetail.playlist?.tracks?.length === 0) {
     return;
   }
 
   // 过滤无版权
   const songList: Partial<SongType>[] =
-    songSheetDetail.value?.playlist?.tracks.filter(
+    props.songSheetDetail.playlist?.tracks.filter(
       (item: { id: number }) => !isCopyright(item.id)
     );
 
@@ -268,29 +272,7 @@ function handleCollection(): boolean | undefined {
     return;
   }
 
-  // 歌单是否已收藏
-  if (songSheetDetail.value?.playlist?.subscribed) {
-    return;
-  }
-
-  // 1: 收藏 2: 取消收藏
-  playlistSubscribe({
-    id: songSheetDetail.value?.playlist?.id,
-    t: 1
-  })
-    .then((res: ResponseType) => {
-      if (res.code === 200) {
-        songSheetDetail.value.playlist.subscribed = true;
-
-        // 更新歌单详情
-        $store.commit('setSongSheetDetail', songSheetDetail.value);
-
-        setMessage({ type: 'info', title: '收藏成功' });
-      } else {
-        setMessage({ type: 'error', title: '收藏失败' });
-      }
-    })
-    .catch(() => ({}));
+  emits('handleCollection', true);
 }
 
 // 分享
@@ -330,5 +312,5 @@ function jumpSongSheet(name: string): void {
 </script>
 
 <style lang="less" scoped>
-@import url('./user-info.less');
+@import url('./song-sheet-info.less');
 </style>

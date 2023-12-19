@@ -14,7 +14,7 @@
       <div
         class="play-add"
         :class="{
-          'disable-play-add': singerSong?.hotSongs.length === 0
+          'disable-add': singerSong?.hotSongs.length === 0
         }"
         title="添加到播放列表"
         @click="allMusicToPlayList"

@@ -23,7 +23,7 @@
           <div
             class="play-add"
             :class="{
-              'disable-play-add': recommend?.length === 0
+              'disable-add': recommend?.length === 0
             }"
             @click="allMusicToPlayList"
           ></div>

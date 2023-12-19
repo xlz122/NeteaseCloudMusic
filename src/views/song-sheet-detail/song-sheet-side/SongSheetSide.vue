@@ -1,11 +1,11 @@
 <template>
   <div class="detail-side-container">
-    <template v-if="songSheetDetail?.playlist?.subscribers.length > 0">
+    <template v-if="subscribers.length > 0">
       <h3 class="title">喜欢这个歌单的人</h3>
       <ul class="like-list">
         <li
           class="item"
-          v-for="(item, index) in songSheetDetail?.playlist?.subscribers"
+          v-for="(item, index) in subscribers"
           :key="index"
           :class="{ 'first-item': !(index % 4) }"
           @click="jumpUserProfile(item?.userId)"
@@ -56,12 +56,17 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 import { topPlaylist } from '@/api/home-song-sheet';
 import type { ResponseType } from '@/types/types';
 import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
+
+type ItemType = {
+  userId: number;
+  nickname: string;
+  avatarUrl: string;
+};
 
 type SongSheetItem = {
   id: number;
@@ -74,15 +79,13 @@ type SongSheetItem = {
 };
 
 defineProps({
-  likePeople: {
-    type: Array,
+  subscribers: {
+    type: Array as () => ItemType[],
     default: () => []
   }
 });
 
 const $router = useRouter();
-const $store = useStore();
-const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
 // 获取热门歌单
 const params = reactive({

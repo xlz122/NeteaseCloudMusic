@@ -2,7 +2,12 @@
   <div class="song-sheet-detail">
     <div class="detail-container">
       <div class="detail-content">
-        <UserInfo class="user-info" @jumpToComment="jumpToComment" />
+        <SongSheetInfo
+          class="user-info"
+          :songSheetDetail="songSheetDetail"
+          @handleCollection="handleCollection"
+          @jumpToComment="jumpToComment"
+        />
         <div class="list-title">
           <h3 class="title-text">歌曲列表</h3>
           <span class="title-text-num">
@@ -11,7 +16,10 @@
           <div class="title-right">
             <div
               class="out"
-              v-if="songSheetDetail?.playlist?.tracks.length > 0"
+              v-if="
+                songSheetDetail?.playlist?.tracks &&
+                songSheetDetail?.playlist?.tracks.length > 0
+              "
             >
               <i class="icon"></i>
               <a
@@ -25,7 +33,10 @@
               播放:
               <span
                 class="eye-catching"
-                v-if="songSheetDetail?.playlist?.tracks.length > 0"
+                v-if="
+                  songSheetDetail?.playlist?.tracks &&
+                  songSheetDetail?.playlist?.tracks.length > 0
+                "
               >
                 {{ songSheetDetail?.playlist?.playCount }}
               </span>
@@ -54,39 +65,79 @@
         />
       </div>
       <div class="detail-side">
-        <SongSheetSide />
+        <SongSheetSide :subscribers="songSheetDetail.playlist.subscribers" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, watch, onMounted } from 'vue';
+import { reactive, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { handleCommentData } from '@/components/comment/handleCommentData';
-import { playlistDetail } from '@/api/song-sheet-detail';
+import { playlistDetail, playlistSubscribe } from '@/api/song-sheet-detail';
 import { playlistComment } from '@/api/comment';
 import type { ResponseType } from '@/types/types';
 import type { CommentParams } from '@/components/comment/Comment.vue';
-import UserInfo from '@/components/song-sheet/user-info/UserInfo.vue';
 import MusicTable from '@/components/song-sheet/music-table/MusicTable.vue';
 import Comment from '@/components/comment/Comment.vue';
+import SongSheetInfo from './song-sheet-info/SongSheetInfo.vue';
 import SongSheetSide from './song-sheet-side/SongSheetSide.vue';
 import Page from '@/components/page/Page.vue';
 
+type SongSheetDetail = {
+  playlist: {
+    playCount?: number;
+    trackCount?: number;
+    tracks?: unknown[];
+    subscribed?: boolean;
+    subscribers?: {
+      userId: number;
+      nickname: string;
+      avatarUrl: string;
+    }[];
+  };
+};
+
 const $route = useRoute();
 const $store = useStore();
-const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
 // 获取歌单详情
-function getSongDetail(): void {
-  $store.commit('setSongSheetDetail', {});
+const songSheetDetail = reactive<SongSheetDetail>({
+  playlist: {}
+});
 
+function getSongSheetDetail(): void {
   playlistDetail({ id: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
-        $store.commit('setSongSheetDetail', res);
+        songSheetDetail.playlist = res?.playlist || {};
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 收藏
+function handleCollection(): void {
+  // 歌单是否已收藏
+  if (songSheetDetail.playlist?.subscribed) {
+    return;
+  }
+
+  // 1: 收藏 2: 取消收藏
+  playlistSubscribe({
+    id: Number($route.query.id),
+    t: 1
+  })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        songSheetDetail.playlist.subscribed = true;
+
+        setMessage({ type: 'info', title: '收藏成功' });
+      } else {
+        setMessage({ type: 'error', title: '收藏失败' });
       }
     })
     .catch(() => ({}));
@@ -154,7 +205,7 @@ watch(
 
     commentParams.offset = 1;
 
-    getSongDetail();
+    getSongSheetDetail();
     getCommentList();
   },
   {
