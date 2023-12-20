@@ -1,3 +1,26 @@
+## [1.6.1](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.6.0...v1.6.1) (2023-12-20)
+
+
+### ✨ Features | 新功能
+
+* 电台详情页面布局更改，添加侧边栏 [#ad35143](https://github.com/xlz122/NeteaseCloudMusic/commit/ad35143) 
+* 歌单详情页面移除对vuex依赖 [#31be71f](https://github.com/xlz122/NeteaseCloudMusic/commit/31be71f) 
+* 完善电台详情跳转 [#36781a1](https://github.com/xlz122/NeteaseCloudMusic/commit/36781a1) 
+* ref可自动推导类型的不再显式定义 [#7c37436](https://github.com/xlz122/NeteaseCloudMusic/commit/7c37436) 
+
+
+### 🎫 Chores | 其他更新
+
+* 更新vite 5.0.8 [#570546a](https://github.com/xlz122/NeteaseCloudMusic/commit/570546a) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 修复打包类型检查报错 [#75e79e4](https://github.com/xlz122/NeteaseCloudMusic/commit/75e79e4) 
+* 修复歌曲、歌单、专辑、电台节目更新时评论offset没有重置的bug [#59a8fa4](https://github.com/xlz122/NeteaseCloudMusic/commit/59a8fa4) 
+
+
+
 # [1.6.0](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.5.1...v1.6.0) (2023-12-15)
 
 
@@ -8,6 +31,7 @@
 
 ### 🎫 Chores | 其他更新
 
+* release 1.6.0 [#d8cf5ed](https://github.com/xlz122/NeteaseCloudMusic/commit/d8cf5ed) 
 * update eslint config [#d9b9e41](https://github.com/xlz122/NeteaseCloudMusic/commit/d9b9e41) 
 * update prettier config [#2687e92](https://github.com/xlz122/NeteaseCloudMusic/commit/2687e92) 
 
