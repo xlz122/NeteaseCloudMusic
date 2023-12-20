@@ -77,7 +77,7 @@ const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
 // 扫码/其他登录切换
-const qrcodeLoginShow = ref<boolean>(true);
+const qrcodeLoginShow = ref(true);
 
 function qrcodeLogin(): void {
   qrcodeLoginShow.value = true;

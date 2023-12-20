@@ -224,7 +224,7 @@ const menu = reactive<MenuItem[]>([
 ]);
 
 // 字母选择
-const activeScreen = ref<number>(0);
+const activeScreen = ref(0);
 
 function screenChange(index: number, small: number | string): void {
   activeScreen.value = index;

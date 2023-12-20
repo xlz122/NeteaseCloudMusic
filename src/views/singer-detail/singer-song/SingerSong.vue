@@ -174,7 +174,7 @@ watch(
 const singerSong = ref<SingerSong>({
   hotSongs: []
 });
-const loading = ref<boolean>(true);
+const loading = ref(true);
 
 function getArtistSong(): void {
   artistSong({ id: Number($route.query.id) })
@@ -271,9 +271,9 @@ function isCopyright(id: number | undefined): boolean | undefined {
 
   if (songItem?.privilege?.cp === 0) {
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 // 收藏

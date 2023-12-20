@@ -62,9 +62,10 @@ function useMusicToPlayList({
 
   if (clear) {
     store.commit('music/setPlayMusicList', list);
-  } else {
-    store.commit('music/setPlayMusicList', musicList);
+    return;
   }
+
+  store.commit('music/setPlayMusicList', musicList);
 }
 
 export default useMusicToPlayList;

@@ -156,7 +156,7 @@ function getCountryCode(): void {
 getCountryCode();
 
 // 编码列表显隐
-const countryCodeShow = ref<boolean>(false);
+const countryCodeShow = ref(false);
 
 function toggleCountryCode(): void {
   countryCodeShow.value = !countryCodeShow.value;
@@ -263,7 +263,7 @@ function sendVerificationCode(): boolean | undefined {
 }
 
 // 登录按钮文本
-const mobileSubmitText = ref<string>('登 录');
+const mobileSubmitText = ref('登 录');
 
 function mobileSubmit(): boolean | undefined {
   mobileVerify.show = false;

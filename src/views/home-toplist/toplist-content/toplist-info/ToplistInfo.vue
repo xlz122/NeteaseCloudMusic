@@ -144,9 +144,9 @@ function isCopyright(id: number): boolean | undefined {
 
   if (privilege?.cp === 0) {
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 // 播放全部 - 默认播放列表第一项

@@ -124,7 +124,7 @@ function getMenuList(): void {
 getMenuList();
 
 // 分类点击
-const categoryId = ref<number>(-1);
+const categoryId = ref(-1);
 
 function categoryChange(id: number): void {
   categoryId.value = id;
@@ -132,8 +132,8 @@ function categoryChange(id: number): void {
 }
 
 // 左右切换
-const mainMenuShow = ref<boolean>(true);
-const dotIndex = ref<number>(0);
+const mainMenuShow = ref(true);
+const dotIndex = ref(0);
 
 function prev(): void {
   mainMenuShow.value = true;
@@ -151,9 +151,10 @@ function dotChange(index: number): void {
 
   if (index === 0) {
     mainMenuShow.value = true;
-  } else {
-    mainMenuShow.value = false;
+    return;
   }
+
+  mainMenuShow.value = false;
 }
 </script>
 

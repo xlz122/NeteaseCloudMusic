@@ -115,7 +115,7 @@ function menuChange(item: MenuItem, index: number): boolean | undefined {
 }
 
 // 消息提示
-const msgCode = ref<number>(0);
+const msgCode = ref(0);
 
 function loadMessage(): void {
   messageEv({ limit: 1, offset: 100 })

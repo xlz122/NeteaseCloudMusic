@@ -89,7 +89,7 @@ const videoPlayProgress = computed(
 const musicPlayStatus = computed(() => $store.getters['music/musicPlayStatus']);
 
 // 播放视频暂停音乐, 播放音乐暂停视频
-const videoStatus = ref<string>('pause');
+const videoStatus = ref('pause');
 
 watch(
   () => videoStatus.value,
@@ -132,7 +132,7 @@ function videoReplay(): void {
 }
 
 // 全屏切换
-const fullscreen = ref<boolean>(false);
+const fullscreen = ref(false);
 
 // 进入全屏
 function lanchFullscreen() {
@@ -150,7 +150,8 @@ function exitFullscreen() {
 }
 
 // 音量条显隐
-const volumeProgressShow = ref<boolean>(false);
+const volumeProgressShow = ref(false);
+
 function setVolumeProgress(): void {
   volumeProgressShow.value = !volumeProgressShow.value;
 }

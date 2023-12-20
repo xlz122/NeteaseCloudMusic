@@ -79,9 +79,9 @@ function getDjcateType(): Promise<DjcateType[]> {
       .then((res: ResponseType) => {
         if (res?.code === 200) {
           resolve(res?.categories || []);
-        } else {
-          reject();
         }
+
+        reject();
       })
       .catch(err => reject(err));
   });
@@ -94,9 +94,9 @@ function getDjcateRecommend(id: number): Promise<RecommendItem[]> {
       .then((res: ResponseType) => {
         if (res?.code === 200) {
           resolve(res?.djRadios || []);
-        } else {
-          reject();
         }
+
+        reject();
       })
       .catch(() => reject());
   });

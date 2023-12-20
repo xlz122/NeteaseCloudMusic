@@ -147,7 +147,7 @@ const $store = useStore();
 const searchText = computed<string>(() =>
   $store.getters.searchText.replace(/"/g, '')
 );
-const searchValue = ref<string>('');
+const searchValue = ref('');
 
 watch(
   () => searchText.value,
@@ -160,9 +160,9 @@ watch(
 );
 
 // 搜索建议
-const searchPlaceholder = ref<string>('音乐/视频/电台/用户');
-const searchProposShow = ref<boolean>(false);
-const oldSearchValue = ref<string>('');
+const searchPlaceholder = ref('音乐/视频/电台/用户');
+const searchProposShow = ref(false);
+const oldSearchValue = ref('');
 
 // 搜索框获取焦点
 function searchFocus(): void {

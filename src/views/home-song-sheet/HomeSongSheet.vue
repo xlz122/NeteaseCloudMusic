@@ -117,7 +117,7 @@ const params = reactive({
   limit: 50,
   total: 0
 });
-const title = ref<string>('全部');
+const title = ref('全部');
 const songSheet = ref<SongSheetItem[]>([]);
 
 function getTopPlaylist(): void {
@@ -153,7 +153,7 @@ function hotSong(): boolean | undefined {
 }
 
 // 分类弹框
-const classifyShow = ref<boolean>(false);
+const classifyShow = ref(false);
 
 function classifyModal(): void {
   classifyShow.value = !classifyShow.value;

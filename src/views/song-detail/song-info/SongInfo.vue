@@ -227,7 +227,7 @@ function jumpToComment(): boolean | undefined {
 }
 
 // 歌词展开/收缩
-const toggleShow = ref<boolean>(false);
+const toggleShow = ref(false);
 
 function toggle(): void {
   toggleShow.value = !toggleShow.value;

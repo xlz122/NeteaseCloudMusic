@@ -152,7 +152,7 @@ function handleLike(): boolean | undefined {
 }
 
 // 获取收藏的视频列表, 判断当前视频是否被收藏
-const videoSubed = ref<boolean>(false);
+const videoSubed = ref(false);
 
 function getVideoSbulist(): void {
   videoSbulist()

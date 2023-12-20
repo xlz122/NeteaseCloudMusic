@@ -178,7 +178,7 @@ function getCountryCode(): void {
 getCountryCode();
 
 // 编码列表显隐
-const countryCodeShow = ref<boolean>(false);
+const countryCodeShow = ref(false);
 
 function toggleCountryCode(): void {
   countryCodeShow.value = !countryCodeShow.value;
@@ -252,7 +252,7 @@ function passwordVerify(): void {
 }
 
 // 下一步
-const nextLook = ref<boolean>(false);
+const nextLook = ref(false);
 
 function nextStep(): void {
   // 发送验证码
@@ -260,7 +260,7 @@ function nextStep(): void {
 }
 
 // 验证码
-const verificationCodeText = ref<string>('');
+const verificationCodeText = ref('');
 
 // 验证码验证
 const verificationCodeVerify = reactive<VerificationCodeVerify>({

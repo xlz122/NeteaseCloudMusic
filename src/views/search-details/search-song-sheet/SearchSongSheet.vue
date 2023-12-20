@@ -241,9 +241,10 @@ function handleCollection(
             (item as { subscribed: boolean }).subscribed = true;
           }
         });
-      } else {
-        setMessage({ type: 'error', title: '收藏失败' });
+        return;
       }
+
+      setMessage({ type: 'error', title: '收藏失败' });
     })
     .catch(() => ({}));
 }

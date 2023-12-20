@@ -136,7 +136,7 @@ function jumpToComment() {
 }
 
 // 表情
-const expressionShow = ref<boolean>(false);
+const expressionShow = ref(false);
 const exproessionPage = reactive<ExproessionPage>({
   current: 1,
   total: 0,

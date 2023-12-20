@@ -26,7 +26,7 @@ const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const loginDialog = computed<boolean>(() => $store.getters.loginDialog);
 
 // 扫码/其他登录切换
-const loginType = ref<string>('qrcode');
+const loginType = ref('qrcode');
 
 function qrcodeLogin(): void {
   loginType.value = 'qrcode';

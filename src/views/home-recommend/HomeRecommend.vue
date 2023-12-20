@@ -71,7 +71,7 @@ type RecommendItem = {
 const $store = useStore();
 
 // 获取当前日期
-const dateText = ref<string>('');
+const dateText = ref('');
 dateText.value = formatDateTime(new Date().getTime() / 1000, 'dd').replace(
   /\b(0+)/gi,
   ''

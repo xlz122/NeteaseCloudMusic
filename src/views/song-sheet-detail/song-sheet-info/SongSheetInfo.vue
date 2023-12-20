@@ -208,7 +208,7 @@ const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const userInfo = computed(() => $store.getters.userInfo);
 
 // 展开/收缩简介
-const toggleShow = ref<boolean>(false);
+const toggleShow = ref(false);
 
 function toggle(): void {
   toggleShow.value = !toggleShow.value;
@@ -222,9 +222,9 @@ function isCopyright(id: number): boolean | undefined {
 
   if (privilege?.cp === 0) {
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 // 播放全部 - 默认播放列表第一项

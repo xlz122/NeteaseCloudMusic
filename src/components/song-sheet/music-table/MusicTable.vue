@@ -180,9 +180,9 @@ function isCopyright(id?: number): boolean | undefined {
 
   if (privilege?.cp === 0) {
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 // 单个歌曲添加到播放列表
@@ -233,8 +233,8 @@ function handleDownload(): void {
 }
 
 // 删除歌曲
-const deleteMusicDialog = ref<boolean>(false);
-const deleteMuiscId = ref<number>(0);
+const deleteMusicDialog = ref(false);
+const deleteMuiscId = ref(0);
 
 function deleteMusicShow(id: number): void {
   deleteMusicDialog.value = !deleteMusicDialog.value;
@@ -292,7 +292,7 @@ function jumpVideoDetail(songId: number, id: number): boolean | undefined {
   $router.push({ path: '/mv-detail', query: { id } });
 }
 
-const loading = ref<boolean>(true);
+const loading = ref(true);
 
 onMounted(() => {
   setTimeout(() => {

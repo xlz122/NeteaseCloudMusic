@@ -194,7 +194,7 @@ const params = reactive({
   limit: 35
 });
 const albumList = ref<AlbumItem[]>([]);
-const albumTotal = ref<number>(0);
+const albumTotal = ref(0);
 
 function getAlbumList(): void {
   nweDiscAlbum({

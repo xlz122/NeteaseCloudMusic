@@ -11,7 +11,7 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { debounce } from 'lodash';
 
-const visible = ref<boolean>(false);
+const visible = ref(false);
 
 function toggleVisible(e: { target: Document }): void {
   const scrollTop =

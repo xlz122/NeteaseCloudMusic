@@ -204,7 +204,7 @@ const userInfo = computed(() => $store.getters.userInfo);
 const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
 // 展开/收缩简介
-const toggleShow = ref<boolean>(false);
+const toggleShow = ref(false);
 
 function toggle(): void {
   toggleShow.value = !toggleShow.value;
@@ -218,9 +218,9 @@ function isCopyright(id: number): boolean | undefined {
 
   if (privilege?.cp === 0) {
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 // 播放全部 - 默认播放列表第一项
@@ -286,9 +286,10 @@ function handleCollection(): boolean | undefined {
         $store.commit('setSongSheetDetail', songSheetDetail.value);
 
         setMessage({ type: 'info', title: '收藏成功' });
-      } else {
-        setMessage({ type: 'error', title: '收藏失败' });
+        return;
       }
+
+      setMessage({ type: 'error', title: '收藏失败' });
     })
     .catch(() => ({}));
 }

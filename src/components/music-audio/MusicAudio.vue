@@ -132,12 +132,13 @@ const musicAudioLock = computed<boolean>(
 function audioLock(): void {
   if (musicAudioLock.value) {
     $store.commit('music/setMsicAudioLock', false);
-  } else {
-    $store.commit('music/setMsicAudioLock', true);
+    return;
   }
+
+  $store.commit('music/setMsicAudioLock', true);
 }
 
-const audioEnter = ref<boolean>(false);
+const audioEnter = ref(false);
 
 // 播放器鼠标移入事件
 function musicAudioEnter(): boolean | undefined {

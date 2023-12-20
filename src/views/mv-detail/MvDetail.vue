@@ -135,7 +135,7 @@ const video = computed<Video>(() => $store.getters['video/video']);
 const mvDetailData = ref<MvDetailData>({
   artists: []
 });
-const mvSubed = ref<boolean>(false);
+const mvSubed = ref(false);
 
 function getMvDetail(): void {
   mvDetail({ mvid: Number($route.query.id) })

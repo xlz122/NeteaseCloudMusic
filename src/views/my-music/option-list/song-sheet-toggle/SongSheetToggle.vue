@@ -135,7 +135,7 @@ const $store = useStore();
 const songSheetId = computed<number>(() => $store.getters.songSheetId);
 
 // 列表显隐切换
-const listShow = ref<boolean>(true);
+const listShow = ref(true);
 
 function listToggle(): void {
   listShow.value = !listShow.value;

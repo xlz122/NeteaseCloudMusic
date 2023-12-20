@@ -98,7 +98,7 @@ function handleShare(): boolean | undefined {
 }
 
 // 音量条显隐
-const volumeShow = ref<boolean>(false);
+const volumeShow = ref(false);
 
 function setVolumeProgress(): void {
   volumeShow.value = !volumeShow.value;
@@ -157,7 +157,7 @@ watch(
 );
 
 // 显示播放列表
-const playListShow = ref<boolean>(false);
+const playListShow = ref(false);
 
 function setPlayListShow(): void {
   playListShow.value = !playListShow.value;

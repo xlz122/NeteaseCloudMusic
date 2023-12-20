@@ -3255,7 +3255,7 @@ export default function findCityZipCode(zipCode: string | number): string {
 
   if (item) {
     return item.name;
-  } else {
-    return '';
   }
+
+  return '';
 }

@@ -211,9 +211,9 @@ function isCopyright(id: number | undefined): boolean | undefined {
 
   if (songItem?.privilege?.cp === 0) {
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 // 收藏

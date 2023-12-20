@@ -150,7 +150,7 @@ const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
 
 const { list } = toRefs(props);
 
-const loading = ref<boolean>(true);
+const loading = ref(true);
 watch(
   () => list.value,
   () => {

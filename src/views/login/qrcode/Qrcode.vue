@@ -54,7 +54,7 @@ const emits = defineEmits(['otherLogin']);
 const $store = useStore();
 
 // 获取二维码登录key
-const qrcodeImgKey = ref<string>('');
+const qrcodeImgKey = ref('');
 
 function getQrcodeImgKey() {
   qrcodeKey()
@@ -69,7 +69,7 @@ function getQrcodeImgKey() {
 getQrcodeImgKey();
 
 // 获取二维码图片
-const qrcodeImgSrc = ref<string>('');
+const qrcodeImgSrc = ref('');
 
 function getQrcodeImg() {
   qrcodeImg({
@@ -86,9 +86,9 @@ function getQrcodeImg() {
 }
 
 // 二维码失效
-const qrcodeInvalid = ref<boolean>(false);
+const qrcodeInvalid = ref(false);
 // 二维码待确认
-const qrcodeAuthorized = ref<boolean>(false);
+const qrcodeAuthorized = ref(false);
 
 function getQrcodeStatus() {
   qrcodeStatus({

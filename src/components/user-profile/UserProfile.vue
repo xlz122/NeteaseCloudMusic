@@ -37,8 +37,8 @@ const $store = useStore();
 
 // 获取当前用户详情
 const currentUserInfo = ref<CurrentUserInfo>({});
-const provinceName = ref<string>('');
-const cityName = ref<string>('');
+const provinceName = ref('');
+const cityName = ref('');
 
 function getUserDetail() {
   userDetail({ uid: Number($route.query.id) })

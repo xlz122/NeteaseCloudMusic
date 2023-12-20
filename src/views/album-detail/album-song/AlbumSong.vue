@@ -176,9 +176,9 @@ function isCopyright(id?: number): boolean | undefined {
 
   if (songItem?.privilege?.cp === 0) {
     return true;
-  } else {
-    return false;
   }
+
+  return false;
 }
 
 // 收藏

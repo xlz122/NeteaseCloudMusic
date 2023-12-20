@@ -29,14 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-import {
-  reactive,
-  computed,
-  watch,
-  onMounted,
-  onUnmounted,
-  nextTick
-} from 'vue';
+import { reactive, computed, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
 import { userSubcount } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
@@ -105,28 +98,16 @@ watch(
       if (isLogin.value) {
         getUserSubcount();
         footer.style.display = 'none';
-      } else {
-        footer.style.display = 'block';
+        return;
       }
+
+      footer.style.display = 'block';
     });
+  },
+  {
+    immediate: true
   }
 );
-
-onMounted(() => {
-  const footer = document.querySelector('.footer') as HTMLDivElement;
-
-  if (isLogin.value) {
-    getUserSubcount();
-    footer.style.display = 'none';
-  } else {
-    footer.style.display = 'block';
-  }
-});
-
-onUnmounted(() => {
-  const footer = document.querySelector('.footer') as HTMLDivElement;
-  footer.style.display = 'block';
-});
 </script>
 
 <style lang="less" scoped>

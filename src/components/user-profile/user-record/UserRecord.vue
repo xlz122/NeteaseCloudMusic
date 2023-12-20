@@ -130,13 +130,13 @@ const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
 
 // 最近一周/所有时间
-const type = ref<number>(0);
+const type = ref(0);
 
 function typeChange(t: number): void {
   type.value = t;
 }
 
-const loading = ref<boolean>(false);
+const loading = ref(false);
 
 watch(
   () => type.value,

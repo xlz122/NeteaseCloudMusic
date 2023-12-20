@@ -161,7 +161,7 @@ watch(
 );
 
 // 图片是否在切换中
-const bannerImgSwitching = ref<boolean>(false);
+const bannerImgSwitching = ref(false);
 
 // 自动轮播
 const timer = ref<NodeJS.Timeout | null>(null);

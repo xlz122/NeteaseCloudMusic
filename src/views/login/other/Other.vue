@@ -128,7 +128,7 @@ const loginMode = reactive({
   allOtherLogin: true
 });
 // 协议勾选
-const officialCheckbox = ref<boolean>(false);
+const officialCheckbox = ref(false);
 
 // 手机号登录
 function phoneLogin(): boolean | undefined {

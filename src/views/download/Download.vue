@@ -206,15 +206,15 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 
 // 其他操作系统
-const otherDownloadModal = ref<boolean>(false);
+const otherDownloadModal = ref(false);
 
 function otherDownload(): void {
   otherDownloadModal.value = !otherDownloadModal.value;
 }
 
 // 下载电脑/手机端
-const downloadQrcode = ref<boolean>(false);
-const isPcDownLoad = ref<boolean>(false);
+const downloadQrcode = ref(false);
+const isPcDownLoad = ref(false);
 
 function downloadPc(): void {
   downloadQrcode.value = true;

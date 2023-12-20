@@ -109,7 +109,7 @@ const userInfo = computed(() => $store.getters.userInfo);
 const { commentParams } = toRefs(props);
 
 // 是否清除回复内容
-const isClearText = ref<boolean>(false);
+const isClearText = ref(false);
 
 // 顶部评论提交
 function submit(replayText: string): boolean | undefined {
@@ -151,8 +151,8 @@ function submit(replayText: string): boolean | undefined {
 }
 
 // 删除评论
-const deleteCommentDialog = ref<boolean>(false);
-const deleteCommentId = ref<number>(0);
+const deleteCommentDialog = ref(false);
+const deleteCommentId = ref(0);
 
 function handleDeleteComment(commentId: number): void {
   deleteCommentDialog.value = true;
@@ -168,12 +168,13 @@ function deleteCommentConfirm() {
   })
     .then((res: ResponseType) => {
       if (res.code === 200) {
-        deleteCommentDialog.value = false;
         emits('refreshComment');
-      } else {
         deleteCommentDialog.value = false;
-        setMessage({ type: 'error', title: '删除失败' });
+        return;
       }
+
+      deleteCommentDialog.value = false;
+      setMessage({ type: 'error', title: '删除失败' });
     })
     .catch(() => ({}));
 }
@@ -276,9 +277,10 @@ function replySubmit(
       if (res.code === 200) {
         emits('refreshComment');
         setMessage({ type: 'info', title: '评论成功' });
-      } else {
-        setMessage({ type: 'error', title: '评论失败' });
+        return;
       }
+
+      setMessage({ type: 'error', title: '评论失败' });
     })
     .catch(() => ({}));
 }

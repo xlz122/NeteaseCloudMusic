@@ -96,14 +96,14 @@ function searchCountChange(count: number): void {
   searchCount.value = count;
 }
 
-const title = ref<string>('单曲');
+const title = ref('单曲');
 function tabChange(item: string): void {
   title.value = item;
 
   searchCount.value = '';
 }
 
-const displayTitle = ref<string>('');
+const displayTitle = ref('');
 watch(
   () => title.value,
   () => {

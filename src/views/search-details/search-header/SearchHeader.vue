@@ -153,8 +153,8 @@ const searchDetailText = computed(() =>
 );
 
 const searchValue = ref<string>(searchDetailText.value);
-const searchProposShow = ref<boolean>(false);
-const oldSearchValue = ref<string>('');
+const searchProposShow = ref(false);
+const oldSearchValue = ref('');
 
 // 搜索框获取焦点
 function searchFocus(): void {

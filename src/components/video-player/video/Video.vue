@@ -44,7 +44,7 @@ watch(
 );
 
 // 获取播放地址
-const videoSrc = ref<string>('');
+const videoSrc = ref('');
 
 function getVideoSrc(): void {
   videoSrc.value = video.value.url;

@@ -90,7 +90,7 @@ watch(
 );
 
 // 获取播放地址
-const audioSrc = ref<string>('');
+const audioSrc = ref('');
 
 function getAudioPlaySrc(): boolean | undefined {
   if (!playMusicId.value) {

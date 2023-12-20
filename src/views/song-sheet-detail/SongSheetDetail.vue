@@ -136,9 +136,10 @@ function handleCollection(): void {
         songSheetDetail.playlist.subscribed = true;
 
         setMessage({ type: 'info', title: '收藏成功' });
-      } else {
-        setMessage({ type: 'error', title: '收藏失败' });
+        return;
       }
+
+      setMessage({ type: 'error', title: '收藏失败' });
     })
     .catch(() => ({}));
 }

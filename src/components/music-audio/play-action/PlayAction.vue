@@ -34,13 +34,14 @@ function lookPlayMusic(): void {
       loading: false,
       refresh: false
     });
-  } else {
-    $store.commit('music/setMusicPlayStatus', {
-      look: true,
-      loading: true,
-      refresh: false
-    });
+    return;
   }
+
+  $store.commit('music/setMusicPlayStatus', {
+    look: true,
+    loading: true,
+    refresh: false
+  });
 }
 </script>
 

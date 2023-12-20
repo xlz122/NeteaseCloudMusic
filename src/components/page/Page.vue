@@ -75,13 +75,13 @@ const emits = defineEmits(['pageChange']);
 const { page, pageSize, total: pageTotal, displayPage } = toRefs(props);
 
 // 总页数
-const totalPage = ref<number>(0);
+const totalPage = ref(0);
 // 当前页
 const current = ref<number>(page.value);
 // 页数前省略号
-const prevDot = ref<boolean>(false);
+const prevDot = ref(false);
 // 页数后省略号
-const nextDot = ref<boolean>(false);
+const nextDot = ref(false);
 // page数组
 const pageList = ref<number[]>([]);
 

@@ -137,7 +137,7 @@ const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const { songs } = toRefs(props);
 
 // 展开/收缩简介
-const toggleShow = ref<boolean>(false);
+const toggleShow = ref(false);
 
 function toggle(): void {
   toggleShow.value = !toggleShow.value;

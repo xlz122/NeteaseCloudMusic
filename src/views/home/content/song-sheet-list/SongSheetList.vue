@@ -138,9 +138,9 @@ function getSongSheetDetail(id: number): Promise<unknown> {
       .then((res: ResponseType) => {
         if (res?.code === 200) {
           resolve(res);
-        } else {
-          reject();
         }
+
+        reject();
       })
       .catch(() => reject());
   });
@@ -185,9 +185,10 @@ function handleCollectAll(id: number | undefined): boolean | undefined {
         });
 
         setMessage({ type: 'info', title: '收藏成功' });
-      } else {
-        setMessage({ type: 'error', title: '收藏失败' });
+        return;
       }
+
+      setMessage({ type: 'error', title: '收藏失败' });
     })
     .catch(() => ({}));
 }

@@ -82,10 +82,10 @@ const params = reactive({
   pagesize: 20,
   lasttime: -1
 });
-const loading = ref<boolean>(false);
+const loading = ref(false);
 const eventList = ref<EventItem[]>([]);
 // 是否继续加载
-const lock = ref<boolean>(true);
+const lock = ref(true);
 
 function getFriendEvent(): void {
   loading.value = true;
