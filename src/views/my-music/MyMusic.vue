@@ -7,12 +7,12 @@
       <div class="my-music-main">
         <MySinger
           v-if="options.mySinger.visible"
-          :options="options"
+          :count="options.mySinger.count"
           @handleOptions="handleOptions"
         />
         <MyVideo
           v-if="options.myVideo.visible"
-          :options="options"
+          :count="options.myVideo.count"
           @handleOptions="handleOptions"
         />
         <SongSheetDetail v-if="options.songSheet.visible" />

@@ -1,5 +1,5 @@
 <template>
-  <div class="detail-side-container">
+  <div class="side-container">
     <template v-if="subscribers.length > 0">
       <h3 class="title">喜欢这个歌单的人</h3>
       <ul class="like-list">

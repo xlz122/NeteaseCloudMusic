@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-gray-f2 djradio-detail">
-    <div class="box-border dis-flex">
-      <div class="detail-lf">
+  <div class="djradio-detail">
+    <div class="detail-container">
+      <div class="detail-content">
         <div class="dis-flex detail-top">
           <div class="cover-dj">
             <img :src="details?.picUrl" :alt="details?.name" />
@@ -104,7 +104,9 @@
           </table>
         </div>
       </div>
-      <div class="detail-ri"></div>
+      <div class="detail-side">
+        <DjradioDetailSide />
+      </div>
     </div>
   </div>
 </template>
@@ -116,6 +118,7 @@ import { useRoute } from 'vue-router';
 import { filterTime, timeStampToDuration } from '@/utils/utils';
 import { djDetail, djProgram } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types/types';
+import DjradioDetailSide from './djradio-detail-side/DjradioDetailSide.vue';
 
 const $route = useRoute();
 

@@ -1,7 +1,7 @@
 <template>
   <div class="my-video">
     <div class="title">
-      <span class="text">我的视频({{ options?.myVideo?.count }})</span>
+      <span class="text">我的视频({{ count }})</span>
     </div>
     <ul class="list">
       <li class="item" v-for="(item, index) in videoList" :key="index">
@@ -63,9 +63,9 @@ type VideoItem = {
 };
 
 defineProps({
-  options: {
-    type: Object,
-    default: () => {}
+  count: {
+    type: Number,
+    default: () => 0
   }
 });
 const emits = defineEmits(['handleOptions']);

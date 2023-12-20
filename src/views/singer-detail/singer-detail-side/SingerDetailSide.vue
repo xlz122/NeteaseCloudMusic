@@ -1,5 +1,5 @@
 <template>
-  <div class="singer-side-container">
+  <div class="side-container">
     <template v-if="hotSinger?.length > 0">
       <h3 class="title">热门歌手</h3>
       <ul class="like-list">

@@ -1,5 +1,5 @@
 <template>
-  <div class="video-detail-side">
+  <div class="side-container">
     <h3 class="title">视频简介</h3>
     <div class="video-desc">
       <p class="publish-time">

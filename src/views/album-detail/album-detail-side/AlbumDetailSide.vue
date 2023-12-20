@@ -1,19 +1,7 @@
 <template>
-  <div class="song-sheet-side-container">
+  <div class="side-container">
     <h3 class="title">喜欢这张专辑的人</h3>
-    <ul class="like-list">
-      <!-- <li
-        class="item"
-        v-for="(item, index) in []"
-        :key="index"
-        :class="{ 'first-item': !(index % 4) }"
-        @click="jumpUserProfile(item?.userId)"
-      >
-        <router-link class="item-link" to="" :title="item?.nickname">
-          <img class="item-img" :src="`${item?.avatarUrl}?param=40y40`" />
-        </router-link>
-      </li> -->
-    </ul>
+    <ul class="like-list"></ul>
     <h3 class="title">
       Ta的其他热门专辑
       <span class="title-all" @click="jumpSingerDetail"> 全部> </span>

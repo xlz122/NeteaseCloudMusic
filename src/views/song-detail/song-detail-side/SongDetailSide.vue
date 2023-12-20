@@ -1,5 +1,5 @@
 <template>
-  <div class="detail-side-container">
+  <div class="side-container">
     <template v-if="songSheet?.length > 0">
       <h3 class="title">包含这首歌的歌单</h3>
       <ul class="song-sheet-list">

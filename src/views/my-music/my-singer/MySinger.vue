@@ -1,7 +1,7 @@
 <template>
   <div class="my-singer">
     <div class="title">
-      <span class="text">我的歌手 ({{ options?.mySinger?.count }})</span>
+      <span class="text">我的歌手 ({{ count }})</span>
     </div>
     <ul class="list">
       <li class="item" v-for="(item, index) in singerList" :key="index">
@@ -42,9 +42,9 @@ type SingerItem = {
 };
 
 defineProps({
-  options: {
-    type: Object,
-    default: () => {}
+  count: {
+    type: Number,
+    default: () => 0
   }
 });
 const emits = defineEmits(['handleOptions']);

@@ -1,5 +1,5 @@
 <template>
-  <div class="program-side-container">
+  <div class="side-container">
     <h3 class="title">
       更多节目
       <span class="title-all" @click="jumpDjradioDetail(rid)">全部></span>
