@@ -16,7 +16,9 @@
                 <img :src="details?.dj?.avatarUrl" alt="头像" />
               </div>
               <div class="name">
-                <span> {{ details?.dj?.nickname }} </span>
+                <span @click="jumpUserProfile(details?.dj?.userId)">
+                  {{ details?.dj?.nickname }}
+                </span>
                 <img src="../../assets/image/user/member-music.png" alt="" />
               </div>
             </div>
@@ -27,7 +29,7 @@
               <button type="button" class="btn play">
                 <i>播放全部</i>
               </button>
-              <button type="button" class="btn share">
+              <button type="button" class="btn share" @click="handleShare">
                 <i>分享({{ details?.shareCount }})</i>
               </button>
             </div>
@@ -58,7 +60,12 @@
             <div class="ri dis-flex">
               <div class="out">
                 <i></i>
-                <span class="ml5">生成外链播放器</span>
+                <a
+                  class="ml5"
+                  :href="`https://music.163.com/#/outchain/4/${$route.query.id}`"
+                >
+                  生成外链播放器
+                </a>
               </div>
               <div class="sort dis-flex align-center">
                 <div
@@ -113,14 +120,19 @@
 
 <script lang="ts" setup>
 // @ts-nocheck
-import { ref, reactive } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, reactive, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { filterTime, timeStampToDuration } from '@/utils/utils';
 import { djDetail, djProgram } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types/types';
 import DjradioDetailSide from './djradio-detail-side/DjradioDetailSide.vue';
 
 const $route = useRoute();
+const $router = useRouter();
+const $store = useStore();
+const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
 const toggleDesc = ref(true);
 const sortSong = ref(true);
@@ -159,6 +171,21 @@ function djProgramDetails(id: number) {
 function changeSongSort(change: boolean) {
   sortSong.value = change;
   djProgramDetails(songs.rid);
+}
+
+// 分享
+function handleShare(): boolean | undefined {
+  if (!isLogin.value) {
+    $store.commit('setLoginDialog', true);
+    return;
+  }
+
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 跳转用户资料
+function jumpUserProfile(id: number): void {
+  $router.push({ path: '/user-profile', query: { id } });
 }
 </script>
 
