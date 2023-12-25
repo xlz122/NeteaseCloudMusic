@@ -18,8 +18,8 @@
 import { ref, computed, watch, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import MyDialog from '@/components/MyDialog.vue';
-import Qrcode from '@/views/login/qrcode/Qrcode.vue';
-import Other from '@/views/login/other/Other.vue';
+import Qrcode from './qrcode/Qrcode.vue';
+import Other from './other/Other.vue';
 
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);

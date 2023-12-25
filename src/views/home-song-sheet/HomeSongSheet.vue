@@ -88,8 +88,8 @@ import { topPlaylist } from '@/api/home-song-sheet';
 import { playlistTrack } from '@/api/song-sheet-detail';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/common/audio';
-import ClassifyModal from './classify-modal/ClassifyModal.vue';
 import Page from '@/components/page/Page.vue';
+import ClassifyModal from './classify-modal/ClassifyModal.vue';
 
 type SongSheetItem = {
   id: number;

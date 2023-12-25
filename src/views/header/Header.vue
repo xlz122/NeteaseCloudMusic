@@ -55,10 +55,10 @@ import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { messageEv } from '@/api/user';
-import SubMenu from '@/views/header/sub-menu/SubMenu.vue';
-import Search from '@/views/header/search/Search.vue';
-import User from '@/views/user/User.vue';
 import type { ResponseType } from '@/types/types';
+import User from '@/views/user/User.vue';
+import SubMenu from './sub-menu/SubMenu.vue';
+import Search from './search/Search.vue';
 
 type MenuItem = {
   title: string;

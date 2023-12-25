@@ -83,9 +83,9 @@ import type { ResponseType } from '@/types/types';
 import type { CommentParams } from '@/components/comment/Comment.vue';
 import MusicTable from '@/components/music-table/MusicTable.vue';
 import Comment from '@/components/comment/Comment.vue';
+import Page from '@/components/page/Page.vue';
 import SongSheetInfo from './song-sheet-info/SongSheetInfo.vue';
 import SongSheetSide from './song-sheet-side/SongSheetSide.vue';
-import Page from '@/components/page/Page.vue';
 
 type SongSheetDetail = {
   playlist: {

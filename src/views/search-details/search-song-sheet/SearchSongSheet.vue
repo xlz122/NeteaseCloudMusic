@@ -231,7 +231,7 @@ function handleCollection(
     return;
   }
 
-  playlistSubscribe({ id: id!, t: 1 })
+  playlistSubscribe({ id: id, t: 1 })
     .then((res: ResponseType) => {
       if (res.code === 200) {
         setMessage({ type: 'info', title: '收藏成功' });

@@ -94,8 +94,8 @@ import type { CommentParams } from '@/components/comment/Comment.vue';
 import type { Video } from '@/store/video/state';
 import VideoPlayer from '@/components/video-player/VideoPlayer.vue';
 import Comment from '@/components/comment/Comment.vue';
-import VideoDetailSide from './video-detail-side/VideoDetailSide.vue';
 import Page from '@/components/page/Page.vue';
+import VideoDetailSide from './video-detail-side/VideoDetailSide.vue';
 
 type VideoDetailData = {
   title?: string;

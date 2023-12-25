@@ -33,10 +33,10 @@ import { reactive, computed, watch, nextTick } from 'vue';
 import { useStore } from 'vuex';
 import { userSubcount } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
-import OptionList from '@/views/my-music/option-list/OptionList.vue';
-import MySinger from '@/views/my-music/my-singer/MySinger.vue';
-import MyVideo from '@/views/my-music/my-video/MyVideo.vue';
-import SongSheetDetail from '@/views/my-music/song-sheet-detail/SongSheetDetail.vue';
+import OptionList from './option-list/OptionList.vue';
+import MySinger from './my-singer/MySinger.vue';
+import MyVideo from './my-video/MyVideo.vue';
+import SongSheetDetail from './song-sheet-detail/SongSheetDetail.vue';
 
 type ParamsType = {
   type: string;

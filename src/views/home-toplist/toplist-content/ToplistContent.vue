@@ -40,10 +40,10 @@
 </template>
 
 <script lang="ts" setup>
-import ToplistInfo from './toplist-info/ToplistInfo.vue';
-import ToplistSong from './toplist-song/ToplistSong.vue';
 import Comment from '@/components/comment/Comment.vue';
 import Page from '@/components/page/Page.vue';
+import ToplistInfo from './toplist-info/ToplistInfo.vue';
+import ToplistSong from './toplist-song/ToplistSong.vue';
 
 defineProps({
   updateFrequency: {

@@ -18,12 +18,12 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { setMessage } from '@/components/message/useMessage';
+import { djCatelist, recommendTypeList } from '@/api/home-djprogram';
+import type { ResponseType } from '@/types/types';
 import Category from './category/Category.vue';
 import Recommend from './recommend/ReCommend.vue';
 import RankiList from './rankiList/RankiList.vue';
 import RadioStation from './radioStation/RadioStation.vue';
-import { djCatelist, recommendTypeList } from '@/api/home-djprogram';
-import type { ResponseType } from '@/types/types';
 
 type DjcateType = {
   id: number;

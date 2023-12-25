@@ -38,9 +38,9 @@ import { djprogramComment } from '@/api/comment';
 import type { ResponseType } from '@/types/types';
 import type { CommentParams } from '@/components/comment/Comment.vue';
 import Comment from '@/components/comment/Comment.vue';
+import Page from '@/components/page/Page.vue';
 import ProgramInfo from './program-info/ProgramInfo.vue';
 import ProgramSide from './program-side/ProgramSide.vue';
-import Page from '@/components/page/Page.vue';
 
 type ProgramDetail = {
   radio?: {

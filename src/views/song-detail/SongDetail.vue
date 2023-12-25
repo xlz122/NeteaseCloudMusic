@@ -92,9 +92,9 @@ import { musicComment } from '@/api/comment';
 import type { ResponseType } from '@/types/types';
 import type { CommentParams } from '@/components/comment/Comment.vue';
 import Comment from '@/components/comment/Comment.vue';
+import Page from '@/components/page/Page.vue';
 import SongInfo from './song-info/SongInfo.vue';
 import SongDateilSide from './song-detail-side/SongDetailSide.vue';
-import Page from '@/components/page/Page.vue';
 
 type Lyric = {
   lyricUser: {
