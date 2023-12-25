@@ -74,11 +74,6 @@ const mutations: Mutations<State> = {
     state.songSheetId = songSheetId;
     localStorage.setItem('songSheetId', JSON.stringify(songSheetId));
   },
-  // 歌单详情
-  setSongSheetDetail(state, songSheetDetail: unknown) {
-    state.songSheetDetail = songSheetDetail;
-    localStorage.setItem('songSheetDetail', JSON.stringify(songSheetDetail));
-  },
   // 收藏歌曲
   collectPlayMusic(state, song: State['collectSong']) {
     state.collectSong = song;

@@ -1,6 +1,11 @@
 <template>
   <div class="song-sheet-detail">
-    <UserInfo class="user-info" @jumpToComment="jumpToComment" />
+    <SongSheetInfo
+      class="user-info"
+      :songSheetDetail="songSheetDetail"
+      @handleCollection="handleCollection"
+      @jumpToComment="jumpToComment"
+    />
     <div class="list-title">
       <h3 class="title-text">歌曲列表</h3>
       <span class="title-track">
@@ -8,7 +13,10 @@
       </span>
       <div
         class="title-play-num"
-        v-if="songSheetDetail?.playlist?.tracks.length > 0"
+        v-if="
+          songSheetDetail?.playlist?.tracks &&
+          songSheetDetail?.playlist?.tracks?.length > 0
+        "
       >
         播放:
         <span class="eye-catching">
@@ -17,7 +25,11 @@
         次
       </div>
     </div>
-    <MusicTable class="music-table" />
+    <MusicTable
+      class="music-table"
+      :songSheetDetail="songSheetDetail"
+      @handleDeleteMusic="handleDeleteMusic"
+    />
     <div class="comment-component">
       <Comment
         :commentParams="commentParams"
@@ -37,21 +49,39 @@
 <script lang="ts" setup>
 import { reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
+import { setMessage } from '@/components/message/useMessage';
 import { handleCommentData } from '@/components/comment/handleCommentData';
 import { playListDetail } from '@/api/my-music';
+import { playlistSubscribe } from '@/api/song-sheet-detail';
 import { playlistComment } from '@/api/comment';
 import type { ResponseType } from '@/types/types';
 import type { CommentParams } from '@/components/comment/Comment.vue';
-import UserInfo from '@/components/song-sheet/user-info/UserInfo.vue';
-import MusicTable from '@/components/song-sheet/music-table/MusicTable.vue';
+import MusicTable from '@/components/music-table/MusicTable.vue';
 import Comment from '@/components/comment/Comment.vue';
 import Page from '@/components/page/Page.vue';
+import SongSheetInfo from './song-sheet-info/SongSheetInfo.vue';
+
+type SongSheetDetail = {
+  playlist: {
+    playCount?: number;
+    trackCount?: number;
+    tracks?: unknown[];
+    subscribed?: boolean;
+  };
+  privileges: {
+    id: number;
+  }[];
+};
 
 const $store = useStore();
 const songSheetId = computed<number>(() => $store.getters.songSheetId);
-const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
 // 获取歌单详情
+const songSheetDetail = reactive<SongSheetDetail>({
+  playlist: {},
+  privileges: []
+});
+
 function getSongSheetDetail(): void {
   playListDetail({ id: songSheetId.value })
     .then((res: ResponseType) => {
@@ -60,8 +90,34 @@ function getSongSheetDetail(): void {
           res.playlist.name = '我喜欢的音乐';
         }
 
-        $store.commit('setSongSheetDetail', res);
+        songSheetDetail.playlist = res?.playlist || {};
+        songSheetDetail.privileges = res?.privileges || [];
       }
+    })
+    .catch(() => ({}));
+}
+
+// 收藏
+function handleCollection(): void {
+  // 歌单是否已收藏
+  if (songSheetDetail.playlist?.subscribed) {
+    return;
+  }
+
+  // 1: 收藏 2: 取消收藏
+  playlistSubscribe({
+    id: songSheetId.value,
+    t: 1
+  })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        songSheetDetail.playlist.subscribed = true;
+
+        setMessage({ type: 'info', title: '收藏成功' });
+        return;
+      }
+
+      setMessage({ type: 'error', title: '收藏失败' });
     })
     .catch(() => ({}));
 }
@@ -73,6 +129,11 @@ function jumpToComment(): void {
   ) as HTMLDivElement;
   const myMusic = document.querySelector('.my-music') as HTMLDivElement;
   myMusic?.scrollTo(0, Number(commentDom.offsetTop) - 50);
+}
+
+// 删除歌曲
+function handleDeleteMusic(): void {
+  getSongSheetDetail();
 }
 
 // 获取评论

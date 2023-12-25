@@ -45,7 +45,7 @@
             </div>
           </div>
         </div>
-        <MusicTable class="music-table" />
+        <MusicTable class="music-table" :songSheetDetail="songSheetDetail" />
         <div class="playlist-see-more">
           <div class="text">查看更多内容，请下载客户端</div>
           <router-link class="link" to="/download">立即下载</router-link>
@@ -81,7 +81,7 @@ import { playlistDetail, playlistSubscribe } from '@/api/song-sheet-detail';
 import { playlistComment } from '@/api/comment';
 import type { ResponseType } from '@/types/types';
 import type { CommentParams } from '@/components/comment/Comment.vue';
-import MusicTable from '@/components/song-sheet/music-table/MusicTable.vue';
+import MusicTable from '@/components/music-table/MusicTable.vue';
 import Comment from '@/components/comment/Comment.vue';
 import SongSheetInfo from './song-sheet-info/SongSheetInfo.vue';
 import SongSheetSide from './song-sheet-side/SongSheetSide.vue';
@@ -99,6 +99,9 @@ type SongSheetDetail = {
       avatarUrl: string;
     }[];
   };
+  privileges: {
+    id: number;
+  }[];
 };
 
 const $route = useRoute();
@@ -106,7 +109,8 @@ const $store = useStore();
 
 // 获取歌单详情
 const songSheetDetail = reactive<SongSheetDetail>({
-  playlist: {}
+  playlist: {},
+  privileges: []
 });
 
 function getSongSheetDetail(): void {
@@ -114,6 +118,7 @@ function getSongSheetDetail(): void {
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         songSheetDetail.playlist = res?.playlist || {};
+        songSheetDetail.privileges = res?.privileges || [];
       }
     })
     .catch(() => ({}));

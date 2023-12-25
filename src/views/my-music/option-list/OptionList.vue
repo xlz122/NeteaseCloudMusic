@@ -35,8 +35,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { reactive, computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { userPlayList, addPlayList, deletePlayList } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
@@ -68,7 +67,6 @@ defineProps({
 });
 const emits = defineEmits(['handleOptions']);
 
-const $route = useRoute();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const userInfo = computed(() => $store.getters.userInfo);
@@ -120,38 +118,6 @@ function getUserPlayList(): Promise<SongSheetItem[]> {
       .catch(() => ({}));
   });
 }
-
-watch(
-  () => $route.path,
-  async (to, from) => {
-    if (!isLogin.value) {
-      return;
-    }
-
-    // 刷新
-    if (to && !from) {
-      const playlist = await getUserPlayList();
-      const isExist = playlist.find(item => item.id === songSheetId.value);
-
-      if (isExist) {
-        $store.commit('setSongSheetId', songSheetId.value);
-      } else {
-        $store.commit('setSongSheetId', playlist[0].id);
-      }
-    }
-
-    // 离开
-    if (to && from) {
-      $store.commit(
-        'setSongSheetId',
-        songSheetList.createSongSheet[0]?.id || 0
-      );
-    }
-  },
-  {
-    immediate: true
-  }
-);
 
 // 创建/收藏歌单点击
 function handleListChange(id: number): void {
@@ -244,6 +210,22 @@ function handleDeleteConfirm(id: number): void {
     })
     .catch(() => ({}));
 }
+
+onMounted(async () => {
+  if (!isLogin.value) {
+    return;
+  }
+
+  const playlist = await getUserPlayList();
+
+  if (!songSheetId.value) {
+    $store.commit('setSongSheetId', playlist[0].id);
+  }
+});
+
+onUnmounted(() => {
+  $store.commit('setSongSheetId', 0);
+});
 </script>
 
 <style lang="less" scoped>

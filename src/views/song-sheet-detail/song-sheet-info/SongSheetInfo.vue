@@ -216,7 +216,7 @@ function toggle(): void {
 
 // 歌曲是否有版权
 function isCopyright(id: number): boolean | undefined {
-  const privilege = props.songSheetDetail.privileges.find(
+  const privilege = props.songSheetDetail.privileges?.find(
     (item: { id: number }) => item.id === id
   );
 
@@ -230,7 +230,7 @@ function isCopyright(id: number): boolean | undefined {
 // 播放全部 - 默认播放列表第一项
 const playAllMusic = throttle(
   function () {
-    if (props.songSheetDetail.playlist?.tracks?.length === 0) {
+    if (props.songSheetDetail.playlist?.tracks.length === 0) {
       return;
     }
 
@@ -272,7 +272,7 @@ function handleCollection(): boolean | undefined {
     return;
   }
 
-  emits('handleCollection', true);
+  emits('handleCollection');
 }
 
 // 分享

@@ -10,7 +10,6 @@ export type State = {
   singerTabIndex: number;
   searchIndex: number;
   songSheetId: number;
-  songSheetDetail: unknown;
   collectSong: {
     visible: boolean;
     songIds: string;
@@ -44,7 +43,6 @@ const state: State = {
   singerTabIndex: Number(localStorage.getItem('singerTabIndex')) || 0, // 歌手详情导航
   searchIndex: Number(localStorage.getItem('searchIndex')) || 0, // 搜索详情导航
   songSheetId: Number(localStorage.getItem('songSheetId')) || 0, // 歌单id
-  songSheetDetail: faultTolerant('songSheetDetail') || {}, // 歌单详情
   collectSong: {
     visible: false,
     songIds: ''

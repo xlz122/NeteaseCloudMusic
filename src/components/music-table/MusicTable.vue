@@ -6,7 +6,7 @@
     </div>
     <table
       class="play-list-table"
-      v-if="!loading && songSheetDetail?.playlist?.tracks.length > 0"
+      v-if="!loading && songSheetDetail?.playlist?.tracks?.length > 0"
     >
       <thead>
         <tr>
@@ -124,7 +124,7 @@
     </table>
     <div
       class="no-data"
-      v-if="!loading && songSheetDetail?.playlist?.tracks.length === 0"
+      v-if="!loading && songSheetDetail?.playlist?.tracks?.length === 0"
     >
       <div class="title">
         <i class="icon"></i>
@@ -154,7 +154,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
@@ -165,16 +165,27 @@ import { deleteMusic } from '@/api/my-music';
 import type { SongType } from '@/common/audio';
 import MyDialog from '@/components/MyDialog.vue';
 
+const props = defineProps({
+  loading: {
+    type: Boolean,
+    default: false
+  },
+  songSheetDetail: {
+    type: Object,
+    default: () => ({})
+  }
+});
+const emits = defineEmits(['handleDeleteMusic']);
+
 const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const userInfo = computed(() => $store.getters.userInfo);
 const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
-const songSheetDetail = computed(() => $store.getters.songSheetDetail);
 
 // 歌曲是否有版权
 function isCopyright(id?: number): boolean | undefined {
-  const privilege = songSheetDetail.value?.privileges.find(
+  const privilege = props.songSheetDetail.privileges.find(
     (item: { id: number }) => item.id === id
   );
 
@@ -243,17 +254,14 @@ function deleteMusicShow(id: number): void {
 
 // 删除歌曲 - 确定
 function deleteMusicConfirm(): void {
-  deleteMusicDialog.value = false;
-
   deleteMusic({
-    pid: songSheetDetail.value.playlist.id,
+    pid: props.songSheetDetail.playlist.id,
     tracks: deleteMuiscId.value
   })
     .then(() => {
-      const index = songSheetDetail.value?.playlist?.tracks?.findIndex(
-        (item: { id: number }) => item.id === deleteMuiscId.value
-      );
-      songSheetDetail.value?.playlist?.tracks?.splice(index, 1);
+      deleteMusicDialog.value = false;
+
+      emits('handleDeleteMusic');
     })
     .catch(() => ({}));
 }
@@ -291,14 +299,6 @@ function jumpVideoDetail(songId: number, id: number): boolean | undefined {
 
   $router.push({ path: '/mv-detail', query: { id } });
 }
-
-const loading = ref(true);
-
-onMounted(() => {
-  setTimeout(() => {
-    loading.value = false;
-  }, 200);
-});
 </script>
 
 <style lang="less" scoped>
