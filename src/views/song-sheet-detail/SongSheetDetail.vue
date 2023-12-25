@@ -45,7 +45,11 @@
             </div>
           </div>
         </div>
-        <MusicTable class="music-table" :songSheetDetail="songSheetDetail" />
+        <MusicTable
+          class="music-table"
+          :loading="loading"
+          :songSheetDetail="songSheetDetail"
+        />
         <div class="playlist-see-more">
           <div class="text">查看更多内容，请下载客户端</div>
           <router-link class="link" to="/download">立即下载</router-link>
@@ -72,7 +76,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, watch, onMounted } from 'vue';
+import { ref, reactive, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
@@ -112,13 +116,18 @@ const songSheetDetail = reactive<SongSheetDetail>({
   playlist: {},
   privileges: []
 });
+const loading = ref(false);
 
 function getSongSheetDetail(): void {
+  loading.value = true;
+
   playlistDetail({ id: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         songSheetDetail.playlist = res?.playlist || {};
         songSheetDetail.privileges = res?.privileges || [];
+
+        loading.value = false;
       }
     })
     .catch(() => ({}));

@@ -20,7 +20,6 @@ const mutations: Mutations<State> = {
   setLoginDialog(state, bool: boolean) {
     state.loginDialog = bool;
   },
-  // 用户信息
   setUserInfo(state, userInfo: unknown) {
     state.userInfo = userInfo;
     localStorage.setItem('userInfo', JSON.stringify(userInfo));
@@ -28,7 +27,6 @@ const mutations: Mutations<State> = {
     state.isLogin = true;
     localStorage.setItem('isLogin', JSON.stringify(true));
   },
-  // 用户cookie
   setCookie(state, cookie: string) {
     state.cookie = cookie;
     localStorage.setItem('cookie', JSON.stringify(cookie));
@@ -62,14 +60,11 @@ const mutations: Mutations<State> = {
   // 退出登录
   setLogout(state) {
     state.isLogin = false;
-    // 清除用户信息
     state.userInfo = {};
-    // 清除所有本地存储
     localStorage.clear();
-    // 清除所有cookie
     clearAllCookie();
   },
-  // 歌单id
+  // 我的音乐 - 歌单id
   setSongSheetId(state, songSheetId: number) {
     state.songSheetId = songSheetId;
     localStorage.setItem('songSheetId', JSON.stringify(songSheetId));
@@ -82,7 +77,7 @@ const mutations: Mutations<State> = {
   setCopyright(state, data: State['copyright']) {
     state.copyright = data;
   },
-  // 异常
+  // 异常对话框
   setAbnormal(state, tip) {
     const keys = Object.keys(tip);
 

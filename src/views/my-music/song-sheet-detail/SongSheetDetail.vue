@@ -27,6 +27,7 @@
     </div>
     <MusicTable
       class="music-table"
+      :loading="loading"
       :songSheetDetail="songSheetDetail"
       @handleDeleteMusic="handleDeleteMusic"
     />
@@ -47,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, watch } from 'vue';
+import { ref, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { handleCommentData } from '@/components/comment/handleCommentData';
@@ -81,8 +82,11 @@ const songSheetDetail = reactive<SongSheetDetail>({
   playlist: {},
   privileges: []
 });
+const loading = ref(false);
 
 function getSongSheetDetail(): void {
+  loading.value = true;
+
   playListDetail({ id: songSheetId.value })
     .then((res: ResponseType) => {
       if (res.code === 200) {
@@ -92,6 +96,8 @@ function getSongSheetDetail(): void {
 
         songSheetDetail.playlist = res?.playlist || {};
         songSheetDetail.privileges = res?.privileges || [];
+
+        loading.value = false;
       }
     })
     .catch(() => ({}));
