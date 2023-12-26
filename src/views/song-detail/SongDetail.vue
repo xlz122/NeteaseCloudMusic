@@ -209,7 +209,7 @@ function formatLyricTime(time: string): number {
 // 获取评论
 const commentParams = reactive<CommentParams>({
   type: 0,
-  id: 0,
+  id: Number($route.query.id),
   offset: 1,
   limit: 20,
   total: 0,

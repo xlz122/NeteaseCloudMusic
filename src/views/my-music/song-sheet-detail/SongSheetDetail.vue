@@ -155,7 +155,7 @@ function handleDeleteMusic(id: number): void {
 // 获取评论
 const commentParams = reactive<CommentParams>({
   type: 2,
-  id: 0,
+  id: songSheetId.value,
   offset: 1,
   limit: 20,
   total: 0,

@@ -213,7 +213,7 @@ function handleShare(): boolean | undefined {
 // 获取评论
 const commentParams = reactive<CommentParams>({
   type: 5,
-  id: '',
+  id: String($route.query.id),
   offset: 1,
   limit: 20,
   total: 0,

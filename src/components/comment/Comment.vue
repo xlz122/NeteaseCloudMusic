@@ -163,7 +163,7 @@ function handleDeleteComment(commentId: number): void {
 function deleteCommentConfirm() {
   deleteComment({
     type: commentParams.value?.type,
-    id: props?.commentParams?.id,
+    id: commentParams.value?.id,
     commentId: deleteCommentId.value
   })
     .then((res: ResponseType) => {
@@ -225,7 +225,7 @@ function handleLikeComment(
   // 接口修改
   commentLike({
     type: commentParams.value?.type,
-    id: props?.commentParams?.id,
+    id: commentParams.value?.id,
     cid: commentId,
     t: type
   });
@@ -269,7 +269,7 @@ function replySubmit(
 
   replyComment({
     type: commentParams.value?.type,
-    id: props?.commentParams?.id,
+    id: commentParams.value?.id,
     content: replayText,
     commentId
   })
