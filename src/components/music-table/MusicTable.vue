@@ -261,7 +261,7 @@ function deleteMusicConfirm(): void {
     .then(() => {
       deleteMusicDialog.value = false;
 
-      emits('handleDeleteMusic');
+      emits('handleDeleteMusic', deleteMuiscId.value);
     })
     .catch(() => ({}));
 }

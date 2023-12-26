@@ -57,16 +57,18 @@ import { playlistSubscribe } from '@/api/song-sheet-detail';
 import { playlistComment } from '@/api/comment';
 import type { ResponseType } from '@/types/types';
 import type { CommentParams } from '@/components/comment/Comment.vue';
+import SongSheetInfo from '@/views/song-sheet-detail/song-sheet-info/SongSheetInfo.vue';
 import MusicTable from '@/components/music-table/MusicTable.vue';
 import Comment from '@/components/comment/Comment.vue';
 import Page from '@/components/page/Page.vue';
-import SongSheetInfo from './song-sheet-info/SongSheetInfo.vue';
 
 type SongSheetDetail = {
   playlist: {
     playCount?: number;
     trackCount?: number;
-    tracks?: unknown[];
+    tracks?: {
+      id: number;
+    }[];
     subscribed?: boolean;
   };
   privileges: {
@@ -138,8 +140,16 @@ function jumpToComment(): void {
 }
 
 // 删除歌曲
-function handleDeleteMusic(): void {
-  getSongSheetDetail();
+function handleDeleteMusic(id: number): void {
+  const index = songSheetDetail.playlist?.tracks?.findIndex(
+    item => item.id === id
+  );
+
+  if (!index || index === -1) {
+    return;
+  }
+
+  songSheetDetail.playlist?.tracks?.splice(index, 1);
 }
 
 // 获取评论

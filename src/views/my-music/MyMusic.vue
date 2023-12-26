@@ -29,7 +29,14 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, watch, nextTick } from 'vue';
+import {
+  reactive,
+  computed,
+  watch,
+  nextTick,
+  onMounted,
+  onUnmounted
+} from 'vue';
 import { useStore } from 'vuex';
 import { userSubcount } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
@@ -88,26 +95,40 @@ function handleOptions(params: ParamsType): void {
   options[params.type] = { ...options[params.type], ...params.data };
 }
 
-// 未登录显示页脚, 登录不显示页脚
+// 页脚显隐
 watch(
   () => isLogin.value,
   () => {
     nextTick(() => {
-      const footer = document.querySelector('.footer') as HTMLDivElement;
+      const footerDom = document.querySelector('.footer') as HTMLElement;
 
       if (isLogin.value) {
+        footerDom.style.display = 'none';
         getUserSubcount();
-        footer.style.display = 'none';
         return;
       }
 
-      footer.style.display = 'block';
+      footerDom.style.display = 'block';
     });
-  },
-  {
-    immediate: true
   }
 );
+
+onMounted(() => {
+  const footerDom = document.querySelector('.footer') as HTMLElement;
+
+  if (isLogin.value) {
+    footerDom.style.display = 'none';
+    getUserSubcount();
+    return;
+  }
+
+  footerDom.style.display = 'block';
+});
+
+onUnmounted(() => {
+  const footerDom = document.querySelector('.footer') as HTMLElement;
+  footerDom.style.display = 'block';
+});
 </script>
 
 <style lang="less" scoped>
