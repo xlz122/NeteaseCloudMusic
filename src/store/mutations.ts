@@ -31,6 +31,11 @@ const mutations: Mutations<State> = {
     state.cookie = cookie;
     localStorage.setItem('cookie', JSON.stringify(cookie));
   },
+  // 我的音乐 - 歌单id
+  setSongSheetId(state, songSheetId: number) {
+    state.songSheetId = songSheetId;
+    localStorage.setItem('songSheetId', JSON.stringify(songSheetId));
+  },
   // 搜索关键字
   setSearchText(state, searchText: string) {
     state.searchText = searchText;
@@ -40,15 +45,15 @@ const mutations: Mutations<State> = {
     state.searchDetailText = searchDetailText;
     localStorage.setItem('searchDetailText', JSON.stringify(searchDetailText));
   },
-  // 歌手详情tab
-  setSingerTabIndex(state, singerTabIndex: number) {
-    state.singerTabIndex = singerTabIndex;
-    localStorage.setItem('singerTabIndex', JSON.stringify(singerTabIndex));
-  },
   // 搜索详情tab
   setSearchIndex(state, searchIndex: number) {
     state.searchIndex = searchIndex;
     localStorage.setItem('searchIndex', JSON.stringify(searchIndex));
+  },
+  // 歌手详情tab
+  setSingerTabIndex(state, singerTabIndex: number) {
+    state.singerTabIndex = singerTabIndex;
+    localStorage.setItem('singerTabIndex', JSON.stringify(singerTabIndex));
   },
   // 签到
   setSignIn(state, signIn: boolean) {
@@ -63,11 +68,6 @@ const mutations: Mutations<State> = {
     state.userInfo = {};
     localStorage.clear();
     clearAllCookie();
-  },
-  // 我的音乐 - 歌单id
-  setSongSheetId(state, songSheetId: number) {
-    state.songSheetId = songSheetId;
-    localStorage.setItem('songSheetId', JSON.stringify(songSheetId));
   },
   // 收藏歌曲
   collectPlayMusic(state, song: State['collectSong']) {

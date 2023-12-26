@@ -4,7 +4,7 @@
       <div class="title-left" @click="listToggle">
         <i class="icon-arrow" :class="{ 'icon-arrow-down': listShow }"></i>
         <h2 class="text">{{ title }}</h2>
-        <h2 class="text-num">({{ listCount }})</h2>
+        <h2 class="text-num">({{ count }})</h2>
       </div>
       <div
         class="title-right"
@@ -37,17 +37,17 @@
           </span>
         </div>
         <div class="item-operate">
-          <!-- 是否无法编辑 -->
+          <!-- 非登录用户歌单无法编辑 -->
           <i
             class="operate-icon operate-edit"
-            v-if="!item?.cannotEdit"
+            v-if="userInfo?.profile?.userId === item?.creator?.userId"
             title="编辑"
             @click.stop="handeleEdit"
           ></i>
-          <!-- 是否无法删除 -->
+          <!-- 喜欢无法删除 -->
           <i
             class="operate-icon operate-delete"
-            v-if="!item?.cannotDelete"
+            v-if="!item?.name?.includes('喜欢的音乐')"
             title="删除"
             @click.stop="handeleDelete(item?.id)"
           ></i>
@@ -92,10 +92,9 @@ type ItemType = {
   trackCount: number;
   subscribed: boolean;
   creator: {
+    userId: number;
     nickname: string;
   };
-  cannotEdit: boolean;
-  cannotDelete: boolean;
 };
 
 type DialogType = {
@@ -116,13 +115,13 @@ defineProps({
     type: String,
     default: ''
   },
+  count: {
+    type: Number,
+    default: 0
+  },
   list: {
     type: Array as () => ItemType[],
     default: () => []
-  },
-  listCount: {
-    type: Number,
-    default: 0
   },
   addBtnShow: {
     type: Boolean,
@@ -132,6 +131,7 @@ defineProps({
 const emits = defineEmits(['handleListChange', 'dialogConfirm']);
 
 const $store = useStore();
+const userInfo = computed(() => $store.getters.userInfo);
 const songSheetId = computed<number>(() => $store.getters.songSheetId);
 
 // 列表显隐切换

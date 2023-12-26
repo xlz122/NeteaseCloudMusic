@@ -5,11 +5,11 @@ export type State = {
   userInfo: unknown;
   cookie: string;
   isLogin: boolean;
+  songSheetId: number;
   searchText: string;
   searchDetailText: string;
-  singerTabIndex: number;
   searchIndex: number;
-  songSheetId: number;
+  singerTabIndex: number;
   collectSong: {
     visible: boolean;
     songIds: string;
@@ -38,11 +38,11 @@ const state: State = {
   userInfo: faultTolerant('userInfo') || {},
   cookie: localStorage.getItem('cookie') || '',
   isLogin: faultTolerant('isLogin') || false,
-  searchText: '', // 搜索关键字
-  searchDetailText: localStorage.getItem('searchDetailText') || '', // 搜索关键字
-  singerTabIndex: Number(localStorage.getItem('singerTabIndex')) || 0, // 歌手详情导航
-  searchIndex: Number(localStorage.getItem('searchIndex')) || 0, // 搜索详情导航
   songSheetId: Number(localStorage.getItem('songSheetId')) || 0, // 我的音乐 - 歌单id
+  searchText: '', // 搜索关键字
+  searchDetailText: localStorage.getItem('searchDetailText') || '', // 搜索详情关键字
+  searchIndex: Number(localStorage.getItem('searchIndex')) || 0, // 搜索详情导航
+  singerTabIndex: Number(localStorage.getItem('singerTabIndex')) || 0, // 歌手详情导航
   collectSong: {
     visible: false,
     songIds: ''

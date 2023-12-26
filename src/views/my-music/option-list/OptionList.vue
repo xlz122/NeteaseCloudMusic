@@ -17,8 +17,8 @@
   </h2>
   <SongSheetToggle
     :title="'创建的歌单'"
+    :count="options?.songSheet?.createCount"
     :list="songSheetList.createSongSheet"
-    :listCount="options?.songSheet?.createCount"
     addBtnShow
     @handleListChange="handleListChange"
     @dialogConfirm="handleConfirm"
@@ -27,8 +27,8 @@
     v-if="options?.songSheet?.collectionCount > 0"
     :visible="options?.songSheet?.visible"
     :title="'收藏的歌单'"
+    :count="options?.songSheet?.collectionCount"
     :list="songSheetList.collectSongSheet"
-    :listCount="options?.songSheet?.collectionCount"
     @handleListChange="handleListChange"
     @dialogConfirm="handleConfirm"
   />
@@ -53,10 +53,9 @@ type SongSheetItem = {
   trackCount: number;
   subscribed: boolean;
   creator: {
+    userId: number;
     nickname: string;
   };
-  cannotEdit: boolean;
-  cannotDelete: boolean;
 };
 
 defineProps({
@@ -88,7 +87,7 @@ const songSheetList = reactive<SongSheet>({
   collectSongSheet: []
 });
 
-function getUserPlayList(): Promise<SongSheetItem[]> {
+function getSongSheetList(): Promise<SongSheetItem[]> {
   songSheetList.createSongSheet = [];
   songSheetList.collectSongSheet = [];
 
@@ -99,8 +98,6 @@ function getUserPlayList(): Promise<SongSheetItem[]> {
           res?.playlist.forEach((item: SongSheetItem) => {
             if (item?.name?.includes('喜欢的音乐')) {
               item.name = '我喜欢的音乐';
-              item.cannotEdit = true;
-              item.cannotDelete = true;
             }
           });
 
@@ -166,7 +163,7 @@ function handleDeleteConfirm(id: number): void {
     .then((res: ResponseType) => {
       if (res.code === 200) {
         songSheetList.createSongSheet.forEach((item, index) => {
-          if (id === item.id) {
+          if (item.id === id) {
             $store.commit(
               'setSongSheetId',
               songSheetList.createSongSheet[index - 1].id
@@ -183,7 +180,7 @@ function handleDeleteConfirm(id: number): void {
           }
         });
         songSheetList.collectSongSheet.forEach((item, index) => {
-          if (id === item.id) {
+          if (item.id === id) {
             if (songSheetList.collectSongSheet[index - 1]?.id) {
               $store.commit(
                 'setSongSheetId',
@@ -216,7 +213,7 @@ onMounted(async () => {
     return;
   }
 
-  const playlist = await getUserPlayList();
+  const playlist = await getSongSheetList();
 
   if (!songSheetId.value) {
     $store.commit('setSongSheetId', playlist[0].id);
