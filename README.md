@@ -8,7 +8,7 @@
 
 ## 简介
 
-本项目是一个仿写网易云PC端网站项目
+本项目是一个网易云音乐PC端网站项目
 
 后端接口部分使用 [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 
