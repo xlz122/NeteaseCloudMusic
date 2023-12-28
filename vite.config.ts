@@ -32,7 +32,6 @@ export default ({ mode }: ConfigEnv) => {
     },
     build: {
       outDir: 'dist',
-      // 生成静态资源的存放路径
       assetsDir: 'static',
       sourcemap: false,
       // 混淆器, terser构建后文件体积更小
@@ -45,7 +44,7 @@ export default ({ mode }: ConfigEnv) => {
         }
       },
       rollupOptions: {
-        // js/css/img分不同文件存放
+        // js/css/img分不同文件夹存放
         output: {
           chunkFileNames: 'static/js/[name]-[hash].js',
           entryFileNames: 'static/js/[name]-[hash].js',
