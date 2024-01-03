@@ -2,7 +2,7 @@ import { expressionList } from '@/components/comment/comment-replay/comment-repl
 
 /**
  * @description 混合文本格式化
- * @param { String } content - 内容字符串
+ * @param { string } content - 内容字符串
  */
 export function formatMixedText(content: string): string {
   if (!content) {
@@ -41,7 +41,7 @@ export function formatMixedText(content: string): string {
 
 /**
  * @description 去除重复的[]符号
- * @param { String } chareacterStr - 带有重复[]的表情字符串
+ * @param { string } chareacterStr - 带有重复[]的表情字符串
  */
 function character(chareacterStr: string): string {
   const result = [];

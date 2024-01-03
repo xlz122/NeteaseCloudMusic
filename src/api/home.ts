@@ -3,8 +3,8 @@ import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取轮播图
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } type - 资源类型(0为pc)
+ * @param { Object } params
+ * @param { number } params.type - 资源类型(0为pc)
  */
 export const bannerImgUrl = (): AxiosPromise => {
   const params = {
@@ -21,8 +21,7 @@ export const bannerImgUrl = (): AxiosPromise => {
 
 /**
  * @description 获取热门推荐 - 推荐歌单
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } [limit] - 偏移量(默认为30)
+ * @param { number } [params.limit] - 偏移量(默认为30)
  */
 export const recommendSongList = ({
   limit
@@ -43,7 +42,6 @@ export const recommendSongList = ({
 
 /**
  * @description 获取热门推荐 - 推荐电台
- * @param { Number } timestamp - 防止接口缓存
  */
 export const recommendDjprogram = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
@@ -57,7 +55,6 @@ export const recommendDjprogram = (): AxiosPromise => {
 
 /**
  * @description 获取个性化推荐
- * @param { Number } timestamp - 防止接口缓存
  */
 export const recommendResource = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
@@ -71,7 +68,6 @@ export const recommendResource = (): AxiosPromise => {
 
 /**
  * @description 获取新碟上架
- * @param { Number } timestamp - 防止接口缓存
  */
 export const albumNewest = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
@@ -85,7 +81,6 @@ export const albumNewest = (): AxiosPromise => {
 
 /**
  * @description 获取用户动态
- * @param { Number } timestamp - 防止接口缓存
  */
 export const userEvent = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
@@ -99,7 +94,6 @@ export const userEvent = (): AxiosPromise => {
 
 /**
  * @description 获取用户关注列表
- * @param { Number } timestamp - 防止接口缓存
  */
 export const userFollows = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
@@ -113,7 +107,6 @@ export const userFollows = (): AxiosPromise => {
 
 /**
  * @description 获取用户粉丝列表
- * @param { Number } timestamp - 防止接口缓存
  */
 export const userFolloweds = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
@@ -127,8 +120,8 @@ export const userFolloweds = (): AxiosPromise => {
 
 /**
  * @description 获取用户粉丝列表
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } type - 签到类型(0: 安卓端签到 , 1: web/PC 签到)
+ * @param { Object } params
+ * @param { number } params.type - 签到类型(0: 安卓端签到 , 1: web/PC 签到)
  */
 export const dailySignin = (): AxiosPromise => {
   const params = {

@@ -3,7 +3,6 @@ import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取电台分类列表
- * @param { Number } timestamp - 防止接口缓存
  */
 export const djCatelist = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
@@ -17,7 +16,6 @@ export const djCatelist = (): AxiosPromise => {
 
 /**
  * @description 获取推荐节目
- * @param { Number } timestamp - 防止接口缓存
  */
 export const programRecommend = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
@@ -36,9 +34,9 @@ type TopListType = {
 
 /**
  * @description 获取节目排行榜
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } [offset] - 页数(默认为0)
- * @param { Number } [limit] - 偏移量(默认为100)
+ * @param { Object } params
+ * @param { number } [params.offset] - 页数(默认为0)
+ * @param { number } [params.limit] - 偏移量(默认为30)
  */
 export const programTopList = ({
   limit,
@@ -63,8 +61,8 @@ type RecommendType = {
 
 /**
  * @description 获取分类推荐
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } type - 类型
+ * @param { Object } params
+ * @param { number } params.type - 类型
  */
 export const recommendTypeList = ({ type }: RecommendType): AxiosPromise => {
   const params = {
@@ -85,8 +83,8 @@ type DjDetailType = {
 
 /**
  * @description 获取电台详情
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } rid - 电台id
+ * @param { Object } params
+ * @param { number } params.rid - 电台id
  */
 export const djDetail = ({ rid }: DjDetailType): AxiosPromise => {
   const params = {
@@ -109,11 +107,11 @@ type DjProgramType = {
 
 /**
  * @description 获取电台详情- 节目列表
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } rid - 电台id
- * @param { Boolean } asc - 排序
- * @param { Number } [offset] - 页数(默认为0)
- * @param { Number } [limit] - 偏移量
+ * @param { Object } params
+ * @param { number } params.rid - 电台id
+ * @param { boolean } params.asc - 排序
+ * @param { number } [params.offset] - 页数(默认为0)
+ * @param { number } [params.limit] - 偏移量(默认为30)
  */
 export const djProgram = ({
   rid,

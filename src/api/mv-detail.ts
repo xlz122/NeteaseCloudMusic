@@ -3,8 +3,8 @@ import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取mv详情
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } mvid - mvid
+ * @param { Object } params
+ * @param { number } params.mvid - mvid
  */
 export const mvDetail = ({ mvid }: { mvid: number }): AxiosPromise => {
   const params = {
@@ -21,8 +21,8 @@ export const mvDetail = ({ mvid }: { mvid: number }): AxiosPromise => {
 
 /**
  * @description 获取mv播放地址
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - mvid
+ * @param { Object } params
+ * @param { number } params.id - mvid
  */
 export const mvUrl = ({ id }: { id: number }): AxiosPromise => {
   const params = {
@@ -44,9 +44,9 @@ type MvSub = {
 
 /**
  * @description 收藏/取消收藏mv
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } mvid - mvid
- * @param { Number } t - 1: 收藏, 其他为取消收藏
+ * @param { Object } params
+ * @param { number } params.mvid - mvid
+ * @param { number } params.t - 1: 收藏, 其他为取消收藏
  */
 export const mvSub = ({ mvid, t }: MvSub): AxiosPromise => {
   const params = {

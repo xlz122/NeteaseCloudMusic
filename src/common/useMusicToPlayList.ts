@@ -17,8 +17,9 @@ type UseMusicToPlayList = {
 
 /**
  * @description 音乐添加到播放列表(新数据往最后面添加)
- * @param { Object } music - 音乐数据
- * @param { Boolean } [clear] - 是否清空原播放列表
+ * @param { Object } params
+ * @param { Object } params.music - 音乐数据
+ * @param { boolean } [params.clear] - 是否清空原播放列表
  */
 function useMusicToPlayList({
   music,

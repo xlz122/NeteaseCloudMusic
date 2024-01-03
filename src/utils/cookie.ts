@@ -1,8 +1,8 @@
 /**
  * @description 设置cookie
- * @param { String } key - key
- * @param { String } value - value
- * @param { Number } [maxAge] - 过期时间(秒数)
+ * @param { string } key - key
+ * @param { string } value - value
+ * @param { number } [maxAge] - 过期时间(秒数)
  */
 export function setCookie(key: string, value: string, maxAge?: number): void {
   // 过期时间不存在, 设置一天过期
@@ -15,7 +15,7 @@ export function setCookie(key: string, value: string, maxAge?: number): void {
 
 /**
  * @description 获取cookie
- * @param { String } key - key
+ * @param { string } key - key
  */
 export function getCookie(key: string): string {
   key = key + '=';
@@ -30,7 +30,7 @@ export function getCookie(key: string): string {
 
 /**
  * @description 删除cookie
- * @param { String } key - key
+ * @param { string } key - key
  */
 export function removeCookie(key: string): void {
   setCookie(key, '', -1);

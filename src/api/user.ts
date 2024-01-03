@@ -3,7 +3,6 @@ import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取账号信息(需登录)
- * @param { Number } timestamp - 防止接口缓存
  */
 export const userAccount = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
@@ -17,7 +16,6 @@ export const userAccount = (): AxiosPromise => {
 
 /**
  * @description 获取VIP信息(需登录)
- * @param { Number } timestamp - 防止接口缓存
  */
 export const userVipInfo = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
@@ -29,18 +27,17 @@ export const userVipInfo = (): AxiosPromise => {
   });
 };
 
-/**
- * @description 获取用户播放记录(需登录)
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } uid - 用户id
- * @param { Number } [type] 0: 全部数据(allData), 1: 周数据(weekData)
- */
-
 type UserRecord = {
   uid: number;
   type?: number;
 };
 
+/**
+ * @description 获取用户播放记录(需登录)
+ * @param { Object } params
+ * @param { number } params.uid - 用户id
+ * @param { number } [params.type] 0: 全部数据(allData), 1: 周数据(weekData)
+ */
 export const userRecord = ({ uid, type }: UserRecord): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
@@ -57,7 +54,6 @@ export const userRecord = ({ uid, type }: UserRecord): AxiosPromise => {
 
 /**
  * @description 获取用户等级信息(需登录)
- * @param { Number } timestamp - 防止接口缓存
  */
 export const userLevel = (): AxiosPromise => {
   const params = { timestamp: new Date().getTime() };
@@ -71,8 +67,8 @@ export const userLevel = (): AxiosPromise => {
 
 /**
  * @description 获取用户详情(需登录)
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } uid - 用户id
+ * @param { Object } params
+ * @param { number } params.uid - 用户id
  */
 export const userDetail = ({ uid }: { uid: number }): AxiosPromise => {
   const params = {
@@ -94,9 +90,9 @@ type MessagType = {
 
 /**
  * @description 获取消息提示(需登录)
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } [offset] - 页数(默认为0)
- * @param { Number } [limit] - 偏移量(默认为30)
+ * @param { Object } params
+ * @param { number } [params.offset] - 页数(默认为0)
+ * @param { number } [params.limit] - 偏移量(默认为30)
  */
 export const messageEv = ({ offset, limit }: MessagType): AxiosPromise => {
   const params = {

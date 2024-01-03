@@ -8,9 +8,9 @@ type TopArtists = {
 
 /**
  * @description 获取热门歌手列表
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } [offset] - 页数(默认为0)
- * @param { Number } [limit] - 偏移量(默认为50)
+ * @param { Object } params
+ * @param { number } [params.offset] - 页数(默认为0)
+ * @param { number } [params.limit] - 偏移量(默认为50)
  */
 export const topArtists = ({ offset, limit }: TopArtists): AxiosPromise => {
   const params = {
@@ -34,10 +34,10 @@ type ArtistList = {
 
 /**
  * @description 获取歌手分类列表
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } area - 语言
- * @param { Number } type - 歌手
- * @param { Number | String } initial - 排列(-1为热门, 0为其他)
+ * @param { Object } params
+ * @param { number } params.area - 语言
+ * @param { number } params.type - 歌手
+ * @param { (number | string) } params.initial - 排列(-1为热门, 0为其他)
  */
 export const artistList = ({
   area,

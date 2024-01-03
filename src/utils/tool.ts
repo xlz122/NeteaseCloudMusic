@@ -1,5 +1,6 @@
 /**
  * @description 获取值的原始类型字符串
+ * @param { * } value
  */
 function toRawType(value: unknown): string {
   const _toString = Object.prototype.toString;

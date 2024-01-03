@@ -20,8 +20,8 @@ export function getWeekDate(): string {
 
 /**
  * @description 时间戳转视频时长
- * @param { Number } timeStamp - 时间戳
- * @return { String } 视频时长 01:23:45
+ * @param { number } timeStamp - 时间戳
+ * @return { string } 视频时长 01:23:45
  */
 export function timeStampToDuration(timeStamp: number): string {
   const time = timeStamp.toString();
@@ -56,11 +56,9 @@ export function timeStampToDuration(timeStamp: number): string {
 
 /**
  * @description 日期字符串/时间戳转日期字符串
- * @param { String | Number | Date } date - 日期字符串/时间戳/Date
- * @param { String } fmt - 日期字符串格式
  */
 export function formatDateTime(
-  date: string | Date | number,
+  date: string | number,
   fmt = 'yyyy-MM-dd hh:mm:ss'
 ): string {
   if (!date) {
@@ -113,8 +111,8 @@ export function formatDateTime(
 }
 
 /**
- * @description 时间戳转日期字符串, 主要用于评论时间
- * @param { Nubmer } timestamp - 时间戳
+ * @description 时间戳转日期字符串, 用于评论时间
+ * @param { number } timestamp - 时间戳
  */
 export function formatDate(timestamp: number): string {
   // 补全为13位，缺少补0
@@ -219,8 +217,8 @@ export function formatDate(timestamp: number): string {
 }
 
 /**
- * @description 大数字转换，将大额数字转换为万、千万、亿等
- * @param { Number | String } value 数字值
+ * @description 大数字转换, 将大额数字转换为万、千万、亿等
+ * @param { number | string } value 数字值
  */
 export function bigNumberTransform(value: number | string): number | string {
   const newValue = Number(value);
@@ -250,8 +248,8 @@ export function bigNumberTransform(value: number | string): number | string {
 
 /**
  * @description 字符串匹配
- * @param { String } str - 原始字符串
- * @param { String } value - 匹配值
+ * @param { string } str - 原始字符串
+ * @param { string } value - 匹配值
  */
 export function handleMatchString(str: string, value: string): string {
   const html = str?.replaceAll(
@@ -263,8 +261,8 @@ export function handleMatchString(str: string, value: string): string {
 }
 
 /**
- * @description 时间戳转为正常时间
- * @param { Number } time - 时间戳
+ * @description 时间戳转为日期字符串
+ * @param { number } time - 时间戳
  */
 export function filterTime(time: number): string {
   const date = new Date(time);
@@ -280,7 +278,7 @@ export function filterTime(time: number): string {
 
 /**
  * @description 动态加载图片
- * @param { String } path - 图片路径(相对于src目录)
+ * @param { string } path - 图片路径(相对于src目录)
  */
 export function getImageUrl(path: string): string {
   return new URL(`../${path}`, import.meta.url).href;

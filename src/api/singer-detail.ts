@@ -3,8 +3,8 @@ import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取歌手详情
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 歌手id
+ * @param { Object } params
+ * @param { number } params.id - 歌手id
  */
 export const artistDetail = ({ id }: { id: number }): AxiosPromise => {
   const params = {
@@ -26,9 +26,9 @@ type ArtistSub = {
 
 /**
  * @description 收藏/取消收藏歌手
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 歌手id
- * @param { Number } t - 1: 收藏, 其他为取消收藏
+ * @param { Object } params
+ * @param { number } params.id - 歌手id
+ * @param { number } params.t - 1: 收藏, 其他为取消收藏
  */
 export const artistSub = ({ id, t }: ArtistSub): AxiosPromise => {
   const params = {
@@ -46,8 +46,8 @@ export const artistSub = ({ id, t }: ArtistSub): AxiosPromise => {
 
 /**
  * @description 获取歌手单曲
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 歌手id
+ * @param { Object } params
+ * @param { number } params.id - 歌手id
  */
 export const artistSong = ({ id }: { id: number }): AxiosPromise => {
   const params = {
@@ -70,10 +70,10 @@ type ArtistMv = {
 
 /**
  * @description 获取歌手mv
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 歌手id
- * @param { Number } [offset] - 页数(默认为0)
- * @param { Number } [limit] - 偏移量(默认为50)
+ * @param { Object } params
+ * @param { number } params.id - 歌手id
+ * @param { number } [params.offset] - 页数(默认为0)
+ * @param { number } [params.limit] - 偏移量(默认为50)
  */
 export const artistMv = ({ id, offset, limit }: ArtistMv): AxiosPromise => {
   const params = {
@@ -92,8 +92,8 @@ export const artistMv = ({ id, offset, limit }: ArtistMv): AxiosPromise => {
 
 /**
  * @description 获取歌手描述
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 歌手id
+ * @param { Object } params
+ * @param { number } params.id - 歌手id
  */
 export const artistDesc = ({ id }: { id: number }): AxiosPromise => {
   const params = {
@@ -115,9 +115,9 @@ type TopArtists = {
 
 /**
  * @description 获取热门歌手
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } [offset] - 页数(默认为0)
- * @param { Number } [limit] - 偏移量(默认为20)
+ * @param { Object } params
+ * @param { number } [params.offset] - 页数(默认为0)
+ * @param { number } [params.limit] - 偏移量(默认为20)
  */
 export const topArtists = ({ offset, limit }: TopArtists): AxiosPromise => {
   const params = {
@@ -135,8 +135,8 @@ export const topArtists = ({ offset, limit }: TopArtists): AxiosPromise => {
 
 /**
  * @description 获取相似歌手
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 歌手id
+ * @param { Object } params
+ * @param { number } params.id - 歌手id
  */
 export const simiArtist = ({ id }: { id: number }): AxiosPromise => {
   const params = {

@@ -7,10 +7,10 @@ type FirendEvent = {
 };
 
 /**
- * @description 获取朋友动态
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } pagesize - 页数(默认20)
- * @param { Number } lasttime - 默认-1, 传入上一次返回结果的 lasttime, 将会返回下一页的数据
+ * @description 获取动态
+ * @param { Object } params
+ * @param { number } params.pagesize - 页数(默认20)
+ * @param { number } params.lasttime - 默认-1, 传入上一次返回结果的 lasttime, 将会返回下一页的数据
  */
 export const friendEvent = ({
   pagesize,
@@ -36,11 +36,11 @@ type DynamicLike = {
 };
 
 /**
- * @description 朋友动态点赞
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } cid - 评论id
- * @param { Number } threadId - 动态threadId
- * @param { Number } t - 是否点赞(0: 取消点赞, 1: 点赞)
+ * @description 动态点赞
+ * @param { Object } params
+ * @param { number } params.cid - 评论id
+ * @param { number } params.threadId - 动态threadId
+ * @param { number } params.t - 是否点赞(0: 取消点赞, 1: 点赞)
  */
 export const dynamicLike = ({
   cid,
