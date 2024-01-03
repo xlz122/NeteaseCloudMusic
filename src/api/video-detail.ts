@@ -22,9 +22,9 @@ export const videoDetail = ({ id }: { id: string }): AxiosPromise => {
 /**
  * @description 获取相关视频
  * @param { Object } params
- * @param { number } params.id- 视频id
+ * @param { string } params.id- 视频id
  */
-export const relatedVideo = ({ id }: { id: number }): AxiosPromise => {
+export const relatedVideo = ({ id }: { id: string }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id

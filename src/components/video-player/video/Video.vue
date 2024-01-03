@@ -8,7 +8,7 @@
   <video
     class="video"
     ref="videoRef"
-    :src="videoSrc"
+    :src="videoPlayUrl"
     :volume="videoVolume"
     @play="videoPlay"
     @pause="videoPause"
@@ -31,25 +31,8 @@ const emits = defineEmits(['videoEnded']);
 
 const $store = useStore();
 const videoVolume = computed(() => $store.getters['video/videoVolume']);
-// 视频/mv
-const video = computed(() => $store.getters['video/video']);
-
-watch(
-  () => video.value.url,
-  () => {
-    if (video.value.url) {
-      getVideoSrc();
-    }
-  }
-);
-
-// 获取播放地址
-const videoSrc = ref('');
-
-function getVideoSrc(): void {
-  videoSrc.value = video.value.url;
-}
-getVideoSrc();
+// 视频/mv播放url
+const videoPlayUrl = computed(() => $store.getters['video/videoPlayUrl']);
 
 // 播放器实例
 const videoRef = ref<HTMLVideoElement | null>(null);

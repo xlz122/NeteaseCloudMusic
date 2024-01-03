@@ -68,9 +68,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
+import { ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import {
   formatDateTime,
   bigNumberTransform,
@@ -99,15 +98,14 @@ defineProps({
   }
 });
 
+const $route = useRoute();
 const $router = useRouter();
-const $store = useStore();
-const video = computed(() => $store.getters['video/video']);
 
 // 获取相关推荐视频
 const videoList = ref<VideoItem[]>([]);
 
 function getRelatedVideo(): void {
-  relatedVideo({ id: video.value.id })
+  relatedVideo({ id: String($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         videoList.value = res?.data || [];

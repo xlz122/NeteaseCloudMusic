@@ -1,12 +1,7 @@
 export type State = {
-  video: Video;
+  videoPlayUrl: string;
   videoPlayProgress: VideoPlayProgress;
   videoVolume: number;
-};
-
-export type Video = {
-  id: number;
-  url: string;
 };
 
 export type VideoPlayProgress = {
@@ -17,15 +12,8 @@ export type VideoPlayProgress = {
   timeChange?: boolean;
 };
 
-// 本地存储容错处理
-function faultTolerant(name: string) {
-  if (localStorage.getItem(name)) {
-    return JSON.parse(localStorage.getItem(name) || '');
-  }
-}
-
 const state: State = {
-  video: faultTolerant('video') || {}, // 视频/mv 数据
+  videoPlayUrl: localStorage.getItem('videoPlayUrl') || '',
   videoPlayProgress: {
     progress: 0,
     currentTime: 0,

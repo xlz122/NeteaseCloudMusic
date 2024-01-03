@@ -5,10 +5,9 @@ type Mutations<T, U = any> = {
 };
 
 const mutations: Mutations<State> = {
-  // 视频/mv 数据
-  setVideo(state, video: State['video']) {
-    state.video = video;
-    localStorage.setItem('video', JSON.stringify(video));
+  setVideoPlayUrl(state, url: string) {
+    state.videoPlayUrl = url;
+    localStorage.setItem('videoPlayUrl', JSON.stringify(url));
   },
   // 当前播放视频进度数据
   setVideoPlayProgress(state, playProgress: VideoPlayProgress) {

@@ -107,7 +107,6 @@ import { mvUrl, mvSub } from '@/api/mv-detail';
 import { mvComment } from '@/api/comment';
 import type { ResponseType } from '@/types/types';
 import type { CommentParams } from '@/components/comment/Comment.vue';
-import type { Video } from '@/store/video/state';
 import VideoPlayer from '@/components/video-player/VideoPlayer.vue';
 import Comment from '@/components/comment/Comment.vue';
 import Page from '@/components/page/Page.vue';
@@ -129,7 +128,6 @@ const $route = useRoute();
 const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
-const video = computed<Video>(() => $store.getters['video/video']);
 
 // 获取详情
 const mvDetailData = ref<MvDetailData>({
@@ -153,10 +151,7 @@ function getVideoPlaySrc(): void {
   mvUrl({ id: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
-        $store.commit('video/setVideo', {
-          ...video.value,
-          url: res?.data?.url || ''
-        });
+        $store.commit('video/setVideoPlayUrl', res?.data?.url || '');
       }
     })
     .catch(() => ({}));
