@@ -63,7 +63,7 @@
 <script lang="ts" setup>
 import { ref, computed, nextTick, toRefs } from 'vue';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import {
   addComment,
   deleteComment,

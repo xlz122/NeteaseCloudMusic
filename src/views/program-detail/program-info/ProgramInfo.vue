@@ -105,7 +105,7 @@
 
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import { formatDateTime } from '@/utils/utils';
 
 defineProps({

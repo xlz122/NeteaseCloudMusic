@@ -87,7 +87,7 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import {
   countryCode,
   captchaSent,

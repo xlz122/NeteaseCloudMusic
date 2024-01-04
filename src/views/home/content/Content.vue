@@ -199,7 +199,7 @@
 import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
 import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { getWeekDate, formatDateTime, bigNumberTransform } from '@/utils/utils';

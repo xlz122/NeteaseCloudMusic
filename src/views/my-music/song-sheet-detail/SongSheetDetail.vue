@@ -50,7 +50,7 @@
 <script lang="ts" setup>
 import { ref, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import { handleCommentData } from '@/components/comment/handleCommentData';
 import { playListDetail } from '@/api/my-music';
 import { playlistSubscribe } from '@/api/song-sheet-detail';

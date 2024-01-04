@@ -23,7 +23,7 @@
 import { reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import { topArtists, artistList } from '@/api/home-singer';
 import type { ResponseType } from '@/types/types';
 import SingerMenu from './singer-menu/SingerMenu.vue';

@@ -84,7 +84,7 @@
 import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import { handleCommentData } from '@/components/comment/handleCommentData';
 import { songDetail } from '@/api/song-detail';
 import { getLyric } from '@/api/my-music';

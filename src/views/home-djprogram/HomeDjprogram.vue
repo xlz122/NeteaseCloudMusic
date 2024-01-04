@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import { djCatelist, recommendTypeList } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types/types';
 import Category from './category/Category.vue';

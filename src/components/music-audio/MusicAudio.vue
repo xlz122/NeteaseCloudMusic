@@ -104,7 +104,7 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import { timeStampToDuration } from '@/utils/utils';
 import AudioView from './audio/Audio.vue';
 import PlayAction from './play-action/PlayAction.vue';

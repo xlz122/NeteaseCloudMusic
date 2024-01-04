@@ -19,7 +19,7 @@
 <script lang="ts" setup>
 import { ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import { getPlayMusicUrl } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/hooks/songFormat';

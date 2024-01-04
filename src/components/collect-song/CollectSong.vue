@@ -35,7 +35,7 @@
 <script lang="ts" setup>
 import { ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import { userPlayList, collectMusic } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
 import MyDialog from '@/components/MyDialog.vue';

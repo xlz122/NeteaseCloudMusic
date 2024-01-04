@@ -8,7 +8,7 @@ import {
   AxiosInstance,
   CancelTokenStatic
 } from 'axios';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 
 type IAxiosError = AxiosError & {
   status: number;

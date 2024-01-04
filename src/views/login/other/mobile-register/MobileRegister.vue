@@ -117,7 +117,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive, onMounted, onUnmounted } from 'vue';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import { countryCode, captchaSent, captchaVerify } from '@/api/login';
 import type { ResponseType } from '@/types/types';
 

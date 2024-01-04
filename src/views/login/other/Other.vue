@@ -108,7 +108,7 @@
 
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import MobilePhoneLogin from './mobile-login/MobileLogin.vue';
 import MobilePhoneRegister from './mobile-register/MobileRegister.vue';
 import Mailbox from './mailbox/Mailbox.vue';

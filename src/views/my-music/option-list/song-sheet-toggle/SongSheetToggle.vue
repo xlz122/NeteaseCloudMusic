@@ -82,7 +82,7 @@
 <script lang="ts" setup>
 import { ref, reactive, computed } from 'vue';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import MyDialog from '@/components/MyDialog.vue';
 
 type ItemType = {

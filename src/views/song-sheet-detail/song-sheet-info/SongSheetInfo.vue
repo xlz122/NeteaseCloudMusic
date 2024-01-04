@@ -187,7 +187,7 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
 import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { formatDateTime } from '@/utils/utils';

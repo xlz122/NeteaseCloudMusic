@@ -100,7 +100,7 @@
 import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import { handleCommentData } from '@/components/comment/handleCommentData';
 import { mvDetail } from '@/api/mv-detail';
 import { mvUrl, mvSub } from '@/api/mv-detail';

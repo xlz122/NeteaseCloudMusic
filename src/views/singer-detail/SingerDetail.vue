@@ -78,7 +78,7 @@
 import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import { artistDetail, artistSub } from '@/api/singer-detail';
 import type { ResponseType } from '@/types/types';
 import SingerDetailSide from './singer-detail-side/SingerDetailSide.vue';

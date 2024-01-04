@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 import { reactive, watch } from 'vue';
-import useMessage from '@/components/message/useMessage';
+import useMessage from '@/hooks/useMessage';
 
 type MessageTip = {
   visible: boolean;

@@ -52,7 +52,7 @@
 import { ref, reactive, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import VolumeProgress from '../volume-progress/VolumeProgress.vue';
 import PlayList from './play-list/PlayList.vue';
 

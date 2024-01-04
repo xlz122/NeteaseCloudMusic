@@ -46,7 +46,7 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
 import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { formatMixedText } from '@/utils/formatMixedText';

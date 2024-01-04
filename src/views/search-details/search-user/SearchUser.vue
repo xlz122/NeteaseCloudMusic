@@ -55,7 +55,7 @@
 import { reactive, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import { handleMatchString } from '@/utils/utils';
 import { searchKeywords, followUser } from '@/api/search';
 import type { ResponseType } from '@/types/types';

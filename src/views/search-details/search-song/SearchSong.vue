@@ -98,10 +98,10 @@
 import { reactive, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
 import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { timeStampToDuration, handleMatchString } from '@/utils/utils';
-import { setMessage } from '@/components/message/useMessage';
 import { searchKeywords } from '@/api/search';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/hooks/songFormat';

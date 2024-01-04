@@ -123,7 +123,7 @@
 import { ref, reactive, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import { filterTime, timeStampToDuration } from '@/utils/utils';
 import { djDetail, djProgram } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types/types';

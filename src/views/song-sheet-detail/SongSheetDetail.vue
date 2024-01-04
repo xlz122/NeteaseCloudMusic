@@ -79,7 +79,7 @@
 import { ref, reactive, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
+import { setMessage } from '@/hooks/useMessage';
 import { handleCommentData } from '@/components/comment/handleCommentData';
 import { playlistDetail, playlistSubscribe } from '@/api/song-sheet-detail';
 import { playlistComment } from '@/api/comment';
