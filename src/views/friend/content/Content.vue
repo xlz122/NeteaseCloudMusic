@@ -24,7 +24,7 @@
             :item="item"
             @setDynamicLike="setDynamicLike"
             @jumpUserProfile="jumpUserProfile"
-            @playSingleMusic="playSingleMusic"
+            @playSingleSong="playSingleSong"
             @jumpSongDetail="jumpSongDetail"
             @jumpSingerDetail="jumpSingerDetail"
             @jumpAlbumDetail="jumpAlbumDetail"
@@ -47,11 +47,12 @@
 import { ref, reactive, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { setMessage } from '@/components/message/useMessage';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { formatMixedText } from '@/utils/formatMixedText';
 import { friendEvent, dynamicLike } from '@/api/friend';
 import type { ResponseType } from '@/types/types';
-import type { SongType } from '@/common/audio';
+import type { SongType } from '@/hooks/songFormat';
 import Item from './Item.vue';
 
 type EventItem = {
@@ -118,8 +119,9 @@ function getFriendEvent(): void {
 getFriendEvent();
 
 // 播放单个歌曲
-function playSingleMusic(item: Partial<SongType>): void {
-  usePlaySingleMusic(item);
+function playSingleSong(item: SongType): void {
+  usePlaySong(item);
+  useSongToPlaylist(item);
 }
 
 // 动态点赞

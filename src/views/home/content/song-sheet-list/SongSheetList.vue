@@ -14,7 +14,7 @@
             {{ item?.playlist?.name }}
           </h3>
           <div class="btns">
-            <i class="btn-play" title="播放" @click="playAllMusic(index)"></i>
+            <i class="btn-play" title="播放" @click="playAllSong(index)"></i>
             <template v-if="!item?.playlist?.subscribed">
               <i
                 class="btn-collection"
@@ -45,12 +45,12 @@
               <i
                 class="operate-play"
                 title="播放"
-                @click="playSingleMusic(i)"
+                @click="playSingleSong(i)"
               ></i>
               <i
                 class="operate-add"
                 title="添加到播放列表"
-                @click="singleMusicToPlayList(i)"
+                @click="singleSongToPlaylist(i)"
               ></i>
               <i
                 class="operate-collection"
@@ -72,15 +72,14 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
-import useMusicToPlayList from '@/common/useMusicToPlayList';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { topList } from '@/api/home-toplist';
 import { playlistDetail } from '@/api/song-sheet-detail';
 import { playlistSubscribe } from '@/api/song-sheet-detail';
 import type { ResponseType } from '@/types/types';
-import type { SongType } from '@/common/audio';
+import type { SongType } from '@/hooks/songFormat';
 
 type SongSheetItem = {
   id?: number;
@@ -92,6 +91,7 @@ type SongSheetItem = {
     tracks: {
       id: number;
       name: string;
+      noCopyrightRcmd: unknown;
     }[];
   };
 };
@@ -147,25 +147,18 @@ function getSongSheetDetail(id: number): Promise<unknown> {
 }
 
 // 播放全部 - 默认播放列表第一项
-const playAllMusic = throttle(
-  function (index: number) {
-    if (songSheet.value[index].playlist?.tracks?.length === 0) {
-      return;
-    }
-
-    // 过滤无版权
-    const tracks = songSheet.value[index].playlist?.tracks || [];
-    const songList = tracks?.filter((item: Partial<SongType>) => item);
-
-    usePlaySingleMusic(songList[0]);
-    useMusicToPlayList({ music: songList, clear: true });
-  },
-  800,
-  {
-    leading: true, // 点击第一下是否执行
-    trailing: false // 节流结束后, 是否执行一次
+function playAllSong(index: number): void {
+  if (songSheet.value[index].playlist?.tracks?.length === 0) {
+    return;
   }
-);
+
+  // 过滤无版权
+  const tracks = songSheet.value[index].playlist?.tracks || [];
+  const songList = tracks?.filter(item => !item.noCopyrightRcmd);
+
+  usePlaySong(songList[0]);
+  useSongToPlaylist(songList, { clear: true });
+}
 
 // 收藏
 function handleCollectAll(id: number | undefined): boolean | undefined {
@@ -194,13 +187,14 @@ function handleCollectAll(id: number | undefined): boolean | undefined {
 }
 
 // 播放单个歌曲
-function playSingleMusic(item: Partial<SongType>): void {
-  usePlaySingleMusic(item);
+function playSingleSong(item: SongType): void {
+  usePlaySong(item);
+  useSongToPlaylist(item);
 }
 
 // 单个音乐添加到播放列表
-function singleMusicToPlayList(item: Partial<SongType>): void {
-  useMusicToPlayList({ music: item });
+function singleSongToPlaylist(item: SongType): void {
+  useSongToPlaylist(item);
 }
 
 // 收藏

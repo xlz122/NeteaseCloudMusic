@@ -1,28 +1,18 @@
+import type { MusicItemType } from '@/hooks/songFormat';
+
 export type State = {
-  playMusicId: number;
-  playMusicList: PlayMusicItem[];
-  playMusicItem: PlayMusicItem;
-  musicPlayProgress: MusicPlayProgress;
-  musicPlayStatus: MusicPlayStatus;
+  playSongId: number;
+  playSongItem: MusicItemType;
+  songPlaylist: MusicItemType[];
+  songPlayProgress: SongPlayProgress;
+  songPlayStatus: MusicPlayStatus;
   musicAudioLock: boolean;
   musicModeType: number;
   musicVolume: number;
   playLyrics: PlayLyrics[];
 };
 
-export type PlayMusicItem = {
-  id: number; // 歌曲id
-  name: string; // 歌手name
-  picUrl: string; // 头像
-  time: number; // 时长
-  mv: number; // mv数量
-  singerList: {
-    id: string | number; // 歌手id
-    name: string; // 歌手name
-  }[];
-};
-
-export type MusicPlayProgress = {
+export type SongPlayProgress = {
   progress?: number;
   currentTime?: number;
   duration?: number;
@@ -49,20 +39,20 @@ function faultTolerant(name: string) {
 }
 
 const state: State = {
-  playMusicId: Number(localStorage.getItem('playMusicId')) || 0, // 当前播放音乐id
-  playMusicItem: faultTolerant('playMusicItem') || {}, // 当前播放音乐
-  playMusicList: faultTolerant('playMusicList') || [], // 播放列表
-  musicPlayProgress: {
+  playSongId: Number(localStorage.getItem('playSongId')) || 0, // 当前播放歌曲id
+  playSongItem: faultTolerant('playSongItem') || {}, // 当前播放歌曲
+  songPlaylist: faultTolerant('songPlaylist') || [], // 播放列表
+  songPlayProgress: {
     progress: 0,
     currentTime: 0,
     duration: 0,
     cacheProgress: 0
-  }, // 当前播放音乐进度数据
-  musicPlayStatus: {
+  }, // 当前播放歌曲进度数据
+  songPlayStatus: {
     look: false,
     loading: false,
     refresh: false
-  }, // 当前播放音乐播放状态
+  }, // 当前播放歌曲播放状态
   musicAudioLock: faultTolerant('musicAudioLock') || false, // 播放器锁定在底部
   musicModeType: Number(localStorage.getItem('musicModeType')) || 0, // 播放器 - 播放模式
   musicVolume: Number(localStorage.getItem('musicVolume')) || 1, // 播放器 - 音量

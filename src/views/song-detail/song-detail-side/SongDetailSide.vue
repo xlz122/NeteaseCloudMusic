@@ -52,7 +52,7 @@
             <div
               class="info-desc"
               :title="item?.artists && item?.artists[0]?.name"
-              @click="jumpSingerDetail(item?.artists && item?.artists[0]?.id)"
+              @click="jumpSingerDetail(item.artists && item.artists[0].id)"
             >
               <span class="text">
                 {{ item?.artists && item?.artists[0]?.name }}
@@ -60,11 +60,8 @@
             </div>
           </div>
           <div class="item-operate">
-            <i class="icon-operate play" @click="playSingleMusic(item)"></i>
-            <i
-              class="icon-operate add"
-              @click="singleMusicToPlayList(item)"
-            ></i>
+            <i class="icon-operate play" @click="playSingleSong(item)"></i>
+            <i class="icon-operate add" @click="singleSongToPlaylist(item)"></i>
           </div>
         </li>
       </ul>
@@ -85,11 +82,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import useMusicToPlayList from '@/common/useMusicToPlayList';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { simiPlaylist, simiSong } from '@/api/song-detail';
 import type { ResponseType } from '@/types/types';
-import type { SongType } from '@/common/audio';
+import type { SongType } from '@/hooks/songFormat';
 import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
 
 type SongSheetItem = {
@@ -103,6 +100,10 @@ type SongSheetItem = {
 };
 
 type SimiSongItem = {
+  id: number;
+  artists: {
+    id: number;
+  }[];
   privilege: {
     cp: number;
   };
@@ -140,23 +141,24 @@ function getSimiSong(): void {
 getSimiSong();
 
 // 播放单个歌曲
-function playSingleMusic(item: SimiSongItem): boolean | undefined {
+function playSingleSong(item: SimiSongItem): boolean | undefined {
   // 无版权
   if (item?.privilege?.cp === 0) {
     return;
   }
 
-  usePlaySingleMusic(item);
+  usePlaySong(item);
+  useSongToPlaylist(item);
 }
 
 // 单个歌曲添加到播放列表
-function singleMusicToPlayList(item: SimiSongItem): boolean | undefined {
+function singleSongToPlaylist(item: SimiSongItem): boolean | undefined {
   // 无版权
   if (item?.privilege?.cp === 0) {
     return;
   }
 
-  useMusicToPlayList({ music: item });
+  useSongToPlaylist(item);
 }
 
 // 跳转歌单详情

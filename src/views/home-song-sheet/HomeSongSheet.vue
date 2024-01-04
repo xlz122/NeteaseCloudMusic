@@ -34,7 +34,7 @@
               <i
                 class="info-icon-right"
                 title="播放"
-                @click="songSheetToPlayListPlay(item?.id)"
+                @click="songSheetToPlaylistPlay(item?.id)"
               ></i>
             </div>
           </div>
@@ -81,13 +81,13 @@
 import { ref, reactive, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import useMusicToPlayList from '@/common/useMusicToPlayList';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { bigNumberTransform } from '@/utils/utils';
 import { topPlaylist } from '@/api/home-song-sheet';
 import { playlistTrack } from '@/api/song-sheet-detail';
 import type { ResponseType } from '@/types/types';
-import type { SongType } from '@/common/audio';
+import type { SongType } from '@/hooks/songFormat';
 import Page from '@/components/page/Page.vue';
 import ClassifyModal from './classify-modal/ClassifyModal.vue';
 
@@ -171,8 +171,8 @@ function catChange(name: string): boolean | undefined {
   classifyShow.value = false;
 }
 
-// 歌单歌曲添加到播放器并播放
-function songSheetToPlayListPlay(id: number): void {
+// 歌单添加到播放列表并播放
+function songSheetToPlaylistPlay(id: number): void {
   playlistTrack({ id: id })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
@@ -183,12 +183,12 @@ function songSheetToPlayListPlay(id: number): void {
         res.songs = res?.songs?.slice(0, 20) || [];
 
         // 过滤无版权
-        const songList: Partial<SongType>[] = res?.songs.filter(
+        const songList: SongType[] = res?.songs.filter(
           (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
         );
 
-        usePlaySingleMusic(songList[0]);
-        useMusicToPlayList({ music: songList, clear: true });
+        usePlaySong(songList[0]);
+        useSongToPlaylist(songList, { clear: true });
       }
     })
     .catch(() => ({}));

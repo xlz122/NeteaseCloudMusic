@@ -1,6 +1,6 @@
 <template>
   <i class="icon-doubt"></i>
-  <div class="lyric" v-if="playMusicId">
+  <div class="lyric" v-if="playSongId">
     <div class="not-lyric" v-if="lyric.noData">
       <span>暂时没有歌词</span>
       <span class="feed-lyric">求歌词</span>
@@ -46,7 +46,7 @@ type Lyric = {
 };
 
 const $store = useStore();
-const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
+const playSongId = computed<number>(() => $store.getters['music/playSongId']);
 
 // 歌词数据
 const lyric = reactive<Lyric>({
@@ -62,7 +62,7 @@ const playLyrics = computed<PlayLyrics[]>(
 );
 onMounted(() => {
   // 当前播放id不存在
-  if (!playMusicId.value) {
+  if (!playSongId.value) {
     return;
   }
 
@@ -79,7 +79,7 @@ onMounted(() => {
 
 // 播放id变化, 重新获取歌词
 watch(
-  () => playMusicId.value,
+  () => playSongId.value,
   () => {
     lyric.index = 0;
     getLyricData();
@@ -91,7 +91,7 @@ watch(
 
 // 获取歌词
 function getLyricData() {
-  getLyric({ id: playMusicId.value })
+  getLyric({ id: playSongId.value })
     .then((res: ResponseType) => {
       lyric.noData = false;
 
@@ -189,14 +189,14 @@ function formatLyricTime(time: string): number {
   return Number(second + '.' + ms);
 }
 
-// 播放进度数据
-const musicPlayProgress = computed(
-  () => $store.getters['music/musicPlayProgress']
+// 播放进度
+const songPlayProgress = computed(
+  () => $store.getters['music/songPlayProgress']
 );
 
 // 监听播放时间, 歌词滚动
 watch(
-  () => musicPlayProgress.value.currentTime,
+  () => songPlayProgress.value.currentTime,
   () => {
     // 歌词未加载
     if (lyric.list.length === 0) {
@@ -209,7 +209,7 @@ watch(
     }
 
     // 当前播放时间
-    const currentTime = musicPlayProgress.value.currentTime;
+    const currentTime = songPlayProgress.value.currentTime;
 
     // 重新播放,回到顶部
     if (currentTime < 1) {

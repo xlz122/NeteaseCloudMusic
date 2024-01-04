@@ -21,7 +21,7 @@
             <i
               class="item-cover-play"
               title="播放"
-              @click="albumToPlayListPlay(item?.id)"
+              @click="albumToPlaylistPlay(item?.id)"
             ></i>
           </div>
           <p
@@ -51,13 +51,13 @@
 import { ref, reactive, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import useMusicToPlayList from '@/common/useMusicToPlayList';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { formatDateTime } from '@/utils/utils';
 import { artistAlbum } from '@/api/album-detail';
 import { albumDetail } from '@/api/album-detail';
 import type { ResponseType } from '@/types/types';
-import type { SongType } from '@/common/audio';
+import type { SongType } from '@/hooks/songFormat';
 import Page from '@/components/page/Page.vue';
 
 type SingerAlbum = {
@@ -110,8 +110,8 @@ function getArtistAlbum(): void {
 }
 getArtistAlbum();
 
-// 专辑歌曲添加到播放器
-function albumToPlayListPlay(id: number | undefined): void {
+// 专辑添加到播放列表并播放
+function albumToPlaylistPlay(id: number | undefined): void {
   albumDetail({ id: id! })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
@@ -132,12 +132,12 @@ function albumToPlayListPlay(id: number | undefined): void {
         }
 
         // 过滤无版权
-        const songList: Partial<SongType>[] = res?.songs.filter(
+        const songList: SongType[] = res?.songs.filter(
           (item: Record<string, { cp: number }>) => item?.privilege?.cp !== 0
         );
 
-        usePlaySingleMusic(songList[0]);
-        useMusicToPlayList({ music: songList, clear: true });
+        usePlaySong(songList[0]);
+        useSongToPlaylist(songList, { clear: true });
       }
     })
     .catch(() => ({}));

@@ -11,7 +11,7 @@
                 @click="jumpAlbumDetail(item?.id)"
                 alt=""
               />
-              <i class="icon" @click="albumToPlayListPlay(item?.id)"></i>
+              <i class="icon" @click="albumToPlaylistPlay(item?.id)"></i>
             </div>
             <div
               class="title"
@@ -63,7 +63,7 @@ type AlbumItem = {
 };
 
 const emits = defineEmits([
-  'albumToPlayListPlay',
+  'albumToPlaylistPlay',
   'jumpAlbumDetail',
   'jumpSingerDetail'
 ]);
@@ -163,9 +163,9 @@ const albumNext = throttle(
   }
 );
 
-// 专辑歌曲添加到播放器
-function albumToPlayListPlay(id: number): void {
-  emits('albumToPlayListPlay', id);
+// 专辑添加到播放列表并播放
+function albumToPlaylistPlay(id: number): void {
+  emits('albumToPlaylistPlay', id);
 }
 
 // 跳转专辑详情

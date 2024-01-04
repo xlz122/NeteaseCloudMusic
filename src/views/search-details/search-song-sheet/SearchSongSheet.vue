@@ -12,9 +12,9 @@
     >
       <div
         class="td play-icon"
-        :class="{ 'active-play': item.id === playMusicId }"
+        :class="{ 'active-play': item.id === playSongId }"
         title="播放"
-        @click="songSheetToPlayListPlay(item?.id)"
+        @click="songSheetToPlaylistPlay(item?.id)"
       ></div>
       <div class="td td1">
         <img
@@ -41,7 +41,7 @@
           <i
             class="icon add"
             title="添加到播放列表"
-            @click="songSheetToPlayList(item?.id)"
+            @click="songSheetToPlaylist(item?.id)"
           ></i>
           <i
             class="icon collect"
@@ -85,13 +85,13 @@ import { reactive, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import useMusicToPlayList from '@/common/useMusicToPlayList';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { bigNumberTransform, handleMatchString } from '@/utils/utils';
 import { searchKeywords } from '@/api/search';
 import { playlistTrack, playlistSubscribe } from '@/api/song-sheet-detail';
-import type { SongType } from '@/common/audio';
 import type { ResponseType } from '@/types/types';
+import type { SongType } from '@/hooks/songFormat';
 import Page from '@/components/page/Page.vue';
 
 type SongSheetData = {
@@ -124,7 +124,7 @@ const emits = defineEmits(['searchCountChange']);
 const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
-const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
+const playSongId = computed<number>(() => $store.getters['music/playSongId']);
 const searchText = computed<string>(() =>
   $store.getters.searchText.replace(/"/g, '')
 );
@@ -172,8 +172,8 @@ function getSearchSongSheet(): void {
 }
 getSearchSongSheet();
 
-// 歌单歌曲添加到播放器并播放
-function songSheetToPlayListPlay(id: number): void {
+// 歌单添加到播放列表并播放
+function songSheetToPlaylistPlay(id: number): void {
   playlistTrack({ id })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
@@ -184,19 +184,19 @@ function songSheetToPlayListPlay(id: number): void {
         res.songs = res?.songs?.slice(0, 20) || [];
 
         // 过滤无版权
-        const songList: Partial<SongType>[] = res?.songs.filter(
+        const songList: SongType[] = res?.songs.filter(
           (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
         );
 
-        usePlaySingleMusic(songList[0]);
-        useMusicToPlayList({ music: songList, clear: true });
+        usePlaySong(songList[0]);
+        useSongToPlaylist(songList, { clear: true });
       }
     })
     .catch(() => ({}));
 }
 
-// 歌单歌曲添加到播放器
-function songSheetToPlayList(id: number): void {
+// 歌单添加到播放列表
+function songSheetToPlaylist(id: number): void {
   playlistTrack({ id })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
@@ -207,11 +207,11 @@ function songSheetToPlayList(id: number): void {
         res.songs = res?.songs?.slice(0, 20) || [];
 
         // 过滤无版权
-        const songList: Partial<SongType>[] = res?.songs.filter(
+        const songList: SongType[] = res?.songs.filter(
           (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
         );
 
-        useMusicToPlayList({ music: songList, clear: true });
+        useSongToPlaylist(songList, { clear: true });
       }
     })
     .catch(() => ({}));

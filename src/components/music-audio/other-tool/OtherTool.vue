@@ -35,7 +35,7 @@
       }}
     </div>
     <button class="btn list-btn" title="列表" @click="setPlayListShow"></button>
-    <span class="list-text">{{ playMusicList?.length }}</span>
+    <span class="list-text">{{ songPlaylist?.length }}</span>
     <!-- 提示 -->
     <div class="play-tip" v-if="playTip.visible">
       <span>{{ playTip.title }}</span>
@@ -70,8 +70,8 @@ type PlayTip = {
 const $route = useRoute();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
-const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
-const playMusicList = computed(() => $store.getters['music/playMusicList']);
+const playSongId = computed<number>(() => $store.getters['music/playSongId']);
+const songPlaylist = computed(() => $store.getters['music/songPlaylist']);
 const musicVolume = computed(() => $store.getters['music/musicVolume']);
 
 // 收藏
@@ -83,7 +83,7 @@ function handleCollection(): boolean | undefined {
 
   $store.commit('collectPlayMusic', {
     visible: true,
-    songIds: playMusicId.value
+    songIds: playSongId.value
   });
 }
 
@@ -138,7 +138,7 @@ const playTip = reactive<PlayTip>({
 });
 
 watch(
-  () => playMusicList.value,
+  () => songPlaylist.value,
   (curVal, oldVal) => {
     if (curVal.length !== oldVal.length && curVal.length > 0) {
       return;

@@ -7,7 +7,7 @@
           'disable-play': singerSong?.hotSongs.length === 0
         }"
         title="播放"
-        @click="playAllMusic"
+        @click="playAllSong"
       >
         <span class="icon-play">播放</span>
       </div>
@@ -17,7 +17,7 @@
           'disable-add': singerSong?.hotSongs.length === 0
         }"
         title="添加到播放列表"
-        @click="allMusicToPlayList"
+        @click="allSongToPlaylist"
       ></div>
       <div class="other collection" @click="handleCollectAll">
         <span class="icon"> 收藏热门{{ singerSong?.hotSongs.length }} </span>
@@ -50,8 +50,8 @@
               <span class="text">{{ index + 1 }}</span>
               <i
                 class="icon-play"
-                :class="{ 'active-play': item.id === playMusicId }"
-                @click="playSingleMusic(item)"
+                :class="{ 'active-play': item.id === playSongId }"
+                @click="playSingleSong(item)"
               ></i>
             </div>
           </td>
@@ -81,7 +81,7 @@
                 <i
                   class="icon add"
                   title="添加到播放列表"
-                  @click="singleMusicToPlayList(item)"
+                  @click="singleSongToPlaylist(item)"
                 ></i>
                 <i
                   class="icon collect"
@@ -127,14 +127,13 @@
 import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
-import useMusicToPlayList from '@/common/useMusicToPlayList';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { timeStampToDuration } from '@/utils/utils';
 import { artistSong } from '@/api/singer-detail';
 import type { ResponseType } from '@/types/types';
-import type { PlayMusicItem } from '@/store/music/state';
+import type { SongType } from '@/hooks/songFormat';
 
 type SingerSong = {
   hotSongs: {
@@ -143,6 +142,7 @@ type SingerSong = {
     al: {
       id: number;
       name: string;
+      picUrl: string;
     };
     alia: string[];
     mv: number;
@@ -157,7 +157,7 @@ const $route = useRoute();
 const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
-const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
+const playSongId = computed<number>(() => $store.getters['music/playSongId']);
 
 watch(
   () => $route.query.id,
@@ -189,38 +189,32 @@ function getArtistSong(): void {
 getArtistSong();
 
 // 播放全部 - 默认播放列表第一项
-const playAllMusic = throttle(
-  function () {
-    if (singerSong.value?.hotSongs?.length === 0) {
-      return;
-    }
-
-    // 过滤无版权
-    const songList: Partial<PlayMusicItem>[] =
-      singerSong.value?.hotSongs?.filter(item => !isCopyright(item.id));
-
-    usePlaySingleMusic(songList[0]);
-    useMusicToPlayList({ music: songList, clear: true });
-  },
-  800,
-  {
-    leading: true, // 点击第一下是否执行
-    trailing: false // 节流结束后, 是否执行一次
-  }
-);
-
-// 全部音乐添加到播放列表
-function allMusicToPlayList(): boolean | undefined {
+function playAllSong(): void {
   if (singerSong.value?.hotSongs?.length === 0) {
     return;
   }
 
   // 过滤无版权
-  const songList: Partial<PlayMusicItem>[] = singerSong.value?.hotSongs?.filter(
+  const songList: SongType[] = singerSong.value?.hotSongs?.filter(
     item => !isCopyright(item.id)
   );
 
-  useMusicToPlayList({ music: songList });
+  usePlaySong(songList[0]);
+  useSongToPlaylist(songList, { clear: true });
+}
+
+// 全部歌曲添加到播放列表
+function allSongToPlaylist(): boolean | undefined {
+  if (singerSong.value?.hotSongs?.length === 0) {
+    return;
+  }
+
+  // 过滤无版权
+  const songList: SongType[] = singerSong.value?.hotSongs?.filter(
+    item => !isCopyright(item.id)
+  );
+
+  useSongToPlaylist(songList);
 }
 
 // 收藏全部
@@ -247,7 +241,7 @@ function handleCollectAll(): boolean | undefined {
 }
 
 // 播放单个歌曲
-function playSingleMusic(item: Partial<PlayMusicItem>): boolean | undefined {
+function playSingleSong(item: SongType): boolean | undefined {
   // 无版权
   if (isCopyright(item.id)) {
     $store.commit('setCopyright', {
@@ -257,12 +251,13 @@ function playSingleMusic(item: Partial<PlayMusicItem>): boolean | undefined {
     return;
   }
 
-  usePlaySingleMusic(item);
+  usePlaySong(item);
+  useSongToPlaylist(item);
 }
 
 // 单个歌曲添加到播放列表
-function singleMusicToPlayList(item: Partial<PlayMusicItem>): void {
-  useMusicToPlayList({ music: item });
+function singleSongToPlaylist(item: SongType): void {
+  useSongToPlaylist(item);
 }
 
 // 歌曲是否有版权

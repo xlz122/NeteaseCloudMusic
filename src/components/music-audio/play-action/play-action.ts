@@ -1,5 +1,5 @@
 import store from '@/store/index';
-import type { PlayMusicItem } from '@/store/music/state';
+import type { MusicItemType } from '@/hooks/songFormat';
 
 type AudioType = {
   timer: NodeJS.Timeout | null;
@@ -17,63 +17,63 @@ const audio: AudioType = {
  * @description 播放上一首歌曲
  */
 export async function playPrevMusic(): Promise<boolean | undefined> {
-  const playMusicId = store.getters['music/playMusicId'];
-  const playMusicList = store.getters['music/playMusicList'];
+  const playSongId = store.getters['music/playSongId'];
+  const songPlaylist = store.getters['music/songPlaylist'];
 
   // 存储播放状态
   if (!audio.storage) {
     audio.storage = true;
-    audio.look = store.getters['music/musicPlayStatus'].look;
+    audio.look = store.getters['music/songPlayStatus'].look;
   }
 
-  if (playMusicList.length === 0) {
+  if (songPlaylist.length === 0) {
     return;
   }
 
   // 重置播放状态
-  store.commit('music/setMusicPlayStatus', {
+  store.commit('music/setSongPlayStatus', {
     look: false,
     loading: true
   });
   // 重置播放进度
-  store.commit('music/setMusicPlayProgress', {
+  store.commit('music/setSongPlayProgress', {
     progress: 0,
     currentTime: 0,
     duration: 0
   });
 
   // 获取当前id索引
-  const index: number = playMusicList.findIndex(
-    (item: PlayMusicItem) => item.id === playMusicId
+  const index: number = songPlaylist.findIndex(
+    (item: MusicItemType) => item.id === playSongId
   );
 
   let id = 0;
   // 播放数据不在播放列表（清空播放列表后，重新添加出现这种情况）,播放最后一项
   if (index === -1) {
-    id = playMusicList.at(-1).id;
+    id = songPlaylist.at(-1).id;
   }
 
   // 播放数据在播放列表
   if (index !== -1) {
     // 不是第一项
     if (index > 0) {
-      id = playMusicList[index - 1].id;
+      id = songPlaylist[index - 1].id;
     }
     // 列表回到最后一项
     if (index === 0) {
-      id = playMusicList.at(-1).id;
+      id = songPlaylist.at(-1).id;
     }
   }
 
   // 随机播放
   const musicModeType = store.getters['music/musicModeType'];
   if (musicModeType === 2) {
-    id = await getRandomPlayId(playMusicList);
+    id = await getRandomPlayId(songPlaylist);
   }
 
-  // 当前播放音乐
-  const musicItem = playMusicList.find((item: PlayMusicItem) => item.id === id);
-  store.commit('music/setPlayMusicItem', musicItem);
+  // 当前播放歌曲
+  const musicItem = songPlaylist.find((item: MusicItemType) => item.id === id);
+  store.commit('music/setPlaySongItem', musicItem);
 
   // 停止切换后开始播放
   if (audio.timer) {
@@ -82,7 +82,7 @@ export async function playPrevMusic(): Promise<boolean | undefined> {
   audio.timer = setTimeout(() => {
     audio.storage = false;
 
-    store.commit('music/setMusicPlayStatus', {
+    store.commit('music/setSongPlayStatus', {
       look: audio.look,
       loading: false,
       refresh: true
@@ -94,63 +94,63 @@ export async function playPrevMusic(): Promise<boolean | undefined> {
  * @description 播放下一首歌曲
  */
 export async function playNextMusic(): Promise<boolean | undefined> {
-  const playMusicId = store.getters['music/playMusicId'];
-  const playMusicList = store.getters['music/playMusicList'];
+  const playSongId = store.getters['music/playSongId'];
+  const songPlaylist = store.getters['music/songPlaylist'];
 
   // 存储播放状态
   if (!audio.storage) {
     audio.storage = true;
-    audio.look = store.getters['music/musicPlayStatus'].look;
+    audio.look = store.getters['music/songPlayStatus'].look;
   }
 
-  if (playMusicList.length === 0) {
+  if (songPlaylist.length === 0) {
     return;
   }
 
   // 重置播放状态
-  store.commit('music/setMusicPlayStatus', {
+  store.commit('music/setSongPlayStatus', {
     look: false,
     loading: true
   });
   // 重置播放进度
-  store.commit('music/setMusicPlayProgress', {
+  store.commit('music/setSongPlayProgress', {
     progress: 0,
     currentTime: 0,
     duration: 0
   });
 
   // 获取当前id索引
-  const index: number = playMusicList.findIndex(
-    (item: PlayMusicItem) => item.id === playMusicId
+  const index: number = songPlaylist.findIndex(
+    (item: MusicItemType) => item.id === playSongId
   );
 
   let id = 0;
   // 播放数据不在播放列表（清空播放列表后，重新添加出现这种情况）,播放第一项
   if (index === -1) {
-    id = playMusicList[0].id;
+    id = songPlaylist[0].id;
   }
 
   // 播放数据在播放列表
   if (index !== -1) {
     // 不是最后一项
-    if (index < playMusicList.length - 1) {
-      id = playMusicList[index + 1].id;
+    if (index < songPlaylist.length - 1) {
+      id = songPlaylist[index + 1].id;
     }
     // 列表回到第一项
-    if (index !== -1 && index === playMusicList.length - 1) {
-      id = playMusicList[0].id;
+    if (index !== -1 && index === songPlaylist.length - 1) {
+      id = songPlaylist[0].id;
     }
   }
 
   // 随机播放
   const musicModeType = store.getters['music/musicModeType'];
   if (musicModeType === 2) {
-    id = await getRandomPlayId(playMusicList);
+    id = await getRandomPlayId(songPlaylist);
   }
 
-  // 当前播放音乐
-  const musicItem = playMusicList.find((item: PlayMusicItem) => item.id === id);
-  store.commit('music/setPlayMusicItem', musicItem);
+  // 当前播放歌曲
+  const musicItem = songPlaylist.find((item: MusicItemType) => item.id === id);
+  store.commit('music/setPlaySongItem', musicItem);
 
   // 停止切换后开始播放
   if (audio.timer) {
@@ -159,7 +159,7 @@ export async function playNextMusic(): Promise<boolean | undefined> {
   audio.timer = setTimeout(() => {
     audio.storage = false;
 
-    store.commit('music/setMusicPlayStatus', {
+    store.commit('music/setSongPlayStatus', {
       look: audio.look,
       loading: false,
       refresh: true
@@ -173,18 +173,18 @@ const cacheId: number[] = [];
  * @description 获取随机播放id
  * @param { Array } list 播放列表
  */
-function getRandomPlayId(list: PlayMusicItem[]): Promise<number> {
+function getRandomPlayId(list: MusicItemType[]): Promise<number> {
   return new Promise(resolve => {
     // 缓存当前播放
-    const playMusicId = store.getters['music/playMusicId'];
-    if (!cacheId.includes(playMusicId)) {
-      cacheId.push(playMusicId);
+    const playSongId = store.getters['music/playSongId'];
+    if (!cacheId.includes(playSongId)) {
+      cacheId.push(playSongId);
     }
 
     // 删除不在播放列表的缓存id
-    const playMusicList = store.getters['music/playMusicList'];
+    const songPlaylist = store.getters['music/songPlaylist'];
     cacheId.forEach((item: number, index: number) => {
-      const exist = playMusicList.find((p: PlayMusicItem) => p.id === item);
+      const exist = songPlaylist.find((p: MusicItemType) => p.id === item);
 
       if (!exist) {
         cacheId.splice(index, 1);

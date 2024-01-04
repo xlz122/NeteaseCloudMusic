@@ -15,7 +15,7 @@
       <div class="time">{{ formatDate(item?.showTime) }}</div>
       <div class="mood" v-html="item?.json?.msg"></div>
       <div class="music-info">
-        <div class="music-cover" @click="playSingleMusic(item?.json?.song)">
+        <div class="music-cover" @click="playSingleSong(item?.json?.song)">
           <img
             class="cover-img"
             :src="`${item?.json?.song?.album?.picUrl}?param=40y40`"
@@ -363,7 +363,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { formatDate } from '@/utils/utils';
-import type { SongType } from '@/common/audio';
+import type { SongType } from '@/hooks/songFormat';
 
 export default defineComponent({
   name: 'FriendContentItem',
@@ -376,7 +376,7 @@ export default defineComponent({
   emits: [
     'setDynamicLike',
     'jumpUserProfile',
-    'playSingleMusic',
+    'playSingleSong',
     'jumpSongDetail',
     'jumpSingerDetail',
     'jumpAlbumDetail'
@@ -390,8 +390,8 @@ export default defineComponent({
       emit('jumpUserProfile', userId);
     }
 
-    function playSingleMusic(item: Partial<SongType>): void {
-      emit('playSingleMusic', item);
+    function playSingleSong(item: SongType): void {
+      emit('playSingleSong', item);
     }
 
     function jumpSongDetail(id: number): void {
@@ -410,7 +410,7 @@ export default defineComponent({
       formatDate,
       setDynamicLike,
       jumpUserProfile,
-      playSingleMusic,
+      playSingleSong,
       jumpSongDetail,
       jumpSingerDetail,
       jumpAlbumDetail

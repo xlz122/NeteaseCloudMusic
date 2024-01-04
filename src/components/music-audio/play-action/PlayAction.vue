@@ -7,7 +7,7 @@
     ></button>
     <button
       class="btn look-btn"
-      :class="{ 'look-play-btn': musicPlayStatus?.look }"
+      :class="{ 'look-play-btn': songPlayStatus?.look }"
       title="播放/暂停(p)"
       @click="lookPlayMusic"
     ></button>
@@ -25,11 +25,12 @@ import { useStore } from 'vuex';
 import { playPrevMusic, playNextMusic } from './play-action';
 
 const $store = useStore();
-const musicPlayStatus = computed(() => $store.getters['music/musicPlayStatus']);
+// 播放状态
+const songPlayStatus = computed(() => $store.getters['music/songPlayStatus']);
 
 function lookPlayMusic(): void {
-  if (musicPlayStatus.value.look) {
-    $store.commit('music/setMusicPlayStatus', {
+  if (songPlayStatus.value.look) {
+    $store.commit('music/setSongPlayStatus', {
       look: false,
       loading: false,
       refresh: false
@@ -37,7 +38,7 @@ function lookPlayMusic(): void {
     return;
   }
 
-  $store.commit('music/setMusicPlayStatus', {
+  $store.commit('music/setSongPlayStatus', {
     look: true,
     loading: true,
     refresh: false

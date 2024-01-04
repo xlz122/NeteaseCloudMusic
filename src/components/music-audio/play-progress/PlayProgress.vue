@@ -3,7 +3,7 @@
     <HorizontalProgress
       class="progress"
       :range="'#musicAudio .play'"
-      :loading="musicPlayStatus.loading"
+      :loading="songPlayStatus.loading"
       :current="progress.current"
       :cache="progress.cache"
       @progressChange="progressChange"
@@ -18,10 +18,10 @@ import HorizontalProgress from '@/components/progress/Progress.vue';
 
 const $store = useStore();
 // 播放状态
-const musicPlayStatus = computed(() => $store.getters['music/musicPlayStatus']);
-// 播放进度数据
-const musicPlayProgress = computed(
-  () => $store.getters['music/musicPlayProgress']
+const songPlayStatus = computed(() => $store.getters['music/songPlayStatus']);
+// 播放进度
+const songPlayProgress = computed(
+  () => $store.getters['music/songPlayProgress']
 );
 
 // 更新进度数据
@@ -31,7 +31,7 @@ const progress = reactive({
 });
 
 watch(
-  () => musicPlayProgress.value,
+  () => songPlayProgress.value,
   curVal => {
     progress.current = curVal.progress + '%';
     progress.cache = curVal.cacheProgress + '%';
@@ -40,9 +40,9 @@ watch(
 
 // 音乐进度更改
 function progressChange(value: number): void {
-  const currentTime = musicPlayProgress.value.duration * value;
+  const currentTime = songPlayProgress.value.duration * value;
 
-  $store.commit('music/setMusicPlayProgress', {
+  $store.commit('music/setSongPlayProgress', {
     progress: value * 100,
     currentTime,
     timeChange: true

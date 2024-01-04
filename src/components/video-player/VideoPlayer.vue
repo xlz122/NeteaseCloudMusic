@@ -81,12 +81,12 @@ const emits = defineEmits(['handleCollection']);
 
 const $store = useStore();
 const videoVolume = computed(() => $store.getters['video/videoVolume']);
-// 播放进度数据
+// 播放进度
 const videoPlayProgress = computed(
   () => $store.getters['video/videoPlayProgress']
 );
 // 播放状态
-const musicPlayStatus = computed(() => $store.getters['music/musicPlayStatus']);
+const songPlayStatus = computed(() => $store.getters['music/songPlayStatus']);
 
 // 播放视频暂停音乐, 播放音乐暂停视频
 const videoStatus = ref('pause');
@@ -95,7 +95,7 @@ watch(
   () => videoStatus.value,
   () => {
     if (videoStatus.value === 'play') {
-      $store.commit('music/setMusicPlayStatus', {
+      $store.commit('music/setSongPlayStatus', {
         look: false,
         loading: false,
         refresh: false
@@ -104,9 +104,9 @@ watch(
   }
 );
 watch(
-  () => musicPlayStatus.value,
+  () => songPlayStatus.value,
   () => {
-    if (musicPlayStatus.value.look) {
+    if (songPlayStatus.value.look) {
       videoStatus.value = 'pause';
     }
   }

@@ -22,44 +22,44 @@ import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { getPlayMusicUrl } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
-import type { PlayMusicItem } from '@/store/music/state';
+import type { SongType } from '@/hooks/songFormat';
 import { playNextMusic } from '@/components/music-audio/play-action/play-action';
 
 const $store = useStore();
-const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
-const playMusicList = computed(() => $store.getters['music/playMusicList']);
+const playSongId = computed<number>(() => $store.getters['music/playSongId']);
+const songPlaylist = computed(() => $store.getters['music/songPlaylist']);
 const musicVolume = computed<number>(() => $store.getters['music/musicVolume']);
 // 播放状态
-const musicPlayStatus = computed(() => $store.getters['music/musicPlayStatus']);
+const songPlayStatus = computed(() => $store.getters['music/songPlayStatus']);
 // 播放进度
-const musicPlayProgress = computed(
-  () => $store.getters['music/musicPlayProgress']
+const songPlayProgress = computed(
+  () => $store.getters['music/songPlayProgress']
 );
 
 // 播放器实例
 const musicAudio = ref<HTMLVideoElement | null>(null);
 
 watch(
-  () => musicPlayStatus.value.look,
+  () => songPlayStatus.value.look,
   () => {
     // 播放 & 不是刷新播放
-    if (musicPlayStatus.value.look && !musicPlayStatus.value.refresh) {
+    if (songPlayStatus.value.look && !songPlayStatus.value.refresh) {
       startPlayMusic();
     }
 
     // 暂停
-    if (!musicPlayStatus.value.look) {
+    if (!songPlayStatus.value.look) {
       stopPlayMusic();
     }
   }
 );
 
 watch(
-  () => musicPlayStatus.value.refresh,
+  () => songPlayStatus.value.refresh,
   () => {
     // 刷新
-    if (musicPlayStatus.value.refresh) {
-      $store.commit('music/setMusicPlayStatus', {
+    if (songPlayStatus.value.refresh) {
+      $store.commit('music/setSongPlayStatus', {
         refresh: false
       });
 
@@ -70,19 +70,19 @@ watch(
 
 // 监听手动更新进度
 watch(
-  () => musicPlayProgress.value.timeChange,
+  () => songPlayProgress.value.timeChange,
   curVal => {
     if (curVal) {
-      if (isNaN(musicPlayProgress.value.currentTime)) {
+      if (isNaN(songPlayProgress.value.currentTime)) {
         return;
       }
 
       // 设置播放器进度
       const audio = musicAudio.value as HTMLVideoElement;
-      audio.currentTime = musicPlayProgress.value.currentTime;
+      audio.currentTime = songPlayProgress.value.currentTime;
 
       // 重置手动更新
-      $store.commit('music/setMusicPlayProgress', {
+      $store.commit('music/setSongPlayProgress', {
         timeChange: false
       });
     }
@@ -93,11 +93,11 @@ watch(
 const audioSrc = ref('');
 
 function getAudioPlaySrc(): boolean | undefined {
-  if (!playMusicId.value) {
+  if (!playSongId.value) {
     return;
   }
 
-  getPlayMusicUrl({ id: playMusicId.value })
+  getPlayMusicUrl({ id: playSongId.value })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         if (!res?.data[0]?.url) {
@@ -108,7 +108,7 @@ function getAudioPlaySrc(): boolean | undefined {
         }
 
         // 重置播放进度
-        $store.commit('music/setMusicPlayProgress', {
+        $store.commit('music/setSongPlayProgress', {
           progress: 0,
           currentTime: 0,
           duration: 0
@@ -116,7 +116,7 @@ function getAudioPlaySrc(): boolean | undefined {
 
         audioSrc.value = res.data[0]?.url;
 
-        if (musicPlayStatus.value.look) {
+        if (songPlayStatus.value.look) {
           startPlayMusic();
         }
       }
@@ -131,19 +131,19 @@ const errorTimer = ref<NodeJS.Timeout | null>(null);
 
 function handleMusicUrlError(): boolean | undefined {
   // 播放停止/只有一首歌
-  if (!musicPlayStatus.value.look || playMusicList.value.length <= 1) {
+  if (!songPlayStatus.value.look || songPlaylist.value.length <= 1) {
     setMessage({ type: 'error', title: '音乐播放链接获取失败' });
     return;
   }
 
   // 缓存当前播放
-  if (!cacheId.value.includes(playMusicId.value)) {
-    cacheId.value.push(playMusicId.value);
+  if (!cacheId.value.includes(playSongId.value)) {
+    cacheId.value.push(playSongId.value);
   }
 
   // 删除不在播放列表的缓存id
   cacheId.value.forEach((item: number, index: number) => {
-    const exist = playMusicList.value.find((p: PlayMusicItem) => p.id === item);
+    const exist = songPlaylist.value.find((p: SongType) => p.id === item);
 
     if (!exist) {
       cacheId.value.splice(index, 1);
@@ -154,7 +154,7 @@ function handleMusicUrlError(): boolean | undefined {
   if (cacheId.value.length > 2) {
     setMessage({ type: 'error', title: '播放失败' });
 
-    $store.commit('music/setMusicPlayStatus', {
+    $store.commit('music/setSongPlayStatus', {
       look: false,
       loading: false,
       refresh: false
@@ -186,7 +186,7 @@ const playTimer = ref<NodeJS.Timeout | null>(null);
 
 // 播放音乐
 function startPlayMusic(): void {
-  $store.commit('music/setMusicPlayStatus', {
+  $store.commit('music/setSongPlayStatus', {
     loading: false
   });
 
@@ -208,25 +208,25 @@ function musicPlaying(): boolean | undefined {
     clearInterval(playTimer.value);
   }
 
-  if (!musicPlayStatus.value.look) {
+  if (!songPlayStatus.value.look) {
     playTimer.value && clearInterval(playTimer.value);
     return;
   }
 
-  if (musicPlayProgress.value.progress >= 100) {
+  if (songPlayProgress.value.progress >= 100) {
     playTimer.value && clearInterval(playTimer.value);
   }
 
   const audio = musicAudio.value as HTMLVideoElement;
 
   // 继续播放
-  if (musicPlayProgress.value.currentTime > 0) {
-    audio.currentTime = musicPlayProgress.value.currentTime;
+  if (songPlayProgress.value.currentTime > 0) {
+    audio.currentTime = songPlayProgress.value.currentTime;
   }
 
   playTimer.value = setInterval(() => {
     const progress = audio.currentTime / audio.duration;
-    $store.commit('music/setMusicPlayProgress', {
+    $store.commit('music/setSongPlayProgress', {
       progress: progress * 100,
       currentTime: audio.currentTime || 0,
       duration: audio.duration || 0
@@ -242,7 +242,7 @@ function musicUpdateTime(): void {
   if (audio?.buffered && audio?.buffered?.length > 0) {
     cache += audio.buffered.end(0);
   }
-  $store.commit('music/setMusicPlayProgress', {
+  $store.commit('music/setSongPlayProgress', {
     cacheProgress: (cache / audio?.duration) * 100 || 0
   });
 }
@@ -252,21 +252,21 @@ const musicModeType = computed(() => $store.getters['music/musicModeType']);
 function musicPlayEnded(): boolean | undefined {
   // 单曲循环
   // 播放列表没有音乐，或只有一首音乐
-  if (musicModeType.value === 0 || playMusicList.value.length <= 1) {
+  if (musicModeType.value === 0 || songPlaylist.value.length <= 1) {
     // 重置播放进度
-    $store.commit('music/setMusicPlayProgress', {
+    $store.commit('music/setSongPlayProgress', {
       progress: 0,
       currentTime: 0,
       duration: 0
     });
 
-    $store.commit('music/setMusicPlayStatus', {
+    $store.commit('music/setSongPlayStatus', {
       look: false,
       loading: true
     });
 
     setTimeout(() => {
-      $store.commit('music/setMusicPlayStatus', {
+      $store.commit('music/setSongPlayStatus', {
         look: true,
         loading: false
       });
@@ -278,7 +278,7 @@ function musicPlayEnded(): boolean | undefined {
 }
 
 onMounted(() => {
-  $store.commit('music/setMusicPlayStatus', {
+  $store.commit('music/setSongPlayStatus', {
     look: false,
     loading: false,
     refresh: false

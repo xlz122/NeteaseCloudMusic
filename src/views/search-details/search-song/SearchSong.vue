@@ -15,8 +15,8 @@
     >
       <div
         class="td icon-play"
-        :class="{ 'active-play': item.id === playMusicId }"
-        @click="playSingleMusic(item)"
+        :class="{ 'active-play': item.id === playSongId }"
+        @click="playSingleSong(item)"
       ></div>
       <div class="td td1">
         <div class="text">
@@ -44,7 +44,7 @@
           <i
             class="icon add"
             title="添加到播放列表"
-            @click="singleMusicToPlayList(item)"
+            @click="singleSongToPlaylist(item)"
           ></i>
           <i
             class="icon collect"
@@ -98,13 +98,13 @@
 import { reactive, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import useMusicToPlayList from '@/common/useMusicToPlayList';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { timeStampToDuration, handleMatchString } from '@/utils/utils';
 import { setMessage } from '@/components/message/useMessage';
 import { searchKeywords } from '@/api/search';
-import type { SongType } from '@/common/audio';
 import type { ResponseType } from '@/types/types';
+import type { SongType } from '@/hooks/songFormat';
 import Page from '@/components/page/Page.vue';
 
 type SongData = {
@@ -112,7 +112,7 @@ type SongData = {
   offset: number;
   limit: number;
   total: number;
-  list: Partial<
+  list: Required<
     {
       tns: string[];
       al: {
@@ -138,7 +138,7 @@ const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const userInfo = computed(() => $store.getters.userInfo);
-const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
+const playSongId = computed<number>(() => $store.getters['music/playSongId']);
 const searchText = computed<string>(() =>
   $store.getters.searchText.replace(/"/g, '')
 );
@@ -186,13 +186,8 @@ function getSearchSong(): void {
 }
 getSearchSong();
 
-// 单个歌曲添加到播放列表
-function singleMusicToPlayList(item: Partial<SongType>): void {
-  useMusicToPlayList({ music: item });
-}
-
 // 播放单个歌曲
-function playSingleMusic(item: Partial<SongType>): boolean | undefined {
+function playSingleSong(item: SongType): boolean | undefined {
   // 无版权
   if (isCopyright(item.id)) {
     $store.commit('setCopyright', {
@@ -202,7 +197,13 @@ function playSingleMusic(item: Partial<SongType>): boolean | undefined {
     return;
   }
 
-  usePlaySingleMusic(item);
+  usePlaySong(item);
+  useSongToPlaylist(item);
+}
+
+// 单个歌曲添加到播放列表
+function singleSongToPlaylist(item: SongType): void {
+  useSongToPlaylist(item);
 }
 
 // 歌曲是否有版权

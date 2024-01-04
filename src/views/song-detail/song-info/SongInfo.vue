@@ -56,13 +56,13 @@
         </div>
         <div class="operate-btn">
           <template v-if="songDetailData?.privileges[0]?.cp !== 0">
-            <div class="play" @click="playSingleMusic">
+            <div class="play" @click="playSingleSong">
               <span class="icon-play" title="播放">播放</span>
             </div>
             <div
               class="play-add"
               title="添加到播放列表"
-              @click="singleMusicToPlayList"
+              @click="singleSongToPlaylist"
             ></div>
           </template>
           <template v-else>
@@ -130,8 +130,8 @@ import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import useMusicToPlayList from '@/common/useMusicToPlayList';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 
 const props = defineProps({
   songDetailData: {
@@ -155,21 +155,22 @@ const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
 // 播放单个歌曲
-function playSingleMusic(): boolean | undefined {
-  if (!props?.songDetailData?.songs.length) {
+function playSingleSong(): boolean | undefined {
+  if (!props.songDetailData?.songs.length) {
     return;
   }
 
-  usePlaySingleMusic(props?.songDetailData?.songs[0]);
+  usePlaySong(props.songDetailData?.songs[0]);
+  useSongToPlaylist(props.songDetailData?.songs[0]);
 }
 
 // 单个歌曲添加到播放列表
-function singleMusicToPlayList(): boolean | undefined {
-  if (!props?.songDetailData?.songs.length) {
+function singleSongToPlaylist(): boolean | undefined {
+  if (!props.songDetailData?.songs?.length) {
     return;
   }
 
-  useMusicToPlayList({ music: props?.songDetailData?.songs[0] });
+  useSongToPlaylist(props.songDetailData?.songs[0]);
 }
 
 // 收藏

@@ -35,8 +35,8 @@
               <span class="text">{{ index + 1 }}</span>
               <i
                 class="icon-play"
-                :class="{ 'active-play': item?.id === playMusicId }"
-                @click="playSingleMusic(item)"
+                :class="{ 'active-play': item?.id === playSongId }"
+                @click="playSingleSong(item)"
               ></i>
             </div>
           </td>
@@ -64,7 +64,7 @@
                 <i
                   class="icon add"
                   title="添加到播放列表"
-                  @click="singleMusicToPlayList(item)"
+                  @click="singleSongToPlaylist(item)"
                 ></i>
                 <i
                   class="icon collect"
@@ -118,10 +118,10 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import useMusicToPlayList from '@/common/useMusicToPlayList';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { timeStampToDuration } from '@/utils/utils';
-import type { SongType } from '@/common/audio';
+import type { SongType } from '@/hooks/songFormat';
 
 type ItemType = {
   alia: string[];
@@ -129,6 +129,9 @@ type ItemType = {
     id: number;
     name: string;
   };
+  ar: {
+    id: number;
+  }[];
   privilege: {
     cp: number;
   };
@@ -149,15 +152,10 @@ const $router = useRouter();
 const $store = useStore();
 
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
-const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
-
-// 单个歌曲添加到播放列表
-function singleMusicToPlayList(item: Partial<SongType>): void {
-  useMusicToPlayList({ music: item });
-}
+const playSongId = computed<number>(() => $store.getters['music/playSongId']);
 
 // 播放单个歌曲
-function playSingleMusic(item: Partial<SongType>): boolean | undefined {
+function playSingleSong(item: SongType): boolean | undefined {
   // 无版权
   if (isCopyright(item.id)) {
     $store.commit('setCopyright', {
@@ -167,7 +165,13 @@ function playSingleMusic(item: Partial<SongType>): boolean | undefined {
     return;
   }
 
-  usePlaySingleMusic(item);
+  usePlaySong(item);
+  useSongToPlaylist(item);
+}
+
+// 单个歌曲添加到播放列表
+function singleSongToPlaylist(item: SongType): void {
+  useSongToPlaylist(item);
 }
 
 // 歌曲是否有版权

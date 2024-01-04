@@ -14,7 +14,7 @@
           <div
             class="cover-img"
             title="播放"
-            @click="playSingleMusic(item?.mainSong!)"
+            @click="playSingleSong(item?.mainSong!)"
           >
             <img :src="item?.coverUrl" alt="" />
             <i class="play"></i>
@@ -47,10 +47,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { programRecommend } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types/types';
-import type { SongType } from '@/common/audio';
+import type { SongType } from '@/hooks/songFormat';
 
 type RecommendItem = {
   id: number;
@@ -83,8 +84,9 @@ function getRecommendList() {
 getRecommendList();
 
 // 播放单个歌曲
-function playSingleMusic(item: SongType): void {
-  usePlaySingleMusic(item);
+function playSingleSong(item: SongType): void {
+  usePlaySong(item);
+  useSongToPlaylist(item);
 }
 
 // 跳转电台详情

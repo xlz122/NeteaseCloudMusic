@@ -33,7 +33,7 @@
               <i
                 class="info-icon-right"
                 title="播放"
-                @click="songSheetToPlayListPlay(item?.id)"
+                @click="songSheetToPlaylistPlay(item?.id)"
               ></i>
             </div>
           </div>
@@ -66,7 +66,7 @@
                 <i
                   class="info-icon-right"
                   title="播放"
-                  @click="songSheetToPlayListPlay(item?.id)"
+                  @click="songSheetToPlaylistPlay(item?.id)"
                 ></i>
               </div>
             </div>
@@ -150,7 +150,7 @@
               <i
                 class="info-icon-right"
                 title="播放"
-                @click="songSheetToPlayListPlay(item?.id)"
+                @click="songSheetToPlaylistPlay(item?.id)"
               ></i>
             </div>
           </div>
@@ -180,7 +180,7 @@
         <span class="more" @click="albumNewestMore">更多</span>
       </div>
       <AlbumNewest
-        @albumToPlayListPlay="albumToPlayListPlay"
+        @albumToPlaylistPlay="albumToPlaylistPlay"
         @jumpAlbumDetail="jumpAlbumDetail"
         @jumpSingerDetail="jumpSingerDetail"
       />
@@ -200,8 +200,8 @@ import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import useMusicToPlayList from '@/common/useMusicToPlayList';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { getWeekDate, formatDateTime, bigNumberTransform } from '@/utils/utils';
 import {
   recommendSongList,
@@ -211,7 +211,7 @@ import {
 import { playlistTrack } from '@/api/song-sheet-detail';
 import { albumDetail } from '@/api/album-detail';
 import type { ResponseType } from '@/types/types';
-import type { SongType } from '@/common/audio';
+import type { SongType } from '@/hooks/songFormat';
 import AlbumNewest from './album-newest/AlbumNewest.vue';
 import SongSheetList from './song-sheet-list/SongSheetList.vue';
 
@@ -259,8 +259,8 @@ function songSheetMore(): void {
   $router.push({ path: '/home-song-sheet' });
 }
 
-// 歌单歌曲添加到播放器并播放
-function songSheetToPlayListPlay(id: number): void {
+// 歌单添加到播放列表并播放
+function songSheetToPlaylistPlay(id: number): void {
   playlistTrack({ id: id! })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
@@ -271,12 +271,12 @@ function songSheetToPlayListPlay(id: number): void {
         res.songs = res?.songs?.slice(0, 20) || [];
 
         // 过滤无版权
-        const songList: Partial<SongType>[] = res?.songs.filter(
+        const songList: SongType[] = res?.songs.filter(
           (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
         );
 
-        usePlaySingleMusic(songList[0]);
-        useMusicToPlayList({ music: songList, clear: true });
+        usePlaySong(songList[0]);
+        useSongToPlaylist(songList, { clear: true });
       }
     })
     .catch(() => ({}));
@@ -373,8 +373,8 @@ function uninterested(index: number): boolean | undefined {
   individualizat.value.splice(3, 1);
 }
 
-// 专辑歌曲添加到播放器
-function albumToPlayListPlay(id: number): void {
+// 专辑添加到播放列表并播放
+function albumToPlaylistPlay(id: number): void {
   albumDetail({ id })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
@@ -395,12 +395,12 @@ function albumToPlayListPlay(id: number): void {
         }
 
         // 过滤无版权
-        const songList: Partial<SongType>[] = res?.songs.filter(
+        const songList: SongType[] = res?.songs.filter(
           (item: Record<string, { cp: number }>) => item?.privilege?.cp !== 0
         );
 
-        usePlaySingleMusic(songList[0]);
-        useMusicToPlayList({ music: songList, clear: true });
+        usePlaySong(songList[0]);
+        useSongToPlaylist(songList, { clear: true });
       }
     })
     .catch(() => ({}));

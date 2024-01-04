@@ -1,7 +1,7 @@
 <template>
   <div class="play-list" v-if="playListShow">
     <div class="play-list-title">
-      <h4 class="title">播放列表({{ playMusicList.length }})</h4>
+      <h4 class="title">播放列表({{ songPlaylist.length }})</h4>
       <div class="add-all" @click="collectAll">
         <i class="icon"></i>
         <span>收藏全部</span>
@@ -11,24 +11,24 @@
         <i class="icon"></i>
         <span>清除</span>
       </div>
-      <div class="song-title">{{ playMusicItem?.name || '' }}</div>
+      <div class="song-title">{{ playSongItem?.name || '' }}</div>
       <i class="clear-icon" @click="closePlayList"></i>
     </div>
     <div class="play-list-content">
       <img
         class="play-list-content-bg"
-        v-if="playMusicItem?.picUrl"
-        :src="playMusicItem?.picUrl"
+        v-if="playSongItem?.picUrl"
+        :src="playSongItem?.picUrl"
         alt=""
       />
       <div class="left-content">
-        <ul class="p-list" v-if="playMusicList.length > 0">
+        <ul class="p-list" v-if="songPlaylist.length > 0">
           <li
             class="item"
-            v-for="(item, index) in playMusicList"
+            v-for="(item, index) in songPlaylist"
             :key="index"
-            :class="{ 'p-active-item': item.id === playMusicId }"
-            @click="playlistItem(item)"
+            :class="{ 'p-active-item': item.id === playSongId }"
+            @click="playSingleSong(item)"
           >
             <i class="play-icon"></i>
             <span class="text song-title" :title="item?.name">
@@ -54,16 +54,16 @@
             </div>
             <span class="text name" @click.stop>
               <span
-                v-for="(i, ind) in item?.singerList"
+                v-for="(i, ind) in item?.artists"
                 :key="ind"
                 @click="jumpSingerDetail(i.id)"
               >
                 <span class="name-text" :title="i.name">{{ i.name }}</span>
-                <span v-if="ind !== item.singerList.length - 1"> / </span>
+                <span v-if="ind !== item.artists.length - 1"> / </span>
               </span>
             </span>
             <span class="text time">
-              {{ timeStampToDuration(item.time / 1000) }}
+              {{ timeStampToDuration(item.duration / 1000) }}
             </span>
             <i class="share" @click.stop="jumpSongPosition"></i>
           </li>
@@ -82,7 +82,7 @@
           </p>
         </div>
       </div>
-      <i class="line" v-if="playMusicList.length === 0"></i>
+      <i class="line" v-if="songPlaylist.length === 0"></i>
       <div class="right-content">
         <lyric />
       </div>
@@ -95,9 +95,10 @@ import { computed, watch, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { timeStampToDuration } from '@/utils/utils';
-import type { PlayMusicItem } from '@/store/music/state';
+import type { SongType } from '@/hooks/songFormat';
 import Lyric from '../lyric/Lyric.vue';
 
 const props = defineProps({
@@ -111,11 +112,9 @@ const emits = defineEmits(['closePlayList']);
 const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
-const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
-const playMusicItem = computed<PlayMusicItem>(
-  () => $store.getters['music/playMusicItem']
-);
-const playMusicList = computed(() => $store.getters['music/playMusicList']);
+const playSongId = computed<number>(() => $store.getters['music/playSongId']);
+const playSongItem = computed(() => $store.getters['music/playSongItem']);
+const songPlaylist = computed(() => $store.getters['music/songPlaylist']);
 
 watch(
   () => props.playListShow,
@@ -128,8 +127,8 @@ watch(
 
 // 列表播放歌曲定位
 function playSongPosition(): boolean | undefined {
-  const isExist = playMusicList.value?.find(
-    (item: PlayMusicItem) => item.id === playMusicId.value
+  const isExist = songPlaylist.value?.find(
+    (item: SongType) => item.id === playSongId.value
   );
   if (!isExist) {
     return;
@@ -151,7 +150,7 @@ function collectAll(): boolean | undefined {
   }
 
   let ids = '';
-  playMusicList.value.forEach((item: PlayMusicItem) => {
+  songPlaylist.value.forEach((item: SongType) => {
     ids += `${item.id},`;
   });
 
@@ -201,8 +200,9 @@ function deleteMusic(id: number, event: MouseEvent): void {
 }
 
 // 列表项点击
-function playlistItem(item: PlayMusicItem): void {
-  usePlaySingleMusic(item);
+function playSingleSong(item: SongType): void {
+  usePlaySong(item);
+  useSongToPlaylist(item);
 }
 
 // 关闭列表

@@ -70,7 +70,7 @@ function videoPause(): void {
   console.log('播放暂停');
 }
 
-// 播放进度数据
+// 播放进度
 const videoPlayProgress = computed(
   () => $store.getters['video/videoPlayProgress']
 );

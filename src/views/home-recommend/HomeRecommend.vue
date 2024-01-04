@@ -16,7 +16,7 @@
             :class="{
               'disable-play': recommend?.length === 0
             }"
-            @click="playAllMusic"
+            @click="playAllSong"
           >
             <span class="icon-play">播放全部</span>
           </div>
@@ -25,7 +25,7 @@
             :class="{
               'disable-add': recommend?.length === 0
             }"
-            @click="allMusicToPlayList"
+            @click="allSongToPlaylist"
           ></div>
           <div class="other collection" @click="handleCollectAll">
             <span class="icon"> 收藏全部</span>
@@ -47,13 +47,12 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import { throttle } from 'lodash';
-import useMusicToPlayList from '@/common/useMusicToPlayList';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { getWeekDate, formatDateTime } from '@/utils/utils';
 import { recommendSongs } from '@/api/home-recommend';
 import type { ResponseType } from '@/types/types';
-import type { SongType } from '@/common/audio';
+import type { SongType } from '@/hooks/songFormat';
 import RecommendSong from './recommend-song/RecommendSong.vue';
 import RecommendSide from './recommend-side/RecommendSide.vue';
 
@@ -63,6 +62,9 @@ type RecommendItem = {
     id: number;
     name: string;
   };
+  ar: {
+    id: number;
+  }[];
   privilege: {
     cp: number;
   };
@@ -94,39 +96,32 @@ function getRecommendSong(): void {
 getRecommendSong();
 
 // 播放全部 - 默认播放列表第一项
-const playAllMusic = throttle(
-  function () {
-    if (recommend.value?.length === 0) {
-      return;
-    }
-
-    // 过滤无版权
-    const songList: Partial<SongType>[] = recommend.value?.filter(
-      item => item?.privilege?.cp !== 0
-    );
-
-    usePlaySingleMusic(songList[0]);
-    useMusicToPlayList({ music: songList, clear: true });
-  },
-  800,
-  {
-    leading: true, // 点击第一下是否执行
-    trailing: false // 节流结束后, 是否执行一次
-  }
-);
-
-// 全部音乐添加到播放列表
-function allMusicToPlayList(): boolean | undefined {
+function playAllSong(): void {
   if (recommend.value?.length === 0) {
     return;
   }
 
   // 过滤无版权
-  const songList: Partial<SongType>[] = recommend.value?.filter(
+  const songList: SongType[] = recommend.value?.filter(
     item => item?.privilege?.cp !== 0
   );
 
-  useMusicToPlayList({ music: songList });
+  usePlaySong(songList[0]);
+  useSongToPlaylist(songList, { clear: true });
+}
+
+// 全部歌曲添加到播放列表
+function allSongToPlaylist(): boolean | undefined {
+  if (recommend.value?.length === 0) {
+    return;
+  }
+
+  // 过滤无版权
+  const songList: SongType[] = recommend.value?.filter(
+    item => item?.privilege?.cp !== 0
+  );
+
+  useSongToPlaylist(songList);
 }
 
 // 收藏全部

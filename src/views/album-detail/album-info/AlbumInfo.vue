@@ -48,13 +48,13 @@
         </span>
       </div>
       <div class="operate-btn">
-        <div class="play" @click="playAllMusic">
+        <div class="play" @click="playAllSong">
           <span class="icon-play" title="播放">播放</span>
         </div>
         <div
           class="play-add"
           title="添加到播放列表"
-          @click="allMusicToPlayList"
+          @click="allSongToPlaylist"
         ></div>
         <div class="other collection" @click="handleCollectAll">
           <template v-if="userInfo?.info?.likedCount > 0">
@@ -111,12 +111,11 @@
 import { ref, computed, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
-import useMusicToPlayList from '@/common/useMusicToPlayList';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { formatDateTime } from '@/utils/utils';
-import type { SongType } from '@/common/audio';
+import type { SongType } from '@/hooks/songFormat';
 
 const props = defineProps({
   userInfo: {
@@ -144,41 +143,7 @@ function toggle(): void {
 }
 
 // 播放全部 - 默认播放列表第一项
-const playAllMusic = throttle(
-  function () {
-    if (songs.value.length === 0) {
-      return;
-    }
-
-    // 是否全部无版权
-    const allNoCopyright = props?.songs?.some(
-      (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
-    );
-    if (!allNoCopyright) {
-      $store.commit('setCopyright', {
-        visible: true,
-        message: '由于版权保护，您所在的地区暂时无法使用。'
-      });
-      return;
-    }
-
-    // 过滤无版权
-    const songList: Partial<SongType>[] = songs.value.filter(
-      (item: Record<string, { cp: number }>) => item?.privilege?.cp !== 0
-    );
-
-    usePlaySingleMusic(songList[0]);
-    useMusicToPlayList({ music: songList, clear: true });
-  },
-  800,
-  {
-    leading: true, // 点击第一下是否执行
-    trailing: false // 节流结束后, 是否执行一次
-  }
-);
-
-// 全部音乐添加到播放列表
-function allMusicToPlayList(): boolean | undefined {
+function playAllSong(): void {
   if (songs.value.length === 0) {
     return;
   }
@@ -196,11 +161,38 @@ function allMusicToPlayList(): boolean | undefined {
   }
 
   // 过滤无版权
-  const songList: Partial<SongType>[] = songs.value.filter(
+  const songList: SongType[] = songs.value.filter(
     (item: Record<string, { cp: number }>) => item?.privilege?.cp !== 0
   );
 
-  useMusicToPlayList({ music: songList });
+  usePlaySong(songList[0]);
+  useSongToPlaylist(songList, { clear: true });
+}
+
+// 全部歌曲添加到播放列表
+function allSongToPlaylist(): boolean | undefined {
+  if (songs.value.length === 0) {
+    return;
+  }
+
+  // 是否全部无版权
+  const allNoCopyright = props?.songs?.some(
+    (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+  );
+  if (!allNoCopyright) {
+    $store.commit('setCopyright', {
+      visible: true,
+      message: '由于版权保护，您所在的地区暂时无法使用。'
+    });
+    return;
+  }
+
+  // 过滤无版权
+  const songList: SongType[] = songs.value.filter(
+    (item: Record<string, { cp: number }>) => item?.privilege?.cp !== 0
+  );
+
+  useSongToPlaylist(songList);
 }
 
 // 收藏全部

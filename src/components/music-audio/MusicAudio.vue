@@ -31,9 +31,9 @@
         <div class="music-img">
           <img
             class="img"
-            v-if="playMusicItem?.picUrl"
-            :src="playMusicItem?.picUrl"
-            @click="jumpSongDetail(playMusicItem?.id)"
+            v-if="playSongItem?.picUrl"
+            :src="playSongItem?.picUrl"
+            @click="jumpSongDetail(playSongItem?.id)"
           />
           <span class="default-img"></span>
         </div>
@@ -42,21 +42,21 @@
             <span class="music-name">
               <span
                 class="name"
-                :title="playMusicItem?.name"
-                @click="jumpSongDetail(playMusicItem?.id)"
+                :title="playSongItem?.name"
+                @click="jumpSongDetail(playSongItem?.id)"
               >
-                {{ playMusicItem?.name }}
+                {{ playSongItem?.name }}
               </span>
               <i
                 class="icon-mv"
-                v-if="playMusicItem?.mv > 0"
-                @click="jumpVideoDetail(playMusicItem?.mv)"
+                v-if="playSongItem?.mv > 0"
+                @click="jumpVideoDetail(playSongItem?.mv)"
               ></i>
             </span>
             <span class="singer-name">
               <span
                 class="text"
-                v-for="(item, index) in playMusicItem?.singerList"
+                v-for="(item, index) in playSongItem?.artists"
                 :key="index"
                 :title="item?.name"
                 @click="jumpSingerDetail(item.id)"
@@ -64,7 +64,7 @@
                 <span class="name">{{ item?.name }}</span>
                 <span
                   class="line"
-                  v-if="index !== playMusicItem.singerList.length - 1"
+                  v-if="index !== playSongItem.artists.length - 1"
                 >
                   /
                 </span>
@@ -72,7 +72,7 @@
             </span>
             <span
               class="link"
-              v-if="playMusicItem?.name"
+              v-if="playSongItem?.name"
               @click="jumpSongPosition"
             ></span>
           </div>
@@ -81,15 +81,14 @@
             <div class="time">
               <span class="duration">
                 {{
-                  timeStampToDuration(musicPlayProgress.currentTime || 0) ||
+                  timeStampToDuration(songPlayProgress.currentTime || 0) ||
                   '00:00'
                 }}
               </span>
               <span class="total-duration">
                 /
                 {{
-                  timeStampToDuration(musicPlayProgress.duration || 0) ||
-                  '00:00'
+                  timeStampToDuration(songPlayProgress.duration || 0) || '00:00'
                 }}
               </span>
             </div>
@@ -107,7 +106,6 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
 import { timeStampToDuration } from '@/utils/utils';
-import type { PlayMusicItem } from '@/store/music/state';
 import AudioView from './audio/Audio.vue';
 import PlayAction from './play-action/PlayAction.vue';
 import PlayProgress from './play-progress/PlayProgress.vue';
@@ -116,13 +114,11 @@ import OtherTool from './other-tool/OtherTool.vue';
 const $router = useRouter();
 const $store = useStore();
 
-// 当前播放音乐
-const playMusicItem = computed<PlayMusicItem>(
-  () => $store.getters['music/playMusicItem']
-);
-// 播放进度数据
-const musicPlayProgress = computed(
-  () => $store.getters['music/musicPlayProgress']
+// 当前播放
+const playSongItem = computed(() => $store.getters['music/playSongItem']);
+// 播放进度
+const songPlayProgress = computed(
+  () => $store.getters['music/songPlayProgress']
 );
 // 播放器锁定
 const musicAudioLock = computed<boolean>(

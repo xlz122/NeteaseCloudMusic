@@ -37,7 +37,7 @@
               'disable-play': songSheetDetail?.playlist?.tracks.length === 0
             }"
             title="播放"
-            @click="playAllMusic"
+            @click="playAllSong"
           >
             <span class="icon-play">播放</span>
           </div>
@@ -47,7 +47,7 @@
               'disable-add': songSheetDetail?.playlist?.tracks.length === 0
             }"
             title="添加到播放列表"
-            @click="allMusicToPlayList"
+            @click="allSongToPlaylist"
           ></div>
           <div
             class="other collection"
@@ -113,12 +113,11 @@
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
 import { useStore } from 'vuex';
-import { throttle } from 'lodash';
 import { setMessage } from '@/components/message/useMessage';
-import useMusicToPlayList from '@/common/useMusicToPlayList';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { formatDateTime } from '@/utils/utils';
-import type { SongType } from '@/common/audio';
+import type { SongType } from '@/hooks/songFormat';
 
 const props = defineProps({
   updateFrequency: {
@@ -150,41 +149,32 @@ function isCopyright(id: number): boolean | undefined {
 }
 
 // 播放全部 - 默认播放列表第一项
-const playAllMusic = throttle(
-  function () {
-    if (songSheetDetail.value?.playlist?.tracks.length === 0) {
-      return;
-    }
-
-    // 过滤无版权
-    const songList: Partial<SongType>[] =
-      songSheetDetail.value?.playlist?.tracks.filter(
-        (item: { id: number }) => !isCopyright(item.id)
-      );
-
-    usePlaySingleMusic(songList[0]);
-    useMusicToPlayList({ music: songList, clear: true });
-  },
-  800,
-  {
-    leading: true, // 点击第一下是否执行
-    trailing: false // 节流结束后, 是否执行一次
-  }
-);
-
-// 全部音乐添加到播放列表
-function allMusicToPlayList(): boolean | undefined {
+function playAllSong(): void {
   if (songSheetDetail.value?.playlist?.tracks.length === 0) {
     return;
   }
 
   // 过滤无版权
-  const songList: Partial<SongType>[] =
-    songSheetDetail.value?.playlist?.tracks.filter(
-      (item: { id: number }) => !isCopyright(item.id)
-    );
+  const songList: SongType[] = songSheetDetail.value?.playlist?.tracks.filter(
+    (item: { id: number }) => !isCopyright(item.id)
+  );
 
-  useMusicToPlayList({ music: songList });
+  usePlaySong(songList[0]);
+  useSongToPlaylist(songList, { clear: true });
+}
+
+// 全部歌曲添加到播放列表
+function allSongToPlaylist(): boolean | undefined {
+  if (songSheetDetail.value?.playlist?.tracks.length === 0) {
+    return;
+  }
+
+  // 过滤无版权
+  const songList: SongType[] = songSheetDetail.value?.playlist?.tracks.filter(
+    (item: { id: number }) => !isCopyright(item.id)
+  );
+
+  useSongToPlaylist(songList);
 }
 
 // 收藏

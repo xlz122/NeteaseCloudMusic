@@ -35,8 +35,8 @@
               <span class="text">{{ index + 1 }}</span>
               <i
                 class="icon-play"
-                :class="{ 'active-play': item.id === playMusicId }"
-                @click="playSingleMusic(item)"
+                :class="{ 'active-play': item.id === playSongId }"
+                @click="playSingleSong(item)"
               ></i>
             </div>
           </td>
@@ -62,7 +62,7 @@
                 <i
                   class="icon add"
                   title="添加到播放列表"
-                  @click="singleMusicToPlayList(item)"
+                  @click="singleSongToPlaylist(item)"
                 ></i>
                 <i
                   class="icon collect"
@@ -123,10 +123,10 @@ import { ref, computed, watch, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import useMusicToPlayList from '@/common/useMusicToPlayList';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { timeStampToDuration } from '@/utils/utils';
-import type { SongType } from '@/common/audio';
+import type { SongType } from '@/hooks/songFormat';
 
 type ItemType = {
   alia: string[];
@@ -134,6 +134,9 @@ type ItemType = {
     id: number;
     name: string;
   };
+  ar: {
+    id: number;
+  }[];
 } & SongType;
 
 const props = defineProps({
@@ -146,7 +149,7 @@ const props = defineProps({
 const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
-const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
+const playSongId = computed<number>(() => $store.getters['music/playSongId']);
 
 const { list } = toRefs(props);
 
@@ -158,14 +161,15 @@ watch(
   }
 );
 
-// 单个歌曲添加到播放列表
-function singleMusicToPlayList(item: Partial<SongType>): void {
-  useMusicToPlayList({ music: item });
+// 播放单个歌曲
+function playSingleSong(item: SongType): void {
+  usePlaySong(item);
+  useSongToPlaylist(item);
 }
 
-// 播放单个歌曲
-function playSingleMusic(item: Partial<SongType>): void {
-  usePlaySingleMusic(item);
+// 单个歌曲添加到播放列表
+function singleSongToPlaylist(item: SongType): void {
+  useSongToPlaylist(item);
 }
 
 // 收藏

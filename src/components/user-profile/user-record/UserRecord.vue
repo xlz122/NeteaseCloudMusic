@@ -36,8 +36,8 @@
           <span class="text">{{ index + 1 }}.</span>
           <i
             class="icon-play"
-            :class="{ 'active-play': item?.song?.id === playMusicId }"
-            @click="playSingleMusic(item?.song)"
+            :class="{ 'active-play': item?.song?.id === playSongId }"
+            @click="playSingleSong(item?.song)"
           ></i>
         </div>
         <div class="song">
@@ -63,7 +63,7 @@
             <i
               class="icon add"
               title="添加到播放列表"
-              @click="singleMusicToPlayList(item?.song)"
+              @click="singleSongToPlaylist(item?.song)"
             ></i>
             <i
               class="icon collect"
@@ -97,11 +97,11 @@ import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/components/message/useMessage';
-import useMusicToPlayList from '@/common/useMusicToPlayList';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { userRecord } from '@/api/user';
 import type { ResponseType } from '@/types/types';
-import type { SongType } from '@/common/audio';
+import type { SongType } from '@/hooks/songFormat';
 
 type RecordItem = {
   score: string;
@@ -127,7 +127,7 @@ const $route = useRoute();
 const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
-const playMusicId = computed<number>(() => $store.getters['music/playMusicId']);
+const playSongId = computed<number>(() => $store.getters['music/playSongId']);
 
 // 最近一周/所有时间
 const type = ref(0);
@@ -169,13 +169,14 @@ function getUserRecord(): void {
 }
 
 // 播放单个歌曲
-function playSingleMusic(item: Partial<SongType>): void {
-  usePlaySingleMusic(item);
+function playSingleSong(item: SongType): void {
+  usePlaySong(item);
+  useSongToPlaylist(item);
 }
 
 // 单个歌曲添加到播放列表
-function singleMusicToPlayList(item: Partial<SongType>): void {
-  useMusicToPlayList({ music: item });
+function singleSongToPlaylist(item: SongType): void {
+  useSongToPlaylist(item);
 }
 
 // 收藏
