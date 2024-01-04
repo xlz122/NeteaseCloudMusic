@@ -1,3 +1,33 @@
+# [1.7.0](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.6.1...v1.7.0) (2024-01-04)
+
+
+### ♻ Code Refactoring | 代码重构
+
+* 重构播放歌曲、添加歌曲到播放列表 [#df613d7](https://github.com/xlz122/NeteaseCloudMusic/commit/df613d7) 
+
+
+### ✨ Features | 新功能
+
+* 电台详情-歌曲列表可播放 [#ca05cb3](https://github.com/xlz122/NeteaseCloudMusic/commit/ca05cb3) 
+* 调整电台详情布局，完善部分跳转 [#ddf2d99](https://github.com/xlz122/NeteaseCloudMusic/commit/ddf2d99) 
+* 歌单音乐列表增加loading效果 [#2066f1f](https://github.com/xlz122/NeteaseCloudMusic/commit/2066f1f) 
+* 我的音乐 - 歌单详情移除对vuex依赖 [#26a8d2d](https://github.com/xlz122/NeteaseCloudMusic/commit/26a8d2d) 
+* base.css全局使用改为组件使用 [#f2c3e77](https://github.com/xlz122/NeteaseCloudMusic/commit/f2c3e77) 
+
+
+### 🎫 Chores | 其他更新
+
+* update license year [#f4be18b](https://github.com/xlz122/NeteaseCloudMusic/commit/f4be18b) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 修复非登录用户歌单出现编辑图标的bug [#cee92b2](https://github.com/xlz122/NeteaseCloudMusic/commit/cee92b2) 
+* 修复评论相关接口报错bug [#6a878d6](https://github.com/xlz122/NeteaseCloudMusic/commit/6a878d6) 
+* 修复视频详情-相关视频传递id不正确的bug [#ed92e11](https://github.com/xlz122/NeteaseCloudMusic/commit/ed92e11) 
+
+
+
 ## [1.6.1](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.6.0...v1.6.1) (2023-12-20)
 
 
@@ -12,6 +42,7 @@
 ### 🎫 Chores | 其他更新
 
 * 更新vite 5.0.8 [#570546a](https://github.com/xlz122/NeteaseCloudMusic/commit/570546a) 
+* release 1.6.1 [#ecb25a4](https://github.com/xlz122/NeteaseCloudMusic/commit/ecb25a4) 
 
 
 ### 🐛 Bug Fixes | Bug 修复
