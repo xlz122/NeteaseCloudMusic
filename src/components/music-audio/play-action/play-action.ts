@@ -16,18 +16,18 @@ const audio: AudioType = {
 /**
  * @description 播放上一首歌曲
  */
-export async function playPrevMusic(): Promise<boolean | undefined> {
+export async function playPrevSong(): Promise<boolean | undefined> {
   const playSongId = store.getters['music/playSongId'];
   const songPlaylist = store.getters['music/songPlaylist'];
+
+  if (songPlaylist.length === 0) {
+    return;
+  }
 
   // 存储播放状态
   if (!audio.storage) {
     audio.storage = true;
     audio.look = store.getters['music/songPlayStatus'].look;
-  }
-
-  if (songPlaylist.length === 0) {
-    return;
   }
 
   // 重置播放状态
@@ -93,18 +93,18 @@ export async function playPrevMusic(): Promise<boolean | undefined> {
 /**
  * @description 播放下一首歌曲
  */
-export async function playNextMusic(): Promise<boolean | undefined> {
+export async function playNextSong(): Promise<boolean | undefined> {
   const playSongId = store.getters['music/playSongId'];
   const songPlaylist = store.getters['music/songPlaylist'];
+
+  if (songPlaylist.length === 0) {
+    return;
+  }
 
   // 存储播放状态
   if (!audio.storage) {
     audio.storage = true;
     audio.look = store.getters['music/songPlayStatus'].look;
-  }
-
-  if (songPlaylist.length === 0) {
-    return;
   }
 
   // 重置播放状态

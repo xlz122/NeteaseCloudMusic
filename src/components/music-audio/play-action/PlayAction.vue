@@ -3,7 +3,7 @@
     <button
       class="btn prev-btn"
       title="上一首(ctrl+←)"
-      @click="playPrevMusic"
+      @click="playPrevSong"
     ></button>
     <button
       class="btn look-btn"
@@ -14,7 +14,7 @@
     <button
       class="btn down-btn"
       title="下一首(ctrl+→)"
-      @click="playNextMusic"
+      @click="playNextSong"
     ></button>
   </div>
 </template>
@@ -22,7 +22,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-import { playPrevMusic, playNextMusic } from './play-action';
+import { playPrevSong, playNextSong } from './play-action';
 
 const $store = useStore();
 // 播放状态

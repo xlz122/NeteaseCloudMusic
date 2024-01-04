@@ -87,12 +87,15 @@
             <tr v-for="item in songs?.details?.programs" :key="item.id">
               <td class="dis-flex justify-between align-center">
                 <span>{{ item.serialNum }}</span>
-                <i></i>
+                <i @click="playSingleSong(item.mainSong)"></i>
               </td>
               <td class="">
                 <div class="name ellipsis">{{ item.name }}</div>
                 <div class="ic dis-flex">
-                  <i class="icon u-icn1"></i>
+                  <i
+                    class="icon u-icn1"
+                    @click="singleSongToPlaylist(item.mainSong)"
+                  ></i>
                   <i class="icon u-icn2"></i>
                   <i class="icon u-icn3"></i>
                 </div>
@@ -124,9 +127,12 @@ import { ref, reactive, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongToPlaylist from '@/hooks/useSongToPlaylist';
 import { filterTime, timeStampToDuration } from '@/utils/utils';
 import { djDetail, djProgram } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types/types';
+import type { SongType } from '@/hooks/songFormat';
 import DjradioDetailSide from './djradio-detail-side/DjradioDetailSide.vue';
 
 const $route = useRoute();
@@ -171,6 +177,17 @@ function djProgramDetails(id: number) {
 function changeSongSort(change: boolean) {
   sortSong.value = change;
   djProgramDetails(songs.rid);
+}
+
+// 播放单个歌曲
+function playSingleSong(item: SongType): void {
+  usePlaySong(item);
+  useSongToPlaylist(item);
+}
+
+// 单个歌曲添加到播放列表
+function singleSongToPlaylist(item: SongType): void {
+  useSongToPlaylist(item);
 }
 
 // 分享

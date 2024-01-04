@@ -23,7 +23,7 @@ import { setMessage } from '@/hooks/useMessage';
 import { getPlayMusicUrl } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/hooks/songFormat';
-import { playNextMusic } from '@/components/music-audio/play-action/play-action';
+import { playNextSong } from '@/components/music-audio/play-action/play-action';
 
 const $store = useStore();
 const playSongId = computed<number>(() => $store.getters['music/playSongId']);
@@ -178,7 +178,7 @@ function handleMusicUrlError(): boolean | undefined {
       return;
     }
 
-    playNextMusic();
+    playNextSong();
   }, 3000);
 }
 
@@ -274,7 +274,7 @@ function musicPlayEnded(): boolean | undefined {
     return;
   }
 
-  playNextMusic();
+  playNextSong();
 }
 
 onMounted(() => {

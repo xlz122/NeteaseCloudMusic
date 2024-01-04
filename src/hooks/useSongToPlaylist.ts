@@ -32,7 +32,6 @@ function useSongToPlaylist(
   }
 
   if (options?.clear) {
-    console.log(musicList.value);
     store.commit('music/setSongPlaylist', musicList.value);
     return;
   }
