@@ -9,7 +9,6 @@ import collectSong from '@/components/collect-song/index';
 import copyright from '@/components/copyright/index';
 import abnormal from '@/components/abnormal-modal/index';
 import '@/index.less';
-import '@/style/base.less';
 
 const app = createApp(App);
 

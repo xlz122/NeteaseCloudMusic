@@ -2,7 +2,7 @@
   <div class="home-djprogram">
     <div class="home-djprogram-container">
       <Category @categoryChange="categoryChange" />
-      <div class="dis-flex justify-between">
+      <div class="ranking-list">
         <Recommend />
         <RankiList />
       </div>

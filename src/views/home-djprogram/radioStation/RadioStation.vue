@@ -62,5 +62,6 @@ function jumpDjradioDetail(id: number): void {
 </script>
 
 <style lang="less" scoped>
+@import url('../../../style/base.less');
 @import url('./radioStation.less');
 </style>

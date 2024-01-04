@@ -117,5 +117,6 @@ function jumpProgramDetail(id: number): void {
 </script>
 
 <style lang="less" scoped>
+@import url('../../../style/base.less');
 @import url('./rankiList.less');
 </style>

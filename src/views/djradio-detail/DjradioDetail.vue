@@ -190,5 +190,6 @@ function jumpUserProfile(id: number): void {
 </script>
 
 <style lang="less" scoped>
+@import url('../../style/base.less');
 @import url('./djradio-detail.less');
 </style>
