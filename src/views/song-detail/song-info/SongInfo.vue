@@ -131,7 +131,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongToPlaylist from '@/hooks/useSongToPlaylist';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 
 const props = defineProps({
   songDetailData: {
@@ -161,7 +161,7 @@ function playSingleSong(): boolean | undefined {
   }
 
   usePlaySong(props.songDetailData?.songs[0]);
-  useSongToPlaylist(props.songDetailData?.songs[0]);
+  useSongAddPlaylist(props.songDetailData?.songs[0]);
 }
 
 // 单个歌曲添加到播放列表
@@ -170,7 +170,7 @@ function singleSongToPlaylist(): boolean | undefined {
     return;
   }
 
-  useSongToPlaylist(props.songDetailData?.songs[0]);
+  useSongAddPlaylist(props.songDetailData?.songs[0]);
 }
 
 // 收藏
@@ -188,7 +188,7 @@ function handleCollection(id: number): boolean | undefined {
     return;
   }
 
-  $store.commit('collectPlayMusic', {
+  $store.commit('setSongCollect', {
     visible: true,
     songIds: id
   });

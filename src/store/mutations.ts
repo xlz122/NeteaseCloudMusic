@@ -56,8 +56,8 @@ const mutations: Mutations<State> = {
     clearAllCookie();
   },
   // 收藏歌曲
-  collectPlayMusic(state, song: State['collectSong']) {
-    state.collectSong = song;
+  setSongCollect(state, song: State['songCollect']) {
+    state.songCollect = song;
   },
   // 版权提示
   setCopyright(state, data: State['copyright']) {

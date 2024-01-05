@@ -7,7 +7,7 @@ export type State = {
   isLogin: boolean;
   songSheetId: number;
   singerTabIndex: number;
-  collectSong: {
+  songCollect: {
     visible: boolean;
     songIds: string;
   };
@@ -37,10 +37,10 @@ const state: State = {
   isLogin: faultTolerant('isLogin') || false,
   songSheetId: Number(localStorage.getItem('songSheetId')) || 0, // 我的音乐 - 歌单id
   singerTabIndex: Number(localStorage.getItem('singerTabIndex')) || 0, // 歌手详情导航
-  collectSong: {
+  songCollect: {
     visible: false,
     songIds: ''
-  }, // 收藏歌曲
+  }, // 歌曲收藏
   copyright: {
     visible: false,
     message: ''

@@ -113,7 +113,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongToPlaylist from '@/hooks/useSongToPlaylist';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { formatDateTime } from '@/utils/utils';
 import type { SongType } from '@/hooks/songFormat';
 
@@ -166,7 +166,7 @@ function playAllSong(): void {
   );
 
   usePlaySong(songList[0]);
-  useSongToPlaylist(songList, { clear: true });
+  useSongAddPlaylist(songList, { clear: true });
 }
 
 // 全部歌曲添加到播放列表
@@ -192,7 +192,7 @@ function allSongToPlaylist(): boolean | undefined {
     (item: Record<string, { cp: number }>) => item?.privilege?.cp !== 0
   );
 
-  useSongToPlaylist(songList);
+  useSongAddPlaylist(songList);
 }
 
 // 收藏全部
@@ -224,7 +224,7 @@ function handleCollectAll(): boolean | undefined {
     ids += `${item.id},`;
   });
 
-  $store.commit('collectPlayMusic', {
+  $store.commit('setSongCollect', {
     visible: true,
     songIds: ids
   });

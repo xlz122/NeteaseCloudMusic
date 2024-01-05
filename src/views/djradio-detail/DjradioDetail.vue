@@ -128,7 +128,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongToPlaylist from '@/hooks/useSongToPlaylist';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { filterTime, timeStampToDuration } from '@/utils/utils';
 import { djDetail, djProgram } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types/types';
@@ -182,12 +182,12 @@ function changeSongSort(change: boolean) {
 // 播放单个歌曲
 function playSingleSong(item: SongType): void {
   usePlaySong(item);
-  useSongToPlaylist(item);
+  useSongAddPlaylist(item);
 }
 
 // 单个歌曲添加到播放列表
 function singleSongToPlaylist(item: SongType): void {
-  useSongToPlaylist(item);
+  useSongAddPlaylist(item);
 }
 
 // 分享

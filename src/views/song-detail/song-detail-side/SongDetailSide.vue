@@ -83,7 +83,7 @@
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongToPlaylist from '@/hooks/useSongToPlaylist';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { simiPlaylist, simiSong } from '@/api/song-detail';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/hooks/songFormat';
@@ -148,7 +148,7 @@ function playSingleSong(item: SimiSongItem): boolean | undefined {
   }
 
   usePlaySong(item);
-  useSongToPlaylist(item);
+  useSongAddPlaylist(item);
 }
 
 // 单个歌曲添加到播放列表
@@ -158,7 +158,7 @@ function singleSongToPlaylist(item: SimiSongItem): boolean | undefined {
     return;
   }
 
-  useSongToPlaylist(item);
+  useSongAddPlaylist(item);
 }
 
 // 跳转歌单详情

@@ -105,7 +105,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongToPlaylist from '@/hooks/useSongToPlaylist';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { timeStampToDuration, handleMatchString } from '@/utils/utils';
 import { searchKeywords } from '@/api/search';
 import type { ResponseType } from '@/types/types';
@@ -195,12 +195,12 @@ function playSingleSong(item: SongType): boolean | undefined {
   }
 
   usePlaySong(item);
-  useSongToPlaylist(item);
+  useSongAddPlaylist(item);
 }
 
 // 单个歌曲添加到播放列表
 function singleSongToPlaylist(item: SongType): void {
-  useSongToPlaylist(item);
+  useSongAddPlaylist(item);
 }
 
 // 歌曲是否有版权
@@ -221,7 +221,7 @@ function handleCollection(id: number): boolean | undefined {
     return;
   }
 
-  $store.commit('collectPlayMusic', {
+  $store.commit('setSongCollect', {
     visible: true,
     songIds: id
   });

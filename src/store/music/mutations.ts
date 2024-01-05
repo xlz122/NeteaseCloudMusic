@@ -39,7 +39,7 @@ const mutations: Mutations<State> = {
       state.songPlayStatus[key as keyof typeof state.songPlayStatus] = playStatus[key as keyof typeof playStatus];
     }
   },
-  // 播放器锁定在底部
+  // 播放器锁定
   setMsicAudioLock(state, musicAudioLock: boolean) {
     state.musicAudioLock = musicAudioLock;
     localStorage.setItem('musicAudioLock', JSON.stringify(musicAudioLock));
@@ -49,38 +49,26 @@ const mutations: Mutations<State> = {
     state.musicModeType = modeType;
     localStorage.setItem('musicModeType', JSON.stringify(modeType));
   },
-  // 音量控制
+  // 音量
   setMusicVolume(state, musicVolume: number) {
     state.musicVolume = musicVolume;
     localStorage.setItem('musicVolume', JSON.stringify(musicVolume));
   },
-  // 播放器 - 歌词
-  setLyrics(state, playLyrics: PlayLyrics[]) {
+  // 播放器歌词
+  setPlayLyrics(state, playLyrics: PlayLyrics[]) {
     state.playLyrics = playLyrics;
     localStorage.setItem('playLyrics', JSON.stringify(playLyrics));
   },
-  // 播放器 - 清空播放列表
-  emptyPlayMusicList(state) {
+  // 清空播放列表
+  emptySongPlaylist(state) {
     state.songPlaylist = [];
     localStorage.setItem('songPlaylist', '[]');
     // 清除歌词
     state.playLyrics = [];
     localStorage.setItem('playLyrics', '[]');
-    // 清除本地当前播放数据(清除后刷新)
+    // 清除本地播放数据(清除后刷新)
     localStorage.setItem('playSongId', '');
     localStorage.setItem('playSongItem', '');
-  },
-  // 播放器 - 删除播放列表单项数据
-  deletePlayMusicList(state, id: number) {
-    // 查找索引
-    const list = JSON.parse(JSON.stringify(state.songPlaylist));
-    const index = list.findIndex((item: MusicItemType) => item.id === id);
-    if (index !== -1) {
-      list.splice(index, 1);
-    }
-    // 保存数据
-    state.songPlaylist = list;
-    localStorage.setItem('songPlaylist', JSON.stringify(list));
   }
 };
 

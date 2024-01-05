@@ -88,7 +88,7 @@ const videoPlayProgress = computed(
 // 播放状态
 const songPlayStatus = computed(() => $store.getters['music/songPlayStatus']);
 
-// 播放视频暂停音乐, 播放音乐暂停视频
+// 播放视频暂停歌曲, 播放歌曲暂停视频
 const videoStatus = ref('pause');
 
 watch(

@@ -13,7 +13,7 @@ const getters: Getters<State> = {
   isLogin: state => state.isLogin,
   songSheetId: state => state.songSheetId,
   singerTabIndex: state => state.singerTabIndex,
-  collectSong: state => state.collectSong,
+  songCollect: state => state.songCollect,
   copyright: state => state.copyright,
   abnormal: state => state.abnormal
 };

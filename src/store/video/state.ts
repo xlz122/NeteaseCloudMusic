@@ -19,8 +19,8 @@ const state: State = {
     currentTime: 0,
     duration: 0,
     cacheProgress: 0
-  }, // 当前播放视频进度数据
-  videoVolume: Number(localStorage.getItem('videoVolume')) || 1 // 播放器 - 音量
+  }, // 播放进度
+  videoVolume: Number(localStorage.getItem('videoVolume')) || 1 // 音量
 };
 
 export default state;

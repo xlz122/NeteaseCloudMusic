@@ -201,7 +201,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongToPlaylist from '@/hooks/useSongToPlaylist';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { getWeekDate, formatDateTime, bigNumberTransform } from '@/utils/utils';
 import {
   recommendSongList,
@@ -276,7 +276,7 @@ function songSheetToPlaylistPlay(id: number): void {
         );
 
         usePlaySong(songList[0]);
-        useSongToPlaylist(songList, { clear: true });
+        useSongAddPlaylist(songList, { clear: true });
       }
     })
     .catch(() => ({}));
@@ -400,7 +400,7 @@ function albumToPlaylistPlay(id: number): void {
         );
 
         usePlaySong(songList[0]);
-        useSongToPlaylist(songList, { clear: true });
+        useSongAddPlaylist(songList, { clear: true });
       }
     })
     .catch(() => ({}));

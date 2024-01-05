@@ -48,7 +48,7 @@ import { ref, reactive, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongToPlaylist from '@/hooks/useSongToPlaylist';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { formatMixedText } from '@/utils/formatMixedText';
 import { friendEvent, dynamicLike } from '@/api/friend';
 import type { ResponseType } from '@/types/types';
@@ -121,7 +121,7 @@ getFriendEvent();
 // 播放单个歌曲
 function playSingleSong(item: SongType): void {
   usePlaySong(item);
-  useSongToPlaylist(item);
+  useSongAddPlaylist(item);
 }
 
 // 动态点赞

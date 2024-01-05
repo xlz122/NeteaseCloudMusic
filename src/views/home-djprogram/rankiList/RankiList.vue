@@ -65,7 +65,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongToPlaylist from '@/hooks/useSongToPlaylist';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { programTopList } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/hooks/songFormat';
@@ -104,7 +104,7 @@ getRecommendList();
 // 播放单个歌曲
 function playSingleSong(item: SongType): void {
   usePlaySong(item);
-  useSongToPlaylist(item);
+  useSongAddPlaylist(item);
 }
 
 // 跳转电台详情

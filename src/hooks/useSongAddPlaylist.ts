@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue';
 import store from '@/store/index';
-import { toRawType } from '@/utils/tool';
 import useSongFormat from '@/hooks/songFormat';
+import { toRawType } from '@/utils/tool';
 import type { SongType, MusicItemType } from '@/hooks/songFormat';
 
 /**
@@ -10,7 +10,7 @@ import type { SongType, MusicItemType } from '@/hooks/songFormat';
  * @param { Object } options
  * @param { boolean } [options.clear] - 是否清空播放列表
  */
-function useSongToPlaylist(
+function useSongAddPlaylist(
   songs: Array<SongType> | SongType,
   options?: { clear: boolean }
 ): void {
@@ -56,4 +56,4 @@ function useSongToPlaylist(
   ]);
 }
 
-export default useSongToPlaylist;
+export default useSongAddPlaylist;

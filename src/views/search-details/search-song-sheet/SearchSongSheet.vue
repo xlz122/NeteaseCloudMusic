@@ -88,7 +88,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongToPlaylist from '@/hooks/useSongToPlaylist';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { bigNumberTransform, handleMatchString } from '@/utils/utils';
 import { searchKeywords } from '@/api/search';
 import { playlistTrack, playlistSubscribe } from '@/api/song-sheet-detail';
@@ -183,7 +183,7 @@ function songSheetToPlaylistPlay(id: number): void {
         );
 
         usePlaySong(songList[0]);
-        useSongToPlaylist(songList, { clear: true });
+        useSongAddPlaylist(songList, { clear: true });
       }
     })
     .catch(() => ({}));
@@ -205,7 +205,7 @@ function songSheetToPlaylist(id: number): void {
           (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
         );
 
-        useSongToPlaylist(songList, { clear: true });
+        useSongAddPlaylist(songList, { clear: true });
       }
     })
     .catch(() => ({}));

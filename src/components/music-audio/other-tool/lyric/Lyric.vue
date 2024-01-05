@@ -105,7 +105,7 @@ function getLyricData() {
         // 显示暂无歌词
         lyric.noData = true;
         // 清空存储歌词
-        $store.commit('music/setLyrics', []);
+        $store.commit('music/setPlayLyrics', []);
         return;
       }
 
@@ -153,7 +153,7 @@ function handlerLyric(lyricStr: string): void {
     lyric.list.push(obj);
   });
   // 歌词存储
-  $store.commit('music/setLyrics', lyric.list);
+  $store.commit('music/setPlayLyrics', lyric.list);
 }
 
 // 格式化歌词的时间 转换成 s.ms

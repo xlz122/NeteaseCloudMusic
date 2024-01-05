@@ -38,7 +38,7 @@ watch(
   }
 );
 
-// 音乐进度更改
+// 进度更改
 function progressChange(value: number): void {
   const currentTime = songPlayProgress.value.duration * value;
 

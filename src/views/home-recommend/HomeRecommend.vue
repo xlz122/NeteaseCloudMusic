@@ -48,7 +48,7 @@
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongToPlaylist from '@/hooks/useSongToPlaylist';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { getWeekDate, formatDateTime } from '@/utils/utils';
 import { recommendSongs } from '@/api/home-recommend';
 import type { ResponseType } from '@/types/types';
@@ -107,7 +107,7 @@ function playAllSong(): void {
   );
 
   usePlaySong(songList[0]);
-  useSongToPlaylist(songList, { clear: true });
+  useSongAddPlaylist(songList, { clear: true });
 }
 
 // 全部歌曲添加到播放列表
@@ -121,7 +121,7 @@ function allSongToPlaylist(): boolean | undefined {
     item => item?.privilege?.cp !== 0
   );
 
-  useSongToPlaylist(songList);
+  useSongAddPlaylist(songList);
 }
 
 // 收藏全部
@@ -137,7 +137,7 @@ function handleCollectAll(): void {
     ids += `${item.id},`;
   });
 
-  $store.commit('collectPlayMusic', {
+  $store.commit('setSongCollect', {
     visible: true,
     songIds: ids
   });

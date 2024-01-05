@@ -97,7 +97,7 @@
                     userInfo?.profile?.userId
                   "
                   title="删除"
-                  @click="deleteMusicShow(item?.id)"
+                  @click="deleteSongShow(item?.id)"
                 ></i>
               </div>
             </div>
@@ -137,13 +137,13 @@
     </div>
     <my-dialog
       class="delete-music-dialog"
-      :visible="deleteMusicDialog"
+      :visible="deleteSongDialog"
       :confirmtext="'确定'"
       :canceltext="'取消'"
       showConfirmButton
       showCancelButton
-      @confirm="deleteMusicConfirm"
-      @cancel="deleteMusicCancel"
+      @confirm="deleteSongConfirm"
+      @cancel="deleteSongCancel"
     >
       <p class="content">确定删除歌曲？</p>
     </my-dialog>
@@ -156,9 +156,9 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongToPlaylist from '@/hooks/useSongToPlaylist';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { timeStampToDuration } from '@/utils/utils';
-import { deleteMusic } from '@/api/my-music';
+import { deleteSong } from '@/api/my-music';
 import type { SongType } from '@/hooks/songFormat';
 import MyDialog from '@/components/MyDialog.vue';
 
@@ -210,12 +210,12 @@ function playSingleSong(item: SongType): boolean | undefined {
   }
 
   usePlaySong(item);
-  useSongToPlaylist(item);
+  useSongAddPlaylist(item);
 }
 
 // 单个歌曲添加到播放列表
 function singleSongToPlaylist(item: SongType): void {
-  useSongToPlaylist(item);
+  useSongAddPlaylist(item);
 }
 
 // 收藏
@@ -234,7 +234,7 @@ function handleCollection(id: number): boolean | undefined {
     return;
   }
 
-  $store.commit('collectPlayMusic', {
+  $store.commit('setSongCollect', {
     visible: true,
     songIds: id
   });
@@ -256,19 +256,19 @@ function handleDownload(): void {
 }
 
 // 删除歌曲
-const deleteMusicDialog = ref(false);
+const deleteSongDialog = ref(false);
 const deleteMuiscId = ref(0);
 
-function deleteMusicShow(id: number): void {
-  deleteMusicDialog.value = !deleteMusicDialog.value;
+function deleteSongShow(id: number): void {
+  deleteSongDialog.value = !deleteSongDialog.value;
   deleteMuiscId.value = id;
 }
 
 // 删除歌曲 - 确定
-function deleteMusicConfirm(): void {
-  deleteMusicDialog.value = false;
+function deleteSongConfirm(): void {
+  deleteSongDialog.value = false;
 
-  deleteMusic({
+  deleteSong({
     pid: songSheetDetail.value.playlist.id,
     tracks: deleteMuiscId.value
   })
@@ -282,8 +282,8 @@ function deleteMusicConfirm(): void {
 }
 
 // 删除歌曲 - 取消
-function deleteMusicCancel(): void {
-  deleteMusicDialog.value = false;
+function deleteSongCancel(): void {
+  deleteSongDialog.value = false;
 }
 
 // 跳转歌曲详情

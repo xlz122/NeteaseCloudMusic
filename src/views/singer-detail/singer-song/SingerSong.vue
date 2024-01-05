@@ -129,7 +129,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongToPlaylist from '@/hooks/useSongToPlaylist';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { timeStampToDuration } from '@/utils/utils';
 import { artistSong } from '@/api/singer-detail';
 import type { ResponseType } from '@/types/types';
@@ -200,7 +200,7 @@ function playAllSong(): void {
   );
 
   usePlaySong(songList[0]);
-  useSongToPlaylist(songList, { clear: true });
+  useSongAddPlaylist(songList, { clear: true });
 }
 
 // 全部歌曲添加到播放列表
@@ -214,7 +214,7 @@ function allSongToPlaylist(): boolean | undefined {
     item => !isCopyright(item.id)
   );
 
-  useSongToPlaylist(songList);
+  useSongAddPlaylist(songList);
 }
 
 // 收藏全部
@@ -234,7 +234,7 @@ function handleCollectAll(): boolean | undefined {
     ids += `${item.id},`;
   });
 
-  $store.commit('collectPlayMusic', {
+  $store.commit('setSongCollect', {
     visible: true,
     songIds: ids
   });
@@ -252,12 +252,12 @@ function playSingleSong(item: SongType): boolean | undefined {
   }
 
   usePlaySong(item);
-  useSongToPlaylist(item);
+  useSongAddPlaylist(item);
 }
 
 // 单个歌曲添加到播放列表
 function singleSongToPlaylist(item: SongType): void {
-  useSongToPlaylist(item);
+  useSongAddPlaylist(item);
 }
 
 // 歌曲是否有版权
@@ -278,7 +278,7 @@ function handleCollection(id: number): boolean | undefined {
     return;
   }
 
-  $store.commit('collectPlayMusic', {
+  $store.commit('setSongCollect', {
     visible: true,
     songIds: id
   });

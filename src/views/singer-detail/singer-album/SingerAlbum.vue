@@ -52,7 +52,7 @@ import { ref, reactive, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongToPlaylist from '@/hooks/useSongToPlaylist';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { formatDateTime } from '@/utils/utils';
 import { artistAlbum } from '@/api/album-detail';
 import { albumDetail } from '@/api/album-detail';
@@ -137,7 +137,7 @@ function albumToPlaylistPlay(id: number): void {
         );
 
         usePlaySong(songList[0]);
-        useSongToPlaylist(songList, { clear: true });
+        useSongAddPlaylist(songList, { clear: true });
       }
     })
     .catch(() => ({}));

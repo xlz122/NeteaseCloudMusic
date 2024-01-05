@@ -82,7 +82,7 @@ import { ref, reactive, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongToPlaylist from '@/hooks/useSongToPlaylist';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { bigNumberTransform } from '@/utils/utils';
 import { topPlaylist } from '@/api/home-song-sheet';
 import { playlistTrack } from '@/api/song-sheet-detail';
@@ -188,7 +188,7 @@ function songSheetToPlaylistPlay(id: number): void {
         );
 
         usePlaySong(songList[0]);
-        useSongToPlaylist(songList, { clear: true });
+        useSongAddPlaylist(songList, { clear: true });
       }
     })
     .catch(() => ({}));

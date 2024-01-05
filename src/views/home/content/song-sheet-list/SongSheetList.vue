@@ -74,7 +74,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongToPlaylist from '@/hooks/useSongToPlaylist';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { topList } from '@/api/home-toplist';
 import { playlistDetail } from '@/api/song-sheet-detail';
 import { playlistSubscribe } from '@/api/song-sheet-detail';
@@ -157,7 +157,7 @@ function playAllSong(index: number): void {
   const songList = tracks?.filter(item => !item.noCopyrightRcmd);
 
   usePlaySong(songList[0]);
-  useSongToPlaylist(songList, { clear: true });
+  useSongAddPlaylist(songList, { clear: true });
 }
 
 // 收藏
@@ -189,12 +189,12 @@ function handleCollectAll(id: number | undefined): boolean | undefined {
 // 播放单个歌曲
 function playSingleSong(item: SongType): void {
   usePlaySong(item);
-  useSongToPlaylist(item);
+  useSongAddPlaylist(item);
 }
 
-// 单个音乐添加到播放列表
+// 单个歌曲添加到播放列表
 function singleSongToPlaylist(item: SongType): void {
-  useSongToPlaylist(item);
+  useSongAddPlaylist(item);
 }
 
 // 收藏
@@ -204,7 +204,7 @@ function handleCollection(id: number): boolean | undefined {
     return;
   }
 
-  $store.commit('collectPlayMusic', {
+  $store.commit('setSongCollect', {
     visible: true,
     songIds: id
   });

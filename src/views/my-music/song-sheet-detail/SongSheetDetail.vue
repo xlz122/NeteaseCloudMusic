@@ -29,7 +29,7 @@
       class="music-table"
       :loading="loading"
       :songSheetDetail="songSheetDetail"
-      @handleDeleteMusic="handleDeleteMusic"
+      @handleSongDelete="handleSongDelete"
     />
     <div class="comment-component">
       <Comment
@@ -140,7 +140,7 @@ function jumpToComment(): void {
 }
 
 // 删除歌曲
-function handleDeleteMusic(id: number): void {
+function handleSongDelete(id: number): void {
   const index = songSheetDetail.playlist?.tracks?.findIndex(
     item => item.id === id
   );

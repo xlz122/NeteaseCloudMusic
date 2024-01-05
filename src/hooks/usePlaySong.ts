@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue';
 import store from '@/store/index';
-import { toRawType } from '@/utils/tool';
 import useSongFormat from '@/hooks/songFormat';
+import { toRawType } from '@/utils/tool';
 import type { SongType, MusicItemType } from '@/hooks/songFormat';
 
 /**

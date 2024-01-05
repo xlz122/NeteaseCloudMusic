@@ -7,7 +7,7 @@
         <span>收藏全部</span>
       </div>
       <span class="line"></span>
-      <div class="clear-all" @click="emptyMusicList">
+      <div class="clear-all" @click="emptyPlaylist">
         <i class="icon"></i>
         <span>清除</span>
       </div>
@@ -49,7 +49,7 @@
               <i
                 class="icon delete"
                 title="删除"
-                @click="deleteMusic(item?.id, $event)"
+                @click="deleteSingleSong(item, $event)"
               ></i>
             </div>
             <span class="text name" @click.stop>
@@ -96,7 +96,8 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongToPlaylist from '@/hooks/useSongToPlaylist';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
+import useSongDelPlaylist from '@/hooks/useSongDelPlaylist';
 import { timeStampToDuration } from '@/utils/utils';
 import type { SongType } from '@/hooks/songFormat';
 import Lyric from '../lyric/Lyric.vue';
@@ -154,15 +155,15 @@ function collectAll(): boolean | undefined {
     ids += `${item.id},`;
   });
 
-  $store.commit('collectPlayMusic', {
+  $store.commit('setSongCollect', {
     visible: true,
     songIds: ids
   });
 }
 
 // 清除列表
-function emptyMusicList(): void {
-  $store.commit('music/emptyPlayMusicList');
+function emptyPlaylist(): void {
+  $store.commit('music/emptySongPlaylist');
 }
 
 // 收藏
@@ -172,7 +173,7 @@ function handleCollection(id: number): boolean | undefined {
     return;
   }
 
-  $store.commit('collectPlayMusic', {
+  $store.commit('setSongCollect', {
     visible: true,
     songIds: id
   });
@@ -193,16 +194,17 @@ function handleDownload(): void {
   setMessage({ type: 'error', title: '该功能暂未开发' });
 }
 
-// 列表项删除
-function deleteMusic(id: number, event: MouseEvent): void {
-  event.stopPropagation();
-  $store.commit('music/deletePlayMusicList', id);
-}
-
-// 列表项点击
+// 播放单个歌曲
 function playSingleSong(item: SongType): void {
   usePlaySong(item);
-  useSongToPlaylist(item);
+  useSongAddPlaylist(item);
+}
+
+// 删除单个歌曲
+function deleteSingleSong(item: SongType, event: MouseEvent): void {
+  event.stopPropagation();
+
+  useSongDelPlaylist(item);
 }
 
 // 关闭列表

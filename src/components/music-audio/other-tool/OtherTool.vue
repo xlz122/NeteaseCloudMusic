@@ -81,7 +81,7 @@ function handleCollection(): boolean | undefined {
     return;
   }
 
-  $store.commit('collectPlayMusic', {
+  $store.commit('setSongCollect', {
     visible: true,
     songIds: playSongId.value
   });

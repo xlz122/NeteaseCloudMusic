@@ -116,7 +116,7 @@ import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongToPlaylist from '@/hooks/useSongToPlaylist';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { hotNewDisc, nweDiscAlbum } from '@/api/home-new-disc';
 import { albumDetail } from '@/api/album-detail';
 import type { ResponseType } from '@/types/types';
@@ -175,7 +175,7 @@ function albumToPlaylistPlay(id: number): void {
         );
 
         usePlaySong(songList[0]);
-        useSongToPlaylist(songList, { clear: true });
+        useSongAddPlaylist(songList, { clear: true });
       }
     })
     .catch(() => ({}));

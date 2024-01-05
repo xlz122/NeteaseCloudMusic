@@ -112,7 +112,7 @@ export const playListDetail = ({ id }: { id: number }): AxiosPromise => {
   });
 };
 
-type CollectMusic = {
+type CollectSong = {
   pid: number | string;
   tracks: number | string;
 };
@@ -124,7 +124,7 @@ type CollectMusic = {
  * @param { (number | string) } params.pid: 歌单id
  * @param { (number | string) } params.tracks - 歌曲id
  */
-export const collectMusic = ({ pid, tracks }: CollectMusic): AxiosPromise => {
+export const collectSong = ({ pid, tracks }: CollectSong): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     op: 'add',
@@ -139,7 +139,7 @@ export const collectMusic = ({ pid, tracks }: CollectMusic): AxiosPromise => {
   });
 };
 
-type DeleteMusic = {
+type DeleteSong = {
   pid: number | string;
   tracks: number | string;
 };
@@ -151,7 +151,7 @@ type DeleteMusic = {
  * @param { (number | string) } params.pid: 歌单id
  * @param { (number | string) } params.tracks - 歌曲id
  */
-export const deleteMusic = ({ pid, tracks }: DeleteMusic): AxiosPromise => {
+export const deleteSong = ({ pid, tracks }: DeleteSong): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     op: 'del',
@@ -166,7 +166,7 @@ export const deleteMusic = ({ pid, tracks }: DeleteMusic): AxiosPromise => {
   });
 };
 
-type GetPlayMusicUrl = {
+type GetSongPlayUrl = {
   id: number | string;
   br?: number | string;
 };
@@ -177,7 +177,7 @@ type GetPlayMusicUrl = {
  * @param { (number | string) } params.id - 歌曲id
  * @param { number } [params.br] - 码率, 默认设置了 999000 即最大码率,如果要 320k 则可设置为 320000,其他类推
  */
-export const getPlayMusicUrl = ({ id, br }: GetPlayMusicUrl): AxiosPromise => {
+export const getSongPlayUrl = ({ id, br }: GetSongPlayUrl): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,

@@ -20,7 +20,7 @@
 import { ref, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
-import { getPlayMusicUrl } from '@/api/my-music';
+import { getSongPlayUrl } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/hooks/songFormat';
 import { playNextSong } from '@/components/music-audio/play-action/play-action';
@@ -44,12 +44,12 @@ watch(
   () => {
     // 播放 & 不是刷新播放
     if (songPlayStatus.value.look && !songPlayStatus.value.refresh) {
-      startPlayMusic();
+      startPlaySong();
     }
 
     // 暂停
     if (!songPlayStatus.value.look) {
-      stopPlayMusic();
+      stopPlaySong();
     }
   }
 );
@@ -97,13 +97,13 @@ function getAudioPlaySrc(): boolean | undefined {
     return;
   }
 
-  getPlayMusicUrl({ id: playSongId.value })
+  getSongPlayUrl({ id: playSongId.value })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         if (!res?.data[0]?.url) {
           audioSrc.value = '';
 
-          handleMusicUrlError();
+          handleSongUrlError();
           return;
         }
 
@@ -117,7 +117,7 @@ function getAudioPlaySrc(): boolean | undefined {
         audioSrc.value = res.data[0]?.url;
 
         if (songPlayStatus.value.look) {
-          startPlayMusic();
+          startPlaySong();
         }
       }
     })
@@ -129,7 +129,7 @@ getAudioPlaySrc();
 const cacheId = ref<number[]>([]);
 const errorTimer = ref<NodeJS.Timeout | null>(null);
 
-function handleMusicUrlError(): boolean | undefined {
+function handleSongUrlError(): boolean | undefined {
   // 播放停止/只有一首歌
   if (!songPlayStatus.value.look || songPlaylist.value.length <= 1) {
     setMessage({ type: 'error', title: '音乐播放链接获取失败' });
@@ -184,8 +184,8 @@ function handleMusicUrlError(): boolean | undefined {
 
 const playTimer = ref<NodeJS.Timeout | null>(null);
 
-// 播放音乐
-function startPlayMusic(): void {
+// 开始播放
+function startPlaySong(): void {
   $store.commit('music/setSongPlayStatus', {
     loading: false
   });
@@ -194,7 +194,7 @@ function startPlayMusic(): void {
 }
 
 // 停止播放
-function stopPlayMusic(): void {
+function stopPlaySong(): void {
   if (playTimer.value) {
     clearInterval(playTimer.value);
   }
@@ -202,7 +202,7 @@ function stopPlayMusic(): void {
   (musicAudio.value as HTMLVideoElement).pause();
 }
 
-// 开始播放
+// 播放中
 function musicPlaying(): boolean | undefined {
   if (playTimer.value) {
     clearInterval(playTimer.value);
@@ -234,7 +234,7 @@ function musicPlaying(): boolean | undefined {
   }, 500);
 }
 
-// 音乐加载缓存进度
+// 加载缓存进度
 function musicUpdateTime(): void {
   const audio = musicAudio.value as HTMLVideoElement;
 
@@ -251,7 +251,7 @@ function musicUpdateTime(): void {
 const musicModeType = computed(() => $store.getters['music/musicModeType']);
 function musicPlayEnded(): boolean | undefined {
   // 单曲循环
-  // 播放列表没有音乐，或只有一首音乐
+  // 播放列表没有歌曲, 或只有一首歌曲
   if (musicModeType.value === 0 || songPlaylist.value.length <= 1) {
     // 重置播放进度
     $store.commit('music/setSongPlayProgress', {

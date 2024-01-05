@@ -47,16 +47,16 @@ const state: State = {
     currentTime: 0,
     duration: 0,
     cacheProgress: 0
-  }, // 当前播放歌曲进度数据
+  }, // 播放进度
   songPlayStatus: {
     look: false,
     loading: false,
     refresh: false
-  }, // 当前播放歌曲播放状态
-  musicAudioLock: faultTolerant('musicAudioLock') || false, // 播放器锁定在底部
-  musicModeType: Number(localStorage.getItem('musicModeType')) || 0, // 播放器 - 播放模式
-  musicVolume: Number(localStorage.getItem('musicVolume')) || 1, // 播放器 - 音量
-  playLyrics: faultTolerant('playLyrics') || [] // 播放器 - 播放歌词
+  }, // 播放状态
+  musicAudioLock: faultTolerant('musicAudioLock') || false, // 播放器锁定
+  musicModeType: Number(localStorage.getItem('musicModeType')) || 0, // 播放模式
+  musicVolume: Number(localStorage.getItem('musicVolume')) || 1, // 音量
+  playLyrics: faultTolerant('playLyrics') || [] // 播放器歌词
 };
 
 export default state;

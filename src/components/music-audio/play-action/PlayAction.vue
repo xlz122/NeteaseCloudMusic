@@ -9,7 +9,7 @@
       class="btn look-btn"
       :class="{ 'look-play-btn': songPlayStatus?.look }"
       title="播放/暂停(p)"
-      @click="lookPlayMusic"
+      @click="lookPlaySong"
     ></button>
     <button
       class="btn down-btn"
@@ -28,7 +28,7 @@ const $store = useStore();
 // 播放状态
 const songPlayStatus = computed(() => $store.getters['music/songPlayStatus']);
 
-function lookPlayMusic(): void {
+function lookPlaySong(): void {
   if (songPlayStatus.value.look) {
     $store.commit('music/setSongPlayStatus', {
       look: false,
