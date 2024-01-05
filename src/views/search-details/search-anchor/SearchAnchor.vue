@@ -95,6 +95,8 @@ const anchorData = reactive<AnchorData>({
 watch(
   () => $route.query.keyword,
   () => {
+    anchorData.offset = 1;
+
     getSearchAnchor();
   },
   {

@@ -152,6 +152,8 @@ const songData = reactive<SongData>({
 watch(
   () => $route.query.keyword,
   () => {
+    songData.offset = 1;
+
     getSearchSong();
   },
   {

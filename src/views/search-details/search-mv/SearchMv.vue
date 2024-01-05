@@ -105,6 +105,8 @@ const mvData = reactive<MvData>({
 watch(
   () => $route.query.keyword,
   () => {
+    mvData.offset = 1;
+
     getSearchMv();
   },
   {

@@ -97,6 +97,8 @@ const albumData = reactive<AlbumData>({
 watch(
   () => $route.query.keyword,
   () => {
+    albumData.offset = 1;
+
     getSearchAlbum();
   },
   {

@@ -96,6 +96,8 @@ const singerData = reactive<SingerData>({
 watch(
   () => $route.query.keyword,
   () => {
+    singerData.offset = 1;
+
     getSearchSinger();
   },
   {

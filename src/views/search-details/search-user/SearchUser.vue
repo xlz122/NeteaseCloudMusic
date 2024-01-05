@@ -101,6 +101,8 @@ const userData = reactive<UserData>({
 watch(
   () => $route.query.keyword,
   () => {
+    userData.offset = 1;
+
     getSearchUser();
   },
   {
