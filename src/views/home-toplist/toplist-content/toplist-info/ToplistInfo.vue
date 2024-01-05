@@ -28,7 +28,11 @@
               )
             }}
           </span>
-          <span class="desc">（{{ updateFrequency }}）</span>
+          <template v-if="songSheetDetail?.playlist?.updateFrequency">
+            <span class="desc">
+              （{{ songSheetDetail?.playlist?.updateFrequency }}）
+            </span>
+          </template>
         </div>
         <div class="operate-btn">
           <div
@@ -120,10 +124,6 @@ import { formatDateTime } from '@/utils/utils';
 import type { SongType } from '@/hooks/songFormat';
 
 const props = defineProps({
-  updateFrequency: {
-    type: String,
-    default: ''
-  },
   songSheetDetail: {
     type: Object,
     default: () => {}
@@ -134,6 +134,7 @@ const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
 const { songSheetDetail } = toRefs(props);
+console.log(songSheetDetail);
 
 // 歌曲是否有版权
 function isCopyright(id: number): boolean | undefined {

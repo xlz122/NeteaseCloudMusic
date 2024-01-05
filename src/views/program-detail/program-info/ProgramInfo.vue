@@ -35,7 +35,12 @@
     <div class="info-bottom">
       <div class="operate-btn">
         <div class="play">
-          <span class="icon-play">播放 </span>
+          <span
+            class="icon-play"
+            @click="djprogramToPlaylistPlay(detail?.mainSong)"
+          >
+            播放
+          </span>
         </div>
         <div class="other like" @click="handleLike">
           <template v-if="detail?.likedCount > 0">
@@ -106,7 +111,10 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
 import { setMessage } from '@/hooks/useMessage';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { formatDateTime } from '@/utils/utils';
+import type { SongType } from '@/hooks/songFormat';
 
 defineProps({
   detail: {
@@ -121,6 +129,12 @@ defineProps({
 const emits = defineEmits(['jumpToComment']);
 
 const $route = useRoute();
+
+// 电台节目添加到播放列表并播放
+function djprogramToPlaylistPlay(item: SongType): void {
+  usePlaySong(item);
+  useSongAddPlaylist(item);
+}
 
 // 喜欢
 function handleLike(): void {

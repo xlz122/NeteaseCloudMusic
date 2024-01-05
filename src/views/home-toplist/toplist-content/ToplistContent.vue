@@ -1,9 +1,6 @@
 <template>
   <div class="toplist-content">
-    <ToplistInfo
-      :updateFrequency="updateFrequency"
-      :songSheetDetail="songSheetDetail"
-    />
+    <ToplistInfo :songSheetDetail="songSheetDetail" />
     <div class="table-title">
       <h3 class="title-text">歌曲列表</h3>
       <span class="title-text-num">
@@ -46,10 +43,6 @@ import ToplistInfo from './toplist-info/ToplistInfo.vue';
 import ToplistSong from './toplist-song/ToplistSong.vue';
 
 defineProps({
-  updateFrequency: {
-    type: String,
-    default: ''
-  },
   songSheetDetail: {
     type: Object,
     default: () => {}

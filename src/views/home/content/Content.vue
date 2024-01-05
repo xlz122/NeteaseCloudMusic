@@ -79,7 +79,7 @@
             </div>
           </li>
         </template>
-        <!-- 推荐电台部分 -->
+        <!-- 推荐电台节目 -->
         <li
           class="item"
           v-for="(item, index) in hotDjprogram"
@@ -96,7 +96,11 @@
             <div class="info">
               <i class="info-icon"></i>
               <span class="num">{{ item?.program?.adjustedPlayCount }}</span>
-              <i class="info-icon-right"></i>
+              <i
+                class="info-icon-right"
+                title="播放"
+                @click="djprogramToPlaylistPlay(item?.program?.mainSong)"
+              ></i>
             </div>
           </div>
           <div
@@ -230,6 +234,7 @@ type HotDjprogramItem = {
   picUrl: string;
   program: {
     adjustedPlayCount: number;
+    mainSong: SongType;
   };
 };
 
@@ -307,7 +312,7 @@ function getHotSongSheet() {
 }
 getHotSongSheet();
 
-// 获取热门推荐 - 推荐电台
+// 获取热门推荐 - 推荐电台节目
 const hotDjprogram = ref<HotDjprogramItem[]>([]);
 
 function getHotDjprogram() {
@@ -328,6 +333,12 @@ function getHotDjprogram() {
     .catch(() => ({}));
 }
 getHotDjprogram();
+
+// 电台节目添加到播放列表并播放
+function djprogramToPlaylistPlay(item: SongType): void {
+  usePlaySong(item);
+  useSongAddPlaylist(item);
+}
 
 // 获取个性化推荐歌单
 const individualizat = ref<HotSongSheetItem[]>([]);
