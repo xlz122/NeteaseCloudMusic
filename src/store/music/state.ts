@@ -9,7 +9,6 @@ export type State = {
   musicAudioLock: boolean;
   musicModeType: number;
   musicVolume: number;
-  playLyrics: PlayLyrics[];
 };
 
 export type SongPlayProgress = {
@@ -24,11 +23,6 @@ export type MusicPlayStatus = {
   look?: boolean;
   loading?: boolean;
   refresh?: boolean;
-};
-
-export type PlayLyrics = {
-  lyric?: string;
-  time?: number;
 };
 
 // 本地存储容错处理
@@ -55,8 +49,7 @@ const state: State = {
   }, // 播放状态
   musicAudioLock: faultTolerant('musicAudioLock') || false, // 播放器锁定
   musicModeType: Number(localStorage.getItem('musicModeType')) || 0, // 播放模式
-  musicVolume: Number(localStorage.getItem('musicVolume')) || 1, // 音量
-  playLyrics: faultTolerant('playLyrics') || [] // 播放器歌词
+  musicVolume: Number(localStorage.getItem('musicVolume')) || 1 // 音量
 };
 
 export default state;

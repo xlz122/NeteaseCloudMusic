@@ -1,8 +1,7 @@
 import type {
   State,
   SongPlayProgress,
-  MusicPlayStatus,
-  PlayLyrics
+  MusicPlayStatus
 } from '@/store/music/state';
 import type { MusicItemType } from '@/hooks/songFormat';
 
@@ -54,18 +53,10 @@ const mutations: Mutations<State> = {
     state.musicVolume = musicVolume;
     localStorage.setItem('musicVolume', JSON.stringify(musicVolume));
   },
-  // 播放器歌词
-  setPlayLyrics(state, playLyrics: PlayLyrics[]) {
-    state.playLyrics = playLyrics;
-    localStorage.setItem('playLyrics', JSON.stringify(playLyrics));
-  },
   // 清空播放列表
   emptySongPlaylist(state) {
     state.songPlaylist = [];
     localStorage.setItem('songPlaylist', '[]');
-    // 清除歌词
-    state.playLyrics = [];
-    localStorage.setItem('playLyrics', '[]');
     // 清除本地播放数据(清除后刷新)
     localStorage.setItem('playSongId', '');
     localStorage.setItem('playSongItem', '');

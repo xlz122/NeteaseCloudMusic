@@ -134,7 +134,6 @@ const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
 const { songSheetDetail } = toRefs(props);
-console.log(songSheetDetail);
 
 // 歌曲是否有版权
 function isCopyright(id: number): boolean | undefined {

@@ -12,8 +12,7 @@ const getters: Getters<State> = {
   songPlayStatus: state => state.songPlayStatus,
   musicAudioLock: state => state.musicAudioLock,
   musicModeType: state => state.musicModeType,
-  musicVolume: state => state.musicVolume,
-  playLyrics: state => state.playLyrics
+  musicVolume: state => state.musicVolume
 };
 
 export default getters;
