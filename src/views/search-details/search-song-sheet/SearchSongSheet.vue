@@ -32,7 +32,9 @@
           @click="jumpSongSheetDetail(item?.id)"
         >
           <span
-            v-html="handleMatchString(item?.name || '', searchDetailText)"
+            v-html="
+              handleMatchString(item?.name || '', String($route.query.keyword))
+            "
           ></span>
         </span>
       </div>
@@ -81,8 +83,8 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, watch, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
+import { reactive, computed, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
@@ -113,23 +115,13 @@ type SongSheetData = {
   }[];
 };
 
-const props = defineProps({
-  searchDetailText: {
-    type: String,
-    default: ''
-  }
-});
 const emits = defineEmits(['searchCountChange']);
 
+const $route = useRoute();
 const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const playSongId = computed<number>(() => $store.getters['music/playSongId']);
-const searchText = computed<string>(() =>
-  $store.getters.searchText.replace(/"/g, '')
-);
-
-const { searchDetailText } = toRefs(props);
 
 // 获取歌单列表
 const songSheetData = reactive<SongSheetData>({
@@ -141,16 +133,19 @@ const songSheetData = reactive<SongSheetData>({
 });
 
 watch(
-  () => searchDetailText.value,
+  () => $route.query.keyword,
   () => {
     getSearchSongSheet();
+  },
+  {
+    immediate: true
   }
 );
 
 function getSearchSongSheet(): void {
   searchKeywords({
-    type: 1000,
-    keywords: searchDetailText.value || searchText.value,
+    keywords: String($route.query.keyword),
+    type: Number($route.query.type),
     offset: (songSheetData.offset - 1) * songSheetData.limit,
     limit: isLogin.value ? songSheetData.limit : 20
   })
@@ -170,7 +165,6 @@ function getSearchSongSheet(): void {
     })
     .catch(() => ({}));
 }
-getSearchSongSheet();
 
 // 歌单添加到播放列表并播放
 function songSheetToPlaylistPlay(id: number): void {

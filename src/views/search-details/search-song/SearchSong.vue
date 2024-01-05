@@ -26,7 +26,12 @@
             @click="jumpSongDetail(item?.id)"
           >
             <span
-              v-html="handleMatchString(item?.name || '', searchDetailText)"
+              v-html="
+                handleMatchString(
+                  item?.name || '',
+                  String($route.query.keyword)
+                )
+              "
             ></span>
           </span>
           <span class="desc" v-if="item?.tns?.length">
@@ -95,8 +100,8 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, watch, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
+import { reactive, computed, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
@@ -126,24 +131,14 @@ type SongData = {
   >[];
 };
 
-const props = defineProps({
-  searchDetailText: {
-    type: String,
-    default: ''
-  }
-});
 const emits = defineEmits(['searchCountChange']);
 
+const $route = useRoute();
 const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 const userInfo = computed(() => $store.getters.userInfo);
 const playSongId = computed<number>(() => $store.getters['music/playSongId']);
-const searchText = computed<string>(() =>
-  $store.getters.searchText.replace(/"/g, '')
-);
-
-const { searchDetailText } = toRefs(props);
 
 // 获取单曲列表
 const songData = reactive<SongData>({
@@ -155,16 +150,19 @@ const songData = reactive<SongData>({
 });
 
 watch(
-  () => searchDetailText.value,
+  () => $route.query.keyword,
   () => {
     getSearchSong();
+  },
+  {
+    immediate: true
   }
 );
 
 function getSearchSong(): void {
   searchKeywords({
-    type: 1,
-    keywords: searchDetailText.value || searchText.value,
+    keywords: String($route.query.keyword),
+    type: Number($route.query.type),
     offset: (songData.offset - 1) * songData.limit,
     limit: isLogin.value ? songData.limit : 20
   })
@@ -184,7 +182,6 @@ function getSearchSong(): void {
     })
     .catch(() => ({}));
 }
-getSearchSong();
 
 // 播放单个歌曲
 function playSingleSong(item: SongType): boolean | undefined {
@@ -207,7 +204,7 @@ function singleSongToPlaylist(item: SongType): void {
 }
 
 // 歌曲是否有版权
-function isCopyright(id: number | undefined): boolean | undefined {
+function isCopyright(id: number): boolean | undefined {
   const songItem = songData.list.find(item => item.id === id);
 
   if (songItem?.privilege?.cp === 0) {
@@ -218,7 +215,7 @@ function isCopyright(id: number | undefined): boolean | undefined {
 }
 
 // 收藏
-function handleCollection(id: number | undefined): boolean | undefined {
+function handleCollection(id: number): boolean | undefined {
   if (!isLogin.value) {
     $store.commit('setLoginDialog', true);
     return;
@@ -252,15 +249,12 @@ function pageChange(current: number): void {
 }
 
 // 跳转歌曲详情
-function jumpSongDetail(id: number | undefined): void {
+function jumpSongDetail(id: number): void {
   $router.push({ path: '/song-detail', query: { id } });
 }
 
 // 跳转视频详情
-function jumpVideoDetail(
-  songId: number | undefined,
-  id: number | undefined
-): boolean | undefined {
+function jumpVideoDetail(songId: number, id: number): boolean | undefined {
   // 无版权
   if (isCopyright(songId)) {
     return;
@@ -270,12 +264,12 @@ function jumpVideoDetail(
 }
 
 // 跳转歌手详情
-function jumpSingerDetail(id: number | undefined): void {
+function jumpSingerDetail(id: number): void {
   $router.push({ path: '/singer-detail', query: { id } });
 }
 
 // 跳转专辑详情
-function jumpAlbumDetail(id: number | undefined): void {
+function jumpAlbumDetail(id: number): void {
   $router.push({ path: '/album-detail', query: { id } });
 }
 </script>

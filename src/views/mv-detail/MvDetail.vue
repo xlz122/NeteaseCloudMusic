@@ -115,8 +115,8 @@ import MvDetailSide from './mv-detail-side/MvDetailSide.vue';
 type MvDetailData = {
   name?: string;
   artists: {
-    id?: number;
-    name?: string;
+    id: number;
+    name: string;
   }[];
   praisedCount?: number;
   subCount?: number;
@@ -259,7 +259,7 @@ function jumpToComment(): void {
 }
 
 // 跳转歌手详情
-function jumpSingerDetail(id: number | undefined): void {
+function jumpSingerDetail(id: number): void {
   $router.push({ path: '/singer-detail', query: { id } });
 }
 

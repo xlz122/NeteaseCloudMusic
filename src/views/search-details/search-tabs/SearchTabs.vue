@@ -4,37 +4,64 @@
       class="item-tab"
       v-for="(item, index) in tab"
       :key="index"
-      :class="{ 'item-active-tab': searchIndex === index }"
-      @click="tabChange(item, index)"
+      :class="{ 'item-active-tab': Number($route.query.type) === item.type }"
+      @click="tabChange(item.type)"
     >
-      {{ item }}
+      {{ item.title }}
     </li>
   </ul>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
+import { ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
-const emits = defineEmits(['tabChange']);
+const $route = useRoute();
+const $router = useRouter();
 
-const $store = useStore();
-const searchIndex = computed<number>(() => $store.getters.searchIndex);
-
-const tab = ref<string[]>([
-  '单曲',
-  '歌手',
-  '专辑',
-  '视频',
-  '歌词',
-  '歌单',
-  '声音主播',
-  '用户'
+const tab = ref([
+  {
+    title: '单曲',
+    type: 1
+  },
+  {
+    title: '歌手',
+    type: 100
+  },
+  {
+    title: '专辑',
+    type: 10
+  },
+  {
+    title: '视频',
+    type: 1014
+  },
+  {
+    title: '歌词',
+    type: 1006
+  },
+  {
+    title: '歌单',
+    type: 1000
+  },
+  {
+    title: '声音主播',
+    type: 1009
+  },
+  {
+    title: '用户',
+    type: 1002
+  }
 ]);
 
-function tabChange(item: string, index: number): void {
-  $store.commit('setSearchIndex', index);
-  emits('tabChange', item, index);
+function tabChange(type: number): void {
+  $router.push({
+    name: 'search-details',
+    query: {
+      keyword: $route.query.keyword,
+      type
+    }
+  });
 }
 </script>
 

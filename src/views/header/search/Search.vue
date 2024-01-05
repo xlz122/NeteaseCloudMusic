@@ -4,7 +4,7 @@
     <input
       class="search-input"
       type="text"
-      v-model="searchValue"
+      v-model="searchKeyword"
       :placeholder="searchPlaceholder"
       @focus="searchFocus"
       @blur="searchBlur"
@@ -14,7 +14,7 @@
     <template v-if="Object.keys(searchPropos).length">
       <ul class="search-list" v-show="searchProposShow">
         <li class="item-note" @click="jumpSearchUser">
-          搜“{{ searchValue }}”相关用户 >
+          搜“{{ searchKeyword }}”相关用户 >
         </li>
         <!-- 单曲 -->
         <li class="item" v-if="searchPropos?.songs">
@@ -30,10 +30,10 @@
               @click="jumpSongDetail(item.id)"
             >
               <span class="f-cb-text">
-                {{ item?.name?.slice(0, searchValue.length) }}
+                {{ item?.name?.slice(0, searchKeyword.length) }}
               </span>
               <span>
-                {{ item?.name?.slice(searchValue.length) }}-{{
+                {{ item?.name?.slice(searchKeyword.length) }}-{{
                   item?.artists[0]?.name
                 }}
               </span>
@@ -71,10 +71,10 @@
               @click="jumpAlbumDetail(item.id)"
             >
               <span class="f-cb-text">
-                {{ item?.name?.slice(0, searchValue.length) }}
+                {{ item?.name?.slice(0, searchKeyword.length) }}
               </span>
               <span>
-                {{ item?.name?.slice(searchValue.length) }}-{{
+                {{ item?.name?.slice(searchKeyword.length) }}-{{
                   item?.artist?.name
                 }}
               </span>
@@ -95,10 +95,10 @@
               @click="jumpSongSheetDetail(item.id)"
             >
               <span class="f-cb-text">
-                {{ item?.name?.slice(0, searchValue.length) }}
+                {{ item?.name?.slice(0, searchKeyword.length) }}
               </span>
               <span>
-                {{ item?.name?.slice(searchValue.length) }}
+                {{ item?.name?.slice(searchKeyword.length) }}
               </span>
             </li>
           </ul>
@@ -109,69 +109,84 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { searchPropose } from '@/api/search';
 import type { ResponseType } from '@/types/types';
 
 type SearchPropos = {
   songs?: {
-    id?: number;
-    name?: string;
+    id: number;
+    name: string;
     artists: {
       name: string;
     }[];
   }[];
   artists?: {
-    id?: number;
-    name?: string;
+    id: number;
+    name: string;
   }[];
   albums?: {
-    id?: number;
-    name?: string;
-    artist?: {
-      name?: string;
+    id: number;
+    name: string;
+    artist: {
+      name: string;
     };
   }[];
   playlists?: {
-    id?: number;
-    name?: string;
+    id: number;
+    name: string;
   }[];
 };
 
+const $route = useRoute();
 const $router = useRouter();
 const $store = useStore();
 
 // 搜索关键词
-const searchText = computed<string>(() =>
-  $store.getters.searchText.replace(/"/g, '')
-);
-const searchValue = ref('');
-
-watch(
-  () => searchText.value,
-  () => {
-    searchValue.value = searchText.value;
-  },
-  {
-    immediate: true
-  }
-);
-
+const searchKeyword = ref('');
 // 搜索建议
 const searchPlaceholder = ref('音乐/视频/电台/用户');
 const searchProposShow = ref(false);
-const oldSearchValue = ref('');
+
+watch(
+  () => searchKeyword.value,
+  curVal => {
+    if (!curVal) {
+      searchProposShow.value = false;
+      return;
+    }
+
+    getSearchPropos();
+  }
+);
+
+// 获取搜索框建议
+const searchPropos = ref<SearchPropos>({});
+
+function getSearchPropos(): void {
+  searchProposShow.value = true;
+
+  searchPropose({ keywords: searchKeyword.value })
+    .then((res: ResponseType) => {
+      if (res.code === 200) {
+        searchPropos.value = res.result || {};
+      }
+    })
+    .catch(() => ({}));
+}
 
 // 搜索框获取焦点
 function searchFocus(): void {
   searchPlaceholder.value = '';
 
-  if (searchValue.value) {
-    searchProposShow.value = true;
-    getSearchPropos();
+  if (!searchKeyword.value) {
+    return;
   }
+
+  searchProposShow.value = true;
+  getSearchPropos();
 }
 
 // 搜索框失去焦点
@@ -187,93 +202,54 @@ function searchBlur(): void {
 // 搜索框回车
 function searchEnter(): boolean | undefined {
   searchProposShow.value = false;
-  if (!searchValue.value) {
+  if (!searchKeyword.value) {
+    return;
+  }
+  if (searchKeyword.value === $route.query.keyword) {
     return;
   }
 
-  // 搜索内容变化
-  if (searchValue.value !== oldSearchValue.value) {
-    // 搜索关键字
-    $store.commit('setSearchText', searchValue.value);
-    // 搜索详情关键字
-    $store.commit('setSearchDetailText', searchValue.value);
-    // 头部导航取消选中
-    $store.commit('setMenuIndex', -1);
-
-    // 搜索详情页导航选中
-    $store.commit('setSearchIndex', 0);
-    $router.push({
-      name: 'search-details',
-      query: { searchText: searchValue.value }
-    });
-  }
-}
-
-// 搜索框内容改变
-watch(
-  () => searchValue.value,
-  (curVal: string, oldVal: string) => {
-    if (curVal) {
-      getSearchPropos();
-    } else {
-      searchProposShow.value = false;
+  $router.push({
+    name: 'search-details',
+    query: {
+      keyword: searchKeyword.value,
+      type: $route.query.type || 1
     }
+  });
 
-    // 存储旧搜索内容
-    if (oldVal) {
-      oldSearchValue.value = oldVal;
-    }
-  }
-);
-
-// 获取搜索框建议
-const searchPropos = ref<SearchPropos>({});
-
-function getSearchPropos(): void {
-  searchProposShow.value = true;
-
-  searchPropose({ keywords: searchValue.value })
-    .then((res: ResponseType) => {
-      if (res.code === 200) {
-        searchPropos.value = res.result || {};
-      }
-    })
-    .catch(() => ({}));
+  $store.commit('setMenuIndex', -1);
 }
 
 // 跳转搜索用户
 function jumpSearchUser(): void {
-  // 存储关键字
-  $store.commit('setSearchText', searchValue.value);
-  // 头部导航取消选中
-  $store.commit('setMenuIndex', -1);
-
-  // 搜索详情页导航选中
-  $store.commit('setSearchIndex', 7);
-  // 跳转搜索详情页
   $router.push({
     name: 'search-details',
-    query: { searchText: searchValue.value }
+    query: {
+      keyword: searchKeyword.value,
+      type: 1002
+    }
   });
+
+  $store.commit('setMenuIndex', -1);
 }
 
 // 跳转歌曲详情
-function jumpSongDetail(id: number | undefined): void {
+function jumpSongDetail(id: number): void {
   $router.push({ path: '/song-detail', query: { id } });
 }
 
 // 跳转歌手详情
-function jumpSingerDetail(id: number | undefined): void {
+function jumpSingerDetail(id: number): void {
   $router.push({ path: '/singer-detail', query: { id } });
 }
 
 // 跳转专辑详情
-function jumpAlbumDetail(id: number | undefined): void {
+function jumpAlbumDetail(id: number): void {
   $router.push({ path: '/album-detail', query: { id } });
 }
 
 // 跳转歌单详情
-function jumpSongSheetDetail(id: number | undefined): void {
+function jumpSongSheetDetail(id: number): void {
   $router.push({ path: '/song-sheet-detail', query: { id } });
 }
 </script>

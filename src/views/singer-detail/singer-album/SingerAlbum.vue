@@ -62,10 +62,10 @@ import Page from '@/components/page/Page.vue';
 
 type SingerAlbum = {
   hotAlbums: {
-    id?: number;
-    name?: string;
-    picUrl?: string;
-    publishTime?: number;
+    id: number;
+    name: string;
+    picUrl: string;
+    publishTime: number;
   }[];
 };
 
@@ -111,7 +111,7 @@ function getArtistAlbum(): void {
 getArtistAlbum();
 
 // 专辑添加到播放列表并播放
-function albumToPlaylistPlay(id: number | undefined): void {
+function albumToPlaylistPlay(id: number): void {
   albumDetail({ id: id! })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
@@ -150,7 +150,7 @@ function pageChange(current: number): void {
 }
 
 // 跳转专辑详情
-function jumpAlbumDetail(id: number | undefined): void {
+function jumpAlbumDetail(id: number): void {
   $router.push({ path: '/album-detail', query: { id } });
 }
 </script>

@@ -29,7 +29,12 @@
             @click="jumpSingerDetail(item?.id)"
           >
             <span
-              v-html="handleMatchString(item?.name || '', searchDetailText)"
+              v-html="
+                handleMatchString(
+                  item?.name || '',
+                  String($route.query.keyword)
+                )
+              "
             ></span>
           </span>
           <span
@@ -51,8 +56,8 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, watch, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
+import { reactive, computed, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { handleMatchString } from '@/utils/utils';
 import { searchKeywords } from '@/api/search';
@@ -72,22 +77,12 @@ type SingerData = {
   }[];
 };
 
-const props = defineProps({
-  searchDetailText: {
-    type: String,
-    default: ''
-  }
-});
 const emits = defineEmits(['searchCountChange']);
 
+const $route = useRoute();
 const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
-const searchText = computed<string>(() =>
-  $store.getters.searchText.replace(/"/g, '')
-);
-
-const { searchDetailText } = toRefs(props);
 
 // 获取歌手列表
 const singerData = reactive<SingerData>({
@@ -99,16 +94,19 @@ const singerData = reactive<SingerData>({
 });
 
 watch(
-  () => searchDetailText.value,
+  () => $route.query.keyword,
   () => {
     getSearchSinger();
+  },
+  {
+    immediate: true
   }
 );
 
 function getSearchSinger(): void {
   searchKeywords({
-    type: 100,
-    keywords: searchDetailText.value || searchText.value,
+    keywords: String($route.query.keyword),
+    type: Number($route.query.type),
     offset: (singerData.offset - 1) * singerData.limit,
     limit: isLogin.value ? singerData.limit : 20
   })
@@ -128,7 +126,6 @@ function getSearchSinger(): void {
     })
     .catch(() => ({}));
 }
-getSearchSinger();
 
 // 分页
 function pageChange(current: number): void {

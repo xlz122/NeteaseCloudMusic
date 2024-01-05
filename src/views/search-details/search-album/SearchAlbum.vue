@@ -26,7 +26,9 @@
       </div>
       <p class="desc" :title="item?.name" @click="jumpAlbumDetail(item?.id)">
         <span
-          v-html="handleMatchString(item?.name || '', searchDetailText)"
+          v-html="
+            handleMatchString(item?.name || '', String($route.query.keyword))
+          "
         ></span>
       </p>
       <p
@@ -48,8 +50,8 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, watch, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
+import { reactive, computed, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import usePlaySong from '@/hooks/usePlaySong';
 import useSongToPlaylist from '@/hooks/useSongToPlaylist';
@@ -76,22 +78,12 @@ type AlbumData = {
   }[];
 };
 
-const props = defineProps({
-  searchDetailText: {
-    type: String,
-    default: ''
-  }
-});
 const emits = defineEmits(['searchCountChange']);
 
+const $route = useRoute();
 const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
-const searchText = computed<string>(() =>
-  $store.getters.searchText.replace(/"/g, '')
-);
-
-const { searchDetailText } = toRefs(props);
 
 // 获取专辑列表
 const albumData = reactive<AlbumData>({
@@ -103,16 +95,19 @@ const albumData = reactive<AlbumData>({
 });
 
 watch(
-  () => searchDetailText.value,
+  () => $route.query.keyword,
   () => {
     getSearchAlbum();
+  },
+  {
+    immediate: true
   }
 );
 
 function getSearchAlbum(): void {
   searchKeywords({
-    type: 10,
-    keywords: searchDetailText.value || searchText.value,
+    keywords: String($route.query.keyword),
+    type: Number($route.query.type),
     offset: (albumData.offset - 1) * albumData.limit,
     limit: isLogin.value ? albumData.limit : 20
   })
@@ -132,7 +127,6 @@ function getSearchAlbum(): void {
     })
     .catch(() => ({}));
 }
-getSearchAlbum();
 
 // 专辑添加到播放列表并播放
 function albumToPlaylistPlay(id: number): void {

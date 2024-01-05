@@ -6,7 +6,7 @@ type Mutations<T, U = any> = {
 };
 
 const mutations: Mutations<State> = {
-  // 头部导航
+  // 一级导航
   setMenuIndex(state, index: number) {
     state.menuIndex = index;
     localStorage.setItem('menuIndex', String(index));
@@ -35,20 +35,6 @@ const mutations: Mutations<State> = {
   setSongSheetId(state, songSheetId: number) {
     state.songSheetId = songSheetId;
     localStorage.setItem('songSheetId', JSON.stringify(songSheetId));
-  },
-  // 搜索关键字
-  setSearchText(state, searchText: string) {
-    state.searchText = searchText;
-  },
-  // 搜索详情关键字
-  setSearchDetailText(state, searchDetailText: string) {
-    state.searchDetailText = searchDetailText;
-    localStorage.setItem('searchDetailText', JSON.stringify(searchDetailText));
-  },
-  // 搜索详情tab
-  setSearchIndex(state, searchIndex: number) {
-    state.searchIndex = searchIndex;
-    localStorage.setItem('searchIndex', JSON.stringify(searchIndex));
   },
   // 歌手详情tab
   setSingerTabIndex(state, singerTabIndex: number) {

@@ -261,7 +261,7 @@ function singleSongToPlaylist(item: SongType): void {
 }
 
 // 歌曲是否有版权
-function isCopyright(id: number | undefined): boolean | undefined {
+function isCopyright(id: number): boolean | undefined {
   const songItem = singerSong.value?.hotSongs.find(item => item.id === id);
 
   if (songItem?.privilege?.cp === 0) {

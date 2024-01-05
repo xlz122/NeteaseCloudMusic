@@ -18,14 +18,21 @@
         />
       </div>
       <p class="desc" @click="jumpDjradioDetail(item.id)">
-        <span v-html="handleMatchString(item?.name, searchDetailText)"></span>
+        <span
+          v-html="
+            handleMatchString(item?.name || '', String($route.query.keyword))
+          "
+        ></span>
       </p>
       <p class="name" @click="jumpUserProfile(item?.dj?.userId)">
         <span class="by">by</span>
         <span class="text">
           <span
             v-html="
-              handleMatchString(item?.dj?.nickname || '', searchDetailText)
+              handleMatchString(
+                item?.dj?.nickname || '',
+                String($route.query.keyword)
+              )
             "
           ></span>
         </span>
@@ -44,8 +51,8 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, watch, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
+import { reactive, computed, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { handleMatchString } from '@/utils/utils';
 import { searchKeywords } from '@/api/search';
@@ -69,22 +76,12 @@ type AnchorData = {
   }[];
 };
 
-const props = defineProps({
-  searchDetailText: {
-    type: String,
-    default: ''
-  }
-});
 const emits = defineEmits(['searchCountChange']);
 
+const $route = useRoute();
 const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
-const searchText = computed<string>(() =>
-  $store.getters.searchText.replace(/"/g, '')
-);
-
-const { searchDetailText } = toRefs(props);
 
 // 获取声音主播列表
 const anchorData = reactive<AnchorData>({
@@ -96,16 +93,19 @@ const anchorData = reactive<AnchorData>({
 });
 
 watch(
-  () => searchDetailText.value,
+  () => $route.query.keyword,
   () => {
     getSearchAnchor();
+  },
+  {
+    immediate: true
   }
 );
 
 function getSearchAnchor(): void {
   searchKeywords({
-    type: 1009,
-    keywords: searchDetailText.value || searchText.value,
+    keywords: String($route.query.keyword),
+    type: Number($route.query.type),
     offset: (anchorData.offset - 1) * anchorData.limit,
     limit: isLogin.value ? anchorData.limit : 20
   })
@@ -125,7 +125,6 @@ function getSearchAnchor(): void {
     })
     .catch(() => ({}));
 }
-getSearchAnchor();
 
 // 分页
 function pageChange(current: number): void {

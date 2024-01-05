@@ -94,8 +94,8 @@ type SingerDetail = {
     cover?: string;
   };
   user?: {
-    userId?: number;
-    followed?: boolean;
+    userId: number;
+    followed: boolean;
   };
 };
 
@@ -189,7 +189,7 @@ function tabChange(index: number): void {
 }
 
 // 跳转用户资料
-function jumpUserProfile(id: number | undefined): void {
+function jumpUserProfile(id: number): void {
   $router.push({ path: '/user-profile', query: { id } });
 }
 

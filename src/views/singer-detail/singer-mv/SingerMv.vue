@@ -39,9 +39,9 @@ import Page from '@/components/page/Page.vue';
 
 type SingerMv = {
   mvs: {
-    id?: number;
-    name?: string;
-    imgurl?: string;
+    id: number;
+    name: string;
+    imgurl: string;
   }[];
 };
 
@@ -105,7 +105,7 @@ function pageChange(current: number): void {
 }
 
 // 跳转Mv详情
-function jumpMvDetail(id: number | undefined): void {
+function jumpMvDetail(id: number): void {
   $router.push({ path: '/mv-detail', query: { id } });
 }
 </script>

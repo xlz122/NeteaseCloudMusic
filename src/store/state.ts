@@ -6,9 +6,6 @@ export type State = {
   cookie: string;
   isLogin: boolean;
   songSheetId: number;
-  searchText: string;
-  searchDetailText: string;
-  searchIndex: number;
   singerTabIndex: number;
   collectSong: {
     visible: boolean;
@@ -32,16 +29,13 @@ function faultTolerant(name: string) {
 }
 
 const state: State = {
-  menuIndex: Number(localStorage.getItem('menuIndex')) || 0, // 头部导航
+  menuIndex: Number(localStorage.getItem('menuIndex')) || 0, // 一级导航
   subMenuIndex: Number(localStorage.getItem('subMenuIndex')) || 0, // 二级导航
   loginDialog: false, // 登录对话框
   userInfo: faultTolerant('userInfo') || {},
   cookie: localStorage.getItem('cookie') || '',
   isLogin: faultTolerant('isLogin') || false,
   songSheetId: Number(localStorage.getItem('songSheetId')) || 0, // 我的音乐 - 歌单id
-  searchText: '', // 搜索关键字
-  searchDetailText: localStorage.getItem('searchDetailText') || '', // 搜索详情关键字
-  searchIndex: Number(localStorage.getItem('searchIndex')) || 0, // 搜索详情导航
   singerTabIndex: Number(localStorage.getItem('singerTabIndex')) || 0, // 歌手详情导航
   collectSong: {
     visible: false,

@@ -24,7 +24,12 @@
           @click="jumpUserProfile(item?.userId)"
         >
           <span
-            v-html="handleMatchString(item?.nickname || '', searchDetailText)"
+            v-html="
+              handleMatchString(
+                item?.nickname || '',
+                String($route.query.keyword)
+              )
+            "
           ></span>
         </span>
         <i class="icon-sex male" v-if="item?.gender === 1"></i>
@@ -52,8 +57,8 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, watch, toRefs } from 'vue';
-import { useRouter } from 'vue-router';
+import { reactive, computed, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import { handleMatchString } from '@/utils/utils';
@@ -77,22 +82,12 @@ type UserData = {
   }[];
 };
 
-const props = defineProps({
-  searchDetailText: {
-    type: String,
-    default: ''
-  }
-});
 const emits = defineEmits(['searchCountChange']);
 
+const $route = useRoute();
 const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
-const searchText = computed<string>(() =>
-  $store.getters.searchText.replace(/"/g, '')
-);
-
-const { searchDetailText } = toRefs(props);
 
 // 获取用户列表
 const userData = reactive<UserData>({
@@ -104,7 +99,7 @@ const userData = reactive<UserData>({
 });
 
 watch(
-  () => searchDetailText.value,
+  () => $route.query.keyword,
   () => {
     getSearchUser();
   },
@@ -115,8 +110,8 @@ watch(
 
 function getSearchUser(): void {
   searchKeywords({
-    type: 1002,
-    keywords: searchDetailText.value || searchText.value,
+    keywords: String($route.query.keyword),
+    type: Number($route.query.type),
     offset: (userData.offset - 1) * userData.limit,
     limit: isLogin.value ? userData.limit : 20
   })

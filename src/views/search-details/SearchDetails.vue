@@ -1,61 +1,40 @@
 <template>
   <div class="search-details">
     <div class="search-details-container">
-      <SearchHeader @searchEnter="searchEnter" />
+      <SearchHeader />
       <div class="search-desc">
-        搜索“{{ searchDetailText }}”，找到
+        搜索“{{ $route.query?.keyword }}”，找到
         <span class="search-desc-num">{{ searchCount || 0 }}</span>
-        {{ displayTitle }}
+        <template v-if="Number($route.query.type) === 1">首单曲</template>
+        <template v-if="Number($route.query.type) === 100">个歌手</template>
+        <template v-if="Number($route.query.type) === 10">张专辑</template>
+        <template v-if="Number($route.query.type) === 1014">个视频</template>
+        <template v-if="Number($route.query.type) === 1006">个歌词</template>
+        <template v-if="Number($route.query.type) === 1000">个歌单</template>
+        <template v-if="Number($route.query.type) === 1009">节目</template>
+        <template v-if="Number($route.query.type) === 1002">个用户</template>
       </div>
-      <SearchTabs @tabChange="tabChange" />
-      <!-- 单曲 -->
-      <template v-if="searchIndex === 0">
-        <SearchSong
-          :searchDetailText="searchDetailText"
-          @searchCountChange="searchCountChange"
-        />
+      <SearchTabs />
+      <template v-if="Number($route.query.type) === 1">
+        <SearchSong @searchCountChange="searchCountChange" />
       </template>
-      <!-- 歌手 -->
-      <template v-if="searchIndex === 1">
-        <SearchSinger
-          :searchDetailText="searchDetailText"
-          @searchCountChange="searchCountChange"
-        />
+      <template v-if="Number($route.query.type) === 100">
+        <SearchSinger @searchCountChange="searchCountChange" />
       </template>
-      <!-- 专辑 -->
-      <template v-if="searchIndex === 2">
-        <SearchAlbum
-          :searchDetailText="searchDetailText"
-          @searchCountChange="searchCountChange"
-        />
+      <template v-if="Number($route.query.type) === 10">
+        <SearchAlbum @searchCountChange="searchCountChange" />
       </template>
-      <!-- 视频 -->
-      <template v-if="searchIndex === 3">
-        <SearchMv
-          :searchDetailText="searchDetailText"
-          @searchCountChange="searchCountChange"
-        />
+      <template v-if="Number($route.query.type) === 1014">
+        <SearchMv @searchCountChange="searchCountChange" />
       </template>
-      <!-- 歌单 -->
-      <template v-if="searchIndex === 5">
-        <SearchSongSheet
-          :searchDetailText="searchDetailText"
-          @searchCountChange="searchCountChange"
-        />
+      <template v-if="Number($route.query.type) === 1000">
+        <SearchSongSheet @searchCountChange="searchCountChange" />
       </template>
-      <!-- 声音主播 -->
-      <template v-if="searchIndex === 6">
-        <SearchAnchor
-          :searchDetailText="searchDetailText"
-          @searchCountChange="searchCountChange"
-        />
+      <template v-if="Number($route.query.type) === 1009">
+        <SearchAnchor @searchCountChange="searchCountChange" />
       </template>
-      <!-- 用户 -->
-      <template v-if="searchIndex === 7">
-        <SearchUser
-          :searchDetailText="searchDetailText"
-          @searchCountChange="searchCountChange"
-        />
+      <template v-if="Number($route.query.type) === 1002">
+        <SearchUser @searchCountChange="searchCountChange" />
       </template>
       <div class="no-data" v-if="searchCount === 0">
         <div class="title">
@@ -68,8 +47,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue';
-import { useStore } from 'vuex';
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 import SearchHeader from './search-header/SearchHeader.vue';
 import SearchTabs from './search-tabs/SearchTabs.vue';
 import SearchSong from './search-song/SearchSong.vue';
@@ -80,52 +59,12 @@ import SearchSongSheet from './search-song-sheet/SearchSongSheet.vue';
 import SearchAnchor from './search-anchor/SearchAnchor.vue';
 import SearchUser from './search-user/SearchUser.vue';
 
-const $store = useStore();
-const searchIndex = computed<number>(() => $store.getters.searchIndex);
-// 搜索详情关键字
-const searchDetailText = computed<string>(() =>
-  $store.getters.searchDetailText.replace(/"/g, '')
-);
-
-function searchEnter(searchValue: string): void {
-  $store.commit('setSearchDetailText', searchValue);
-}
+const $route = useRoute();
 
 const searchCount = ref<number | string>('');
 function searchCountChange(count: number): void {
   searchCount.value = count;
 }
-
-const title = ref('单曲');
-function tabChange(item: string): void {
-  title.value = item;
-
-  searchCount.value = '';
-}
-
-const displayTitle = ref('');
-watch(
-  () => title.value,
-  () => {
-    if (title.value === '单曲') {
-      displayTitle.value = `首${title.value}`;
-      return;
-    }
-    if (title.value === '专辑') {
-      displayTitle.value = `张${title.value}`;
-      return;
-    }
-    if (title.value === '声音主播') {
-      displayTitle.value = '个节目';
-      return;
-    }
-
-    displayTitle.value = `个${title.value}`;
-  },
-  {
-    immediate: true
-  }
-);
 </script>
 
 <style lang="less" scoped>
