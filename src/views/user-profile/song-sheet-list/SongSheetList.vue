@@ -93,7 +93,13 @@
               ></i>
             </div>
           </div>
-          <p class="item-desc" :title="item?.name">{{ item?.name }}</p>
+          <p
+            class="item-desc"
+            :title="item?.name"
+            @click="jumpSongSheetDetail(item?.id)"
+          >
+            {{ item?.name }}
+          </p>
         </li>
       </ul>
     </template>

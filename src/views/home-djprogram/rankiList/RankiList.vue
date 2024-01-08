@@ -13,9 +13,7 @@
         <div class="item-lf dis-flex">
           <div class="rank">
             <em>
-              {{
-                item?.rank && item?.rank < 10 ? `0${item?.rank}` : item?.rank
-              }}
+              {{ item?.rank && item?.rank < 10 ? `0${index + 1}` : item?.rank }}
             </em>
             <template v-if="item?.rank && item?.lastRank">
               <div class="rnk rnk-up" v-if="item?.lastRank > item?.rank">

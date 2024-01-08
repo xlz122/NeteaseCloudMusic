@@ -24,7 +24,11 @@
       </div>
       <div class="rdiname">
         <i class="icon"></i>
-        <span class="text" :title="detail?.radio?.name">
+        <span
+          class="text"
+          :title="detail?.radio?.name"
+          @click="jumpDjradioDetail(detail?.radio?.id)"
+        >
           {{ detail?.radio?.name }}
         </span>
         <div class="subscribe">
@@ -109,7 +113,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
 import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
@@ -129,6 +133,7 @@ defineProps({
 const emits = defineEmits(['jumpToComment']);
 
 const $route = useRoute();
+const $router = useRouter();
 
 // 电台节目添加到播放列表并播放
 function djprogramToPlaylistPlay(item: SongType): void {
@@ -154,6 +159,11 @@ function handleShare(): void {
 // 下载
 function handleDownload(): void {
   setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 跳转电台详情
+function jumpDjradioDetail(id: number): void {
+  $router.push({ path: '/djradio-detail', query: { id } });
 }
 </script>
 
