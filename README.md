@@ -10,7 +10,7 @@
 
 本项目是一个网易云音乐PC端网站项目
 
-后端接口部分使用 [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+接口项目 [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 
 ## 项目使用技术栈
 
@@ -47,7 +47,7 @@ yarn build
 
 ## 效果图
 
-![](./src/assets/design-sketch/home.png)
+![](./preview/home.png)
 
 ## 写在最后
 
