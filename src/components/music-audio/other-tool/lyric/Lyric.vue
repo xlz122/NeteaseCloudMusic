@@ -243,11 +243,11 @@ function scrollAnimation(): void {
 
     currentHeight += lineHeight / executions;
 
-    // 歌词高亮停留在第3行
-    lyricElement.scrollTo(
-      0,
-      Number(lineHeight * (lyric.index - 3)) + currentHeight
-    );
+    // 滚动高度 - 高亮歌词距离顶部高度
+    const scrollTop = lineHeight * lyric.index + currentHeight;
+    const higHeight = lineHeight * 3.5;
+
+    lyricElement.scrollTo(0, scrollTop - higHeight);
   }, 10);
 }
 </script>
