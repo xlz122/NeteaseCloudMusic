@@ -57,7 +57,6 @@
 <script lang="ts" setup>
 import { ref, reactive, watch, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useStore } from 'vuex';
 import { bannerImgUrl } from '@/api/home';
 import type { ResponseType } from '@/types/types';
 
@@ -75,7 +74,6 @@ type BannerItem = {
 };
 
 const $router = useRouter();
-const $store = useStore();
 
 const banner = reactive<Banner>({
   list: [],
@@ -203,7 +201,7 @@ function jumpDetail(item: BannerItem): void {
 
   // 歌曲
   if (targetType === 1) {
-    $store.commit('jumpSongDetail', targetId);
+    $router.push({ path: '/song-detail', query: { id: targetId } });
   }
 
   // 专辑
