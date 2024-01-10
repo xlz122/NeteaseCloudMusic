@@ -1,7 +1,7 @@
 import { AppContext, createVNode, render } from 'vue';
-import Component from './VerifyModal.vue';
+import Component from './CopyrightDialog.vue';
 
-const VerifyModal = {
+const CopyrightDialog = {
   install: (app: { _context: AppContext | null }): void => {
     // 创建虚拟dom
     const vm = createVNode(Component, {});
@@ -10,9 +10,9 @@ const VerifyModal = {
     vm.appContext = app._context;
 
     // 挂载
-    const element = document.getElementById('verify') as HTMLDivElement;
+    const element = document.getElementById('copyright') as HTMLDivElement;
     render(vm, element);
   }
 };
 
-export default VerifyModal;
+export default CopyrightDialog;

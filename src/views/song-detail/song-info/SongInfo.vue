@@ -181,7 +181,7 @@ function handleCollection(id: number): boolean | undefined {
   }
 
   if (props?.songDetailData?.privileges[0]?.cp === 0) {
-    $store.commit('setCopyright', {
+    $store.commit('setCopyrightDialog', {
       visible: true,
       message: '由于版权保护，您所在的地区暂时无法使用。'
     });
@@ -202,7 +202,7 @@ function handleShare(): boolean | undefined {
   }
 
   if (props?.songDetailData?.privileges[0]?.cp === 0) {
-    $store.commit('setCopyright', {
+    $store.commit('setCopyrightDialog', {
       visible: true,
       message: '由于版权保护，您所在的地区暂时无法使用。'
     });

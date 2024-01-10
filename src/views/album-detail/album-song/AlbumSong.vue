@@ -158,7 +158,7 @@ const playSongId = computed<number>(() => $store.getters['music/playSongId']);
 function playSingleSong(item: SongType): boolean | undefined {
   // 无版权
   if (isCopyright(item.id)) {
-    $store.commit('setCopyright', {
+    $store.commit('setCopyrightDialog', {
       visible: true,
       message: '由于版权保护，您所在的地区暂时无法使用。'
     });
@@ -227,7 +227,7 @@ function jumpSingerDetail(id: number): void {
 function jumpVideoDetail(songId: number, id: number): boolean | undefined {
   // 无版权
   if (isCopyright(songId)) {
-    $store.commit('setCopyright', {
+    $store.commit('setCopyrightDialog', {
       visible: true,
       message: '由于版权保护，您所在的地区暂时无法使用。'
     });

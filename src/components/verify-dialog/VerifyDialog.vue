@@ -1,10 +1,10 @@
 <template>
-  <div class="verify-modal" v-if="verifyDialog?.visible">
-    <div class="modal-container">
-      <div class="modal-close" @click="close">
+  <div class="verify-dialog" v-if="verifyDialog?.visible">
+    <div class="dialog-container">
+      <div class="dialog-close" @click="close">
         <i class="icon-close"></i>
       </div>
-      <div class="modal-content">
+      <div class="dialog-content">
         <p class="title">请完成短信验证</p>
         <div class="qrcode">
           <div class="qrcode-img">
@@ -34,10 +34,10 @@ const $store = useStore();
 const verifyDialog = computed(() => $store.getters.verifyDialog);
 
 function close(): void {
-  $store.commit('setVerifyDialog', { visible: false });
+  $store.commit('setVerifyDialog', { visible: false, url: '' });
 }
 </script>
 
 <style lang="less" scoped>
-@import url('./verify-modal.less');
+@import url('./verify-dialog.less');
 </style>

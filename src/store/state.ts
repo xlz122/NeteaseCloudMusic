@@ -2,7 +2,9 @@ export type State = {
   menuIndex: number;
   subMenuIndex: number;
   loginDialog: boolean;
-  userInfo: unknown;
+  userInfo: {
+    pcSign?: boolean;
+  };
   cookie: string;
   isLogin: boolean;
   songSheetId: number;
@@ -11,7 +13,7 @@ export type State = {
     visible: boolean;
     songIds: string;
   };
-  copyright: {
+  copyrightDialog: {
     visible: boolean;
     message: string;
   };
@@ -41,10 +43,10 @@ const state: State = {
     visible: false,
     songIds: ''
   }, // 歌曲收藏
-  copyright: {
+  copyrightDialog: {
     visible: false,
     message: ''
-  }, // 版权提示
+  }, // 版权对话框
   verifyDialog: {
     visible: false,
     url: ''

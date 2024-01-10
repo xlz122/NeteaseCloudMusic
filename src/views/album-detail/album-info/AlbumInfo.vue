@@ -153,7 +153,7 @@ function playAllSong(): void {
     (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
   );
   if (!allNoCopyright) {
-    $store.commit('setCopyright', {
+    $store.commit('setCopyrightDialog', {
       visible: true,
       message: '由于版权保护，您所在的地区暂时无法使用。'
     });
@@ -180,7 +180,7 @@ function allSongToPlaylist(): boolean | undefined {
     (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
   );
   if (!allNoCopyright) {
-    $store.commit('setCopyright', {
+    $store.commit('setCopyrightDialog', {
       visible: true,
       message: '由于版权保护，您所在的地区暂时无法使用。'
     });
@@ -207,7 +207,7 @@ function handleCollectAll(): boolean | undefined {
     (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
   );
   if (!allNoCopyright) {
-    $store.commit('setCopyright', {
+    $store.commit('setCopyrightDialog', {
       visible: true,
       message: '由于版权保护，您所在的地区暂时无法使用。'
     });

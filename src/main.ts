@@ -6,8 +6,8 @@ import login from '@/components/login/index';
 import musicAudio from '@/components/music-audio/index';
 import message from '@/components/message/index';
 import songCollect from '@/components/song-collect/index';
-import copyright from '@/components/copyright/index';
-import verify from '@/components/verify-modal/index';
+import copyright from '@/components/copyright-dialog/index';
+import verify from '@/components/verify-dialog/index';
 import '@/index.less';
 
 const app = createApp(App);

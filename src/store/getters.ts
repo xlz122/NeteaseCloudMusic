@@ -14,7 +14,7 @@ const getters: Getters<State> = {
   songSheetId: state => state.songSheetId,
   singerTabIndex: state => state.singerTabIndex,
   songCollect: state => state.songCollect,
-  copyright: state => state.copyright,
+  copyrightDialog: state => state.copyrightDialog,
   verifyDialog: state => state.verifyDialog
 };
 

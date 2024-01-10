@@ -1,9 +1,4 @@
-import type {
-  State,
-  SongPlayProgress,
-  MusicPlayStatus
-} from '@/store/music/state';
-import type { MusicItemType } from '@/hooks/songFormat';
+import type { State } from '@/store/music/state';
 
 type Mutations<T, U = any> = {
   [key: string]: (state: T, payload: U) => void;
@@ -11,53 +6,45 @@ type Mutations<T, U = any> = {
 
 const mutations: Mutations<State> = {
   // 当前播放
-  setPlaySongItem(state, song: MusicItemType) {
-    state.playSongId = song.id;
-    localStorage.setItem('playSongId', JSON.stringify(song.id));
+  setPlaySongItem(state, payload: State['playSongItem']) {
+    state.playSongId = payload.id;
+    localStorage.setItem('playSongId', JSON.stringify(payload.id));
 
-    state.playSongItem = song;
-    localStorage.setItem('playSongItem', JSON.stringify(song));
+    state.playSongItem = payload;
+    localStorage.setItem('playSongItem', JSON.stringify(payload));
   },
   // 播放列表
-  setSongPlaylist(state, songs) {
-    state.songPlaylist = songs;
-    localStorage.setItem('songPlaylist', JSON.stringify(songs));
+  setSongPlaylist(state, payload: State['songPlaylist']) {
+    state.songPlaylist = payload;
+    localStorage.setItem('songPlaylist', JSON.stringify(payload));
   },
   // 播放进度
-  setSongPlayProgress(state, playProgress: SongPlayProgress) {
-    const songPlayProgress = JSON.parse(JSON.stringify(state.songPlayProgress));
-    const progress = Object.assign(songPlayProgress, playProgress);
-    state.songPlayProgress = progress;
+  setSongPlayProgress(state, payload: State['songPlayProgress']) {
+    state.songPlayProgress = { ...state.songPlayProgress, ...payload };
   },
   // 播放状态
-  setSongPlayStatus(state, playStatus: MusicPlayStatus) {
-    const keys = Object.keys(playStatus);
-
-    for (const key of keys) {
-      // eslint-disable-next-line
-      state.songPlayStatus[key as keyof typeof state.songPlayStatus] = playStatus[key as keyof typeof playStatus];
-    }
+  setSongPlayStatus(state, payload: State['songPlayStatus']) {
+    state.songPlayStatus = { ...state.songPlayStatus, ...payload };
   },
   // 播放器锁定
-  setMsicAudioLock(state, musicAudioLock: boolean) {
-    state.musicAudioLock = musicAudioLock;
-    localStorage.setItem('musicAudioLock', JSON.stringify(musicAudioLock));
+  setMsicAudioLock(state, payload: boolean) {
+    state.musicAudioLock = payload;
+    localStorage.setItem('musicAudioLock', JSON.stringify(payload));
   },
   // 播放模式
-  setMusicModeType(state, modeType: number) {
-    state.musicModeType = modeType;
-    localStorage.setItem('musicModeType', JSON.stringify(modeType));
+  setMusicModeType(state, payload: number) {
+    state.musicModeType = payload;
+    localStorage.setItem('musicModeType', JSON.stringify(payload));
   },
   // 音量
-  setMusicVolume(state, musicVolume: number) {
-    state.musicVolume = musicVolume;
-    localStorage.setItem('musicVolume', JSON.stringify(musicVolume));
+  setMusicVolume(state, payload: number) {
+    state.musicVolume = payload;
+    localStorage.setItem('musicVolume', JSON.stringify(payload));
   },
   // 清空播放列表
   emptySongPlaylist(state) {
     state.songPlaylist = [];
     localStorage.setItem('songPlaylist', '[]');
-    // 清除本地播放数据(清除后刷新)
     localStorage.setItem('playSongId', '');
     localStorage.setItem('playSongItem', '');
   }

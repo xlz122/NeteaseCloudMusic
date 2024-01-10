@@ -398,7 +398,7 @@ function albumToPlaylistPlay(id: number): void {
           (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
         );
         if (!allNoCopyright) {
-          $store.commit('setCopyright', {
+          $store.commit('setCopyrightDialog', {
             visible: true,
             message: '版权方要求，当前专辑需单独付费，购买数字专辑即可无限畅享'
           });
