@@ -1,3 +1,37 @@
+# [1.8.0](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.7.0...v1.8.0) (2024-01-10)
+
+
+### ♻ Code Refactoring | 代码重构
+
+* 重构歌词滚动 [#d50865b](https://github.com/xlz122/NeteaseCloudMusic/commit/d50865b) 
+* 重构歌曲从播放列表删除 [#5a5f3c7](https://github.com/xlz122/NeteaseCloudMusic/commit/5a5f3c7) 
+
+
+### ✨ Features | 新功能
+
+* 电台节目可播放 [#72721e9](https://github.com/xlz122/NeteaseCloudMusic/commit/72721e9) 
+* 调整高亮歌词顶部距离 [#20f3ee6](https://github.com/xlz122/NeteaseCloudMusic/commit/20f3ee6) 
+* 搜索、搜索详情移除对vuex依赖 [#11d01b2](https://github.com/xlz122/NeteaseCloudMusic/commit/11d01b2) 
+* 完善-462验证二维码展示 [#cd43f66](https://github.com/xlz122/NeteaseCloudMusic/commit/cd43f66) 
+* 完善-462账号验证 [#752372d](https://github.com/xlz122/NeteaseCloudMusic/commit/752372d) 
+* 完善部分歌单、电台节目跳转 [#5478832](https://github.com/xlz122/NeteaseCloudMusic/commit/5478832) 
+* 我的主页歌单可播放 [#1cc9f37](https://github.com/xlz122/NeteaseCloudMusic/commit/1cc9f37) 
+
+
+### 🎫 Chores | 其他更新
+
+* 更新vue 3.4.0 [#5f24270](https://github.com/xlz122/NeteaseCloudMusic/commit/5f24270) 
+* 项目预览图不进行打包 [#37ba7e5](https://github.com/xlz122/NeteaseCloudMusic/commit/37ba7e5) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 修复登录二维码扫描未确认，失效后未展示刷新按钮的bug [#2053136](https://github.com/xlz122/NeteaseCloudMusic/commit/2053136) 
+* 修复轮播图单曲跳转报错 [#2460774](https://github.com/xlz122/NeteaseCloudMusic/commit/2460774) 
+* 修复搜索关键词更新分页没有重置的bug [#0f7da88](https://github.com/xlz122/NeteaseCloudMusic/commit/0f7da88) 
+
+
+
 # [1.7.0](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.6.1...v1.7.0) (2024-01-04)
 
 
@@ -17,6 +51,7 @@
 
 ### 🎫 Chores | 其他更新
 
+* release 1.7.0 [#3dfb05e](https://github.com/xlz122/NeteaseCloudMusic/commit/3dfb05e) 
 * update license year [#f4be18b](https://github.com/xlz122/NeteaseCloudMusic/commit/f4be18b) 
 
 
