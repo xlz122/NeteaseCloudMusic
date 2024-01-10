@@ -91,12 +91,11 @@ const qrcodeInvalid = ref(false);
 const qrcodeAuthorized = ref(false);
 
 function getQrcodeStatus() {
-  qrcodeStatus({
-    key: qrcodeImgKey.value
-  })
+  qrcodeStatus({ key: qrcodeImgKey.value })
     .then((res: ResponseType) => {
       // 失效
       if (res.code === 800) {
+        qrcodeAuthorized.value = false;
         qrcodeInvalid.value = true;
       }
       // 等待扫码
@@ -105,8 +104,8 @@ function getQrcodeStatus() {
       }
       // 待确认
       if (res.code === 802) {
-        scanPolling(1000);
         qrcodeAuthorized.value = true;
+        scanPolling(1000);
       }
       // 授权成功
       if (res.code === 803) {
@@ -122,13 +121,11 @@ function getQrcodeStatus() {
     .catch(() => ({}));
 }
 
-// 扫码状态轮询
+// 扫描状态轮询
 const timer = ref<NodeJS.Timeout | null>(null);
 
 function scanPolling(time: number): void {
-  if (timer.value) {
-    clearTimeout(timer.value);
-  }
+  timer.value && clearTimeout(timer.value);
 
   timer.value = setTimeout(() => {
     getQrcodeStatus();
@@ -160,12 +157,14 @@ function getUserInfo(uid: number): void {
 
 // 刷新
 function refresh(): void {
-  getQrcodeImgKey();
   qrcodeInvalid.value = false;
+  getQrcodeImgKey();
 }
 
 // 其他登录
 function otherLogin(): void {
+  timer.value && clearTimeout(timer.value);
+
   emits('otherLogin');
 }
 
