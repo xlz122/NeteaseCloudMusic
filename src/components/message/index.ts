@@ -10,7 +10,7 @@ const Message = {
     vm.appContext = app._context;
 
     // 挂载
-    const element = document.getElementById('message') as HTMLDivElement;
+    const element = document.getElementById('message')!;
     render(vm, element);
   }
 };

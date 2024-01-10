@@ -1,7 +1,7 @@
 import { AppContext, createVNode, render } from 'vue';
-import Component from './CopyrightDialog.vue';
+import Component from './LoginDialog.vue';
 
-const CopyrightDialog = {
+const LoginDialog = {
   install: (app: { _context: AppContext | null }): void => {
     // 创建虚拟dom
     const vm = createVNode(Component, {});
@@ -10,9 +10,9 @@ const CopyrightDialog = {
     vm.appContext = app._context;
 
     // 挂载
-    const element = document.getElementById('copyrightDialog')!;
+    const element = document.getElementById('loginDialog')!;
     render(vm, element);
   }
 };
 
-export default CopyrightDialog;
+export default LoginDialog;

@@ -10,7 +10,7 @@ const VerifyDialog = {
     vm.appContext = app._context;
 
     // 挂载
-    const element = document.getElementById('verify') as HTMLDivElement;
+    const element = document.getElementById('verifyDialog')!;
     render(vm, element);
   }
 };

@@ -10,7 +10,7 @@ const SongCollect = {
     vm.appContext = app._context;
 
     // 挂载
-    const element = document.getElementById('songCollect') as HTMLDivElement;
+    const element = document.getElementById('songCollect')!;
     render(vm, element);
   }
 };

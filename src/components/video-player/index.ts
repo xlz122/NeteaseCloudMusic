@@ -10,7 +10,7 @@ const VideoPlayer = {
     vm.appContext = app._context;
 
     // 挂载
-    const element = document.getElementById('video-palyer') as HTMLDivElement;
+    const element = document.getElementById('video-palyer')!;
     render(vm, element);
   }
 };

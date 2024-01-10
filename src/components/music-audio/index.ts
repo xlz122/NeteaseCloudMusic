@@ -10,7 +10,7 @@ const MusicAudio = {
     vm.appContext = app._context;
 
     // 挂载
-    const element = document.getElementById('musicAudio') as HTMLDivElement;
+    const element = document.getElementById('musicAudio')!;
     render(vm, element);
   }
 };
