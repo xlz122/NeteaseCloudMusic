@@ -63,14 +63,9 @@ const mutations: Mutations<State> = {
   setCopyright(state, data: State['copyright']) {
     state.copyright = data;
   },
-  // 异常对话框
-  setAbnormal(state, tip) {
-    const keys = Object.keys(tip);
-
-    for (const key of keys) {
-      // @ts-expect-error - unknown
-      state.abnormal[key as keyof typeof keys] = tip[key];
-    }
+  // 验证对话框
+  setVerifyDialog(state, verify: State['verifyDialog']) {
+    state.verifyDialog = verify;
   }
 };
 

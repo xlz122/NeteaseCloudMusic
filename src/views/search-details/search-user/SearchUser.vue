@@ -57,12 +57,12 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, watch } from 'vue';
+import { ref, reactive, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import { handleMatchString } from '@/utils/utils';
-import { searchKeywords, followUser } from '@/api/search';
+import { searchKeywords, followUser, verifyQrcode } from '@/api/search';
 import type { ResponseType } from '@/types/types';
 import Page from '@/components/page/Page.vue';
 
@@ -133,6 +133,29 @@ function getSearchUser(): void {
     .catch(() => ({}));
 }
 
+// 获取验证二维码
+const verifyParams = ref({
+  token: '',
+  vid: 0,
+  type: 0,
+  evid: '',
+  sign: ''
+});
+
+function getVerifyQrcode(): void {
+  verifyQrcode({ ...verifyParams.value })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        console.log(res);
+        $store.commit('setVerifyDialog', {
+          visible: true,
+          url: res?.data?.qrimg || ''
+        });
+      }
+    })
+    .catch(() => ({}));
+}
+
 function follow(userId: number): boolean | undefined {
   if (!isLogin.value) {
     $store.commit('setLoginDialog', true);
@@ -146,7 +169,17 @@ function follow(userId: number): boolean | undefined {
         setMessage({ type: 'info', title: '关注成功' });
       }
     })
-    .catch(() => ({}));
+    .catch(err => {
+      if (err?.response?.data?.code === -462) {
+        verifyParams.value.token = err?.response?.data?.data?.verifyToken;
+        verifyParams.value.vid = err?.response?.data?.data?.verifyId;
+        verifyParams.value.type = err?.response?.data?.data?.verifyType;
+        verifyParams.value.evid = err?.response?.data?.data?.params?.event_id;
+        verifyParams.value.sign = err?.response?.data?.data?.params?.sign;
+
+        getVerifyQrcode();
+      }
+    });
 }
 
 // 分页

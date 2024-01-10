@@ -7,7 +7,7 @@ import musicAudio from '@/components/music-audio/index';
 import message from '@/components/message/index';
 import songCollect from '@/components/song-collect/index';
 import copyright from '@/components/copyright/index';
-import abnormal from '@/components/abnormal-modal/index';
+import verify from '@/components/verify-modal/index';
 import '@/index.less';
 
 const app = createApp(App);
@@ -19,5 +19,5 @@ app.use(musicAudio);
 app.use(message);
 app.use(songCollect);
 app.use(copyright);
-app.use(abnormal);
+app.use(verify);
 app.mount('#app');

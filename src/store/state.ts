@@ -15,7 +15,7 @@ export type State = {
     visible: boolean;
     message: string;
   };
-  abnormal: {
+  verifyDialog: {
     visible: boolean;
     url: string;
   };
@@ -45,10 +45,10 @@ const state: State = {
     visible: false,
     message: ''
   }, // 版权提示
-  abnormal: {
+  verifyDialog: {
     visible: false,
     url: ''
-  } // 异常提示
+  } // 验证对话框
 };
 
 export default state;

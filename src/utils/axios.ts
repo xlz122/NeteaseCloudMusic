@@ -110,14 +110,6 @@ class HttpRequest {
       (res: AxiosResponse) => {
         const data = res.data;
 
-        // 验证
-        if (data?.code === -462) {
-          store.commit('setAbnormal', {
-            visible: true,
-            url: data?.data?.url
-          });
-        }
-
         if (data?.code === 250) {
           setMessage({ type: 'error', title: data?.message });
         }
@@ -128,17 +120,6 @@ class HttpRequest {
         // cookie过期
         if (error?.response?.status === 301) {
           store.commit('setLogout');
-        }
-
-        // 验证
-        if (
-          error?.response?.status === 400 &&
-          error?.response?.data?.code === -462
-        ) {
-          store.commit('setAbnormal', {
-            visible: true,
-            url: error?.response?.data?.data?.url
-          });
         }
 
         return Promise.reject(error);
