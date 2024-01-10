@@ -67,8 +67,8 @@
 <script lang="ts" setup>
 import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import Qrcode from '@/components/login/qrcode/Qrcode.vue';
-import Other from '@/components/login/other/Other.vue';
+import Qrcode from '@/components/login-dialog/qrcode/Qrcode.vue';
+import Other from '@/components/login-dialog/other/Other.vue';
 import musicianSvg from '../../../assets/image/header/creator-center/musician.svg';
 import talentSvg from '../../../assets/image/header/creator-center/talent.svg';
 import anchorSvg from '../../../assets/image/header/creator-center/anchor.svg';

@@ -106,3 +106,61 @@ export const messageEv = ({ offset, limit }: MessagType): AxiosPromise => {
     params
   });
 };
+
+type VerifyQrcode = {
+  token: string;
+  vid: number;
+  type: number;
+  evid: string;
+  sign: string;
+};
+
+/**
+ * @description 获取验证二维码
+ * @param { Object } params
+ * @param { string } params.token - 触发验证后, 接口返回的verifyToken
+ * @param { number } params.vid - 触发验证后, 接口返回的verifyId
+ * @param { number } params.type - 触发验证后, 接口返回的verifyType
+ * @param { string } params.evid - 触发验证后, 接口返回的params的event_id
+ * @param { string } params.sign - 触发验证后 ,接口返回的params的sign
+ */
+export const verifyQrcode = ({
+  token,
+  vid,
+  type,
+  evid,
+  sign
+}: VerifyQrcode): AxiosPromise => {
+  const params = {
+    timestamp: new Date().getTime(),
+    token,
+    vid,
+    type,
+    evid,
+    sign
+  };
+
+  return axios.request({
+    url: '/verify/getQr',
+    method: 'get',
+    params
+  });
+};
+
+/**
+ * @description 获取验证二维码扫描状态
+ * @param { Object } params
+ * @param { string } params.qr - 验证二维码接口返回的qr字符串
+ */
+export const verifyQrcodeStatus = ({ qr }: { qr: string }): AxiosPromise => {
+  const params = {
+    timestamp: new Date().getTime(),
+    qr
+  };
+
+  return axios.request({
+    url: '/verify/qrcodestatus',
+    method: 'get',
+    params
+  });
+};

@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import VerticalProgress from '@/components/verticalProgress/VerticalProgress.vue';
+import VerticalProgress from '@/components/vertical-progress/VerticalProgress.vue';
 
 function progressChange(progress: number): void {
   console.log(progress);

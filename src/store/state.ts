@@ -19,7 +19,11 @@ export type State = {
   };
   verifyDialog: {
     visible: boolean;
-    url: string;
+    token: string;
+    vid: number;
+    type: number;
+    evid: string;
+    sign: string;
   };
 };
 
@@ -49,7 +53,11 @@ const state: State = {
   }, // 版权对话框
   verifyDialog: {
     visible: false,
-    url: ''
+    token: '',
+    vid: 0,
+    type: 0,
+    evid: '',
+    sign: ''
   } // 验证对话框
 };
 
