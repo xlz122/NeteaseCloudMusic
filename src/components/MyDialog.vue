@@ -160,7 +160,7 @@ function cancel(): void {
   overflow: hidden;
   text-indent: -9999px;
   cursor: pointer;
-  background: url('@/assets/image/dialog-title.png');
+  background: url('@/assets/image/dialog.png');
   background-position: 0 -95px;
 }
 

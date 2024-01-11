@@ -28,7 +28,7 @@
   <div class="qrcode-authorized" v-else>
     <img
       class="icon-phone"
-      src="../../../assets/image/login/qrcode-phone-authorized.png"
+      src="../../../assets/image/login/qrcode-authorized.png"
       alt=""
     />
     <p class="title">扫描成功</p>

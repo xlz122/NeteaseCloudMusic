@@ -66,11 +66,7 @@
         </div>
         <div class="main-pc">
           <div class="title">在电脑上听</div>
-          <img
-            class="img"
-            src="../../assets/image/download/download-pc.png"
-            alt=""
-          />
+          <img class="img" src="../../assets/image/download/pc.png" alt="" />
           <div class="type">
             <span class="info">
               <i class="icon mac"></i>
@@ -89,7 +85,7 @@
           <div class="title">在手机上听</div>
           <img
             class="img"
-            src="../../assets/image/download/download-mobile.png"
+            src="../../assets/image/download/mobile.png"
             alt=""
           />
           <div class="type">
@@ -193,7 +189,7 @@
         </div>
         <div class="img">
           <img
-            src="../../assets/image/download/distinguish.jpg"
+            src="../../assets/image/download/recognizing-music.jpg"
             alt="听歌识曲  助你疯狂猜歌"
           />
         </div>

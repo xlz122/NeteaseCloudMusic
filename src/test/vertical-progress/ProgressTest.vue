@@ -42,12 +42,12 @@ function progressChange(progress: number): void {
       bottom: -10px;
       width: 18px;
       height: 20px;
-      background: url('@/assets/image/video/video-play-btn.png') no-repeat;
+      background: url('@/assets/image/video/play-dot.png') no-repeat;
       background-position: center;
     }
 
     .icon-round:hover {
-      background: url('@/assets/image/video/video-play-btn-hover.png');
+      background: url('@/assets/image/video/play-dot-hover.png');
       background-position: center;
     }
   }
