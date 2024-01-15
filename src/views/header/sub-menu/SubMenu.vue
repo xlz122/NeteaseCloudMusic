@@ -6,16 +6,12 @@
           class="item"
           v-for="(item, index) in subMenu"
           :key="index"
-          :class="[
-            { 'active-item': index === subMenuIndex },
-            { 'song-sheet': index === 2 }
-          ]"
+          :class="{ 'active-item': index === subMenuIndex }"
           @click="subMenuChange(item, index)"
         >
           <span class="link">
             {{ item?.title }}
           </span>
-          <i class="white-icon" v-if="index === 2"></i>
         </li>
       </ul>
     </div>
@@ -65,7 +61,7 @@ const subMenu = ref<SubMenuItem[]>([
   },
   {
     title: '新碟上架',
-    link: '/home-new-disc'
+    link: '/home-album'
   }
 ]);
 

@@ -47,7 +47,7 @@ onUnmounted(() => {
   display: none;
   width: 49px;
   height: 44px;
-  margin-left: 505px;
+  margin-left: 500px;
   text-indent: -9999px;
   cursor: pointer;
   background: url('@/assets/image/song-sheet/icon-download.png');

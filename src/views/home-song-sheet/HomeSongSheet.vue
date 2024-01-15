@@ -28,6 +28,7 @@
               alt=""
               @click="jumpSongSheetDetail(item?.id)"
             />
+            <i class="high-quality" v-if="item.highQuality"></i>
             <div class="info">
               <i class="info-icon"></i>
               <span class="num">{{ item?.playCount }}</span>
@@ -103,6 +104,7 @@ type SongSheetItem = {
       identityIconUrl: string;
     };
   };
+  highQuality: boolean;
 };
 
 const $route = useRoute();

@@ -1,13 +1,9 @@
 <template>
-  <div class="home-new-disc">
-    <div class="home-new-disc-container">
-      <div class="new-disc-title">热门新碟</div>
-      <ul class="new-disc-list">
-        <li
-          class="new-disc-item"
-          v-for="(item, index) in hotAlbum"
-          :key="index"
-        >
+  <div class="home-album">
+    <div class="home-album-container">
+      <div class="album-title">热门新碟</div>
+      <ul class="album-list">
+        <li class="album-item" v-for="(item, index) in hotAlbum" :key="index">
           <div class="item-cover">
             <img
               class="item-cover-img"
@@ -46,7 +42,7 @@
           </div>
         </li>
       </ul>
-      <div class="new-disc-title">
+      <div class="album-title">
         全部新碟
         <ul class="tab">
           <li class="item first-item" @click="newDiscType('ALL')">全部</li>
@@ -56,12 +52,8 @@
           <li class="item last-item" @click="newDiscType('JP')">日本</li>
         </ul>
       </div>
-      <ul class="new-disc-list">
-        <li
-          class="new-disc-item"
-          v-for="(item, index) in albumList"
-          :key="index"
-        >
+      <ul class="album-list">
+        <li class="album-item" v-for="(item, index) in albumList" :key="index">
           <div class="item-cover">
             <img
               class="item-cover-img"
@@ -117,7 +109,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import usePlaySong from '@/hooks/usePlaySong';
 import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
-import { hotNewDisc, nweDiscAlbum } from '@/api/home-new-disc';
+import { hotNewDisc, nweDiscAlbum } from '@/api/home-album';
 import { albumDetail } from '@/api/album-detail';
 import type { ResponseType } from '@/types/types';
 import type { SongType } from '@/hooks/songFormat';
@@ -230,5 +222,5 @@ function pageChange(current: number): void {
 </script>
 
 <style lang="less" scoped>
-@import url('./home-new-disc.less');
+@import url('./home-album.less');
 </style>

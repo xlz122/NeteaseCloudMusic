@@ -8,6 +8,10 @@
             :src="`${songSheetDetail?.playlist?.coverImgUrl}?param=200y200`"
             alt=""
           />
+          <i
+            class="high-quality"
+            v-if="songSheetDetail?.playlist?.highQuality"
+          ></i>
         </template>
         <template v-else>
           <img class="img" src="" alt="" />

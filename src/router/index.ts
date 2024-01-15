@@ -84,11 +84,11 @@ const routes: Array<RouteRecordRaw> = [
           )
       },
       {
-        path: '/home-new-disc',
-        name: 'home-new-disc',
+        path: '/home-album',
+        name: 'home-album',
         component: () =>
           import(
-            /* webpackChunkName: "home-new-disc" */ '../views/home-new-disc/HomeNewDisc.vue'
+            /* webpackChunkName: "home-album" */ '../views/home-album/HomeAlbum.vue'
           )
       },
       {

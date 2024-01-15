@@ -21,6 +21,7 @@
       text-align: left;
 
       .item-cover {
+        position: relative;
         display: inline-block;
         width: 50px;
         height: 50px;
@@ -31,6 +32,16 @@
           display: inline-block;
           width: 100%;
           height: 100%;
+        }
+
+        .high-quality {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 25px;
+          height: 25px;
+          background: url('@/assets/image/icon2.png');
+          background-position: -80px -275px;
         }
       }
 

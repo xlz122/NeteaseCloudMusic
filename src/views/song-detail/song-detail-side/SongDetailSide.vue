@@ -14,6 +14,7 @@
               :src="`${item?.coverImgUrl}?param=50y50`"
               alt=""
             />
+            <i class="high-quality" v-if="item?.highQuality"></i>
           </div>
           <div class="item-info">
             <p
@@ -97,6 +98,7 @@ type SongSheetItem = {
     userId: number;
     nickname: string;
   };
+  highQuality: boolean;
 };
 
 type SimiSongItem = {

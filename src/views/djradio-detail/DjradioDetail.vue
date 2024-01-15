@@ -19,7 +19,6 @@
                 <span @click="jumpUserProfile(details?.dj?.userId)">
                   {{ details?.dj?.nickname }}
                 </span>
-                <img src="../../assets/image/user/member-music.png" alt="" />
               </div>
             </div>
             <div class="btns">

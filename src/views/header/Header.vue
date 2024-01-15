@@ -9,10 +9,7 @@
             class="item"
             v-for="(item, index) in menu"
             :key="index"
-            :class="[
-              { 'active-item': index === menuIndex },
-              { 'last-item': index === menu.length - 1 }
-            ]"
+            :class="{ 'active-item': index === menuIndex }"
             @click="menuChange(item, index)"
           >
             <router-link class="link" v-if="item?.link" :to="item?.link">
@@ -21,7 +18,6 @@
             <a class="link" target="_blank" v-else :href="item?.href">
               {{ item?.title }}
             </a>
-            <i class="hot" v-if="index === menu.length - 1"></i>
           </li>
         </ul>
         <div class="other">
@@ -99,6 +95,10 @@ const menu = ref<MenuItem[]>([
   {
     title: '音乐人',
     href: 'https://music.163.com/st/musician'
+  },
+  {
+    title: '云推歌',
+    href: 'https://music.163.com/st/ad-song'
   },
   {
     title: '下载客户端',

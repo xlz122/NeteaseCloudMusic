@@ -23,7 +23,7 @@
         ></a>
       </li>
     </ul>
-    <p class="desc">同步歌单，随时畅听320k好音乐</p>
+    <p class="desc">同步歌单，随时畅听好音乐</p>
   </div>
 </template>
 

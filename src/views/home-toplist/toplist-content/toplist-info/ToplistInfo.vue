@@ -20,8 +20,9 @@
         </div>
         <div class="info">
           <i class="icon"></i>
+          <span class="text">最近更新:</span>
           <span class="time">
-            最近更新：{{
+            {{
               formatDateTime(
                 songSheetDetail?.playlist?.updateTime / 1000,
                 'MM月dd日'
