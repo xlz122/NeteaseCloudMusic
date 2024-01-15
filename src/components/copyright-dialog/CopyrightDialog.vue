@@ -1,5 +1,5 @@
 <template>
-  <my-dialog
+  <Dialog
     class="copyright-dialog"
     :visible="copyrightDialog.visible"
     :confirmtext="'知道了'"
@@ -12,13 +12,13 @@
         copyrightDialog.message || '由于版权保护，您所在的地区暂时无法使用。'
       }}
     </p>
-  </my-dialog>
+  </Dialog>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-import MyDialog from '@/components/MyDialog.vue';
+import Dialog from '@/components/Dialog.vue';
 
 const $store = useStore();
 const copyrightDialog = computed(() => $store.getters.copyrightDialog);
@@ -40,7 +40,7 @@ function cancel(): void {
 
 <style lang="less" scoped>
 .copyright-dialog {
-  .my-dialog-box {
+  .dialog-box {
     width: 480px;
   }
 

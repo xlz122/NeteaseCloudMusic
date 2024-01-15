@@ -138,8 +138,8 @@
         <router-link class="link" to="/">发现音乐</router-link>
       </p>
     </div>
-    <my-dialog
-      class="delete-music-dialog"
+    <Dialog
+      class="music-dialog"
       :visible="deleteSongDialog"
       :confirmtext="'确定'"
       :canceltext="'取消'"
@@ -149,7 +149,7 @@
       @cancel="deleteSongCancel"
     >
       <p class="content">确定删除歌曲？</p>
-    </my-dialog>
+    </Dialog>
   </div>
 </template>
 
@@ -163,7 +163,7 @@ import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { timeStampToDuration } from '@/utils/utils';
 import { deleteSong } from '@/api/my-music';
 import type { SongType } from '@/hooks/songFormat';
-import MyDialog from '@/components/MyDialog.vue';
+import Dialog from '@/components/Dialog.vue';
 
 const props = defineProps({
   loading: {

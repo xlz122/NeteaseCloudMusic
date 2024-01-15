@@ -1,23 +1,18 @@
 <template>
-  <my-dialog
-    class="my-dialog"
-    :visible="loginDialog"
-    :title="'登录'"
-    @cancel="dialogCancel"
-  >
+  <Dialog :visible="loginDialog" :title="'登录'" @cancel="dialogCancel">
     <div class="login">
       <!-- 扫码登录 -->
       <qrcode v-if="loginType === 'qrcode'" @otherLogin="otherLogin" />
       <!-- 其他登录 -->
       <other v-if="loginType === 'other'" @qrcodeLogin="qrcodeLogin" />
     </div>
-  </my-dialog>
+  </Dialog>
 </template>
 
 <script lang="ts" setup>
 import { ref, computed, watch, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
-import MyDialog from '@/components/MyDialog.vue';
+import Dialog from '@/components/Dialog.vue';
 import Qrcode from './qrcode/Qrcode.vue';
 import Other from './other/Other.vue';
 

@@ -1,7 +1,7 @@
 <template>
   <div class="song-collect">
-    <my-dialog
-      class="song-collect-dialog"
+    <Dialog
+      class="collect-dialog"
       :visible="songCollect.visible"
       :title="'添加到歌单'"
       @cancel="collectCancel"
@@ -28,7 +28,7 @@
           </div>
         </li>
       </ul>
-    </my-dialog>
+    </Dialog>
   </div>
 </template>
 
@@ -38,7 +38,7 @@ import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import { userPlayList, collectSong } from '@/api/my-music';
 import type { ResponseType } from '@/types/types';
-import MyDialog from '@/components/MyDialog.vue';
+import Dialog from '@/components/Dialog.vue';
 
 type SongSheetItem = {
   id: number;

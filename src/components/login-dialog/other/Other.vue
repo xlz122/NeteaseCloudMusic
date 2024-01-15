@@ -69,7 +69,7 @@
       </ul>
     </div>
   </div>
-  <!-- 右下角二维码  -->
+  <!-- 右下角二维码 -->
   <i
     class="icon-qrcode-login"
     v-if="loginMode.allOtherLogin"

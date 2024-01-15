@@ -45,8 +45,8 @@
         @replySubmit="replySubmit"
       />
     </template>
-    <my-dialog
-      class="delete-comment-dialog"
+    <Dialog
+      class="comment-dialog"
       :visible="deleteCommentDialog"
       :confirmtext="'确定'"
       :canceltext="'取消'"
@@ -56,7 +56,7 @@
       @cancel="deleteCommentCancel"
     >
       <p class="content">确定删除评论？</p>
-    </my-dialog>
+    </Dialog>
   </div>
 </template>
 
@@ -73,7 +73,7 @@ import {
 import type { ResponseType } from '@/types/types';
 import CommentReplay from '@/components/comment/comment-replay/CommentReplay.vue';
 import CommentList from '@/components/comment/comment-list/CommentList.vue';
-import MyDialog from '@/components/MyDialog.vue';
+import Dialog from '@/components/Dialog.vue';
 import defaultAvatarImg from '@/assets/image/user/default_avatar.jpg';
 
 export type CommentParams = {

@@ -89,16 +89,6 @@
                   title="下载"
                   @click="handleDownload"
                 ></i>
-                <!-- 用户自己才有删除按钮 -->
-                <i
-                  class="icon delete"
-                  v-if="
-                    songSheetDetail?.playlist?.creator?.userId ===
-                    userInfo?.profile?.userId
-                  "
-                  title="删除"
-                  @click="deleteSongShow(item?.id)"
-                ></i>
               </div>
             </div>
           </td>
@@ -135,18 +125,6 @@
         <router-link class="link" to="/">发现音乐</router-link>
       </p>
     </div>
-    <my-dialog
-      class="delete-music-dialog"
-      :visible="deleteSongDialog"
-      :confirmtext="'确定'"
-      :canceltext="'取消'"
-      showConfirmButton
-      showCancelButton
-      @confirm="deleteSongConfirm"
-      @cancel="deleteSongCancel"
-    >
-      <p class="content">确定删除歌曲？</p>
-    </my-dialog>
   </div>
 </template>
 
@@ -158,9 +136,7 @@ import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
 import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { timeStampToDuration } from '@/utils/utils';
-import { deleteSong } from '@/api/my-music';
 import type { SongType } from '@/hooks/songFormat';
-import MyDialog from '@/components/MyDialog.vue';
 
 const props = defineProps({
   songSheetDetail: {
@@ -172,7 +148,6 @@ const props = defineProps({
 const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
-const userInfo = computed(() => $store.getters.userInfo);
 const playSongId = computed<number>(() => $store.getters['music/playSongId']);
 
 const { songSheetDetail } = toRefs(props);
@@ -253,37 +228,6 @@ function handleShare(): boolean | undefined {
 // 下载
 function handleDownload(): void {
   setMessage({ type: 'error', title: '该功能暂未开发' });
-}
-
-// 删除歌曲
-const deleteSongDialog = ref(false);
-const deleteMuiscId = ref(0);
-
-function deleteSongShow(id: number): void {
-  deleteSongDialog.value = !deleteSongDialog.value;
-  deleteMuiscId.value = id;
-}
-
-// 删除歌曲 - 确定
-function deleteSongConfirm(): void {
-  deleteSongDialog.value = false;
-
-  deleteSong({
-    pid: songSheetDetail.value.playlist.id,
-    tracks: deleteMuiscId.value
-  })
-    .then(() => {
-      const index = songSheetDetail.value?.playlist?.tracks?.findIndex(
-        (item: { id: number }) => item.id === deleteMuiscId.value
-      );
-      songSheetDetail.value?.playlist?.tracks?.splice(index, 1);
-    })
-    .catch(() => ({}));
-}
-
-// 删除歌曲 - 取消
-function deleteSongCancel(): void {
-  deleteSongDialog.value = false;
 }
 
 // 跳转歌曲详情

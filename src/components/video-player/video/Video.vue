@@ -4,7 +4,7 @@
     @play="" 播放视频
     @pause="" 暂停视频
     @timeupdate="" 视频播放的时间
-  -->
+ -->
   <video
     class="video"
     ref="videoRef"

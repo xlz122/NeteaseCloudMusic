@@ -1,7 +1,7 @@
 <template>
   <div class="prompt" v-if="dialogShow">
     <div class="prompt-mask"></div>
-    <div class="prompt-box" id="my-dialog-box">
+    <div class="prompt-box">
       <div class="prompt-box">
         <i class="okfail-icon" :class="icon === 'error' ? 'fail-icon' : ''"></i>
         <p class="f14 text-white tc" v-if="content">{{ content }}</p>

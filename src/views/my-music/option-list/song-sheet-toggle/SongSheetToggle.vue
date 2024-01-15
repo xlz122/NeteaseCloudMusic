@@ -56,9 +56,9 @@
     </ul>
   </div>
   <div>
-    <my-dialog
-      class="my-dialog"
-      :class="{ 'my-dialog-add': dialog.type === 'add' }"
+    <Dialog
+      class="song-sheet-dialog"
+      :class="{ 'add-song-sheet': dialog.type === 'add' }"
       :visible="dialog.visible"
       :title="dialog.title"
       :confirmtext="dialog.confirmtext"
@@ -75,7 +75,7 @@
         <p class="desc">可通过“收藏”将音乐添加到新歌单中</p>
       </div>
       <p class="content" v-else>确定删除歌单？</p>
-    </my-dialog>
+    </Dialog>
   </div>
 </template>
 
@@ -83,7 +83,7 @@
 import { ref, reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
-import MyDialog from '@/components/MyDialog.vue';
+import Dialog from '@/components/Dialog.vue';
 
 type ItemType = {
   id: number;

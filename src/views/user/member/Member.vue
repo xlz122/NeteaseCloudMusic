@@ -1,7 +1,7 @@
 <template>
   <div class="member">
     <div class="member-container">
-      <!--  用户信息  -->
+      <!-- 用户信息 -->
       <div class="user-info">
         <div class="user-head">
           <div class="payment">
@@ -45,7 +45,7 @@
         </div>
       </div>
 
-      <!--  充值模块  -->
+      <!-- 充值模块 -->
       <div class="scene-card">
         <div class="vip-tab dis-flex">
           <div
@@ -190,7 +190,7 @@
         </div>
       </div>
 
-      <!--  vip特权  -->
+      <!-- vip特权 -->
       <div class="privilege">
         <p class="title f22 tc"><em>黑胶VIP特权</em></p>
         <div class="privilege-icon-list">
@@ -226,7 +226,7 @@
         </div>
       </div>
 
-      <!--  服务协议  -->
+      <!-- 服务协议 -->
       <div class="service tc">
         <a
           target="_blank"
@@ -257,8 +257,8 @@
         </span>
       </div>
 
-      <!--  连续包月服务须知  -->
-      <my-dialog
+      <!-- 连续包月服务须知 -->
+      <Dialog
         class="vip-service-modal"
         :visible="dialog.dialogShow"
         title="连续包月服务须知"
@@ -273,20 +273,19 @@
             {{ item }}
           </p>
         </div>
-      </my-dialog>
+      </Dialog>
 
-      <!--  兑换优惠券提示  -->
-      <my-prompt
-        class=""
+      <!-- 兑换优惠券提示 -->
+      <Prompt
         :show="dialog.promptShow"
         :icon="dialog.promptIcon"
         :content="dialog.promptContent"
         @close="closePrompt"
       >
-      </my-prompt>
+      </Prompt>
 
-      <!--  会员常见问题  -->
-      <my-dialog
+      <!-- 会员常见问题 -->
+      <Dialog
         class="problem-modal"
         :visible="dialogProblem"
         title="会员常见问题"
@@ -387,7 +386,7 @@
             </div>
           </div>
         </div>
-      </my-dialog>
+      </Dialog>
     </div>
   </div>
 </template>
@@ -398,8 +397,8 @@ import { useStore } from 'vuex';
 import { getImageUrl } from '@/utils/utils';
 import { userVipInfo } from '@/api/user';
 import type { ResponseType } from '@/types/types';
-import MyDialog from '@/components/MyDialog.vue';
-import MyPrompt from '@/components/MyPrompt.vue';
+import Dialog from '@/components/Dialog.vue';
+import Prompt from '@/components/Prompt.vue';
 
 type VipInfo = {
   redVipLevelIcon?: string;
@@ -735,21 +734,22 @@ onMounted(() => {
 </script>
 
 <style lang="less" scoped>
+@import url('../../../style/base.less');
 @import url('./member.less');
 </style>
 
 <style lang="less">
-.vip-service-modal .my-dialog-box {
+.vip-service-modal .dialog-box {
   width: 760px !important;
   min-height: auto !important;
 
-  .my-dialog-title {
+  .dialog-title {
     font-size: 16px;
     font-weight: initial;
     text-align: center;
   }
 
-  .my-dialog-content {
+  .dialog-content {
     padding: 23px 60px 33px;
 
     .dialog-content {
@@ -760,10 +760,10 @@ onMounted(() => {
   }
 }
 
-.problem-modal .my-dialog-box {
+.problem-modal .dialog-box {
   width: 640px;
 
-  .my-dialog-content {
+  .dialog-content {
     height: 250px;
     padding: 11px 34px 0;
     overflow: auto;

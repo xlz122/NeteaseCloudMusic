@@ -11,8 +11,8 @@ export const drag = {
 
     el.onmousedown = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
-      // 是否顶部title部分移动
-      if (target.className === 'my-dialog-title') {
+      // 标题栏移动
+      if (target.className === 'dialog-title') {
         // (clientX, clientY)点击位置距离当前可视区域的坐标(x, y)
         // offsetLeft、offsetTop 距离上层或父级的左边距和上边距
 
