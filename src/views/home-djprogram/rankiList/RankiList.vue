@@ -65,7 +65,7 @@ import { useRouter } from 'vue-router';
 import usePlaySong from '@/hooks/usePlaySong';
 import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { programTopList } from '@/api/home-djprogram';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import type { SongType } from '@/hooks/songFormat';
 
 type RecommendItem = {

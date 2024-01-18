@@ -55,7 +55,7 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { albumDetail } from '@/api/album-detail';
 import { albumComment } from '@/api/comment';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import type { CommentParams } from '@/components/comment/Comment.vue';
 import { handleCommentData } from '@/components/comment/handleCommentData';
 import Comment from '@/components/comment/Comment.vue';

@@ -42,7 +42,7 @@
 import { ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { verifyQrcode, verifyQrcodeStatus } from '@/api/user';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 
 const $store = useStore();
 const verifyDialog = computed(() => $store.getters.verifyDialog);

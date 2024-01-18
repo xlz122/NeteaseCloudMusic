@@ -58,7 +58,7 @@
 import { ref, reactive, watch, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { bannerImgUrl } from '@/api/home';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 
 type Banner = {
   list: BannerItem[];

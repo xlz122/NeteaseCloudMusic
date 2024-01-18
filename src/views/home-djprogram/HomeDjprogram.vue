@@ -19,7 +19,7 @@
 import { ref } from 'vue';
 import { setMessage } from '@/hooks/useMessage';
 import { djCatelist, recommendTypeList } from '@/api/home-djprogram';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import Category from './category/Category.vue';
 import Recommend from './recommend/ReCommend.vue';
 import RankiList from './rankiList/RankiList.vue';

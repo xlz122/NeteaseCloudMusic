@@ -83,7 +83,7 @@ import { setMessage } from '@/hooks/useMessage';
 import { handleCommentData } from '@/components/comment/handleCommentData';
 import { playlistDetail, playlistSubscribe } from '@/api/song-sheet-detail';
 import { playlistComment } from '@/api/comment';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import type { CommentParams } from '@/components/comment/Comment.vue';
 import MusicTable from '@/components/music-table/MusicTable.vue';
 import Comment from '@/components/comment/Comment.vue';

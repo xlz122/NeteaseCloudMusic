@@ -59,7 +59,7 @@
 import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { topPlaylist } from '@/api/home-song-sheet';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
 
 type ItemType = {

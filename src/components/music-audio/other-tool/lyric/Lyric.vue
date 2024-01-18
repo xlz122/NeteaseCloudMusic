@@ -35,7 +35,7 @@
 import { ref, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { getLyric } from '@/api/my-music';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 
 type Lyric = {
   nolyric: boolean;

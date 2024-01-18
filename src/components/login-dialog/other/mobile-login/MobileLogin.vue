@@ -95,7 +95,7 @@ import {
   cellphoneLogin,
   userInfo
 } from '@/api/login';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 
 type MobileFormData = {
   code: string;

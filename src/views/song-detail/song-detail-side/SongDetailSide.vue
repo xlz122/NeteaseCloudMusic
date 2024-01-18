@@ -86,7 +86,7 @@ import { useRoute, useRouter } from 'vue-router';
 import usePlaySong from '@/hooks/usePlaySong';
 import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { simiPlaylist, simiSong } from '@/api/song-detail';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import type { SongType } from '@/hooks/songFormat';
 import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
 

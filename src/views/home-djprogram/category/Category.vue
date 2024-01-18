@@ -88,7 +88,7 @@
 <script lang="ts" setup>
 import { ref, reactive } from 'vue';
 import { djCatelist } from '@/api/home-djprogram';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 
 type Menu = {
   main: MenuItem[];

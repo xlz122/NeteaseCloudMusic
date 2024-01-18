@@ -89,7 +89,7 @@ import { videoDetail } from '@/api/video-detail';
 import { videoSbulist } from '@/api/my-music';
 import { videoComment } from '@/api/comment';
 import { videoPlayUrl, videoSub } from '@/api/video-detail';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import type { CommentParams } from '@/components/comment/Comment.vue';
 import VideoPlayer from '@/components/video-player/VideoPlayer.vue';
 import Comment from '@/components/comment/Comment.vue';

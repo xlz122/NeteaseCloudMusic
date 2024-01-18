@@ -130,7 +130,7 @@ import usePlaySong from '@/hooks/usePlaySong';
 import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { filterTime, timeStampToDuration } from '@/utils/utils';
 import { djDetail, djProgram } from '@/api/home-djprogram';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import type { SongType } from '@/hooks/songFormat';
 import DjradioDetailSide from './djradio-detail-side/DjradioDetailSide.vue';
 

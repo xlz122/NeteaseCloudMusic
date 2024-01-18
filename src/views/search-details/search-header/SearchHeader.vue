@@ -116,7 +116,7 @@ import { ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { searchPropose } from '@/api/search';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 
 type SearchPropos = {
   songs?: {

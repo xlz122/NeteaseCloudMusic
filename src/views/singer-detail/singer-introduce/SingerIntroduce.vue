@@ -24,7 +24,7 @@
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { artistDesc } from '@/api/singer-detail';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 
 type SingerDesc = {
   briefDesc: string;

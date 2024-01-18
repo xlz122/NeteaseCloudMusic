@@ -80,7 +80,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import { artistDetail, artistSub } from '@/api/singer-detail';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import SingerDetailSide from './singer-detail-side/SingerDetailSide.vue';
 import SingerSong from './singer-song/SingerSong.vue';
 import SingerAlbum from './singer-album/SingerAlbum.vue';

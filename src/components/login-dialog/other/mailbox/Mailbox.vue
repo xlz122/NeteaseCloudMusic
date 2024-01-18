@@ -46,7 +46,7 @@
 import { reactive, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { mailboxLogin, userInfo } from '@/api/login';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 
 type MailboxFormData = {
   mailbox: string;

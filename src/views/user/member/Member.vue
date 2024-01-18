@@ -396,7 +396,7 @@ import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { getImageUrl } from '@/utils/utils';
 import { userVipInfo } from '@/api/user';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import Dialog from '@/components/Dialog.vue';
 import Prompt from '@/components/Prompt.vue';
 

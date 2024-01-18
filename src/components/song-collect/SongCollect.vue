@@ -37,7 +37,7 @@ import { ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import { userPlayList, collectSong } from '@/api/my-music';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import Dialog from '@/components/Dialog.vue';
 
 type SongSheetItem = {

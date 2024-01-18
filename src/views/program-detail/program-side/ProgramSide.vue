@@ -38,7 +38,7 @@
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { djProgramList } from '@/api/program-detail';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
 
 type ProgramItem = {

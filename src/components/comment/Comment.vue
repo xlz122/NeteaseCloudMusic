@@ -70,7 +70,7 @@ import {
   commentLike,
   replyComment
 } from '@/api/comment';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import CommentReplay from '@/components/comment/comment-replay/CommentReplay.vue';
 import CommentList from '@/components/comment/comment-list/CommentList.vue';
 import Dialog from '@/components/Dialog.vue';

@@ -38,7 +38,7 @@
 import { reactive, computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { userPlayList, addPlayList, deletePlayList } from '@/api/my-music';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import SongSheetToggle from './song-sheet-toggle/SongSheetToggle.vue';
 
 type SongSheet = {

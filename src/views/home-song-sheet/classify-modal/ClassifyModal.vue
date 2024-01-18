@@ -44,7 +44,7 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
 import { playlistCatlist } from '@/api/home-song-sheet';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 
 type MenuItem = {
   title: string;

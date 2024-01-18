@@ -22,7 +22,7 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import findCityZipCode from './city';
 import { userDetail } from '@/api/user';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import UserInfo from './user-info/UserInfo.vue';
 import UserRecord from './user-record/UserRecord.vue';
 import SongSheetList from './song-sheet-list/SongSheetList.vue';

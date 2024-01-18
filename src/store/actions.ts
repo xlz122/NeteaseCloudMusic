@@ -2,7 +2,7 @@ import router from '@/router';
 import { logout } from '@/api/login';
 import type { State } from '@/store/state';
 import type { Getters } from '@/store/getters';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types';
 
 export type Store = {
   state: State;

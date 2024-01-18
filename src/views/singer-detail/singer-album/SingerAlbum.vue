@@ -56,7 +56,7 @@ import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { formatDateTime } from '@/utils/utils';
 import { artistAlbum } from '@/api/album-detail';
 import { albumDetail } from '@/api/album-detail';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import type { SongType } from '@/hooks/songFormat';
 import Page from '@/components/page/Page.vue';
 

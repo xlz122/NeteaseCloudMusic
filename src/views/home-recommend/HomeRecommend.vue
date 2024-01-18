@@ -51,7 +51,7 @@ import usePlaySong from '@/hooks/usePlaySong';
 import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { getWeekDate, formatDateTime } from '@/utils/utils';
 import { recommendSongs } from '@/api/home-recommend';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import type { SongType } from '@/hooks/songFormat';
 import RecommendSong from './recommend-song/RecommendSong.vue';
 import RecommendSide from './recommend-side/RecommendSide.vue';

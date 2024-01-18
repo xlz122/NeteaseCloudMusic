@@ -56,7 +56,7 @@ import { ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { userVipInfo } from '@/api/user';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 
 type VipInfo = {
   redVipLevelIcon?: string;

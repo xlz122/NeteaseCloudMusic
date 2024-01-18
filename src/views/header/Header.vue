@@ -51,7 +51,7 @@ import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { messageEv } from '@/api/user';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import User from '@/views/user/User.vue';
 import SubMenu from './sub-menu/SubMenu.vue';
 import Search from './search/Search.vue';

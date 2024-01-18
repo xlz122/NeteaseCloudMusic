@@ -41,7 +41,7 @@ import { ref, reactive, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { formatDateTime } from '@/utils/utils';
 import { artistAlbum } from '@/api/album-detail';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
 
 type AlbumItem = {

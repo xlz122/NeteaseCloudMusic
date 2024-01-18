@@ -119,7 +119,7 @@
 import { ref, reactive, onMounted, onUnmounted } from 'vue';
 import { setMessage } from '@/hooks/useMessage';
 import { countryCode, captchaSent, captchaVerify } from '@/api/login';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 
 type MobileFormData = {
   code: string;

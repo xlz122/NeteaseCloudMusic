@@ -115,7 +115,7 @@ import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { bigNumberTransform } from '@/utils/utils';
 import { userPlayList } from '@/api/my-music';
 import { playlistTrack } from '@/api/song-sheet-detail';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import type { SongType } from '@/hooks/songFormat';
 
 type SongSheet = {

@@ -76,7 +76,7 @@ import {
   timeStampToDuration
 } from '@/utils/utils';
 import { relatedVideo } from '@/api/video-detail';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
 
 type VideoItem = {

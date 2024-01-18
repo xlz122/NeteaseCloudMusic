@@ -105,7 +105,7 @@ import { handleCommentData } from '@/components/comment/handleCommentData';
 import { mvDetail } from '@/api/mv-detail';
 import { mvUrl, mvSub } from '@/api/mv-detail';
 import { mvComment } from '@/api/comment';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import type { CommentParams } from '@/components/comment/Comment.vue';
 import VideoPlayer from '@/components/video-player/VideoPlayer.vue';
 import Comment from '@/components/comment/Comment.vue';

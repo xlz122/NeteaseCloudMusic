@@ -35,7 +35,7 @@ import { useStore } from 'vuex';
 import { handleCommentData } from '@/components/comment/handleCommentData';
 import { djProgramDetail } from '@/api/program-detail';
 import { djprogramComment } from '@/api/comment';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import type { CommentParams } from '@/components/comment/Comment.vue';
 import Comment from '@/components/comment/Comment.vue';
 import Page from '@/components/page/Page.vue';

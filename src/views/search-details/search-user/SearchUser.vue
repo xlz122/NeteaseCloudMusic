@@ -63,7 +63,7 @@ import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import { handleMatchString } from '@/utils/utils';
 import { searchKeywords, followUser } from '@/api/search';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import Page from '@/components/page/Page.vue';
 
 type UserData = {

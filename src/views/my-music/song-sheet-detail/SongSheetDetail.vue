@@ -55,7 +55,7 @@ import { handleCommentData } from '@/components/comment/handleCommentData';
 import { playListDetail } from '@/api/my-music';
 import { playlistSubscribe } from '@/api/song-sheet-detail';
 import { playlistComment } from '@/api/comment';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import type { CommentParams } from '@/components/comment/Comment.vue';
 import SongSheetInfo from '@/views/song-sheet-detail/song-sheet-info/SongSheetInfo.vue';
 import MusicTable from '@/components/music-table/MusicTable.vue';

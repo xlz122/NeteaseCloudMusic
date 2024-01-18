@@ -47,7 +47,7 @@ import {
   accountInfo,
   userInfo
 } from '@/api/login';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 
 const emits = defineEmits(['otherLogin']);
 

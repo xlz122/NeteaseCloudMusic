@@ -51,7 +51,7 @@ import usePlaySong from '@/hooks/usePlaySong';
 import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { formatMixedText } from '@/utils/formatMixedText';
 import { friendEvent, dynamicLike } from '@/api/friend';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import type { SongType } from '@/hooks/songFormat';
 import Item from './Item.vue';
 

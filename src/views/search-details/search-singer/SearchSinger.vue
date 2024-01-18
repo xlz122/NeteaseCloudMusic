@@ -61,7 +61,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { handleMatchString } from '@/utils/utils';
 import { searchKeywords } from '@/api/search';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import Page from '@/components/page/Page.vue';
 
 type SingerData = {

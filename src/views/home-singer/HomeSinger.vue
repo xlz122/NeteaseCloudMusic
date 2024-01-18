@@ -25,7 +25,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import { topArtists, artistList } from '@/api/home-singer';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import SingerMenu from './singer-menu/SingerMenu.vue';
 import SingerContent from './singer-content/SingerContent.vue';
 

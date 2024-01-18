@@ -31,7 +31,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { subPlayList } from '@/api/my-music';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 
 type SingerItem = {
   id: number;

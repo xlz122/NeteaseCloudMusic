@@ -27,7 +27,7 @@ import { handleCommentData } from '@/components/comment/handleCommentData';
 import { playlistDetail } from '@/api/song-sheet-detail';
 import { playlistComment } from '@/api/comment';
 import { topList } from '@/api/home-toplist';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import type { CommentParams } from '@/components/comment/Comment.vue';
 import ToplistMenu from './toplist-menu/ToplistMenu.vue';
 import ToplistContent from './toplist-content/ToplistContent.vue';

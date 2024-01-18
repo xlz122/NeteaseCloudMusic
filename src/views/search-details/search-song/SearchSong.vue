@@ -108,7 +108,7 @@ import usePlaySong from '@/hooks/usePlaySong';
 import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { timeStampToDuration, handleMatchString } from '@/utils/utils';
 import { searchKeywords } from '@/api/search';
-import type { ResponseType } from '@/types/types';
+import type { ResponseType } from '@/types/index';
 import type { SongType } from '@/hooks/songFormat';
 import Page from '@/components/page/Page.vue';
 
