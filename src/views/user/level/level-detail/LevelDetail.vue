@@ -1,6 +1,6 @@
 <template>
   <div class="level-detail">
-    <div class="level-detail-container">
+    <div class="detail-container">
       <h2 class="title">
         等级特权
         <span class="title-right-text" @click="jumpLevel">

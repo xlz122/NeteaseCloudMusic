@@ -11,5 +11,5 @@ import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.v
 </script>
 
 <style lang="less" scoped>
-@import url('./djradio-detail-side.less');
+@import url('./djradio-side.less');
 </style>

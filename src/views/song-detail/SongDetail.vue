@@ -74,7 +74,7 @@
         />
       </div>
       <div class="detail-side">
-        <SongDateilSide />
+        <SongSide />
       </div>
     </div>
   </div>
@@ -94,7 +94,7 @@ import type { CommentParams } from '@/components/comment/Comment.vue';
 import Comment from '@/components/comment/Comment.vue';
 import Page from '@/components/page/Page.vue';
 import SongInfo from './song-info/SongInfo.vue';
-import SongDateilSide from './song-detail-side/SongDetailSide.vue';
+import SongSide from './song-side/SongSide.vue';
 
 type Lyric = {
   lyricUser: {

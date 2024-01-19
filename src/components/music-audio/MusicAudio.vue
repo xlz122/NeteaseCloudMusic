@@ -12,17 +12,16 @@
       @mouseleave="musicAudioLeave"
     >
       <div class="updn">
-        <div class="updn-left">
+        <div class="updn-content">
           <i
-            class="updn-icon"
+            class="icon-updn"
             :class="[
-              { 'icon-updn-left': !musicAudioLock },
-              { 'icon-updn-left-lock': musicAudioLock }
+              { 'icon-updn-unlock': !musicAudioLock },
+              { 'icon-updn-lock': musicAudioLock }
             ]"
             @click="audioLock"
           ></i>
         </div>
-        <div class="updn-right"></div>
       </div>
       <div class="playbar-bg"></div>
       <div class="hand" title="展开播放条" @mouseenter="musicAudioEnter"></div>

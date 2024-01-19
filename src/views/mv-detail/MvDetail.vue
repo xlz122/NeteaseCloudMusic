@@ -3,8 +3,8 @@
     <div class="detail-container">
       <div class="detail-content">
         <div class="title">
-          <i class="title-icon"></i>
           <h2 class="title-text" :title="mvDetailData?.name">
+            <i class="icon-mv"></i>
             {{ mvDetailData?.name }}
           </h2>
           <div class="title-info">
@@ -90,7 +90,7 @@
         />
       </div>
       <div class="detail-side">
-        <MvDetailSide :detail="mvDetailData" />
+        <MvSide :detail="mvDetailData" />
       </div>
     </div>
   </div>
@@ -110,7 +110,7 @@ import type { CommentParams } from '@/components/comment/Comment.vue';
 import VideoPlayer from '@/components/video-player/VideoPlayer.vue';
 import Comment from '@/components/comment/Comment.vue';
 import Page from '@/components/page/Page.vue';
-import MvDetailSide from './mv-detail-side/MvDetailSide.vue';
+import MvSide from './mv-side/MvSide.vue';
 
 type MvDetailData = {
   name?: string;

@@ -14,7 +14,7 @@ type IAxiosError = AxiosError & {
   status: number;
   response: {
     status: number;
-    data: Record<string, any>;
+    data: Record<string, unknown>;
   };
 };
 

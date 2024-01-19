@@ -1,10 +1,10 @@
 <template>
-  <div class="search-details">
-    <div class="search-details-container">
+  <div class="search-detail">
+    <div class="detail-container">
       <SearchHeader />
-      <div class="search-desc">
+      <div class="title">
         搜索“{{ $route.query?.keyword }}”，找到
-        <span class="search-desc-num">{{ searchCount || 0 }}</span>
+        <span class="count">{{ searchCount || 0 }}</span>
         <template v-if="Number($route.query.type) === 1">首单曲</template>
         <template v-if="Number($route.query.type) === 100">个歌手</template>
         <template v-if="Number($route.query.type) === 10">张专辑</template>

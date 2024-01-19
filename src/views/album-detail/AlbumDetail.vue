@@ -1,6 +1,6 @@
 <template>
   <div class="album-detail">
-    <div class="album-detail-container">
+    <div class="detail-container">
       <div class="album-content">
         <AlbumInfo
           class="user-info"
@@ -43,7 +43,7 @@
         />
       </div>
       <div class="album-side">
-        <AlbumDetailSide :singerId="album.userInfo?.artist?.id" />
+        <AlbumSide :singerId="album.userInfo?.artist?.id" />
       </div>
     </div>
   </div>
@@ -62,7 +62,7 @@ import Comment from '@/components/comment/Comment.vue';
 import Page from '@/components/page/Page.vue';
 import AlbumInfo from './album-info/AlbumInfo.vue';
 import AlbumSong from './album-song/AlbumSong.vue';
-import AlbumDetailSide from './album-detail-side/AlbumDetailSide.vue';
+import AlbumSide from './album-side/AlbumSide.vue';
 
 type Album = {
   loading: boolean;

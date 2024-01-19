@@ -68,7 +68,7 @@
         </template>
       </div>
       <div class="detail-side">
-        <SingerDetailSide />
+        <SingerSide />
       </div>
     </div>
   </div>
@@ -81,7 +81,7 @@ import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import { artistDetail, artistSub } from '@/api/singer-detail';
 import type { ResponseType } from '@/types/index';
-import SingerDetailSide from './singer-detail-side/SingerDetailSide.vue';
+import SingerSide from './singer-side/SingerSide.vue';
 import SingerSong from './singer-song/SingerSong.vue';
 import SingerAlbum from './singer-album/SingerAlbum.vue';
 import SingerMv from './singer-mv/SingerMv.vue';

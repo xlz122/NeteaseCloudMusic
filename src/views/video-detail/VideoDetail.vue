@@ -73,7 +73,7 @@
         />
       </div>
       <div class="detail-side">
-        <VideoDetailSide :detail="videoDetailData" />
+        <VideoSide :detail="videoDetailData" />
       </div>
     </div>
   </div>
@@ -94,7 +94,7 @@ import type { CommentParams } from '@/components/comment/Comment.vue';
 import VideoPlayer from '@/components/video-player/VideoPlayer.vue';
 import Comment from '@/components/comment/Comment.vue';
 import Page from '@/components/page/Page.vue';
-import VideoDetailSide from './video-detail-side/VideoDetailSide.vue';
+import VideoSide from './video-side/VideoSide.vue';
 
 type VideoDetailData = {
   title?: string;

@@ -22,8 +22,8 @@ import { djCatelist, recommendTypeList } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types/index';
 import Category from './category/Category.vue';
 import Recommend from './recommend/ReCommend.vue';
-import RankiList from './rankiList/RankiList.vue';
-import RadioStation from './radioStation/RadioStation.vue';
+import RankiList from './ranki-list/RankiList.vue';
+import RadioStation from './radio-station/RadioStation.vue';
 
 type DjcateType = {
   id: number;

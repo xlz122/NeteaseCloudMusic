@@ -113,7 +113,7 @@
         </div>
       </div>
       <div class="detail-side">
-        <DjradioDetailSide />
+        <DjradioSide />
       </div>
     </div>
   </div>
@@ -130,7 +130,7 @@ import { filterTime, timeStampToDuration } from '@/utils/utils';
 import { djDetail, djProgram } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types/index';
 import type { SongType } from '@/hooks/methods/songFormat';
-import DjradioDetailSide from './djradio-detail-side/DjradioDetailSide.vue';
+import DjradioSide from './djradio-side/DjradioSide.vue';
 
 type DjradioDetail = {
   name?: string;

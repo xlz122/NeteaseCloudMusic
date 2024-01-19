@@ -118,5 +118,5 @@ function jumpSingerDetail(id: number): void {
 </script>
 
 <style lang="less" scoped>
-@import url('./singer-detail-side.less');
+@import url('./singer-side.less');
 </style>

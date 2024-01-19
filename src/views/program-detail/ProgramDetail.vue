@@ -1,6 +1,6 @@
 <template>
   <div class="program-detail">
-    <div class="program-detail-container">
+    <div class="detail-container">
       <div class="program-content">
         <ProgramInfo
           :detail="programDetail"
