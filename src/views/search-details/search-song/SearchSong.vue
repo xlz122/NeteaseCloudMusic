@@ -87,7 +87,7 @@
           </span>
         </div>
       </div>
-      <div class="td">{{ timeStampToDuration(item?.dt || 0 / 1000) }}</div>
+      <div class="td">{{ timeStampToDuration(item?.dt / 1000) }}</div>
     </li>
   </ul>
   <Page

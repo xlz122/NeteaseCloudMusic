@@ -33,13 +33,13 @@
       ></i>
       <i class="icon pause-btn" v-else @click="togglePlayStatus"></i>
       <span class="time">
-        {{ timeStampToDuration(videoPlayProgress.currentTime || 0) || '00:00' }}
+        {{ timeStampToDuration(videoPlayProgress.currentTime) || '00:00' }}
       </span>
       <div class="progress">
         <PlayProgress />
       </div>
       <span class="time">
-        {{ timeStampToDuration(videoPlayProgress.duration || 0) || '00:00' }}
+        {{ timeStampToDuration(videoPlayProgress.duration) || '00:00' }}
       </span>
       <div class="other">
         <i

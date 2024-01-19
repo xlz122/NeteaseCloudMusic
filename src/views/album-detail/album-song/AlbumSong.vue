@@ -58,7 +58,7 @@
           <td class="tbody-td">
             <div class="hd">
               <span class="text time">
-                {{ timeStampToDuration(item?.dt || 0 / 1000) }}
+                {{ timeStampToDuration(item?.dt / 1000) }}
               </span>
               <div class="operate-btn">
                 <i
@@ -132,6 +132,7 @@ type ItemType = {
   ar: {
     id: number;
   }[];
+  dt: number;
   privilege: {
     cp: number;
   };

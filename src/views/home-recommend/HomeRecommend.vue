@@ -65,6 +65,7 @@ type RecommendItem = {
   ar: {
     id: number;
   }[];
+  dt: number;
   privilege: {
     cp: number;
   };

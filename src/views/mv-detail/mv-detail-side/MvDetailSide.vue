@@ -10,7 +10,6 @@
         <pre class="text">{{ detail?.desc }}</pre>
       </div>
     </div>
-    <h3 class="title">相关推荐</h3>
     <h3 class="title">网易云音乐多端下载</h3>
     <SideDownload />
     <h3 class="title">网易云音乐公众号</h3>

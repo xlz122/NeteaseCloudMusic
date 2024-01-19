@@ -81,15 +81,12 @@
             <div class="time">
               <span class="duration">
                 {{
-                  timeStampToDuration(songPlayProgress.currentTime || 0) ||
-                  '00:00'
+                  timeStampToDuration(songPlayProgress.currentTime) || '00:00'
                 }}
               </span>
               <span class="total-duration">
                 /
-                {{
-                  timeStampToDuration(songPlayProgress.duration || 0) || '00:00'
-                }}
+                {{ timeStampToDuration(songPlayProgress.duration) || '00:00' }}
               </span>
             </div>
           </div>
