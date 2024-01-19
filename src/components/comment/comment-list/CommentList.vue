@@ -12,7 +12,7 @@
             <span class="name" @click="jumpUserProfile(item?.user?.userId)">
               {{ item?.user?.nickname }}
             </span>
-            <span>:</span>
+            <span class="symbol">:</span>
             <span v-html="item?.content"></span>
           </span>
         </div>
@@ -27,7 +27,7 @@
               <span class="name" @click="jumpUserProfile(i?.user?.userId)">
                 {{ i?.user?.nickname }}
               </span>
-              <span>:</span>
+              <span class="symbol">:</span>
               <span v-html="i?.content"></span>
             </template>
             <template v-if="i?.status === -5 || i?.status === -10">
