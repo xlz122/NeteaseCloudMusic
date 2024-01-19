@@ -22,7 +22,7 @@ import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import { getSongPlayUrl } from '@/api/my-music';
 import type { ResponseType } from '@/types/index';
-import type { SongType } from '@/hooks/songFormat';
+import type { SongType } from '@/hooks/methods/songFormat';
 import { playNextSong } from '@/components/music-audio/play-action/play-action';
 
 const $store = useStore();

@@ -1,8 +1,8 @@
 import { ref, computed } from 'vue';
 import store from '@/store/index';
 import { toRawType } from '@/utils/tool';
-import useSongFormat from '@/hooks/songFormat';
-import type { SongType, MusicItemType } from '@/hooks/songFormat';
+import useSongFormat from '@/hooks/methods/songFormat';
+import type { SongType, MusicItemType } from '@/hooks/methods/songFormat';
 
 /**
  * @description 歌曲从播放列表删除

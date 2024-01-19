@@ -162,7 +162,7 @@ import usePlaySong from '@/hooks/usePlaySong';
 import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { timeStampToDuration } from '@/utils/utils';
 import { deleteSong } from '@/api/my-music';
-import type { SongType } from '@/hooks/songFormat';
+import type { SongType } from '@/hooks/methods/songFormat';
 import Dialog from '@/components/Dialog.vue';
 
 const props = defineProps({

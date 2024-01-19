@@ -1,4 +1,4 @@
-import type { MusicItemType } from '@/hooks/songFormat';
+import type { MusicItemType } from '@/hooks/methods/songFormat';
 
 export type State = {
   playSongId: number;

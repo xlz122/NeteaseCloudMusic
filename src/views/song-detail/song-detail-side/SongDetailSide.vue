@@ -87,7 +87,7 @@ import usePlaySong from '@/hooks/usePlaySong';
 import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { simiPlaylist, simiSong } from '@/api/song-detail';
 import type { ResponseType } from '@/types/index';
-import type { SongType } from '@/hooks/songFormat';
+import type { SongType } from '@/hooks/methods/songFormat';
 import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
 
 type SongSheetItem = {

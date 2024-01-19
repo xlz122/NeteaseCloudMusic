@@ -99,7 +99,7 @@ import usePlaySong from '@/hooks/usePlaySong';
 import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import useSongDelPlaylist from '@/hooks/useSongDelPlaylist';
 import { timeStampToDuration } from '@/utils/utils';
-import type { SongType } from '@/hooks/songFormat';
+import type { SongType } from '@/hooks/methods/songFormat';
 import Lyric from '../lyric/Lyric.vue';
 
 const props = defineProps({

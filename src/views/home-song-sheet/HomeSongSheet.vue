@@ -88,7 +88,7 @@ import { bigNumberTransform } from '@/utils/utils';
 import { topPlaylist } from '@/api/home-song-sheet';
 import { playlistTrack } from '@/api/song-sheet-detail';
 import type { ResponseType } from '@/types/index';
-import type { SongType } from '@/hooks/songFormat';
+import type { SongType } from '@/hooks/methods/songFormat';
 import Page from '@/components/page/Page.vue';
 import ClassifyModal from './classify-modal/ClassifyModal.vue';
 

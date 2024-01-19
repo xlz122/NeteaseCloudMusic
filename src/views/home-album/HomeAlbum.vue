@@ -112,7 +112,7 @@ import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { hotNewDisc, nweDiscAlbum } from '@/api/home-album';
 import { albumDetail } from '@/api/album-detail';
 import type { ResponseType } from '@/types/index';
-import type { SongType } from '@/hooks/songFormat';
+import type { SongType } from '@/hooks/methods/songFormat';
 import Page from '@/components/page/Page.vue';
 
 type AlbumItem = {

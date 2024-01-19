@@ -4,46 +4,47 @@
       <div class="detail-content">
         <div class="dis-flex detail-top">
           <div class="cover-dj">
-            <img :src="details?.picUrl" :alt="details?.name" />
+            <img :src="djradioDetail?.picUrl" :alt="djradioDetail?.name" />
           </div>
           <div class="cnt">
             <div class="hd dis-flex">
               <div class="icon"></div>
-              <div class="tit">{{ details?.name }}</div>
+              <div class="tit">{{ djradioDetail?.name }}</div>
             </div>
             <div class="user dis-flex align-center">
               <div class="face">
-                <img :src="details?.dj?.avatarUrl" alt="头像" />
+                <img :src="djradioDetail?.dj?.avatarUrl" alt="头像" />
               </div>
               <div class="name">
-                <span @click="jumpUserProfile(details?.dj?.userId)">
-                  {{ details?.dj?.nickname }}
+                <span @click="jumpUserProfile(djradioDetail?.dj?.userId)">
+                  {{ djradioDetail?.dj?.nickname }}
                 </span>
               </div>
             </div>
             <div class="btns">
               <button type="button" class="btn subscribe">
-                <i>订阅({{ details?.subCount }})</i>
+                <i>订阅({{ djradioDetail?.subCount }})</i>
               </button>
               <button type="button" class="btn play">
                 <i>播放全部</i>
               </button>
               <button type="button" class="btn share" @click="handleShare">
-                <i>分享({{ details?.shareCount }})</i>
+                <i>分享({{ djradioDetail?.shareCount }})</i>
               </button>
             </div>
             <div class="intr inline-block">
               <div class="cat">
-                <span class="category">{{ details?.category }}</span>
+                <span class="category">{{ djradioDetail?.category }}</span>
                 <pre
                   class="f12 text-gray6"
-                  :class="{ 'ellipsis-lines-4': toggleDesc }"
-                  >{{ details.desc }}</pre
+                  :class="{ 'ellipsis-lines-4': !toggleShow }"
                 >
+                  {{ djradioDetail.desc }}
+                </pre>
               </div>
-              <div class="toggledesc pointer" @click="toggleDesc = !toggleDesc">
-                {{ toggleDesc ? '展开' : '收起' }}
-                <i class="icon" :class="{ 'open-desc': toggleDesc }"></i>
+              <div class="toggledesc pointer" @click="toggle">
+                {{ !toggleShow ? '展开' : '收起' }}
+                <i class="icon" :class="{ 'open-desc': !toggleShow }"></i>
               </div>
             </div>
           </div>
@@ -52,9 +53,7 @@
           <div class="title dis-flex justify-between align-center">
             <div class="lf dis-flex">
               <div class="f20">节目列表</div>
-              <div class="f12 text-gray9 sub">
-                共{{ songs?.details?.count }}期
-              </div>
+              <div class="f12 text-gray9 sub">共{{ programs?.count }}期</div>
             </div>
             <div class="ri dis-flex">
               <div class="out">
@@ -69,21 +68,21 @@
               <div class="sort dis-flex align-center">
                 <div
                   class="btn desc"
-                  :class="{ 'btn-active': sortSong }"
+                  :class="{ 'btn-active': sort }"
                   title="降序"
-                  @click="changeSongSort(true)"
+                  @click="sortChange(true)"
                 ></div>
                 <div
                   class="btn asc"
-                  :class="{ 'btn-active': !sortSong }"
+                  :class="{ 'btn-active': !sort }"
                   title="升序"
-                  @click="changeSongSort(false)"
+                  @click="sortChange(false)"
                 ></div>
               </div>
             </div>
           </div>
           <table class="list" cellpadding="0" cellspacing="0">
-            <tr v-for="item in songs?.details?.programs" :key="item.id">
+            <tr v-for="item in programs?.list" :key="item.id">
               <td class="dis-flex justify-between align-center">
                 <span>{{ item.serialNum }}</span>
                 <i @click="playSingleSong(item.mainSong)"></i>
@@ -121,8 +120,7 @@
 </template>
 
 <script lang="ts" setup>
-// @ts-nocheck
-import { ref, reactive, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
@@ -131,51 +129,83 @@ import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { filterTime, timeStampToDuration } from '@/utils/utils';
 import { djDetail, djProgram } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types/index';
-import type { SongType } from '@/hooks/songFormat';
+import type { SongType } from '@/hooks/methods/songFormat';
 import DjradioDetailSide from './djradio-detail-side/DjradioDetailSide.vue';
+
+type DjradioDetail = {
+  name?: string;
+  category?: string;
+  desc?: string;
+  dj?: {
+    userId: number;
+    nickname: string;
+    avatarUrl: string;
+  };
+  picUrl?: string;
+  subCount?: number;
+  shareCount?: number;
+};
+
+type Programs = {
+  count: number;
+  list: {
+    id: number;
+    name: string;
+    mainSong: SongType;
+    serialNum: number;
+    listenerCount: number;
+    likedCount: number;
+    scheduledPublishTime: number;
+    duration: number;
+  }[];
+};
 
 const $route = useRoute();
 const $router = useRouter();
 const $store = useStore();
 const isLogin = computed<boolean>(() => $store.getters.isLogin);
 
-const toggleDesc = ref(true);
-const sortSong = ref(true);
+// 展开/收缩简介
+const toggleShow = ref(false);
 
-const details = ref({});
-const songs = reactive({
-  rid: 0,
-  details: {}
-});
-const list = ref([]);
+function toggle(): void {
+  toggleShow.value = !toggleShow.value;
+}
 
-function detailsHandle() {
+// 获取电台详情
+const djradioDetail = ref<DjradioDetail>({});
+
+function getDjradioDetail(): void {
   djDetail({ rid: Number($route.query.id) })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
-        details.value = res.data;
-        songs.rid = res?.data?.id;
-        djProgramDetails(res?.data?.id);
+        djradioDetail.value = res?.data || {};
       }
     })
     .catch(() => ({}));
 }
-detailsHandle();
 
-function djProgramDetails(id: number) {
-  djProgram({ rid: id, asc: sortSong.value })
+// 获取电台节目列表
+const programs = ref<Programs>({
+  count: 0,
+  list: []
+});
+const sort = ref(true);
+
+function getDjradioPrograms() {
+  djProgram({ rid: Number($route.query.id), asc: sort.value })
     .then((res: ResponseType) => {
       if (res?.code === 200) {
-        songs.details = res;
-        list.value = res.programs;
+        programs.value.count = res.count || 0;
+        programs.value.list = res.programs || [];
       }
     })
     .catch(() => ({}));
 }
 
-function changeSongSort(change: boolean) {
-  sortSong.value = change;
-  djProgramDetails(songs.rid);
+function sortChange(value: boolean): void {
+  sort.value = value;
+  getDjradioPrograms();
 }
 
 // 播放单个歌曲
@@ -200,9 +230,24 @@ function handleShare(): boolean | undefined {
 }
 
 // 跳转用户资料
-function jumpUserProfile(id: number): void {
+function jumpUserProfile(id: number | undefined): void {
   $router.push({ path: '/user-profile', query: { id } });
 }
+
+watch(
+  () => $route.query.id,
+  curVal => {
+    if (!curVal) {
+      return;
+    }
+
+    getDjradioDetail();
+    getDjradioPrograms();
+  },
+  {
+    immediate: true
+  }
+);
 </script>
 
 <style lang="less" scoped>

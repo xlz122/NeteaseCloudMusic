@@ -363,7 +363,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { formatDate } from '@/utils/utils';
-import type { SongType } from '@/hooks/songFormat';
+import type { SongType } from '@/hooks/methods/songFormat';
 
 export default defineComponent({
   name: 'FriendContentItem',

@@ -52,7 +52,7 @@ import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { formatMixedText } from '@/utils/formatMixedText';
 import { friendEvent, dynamicLike } from '@/api/friend';
 import type { ResponseType } from '@/types/index';
-import type { SongType } from '@/hooks/songFormat';
+import type { SongType } from '@/hooks/methods/songFormat';
 import Item from './Item.vue';
 
 type EventItem = {

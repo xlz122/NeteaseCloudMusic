@@ -133,7 +133,7 @@ import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import { timeStampToDuration } from '@/utils/utils';
 import { artistSong } from '@/api/singer-detail';
 import type { ResponseType } from '@/types/index';
-import type { SongType } from '@/hooks/songFormat';
+import type { SongType } from '@/hooks/methods/songFormat';
 
 type SingerSong = {
   hotSongs: {

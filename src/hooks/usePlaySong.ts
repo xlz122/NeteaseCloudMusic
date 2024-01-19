@@ -1,8 +1,8 @@
 import { ref, computed } from 'vue';
 import store from '@/store/index';
-import useSongFormat from '@/hooks/songFormat';
+import useSongFormat from '@/hooks/methods/songFormat';
 import { toRawType } from '@/utils/tool';
-import type { SongType, MusicItemType } from '@/hooks/songFormat';
+import type { SongType, MusicItemType } from '@/hooks/methods/songFormat';
 
 /**
  * @description 播放歌曲

@@ -1,5 +1,5 @@
 import store from '@/store/index';
-import type { MusicItemType } from '@/hooks/songFormat';
+import type { MusicItemType } from '@/hooks/methods/songFormat';
 
 type AudioType = {
   timer: NodeJS.Timeout | null;

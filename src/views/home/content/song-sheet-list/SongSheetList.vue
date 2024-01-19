@@ -79,7 +79,7 @@ import { topList } from '@/api/home-toplist';
 import { playlistDetail } from '@/api/song-sheet-detail';
 import { playlistSubscribe } from '@/api/song-sheet-detail';
 import type { ResponseType } from '@/types/index';
-import type { SongType } from '@/hooks/songFormat';
+import type { SongType } from '@/hooks/methods/songFormat';
 
 type SongSheetItem = {
   id?: number;
