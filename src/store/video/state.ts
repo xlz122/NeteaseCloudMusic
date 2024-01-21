@@ -1,5 +1,4 @@
 export type State = {
-  videoPlayUrl: string;
   videoPlayProgress: VideoPlayProgress;
   videoVolume: number;
 };
@@ -13,7 +12,6 @@ export type VideoPlayProgress = {
 };
 
 const state: State = {
-  videoPlayUrl: localStorage.getItem('videoPlayUrl') || '',
   videoPlayProgress: {
     progress: 0,
     currentTime: 0,

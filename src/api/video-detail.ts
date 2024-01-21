@@ -42,7 +42,7 @@ export const relatedVideo = ({ id }: { id: string }): AxiosPromise => {
  * @param { Object } params
  * @param { string } params.id- 视频id
  */
-export const videoPlayUrl = ({ id }: { id: string }): AxiosPromise => {
+export const videoUrl = ({ id }: { id: string }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id

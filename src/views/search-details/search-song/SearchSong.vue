@@ -40,7 +40,7 @@
           <i
             class="icon-mv"
             v-if="item.mv && item.mv > 0"
-            @click="jumpVideoDetail(item?.id, item?.mv)"
+            @click="jumpMvDetail(item?.id, item?.mv)"
           ></i>
         </div>
       </div>
@@ -255,14 +255,14 @@ function jumpSongDetail(id: number): void {
   $router.push({ path: '/song-detail', query: { id } });
 }
 
-// 跳转视频详情
-function jumpVideoDetail(songId: number, id: number): boolean | undefined {
+// 跳转MV详情
+function jumpMvDetail(songId: number, id: number): boolean | undefined {
   // 无版权
   if (isCopyright(songId)) {
     return;
   }
 
-  $router.push({ path: '/mv-detail', query: { id } });
+  $router.push({ path: '/mv-detail', query: { id, type: 0 } });
 }
 
 // 跳转歌手详情

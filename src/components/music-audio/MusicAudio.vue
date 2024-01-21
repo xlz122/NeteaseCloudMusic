@@ -49,7 +49,7 @@
               <i
                 class="icon-mv"
                 v-if="playSongItem?.mv > 0"
-                @click="jumpVideoDetail(playSongItem?.mv)"
+                @click="jumpMvDetail(playSongItem?.mv)"
               ></i>
             </span>
             <span class="singer-name">
@@ -155,9 +155,9 @@ function jumpSongDetail(id: number): void {
   $router.push({ path: '/song-detail', query: { id } });
 }
 
-// 跳转视频详情
-function jumpVideoDetail(id: number): void {
-  $router.push({ path: '/mv-detail', query: { id } });
+// 跳转MV详情
+function jumpMvDetail(id: number): void {
+  $router.push({ path: '/mv-detail', query: { id, type: 0 } });
 }
 
 // 跳转歌手详情

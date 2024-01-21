@@ -88,7 +88,7 @@ import { handleCommentData } from '@/components/comment/handleCommentData';
 import { videoDetail } from '@/api/video-detail';
 import { videoSbulist } from '@/api/my-music';
 import { videoComment } from '@/api/comment';
-import { videoPlayUrl, videoSub } from '@/api/video-detail';
+import { videoSub } from '@/api/video-detail';
 import type { ResponseType } from '@/types/index';
 import type { CommentParams } from '@/components/comment/Comment.vue';
 import VideoPlayer from '@/components/video-player/VideoPlayer.vue';
@@ -120,17 +120,6 @@ function getVideoDetail(): void {
     .then((res: ResponseType) => {
       if (res?.code === 200) {
         videoDetailData.value = res?.data || {};
-      }
-    })
-    .catch(() => ({}));
-}
-
-// 获取播放地址
-function getVideoPlaySrc(): void {
-  videoPlayUrl({ id: String($route.query.id) })
-    .then((res: ResponseType) => {
-      if (res?.code === 200) {
-        $store.commit('video/setVideoPlayUrl', res?.urls[0]?.url || '');
       }
     })
     .catch(() => ({}));
@@ -271,7 +260,6 @@ watch(
     }
 
     getVideoDetail();
-    getVideoPlaySrc();
     getVideoSbulist();
     getCommentList();
   },

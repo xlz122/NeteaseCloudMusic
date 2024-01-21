@@ -5,10 +5,6 @@ type Mutations<T, U = any> = {
 };
 
 const mutations: Mutations<State> = {
-  setVideoPlayUrl(state, payload: string) {
-    state.videoPlayUrl = payload;
-    localStorage.setItem('videoPlayUrl', JSON.stringify(payload));
-  },
   // 播放进度
   setVideoPlayProgress(state, payload: State['videoPlayProgress']) {
     state.videoPlayProgress = { ...state.videoPlayProgress, ...payload };

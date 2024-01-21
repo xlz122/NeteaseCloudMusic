@@ -122,7 +122,7 @@ function jumpUserProfile(id: number): void {
 
 // 跳转视频详情
 function jumpVideoDetail(id: number): void {
-  $router.push({ path: '/video-detail', query: { id } });
+  $router.push({ path: '/video-detail', query: { id, type: 1 } });
 
   getRelatedVideo();
 }

@@ -98,10 +98,10 @@ getVideoList();
 function jumpVideoDetail(id: number, type: number): void {
   // 0: mv, 1: 视频
   if (type === 0) {
-    $router.push({ path: '/mv-detail', query: { id } });
+    $router.push({ path: '/mv-detail', query: { id, type: 0 } });
   }
   if (type === 1) {
-    $router.push({ path: '/video-detail', query: { id } });
+    $router.push({ path: '/video-detail', query: { id, type: 1 } });
   }
 }
 

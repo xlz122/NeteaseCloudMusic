@@ -1,25 +1,23 @@
 <template>
-  <!--
-    controls="controls" 是否显示原生播放控件
-    @play="" 播放视频
-    @pause="" 暂停视频
-    @timeupdate="" 视频播放的时间
- -->
   <video
     class="video"
     ref="videoRef"
     :src="videoPlayUrl"
     :volume="videoVolume"
-    @play="videoPlay"
+    @play="videoPlaying"
     @pause="videoPause"
-    @timeupdate="updateTime"
-    @ended="videoEnded"
+    @timeupdate="videoTimeUpdate"
+    @ended="videoPlayEnded"
   ></video>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, defineExpose } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
+import { mvUrl } from '@/api/mv-detail';
+import { videoUrl } from '@/api/video-detail';
+import type { ResponseType } from '@/types/index';
 
 const props = defineProps({
   videoStatus: {
@@ -27,15 +25,60 @@ const props = defineProps({
     default: ''
   }
 });
-const emits = defineEmits(['videoEnded']);
+const emits = defineEmits(['videoPlaying', 'videoPause', 'videoPlayEnded']);
 
+const $route = useRoute();
 const $store = useStore();
 const videoVolume = computed(() => $store.getters['video/videoVolume']);
-// 视频/mv播放url
-const videoPlayUrl = computed(() => $store.getters['video/videoPlayUrl']);
 
 // 播放器实例
 const videoRef = ref<HTMLVideoElement | null>(null);
+
+defineExpose({
+  videoRef
+});
+
+// 获取MV/视频播放地址
+const videoPlayUrl = ref('');
+
+watch(
+  () => $route.query.type,
+  curVal => {
+    if (!curVal) {
+      return;
+    }
+
+    if (Number(curVal) === 0) {
+      getMvPlayUrl();
+    }
+    if (Number(curVal) === 1) {
+      getVideoPlayUrl();
+    }
+  },
+  {
+    immediate: true
+  }
+);
+
+function getMvPlayUrl(): void {
+  mvUrl({ id: Number($route.query.id) })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        videoPlayUrl.value = res?.data?.url || '';
+      }
+    })
+    .catch(() => ({}));
+}
+
+function getVideoPlayUrl(): void {
+  videoUrl({ id: String($route.query.id) })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        videoPlayUrl.value = res?.urls[0]?.url || '';
+      }
+    })
+    .catch(() => ({}));
+}
 
 watch(
   () => props.videoStatus,
@@ -61,13 +104,13 @@ watch(
 );
 
 // 开始播放
-function videoPlay(): void {
-  console.log('开始播放');
+function videoPlaying(): void {
+  emits('videoPlaying');
 }
 
 // 播放暂停
 function videoPause(): void {
-  console.log('播放暂停');
+  emits('videoPause');
 }
 
 // 播放进度
@@ -101,7 +144,7 @@ watch(
 );
 
 // 播放进度
-function updateTime(e: Event): void {
+function videoTimeUpdate(e: Event): void {
   const target = e.target as { currentTime?: number; duration?: number };
 
   if (!target.currentTime || !target.duration) {
@@ -117,8 +160,8 @@ function updateTime(e: Event): void {
 }
 
 // 播放完成
-function videoEnded(): void {
-  emits('videoEnded');
+function videoPlayEnded(): void {
+  emits('videoPlayEnded');
 }
 </script>
 

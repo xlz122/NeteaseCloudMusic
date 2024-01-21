@@ -103,7 +103,7 @@ import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import { handleCommentData } from '@/components/comment/handleCommentData';
 import { mvDetail } from '@/api/mv-detail';
-import { mvUrl, mvSub } from '@/api/mv-detail';
+import { mvSub } from '@/api/mv-detail';
 import { mvComment } from '@/api/comment';
 import type { ResponseType } from '@/types/index';
 import type { CommentParams } from '@/components/comment/Comment.vue';
@@ -141,17 +141,6 @@ function getMvDetail(): void {
       if (res?.code === 200) {
         mvDetailData.value = res?.data || {};
         mvSubed.value = res?.subed || false;
-      }
-    })
-    .catch(() => ({}));
-}
-
-// 获取播放地址
-function getVideoPlaySrc(): void {
-  mvUrl({ id: Number($route.query.id) })
-    .then((res: ResponseType) => {
-      if (res?.code === 200) {
-        $store.commit('video/setVideoPlayUrl', res?.data?.url || '');
       }
     })
     .catch(() => ({}));
@@ -271,7 +260,6 @@ watch(
     }
 
     getMvDetail();
-    getVideoPlaySrc();
     getCommentList();
   },
   {

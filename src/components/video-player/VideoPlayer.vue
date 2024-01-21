@@ -1,6 +1,6 @@
 <template>
-  <div class="video-player" :class="{ 'video-player-fullscreen': fullscreen }">
-    <VideoView :videoStatus="videoStatus" @videoEnded="videoEnded" />
+  <div class="video-player" :class="{ 'video-fullscreen': fullscreen }">
+    <VideoView :videoStatus="videoStatus" @videoPlayEnded="videoPlayEnded" />
     <div class="play" @click="togglePlayStatus">
       <i class="icon pause-icon" v-if="videoStatus === 'pause'"></i>
       <i class="icon replay-icon" v-if="videoStatus === 'ended'">
@@ -118,7 +118,7 @@ function togglePlayStatus(): void {
 }
 
 // 播放完成
-function videoEnded(): void {
+function videoPlayEnded(): void {
   videoStatus.value = 'ended';
 
   setTimeout(() => {

@@ -63,7 +63,7 @@
               <i
                 class="icon-mv"
                 v-if="item?.mv > 0"
-                @click="jumpVideoDetail(item?.mv)"
+                @click="jumpMvDetail(item?.mv)"
               ></i>
             </div>
           </td>
@@ -235,9 +235,9 @@ function jumpSongDetail(id: number): void {
   $router.push({ path: '/song-detail', query: { id } });
 }
 
-// 跳转视频详情
-function jumpVideoDetail(id: number): void {
-  $router.push({ path: '/mv-detail', query: { id } });
+// 跳转MV详情
+function jumpMvDetail(id: number): void {
+  $router.push({ path: '/mv-detail', query: { id, type: 0 } });
 }
 
 // 跳转歌手详情
