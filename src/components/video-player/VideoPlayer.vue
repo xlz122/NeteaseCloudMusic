@@ -1,9 +1,15 @@
 <template>
   <div class="video-player" :class="{ 'video-fullscreen': fullscreen }">
-    <VideoView :videoStatus="videoStatus" @videoPlayEnded="videoPlayEnded" />
+    <VideoView
+      ref="videoRef"
+      :src="playUrl"
+      :volume="volume"
+      @timeupdate="videoTimeUpdate"
+      @ended="videoPlayEnded"
+    />
     <div class="play" @click="togglePlayStatus">
-      <i class="icon pause-icon" v-if="videoStatus === 'pause'"></i>
-      <i class="icon replay-icon" v-if="videoStatus === 'ended'">
+      <i class="icon icon-pause" v-if="playStatus === 'pause'"></i>
+      <i class="icon icon-replay" v-if="playStatus === 'ended'">
         <span class="text">重播</span>
       </i>
     </div>
@@ -27,28 +33,35 @@
     </div>
     <div class="wrap">
       <i
-        class="icon play-btn"
-        v-if="videoStatus === 'play'"
+        class="icon icon-play"
+        v-if="playStatus === 'play'"
         @click="togglePlayStatus"
       ></i>
-      <i class="icon pause-btn" v-else @click="togglePlayStatus"></i>
+      <i class="icon icon-pause" v-else @click="togglePlayStatus"></i>
       <span class="time">
-        {{ timeStampToDuration(videoPlayProgress.currentTime) || '00:00' }}
+        {{ timeStampToDuration(playProgress.currentTime) || '00:00' }}
       </span>
-      <div class="progress">
-        <PlayProgress />
+      <div class="video-progress">
+        <PlayProgress
+          :progress="playProgress.progress"
+          @progressChange="videoProgressChange"
+        />
       </div>
       <span class="time">
-        {{ timeStampToDuration(videoPlayProgress.duration) || '00:00' }}
+        {{ timeStampToDuration(playProgress.duration) || '00:00' }}
       </span>
       <div class="other">
         <i
-          class="volume-btn"
-          :class="{ 'no-volume': Number(videoVolume) === 0 }"
-          @click="setVolumeProgress"
+          class="icon-volume"
+          :class="{ 'icon-mute': Number(volume) === 0 }"
+          @click="volumeStatusToggle"
         ></i>
-        <div class="video-volume-progress">
-          <volume-progress v-if="volumeProgressShow" />
+        <div class="volume-progress" v-if="volumVisible">
+          <i class="volume-progress-bar-arrow"></i>
+          <VolumeProgress
+            :progress="volume"
+            @progressChange="volumeProgressChange"
+          />
         </div>
         <p class="mode">高清</p>
         <i class="full" v-if="!fullscreen" @click="lanchFullscreen"></i>
@@ -59,10 +72,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
-import { useStore } from 'vuex';
+import { ref, watch, onMounted, onUnmounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { timeStampToDuration } from '@/utils/utils';
 import { setMessage } from '@/hooks/useMessage';
+import { mvUrl } from '@/api/mv-detail';
+import { videoUrl } from '@/api/video-detail';
+import type { ResponseType } from '@/types/index';
 import VideoView from './video/Video.vue';
 import PlayProgress from './play-progress/PlayProgress.vue';
 import VolumeProgress from './volume-progress/VolumeProgress.vue';
@@ -79,56 +95,127 @@ defineProps({
 });
 const emits = defineEmits(['handleCollection']);
 
-const $store = useStore();
-const videoVolume = computed(() => $store.getters['video/videoVolume']);
-// 播放进度
-const videoPlayProgress = computed(
-  () => $store.getters['video/videoPlayProgress']
+const $route = useRoute();
+
+// 获取MV/视频播放地址
+const playUrl = ref('');
+
+watch(
+  () => $route.query.type,
+  curVal => {
+    if (!curVal) {
+      return;
+    }
+
+    if (Number(curVal) === 0) {
+      getMvPlayUrl();
+    }
+    if (Number(curVal) === 1) {
+      getVideoPlayUrl();
+    }
+  },
+  {
+    immediate: true
+  }
 );
+
+function getMvPlayUrl(): void {
+  mvUrl({ id: Number($route.query.id) })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        playUrl.value = res?.data?.url || '';
+      }
+    })
+    .catch(() => ({}));
+}
+
+function getVideoPlayUrl(): void {
+  videoUrl({ id: String($route.query.id) })
+    .then((res: ResponseType) => {
+      if (res?.code === 200) {
+        playUrl.value = res?.urls[0]?.url || '';
+      }
+    })
+    .catch(() => ({}));
+}
+
+// 播放器实例
+const videoRef = ref();
+
 // 播放状态
-const songPlayStatus = computed(() => $store.getters['music/songPlayStatus']);
+const playStatus = ref('pause');
 
-// 播放视频暂停歌曲, 播放歌曲暂停视频
-const videoStatus = ref('pause');
-
-watch(
-  () => videoStatus.value,
-  () => {
-    if (videoStatus.value === 'play') {
-      $store.commit('music/setSongPlayStatus', {
-        look: false,
-        loading: false,
-        refresh: false
-      });
-    }
-  }
-);
-watch(
-  () => songPlayStatus.value,
-  () => {
-    if (songPlayStatus.value.look) {
-      videoStatus.value = 'pause';
-    }
-  }
-);
-
-// 切换播放/暂停状态
 function togglePlayStatus(): void {
-  videoStatus.value = videoStatus.value === 'play' ? 'pause' : 'play';
+  playStatus.value = playStatus.value === 'play' ? 'pause' : 'play';
+
+  if (!videoRef.value) {
+    return;
+  }
+
+  if (playStatus.value === 'play') {
+    videoRef.value.ref.play();
+  }
+  if (playStatus.value === 'pause') {
+    videoRef.value.ref.pause();
+  }
+  if (playStatus.value === 'replay') {
+    videoRef.value.ref.load();
+    videoRef.value.ref.play();
+  }
 }
 
-// 播放完成
+// 播放进度
+const playProgress = ref({
+  currentTime: 0,
+  duration: 0,
+  progress: 0,
+  manualUpdate: false
+});
+
+function videoTimeUpdate(currentTime: number, duration: number): void {
+  if (playProgress.value.manualUpdate) {
+    return;
+  }
+
+  playProgress.value = {
+    ...playProgress.value,
+    currentTime: currentTime,
+    duration: duration,
+    progress: currentTime / duration
+  };
+}
+
+function videoProgressChange(value: number): void {
+  playProgress.value.manualUpdate = true;
+
+  playProgress.value = {
+    ...playProgress.value,
+    currentTime: playProgress.value.duration * value,
+    progress: value
+  };
+
+  // 更新播放器时间
+  videoRef.value.ref.currentTime = playProgress.value.duration * value;
+
+  playProgress.value.manualUpdate = false;
+}
+
+// 播放结束
 function videoPlayEnded(): void {
-  videoStatus.value = 'ended';
-
-  setTimeout(() => {
-    videoReplay();
-  }, 10);
+  playStatus.value = 'ended';
 }
 
-// 重播
-function videoReplay(): void {
-  videoStatus.value = 'replay';
+// 音量
+const volumVisible = ref(false);
+
+function volumeStatusToggle(): void {
+  volumVisible.value = !volumVisible.value;
+}
+
+const volume = ref(1);
+
+function volumeProgressChange(value: number): void {
+  volume.value = value;
 }
 
 // 全屏切换
@@ -147,13 +234,6 @@ function exitFullscreen() {
   fullscreen.value = false;
 
   document.exitFullscreen && document.exitFullscreen();
-}
-
-// 音量条显隐
-const volumeProgressShow = ref(false);
-
-function setVolumeProgress(): void {
-  volumeProgressShow.value = !volumeProgressShow.value;
 }
 
 // 喜欢

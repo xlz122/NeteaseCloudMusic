@@ -1,46 +1,25 @@
 <template>
-  <div>
-    <XProgress
-      class="progress"
-      :range="'.progress'"
-      :current="progress.current"
-      @progressChange="progressChange"
-    />
-  </div>
+  <HorizontalProgress
+    class="horizontal-progress"
+    :range="'.video-player .horizontal-progress'"
+    :current="progress * 100 + '%'"
+    @progressChange="progressChange"
+  />
 </template>
 
 <script lang="ts" setup>
-import { reactive, computed, watch } from 'vue';
-import { useStore } from 'vuex';
-import XProgress from '@/components/progress/Progress.vue';
+import HorizontalProgress from '@/components/progress/Progress.vue';
 
-const $store = useStore();
-// 播放进度
-const videoPlayProgress = computed(
-  () => $store.getters['video/videoPlayProgress']
-);
-
-// 更新进度数据
-const progress = reactive({
-  current: ''
-});
-
-watch(
-  () => videoPlayProgress.value,
-  curVal => {
-    progress.current = curVal.progress + '%';
+defineProps({
+  progress: {
+    type: Number,
+    default: 0
   }
-);
+});
+const emits = defineEmits(['progressChange']);
 
-// 视频进度更改
 function progressChange(value: number): void {
-  const currentTime = videoPlayProgress.value.duration * value;
-
-  $store.commit('video/setVideoPlayProgress', {
-    progress: value * 100,
-    currentTime,
-    timeChange: true
-  });
+  emits('progressChange', value);
 }
 </script>
 

@@ -1,12 +1,13 @@
-::v-deep(.progress) {
+.horizontal-progress {
   position: relative;
+  width: auto;
   height: 4px;
-  cursor: pointer;
+  margin: 0 10px;
   background-color: rgb(255 255 255 / 20%);
   border-radius: 2px;
-  flex: 1;
+  cursor: pointer;
 
-  .current-progress {
+  ::v-deep(.current-progress) {
     width: 0;
     background-color: #b2072a;
     border-radius: 2px;
@@ -23,7 +24,7 @@
     }
   }
 
-  .cache-progress {
+  ::v-deep(.cache-progress) {
     width: 0%;
   }
 }

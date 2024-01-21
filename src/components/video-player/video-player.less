@@ -30,7 +30,7 @@
       cursor: pointer;
     }
 
-    .pause-icon {
+    .icon-pause {
       background: url('@/assets/image/video/pause.png') no-repeat center center;
 
       &:hover {
@@ -38,7 +38,7 @@
       }
     }
 
-    .replay-icon {
+    .icon-replay {
       top: 40%;
       background: url('@/assets/image/video/replay.png') no-repeat center center;
 
@@ -81,7 +81,7 @@
       cursor: pointer;
     }
 
-    .pause-btn {
+    .icon-pause {
       background: url('@/assets/image/video/small-pause.png') no-repeat center center;
 
       &:hover {
@@ -89,7 +89,7 @@
       }
     }
 
-    .play-btn {
+    .icon-play {
       background: url('@/assets/image/video/play.png') no-repeat center center;
 
       &:hover {
@@ -103,12 +103,7 @@
       vertical-align: middle;
     }
 
-    .progress {
-      display: inline-block;
-      height: 4px;
-      margin: 0 10px;
-      vertical-align: middle;
-      border-radius: 2px;
+    .video-progress {
       flex: 1;
     }
 
@@ -117,7 +112,7 @@
       display: inline-block;
       vertical-align: middle;
 
-      .volume-btn {
+      .icon-volume {
         display: inline-block;
         width: 16px;
         height: 12px;
@@ -131,7 +126,7 @@
         }
       }
 
-      .no-volume {
+      .icon-mute {
         background: url('@/assets/image/video/mute.png') no-repeat center center;
 
         &:hover {
@@ -139,9 +134,33 @@
         }
       }
 
-      .video-volume-progress {
+      .volume-progress {
+        position: relative;
         position: absolute;
         top: -5px;
+        left: 16px;
+        z-index: 1;
+        width: 22px;
+        height: 86px;
+        background: rgb(0 0 0 / 70%);
+        border: 1px solid rgb(255 255 255 / 20%);
+        transform: translateY(-100%);
+        transform: translateY(-100%);
+        border-bottom: none;
+      
+        .volume-progress-bar-arrow {
+          position: absolute;
+          top: auto;
+          right: auto;
+          bottom: -6px;
+          left: 0;
+          display: block;
+          width: 100%;
+          height: 7px;
+          cursor: default;
+          background: url('@/assets/image/video/volume-dot-arrow.png') no-repeat;
+          background-position: center top;
+        }
       }
 
       .mode {

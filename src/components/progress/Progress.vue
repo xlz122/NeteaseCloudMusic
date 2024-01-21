@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted, onBeforeUnmount, computed } from 'vue';
+import { ref, reactive, computed, onMounted, onBeforeUnmount } from 'vue';
 
 type ProgressRef = HTMLDivElement | HTMLElement | null;
 
