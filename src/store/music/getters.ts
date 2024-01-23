@@ -7,12 +7,9 @@ export type Getters<T> = {
 const getters: Getters<State> = {
   playSongId: state => state.playSongId,
   playSongItem: state => state.playSongItem,
+  playSongRefresh: state => state.playSongRefresh,
   songPlaylist: state => state.songPlaylist,
-  songPlayProgress: state => state.songPlayProgress,
-  songPlayStatus: state => state.songPlayStatus,
-  musicAudioLock: state => state.musicAudioLock,
-  musicModeType: state => state.musicModeType,
-  musicVolume: state => state.musicVolume
+  audioPlayerLock: state => state.audioPlayerLock
 };
 
 export default getters;

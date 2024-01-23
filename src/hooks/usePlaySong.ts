@@ -1,4 +1,3 @@
-import { ref, computed } from 'vue';
 import store from '@/store/index';
 import useSongFormat from '@/hooks/methods/songFormat';
 import { toRawType } from '@/utils/tool';
@@ -15,23 +14,8 @@ function usePlaySong(song: SongType): void {
 
   const musicItem: MusicItemType = useSongFormat(song);
 
-  const playSongItem = computed<MusicItemType>(
-    () => store.getters['music/playSongItem']
-  );
-
-  const songPlayStatus = ref({
-    look: true,
-    loading: true,
-    refresh: true
-  });
-
-  if (playSongItem?.value?.id === musicItem?.id) {
-    songPlayStatus.value.loading = false;
-    songPlayStatus.value.refresh = false;
-  }
-
   store.commit('music/setPlaySongItem', musicItem);
-  store.commit('music/setSongPlayStatus', songPlayStatus.value);
+  store.commit('music/setPlaySongRefresh', true);
 }
 
 export default usePlaySong;

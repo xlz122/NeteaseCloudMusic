@@ -4,25 +4,8 @@ export type State = {
   playSongId: number;
   playSongItem: MusicItemType;
   songPlaylist: MusicItemType[];
-  songPlayProgress: SongPlayProgress;
-  songPlayStatus: MusicPlayStatus;
-  musicAudioLock: boolean;
-  musicModeType: number;
-  musicVolume: number;
-};
-
-export type SongPlayProgress = {
-  progress?: number;
-  currentTime?: number;
-  duration?: number;
-  cacheProgress?: number;
-  timeChange?: boolean;
-};
-
-export type MusicPlayStatus = {
-  look?: boolean;
-  loading?: boolean;
-  refresh?: boolean;
+  playSongRefresh: boolean;
+  audioPlayerLock: boolean;
 };
 
 // 本地存储容错处理
@@ -35,21 +18,9 @@ function faultTolerant(name: string) {
 const state: State = {
   playSongId: Number(localStorage.getItem('playSongId')) || 0, // 当前播放歌曲id
   playSongItem: faultTolerant('playSongItem') || {}, // 当前播放歌曲
+  playSongRefresh: false, // 播放歌曲刷新
   songPlaylist: faultTolerant('songPlaylist') || [], // 播放列表
-  songPlayProgress: {
-    progress: 0,
-    currentTime: 0,
-    duration: 0,
-    cacheProgress: 0
-  }, // 播放进度
-  songPlayStatus: {
-    look: false,
-    loading: false,
-    refresh: false
-  }, // 播放状态
-  musicAudioLock: faultTolerant('musicAudioLock') || false, // 播放器锁定
-  musicModeType: Number(localStorage.getItem('musicModeType')) || 0, // 播放模式
-  musicVolume: Number(localStorage.getItem('musicVolume')) || 1 // 音量
+  audioPlayerLock: faultTolerant('audioPlayerLock') || false // 播放器锁定
 };
 
 export default state;

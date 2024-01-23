@@ -11,6 +11,7 @@ export type SongType = {
     picUrl: string;
   };
   img80x80?: string;
+  picUrl?: string;
   dt?: number;
   duration?: number;
   mv?: number;
@@ -57,6 +58,7 @@ function useSongFormat(song: SongType): MusicItemType {
     song?.al?.picUrl ||
     song?.radio?.picUrl ||
     song?.img80x80 ||
+    song?.picUrl ||
     '';
   musicItem.duration = song?.dt || song?.duration || 0;
   musicItem.mv = song?.mv || 0;

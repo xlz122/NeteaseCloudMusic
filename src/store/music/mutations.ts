@@ -13,33 +13,19 @@ const mutations: Mutations<State> = {
     state.playSongItem = payload;
     localStorage.setItem('playSongItem', JSON.stringify(payload));
   },
+  // 播放歌曲刷新
+  setPlaySongRefresh(state, payload: boolean) {
+    state.playSongRefresh = payload;
+  },
   // 播放列表
   setSongPlaylist(state, payload: State['songPlaylist']) {
     state.songPlaylist = payload;
     localStorage.setItem('songPlaylist', JSON.stringify(payload));
   },
-  // 播放进度
-  setSongPlayProgress(state, payload: State['songPlayProgress']) {
-    state.songPlayProgress = { ...state.songPlayProgress, ...payload };
-  },
-  // 播放状态
-  setSongPlayStatus(state, payload: State['songPlayStatus']) {
-    state.songPlayStatus = { ...state.songPlayStatus, ...payload };
-  },
   // 播放器锁定
-  setMsicAudioLock(state, payload: boolean) {
-    state.musicAudioLock = payload;
-    localStorage.setItem('musicAudioLock', JSON.stringify(payload));
-  },
-  // 播放模式
-  setMusicModeType(state, payload: number) {
-    state.musicModeType = payload;
-    localStorage.setItem('musicModeType', JSON.stringify(payload));
-  },
-  // 音量
-  setMusicVolume(state, payload: number) {
-    state.musicVolume = payload;
-    localStorage.setItem('musicVolume', JSON.stringify(payload));
+  setAudioPlayerLock(state, payload: boolean) {
+    state.audioPlayerLock = payload;
+    localStorage.setItem('audioPlayerLock', JSON.stringify(payload));
   },
   // 清空播放列表
   emptySongPlaylist(state) {

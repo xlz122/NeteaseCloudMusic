@@ -5,8 +5,8 @@
     :src="src"
     :volume="volume"
     @play="play"
-    @pause="pause"
     @timeupdate="timeupdate"
+    @pause="pause"
     @ended="ended"
   ></video>
 </template>

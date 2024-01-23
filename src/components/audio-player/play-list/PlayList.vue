@@ -1,8 +1,8 @@
 <template>
-  <div class="play-list" v-if="playListShow">
+  <div class="play-list" v-if="visible">
     <div class="play-list-title">
       <h4 class="title">播放列表({{ songPlaylist.length }})</h4>
-      <div class="add-all" @click="collectAll">
+      <div class="collect-all" @click="collectAll">
         <i class="icon"></i>
         <span>收藏全部</span>
       </div>
@@ -12,7 +12,7 @@
         <span>清除</span>
       </div>
       <div class="song-title">{{ playSongItem?.name || '' }}</div>
-      <i class="clear-icon" @click="closePlayList"></i>
+      <i class="icon-close" @click="close"></i>
     </div>
     <div class="play-list-content">
       <img
@@ -96,19 +96,18 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
-import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 import useSongDelPlaylist from '@/hooks/useSongDelPlaylist';
 import { timeStampToDuration } from '@/utils/utils';
 import type { SongType } from '@/hooks/methods/songFormat';
-import Lyric from '../lyric/Lyric.vue';
+import Lyric from './lyric/Lyric.vue';
 
 const props = defineProps({
-  playListShow: {
+  visible: {
     type: Boolean,
     default: false
   }
 });
-const emits = defineEmits(['closePlayList']);
+const emits = defineEmits(['close']);
 
 const $router = useRouter();
 const $store = useStore();
@@ -118,15 +117,15 @@ const playSongItem = computed(() => $store.getters['music/playSongItem']);
 const songPlaylist = computed(() => $store.getters['music/songPlaylist']);
 
 watch(
-  () => props.playListShow,
+  () => props.visible,
   () => {
-    if (props.playListShow) {
+    if (props.visible) {
       playSongPosition();
     }
   }
 );
 
-// 列表播放歌曲定位
+// 播放歌曲定位
 function playSongPosition(): boolean | undefined {
   const isExist = songPlaylist.value?.find(
     (item: SongType) => item.id === playSongId.value
@@ -143,7 +142,7 @@ function playSongPosition(): boolean | undefined {
   });
 }
 
-// 收藏全部歌曲
+// 收藏全部
 function collectAll(): boolean | undefined {
   if (!isLogin.value) {
     $store.commit('setLoginDialog', true);
@@ -197,7 +196,6 @@ function handleDownload(): void {
 // 播放单个歌曲
 function playSingleSong(item: SongType): void {
   usePlaySong(item);
-  useSongAddPlaylist(item);
 }
 
 // 删除单个歌曲
@@ -207,20 +205,19 @@ function deleteSingleSong(item: SongType, event: MouseEvent): void {
   useSongDelPlaylist(item);
 }
 
-// 关闭列表
-function closePlayList(): void {
-  emits('closePlayList');
-}
-
 // 跳转歌手详情
 function jumpSingerDetail(id: number): void {
   $router.push({ path: '/singer-detail', query: { id } });
-  closePlayList();
+  close();
 }
 
 // 跳转歌曲位置
 function jumpSongPosition(): void {
   setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+function close(): void {
+  emits('close');
 }
 </script>
 
