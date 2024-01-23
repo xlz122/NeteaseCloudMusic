@@ -1,3 +1,33 @@
+# [2.0.0](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.8.0...v2.0.0) (2024-01-23)
+
+
+### ♻ Code Refactoring | 代码重构
+
+* 重构视频播放器 [#d1e7a7e](https://github.com/xlz122/NeteaseCloudMusic/commit/d1e7a7e) 
+* 重构音频播放器 [#0b8937e](https://github.com/xlz122/NeteaseCloudMusic/commit/0b8937e) 
+
+
+### ✨ Features | 新功能
+
+* 调整对话框 [#4b65b7c](https://github.com/xlz122/NeteaseCloudMusic/commit/4b65b7c) 
+* 更新部分不一致的页面布局 [#2ac2b02](https://github.com/xlz122/NeteaseCloudMusic/commit/2ac2b02) 
+* 完善电台详情 [#b679db5](https://github.com/xlz122/NeteaseCloudMusic/commit/b679db5) 
+* MV/视频播放地址获取详情获取改为播放组件获取 [#6c0c5e3](https://github.com/xlz122/NeteaseCloudMusic/commit/6c0c5e3) 
+
+
+### 🎫 Chores | 其他更新
+
+* 更新vite 5.0.11 [#87003c9](https://github.com/xlz122/NeteaseCloudMusic/commit/87003c9) 
+
+
+### 🐛 Bug Fixes | Bug 修复
+
+* 修复时间戳转时长显示bug [#f65db6a](https://github.com/xlz122/NeteaseCloudMusic/commit/f65db6a) 
+* **css:** 修复评论列表样式显示bug [#909bcdf](https://github.com/xlz122/NeteaseCloudMusic/commit/909bcdf) 
+* **css:** 移除不再需要的移动端兼容样式 [#e5b160f](https://github.com/xlz122/NeteaseCloudMusic/commit/e5b160f) 
+
+
+
 # [1.8.0](https://github.com/xlz122/NeteaseCloudMusic/compare/v1.7.0...v1.8.0) (2024-01-10)
 
 
@@ -22,6 +52,7 @@
 
 * 更新vue 3.4.0 [#5f24270](https://github.com/xlz122/NeteaseCloudMusic/commit/5f24270) 
 * 项目预览图不进行打包 [#37ba7e5](https://github.com/xlz122/NeteaseCloudMusic/commit/37ba7e5) 
+* release 1.8.0 [#c5f14c6](https://github.com/xlz122/NeteaseCloudMusic/commit/c5f14c6) 
 
 
 ### 🐛 Bug Fixes | Bug 修复
