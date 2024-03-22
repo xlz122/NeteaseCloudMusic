@@ -1,6 +1,8 @@
 # 网易云音乐
 
-**特别声明：本项目中的展示图片归网易云所有。如果侵权，请提交 Issues 联系。**
+## 特别声明
+
+由于网易云接口项目已经清空仓库，不再更新，所以本项目也将无限期停更。
 
 ## 环境要求
 
@@ -10,18 +12,13 @@
 
 本项目是一个网易云音乐PC端网站项目
 
-接口项目 [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
+接口项目请查看 [NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 
 ## 项目使用技术栈
 
 * Vue全家桶
 * Vue3 Composition Api
 * TypeScript
-
-# 接口基础URL
-
-* 开发环境: 查看.env.development文件
-* 生产环境: 查看.env.production文件
 
 ## 加入项目
 
