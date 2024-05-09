@@ -1,6 +1,5 @@
 import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
-// gzip
 import viteCompression from 'vite-plugin-compression';
 import path from 'path';
 import type { ConfigEnv } from 'vite';

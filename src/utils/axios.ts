@@ -1,6 +1,5 @@
-import store from '@/store/index';
 import axios from 'axios';
-import {
+import type {
   AxiosRequestConfig,
   InternalAxiosRequestConfig,
   AxiosResponse,
@@ -8,15 +7,8 @@ import {
   AxiosInstance,
   CancelTokenStatic
 } from 'axios';
+import store from '@/store/index';
 import { setMessage } from '@/hooks/useMessage';
-
-type IAxiosError = AxiosError & {
-  status: number;
-  response: {
-    status: number;
-    data: Record<string, unknown>;
-  };
-};
 
 // 标识请求
 const getRequestIdentify = (config: AxiosRequestConfig, isReuest = false) => {
@@ -53,7 +45,7 @@ class HttpRequest {
   getInsideConfig(): AxiosRequestConfig {
     let config = {
       baseURL: '',
-      // 允许跨域带token, cookie
+      // 跨域携带cookie
       withCredentials: true,
       timeout: 60000,
       headers: {
@@ -77,11 +69,10 @@ class HttpRequest {
     // 请求拦截
     instance.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
-        // 拦截重复请求(即当前正在进行的相同请求)
-        const requestData: string = getRequestIdentify(config, true); // 标识请求
+        // 标识请求
+        const requestData: string = getRequestIdentify(config, true);
         // 取消重复请求
         removePending(requestData, true);
-        // 创建当前请求的取消方法
         config.cancelToken = new CancelToken(cancel => {
           pending[requestData] = cancel;
         });
@@ -107,16 +98,20 @@ class HttpRequest {
 
     // 响应拦截
     instance.interceptors.response.use(
-      (res: AxiosResponse) => {
-        const data = res.data;
+      (response: AxiosResponse) => {
+        const res = response.headers['content-type'].includes(
+          'application/json'
+        )
+          ? response.data
+          : response;
 
-        if (data?.code === 250) {
-          setMessage({ type: 'error', title: data?.message });
+        if (res?.code === 250) {
+          setMessage({ type: 'error', title: res?.message });
         }
 
-        return Promise.resolve(data);
+        return Promise.resolve(res);
       },
-      (error: IAxiosError) => {
+      (error: AxiosError) => {
         // cookie过期
         if (error?.response?.status === 301) {
           store.commit('setLogout');
