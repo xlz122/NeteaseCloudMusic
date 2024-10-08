@@ -1,20 +1,8 @@
 /**
- * @description 日期字符串转时间戳
- * @param { String} - 日期字符串
- * @returns { Nubmer } 时间戳
- */
-export function datestrToTimestamp(datestr: string): number {
-  return new Date(Date.parse(datestr.replace(/-/g, '/'))).getTime();
-}
-
-/**
  * @description 获取当前星期几
- * @return { String } 星期几
  */
-export function getWeekDate(): string {
-  const now = new Date();
-  const day = now.getDay();
-  const weeks = [
+export function getTodayDayOfWeek(): string {
+  const days = [
     '星期日',
     '星期一',
     '星期二',
@@ -23,52 +11,33 @@ export function getWeekDate(): string {
     '星期五',
     '星期六'
   ];
-  const week = weeks[day];
 
-  return week;
+  return days[new Date().getDay()];
 }
 
 /**
  * @description 时间戳转视频时长
- * @return { String } 视频时长 01:23:45
+ * @param { number } timestamp - 时间戳
+ * @return { string } 02:27/01:02:27
  */
-export function timeStampToDuration(timeStamp: number): string {
-  const time = timeStamp.toString();
-  let h = 0,
-    i = 0,
-    s = parseInt(time);
-  if (s > 60) {
-    i = parseInt((s / 60).toString());
-    s = parseInt((s % 60).toString());
-    if (i > 60) {
-      h = parseInt((i / 60).toString());
-      i = parseInt((i % 60).toString());
-    }
-  }
-  // 补零
-  const zero = function (v: number) {
-    return v >> 0 < 10 ? '0' + v : v;
-  };
-  const h2 = zero(h);
-  const i2 = zero(i);
-  const s2 = zero(s);
-  let ok = '';
-  if (h2 <= 0) {
-    ok = [i2, s2].join(':');
-  } else {
-    ok = [h2, i2, s2].join(':');
+export function timeStampToDuration(timestamp: number): string {
+  const date = new Date(timestamp * 1000);
+  const hours = date.getUTCHours().toString().padStart(2, '0');
+  const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+  const seconds = date.getUTCSeconds().toString().padStart(2, '0');
+
+  if (date.getUTCHours() === 0) {
+    return `${minutes}:${seconds}`;
   }
 
-  return ok;
+  return `${hours}:${minutes}:${seconds}`;
 }
 
 /**
  * @description 日期字符串/时间戳转日期字符串
- * @param { String | Number | Date } - date 日期字符串/时间戳/Date
- * @param { String } - 日期字符串格式
  */
 export function formatDateTime(
-  date: string | Date | number,
+  date: string | number,
   fmt = 'yyyy-MM-dd hh:mm:ss'
 ): string {
   if (!date) {
@@ -111,6 +80,7 @@ export function formatDateTime(
     if (new RegExp('(' + k + ')').test(fmt)) {
       fmt = fmt.replace(
         RegExp.$1,
+        // @ts-expect-error - unknown
         RegExp.$1.length === 1 ? o[k] : ('00' + o[k]).substr(('' + o[k]).length)
       );
     }
@@ -120,9 +90,8 @@ export function formatDateTime(
 }
 
 /**
- * @description 时间戳转日期字符串，主要用于评论时间
- * @param { Nubmer} - 时间戳
- * @returns { String } 格式化后的日期字符串
+ * @description 时间戳转日期字符串, 用于评论时间
+ * @param { number } timestamp - 时间戳
  */
 export function formatDate(timestamp: number): string {
   // 补全为13位，缺少补0
@@ -227,14 +196,15 @@ export function formatDate(timestamp: number): string {
 }
 
 /**
- * 大数字转换，将大额数字转换为万、千万、亿等
- * @param value 数字值
+ * @description 大数字转换, 将大额数字转换为万、千万、亿等
+ * @param { number | string } value 数字值
  */
 export function bigNumberTransform(value: number | string): number | string {
-  const newValue = Number(value);
-  if (isNaN(newValue)) {
+  if (!value) {
     return value;
   }
+
+  const newValue = Number(value);
 
   // 小于1万
   if (newValue < 10000) {
@@ -257,44 +227,27 @@ export function bigNumberTransform(value: number | string): number | string {
 }
 
 /**
- * @description 获取滚动条距离页面底部的高度
- * @param { MouseEvent } event 滚动条事件对象
- */
-export function getPageBottomHeight(e: Event): number {
-  const target = e.target as Document;
-  // 总的滚动的高度
-  const scrollHeight =
-    (target ? target.documentElement.scrollHeight : false) ||
-    (target ? target.body.scrollHeight : 0);
-  // 视口高度
-  const clientHeight =
-    (target ? target.documentElement.clientHeight : false) ||
-    (target ? target.body.clientHeight : 0);
-  // 当前滚动的高度
-  const scrollTop =
-    (target ? target.documentElement.scrollTop : false) ||
-    (target ? target.body.scrollTop : 0);
-  // 距离底部高度(总的高度 - 视口高度 - 滚动高度)
-  const bottomHeight = scrollHeight - clientHeight - scrollTop;
-
-  return bottomHeight;
-}
-
-/**
  * @description 字符串匹配
- * @param { String } str - 原始字符串
- * @param { String } value - 匹配值
+ * @param { string } str - 原始字符串
+ * @param { string } value - 匹配值
  */
 export function handleMatchString(str: string, value: string): string {
-  const html = str?.replaceAll(
+  if (!str) {
+    return str;
+  }
+
+  const html = str.replaceAll?.(
     value,
     `<span style="color: #0c73c2">${value}</span>`
   );
 
-  return html || str;
+  return html;
 }
 
-// 时间戳转为正常时间的公共方法---2020-02-02
+/**
+ * @description 时间戳转为日期字符串
+ * @param { number } time - 时间戳
+ */
 export function filterTime(time: number): string {
   const date = new Date(time);
   const Y = date.getFullYear();
@@ -303,5 +256,14 @@ export function filterTime(time: number): string {
       ? '0' + (date.getMonth() + 1)
       : date.getMonth() + 1;
   const D = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+
   return `${Y}-${M}-${D}`;
+}
+
+/**
+ * @description 动态加载图片
+ * @param { string } path - 图片路径(相对于src目录)
+ */
+export function getImageUrl(path: string): string {
+  return new URL(`../${path}`, import.meta.url).href;
 }

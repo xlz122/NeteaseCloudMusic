@@ -1,53 +1,54 @@
-.search-details {
+.search-detail {
   background-color: #f2f2f2;
-}
 
-.search-details-container {
-  width: 899px;
-  min-height: 700px;
-  padding: 40px;
-  margin: 0 auto;
-  background-color: #fff;
-  border: 1px solid #d3d3d3;
-  border-width: 0 1px;
+  .detail-container {
+    width: 899px;
+    min-height: 700px;
+    padding: 40px;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 1px solid #d3d3d3;
+    border-width: 0 1px;
 
-  .search-desc {
-    margin: 28px 0 17px;
-    color: #999;
-    text-align: left;
+    .title {
+      margin: 28px 0 17px;
+      color: #999;
+      text-align: left;
 
-    .search-desc-num {
-      color: #c20c0c;
+      .count {
+        margin-right: 4px;
+        color: #c20c0c;
+      }
     }
   }
-}
 
-.no-data {
-  padding: 84px 0 95px;
-  text-align: center;
-
-  .title {
-    width: 100%;
-    padding-bottom: 16px;
-    margin: 0 auto;
-    color: #333;
+  .no-data {
+    padding: 84px 0 95px;
     text-align: center;
 
-    .icon {
-      display: inline-block;
-      width: 64px;
-      height: 50px;
-      margin-right: 17px;
-      vertical-align: middle;
-      background: url('~@/assets/image/icon.png');
-      background-position: 0 -347px;
-    }
+    .title {
+      width: 100%;
+      padding-bottom: 16px;
+      margin: 0 auto;
+      color: #333;
+      text-align: center;
 
-    .text {
-      display: inline-block;
-      font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
-      font-size: 18px;
-      vertical-align: middle;
+      .icon {
+        display: inline-block;
+        width: 64px;
+        height: 50px;
+        margin-right: 17px;
+        vertical-align: middle;
+        background: url('@/assets/image/icon.png');
+        background-position: 0 -347px;
+      }
+
+      .text {
+        display: inline-block;
+        font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
+        font-size: 18px;
+        vertical-align: middle;
+      }
     }
   }
 }
