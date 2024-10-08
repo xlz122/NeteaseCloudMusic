@@ -60,7 +60,7 @@
         display: inline-block;
         width: 8px;
         height: 8px;
-        background: url('~@/assets/image/my-music/icon-my-music-r@3x.png') no-repeat;
+        background: url('@/assets/image/my-music/copyright@3x.png') no-repeat;
         content: '';
         background-size: cover;
       }
@@ -79,7 +79,7 @@
       color: #515151;
       vertical-align: middle;
       cursor: pointer;
-      background: url('~@/assets/image/my-music/icon-button.png') no-repeat;
+      background: url('@/assets/image/my-music/icon-button.png') no-repeat;
       visibility: hidden;
       background-position: 0 -96px;
 
@@ -162,7 +162,7 @@
           margin-right: 10px;
           vertical-align: middle;
           cursor: pointer;
-          background: url('~@/assets/image/icon.png') no-repeat;
+          background: url('@/assets/image/icon.png') no-repeat;
           background-position: 0 -96px;
         }
 
@@ -189,17 +189,17 @@
     }
 
     .active-item {
-      background: #e6e6e6;
+      background-color: #e6e6e6;
     }
 
     .active-item:hover {
-      background: #e6e6e6;
+      background-color: #e6e6e6;
     }
   }
 }
 
-::v-deep(.my-dialog) {
-  .my-dialog-box {
+::v-deep(.song-sheet-dialog) {
+  .dialog-box {
     width: 480px;
   }
 
@@ -211,8 +211,8 @@
   }
 }
 
-::v-deep(.my-dialog-add) {
-  .my-dialog-bottom {
+::v-deep(.add-song-sheet) {
+  .dialog-bottom {
     margin-left: 86px;
     text-align: left;
   }

@@ -1,0 +1,47 @@
+.singer-menu {
+  padding: 0 10px 40px;
+  margin-top: 51px;
+
+  .language {
+    padding-top: 16px;
+    margin: 5px 0 0;
+    border-top: 1px solid #d3d3d3;
+  }
+
+  .group-title {
+    height: 25px;
+    padding-left: 14px;
+    font-family: 'Microsoft Yahei', sans-serif;
+    font-size: 16px;
+  }
+
+  .item {
+    width: 160px;
+    height: 29px;
+    margin-bottom: 2px;
+    line-height: 29px;
+
+    .item-text {
+      display: inline-block;
+      width: 133px;
+      padding-left: 27px;
+      color: #333;
+      cursor: pointer;
+      background: url('@/assets/image/singer/singer.png') no-repeat;
+      background-position: 0 -30px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .item-active-text {
+      background-position: 0 0;
+      color: #c20c0c;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}

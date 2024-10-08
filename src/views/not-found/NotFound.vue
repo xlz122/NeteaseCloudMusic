@@ -8,16 +8,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import HeaderView from '@views/header/Header.vue';
-
-export default defineComponent({
-  name: 'NotFound',
-  components: {
-    HeaderView
-  }
-});
+<script lang="ts" setup>
+import HeaderView from '@/views/header/Header.vue';
 </script>
 
 <style lang="less" scoped>
@@ -25,7 +17,7 @@ export default defineComponent({
   display: flex;
   flex-flow: column;
   height: 100vh;
-  background: #fcfcfc;
+  background-color: #fcfcfc;
 
   .content {
     flex-grow: 1;
@@ -36,7 +28,7 @@ export default defineComponent({
       width: 281px;
       height: 115px;
       text-align: center;
-      background: url('~@/assets/image/not-found.jpg');
+      background: url('@/assets/image/not-found.jpg');
     }
 
     .text {
