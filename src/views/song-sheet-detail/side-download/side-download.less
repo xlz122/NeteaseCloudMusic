@@ -1,0 +1,57 @@
+.side-download {
+  padding-bottom: 40px;
+
+  .download-list {
+    height: 65px;
+    margin-bottom: 10px;
+    background: url('@/assets/image/song-sheet/icon-download.png');
+    background-position: 0 -392px;
+
+    .item {
+      display: inline-block;
+      vertical-align: top;
+
+      .link {
+        display: block;
+        text-indent: -9999px;
+
+        &:hover {
+          background: url('@/assets/image/song-sheet/icon-download.png');
+        }
+      }
+
+      .ios {
+        width: 42px;
+        height: 48px;
+
+        &:hover {
+          background-position: 0 -472px;
+        }
+      }
+
+      .pc {
+        width: 60px;
+        height: 48px;
+        margin: 0 26px 0 30px;
+
+        &:hover {
+          background-position: -72px -472px;
+        }
+      }
+
+      .aos {
+        width: 42px;
+        height: 48px;
+
+        &:hover {
+          background-position: -158px -472px;
+        }
+      }
+    }
+  }
+
+  .desc {
+    color: #999;
+    text-align: left;
+  }
+}
