@@ -1,75 +1,48 @@
-.sub-menu {
-  position: relative;
+.h-sub-menu {
+  width: 100%;
   min-height: 5px;
-  box-sizing: border-box;
   background-color: #c20c0c;
-  border-bottom: 1px solid #a40011;
 
-  .sub-menu-warp {
-    position: relative;
+  .h-sub-menu-warp {
+    display: flex;
+    flex-direction: row;
+    width: 1100px;
     height: 34px;
-  }
+    margin: 0 auto;
 
-  .nav {
-    position: absolute;
-    left: calc(50% - 365px);
-
-    .item {
-      position: relative;
-      display: inline-block;
+    .nav {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: auto;
       height: 34px;
-      min-width: 84px;
-      line-height: 34px;
-      text-align: center;
-      cursor: pointer;
+      margin-left: 180px;
 
-      .link {
-        padding: 3px 13px 4px;
-        margin: 0 20px 0 14px;
-        color: #fff;
-        border-radius: 20px;
+      .item {
+        height: 20px;
+        line-height: 20px;
+        padding-inline: 17px;
+        cursor: pointer;
+
+        &:hover {
+          .link {
+            background-color: #9b0909;
+          }
+        }
+
+        .link {
+          padding-inline: 13px;
+          font-size: 12px;
+          color: #fff;
+          border-radius: 20px;
+        }
       }
-    }
 
-    .item:hover {
-      .link {
-        background: #9b0909;
-      }
-    }
-
-    .active-item {
-      .link {
-        background: #9b0909;
-      }
-    }
-
-    .song-sheet {
-      .white-icon {
-        position: absolute;
-        top: 8px;
-        right: 26px;
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        color: red;
-        background: url('~@/assets/image/header/white-r-icon@3x.png') no-repeat;
-        background-size: cover;
+      .active-item {
+        .link {
+          background-color: #9b0909;
+        }
       }
     }
   }
-}
-
-.sub-menu-bg {
-  position: fixed;
-  top: 70px;
-  left: 0;
-  z-index: -1;
-  width: 100vw;
-  min-height: 5px;
-  background-color: #c20c0c;
-  border-bottom: 1px solid #a40011;
-}
-
-.sub-menu-bg-height {
-  height: 34px;
 }
