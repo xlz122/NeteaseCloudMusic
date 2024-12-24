@@ -1,0 +1,84 @@
+.icon-doubt {
+  position: absolute;
+  top: 12px;
+  right: 25px;
+  z-index: 10;
+  width: 21px;
+  height: 21px;
+  cursor: pointer;
+  background: url('@/assets/image/music-audio/play-list.png');
+  background-position: 0 -50px;
+
+  &:hover {
+    background-position: -24px -50px;
+  }
+}
+
+.lyric {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 4;
+  width: 354px;
+  height: 219px;
+  padding-right: 32px;
+  margin: 21px 0 20px;
+  overflow-y: auto;
+
+  .not-lyric {
+    padding-top: 90px;
+    color: #aaa;
+    text-align: center;
+
+    .feed-lyric {
+      margin-left: 12px;
+      color: #c2c2c2;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+
+  .lyric-list {
+    .item {
+      height: auto;
+      min-height: 32px;
+      line-height: 32px;
+      color: #989898;
+      text-align: center;
+      word-wrap: break-word;
+      transition: color .7s linear;
+      transition: color .7s linear;
+      transition: color .7s linear;
+      transition: color .7s linear;
+
+      .text {
+        color: #c2c2c2;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .active-item {
+      color: #fff;
+    }
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  background-color: #000;
+  border-radius: 5px;
+  opacity: .5;
+}
+
+::-webkit-scrollbar-thumb {
+  width: 4px;
+  height: 100px;
+  cursor: pointer;
+  background-color: #868686;
+  border: 1px solid #a6a6a6;
+  border-radius: 5px;
+}

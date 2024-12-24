@@ -1,12 +1,13 @@
-::v-deep(.progress) {
+.horizontal-progress {
   position: relative;
+  width: auto;
   height: 4px;
-  cursor: pointer;
+  margin: 0 10px;
   background-color: rgb(255 255 255 / 20%);
   border-radius: 2px;
-  flex: 1;
+  cursor: pointer;
 
-  .current-progress {
+  ::v-deep(.current-progress) {
     width: 0;
     background-color: #b2072a;
     border-radius: 2px;
@@ -15,15 +16,15 @@
       right: -12px;
       width: 24px;
       height: 24px;
-      background: url('~@/assets/image/video/video-play-btn.png') no-repeat center;
+      background: url('@/assets/image/video/play-dot.png') no-repeat center;
     }
 
     .icon-round:hover {
-      background: url('~@/assets/image/video/video-play-btn-hover.png') no-repeat center;
+      background: url('@/assets/image/video/play-dot-hover.png') no-repeat center;
     }
   }
 
-  .cache-progress {
+  ::v-deep(.cache-progress) {
     width: 0%;
   }
 }
