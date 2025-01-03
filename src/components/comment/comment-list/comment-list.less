@@ -2,42 +2,31 @@
   padding-bottom: 15px;
 
   .item {
-    position: relative;
-    height: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
     min-height: 50px;
-    padding: 15px 0;
-    margin-bottom: 15px;
+    padding: 15px 0 30px 0;
     border-top: 1px dotted #ccc;
 
     .user-avatar {
-      position: absolute;
-      left: 0;
-      z-index: 10;
-      display: inline-block;
       width: 50px;
       height: 50px;
-      vertical-align: top;
       cursor: pointer;
     }
 
     .item-right {
-      position: relative;
-      display: inline-block;
-      width: 100%;
-      vertical-align: top;
+      flex: 1;
 
       .detail-text {
-        width: 90%;
-        margin-left: 60px;
-        overflow: hidden;
         line-height: 20px;
-        text-align: left;
 
         .name {
           display: inline-block;
-          margin-right: 5px;
-          color: #0c73c2;
           vertical-align: top;
+          margin-right: 5px;
+          font-size: 12px;
+          color: #0c73c2;
           cursor: pointer;
 
           &:hover {
@@ -45,33 +34,49 @@
           }
         }
 
-        .colon {
-          margin-right: 5px;
+        .icon-identity {
+          display: inline-block;
+          vertical-align: top;
+          height: 13px;
+          margin-top: 4px;
         }
 
-        .text {
+        .icon-svip {
           display: inline-block;
-          font-family: Arial, Helvetica, sans-serif;
-          font-size: 12px;
-          color: #333;
           vertical-align: top;
+          height: 13px;
+          margin-top: 4px;
+          margin-inline: 5px;
+        }
+
+        .icon-vip {
+          display: inline-block;
+          vertical-align: top;
+          height: 12px;
+          margin-top: 4px;
+          margin-inline: 5px;
+        }
+
+        .symbol {
+          display: inline-block;
+          vertical-align: top;
+          margin-inline: 5px;
+          font-weight: bold;
         }
       }
 
       .comment-content-detail {
         padding: 8px 19px;
         margin-top: 10px;
-        margin-left: 60px;
         font-size: 12px;
         line-height: 20px;
         color: #666;
         text-align: left;
         word-break: break-word;
-        background: #f4f4f4;
+        background-color: #f4f4f4;
         border: 1px solid #dedede;
 
         .name {
-          margin-right: 5px;
           color: #0c73c2;
           cursor: pointer;
 
@@ -80,8 +85,9 @@
           }
         }
 
-        .colon {
-          margin-right: 5px;
+        .symbol {
+          margin: 0 5px;
+          font-weight: bold;
         }
 
         .text {
@@ -104,7 +110,7 @@
         color: #666;
         text-align: left;
         word-break: break-word;
-        background: #f8f8f8;
+        background-color: #f8f8f8;
         border: 1px solid #d9d9d9;
         border-radius: 2px;
 
@@ -148,10 +154,11 @@
 
         .time {
           position: absolute;
-          left: 60px;
+          left: 0;
           display: inline-block;
-          color: #999;
           vertical-align: middle;
+          font-size: 12px;
+          color: #999;
         }
 
         .reply-operate {
@@ -188,7 +195,7 @@
             margin-top: -1px;
             vertical-align: middle;
             cursor: pointer;
-            background: url('~@/assets/image/icon2.png');
+            background: url('@/assets/image/icon2.png');
           }
 
           .liked {
