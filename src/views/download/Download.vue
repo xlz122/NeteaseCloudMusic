@@ -66,11 +66,7 @@
         </div>
         <div class="main-pc">
           <div class="title">在电脑上听</div>
-          <img
-            class="img"
-            src="../../assets/image/download/download-pc.png"
-            alt=""
-          />
+          <img class="img" src="../../assets/image/download/pc.png" alt="" />
           <div class="type">
             <span class="info">
               <i class="icon mac"></i>
@@ -89,7 +85,7 @@
           <div class="title">在手机上听</div>
           <img
             class="img"
-            src="../../assets/image/download/download-mobile.png"
+            src="../../assets/image/download/mobile.png"
             alt=""
           />
           <div class="type">
@@ -193,7 +189,7 @@
         </div>
         <div class="img">
           <img
-            src="../../assets/image/download/distinguish.jpg"
+            src="../../assets/image/download/recognizing-music.jpg"
             alt="听歌识曲  助你疯狂猜歌"
           />
         </div>
@@ -202,60 +198,47 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted } from 'vue';
+<script lang="ts" setup>
+import { ref, onMounted, onUnmounted } from 'vue';
 
-export default defineComponent({
-  name: 'DownloadView',
-  setup() {
-    // 其他操作系统
-    const otherDownloadModal = ref<boolean>(false);
-    function otherDownload(): void {
-      otherDownloadModal.value = !otherDownloadModal.value;
+// 其他操作系统
+const otherDownloadModal = ref(false);
+
+function otherDownload(): void {
+  otherDownloadModal.value = !otherDownloadModal.value;
+}
+
+// 下载电脑/手机端
+const downloadQrcode = ref(false);
+const isPcDownLoad = ref(false);
+
+function downloadPc(): void {
+  downloadQrcode.value = true;
+  isPcDownLoad.value = true;
+}
+
+function downloadMobile(): void {
+  downloadQrcode.value = true;
+  isPcDownLoad.value = false;
+}
+
+onMounted(() => {
+  document.addEventListener('click', function (e: MouseEvent): void {
+    const target = e.target as HTMLElement;
+    // pc、mobile下载
+    if (
+      target.className !== 'download-qrcode' &&
+      target.className !== 'qrcode-img' &&
+      target.className !== 'download-btn' &&
+      target.className !== 'text'
+    ) {
+      downloadQrcode.value = false;
     }
+  });
+});
 
-    // 下载电脑，手机端
-    const downloadQrcode = ref<boolean>(false);
-    // 是否pc下载
-    const isPcDownLoad = ref<boolean>(false);
-    function downloadPc(): void {
-      downloadQrcode.value = true;
-      isPcDownLoad.value = true;
-    }
-
-    function downloadMobile(): void {
-      downloadQrcode.value = true;
-      isPcDownLoad.value = false;
-    }
-
-    onMounted(() => {
-      document.addEventListener('click', function (e: MouseEvent): void {
-        const target = e.target as HTMLElement;
-        // pc mobile下载
-        if (
-          target.className !== 'download-qrcode' &&
-          target.className !== 'qrcode-img' &&
-          target.className !== 'download-btn' &&
-          target.className !== 'text'
-        ) {
-          downloadQrcode.value = false;
-        }
-      });
-    });
-
-    onUnmounted(() => {
-      document.removeEventListener('click', () => ({}));
-    });
-
-    return {
-      otherDownload,
-      otherDownloadModal,
-      downloadQrcode,
-      isPcDownLoad,
-      downloadPc,
-      downloadMobile
-    };
-  }
+onUnmounted(() => {
+  document.removeEventListener('click', () => ({}));
 });
 </script>
 

@@ -1,18 +1,20 @@
-// 自定义指令 - 弹框拖拽
+/**
+ * @description 自定义指令 - 弹框拖拽
+ */
 export const drag = {
   beforeMount: (
     el: HTMLElement,
-    binding: unknown,
+    _binding: unknown,
     vnode: { el: HTMLElement }
   ): void => {
     const vnodeEl = vnode.el;
 
     el.onmousedown = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
-      // 是否顶部title部分移动
-      if (target.className === 'my-dialog-title') {
-        // (clientX, clientY)点击位置距离当前可视区域的坐标(x，y)
-        // offsetLeft, offsetTop 距离上层或父级的左边距和上边距
+      // 标题栏移动
+      if (target.className === 'dialog-title') {
+        // (clientX, clientY)点击位置距离当前可视区域的坐标(x, y)
+        // offsetLeft、offsetTop 距离上层或父级的左边距和上边距
 
         // 获取鼠标在弹窗中的位置
         const mouseX = event.clientX - vnodeEl.offsetLeft;
@@ -37,7 +39,7 @@ export const drag = {
             left = maxX;
           }
 
-          // 获取弹窗在页面中距Y轴的最小、最大 位置
+          // 获取弹窗在页面中距Y轴的最小、最大位置
           const minY = vnodeEl.offsetHeight / 2;
           const maxY = window.innerHeight + vnodeEl.offsetHeight / 2 - 100;
           if (top <= minY) {

@@ -1,26 +1,24 @@
 .friend {
-  background: #f5f5f5;
+  width: 100%;
+  background-color: #f5f5f5;
 
   .friend-container {
+    display: flex;
+    flex-direction: row;
     width: 980px;
     min-height: 700px;
     margin: 0 auto;
-    text-align: left;
     background-color: #fff;
-    border: 1px solid #d3d3d3;
-    border-width: 0 1px;
 
     .container-content {
-      display: inline-block;
-      width: calc(980px - 300px);
-      vertical-align: top;
-      background: url('~@/assets/image/home/wrap1.png') repeat-y 17% 100%;
+      width: calc(100% - 300px);
+      height: 100%;
+      background: url('@/assets/image/home/wrap1.png') repeat-y 17% 100%;
     }
 
     .container-side {
-      display: inline-block;
       width: 300px;
-      vertical-align: top;
+      height: 100%;
     }
   }
 
@@ -38,7 +36,7 @@
       height: 414px;
       padding-top: 104px;
       margin: 0 auto;
-      background: url('~@/assets/image/friend/friend-login.jpg') no-repeat;
+      background: url('@/assets/image/friend/not-login.jpg') no-repeat;
       background-position: 0 104px;
       background-size: contain;
 
@@ -50,10 +48,9 @@
         height: 49px;
         text-indent: -9999px;
         cursor: pointer;
-        background: url('~@/assets/image/friend/friend-login.jpg') no-repeat;
+        background: url('@/assets/image/friend/not-login.jpg') no-repeat;
         border: none;
         outline: none;
-        background-position: 0 9999px;
         background-position: 0 9999px;
         background-size: contain;
       }
