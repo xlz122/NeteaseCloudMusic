@@ -1,0 +1,160 @@
+.verify-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 19951218;
+  width: 100%;
+  height: 100%;
+
+  .dialog-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 20001009;
+    width: 380px;
+    min-height: 400px;
+    padding: 30px;
+    text-align: center;
+    background-color: #fff;
+    border: 1px solid rgb(0 0 0 / 8%);
+    border-radius: 15px;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 24px 0 rgb(0 0 0 / 20%);
+    box-sizing: border-box;
+
+    .dialog-close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      cursor: pointer;
+      fill: #000;
+
+      .icon-close {
+        position: absolute;
+        top: 34%;
+        left: 10%;
+        width: 20px;
+        height: 20px;
+        background: url('@/assets/image/verify/close.png');
+        background-size: cover;
+      }
+    }
+
+    .dialog-content {
+      width: 100%;
+      height: 100%;
+
+      .qrcode {
+        position: relative;
+        text-align: center;
+
+        .title {
+          margin: 20px auto 35px;
+          font-size: 22px;
+          font-weight: 500;
+          color: #333;
+        }
+
+        .qrcode-img {
+          width: 170px;
+          height: 170px;
+          margin: 0 auto;
+
+          img {
+            display: inline-block;
+            width: 100%;
+            width: 100%;
+          }
+        }
+
+        .qrcode-invalid {
+          display: none;
+          position: absolute;
+          top: 65px;
+          left: 75px;
+          z-index: 1;
+          display: block;
+          width: 170px;
+          height: 170px;
+          font-size: 14px;
+          background: rgb(255 255 255 / 90%);
+
+          .img {
+            width: 100%;
+            height: 100%;
+            background: url('@/assets/image/verify/qrcode-invalid.png');
+            background-size: cover;
+            filter: blur(3px);
+          }
+
+          .text {
+            position: absolute;
+            top: 5px;
+            width: 100%;
+            margin: 45px auto 6px;
+            font-size: 18px;
+            color: #fff;
+          }
+
+          .refresh {
+            position: absolute;
+            bottom: 50px;
+            left: 45px;
+            width: 80px;
+            height: 32px;
+            margin: 0 auto;
+            font-size: 14px;
+            line-height: 32px;
+            color: #fff;
+            cursor: pointer;
+            background-color: #ff3a3a;
+            border-radius: 20px;
+          }
+        }
+
+        .tip {
+          margin: 20px 33px 0;
+          font-size: 14px;
+          color: #666;
+
+          .tip-text {
+            color: #3072a5;
+          }
+        }
+      }
+
+      .qrcode-authorized {
+        widows: 100%;
+
+        .title {
+          margin: 24px auto 35px;
+          font-size: 22px;
+          font-weight: 500;
+          color: #333;
+        }
+
+        .icon-phone {
+          display: block;
+          width: 82px;
+          height: 170px;
+          margin: 0 auto;
+        }
+
+        .tip {
+          margin-top: 22px;
+          margin-bottom: 30px;
+
+          .tip-text {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
