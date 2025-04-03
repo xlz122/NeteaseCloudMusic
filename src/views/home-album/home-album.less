@@ -1,0 +1,173 @@
+.home-album {
+  background-color: #f2f2f2;
+
+  .home-album-container {
+    width: 898px;
+    padding: 40px;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 1px solid #d3d3d3;
+    border-width: 0 1px;
+
+    .album-title {
+      height: 40px;
+      font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
+      font-size: 24px;
+      font-weight: normal;
+      text-align: left;
+      border-bottom: 2px solid #c20c0c;
+
+      .tab {
+        position: relative;
+        display: inline-block;
+        margin: 0 0 0 20px;
+        font-size: 12px;
+        vertical-align: middle;
+
+        .item {
+          position: relative;
+          display: inline-block;
+          margin-right: 10px;
+          margin-left: 10px;
+          color: #666;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+
+          &::after {
+            position: absolute;
+            top: 0;
+            right: -10px;
+            width: 1px;
+            color: #c7c7c7;
+            content: '|';
+          }
+        }
+
+        .first-item {
+          margin-left: 0;
+        }
+
+        .last-item {
+          &::after {
+            content: '';
+          }
+        }
+      }
+    }
+
+    .album-list {
+      margin: 20px 0 0 -33px;
+      text-align: left;
+
+      .album-item {
+        display: inline-block;
+        width: 153px;
+        height: 178px;
+        padding: 0 0 30px 30px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        word-wrap: normal;
+        white-space: nowrap;
+        vertical-align: top;
+
+        .item-cover {
+          position: relative;
+          display: block;
+          width: 130px;
+          height: 130px;
+          cursor: pointer;
+
+          .item-cover-img {
+            position: absolute;
+            z-index: 1;
+            display: block;
+            width: 100%;
+            height: 100%;
+          }
+
+          .item-cover-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 153px;
+            height: 130px;
+            background: url('@/assets/image/my-music/coverall.png') no-repeat;
+            background-position: 0 -845px;
+          }
+
+          .item-cover-play {
+            position: absolute;
+            right: 10px;
+            bottom: 5px;
+            left: 94px;
+            z-index: 2;
+            display: none;
+            width: 28px;
+            height: 28px;
+            background: url('@/assets/image/music-audio/iconall.png') no-repeat;
+            background-position: 0 -140px;
+
+            &:hover {
+              background-position: 0 -170px;
+            }
+          }
+        }
+
+        .desc {
+          margin: 8px 0 3px;
+          overflow: hidden;
+          font-size: 14px;
+          color: #000;
+          text-overflow: ellipsis;
+          word-wrap: normal;
+          white-space: nowrap;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .singer {
+          display: inline-block;
+          max-width: 85%;
+          overflow: hidden;
+          font-size: 12px;
+          color: #666;
+          text-overflow: ellipsis;
+          word-wrap: normal;
+          white-space: nowrap;
+          vertical-align: middle;
+          cursor: pointer;
+        }
+
+        .singer .name {
+          color: #666;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .singer .line {
+          display: inline-block;
+          margin-top: 2px;
+          margin-right: 2px;
+          margin-left: 2px;
+          color: #666;
+          vertical-align: middle;
+        }
+      }
+
+      .album-item:hover {
+        .item-cover-play {
+          display: block;
+        }
+      }
+    }
+  }
+}
