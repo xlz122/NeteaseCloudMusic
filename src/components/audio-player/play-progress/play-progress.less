@@ -1,0 +1,32 @@
+.horizontal-progress {
+  height: 9px;
+  background: url('@/assets/image/music-audio/progress.png') no-repeat;
+  background-position: right 0;
+
+  ::v-deep(.current-progress) {
+    width: 0;
+    background: url('@/assets/image/music-audio/progress.png');
+    background-position: left -66px;
+
+    .icon-round {
+      right: -11px;
+      width: 22px;
+      height: 22px;
+      background: url('@/assets/image/music-audio/play-btn-hover.png');
+      background-position: 0 -288px;
+    }
+
+    .icon-loading {
+      right: -6px;
+      width: 12px;
+      height: 12px;
+      background: url('@/assets/image/music-audio/loading.gif');
+    }
+  }
+
+  ::v-deep(.cache-progress) {
+    width: 0;
+    background: url('@/assets/image/music-audio/progress.png');
+    background-position: right -30px;
+  }
+}

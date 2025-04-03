@@ -1,0 +1,83 @@
+.audio-player {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 951218;
+  width: 100%;
+  min-width: 100vw;
+  height: 0;
+
+  .player-container {
+    position: absolute;
+    top: -7px;
+    left: 0;
+    width: 100%;
+    height: 53px;
+    margin: 0 auto;
+    transition: top .4s;
+  
+    &.mouse-enter {
+      top: -53px;
+    }
+  
+    &.mouse-leave {
+      top: -7px;
+    }
+  
+    &.player-lock {
+      top: -53px;
+    }
+  
+    .updn {
+      position: absolute;
+      top: -14px;
+      right: 15px;
+      z-index: 11;
+      width: 52px;
+      height: 24px;
+      background: url('@/assets/image/music-audio/playbar.png');
+      background-position: 0 -380px;
+  
+      .icon {
+        display: block;
+        width: 18px;
+        height: 18px;
+        margin: 6px 0 0 17px;
+        cursor: pointer;
+        background: url('@/assets/image/music-audio/playbar.png');
+      }
+  
+      .icon-unlock {
+        background-position: -80px -380px;
+  
+        &:hover {
+          background-position: -80px -400px;
+        }
+      }
+  
+      .icon-lock {
+        background-position: -100px -380px;
+  
+        &:hover {
+          background-position: -100px -400px;
+        }
+      }
+    }
+  
+    .bg {
+      height: 53px;
+      background: url('@/assets/image/music-audio/playbar.png');
+      background-position: 0 0;
+      background-repeat: repeat-x;
+    }
+  
+    .hand {
+      position: absolute;
+      top: -10px;
+      width: 100%;
+      height: 20px;
+      cursor: pointer;
+    }
+  }
+}

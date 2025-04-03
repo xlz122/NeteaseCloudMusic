@@ -1,161 +1,157 @@
 .footer {
-  height: 172px;
-  overflow: hidden;
+  width: 100%;
+  height: 325px;
   border-top: 1px solid #d3d3d3;
   background: #f2f2f2;
 
-  .content {
-    position: relative;
+  .f-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     width: 980px;
-    margin: 0 auto;
+    margin: 33px auto 0;
 
-    .content-left {
-      position: absolute;
-      top: 0;
-      left: 0;
-      display: inline-block;
-      width: 520px;
-      padding-top: 15px;
-      line-height: 24px;
-      text-align: left;
+    .item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      min-width: 125px;
 
-      .left-nav {
-        .item {
-          display: inline-block;
+      .icon {
+        width: 45px;
+        height: 45px;
+        background: url('@/assets/image/footer/enter.png') no-repeat;
+        background-size: 220px 220px;
+      }
 
-          .link {
-            color: #999;
-            cursor: pointer;
+      .icon-openplatform {
+        background-position: -170px -5px;
 
-            &:hover {
-              text-decoration: underline;
-            }
-          }
-
-          .line {
-            margin: 0 4px 0 2px;
-            color: #c2c2c2;
-          }
+        &:hover {
+          background-position: -5px -115px;
         }
       }
 
-      .group {
+      .icon-trade {
+        background-position: -5px -170px;
+
+        &:hover {
+          background-position: -60px -170px;
+        }
+      }
+
+      .icon-xstudio {
+        background: url('@/assets/image/footer/xstudio.png') no-repeat;
+        background-size: 45px;
+
+        &:hover {
+          background: url('@/assets/image/footer/xstudio-hover.png') no-repeat;
+          background-size: 45px;
+        }
+      }
+
+      .icon-auth {
+        background-position: -60px -60px;
+
+        &:hover {
+          background-position: -115px -5px;
+        }
+      }
+
+      .icon-musician {
+        background: url('@/assets/image/footer/musician.png') no-repeat;
+        background-size: 45px;
+
+        &:hover {
+          background: url('@/assets/image/footer/musician-hover.png') no-repeat;
+          background-size: 45px;
+        }
+      }
+
+      .icon-cloudsong {
+        background: url('@/assets/image/footer/cloudsong.png') no-repeat;
+        background-size: 45px;
+
+        &:hover {
+          background: url('@/assets/image/footer/cloudsong-hover.png') no-repeat;
+          background-size: 45px;
+        }
+      }
+
+      .icon-reward {
+        background-position: -170px -115px;
+
+        &:hover {
+          background-position: -60px -115px;
+        }
+      }
+
+      .text {
+        font-weight: 400;
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+
+  .f-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 980px;
+    margin: 60px auto 0;
+
+    .group {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .link {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 12px;
         color: #666;
 
-        .sep {
-          margin-left: 14px;
-        }
-
-        .link {
-          color: #666;
-
-          .logo {
-            display: inline-block;
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            margin-right: 2px;
-            vertical-align: -2px;
-            background: url('~@/assets/image/footer/police-logo.png') no-repeat;
-            background-size: cover;
-          }
-        }
-
-        .link:hover {
-          color: #666;
+        &:hover {
           text-decoration: underline;
         }
+
+        .icon {
+          width: 14px;
+          height: 14px;
+          margin: 0 2px 0 4px;
+          background: url('@/assets/image/footer/police-logo.png') no-repeat;
+          background-size: cover;
+        }
+      }
+
+      .divider {
+        margin-inline: 10px;
+        color: #D9D9D9;
+      }
+
+      .text {
+        font-size: 12px;
+        color: #666;
       }
     }
 
-    .content-right {
-      position: absolute;
-      top: 0;
-      right: 0;
-      display: inline-block;
-      margin-top: 17px;
-      vertical-align: top;
+    .report {
+      gap: 14px;
+    }
 
-      .right-nav {
-        display: inline-block;
-        vertical-align: middle;
+    .license {
+      gap: 3px;
+    }
 
-        .item {
-          display: inline-block;
-          width: 72px;
-          height: 70px;
-          margin-left: 16px;
-          color: #666;
-          text-align: center;
+    .copyright {
+      gap: 3px;
 
-          .link {
-            display: inline-block;
-            width: 50px;
-            height: 45px;
-            margin: 0 auto;
-            margin-left: -6px;
-            background: url('~@/assets/image/footer/foot_enter.png') no-repeat;
-            background-size: 110px 552px;
-          }
-
-          .amped-icon {
-            background-position: -63px -456.5px;
-          }
-
-          .auth-icon {
-            background-position: -63px -101px;
-          }
-
-          .musician-icon {
-            background-position: 0 0;
-          }
-
-          .reward-icon {
-            background-position: -60px -50px;
-          }
-
-          .cash-icon {
-            background-position: 0 -101px;
-          }
-
-          .text {
-            display: inline-block;
-            width: 100%;
-            height: 14px;
-            margin: 5px 5px 0;
-            background: url('~@/assets/image/footer/foot_enter_tt.png') no-repeat;
-            background-size: 180px 139px;
-          }
-
-          .amped-text {
-            margin-left: -5px;
-            background-position: 0 -108px;
-          }
-
-          .auth-text {
-            margin-left: 7px;
-            background-position: -1px -91px;
-          }
-
-          .musician-text {
-            margin-left: 8px;
-            background-position: 0 0;
-          }
-
-          .reward-text {
-            margin-left: 10px;
-            background-position: 0 -54px;
-          }
-
-          .cash-text {
-            margin-left: 8px;
-            background-position: -1px -72px;
-          }
-        }
-
-        .first-item {
-          margin-left: 0;
-        }
+      .c-text {
+        margin-right: 10px;
       }
     }
   }

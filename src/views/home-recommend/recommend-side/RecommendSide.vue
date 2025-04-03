@@ -13,7 +13,7 @@
         <li class="item">
           <i class="icon play"></i>
           <span class="text">你播放了</span>
-          <span class="num">{{ userInfo?.listenSongs }}</span>
+          <span class="num">{{ userInfo.listenSongs }}</span>
           <span class="text">首音乐</span>
         </li>
         <li class="item">
@@ -36,25 +36,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script lang="ts" setup>
+import { computed } from 'vue';
 import { useStore } from 'vuex';
-import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
+import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
 
-export default defineComponent({
-  components: {
-    SideDownload
-  },
-  setup() {
-    const $store = useStore();
-
-    const userInfo = computed(() => $store.getters.userInfo);
-
-    return {
-      userInfo
-    };
-  }
-});
+const store = useStore();
+const userInfo = computed(() => store.getters.userInfo);
 </script>
 
 <style lang="less" scoped>

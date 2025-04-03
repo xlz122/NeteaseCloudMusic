@@ -1,0 +1,483 @@
+.song-sheet-info {
+  background-color: #fff;
+
+  .header-info {
+    text-align: left;
+
+    .info-img {
+      position: relative;
+      display: inline-block;
+      width: 199px;
+      height: 200px;
+      vertical-align: top;
+
+      .img {
+        width: 100%;
+        height: 100%;
+      }
+
+      .high-quality {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50px;
+        height: 50px;
+        background: url('@/assets/image/icon2.png');
+        background-position: -80px -220px;
+      }
+
+      .icon {
+        position: absolute;
+        top: -4px;
+        left: -4px;
+        width: 208px;
+        height: 208px;
+        background: url('@/assets/image/my-music/coverall.png') no-repeat;
+        background-position: 0 -1285px;
+      }
+    }
+
+    .info-right {
+      display: inline-block;
+      margin-left: 30px;
+      vertical-align: top;
+
+      .title {
+        display: block;
+        min-height: 27px;
+
+        .icon-title {
+          position: relative;
+          display: inline-block;
+          width: 54px;
+          height: 24px;
+          margin-right: 8px;
+          vertical-align: middle;
+          background: url('@/assets/image/icon.png') no-repeat;
+          background-position: 0 -243px;
+        }
+
+        .icon-title::after {
+          position: absolute;
+          top: 1px;
+          right: 12px;
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          background: url('@/assets/image/my-music/copyright2@3x.png') no-repeat;
+          content: '';
+          background-size: cover;
+        }
+
+        .title-text {
+          display: inline-block;
+          width: 368px;
+          font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
+          font-size: 20px;
+          font-weight: normal;
+          vertical-align: top;
+
+          .text {
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+          }
+        }
+      }
+
+      .info {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin: 10px 0 20px 0;
+
+        .user-avatar {
+          width: 35px;
+          height: 35px;
+          margin-right: 10px;
+          cursor: pointer;
+        }
+
+        .icon-identity {
+          width: 13px;
+          height: 13px;
+        }
+
+        .user-name {
+          max-width: 210px;
+          font-size: 12px;
+          color: #0c73c2;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .user-time {
+          margin-left: 15px;
+          font-size: 12px;
+          color: #999;
+        }
+      }
+
+      .operate-btn {
+        width: 435px;
+
+        .play {
+          display: inline-block;
+          width: 59px;
+          height: 31px;
+          padding-right: 5px;
+          line-height: 31px;
+          vertical-align: top;
+          background: url('@/assets/image/icon-button.png') no-repeat;
+          background-position: right -428px;
+
+          .icon-play {
+            display: inline-block;
+            width: 100%;
+            height: 31px;
+            margin-top: -1px;
+            line-height: 31px;
+            color: #fff;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            background: url('@/assets/image/icon-button.png') no-repeat;
+            background-position: 0 -387px;
+          }
+
+          .icon-play::before {
+            display: inline-block;
+            width: 20px;
+            height: 18px;
+            margin: 0 2px 2px 0;
+            vertical-align: middle;
+            background: url('@/assets/image/icon-button.png') no-repeat;
+            content: '';
+            background-position: 0 -1622px;
+          }
+        }
+
+        .play:hover {
+          background-position: right -510px;
+
+          .icon-play {
+            background-position: 0 -469px;
+          }
+
+          .icon-play::before {
+            background-position: -28px -1622px;
+          }
+        }
+
+        .disable-play,
+        .disable-play:hover {
+          width: 67px;
+          margin-right: 8px;
+          color: #bebebe;
+          background-position: right -934px;
+
+          .icon-play {
+            color: #bebebe;
+            background-position: 0 -891px;
+            cursor: default;
+          }
+
+          .icon-play::before {
+            margin-right: 12px;
+            background-position: 0 9999px;
+          }
+        }
+
+        .play-add {
+          display: inline-block;
+          width: 31px;
+          height: 31px;
+          padding-right: 0;
+          margin-right: 8px;
+          margin-left: -3px;
+          line-height: 30px;
+          vertical-align: top;
+          cursor: pointer;
+          background: url('@/assets/image/icon-button.png') no-repeat;
+          background-position: 0 -1588px;
+        }
+
+        .play-add:hover {
+          background-position: -40px -1588px;
+        }
+
+        .disable-add {
+          display: none;
+        }
+
+        .other {
+          display: inline-block;
+          height: 32px;
+          padding-right: 0;
+          margin-right: 8px;
+          margin-left: -3px;
+          font-family: simsun, '\5b8b\4f53', sans-serif;
+          font-size: inherit;
+          font-style: normal;
+          line-height: 30px;
+          color: #333;
+          text-align: left;
+          vertical-align: middle;
+          cursor: pointer;
+          background: url('@/assets/image/icon-button.png') no-repeat;
+          background-position: right -1192px;
+
+          .icon {
+            display: inline-block;
+            height: 32px;
+            padding-left: 30px;
+            margin-right: 4px;
+            font-family: simsun, '\5b8b\4f53', sans-serif;
+            vertical-align: middle;
+            background: url('@/assets/image/icon-button.png') no-repeat;
+            background-position: 0 -1149px;
+          }
+        }
+
+        .collection {
+          background-position: right -1020px;
+
+          .icon {
+            background-position: 0 -977px;
+          }
+        }
+
+        .share {
+          background-position: right -1020px;
+
+          .icon {
+            background-position: 0 -1225px;
+          }
+        }
+
+        .download {
+          background-position: right -1020px;
+
+          .icon {
+            background-position: 0 -2761px;
+          }
+        }
+
+        .comment {
+          margin-right: 0;
+          background-position: right -1020px;
+
+          .icon {
+            background-position: 0 -1465px;
+          }
+        }
+
+        .collection:hover {
+          background-position: right -1106px;
+
+          .icon {
+            background-position: 0 -1063px;
+          }
+        }
+
+        .share:hover {
+          background-position: right -1106px;
+
+          .icon {
+            background-position: 0 -1268px;
+          }
+        }
+
+        .download:hover {
+          background-position: right -1106px;
+
+          .icon {
+            background-position: 0 -2805px;
+          }
+        }
+
+        .comment:hover {
+          background-position: right -1106px;
+
+          .icon {
+            background-position: 0 -1508px;
+          }
+        }
+
+        .disable-collection,
+        .disable-collection:hover {
+          color: #bebebe;
+          background-position: right -1192px;
+          cursor: default;
+
+          .icon {
+            color: #bebebe;
+            background-position: 0 -1354px;
+          }
+        }
+
+        .disable-share,
+        .disable-share:hover {
+          color: #bebebe;
+          background-position: right -1192px;
+          cursor: default;
+
+          .icon {
+            color: #bebebe;
+            background-position: 0 -1311px;
+          }
+        }
+
+        .disable-download,
+        .disable-download:hover {
+          color: #bebebe;
+          background-position: right -1192px;
+          cursor: default;
+
+          .icon {
+            color: #bebebe;
+            background-position: 0 -3024px;
+          }
+        }
+
+        .disable-comment,
+        .disable-comment:hover {
+          color: #bebebe;
+          background-position: right -1192px;
+          cursor: default;
+
+          .icon {
+            color: #bebebe;
+            background-position: 0 -1551px;
+          }
+        }
+      }
+
+      .tags {
+        margin: 25px 0 5px;
+        line-height: 22px;
+
+        .title {
+          display: inline-block;
+          font-weight: normal;
+          color: #666;
+          vertical-align: top;
+        }
+
+        .list {
+          display: inline-block;
+          vertical-align: top;
+
+          .item {
+            display: inline-block;
+            height: 22px;
+            padding: 0 10px 0 0;
+            margin: 0 10px 3px 0;
+            line-height: 22px;
+            color: #777;
+            text-shadow: 0 1px #fdfdfd;
+            vertical-align: top;
+            cursor: pointer;
+            background: url('@/assets/image/icon-button.png') no-repeat;
+            background-position: right -27px;
+
+            .text {
+              float: left;
+              height: 22px;
+              padding: 0 3px 0 13px;
+              line-height: 22px;
+              background: url('@/assets/image/icon-button.png') no-repeat;
+              background-position: 0 0;
+            }
+          }
+
+          .item:hover {
+            background-position: right -1430px;
+
+            .text {
+              background-position: 0 -1400px;
+            }
+          }
+        }
+      }
+
+      .desc {
+        margin-top: 4px;
+        line-height: 18px;
+        color: #666;
+
+        .title {
+          display: inline-block;
+          font-weight: normal;
+          color: #666;
+          vertical-align: top;
+        }
+
+        .content {
+          display: inline-block;
+          word-break: normal;
+          word-wrap: break-word;
+          vertical-align: top;
+
+          pre {
+            width: 410px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            color: #666;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -pre-wrap;
+            white-space: -o-pre-wrap;
+          }
+        }
+
+        .text-hide {
+          pre {
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+          }
+        }
+      }
+
+      .toggle-btn {
+        padding-right: 30px;
+        margin-top: 8px;
+        text-align: right;
+
+        .text {
+          display: inline-block;
+          color: #0c73c2;
+          vertical-align: middle;
+          cursor: pointer;
+        }
+
+        .icon {
+          display: inline-block;
+          width: 11px;
+          height: 8px;
+          margin-top: 2px;
+          vertical-align: middle;
+          cursor: pointer;
+          background: url('@/assets/image/icon.png');
+          background-position: -65px -520px;
+        }
+
+        .hide {
+          background-position: -45px -520px;
+        }
+      }
+    }
+  }
+}
