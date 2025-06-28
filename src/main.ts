@@ -1,24 +1,23 @@
 import { createApp } from 'vue';
 import App from '@/App.vue';
-import router from '@router/index';
-import store from '@store/index';
-import login from '@components/login/index';
-import musicAudio from '@components/music-audio/index';
-import message from '@components/message/index';
-import collectSong from '@/components/collect-song/index';
-import copyright from '@/components/copyright/index';
-import abnormal from '@/components/abnormal-modal/index';
-import '@/index.less';
-import '@/style/base.less';
+import router from '@/router';
+import store from '@/store';
+import audioPlayer from '@/components/audio-player';
+import message from '@/components/message';
+import loginDialog from '@/components/login-dialog';
+import songCollect from '@/components/song-collect';
+import copyrightDialog from '@/components/copyright-dialog';
+import verifyDialog from '@/components/verify-dialog';
+import '@/index.css';
 
 const app = createApp(App);
 
 app.use(store);
 app.use(router);
-app.use(login);
-app.use(musicAudio);
+app.use(audioPlayer);
 app.use(message);
-app.use(collectSong);
-app.use(copyright);
-app.use(abnormal);
+app.use(loginDialog);
+app.use(songCollect);
+app.use(copyrightDialog);
+app.use(verifyDialog);
 app.mount('#app');

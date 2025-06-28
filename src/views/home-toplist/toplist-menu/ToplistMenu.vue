@@ -4,17 +4,17 @@
     <ul class="menu-list">
       <li
         class="item"
-        :class="{ 'active-item': songSheetId === item?.id }"
+        :class="{ 'active-item': Number(route.query.id) === item.id }"
         v-for="(item, index) in character"
         :key="index"
-        @click="menuChange(item?.id, item?.updateFrequency)"
+        @click="menuChange(item.id)"
       >
         <div class="item-cover">
-          <img class="cover-img" :src="item?.coverImgUrl" alt="" />
+          <img class="cover-img" :src="item.coverImgUrl" alt="" />
         </div>
         <div class="item-info">
-          <div class="info-name">{{ item?.name }}</div>
-          <div class="info-desc">{{ item?.updateFrequency }}</div>
+          <div class="info-name">{{ item.name }}</div>
+          <div class="info-desc">{{ item.updateFrequency }}</div>
         </div>
       </li>
     </ul>
@@ -22,123 +22,52 @@
     <ul class="menu-list">
       <li
         class="item"
-        :class="{ 'active-item': songSheetId === item?.id }"
+        :class="{ 'active-item': item.id === Number(route.query.id) }"
         v-for="(item, index) in media"
         :key="index"
-        @click="menuChange(item?.id, item?.updateFrequency)"
+        @click="menuChange(item.id)"
       >
         <div class="item-cover">
-          <img class="cover-img" :src="item?.coverImgUrl" alt="" />
+          <img class="cover-img" :src="item.coverImgUrl" alt="" />
         </div>
         <div class="item-info">
-          <div class="info-name">{{ item?.name }}</div>
-          <div class="info-desc">{{ item?.updateFrequency }}</div>
+          <div class="info-name">{{ item.name }}</div>
+          <div class="info-desc">{{ item.updateFrequency }}</div>
         </div>
       </li>
     </ul>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
-import { useStore } from 'vuex';
+<script lang="ts" setup>
+import { useRoute } from 'vue-router';
 
-export default defineComponent({
-  props: {
-    character: {
-      type: Array,
-      default: () => []
-    },
-    media: {
-      type: Array,
-      default: () => []
-    }
+type ItemType = {
+  id: number;
+  name: string;
+  coverImgUrl: string;
+  updateFrequency: string;
+};
+
+defineProps({
+  character: {
+    type: Array as () => ItemType[],
+    default: () => []
   },
-  emits: ['menuChange'],
-  setup(props, { emit }) {
-    const $store = useStore();
-
-    const songSheetId = computed<number>(() => $store.getters.songSheetId);
-
-    function menuChange(id: number, updateFrequency: string): void {
-      emit('menuChange', id, updateFrequency);
-    }
-
-    return {
-      songSheetId,
-      menuChange
-    };
+  media: {
+    type: Array as () => ItemType[],
+    default: () => []
   }
 });
+const emits = defineEmits(['menuChange']);
+
+const route = useRoute();
+
+function menuChange(id: number): void {
+  emits('menuChange', id);
+}
 </script>
 
 <style lang="less">
-.toplist-menu {
-  padding-top: 20px;
-
-  .menu-title {
-    padding: 0 10px 12px 15px;
-    margin-top: 20px;
-    font-family: simsun, '\5b8b\4f53', sans-serif;
-    font-size: 14px;
-    color: #000;
-    text-align: left;
-  }
-
-  .menu-list {
-    text-align: left;
-
-    .item {
-      height: 42px;
-      padding: 10px 0 10px 20px;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #f4f2f2;
-      }
-
-      .item-cover {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        margin-right: 10px;
-        vertical-align: middle;
-
-        .cover-img {
-          width: 100%;
-          height: 100%;
-        }
-      }
-
-      .item-info {
-        display: inline-block;
-        vertical-align: middle;
-
-        .info-name {
-          width: 150px;
-          margin-bottom: 6px;
-          overflow: hidden;
-          font-size: 12px;
-          color: #000;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          cursor: pointer;
-        }
-
-        .info-desc {
-          color: #999;
-          cursor: pointer;
-        }
-      }
-    }
-
-    .active-item {
-      background: #e6e6e6;
-
-      &:hover {
-        background: #e6e6e6;
-      }
-    }
-  }
-}
+@import url('./toplist-menu.less');
 </style>
