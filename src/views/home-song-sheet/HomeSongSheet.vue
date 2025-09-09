@@ -2,7 +2,7 @@
   <div class="home-song-sheet">
     <div class="home-song-sheet-container">
       <div class="title">
-        <span class="text">{{ songTitle }}</span>
+        <span class="text">{{ title }}</span>
         <div class="classify-btn" @click="classifyModal">
           <i class="icon">
             <span class="text">选择分类</span>
@@ -17,229 +17,201 @@
       <ul class="list-content">
         <li
           class="item"
-          v-for="(item, index) in songSheetList"
+          v-for="(item, index) in songSheet"
           :key="index"
-          :class="{ 'last-item': songSheetList.length > 2 && !(index % 5) }"
+          :class="{ 'last-item': songSheet.length > 2 && !(index % 5) }"
         >
           <div class="item-top">
             <img
               class="img"
-              :src="`${item?.coverImgUrl}?param=140y140`"
+              :src="`${item.coverImgUrl}?param=140y140`"
               alt=""
-              @click="jumpSongSheetDetail(item?.id)"
+              @click="jumpSongSheetDetail(item.id)"
             />
+            <i class="high-quality" v-if="item.highQuality"></i>
             <div class="info">
               <i class="info-icon"></i>
-              <span class="num">{{ item?.playCount }}</span>
-              <i
-                class="info-icon-right"
-                title="播放"
-                @click="songSheetToPlayListPlay(item?.id)"
-              ></i>
+              <span class="num">{{ formatLargeNumber(item.playCount) }}</span>
+              <i class="info-icon-right" title="播放" @click="songSheetToPlaylistPlay(item.id)"></i>
             </div>
           </div>
           <div class="item-bottom">
-            <span
-              class="text"
-              :title="item.name"
-              @click="jumpSongSheetDetail(item?.id)"
-            >
-              {{ item?.name }}
+            <span class="text" :title="item.name" @click="jumpSongSheetDetail(item.id)">
+              {{ item.name }}
             </span>
             <div class="desc">
               <span class="by">by</span>
               <span
                 class="text"
-                :title="item?.creator?.nickname"
-                @click="jumpUserProfile(item?.creator?.userId)"
+                :title="item.creator?.nickname"
+                @click="jumpUserProfile(item.creator?.userId)"
               >
-                {{ item?.creator?.nickname }}
+                {{ item.creator?.nickname }}
               </span>
-              <template v-if="item?.creator?.avatarDetail?.identityIconUrl">
-                <img
-                  class="desc-img"
-                  :src="item?.creator?.avatarDetail?.identityIconUrl"
-                  alt=""
-                />
+              <template v-if="item.creator?.avatarDetail?.identityIconUrl">
+                <img class="desc-img" :src="item.creator?.avatarDetail?.identityIconUrl" alt="" />
               </template>
             </div>
           </div>
         </li>
       </ul>
       <Page
-        v-if="songParams.total > songParams.limit"
-        :page="songParams.offset"
-        :pageSize="songParams.limit"
-        :total="songParams.total"
-        @changPage="changPage"
+        v-if="params.total > params.limit"
+        :page="params.offset"
+        :pageSize="params.limit"
+        :total="params.total"
+        @onChange="handlePageChange"
       />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, reactive, watch, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+<script lang="ts" setup>
+import { ref, reactive, watch, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import useMusicToPlayList from '@/common/useMusicToPlayList';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { bigNumberTransform } from '@utils/utils';
-import { topPlaylist } from '@api/home-song-sheet';
-import { playlistTrack } from '@api/song-sheet-detail';
-import type { ResponseType } from '@/types/types';
-import type { SongType } from '@/common/audio';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
+import { formatLargeNumber } from '@/utils/utils';
+import { topPlaylist } from '@/api/home-song-sheet';
+import { playlistTrack } from '@/api/song-sheet-detail';
+import type { ResponseType } from '@/types';
+import type { SongType } from '@/hooks/useFormatSong';
+import Page from '@/components/page/Page.vue';
 import ClassifyModal from './classify-modal/ClassifyModal.vue';
-import Page from '@components/page/Page.vue';
 
-type SongParams = {
-  order: string;
-  cat: string;
-  offset: number;
-  limit: number;
-  total: number;
+type SongSheetItem = {
+  id: number;
+  name: string;
+  coverImgUrl: string;
+  highQuality: boolean;
+  playCount: number;
+  creator: {
+    userId: number;
+    nickname: string;
+    avatarDetail: {
+      identityIconUrl: string;
+    };
+  };
 };
 
-export default defineComponent({
-  name: 'home-song-sheet',
-  components: {
-    ClassifyModal,
-    Page
+const route = useRoute();
+const router = useRouter();
+const store = useStore();
+
+// 获取热门歌单
+const params = reactive({
+  order: 'hot',
+  cat: '全部',
+  offset: 1,
+  limit: 50,
+  total: 0
+});
+const title = ref('全部');
+const songSheet = ref<SongSheetItem[]>([]);
+
+function getTopPlaylist(): void {
+  topPlaylist({
+    order: params.order,
+    cat: params.cat,
+    offset: (params.offset - 1) * params.limit,
+    limit: params.limit
+  })
+    .then((res: ResponseType) => {
+      if (res?.code !== 200) {
+        return;
+      }
+
+      params.total = res.total ?? 0;
+      title.value = res.cat ?? '';
+      songSheet.value = res.playlists ?? [];
+    })
+    .catch(() => ({}));
+}
+
+watch(
+  () => route.query.name,
+  () => {
+    if (!route.query.name) {
+      params.cat = '全部';
+    }
+    if (route.query.name) {
+      params.cat = String(route.query.name);
+    }
+
+    getTopPlaylist();
   },
-  setup() {
-    const $route = useRoute();
-    const $store = useStore();
+  { immediate: true }
+);
 
-    const songTitle = ref<string>('全部');
-    const songSheetList = ref<unknown[]>([]);
-    const songParams = reactive<SongParams>({
-      order: 'hot',
-      cat: '全部',
-      offset: 1,
-      limit: 50,
-      total: 0
-    });
-    // 获取热门歌单数据
-    function getTopPlaylist(): void {
-      topPlaylist({
-        order: songParams.order,
-        cat: songParams.cat,
-        offset: (songParams.offset - 1) * songParams.limit,
-        limit: songParams.limit
-      })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            songTitle.value = res.cat;
-            // 统计数格式化
-            res?.playlists.forEach((item: { playCount: number | string }) => {
-              item.playCount = bigNumberTransform(item.playCount);
-            });
-            songSheetList.value = res.playlists;
-            songParams.total = res.total;
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    watch(
-      () => $route.params,
-      (curVal: { name: string }) => {
-        songParams.cat = '全部';
-        if (curVal) {
-          songParams.cat = curVal.name;
-        }
-        getTopPlaylist();
-      },
-      {
-        immediate: true
-      }
-    );
-
-    // 热门
-    function hotSong(): boolean | undefined {
-      if (songParams.cat === '全部') {
-        return false;
-      }
-
-      songParams.cat = '全部';
-      songParams.offset = 1;
-      getTopPlaylist();
-    }
-
-    // 分类弹框
-    const classifyShow = ref<boolean>(false);
-    function classifyModal(): void {
-      classifyShow.value = !classifyShow.value;
-    }
-
-    // 分类点击
-    function catChange(name: string): boolean | undefined {
-      if (songParams.cat === '全部' && name === '全部') {
-        return false;
-      }
-      songParams.cat = name;
-      songParams.offset = 1;
-      getTopPlaylist();
-      classifyShow.value = false;
-    }
-
-    // 歌单歌曲添加到播放器并播放
-    function songSheetToPlayListPlay(id: number): void {
-      playlistTrack({ id })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            if (res?.songs.length === 0) {
-              return false;
-            }
-
-            // 截取前20首歌
-            res.songs = res.songs.slice(0, 20);
-
-            // 过滤无版权
-            const songList: Partial<SongType>[] = res?.songs.filter(
-              (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
-            );
-
-            usePlaySingleMusic(songList[0]);
-            useMusicToPlayList({ music: songList, clear: true });
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 分页
-    function changPage(current: number): void {
-      songParams.offset = current;
-      getTopPlaylist();
-    }
-
-    // 跳转歌单详情
-    function jumpSongSheetDetail(id: number): void {
-      $store.commit('jumpSongSheetDetail', id);
-    }
-
-    // 跳转用户资料
-    function jumpUserProfile(id: number): void {
-      $store.commit('jumpUserProfile', id);
-    }
-
-    onMounted(() => {
-      $store.commit('setMenuIndex', 0);
-    });
-
-    return {
-      songTitle,
-      songSheetList,
-      songParams,
-      hotSong,
-      classifyShow,
-      classifyModal,
-      catChange,
-      songSheetToPlayListPlay,
-      changPage,
-      jumpSongSheetDetail,
-      jumpUserProfile
-    };
+// 热门
+function hotSong(): void {
+  if (params.cat === '全部') {
+    return;
   }
+
+  params.cat = '全部';
+  params.offset = 1;
+  getTopPlaylist();
+}
+
+// 分类弹框
+const classifyShow = ref(false);
+
+function classifyModal(): void {
+  classifyShow.value = !classifyShow.value;
+}
+
+// 分类点击
+function catChange(name: string): void {
+  if (params.cat === '全部' && name === '全部') {
+    return;
+  }
+
+  params.cat = name;
+  params.offset = 1;
+  getTopPlaylist();
+  classifyShow.value = false;
+}
+
+// 歌单添加到播放列表并播放
+function songSheetToPlaylistPlay(id: number): void {
+  playlistTrack({ id })
+    .then((res: ResponseType) => {
+      if (res?.code !== 200) {
+        return;
+      }
+      if (res.songs?.length === 0) {
+        return;
+      }
+
+      // 过滤无版权
+      res.songs = res.songs?.slice?.(0, 20) ?? [];
+      const songList: SongType[] = res.songs?.filter?.(
+        (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
+      );
+
+      usePlaySong(songList[0]);
+      useSongAddPlaylist(songList, { clear: true });
+    })
+    .catch(() => ({}));
+}
+
+function handlePageChange(current: number): void {
+  params.offset = current;
+  getTopPlaylist();
+}
+
+function jumpSongSheetDetail(id: number): void {
+  router.push({ path: '/song-sheet-detail', query: { id } });
+}
+
+function jumpUserProfile(id: number): void {
+  router.push({ path: '/user-profile', query: { id } });
+}
+
+onMounted(() => {
+  store.commit('setMenuIndex', 0);
 });
 </script>
 

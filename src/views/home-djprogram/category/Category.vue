@@ -1,161 +1,125 @@
 <template>
   <div class="category-box">
-    <ul class="category-list" v-show="mainListShow">
+    <ul class="category-list" v-show="mainMenuShow">
       <li
         class="item"
-        v-for="(item, index) in category?.main"
+        v-for="(item, index) in menu.main"
         :key="index"
-        :class="[
-          { 'last-item': !(index % 9) },
-          { 'active-item': item.id === categorId }
-        ]"
-        @click="djCategorChange(item?.id)"
+        :class="{ 'active-item': item.id === categoryId }"
+        @click="categoryChange(item.id)"
       >
         <div class="item-cover">
-          <i
-            class="icon"
-            :style="{ backgroundImage: `url(${item?.picWebUrl})` }"
-          ></i>
-          <span class="text">{{ item?.name }}</span>
+          <i class="icon" :style="{ backgroundImage: `url(${item.picWebUrl})` }"></i>
+          <span class="text">{{ item.name }}</span>
         </div>
       </li>
     </ul>
-    <ul class="category-list" v-show="!mainListShow">
+    <ul class="category-list" v-show="!mainMenuShow">
       <li
         class="item"
-        v-for="(item, index) in category?.second"
+        v-for="(item, index) in menu.second"
         :key="index"
-        :class="[
-          { 'last-item': !(index % 9) },
-          { 'active-item': item.id === categorId }
-        ]"
-        @click="djCategorChange(item?.id)"
+        :class="{ 'active-item': item.id === categoryId }"
+        @click="categoryChange(item.id)"
       >
         <div class="item-cover">
-          <i
-            class="icon"
-            :style="{ backgroundImage: `url(${item?.picWebUrl})` }"
-          ></i>
-          <span class="text">{{ item?.name }}</span>
+          <i class="icon" :style="{ backgroundImage: `url(${item.picWebUrl})` }"></i>
+          <span class="text">{{ item.name }}</span>
         </div>
       </li>
       <li class="item">
-        <a
-          class="item-cover"
-          href="https://music.163.com/#/topic?id=18652232"
-          target="_blank"
-        >
+        <a class="item-cover" href="https://music.163.com/#/topic?id=18652232" target="_blank">
           <i class="icon problem"></i>
           <span class="text">常见问题</span>
         </a>
       </li>
       <li class="item">
-        <a
-          class="item-cover"
-          href="https://music.163.com/st/radioweb/apply#/"
-          target="_blank"
-        >
+        <a class="item-cover" href="https://music.163.com/st/radioweb/apply#/" target="_blank">
           <i class="icon anchor"></i>
           <span class="text anchor-text">我要做主播</span>
         </a>
       </li>
     </ul>
-    <span
-      class="btn prev-btn"
-      :class="{ 'disable-btn': mainListShow }"
-      @click="prev"
-    ></span>
-    <span
-      class="btn next-btn"
-      :class="{ 'disable-btn': !mainListShow }"
-      @click="next"
-    ></span>
+    <span class="btn prev-btn" :class="{ 'disable-btn': mainMenuShow }" @click="prev"></span>
+    <span class="btn next-btn" :class="{ 'disable-btn': !mainMenuShow }" @click="next"></span>
     <ul class="dotpage">
-      <li
-        class="dot"
-        :class="{ 'active-dot': dotIndex === 0 }"
-        @click="dotChange(0)"
-      ></li>
-      <li
-        class="dot"
-        :class="{ 'active-dot': dotIndex === 1 }"
-        @click="dotChange(1)"
-      ></li>
+      <li class="dot" :class="{ 'active-dot': dotIndex === 0 }" @click="dotChange(0)"></li>
+      <li class="dot" :class="{ 'active-dot': dotIndex === 1 }" @click="dotChange(1)"></li>
     </ul>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, ref } from 'vue';
-import { djCatelist } from '@api/home-djprogram';
-import type { ResponseType } from '@/types/types';
+<script lang="ts" setup>
+import { ref, reactive } from 'vue';
+import { djCatelist } from '@/api/home-djprogram';
+import type { ResponseType } from '@/types';
 
-export default defineComponent({
-  name: 'HomeDjprogramCategory',
-  emits: ['djCategorChange'],
-  setup(props, { emit }) {
-    const category = reactive({
-      main: [],
-      second: []
-    });
-    // 获取电台分类列表
-    function getDjCategory(): void {
-      djCatelist()
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            category.main = res.categories.slice(0, 18);
-            if (res.categories.length > 18) {
-              category.second = res.categories.slice(18, 34);
-            }
-          }
-        })
-        .catch(() => ({}));
-    }
-    getDjCategory();
+type Menu = {
+  main: MenuItem[];
+  second: MenuItem[];
+};
 
-    const categorId = ref<number>(-1);
-    // 详情点击
-    function djCategorChange(id: number): void {
-      categorId.value = id;
-      emit('djCategorChange', id);
-    }
+type MenuItem = {
+  id: number;
+  name: string;
+  picWebUrl: string;
+};
 
-    const mainListShow = ref<boolean>(true);
-    const dotIndex = ref<number>(0);
+const emits = defineEmits(['categoryChange']);
 
-    // 左右切换
-    function prev(): void {
-      mainListShow.value = true;
-      dotIndex.value = 0;
-    }
-
-    function next(): void {
-      mainListShow.value = false;
-      dotIndex.value = 1;
-    }
-
-    // 小圆点
-    function dotChange(index: number): void {
-      dotIndex.value = index;
-      if (index === 0) {
-        mainListShow.value = true;
-      } else {
-        mainListShow.value = false;
-      }
-    }
-
-    return {
-      category,
-      categorId,
-      djCategorChange,
-      mainListShow,
-      prev,
-      next,
-      dotIndex,
-      dotChange
-    };
-  }
+// 获取电台分类列表
+const menu = reactive<Menu>({
+  main: [],
+  second: []
 });
+
+function getMenuList(): void {
+  djCatelist()
+    .then((res: ResponseType) => {
+      if (res?.code !== 200) {
+        return;
+      }
+
+      menu.main = res.categories?.slice?.(0, 18) ?? [];
+      menu.second = res.categories?.slice?.(18, 34) ?? [];
+    })
+    .catch(() => ({}));
+}
+getMenuList();
+
+// 分类点击
+const categoryId = ref(-1);
+
+function categoryChange(id: number): void {
+  categoryId.value = id;
+  emits('categoryChange', id);
+}
+
+// 左右切换
+const mainMenuShow = ref(true);
+const dotIndex = ref(0);
+
+function prev(): void {
+  dotIndex.value = 0;
+  mainMenuShow.value = true;
+}
+
+function next(): void {
+  dotIndex.value = 1;
+  mainMenuShow.value = false;
+}
+
+// 小圆点
+function dotChange(index: number): void {
+  if (index === 0) {
+    dotIndex.value = index;
+    mainMenuShow.value = true;
+    return;
+  }
+
+  dotIndex.value = index;
+  mainMenuShow.value = false;
+}
 </script>
 
 <style lang="less" scoped>

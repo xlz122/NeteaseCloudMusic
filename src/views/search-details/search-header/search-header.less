@@ -1,51 +1,49 @@
 .search-header {
   position: relative;
-  display: inline-block;
-  text-align: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 
   .serch-header-input {
-    position: relative;
-    z-index: 10;
     width: 420px;
     height: 40px;
-    margin: 0 auto;
-    background: url('~@/assets/image/song-sheet/song-sheet-detail-download.png');
+    background: url('@/assets/image/song-sheet/icon-download.png');
     background-position: 0 0;
 
     .search-input {
-      width: 350px;
+      display: inline-block;
+      vertical-align: middle;
+      width: 348px;
       height: 17px;
-      padding: 0;
-      margin: 12px 0 0 20px;
-      background: #fff;
+      margin-left: 20px;
+      background-color: #fff;
       border: none;
       outline: none;
     }
 
     .search-icon {
-      position: absolute;
       display: inline-block;
-      width: 50px;
+      vertical-align: middle;
+      width: 52px;
       height: 40px;
       cursor: pointer;
 
       &:hover {
-        background: url('~@/assets/image/song-sheet/song-sheet-detail-download.png');
-        background-position: -430px 0;
+        background: url('@/assets/image/song-sheet/icon-download.png');
+        background-position: -428px 0;
       }
     }
   }
 
   .search-list {
     position: absolute;
-    top: 43px;
-    left: 0;
+    top: 42px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 120;
     width: 420px;
-    line-height: normal;
-    text-shadow: 0 1px 0 rgb(255 255 255 / 90%);
-    background: #fff;
     border: 1px solid #bebebe;
+    background-color: #fff;
     border-radius: 4px;
     box-sizing: border-box;
     box-shadow: 0 4px 7px #555;
@@ -54,33 +52,32 @@
       height: 17px;
       padding: 11px 10px;
       border-bottom: 1px solid #e2e2e2;
+      font-size: 12px;
       color: #666;
       cursor: pointer;
-    }
 
-    .item-note:hover {
-      text-decoration: underline;
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     .item {
-      display: block;
+      display: flex;
+      flex-direction: row;
 
-      .title {
-        display: inline-block;
+      .item-title {
+        display: flex;
+        flex-direction: row;
+        gap: 3px;
         width: 52px;
-        padding: 10px 0 0 10px;
-        font-weight: normal;
-        line-height: 17px;
-        vertical-align: top;
+        margin: 10px 0 0 10px;
 
-        .title-icon {
+        .icon {
           display: inline-block;
+          vertical-align: top;
           width: 14px;
           height: 15px;
-          margin-right: 3px;
-          overflow: hidden;
-          vertical-align: middle;
-          background: url('~@/assets/image/icon.png') no-repeat 0 9999px;
+          background: url('@/assets/image/icon.png') no-repeat;
         }
 
         .songs-icon {
@@ -99,45 +96,44 @@
           background-position: -50px -320px;
         }
 
-        .title-text {
-          font-size: inherit;
-          font-style: normal;
-          text-align: left;
+        .text {
+          display: inline-block;
+          vertical-align: top;
+          font-size: 12px;
+          color: #333;
         }
       }
 
       .f-cb {
-        display: inline-block;
         width: calc(100% - 63px);
         padding: 6px 0 5px;
-        vertical-align: top;
         border-left: 1px solid #e2e2e2;
         border-bottom: 1px solid #e2e2e2;
 
-        .f-cb-i {
-          display: block;
+        .f-cb-li {
           width: 100%;
-          overflow: hidden;
           line-height: 24px;
+          font-size: 12px;
           color: #000;
+          overflow: hidden;
           text-indent: 12px;
           text-overflow: ellipsis;
           word-wrap: normal;
           white-space: nowrap;
           cursor: pointer;
 
+          &:hover {
+            background-color: #ddd;
+          }
+
           .f-cb-text {
             color: #0c73c2;
           }
         }
-
-        .f-cb-i:hover {
-          background-color: #ddd;
-        }
       }
 
       .f-cb-odd {
-        background: #f9f8f8;
+        background-color: #f9f8f8;
       }
     }
   }

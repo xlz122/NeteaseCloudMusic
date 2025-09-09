@@ -13,11 +13,7 @@
         <div class="other-download" @click="otherDownload">
           <i class="other-icon"></i>
           <p class="other-text">其他操作系统客户端</p>
-          <ul
-            class="other-download-modal"
-            v-if="otherDownloadModal"
-            @click.stop
-          >
+          <ul class="other-download-modal" v-if="otherDownloadModal" @click.stop>
             <li class="item">
               <i class="icon android"></i>
               <span class="text">Android 版</span>
@@ -66,11 +62,7 @@
         </div>
         <div class="main-pc">
           <div class="title">在电脑上听</div>
-          <img
-            class="img"
-            src="../../assets/image/download/download-pc.png"
-            alt=""
-          />
+          <img class="img" src="../../assets/image/download/pc.png" alt="" />
           <div class="type">
             <span class="info">
               <i class="icon mac"></i>
@@ -87,11 +79,7 @@
         </div>
         <div class="main-mobile">
           <div class="title">在手机上听</div>
-          <img
-            class="img"
-            src="../../assets/image/download/download-mobile.png"
-            alt=""
-          />
+          <img class="img" src="../../assets/image/download/mobile.png" alt="" />
           <div class="type">
             <span class="info">
               <i class="icon iphone"></i>
@@ -117,20 +105,14 @@
           <p class="text">也能感受到纤毫毕现的CD音质，更能免费离线收听</p>
         </div>
         <div class="img">
-          <img
-            src="../../assets/image/download/quku.jpg"
-            alt="千万曲库  首首CD音质"
-          />
+          <img src="../../assets/image/download/quku.jpg" alt="千万曲库  首首CD音质" />
         </div>
       </div>
     </div>
     <div class="group star">
       <div class="group-container">
         <div class="img">
-          <img
-            src="../../assets/image/download/star.jpg"
-            alt="千位明星  亲自推荐音乐"
-          />
+          <img src="../../assets/image/download/star.jpg" alt="千位明星  亲自推荐音乐" />
         </div>
         <div class="content">
           <h3 class="title">千位明星 亲自推荐音乐</h3>
@@ -155,20 +137,14 @@
           <p class="text">分享，发现更多全新好音乐</p>
         </div>
         <div class="img">
-          <img
-            src="../../assets/image/download/social-contact.jpg"
-            alt="社交关系  发现全新音乐"
-          />
+          <img src="../../assets/image/download/social-contact.jpg" alt="社交关系  发现全新音乐" />
         </div>
       </div>
     </div>
     <div class="group real-time">
       <div class="group-container">
         <div class="img">
-          <img
-            src="../../assets/image/download/real-time.jpg"
-            alt="手机电脑  歌单实时同步"
-          />
+          <img src="../../assets/image/download/real-time.jpg" alt="手机电脑  歌单实时同步" />
         </div>
         <div class="content">
           <h3 class="title">手机电脑 歌单实时同步</h3>
@@ -193,7 +169,7 @@
         </div>
         <div class="img">
           <img
-            src="../../assets/image/download/distinguish.jpg"
+            src="../../assets/image/download/recognizing-music.jpg"
             alt="听歌识曲  助你疯狂猜歌"
           />
         </div>
@@ -202,60 +178,47 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted } from 'vue';
+<script lang="ts" setup>
+import { ref, onMounted, onUnmounted } from 'vue';
 
-export default defineComponent({
-  name: 'DownloadView',
-  setup() {
-    // 其他操作系统
-    const otherDownloadModal = ref<boolean>(false);
-    function otherDownload(): void {
-      otherDownloadModal.value = !otherDownloadModal.value;
+// 其他操作系统
+const otherDownloadModal = ref(false);
+
+function otherDownload(): void {
+  otherDownloadModal.value = !otherDownloadModal.value;
+}
+
+// 下载电脑/手机端
+const downloadQrcode = ref(false);
+const isPcDownLoad = ref(false);
+
+function downloadPc(): void {
+  downloadQrcode.value = true;
+  isPcDownLoad.value = true;
+}
+
+function downloadMobile(): void {
+  downloadQrcode.value = true;
+  isPcDownLoad.value = false;
+}
+
+onMounted(() => {
+  document.addEventListener('click', function (e: MouseEvent): void {
+    const target = e.target as HTMLElement;
+    // pc、mobile下载
+    if (
+      target.className !== 'download-qrcode' &&
+      target.className !== 'qrcode-img' &&
+      target.className !== 'download-btn' &&
+      target.className !== 'text'
+    ) {
+      downloadQrcode.value = false;
     }
+  });
+});
 
-    // 下载电脑，手机端
-    const downloadQrcode = ref<boolean>(false);
-    // 是否pc下载
-    const isPcDownLoad = ref<boolean>(false);
-    function downloadPc(): void {
-      downloadQrcode.value = true;
-      isPcDownLoad.value = true;
-    }
-
-    function downloadMobile(): void {
-      downloadQrcode.value = true;
-      isPcDownLoad.value = false;
-    }
-
-    onMounted(() => {
-      document.addEventListener('click', function (e: MouseEvent): void {
-        const target = e.target as HTMLElement;
-        // pc mobile下载
-        if (
-          target.className !== 'download-qrcode' &&
-          target.className !== 'qrcode-img' &&
-          target.className !== 'download-btn' &&
-          target.className !== 'text'
-        ) {
-          downloadQrcode.value = false;
-        }
-      });
-    });
-
-    onUnmounted(() => {
-      document.removeEventListener('click', () => ({}));
-    });
-
-    return {
-      otherDownload,
-      otherDownloadModal,
-      downloadQrcode,
-      isPcDownLoad,
-      downloadPc,
-      downloadMobile
-    };
-  }
+onUnmounted(() => {
+  document.removeEventListener('click', () => ({}));
 });
 </script>
 

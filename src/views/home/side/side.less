@@ -1,89 +1,85 @@
-.side {
+.home-side {
+  width: 100%;
+
   .side-content {
     width: 100%;
     margin-top: 15px;
 
-    .side-title {
-      position: relative;
+    .title {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
       height: 23px;
       margin: 0 20px;
       border-bottom: 1px solid #ccc;
-      color: #333;
-      text-align: left;
+
+      .text {
+        font-size: 12px;
+        color: #333;
+      }
 
       .link {
-        position: absolute;
-        top: 45%;
-        right: 0;
-        font-size: 12px;
         font-weight: normal;
+        font-size: 12px;
         color: #666;
         cursor: pointer;
-        transform: translateY(-50%);
 
         &:hover {
-          color: #666;
           text-decoration: underline;
         }
       }
     }
 
-    .anchor-title {
-      font-size: 12px;
-    }
-
     .list {
-      margin: 6px 0 14px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin: 20px 20px 14px 20px;
 
       .item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         width: 210px;
         height: 62px;
-        margin-top: 14px;
+        background-color: #fafafa;
         cursor: pointer;
-        background: #fafafa;
 
         &:hover {
-          background: #f4f4f4;
+          background-color: #f4f4f4;
         }
 
-        .item-img {
-          display: inline-block;
+        .img {
           width: 62px;
           height: 62px;
-          vertical-align: middle;
-
-          .img {
-            width: 62px;
-            height: 62px;
-          }
         }
 
         .info {
-          display: inline-block;
-          width: 133px;
-          height: 60px;
-          padding-left: 14px;
-          text-align: left;
-          vertical-align: middle;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 8px;
+          width: calc(100% - 62px);
+          height: 62px;
+          padding-inline: 14px;
           border: 1px solid #e9e9e9;
           border-left: none;
+          box-sizing: border-box;
 
-          .info-title {
-            width: 90%;
-            margin-top: 8px;
-            overflow: hidden;
+          .info-name {
+            max-width: 100%;
             font-size: 14px;
             color: #333;
+            overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
           }
 
-          .info-desc {
-            width: 90%;
-            margin-top: 8px;
-            overflow: hidden;
+          .info-description {
+            max-width: 100%;
             font-size: 12px;
             color: #666;
+            overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
           }
@@ -92,48 +88,42 @@
     }
 
     .anchor-list {
-      display: inline-block;
-      margin: 20px 0 0;
-      text-align: left;
-      vertical-align: top;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 20px;
 
       .anchor-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
         width: 210px;
-        height: 50px;
-        margin-top: 0;
-        background: #fff;
+        height: 40px;
+        background-color: #fff;
 
-        &:hover {
-          background: #fff;
-        }
-
-        .item-img {
-          display: inline-block;
+        .img {
           width: 40px;
           height: 40px;
-          vertical-align: middle;
           cursor: pointer;
-
-          .img {
-            width: 40px;
-            height: 40px;
-          }
         }
 
         .info {
-          display: inline-block;
-          width: 160px;
-          height: auto;
-          padding: 1px 0;
-          vertical-align: middle;
-          border: none;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 4px;
+          width: calc(100% - 40px);
+          height: 40px;
+          padding-inline: 10px;
+          box-sizing: border-box;
 
-          .info-title {
-            margin-top: 2px;
-            margin-left: 14px;
+          .info-name {
+            max-width: 100%;
             font-size: 12px;
-            font-weight: normal;
-            color: #000;
+            color: #333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
             cursor: pointer;
 
             &:hover {
@@ -141,13 +131,11 @@
             }
           }
 
-          .info-desc {
-            width: 90%;
-            margin-top: 3px;
-            margin-left: 14px;
-            overflow: hidden;
+          .info-description {
+            max-width: 100%;
             font-size: 12px;
             color: #666;
+            overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
           }
@@ -158,36 +146,35 @@
     .apply-link {
       display: inline-block;
       height: 31px;
-      padding: 0 5px 0 0;
-      margin-bottom: 30px;
-      overflow: hidden;
       line-height: 31px;
+      padding: 0 5px 0 0;
+      margin: 0 20px 30px;
+      background: url('@/assets/image/icon-button.png');
+      background-position: right -100px;
+      font-size: 12px;
       color: #333;
       text-align: center;
-      white-space: nowrap;
-      cursor: pointer;
-      background: url('~@/assets/image/icon-button.png');
+      overflow: hidden;
       border-radius: 4px;
-      background-position: right -100px;
+      cursor: pointer;
+
+      &:hover {
+        background-position: right -182px;
+
+        .apply-icon {
+          background-position: 0 -141px;
+        }
+      }
 
       .apply-icon {
         display: inline-block;
         width: 170px;
         padding: 0 15px 0 20px;
+        background: url('@/assets/image/icon-button.png');
+        background-position: 0 -59px;
+        font-style: normal;
         font-weight: bold;
         color: #333;
-        background: url('~@/assets/image/icon-button.png');
-        background-position: 0 -59px;
-      }
-
-      &:hover {
-        color: #333;
-        background-position: right -182px;
-
-        .apply-icon {
-          color: #333;
-          background-position: 0 -141px;
-        }
       }
     }
   }
