@@ -5,15 +5,13 @@
         <i class="icon"></i>
         <span class="text">个性化推荐如何工作</span>
       </div>
-      <p class="top-desc">
-        它聪明、熟悉每个用户的喜好，从海量音乐中挑选出你可能喜欢的音乐。
-      </p>
+      <p class="top-desc">它聪明、熟悉每个用户的喜好，从海量音乐中挑选出你可能喜欢的音乐。</p>
       <p class="top-desc">它通过你每一次操作来记录你的口味</p>
       <ul class="top-list">
         <li class="item">
           <i class="icon play"></i>
           <span class="text">你播放了</span>
-          <span class="num">{{ userInfo?.listenSongs }}</span>
+          <span class="num">{{ userInfo.listenSongs }}</span>
           <span class="text">首音乐</span>
         </li>
         <li class="item">
@@ -36,25 +34,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script lang="ts" setup>
+import { computed } from 'vue';
 import { useStore } from 'vuex';
-import SideDownload from '@views/song-sheet-detail/side-downlod/SideDownload.vue';
+import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
 
-export default defineComponent({
-  components: {
-    SideDownload
-  },
-  setup() {
-    const $store = useStore();
-
-    const userInfo = computed(() => $store.getters.userInfo);
-
-    return {
-      userInfo
-    };
-  }
-});
+const store = useStore();
+const userInfo = computed(() => store.getters.userInfo);
 </script>
 
 <style lang="less" scoped>

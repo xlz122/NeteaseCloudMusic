@@ -1,14 +1,12 @@
-import axios from '@utils/axios';
+import axios from '@/utils/axios';
 import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取歌单分类
- * @param { Number } timestamp - 防止接口缓存
  */
 export const playlistCatlist = (): AxiosPromise => {
-  const params = {
-    timestamp: new Date().getTime()
-  };
+  const params = { timestamp: new Date().getTime() };
+
   return axios.request({
     url: '/playlist/catlist',
     method: 'get',
@@ -16,28 +14,22 @@ export const playlistCatlist = (): AxiosPromise => {
   });
 };
 
-/**
- * @description 获取歌单列表
- * @param { Number } timestamp - 防止接口缓存
- * @param { String } order - 可选值为 'new' 和 'hot', 分别对应最新和最热 , 默认为 'hot'
- * @param { String } cat - tag, 比如 " 华语 "、" 古风 " 、" 欧美 "、" 流行 ", 默认为 "全部"
- * @param { Number } offset - 页数，默认为 0
- * @param { Number } limit - 取出数量，默认为 50
- */
-
 type TopPlaylist = {
   order?: string;
   cat?: string;
-  offset: number;
-  limit: number;
+  offset?: number;
+  limit?: number;
 };
 
-export const topPlaylist = ({
-  order,
-  cat,
-  offset,
-  limit
-}: TopPlaylist): AxiosPromise => {
+/**
+ * @description 获取歌单列表
+ * @param { Object } params
+ * @param { string } [params.order] - 可选值为 'new' 和 'hot', 分别对应最新和最热 , 默认为 'hot'
+ * @param { string } [params.cat] - tag, 比如 " 华语 "、" 古风 " 、" 欧美 "、" 流行 ", 默认为 "全部"
+ * @param { number } [params.offset] - 页数(默认为0)
+ * @param { number } [params.limit] - 偏移量(默认为50)
+ */
+export const topPlaylist = ({ order, cat, offset, limit }: TopPlaylist): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     order,
@@ -45,6 +37,7 @@ export const topPlaylist = ({
     offset,
     limit
   };
+
   return axios.request({
     url: '/top/playlist',
     method: 'get',

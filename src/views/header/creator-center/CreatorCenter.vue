@@ -5,22 +5,14 @@
       <p class="desc">· 请选择身份进入管理平台 ·</p>
       <ul class="list">
         <li class="item musician">
-          <a
-            class="link"
-            href="https://music.163.com/st/musician"
-            target="_blank"
-          >
+          <a class="link" href="https://music.163.com/st/musician" target="_blank">
             <img class="icon" :src="musicianSvg" alt="" />
             <p class="typename">网易音乐人</p>
             <p class="intro">欢迎所有音乐“妄想”</p>
           </a>
         </li>
         <li class="item talent">
-          <a
-            class="link"
-            href="https://music.163.com/st/creator"
-            target="_blank"
-          >
+          <a class="link" href="https://music.163.com/st/creator" target="_blank">
             <img class="icon" :src="talentSvg" alt="" />
             <p class="typename">云音乐达人</p>
             <p class="intro">用内容创作玩转音乐</p>
@@ -51,12 +43,12 @@
   </div>
   <div class="creator-center" v-else>
     <div class="creator-center-login">
-      <p class="login-title">请用你的云音乐帐号登录</p>
+      <h1 class="login-title">请用你的云音乐账号登录</h1>
       <div class="login-contet">
         <div class="login">
           <!-- 扫码登录 -->
           <qrcode v-if="qrcodeLoginShow" @otherLogin="otherLogin" />
-          <!-- 其他登录方式 -->
+          <!-- 其他登录 -->
           <other v-else @qrcodeLogin="qrcodeLogin" />
         </div>
       </div>
@@ -64,58 +56,31 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, onMounted } from 'vue';
+<script lang="ts" setup>
+import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import Qrcode from '@views/login/qrcode/Qrcode.vue';
-import Other from '@views/login/other/Other.vue';
+import Qrcode from '@/components/login-dialog/qrcode/Qrcode.vue';
+import Other from '@/components/login-dialog/other/Other.vue';
 import musicianSvg from '../../../assets/image/header/creator-center/musician.svg';
 import talentSvg from '../../../assets/image/header/creator-center/talent.svg';
 import anchorSvg from '../../../assets/image/header/creator-center/anchor.svg';
 
-export default defineComponent({
-  name: 'CreatorCenter',
-  components: {
-    Qrcode,
-    Other
-  },
-  setup() {
-    const $store = useStore();
+const store = useStore();
+const isLogin = computed(() => store.getters.isLogin);
 
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
+// 扫码/其他登录切换
+const qrcodeLoginShow = ref(true);
 
-    // 扫码/其他登录方式切换
-    const qrcodeLoginShow = ref<boolean>(true);
+function qrcodeLogin(): void {
+  qrcodeLoginShow.value = true;
+}
 
-    function qrcodeLogin(): void {
-      qrcodeLoginShow.value = true;
-    }
+function otherLogin(): void {
+  qrcodeLoginShow.value = false;
+}
 
-    function otherLogin(): void {
-      qrcodeLoginShow.value = false;
-    }
-
-    // 关闭登录对话框
-    function dialogCancel(): void {
-      qrcodeLoginShow.value = true;
-      $store.commit('setLoginDialog', false);
-    }
-
-    onMounted(() => {
-      $store.commit('setMenuIndex', -1);
-    });
-
-    return {
-      musicianSvg,
-      talentSvg,
-      anchorSvg,
-      isLogin,
-      qrcodeLoginShow,
-      qrcodeLogin,
-      otherLogin,
-      dialogCancel
-    };
-  }
+onMounted(() => {
+  store.commit('setMenuIndex', -1);
 });
 </script>
 

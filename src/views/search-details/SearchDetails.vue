@@ -1,61 +1,40 @@
 <template>
-  <div class="search-details">
-    <div class="search-details-container">
-      <SearchHeader @searchEnter="searchEnter" />
-      <div class="search-desc">
-        搜索“{{ searchDetailText }}”，找到
-        <span class="search-desc-num">{{ searchCount || 0 }}</span>
-        {{ handleTitle }}
+  <div class="search-detail">
+    <div class="detail-container">
+      <SearchHeader />
+      <div class="title">
+        搜索“{{ route.query?.keyword }}”，找到
+        <span class="count">{{ searchCount ?? 0 }}</span>
+        <template v-if="Number(route.query.type) === 1">首单曲</template>
+        <template v-if="Number(route.query.type) === 100">个歌手</template>
+        <template v-if="Number(route.query.type) === 10">张专辑</template>
+        <template v-if="Number(route.query.type) === 1014">个视频</template>
+        <template v-if="Number(route.query.type) === 1006">个歌词</template>
+        <template v-if="Number(route.query.type) === 1000">个歌单</template>
+        <template v-if="Number(route.query.type) === 1009">节目</template>
+        <template v-if="Number(route.query.type) === 1002">个用户</template>
       </div>
-      <SearchTabs @changeTab="changeTab" />
-      <!-- 单曲 -->
-      <template v-if="searchIndex === 0">
-        <SearchSong
-          :searchDetailText="searchDetailText"
-          @searchCountChange="searchCountChange"
-        />
+      <SearchTabs />
+      <template v-if="Number(route.query.type) === 1">
+        <SearchSong @searchCountChange="searchCountChange" />
       </template>
-      <!-- 歌手 -->
-      <template v-if="searchIndex === 1">
-        <SearchSinger
-          :searchDetailText="searchDetailText"
-          @searchCountChange="searchCountChange"
-        />
+      <template v-if="Number(route.query.type) === 100">
+        <SearchSinger @searchCountChange="searchCountChange" />
       </template>
-      <!-- 专辑 -->
-      <template v-if="searchIndex === 2">
-        <SearchAlbum
-          :searchDetailText="searchDetailText"
-          @searchCountChange="searchCountChange"
-        />
+      <template v-if="Number(route.query.type) === 10">
+        <SearchAlbum @searchCountChange="searchCountChange" />
       </template>
-      <!-- 视频 -->
-      <template v-if="searchIndex === 3">
-        <SearchMv
-          :searchDetailText="searchDetailText"
-          @searchCountChange="searchCountChange"
-        />
+      <template v-if="Number(route.query.type) === 1014">
+        <SearchMv @searchCountChange="searchCountChange" />
       </template>
-      <!-- 歌单 -->
-      <template v-if="searchIndex === 5">
-        <SearchSongSheet
-          :searchDetailText="searchDetailText"
-          @searchCountChange="searchCountChange"
-        />
+      <template v-if="Number(route.query.type) === 1000">
+        <SearchSongSheet @searchCountChange="searchCountChange" />
       </template>
-      <!-- 声音主播 -->
-      <template v-if="searchIndex === 6">
-        <SearchAnchor
-          :searchDetailText="searchDetailText"
-          @searchCountChange="searchCountChange"
-        />
+      <template v-if="Number(route.query.type) === 1009">
+        <SearchAnchor @searchCountChange="searchCountChange" />
       </template>
-      <!-- 用户 -->
-      <template v-if="searchIndex === 7">
-        <SearchUser
-          :searchDetailText="searchDetailText"
-          @searchCountChange="searchCountChange"
-        />
+      <template v-if="Number(route.query.type) === 1002">
+        <SearchUser @searchCountChange="searchCountChange" />
       </template>
       <div class="no-data" v-if="searchCount === 0">
         <div class="title">
@@ -67,9 +46,9 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, watch } from 'vue';
-import { useStore } from 'vuex';
+<script lang="ts" setup>
+import { ref } from 'vue';
+import { useRoute } from 'vue-router';
 import SearchHeader from './search-header/SearchHeader.vue';
 import SearchTabs from './search-tabs/SearchTabs.vue';
 import SearchSong from './search-song/SearchSong.vue';
@@ -80,78 +59,12 @@ import SearchSongSheet from './search-song-sheet/SearchSongSheet.vue';
 import SearchAnchor from './search-anchor/SearchAnchor.vue';
 import SearchUser from './search-user/SearchUser.vue';
 
-export default defineComponent({
-  components: {
-    SearchHeader,
-    SearchTabs,
-    SearchSong,
-    SearchSinger,
-    SearchAlbum,
-    SearchMv,
-    SearchSongSheet,
-    SearchAnchor,
-    SearchUser
-  },
-  setup() {
-    const $store = useStore();
+const route = useRoute();
 
-    // tab选中
-    const searchIndex = computed<number>(() => $store.getters.searchIndex);
-    // 搜索详情关键字
-    const searchDetailText = computed<string>(() =>
-      $store.getters.searchDetailText.replace(/"/g, '')
-    );
-
-    function searchEnter(searchValue: string): void {
-      $store.commit('setSearchDetailText', searchValue);
-    }
-
-    const searchCount = ref<number | string>('');
-    function searchCountChange(count: number): void {
-      searchCount.value = count;
-    }
-
-    const tabTitle = ref<string>('单曲');
-    function changeTab(item: string): void {
-      tabTitle.value = item;
-
-      searchCount.value = '';
-    }
-
-    const handleTitle = ref<string>('');
-    watch(
-      () => tabTitle.value,
-      () => {
-        if (tabTitle.value === '单曲') {
-          handleTitle.value = `首${tabTitle.value}`;
-          return false;
-        }
-        if (tabTitle.value === '专辑') {
-          handleTitle.value = `张${tabTitle.value}`;
-          return false;
-        }
-        if (tabTitle.value === '声音主播') {
-          handleTitle.value = '个节目';
-          return false;
-        }
-        handleTitle.value = `个${tabTitle.value}`;
-      },
-      {
-        immediate: true
-      }
-    );
-
-    return {
-      searchIndex,
-      searchDetailText,
-      searchEnter,
-      changeTab,
-      searchCount,
-      searchCountChange,
-      handleTitle
-    };
-  }
-});
+const searchCount = ref<string | number>('');
+function searchCountChange(count: number): void {
+  searchCount.value = count;
+}
 </script>
 
 <style lang="less" scoped>
