@@ -1,16 +1,17 @@
-import axios from '@utils/axios';
+import axios from '@/utils/axios';
 import type { AxiosPromise } from 'axios';
 
 /**
  * @description 获取歌单所有歌曲
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 歌单 id
+ * @param { Object } params
+ * @param { number } params.id - 歌单id
  */
 export const playlistTrack = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id
   };
+
   return axios.request({
     url: '/playlist/track/all',
     method: 'get',
@@ -20,22 +21,17 @@ export const playlistTrack = ({ id }: { id: number }): AxiosPromise => {
 
 /**
  * @description 获取歌单详情
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 歌单 id
- * @param { Number } s - 歌单最近的 s 个收藏者,默认为8
+ * @param { Object } params
+ * @param { number } params.id - 歌单id
+ * @param { number } [params.s] - 歌单最近收藏者(默认为8)
  */
-export const playlistDetail = ({
-  id,
-  s
-}: {
-  id: number;
-  s?: number;
-}): AxiosPromise => {
+export const playlistDetail = ({ id, s }: { id: number; s?: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
     s
   };
+
   return axios.request({
     url: '/playlist/detail',
     method: 'get',
@@ -45,22 +41,17 @@ export const playlistDetail = ({
 
 /**
  * @description 歌单收藏
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 歌单 id
- * @param { Number } t - 类型,1:收藏,2:取消收藏
+ * @param { Object } params
+ * @param { number } params.id - 歌单id
+ * @param { number } params.t - 1: 收藏, 2: 取消收藏
  */
-export const playlistSubscribe = ({
-  id,
-  t
-}: {
-  id: number;
-  t: number;
-}): AxiosPromise => {
+export const playlistSubscribe = ({ id, t }: { id: number; t: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
     t
   };
+
   return axios.request({
     url: '/playlist/subscribe',
     method: 'get',

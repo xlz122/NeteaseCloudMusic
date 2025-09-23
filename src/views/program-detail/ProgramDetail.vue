@@ -1,165 +1,129 @@
 <template>
   <div class="program-detail">
-    <div class="program-detail-container">
+    <div class="detail-container">
       <div class="program-content">
         <ProgramInfo
-          :detail="detail"
+          :detail="programDetail"
           :commentTotal="commentParams.total"
-          @jumpToComments="jumpToComments"
+          @jumpToComment="jumpToComment"
         />
         <div class="comment-component">
-          <Comment
-            :commentParams="commentParams"
-            @commentRefresh="commentRefresh"
-          />
+          <Comment :params="commentParams" @onRefresh="refreshComment" />
         </div>
         <Page
           v-if="commentParams.total > commentParams.limit"
           :page="commentParams.offset"
           :pageSize="commentParams.limit"
           :total="commentParams.total"
-          @changPage="changPage"
+          @onChange="handlePageChange"
         />
       </div>
       <div class="program-side">
-        <ProgramSide :rid="detail?.radio?.id" />
+        <ProgramSide :rid="programDetail.radio?.id" />
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import {
-  defineComponent,
-  ref,
-  reactive,
-  computed,
-  watch,
-  onMounted,
-  nextTick
-} from 'vue';
+<script lang="ts" setup>
+import { ref, reactive, watch, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
-import { handleCommentData } from '@components/comment/handleCommentData';
-import { programDetail } from '@api/program-detail';
-import { commentDjprogram } from '@api/comment';
-import type { ResponseType } from '@/types/types';
-import type { CommentParams } from '@components/comment/Comment.vue';
-import Comment from '@components/comment/Comment.vue';
+import { formatComment } from '@/components/comment/formatComment';
+import { djProgramDetail } from '@/api/program-detail';
+import { djprogramComment } from '@/api/comment';
+import type { ResponseType } from '@/types';
+import type { CommentParams } from '@/components/comment/Comment.vue';
+import Comment from '@/components/comment/Comment.vue';
+import Page from '@/components/page/Page.vue';
 import ProgramInfo from './program-info/ProgramInfo.vue';
 import ProgramSide from './program-side/ProgramSide.vue';
-import Page from '@components/page/Page.vue';
 
-export default defineComponent({
-  components: {
-    ProgramInfo,
-    Comment,
-    ProgramSide,
-    Page
+type ProgramDetail = {
+  radio?: {
+    id?: number;
+  };
+};
+
+const route = useRoute();
+const store = useStore();
+
+// 获取电台节目详情
+const programDetail = ref<ProgramDetail>({});
+
+function getProgramDetail(): void {
+  djProgramDetail({ id: Number(route.query.id) })
+    .then((res: ResponseType) => {
+      if (res?.code !== 200) {
+        return;
+      }
+
+      programDetail.value = res.program ?? {};
+    })
+    .catch(() => ({}));
+}
+
+// 获取评论
+const commentParams = reactive<CommentParams>({
+  type: 4,
+  id: undefined,
+  offset: 1,
+  limit: 20,
+  hotList: [],
+  list: [],
+  total: 0
+});
+
+function getCommentList(): void {
+  const params = {
+    id: commentParams.id,
+    offset: (commentParams.offset - 1) * commentParams.limit,
+    limit: commentParams.limit
+  };
+
+  djprogramComment({ ...params })
+    .then((res: ResponseType) => {
+      if (res?.code !== 200) {
+        return;
+      }
+
+      const comment = formatComment(res);
+      commentParams.hotList = comment.hotList;
+      commentParams.list = comment.list;
+      commentParams.total = comment.total;
+    })
+    .catch(() => ({}));
+}
+
+function refreshComment(): void {
+  getCommentList();
+}
+
+function handlePageChange(current: number): void {
+  commentParams.offset = current;
+  getCommentList();
+  jumpToComment();
+}
+
+function jumpToComment(): void {
+  const element: HTMLElement = document.querySelector('.comment-component')!;
+  window.scrollTo(0, element.offsetTop + 20);
+}
+
+watch(
+  () => route.query.id,
+  () => {
+    commentParams.id = Number(route.query.id);
+    commentParams.offset = 1;
+    getProgramDetail();
+    getCommentList();
   },
-  setup() {
-    const $store = useStore();
+  { immediate: true }
+);
 
-    // 电台节目id
-    const programId = computed<number>(() => $store.getters.programId);
-
-    watch(
-      () => programId.value,
-      curVal => {
-        if (curVal) {
-          nextTick(() => {
-            getProgramDetail();
-            getCommentData();
-          });
-        }
-      },
-      {
-        immediate: true
-      }
-    );
-
-    const detail = ref({});
-    // 获取电台节目详情
-    function getProgramDetail(): void {
-      programDetail({
-        id: programId.value
-      })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            detail.value = res.program;
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 获取评论数据
-    const commentParams = reactive<CommentParams>({
-      type: 4,
-      id: programId.value,
-      offset: 1,
-      limit: 20,
-      total: 0,
-      hotList: [],
-      list: []
-    });
-    function getCommentData(): void {
-      const params = {
-        id: programId.value,
-        limit: commentParams.limit
-      };
-      // 精彩评论不加offset
-      if (commentParams.offset > 1) {
-        params['offset'] = (commentParams.offset - 1) * commentParams.limit;
-      }
-      commentDjprogram({ ...params })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            const result = handleCommentData(res);
-            // 精彩评论
-            commentParams.hotList = result.hotList;
-            // 最新评论
-            commentParams.list = result.list;
-            // 最新评论 - 总数
-            commentParams.total = res.total;
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 刷新评论
-    function commentRefresh(): void {
-      getCommentData();
-    }
-
-    // 分页
-    function changPage(current: number): void {
-      commentParams.offset = current;
-      jumpToComments();
-      getCommentData();
-    }
-
-    // 跳转至评论
-    function jumpToComments(): void {
-      const commentDom = document.querySelector(
-        '.comment-component'
-      ) as HTMLElement;
-
-      window.scrollTo(0, Number(commentDom.offsetTop) + 20);
-    }
-
-    onMounted(() => {
-      $store.commit('setMenuIndex', 0);
-      $store.commit('setSubMenuIndex', -1);
-    });
-
-    return {
-      programId,
-      detail,
-      commentParams,
-      commentRefresh,
-      changPage,
-      jumpToComments
-    };
-  }
+onMounted(() => {
+  store.commit('setMenuIndex', 0);
+  store.commit('setSubMenuIndex', -1);
 });
 </script>
 

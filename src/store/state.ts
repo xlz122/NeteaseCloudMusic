@@ -2,71 +2,64 @@ export type State = {
   menuIndex: number;
   subMenuIndex: number;
   loginDialog: boolean;
-  userInfo: unknown;
+  userInfo: {
+    pcSign?: boolean;
+  };
   cookie: string;
   isLogin: boolean;
-  searchText: string;
-  searchDetailText: string;
-  userId: number;
-  songId: number;
   songSheetId: number;
-  singerId: number;
-  programId: number;
-  albumId: number;
   singerTabIndex: number;
-  searchIndex: number;
-  songSheetDetail: unknown;
-  collectSong: {
+  songCollect: {
     visible: boolean;
     songIds: string;
   };
-  copyright: {
+  copyrightDialog: {
     visible: boolean;
     message: string;
   };
-  abnormal: {
+  verifyDialog: {
     visible: boolean;
-    url: string;
+    token: string;
+    vid: number;
+    type: number;
+    evid: string;
+    sign: string;
   };
 };
 
-// 本地存储容错处理
-function faultTolerant(name: string) {
-  if (localStorage.getItem(name)) {
-    return JSON.parse(localStorage.getItem(name) || '');
-  }
-}
-
 const state: State = {
-  menuIndex: Number(localStorage.getItem('menuIndex')) || 0, // 头部导航
-  subMenuIndex: Number(localStorage.getItem('subMenuIndex')) || 0, // 二级导航
-  loginDialog: false, // 登录对话框显隐
-  userInfo: faultTolerant('userInfo') || {}, // 用户信息
-  cookie: localStorage.getItem('cookie') || '', // 用户cookie
-  isLogin: faultTolerant('isLogin') || false, // 是否登录
-  searchText: '', // 搜索关键字
-  searchDetailText: localStorage.getItem('searchDetailText') || '', // 搜索关键字
-  userId: Number(localStorage.getItem('userId')) || 0, // 用户uid(自己或其他人)
-  songId: Number(localStorage.getItem('songId')) || 0, // 歌曲id
-  songSheetId: Number(localStorage.getItem('songSheetId')) || 0, // 歌单id
-  singerId: Number(localStorage.getItem('singerId')) || 0, // 歌手id
-  programId: Number(localStorage.getItem('programId')) || 0, // 电台节目id
-  albumId: Number(localStorage.getItem('albumId')) || 0, // 专辑id
-  singerTabIndex: Number(localStorage.getItem('singerTabIndex')) || 0, // 歌手详情导航
-  searchIndex: Number(localStorage.getItem('searchIndex')) || 0, // 搜索详情导航
-  songSheetDetail: faultTolerant('songSheetDetail') || {}, // 歌单详情数据
-  collectSong: {
+  menuIndex: getLocalStorage('menuIndex', 0), // 一级导航
+  subMenuIndex: getLocalStorage('subMenuIndex', 0), // 二级导航
+  loginDialog: false, // 登录对话框
+  userInfo: getLocalStorage('userInfo', {}),
+  cookie: getLocalStorage('cookie', ''),
+  isLogin: getLocalStorage('isLogin', false),
+  songSheetId: getLocalStorage('songSheetId', 0), // 我的音乐 - 歌单id
+  singerTabIndex: getLocalStorage('singerTabIndex', 0), // 歌手详情导航
+  songCollect: {
     visible: false,
     songIds: ''
-  }, // 收藏歌曲
-  copyright: {
+  }, // 歌曲收藏
+  copyrightDialog: {
     visible: false,
     message: ''
-  }, // 版权提示
-  abnormal: {
+  }, // 版权对话框
+  verifyDialog: {
     visible: false,
-    url: ''
-  } // 异常提示
+    token: '',
+    vid: 0,
+    type: 0,
+    evid: '',
+    sign: ''
+  } // 验证对话框
 };
+
+function getLocalStorage<T>(key: string, defaultValue: T): T {
+  try {
+    return JSON.parse(localStorage.getItem(key) ?? '') ?? defaultValue;
+  } catch {
+    return defaultValue;
+  }
+}
 
 export default state;

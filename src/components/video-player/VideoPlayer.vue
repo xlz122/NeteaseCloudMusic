@@ -1,9 +1,15 @@
 <template>
-  <div class="video-player" :class="{ 'video-player-fullscreen': fullscreen }">
-    <VideoView :videoStatus="videoStatus" @videoEnded="videoEnded" />
+  <div class="video-player" :class="{ 'video-fullscreen': fullscreen }">
+    <VideoView
+      ref="videoRef"
+      :src="playUrl"
+      :volume="volume"
+      @timeupdate="videoTimeUpdate"
+      @ended="videoPlayEnded"
+    />
     <div class="play" @click="togglePlayStatus">
-      <i class="icon pause-icon" v-if="videoStatus === 'pause'"></i>
-      <i class="icon replay-icon" v-if="videoStatus === 'ended'">
+      <i class="icon icon-pause" v-if="playStatus === 'pause'"></i>
+      <i class="icon icon-replay" v-if="playStatus === 'ended'">
         <span class="text">重播</span>
       </i>
     </div>
@@ -11,7 +17,7 @@
     <div class="full-operate">
       <h2 class="title">
         {{ detail.title }} - by
-        {{ detail?.creator?.nickname }}
+        {{ detail.creator?.nickname }}
       </h2>
       <ul class="list">
         <li class="item" @click="handleLike">
@@ -26,29 +32,26 @@
       </ul>
     </div>
     <div class="wrap">
-      <i
-        class="icon play-btn"
-        v-if="videoStatus === 'play'"
-        @click="togglePlayStatus"
-      ></i>
-      <i class="icon pause-btn" v-else @click="togglePlayStatus"></i>
+      <i class="icon icon-play" v-if="playStatus === 'play'" @click="togglePlayStatus"></i>
+      <i class="icon icon-pause" v-else @click="togglePlayStatus"></i>
       <span class="time">
-        {{ timeStampToDuration(videoPlayProgress.currentTime || 0) || '00:00' }}
+        {{ timeStampToDuration(playProgress.currentTime) }}
       </span>
-      <div class="progress">
-        <PlayProgress />
+      <div class="video-progress">
+        <PlayProgress :progress="playProgress.progress" @progressChange="videoProgressChange" />
       </div>
       <span class="time">
-        {{ timeStampToDuration(videoPlayProgress.duration || 0) || '00:00' }}
+        {{ timeStampToDuration(playProgress.duration) }}
       </span>
       <div class="other">
         <i
-          class="volume-btn"
-          :class="{ 'no-volume': Number(videoVolume) === 0 }"
-          @click="setVolumeProgress"
+          class="icon-volume"
+          :class="{ 'icon-mute': Number(volume) === 0 }"
+          @click="volumeStatusToggle"
         ></i>
-        <div class="video-volume-progress">
-          <volume-progress v-if="volumeProgressShow" />
+        <div class="volume-progress" v-if="volumVisible">
+          <i class="volume-progress-bar-arrow"></i>
+          <VolumeProgress :progress="volume" @progressChange="volumeProgressChange" />
         </div>
         <p class="mode">高清</p>
         <i class="full" v-if="!fullscreen" @click="lanchFullscreen"></i>
@@ -58,176 +61,202 @@
   </div>
 </template>
 
-<script lang="ts">
-import {
-  defineComponent,
-  ref,
-  computed,
-  watch,
-  onMounted,
-  onUnmounted
-} from 'vue';
-import { useStore } from 'vuex';
-import { timeStampToDuration } from '@utils/utils';
-import { setMessage } from '@/components/message/useMessage';
+<script lang="ts" setup>
+import { ref, watch, onMounted, onUnmounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { timeStampToDuration } from '@/utils/utils';
+import { setMessage } from '@/hooks/useMessage';
+import { mvUrl } from '@/api/mv-detail';
+import { videoUrl } from '@/api/video-detail';
+import type { ResponseType } from '@/types';
 import VideoView from './video/Video.vue';
 import PlayProgress from './play-progress/PlayProgress.vue';
 import VolumeProgress from './volume-progress/VolumeProgress.vue';
 
-export default defineComponent({
-  components: {
-    VideoView,
-    PlayProgress,
-    VolumeProgress
+defineProps({
+  detail: {
+    type: Object,
+    default: () => ({})
   },
-  props: {
-    detail: {
-      type: Object,
-      default: () => ({})
-    },
-    subed: {
-      type: Boolean,
-      default: false
-    }
-  },
-  emits: ['handleCollection'],
-  setup(props, { emit }) {
-    const $store = useStore();
-
-    const videoVolume = computed(() => $store.getters['video/videoVolume']);
-    // 播放进度数据
-    const videoPlayProgress = computed(
-      () => $store.getters['video/videoPlayProgress']
-    );
-    // 播放状态
-    const musicPlayStatus = computed(
-      () => $store.getters['music/musicPlayStatus']
-    );
-
-    const videoStatus = ref<string>('pause');
-
-    // 播放视频暂停音乐,播放音乐暂停视频
-    watch(
-      () => videoStatus.value,
-      () => {
-        if (videoStatus.value === 'play') {
-          $store.commit('music/setMusicPlayStatus', {
-            look: false,
-            loading: false,
-            refresh: false
-          });
-        }
-      }
-    );
-    watch(
-      () => musicPlayStatus.value,
-      () => {
-        if (musicPlayStatus.value.look) {
-          videoStatus.value = 'pause';
-        }
-      }
-    );
-
-    // 切换播放/暂停状态
-    function togglePlayStatus(): void {
-      videoStatus.value = videoStatus.value === 'play' ? 'pause' : 'play';
-    }
-
-    // 播放完成
-    function videoEnded(): void {
-      videoStatus.value = 'ended';
-
-      setTimeout(() => {
-        videoReplay();
-      }, 10);
-    }
-
-    // 重播
-    function videoReplay(): void {
-      videoStatus.value = 'replay';
-    }
-
-    // 全屏切换
-    const fullscreen = ref<boolean>(false);
-
-    // 进入全屏
-    function lanchFullscreen() {
-      fullscreen.value = true;
-
-      const element = document.documentElement;
-      element.requestFullscreen && element.requestFullscreen();
-    }
-
-    // 退出全屏
-    function exitFullscreen() {
-      fullscreen.value = false;
-
-      document.exitFullscreen && document.exitFullscreen();
-    }
-
-    // 音量条显隐
-    const volumeProgressShow = ref<boolean>(false);
-    function setVolumeProgress(): void {
-      volumeProgressShow.value = !volumeProgressShow.value;
-    }
-
-    // 喜欢
-    function handleLike(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 收藏
-    function handleCollection(followed: boolean): void {
-      emit('handleCollection', followed);
-    }
-
-    // 分享
-    function handleShare(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    onMounted(() => {
-      window.addEventListener('keydown', (e: KeyboardEvent) => {
-        const key = e.key;
-        if (key === 'F11') {
-          // 阻止默认的键盘事件
-          e.preventDefault();
-        }
-      });
-
-      window.addEventListener('fullscreenchange', () => {
-        if (document.fullscreenElement) {
-          // 进入大屏
-        } else {
-          // 退出大屏
-          fullscreen.value = false;
-        }
-      });
-    });
-
-    onUnmounted(() => {
-      window.removeEventListener('keydown', () => ({}));
-      window.removeEventListener('fullscreenchange', () => ({}));
-    });
-
-    return {
-      timeStampToDuration,
-      videoVolume,
-      videoPlayProgress,
-      videoStatus,
-      togglePlayStatus,
-      videoEnded,
-      videoReplay,
-      fullscreen,
-      lanchFullscreen,
-      exitFullscreen,
-      volumeProgressShow,
-      setVolumeProgress,
-      handleLike,
-      handleCollection,
-      handleShare
-    };
+  subed: {
+    type: Boolean,
+    default: false
   }
+});
+const emits = defineEmits(['handleCollection']);
+
+const route = useRoute();
+
+// 获取MV/视频播放地址
+const playUrl = ref('');
+
+watch(
+  () => route.query.type,
+  () => {
+    if (Number(route.query.type) === 0) {
+      getMvPlayUrl();
+    }
+    if (Number(route.query.type) === 1) {
+      getVideoPlayUrl();
+    }
+  },
+  { immediate: true }
+);
+
+function getMvPlayUrl(): void {
+  mvUrl({ id: Number(route.query.id) })
+    .then((res: ResponseType) => {
+      if (res?.code !== 200) {
+        return;
+      }
+
+      playUrl.value = res.data?.url ?? '';
+    })
+    .catch(() => ({}));
+}
+
+function getVideoPlayUrl(): void {
+  videoUrl({ id: String(route.query.id) })
+    .then((res: ResponseType) => {
+      if (res?.code !== 200) {
+        return;
+      }
+
+      playUrl.value = res.urls?.[0]?.url ?? '';
+    })
+    .catch(() => ({}));
+}
+
+const videoRef = ref();
+
+// 播放状态
+const playStatus = ref('pause');
+
+function togglePlayStatus(): void {
+  playStatus.value = playStatus.value === 'play' ? 'pause' : 'play';
+
+  if (!videoRef.value) {
+    return;
+  }
+
+  if (playStatus.value === 'play') {
+    videoRef.value.ref.play();
+  }
+  if (playStatus.value === 'pause') {
+    videoRef.value.ref.pause();
+  }
+  if (playStatus.value === 'replay') {
+    videoRef.value.ref.load();
+    videoRef.value.ref.play();
+  }
+}
+
+// 播放进度
+const playProgress = ref({
+  currentTime: 0,
+  duration: 0,
+  progress: 0,
+  manualUpdate: false
+});
+
+function videoTimeUpdate(currentTime: number, duration: number): void {
+  if (playProgress.value.manualUpdate) {
+    return;
+  }
+
+  playProgress.value = {
+    ...playProgress.value,
+    currentTime: currentTime,
+    duration: duration,
+    progress: currentTime / duration
+  };
+}
+
+function videoProgressChange(value: number): void {
+  playProgress.value.manualUpdate = true;
+
+  playProgress.value = {
+    ...playProgress.value,
+    currentTime: playProgress.value.duration * value,
+    progress: value
+  };
+
+  // 更新播放器时间
+  videoRef.value.ref.currentTime = playProgress.value.duration * value;
+
+  playProgress.value.manualUpdate = false;
+}
+
+// 播放结束
+function videoPlayEnded(): void {
+  playStatus.value = 'ended';
+}
+
+// 音量
+const volumVisible = ref(false);
+
+function volumeStatusToggle(): void {
+  volumVisible.value = !volumVisible.value;
+}
+
+const volume = ref(1);
+
+function volumeProgressChange(value: number): void {
+  volume.value = value;
+}
+
+// 全屏切换
+const fullscreen = ref(false);
+
+// 进入全屏
+function lanchFullscreen(): void {
+  fullscreen.value = true;
+
+  const element = document.documentElement;
+  element.requestFullscreen?.();
+}
+
+// 退出全屏
+function exitFullscreen(): void {
+  fullscreen.value = false;
+
+  document.exitFullscreen?.();
+}
+
+function handleLike(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+function handleCollection(followed: boolean): void {
+  emits('handleCollection', followed);
+}
+
+function handleShare(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', (e: KeyboardEvent) => {
+    const key = e.key;
+    if (key === 'F11') {
+      // 阻止默认的键盘事件
+      e.preventDefault();
+    }
+  });
+
+  window.addEventListener('fullscreenchange', () => {
+    if (document.fullscreenElement) {
+      // 进入大屏
+    } else {
+      // 退出大屏
+      fullscreen.value = false;
+    }
+  });
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', () => ({}));
+  window.removeEventListener('fullscreenchange', () => ({}));
 });
 </script>
 

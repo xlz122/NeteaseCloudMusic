@@ -12,40 +12,24 @@
   <div class="friend" v-else>
     <div class="friend-login">
       <div class="login-content">
-        <button class="login-btn" @click="openLogin"></button>
+        <button class="login-btn" @click="handleLogin"></button>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed } from 'vue';
+<script lang="ts" setup>
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 import FriendContent from './content/Content.vue';
 import Side from './side/Side.vue';
 
-export default defineComponent({
-  name: 'FriendView',
-  components: {
-    FriendContent,
-    Side
-  },
-  setup() {
-    const $store = useStore();
+const store = useStore();
+const isLogin = computed(() => store.getters.isLogin);
 
-    const isLogin = computed(() => $store.getters.isLogin);
-
-    // 打开登录对话框
-    function openLogin(): void {
-      $store.commit('setLoginDialog', true);
-    }
-
-    return {
-      isLogin,
-      openLogin
-    };
-  }
-});
+function handleLogin(): void {
+  store.commit('setLoginDialog', true);
+}
 </script>
 
 <style lang="less" scoped>

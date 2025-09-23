@@ -1,0 +1,209 @@
+.song-sheet-list {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 472px;
+  margin-top: 20px;
+  background: url('@/assets/image/song-sheet/song-list-bg.png') no-repeat;
+
+  .group {
+    width: 230px;
+    height: 100%;
+
+    .top {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      width: 100%;
+      height: 120px;
+      padding-top: 20px;
+      padding-inline: 20px;
+      box-sizing: border-box;
+
+      .cover {
+        width: 80px;
+        height: 80px;
+        cursor: pointer;
+      }
+
+      .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 6px;
+
+        .title {
+          width: 100%;
+          color: #333;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .btns {
+          display: flex;
+          flex-direction: row;
+          gap: 10px;
+
+          .btn-play {
+            width: 22px;
+            height: 22px;
+            background: url('@/assets/image/home/home-icon.png') no-repeat;
+            background-position: -267px -205px;
+            cursor: pointer;
+
+            &:hover {
+              background-position: -267px -235px;
+            }
+          }
+
+          .btn-collection {
+            width: 22px;
+            height: 22px;
+            background: url('@/assets/image/home/home-icon.png') no-repeat;
+            background-position: -300px -205px;
+            cursor: pointer;
+
+            &:hover {
+              background-position: -300px -235px;
+            }
+          }
+
+          .subscribe {
+            background-position: -330px -235px;
+
+            &:hover {
+              background-position: -330px -235px;
+            }
+          }
+        }
+      }
+    }
+
+    .list {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 319px;
+
+      .item {
+        width: 100%;
+        height: 32px;
+        line-height: 32px;
+        padding-left: 50px;
+        box-sizing: border-box;
+
+        &:hover {
+          .text {
+            width: 96px;
+          }
+
+          .operate {
+            display: inline-block;
+          }
+        }
+
+        .num {
+          display: inline-block;
+          vertical-align: middle;
+          width: 35px;
+          height: 32px;
+          margin-left: -35px;
+          font-size: 16px;
+          color: #666;
+          text-align: center;
+        }
+
+        .top-three {
+          color: #c10d0c;
+        }
+
+        .text {
+          display: inline-block;
+          vertical-align: middle;
+          width: 170px;
+          height: 32px;
+          overflow: hidden;
+          color: #000;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .operate {
+          display: none;
+          width: 82px;
+          vertical-align: middle;
+
+          .operate-play {
+            display: inline-block;
+            vertical-align: middle;
+            width: 17px;
+            height: 17px;
+            margin-right: 10px;
+            background: url('@/assets/image/home/home-icon.png');
+            background-position: -267px -268px;
+            cursor: pointer;
+
+            &:hover {
+              background-position: -267px -288px;
+            }
+          }
+
+          .operate-add {
+            display: inline-block;
+            vertical-align: middle;
+            width: 17px;
+            height: 17px;
+            margin: 2px 6px 0 0;
+            background: url('@/assets/image/icon.png');
+            background-position: 0 -700px;
+            cursor: pointer;
+
+            &:hover {
+              background-position: -22px -700px;
+            }
+          }
+
+          .operate-collection {
+            display: inline-block;
+            vertical-align: middle;
+            width: 17px;
+            height: 17px;
+            margin-right: 10px;
+            background: url('@/assets/image/home/home-icon.png');
+            background-position: -297px -268px;
+            cursor: pointer;
+
+            &:hover {
+              background-position: -297px -288px;
+            }
+          }
+        }
+      }
+    }
+
+    .more {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      height: 32px;
+      padding-inline: 32px;
+      font-size: 12px;
+      color: #000;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

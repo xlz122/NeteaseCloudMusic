@@ -1,0 +1,37 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 12px;
+  color: #333333;
+}
+
+#app {
+  width: 100vw;
+  min-width: 1200px;
+  background-color: #ffffff;
+  overflow-x: auto;
+}
+
+ul li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+i,
+img {
+  display: inline-block;
+}

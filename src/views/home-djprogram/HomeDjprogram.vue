@@ -1,138 +1,106 @@
 <template>
   <div class="home-djprogram">
     <div class="home-djprogram-container">
-      <Category @djCategorChange="djCategorChange" />
-      <div class="dis-flex justify-between">
+      <Category @categoryChange="categoryChange" />
+      <div class="ranking-list">
         <Recommend />
         <RankiList />
       </div>
-      <RadioStation name="音乐推荐" :musicList="musicObj.musicList" />
-      <RadioStation name="生活" :musicList="musicObj.lifeList" />
-      <RadioStation name="情感" :musicList="musicObj.emotionList" />
-      <RadioStation name="创作翻唱" :musicList="musicObj.coverList" />
-      <RadioStation name="知识" :musicList="musicObj.knowledgeList" />
+      <RadioStation name="音乐播客" :list="podcast" />
+      <RadioStation name="生活" :list="life" />
+      <RadioStation name="情感" :list="emotion" />
+      <RadioStation name="创作翻唱" :list="cover" />
+      <RadioStation name="知识" :list="knowledge" />
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, reactive } from 'vue';
-import { setMessage } from '@/components/message/useMessage';
+<script lang="ts" setup>
+import { ref } from 'vue';
+import { setMessage } from '@/hooks/useMessage';
+import { djCatelist, recommendTypeList } from '@/api/home-djprogram';
+import type { ResponseType } from '@/types';
 import Category from './category/Category.vue';
 import Recommend from './recommend/ReCommend.vue';
-import RankiList from './rankiList/RankiList.vue';
-import RadioStation from './radioStation/RadioStation.vue';
-import { djCatelist, recommendTypeList } from '@api/home-djprogram';
-import type { ResponseType } from '@/types/types';
+import RankiList from './ranki-list/RankiList.vue';
+import RadioStation from './radio-station/RadioStation.vue';
 
-type MusicType = {
-  djList: object[];
-  musicList: object[];
-  musicId: number;
-  lifeList: object[];
-  lifeId: number;
-  emotionList: object[];
-  emotionId: number;
-  coverList: object[];
-  coverId: number;
-  knowledgeList: object[];
-  knowledgeId: number;
+type DjcateType = {
+  id: number;
+  name: string;
 };
 
-export default defineComponent({
-  name: 'home-djprogram',
-  components: {
-    Category,
-    Recommend,
-    RankiList,
-    RadioStation
-  },
-  setup() {
-    // 分类点击
-    function djCategorChange(id: number): void {
-      setMessage({ type: 'info', title: `分类id:${id}` });
+type RecommendItem = {
+  id: number;
+  name: string;
+  picUrl: string;
+  rcmdtext: string;
+};
+
+// 分类点击
+function categoryChange(id: number): void {
+  setMessage({ type: 'info', title: `分类id:${id}` });
+}
+
+// 获取电台推荐列表
+const podcast = ref<RecommendItem[]>([]);
+const life = ref<RecommendItem[]>([]);
+const emotion = ref<RecommendItem[]>([]);
+const cover = ref<RecommendItem[]>([]);
+const knowledge = ref<RecommendItem[]>([]);
+
+async function getRecommendList(): Promise<void> {
+  const categories = await getDjcateType();
+
+  categories.forEach?.(async (item) => {
+    if (item.name === '音乐播客') {
+      podcast.value = await getDjcateRecommend(item.id);
     }
-    // 获取全部电台类型
-    function djcateHandle(): Promise<object[]> {
-      return new Promise((resolve, reject) => {
-        djCatelist()
-          .then((res: ResponseType) => {
-            if (res?.code === 200) {
-              resolve(res.categories || []);
-            } else {
-              reject();
-            }
-          })
-          .catch(err => reject(err));
-      });
+    if (item.name === '生活') {
+      life.value = await getDjcateRecommend(item.id);
     }
-    // 根据电台类型id获取对应推荐
-    function recommendTypeHandle(id: number): Promise<object[]> {
-      return new Promise((resolve, reject) => {
-        recommendTypeList({ type: id })
-          .then((res: ResponseType) => {
-            if (res?.code === 200) {
-              resolve(res.djRadios || []);
-            } else {
-              reject();
-            }
-          })
-          .catch(() => reject());
-      });
+    if (item.name === '情感') {
+      emotion.value = await getDjcateRecommend(item.id);
     }
-
-    const musicObj = reactive<MusicType>({
-      djList: [],
-      musicList: [],
-      lifeId: 0,
-      lifeList: [],
-      musicId: 0,
-      emotionList: [],
-      emotionId: 0,
-      coverList: [],
-      coverId: 0,
-      knowledgeList: [],
-      knowledgeId: 0
-    });
-
-    async function recommendTypeHandleFn() {
-      musicObj.djList = await djcateHandle();
-      musicObj.musicId = (
-        musicObj?.djList.filter((x: any) => x.name === '音乐推荐')[0] as any
-      ).id;
-      musicObj.musicList = await recommendTypeHandle(musicObj.musicId);
-
-      musicObj.lifeId = (
-        musicObj?.djList.filter((x: any) => x.name === '生活')[0] as any
-      ).id;
-      musicObj.lifeList = await recommendTypeHandle(musicObj.lifeId);
-
-      musicObj.emotionId = (
-        musicObj?.djList.filter((x: any) => x.name === '情感')[0] as any
-      ).id;
-      musicObj.emotionList = await recommendTypeHandle(musicObj.emotionId);
-
-      musicObj.coverId = (
-        musicObj?.djList.filter((x: any) => x.name === '创作翻唱')[0] as any
-      ).id;
-      musicObj.coverList = await recommendTypeHandle(musicObj.coverId);
-
-      musicObj.knowledgeId = (
-        musicObj?.djList.filter((x: any) => x.name === '知识')[0] as any
-      ).id;
-      musicObj.knowledgeList = await recommendTypeHandle(musicObj.knowledgeId);
+    if (item.name === '创作翻唱') {
+      cover.value = await getDjcateRecommend(item.id);
     }
+    if (item.name === '知识') {
+      knowledge.value = await getDjcateRecommend(item.id);
+    }
+  });
+}
+getRecommendList();
 
-    onMounted(() => {
-      recommendTypeHandleFn();
-    });
+// 获取全部电台类型
+function getDjcateType(): Promise<DjcateType[]> {
+  return new Promise((resolve) => {
+    djCatelist()
+      .then((res: ResponseType) => {
+        if (res?.code !== 200) {
+          return;
+        }
 
-    return {
-      djCategorChange,
-      musicObj
-    };
-  }
-});
+        resolve(res.categories ?? []);
+      })
+      .catch(() => ({}));
+  });
+}
+
+// 获取电台类型推荐
+function getDjcateRecommend(id: number): Promise<RecommendItem[]> {
+  return new Promise((resolve) => {
+    recommendTypeList({ type: id })
+      .then((res: ResponseType) => {
+        if (res?.code !== 200) {
+          return;
+        }
+
+        resolve(res.djRadios ?? []);
+      })
+      .catch(() => ({}));
+  });
+}
 </script>
 
 <style lang="less" scoped>

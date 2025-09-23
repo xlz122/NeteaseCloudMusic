@@ -3,43 +3,32 @@
     <div class="detail-container">
       <div class="detail-content">
         <div class="title">
-          <i class="title-icon"></i>
-          <h2 class="title-text" :title="mvDetailData?.name">
-            {{ mvDetailData?.name }}
+          <h2 class="title-text" :title="mvDetailData.name">
+            <i class="icon-mv"></i>
+            {{ mvDetailData.name }}
           </h2>
           <div class="title-info">
             <span class="by">by</span>
-            <template
-              v-for="(item, index) in mvDetailData?.artists"
-              :key="index"
-            >
-              <span
-                class="text"
-                :title="item?.name"
-                @click="jumpSingerDetail(item?.id)"
-              >
+            <template v-for="(item, index) in mvDetailData.artists" :key="index">
+              <span class="text" :title="item.name" @click="jumpSingerDetail(item.id)">
                 {{ item.name }}
               </span>
-              <span
-                class="line"
-                v-if="index !== mvDetailData?.artists.length - 1"
-                >/</span
-              >
+              <span class="line" v-if="index !== mvDetailData.artists?.length - 1">/</span>
             </template>
           </div>
         </div>
         <div class="video-container">
           <VideoPlayer
             :detail="mvDetailData"
-            :subed="mvsubed"
+            :subed="mvSubed"
             @handleCollection="handleCollection"
           />
         </div>
         <div class="operate-btn">
           <div class="other like" @click="handleLike">
-            <template v-if="mvDetailData?.praisedCount > 0">
+            <template v-if="mvDetailData.praisedCount && mvDetailData.praisedCount > 0">
               <i class="like-icon"></i>
-              <span class="icon"> ({{ mvDetailData?.praisedCount }}) </span>
+              <span class="icon"> ({{ mvDetailData.praisedCount }}) </span>
             </template>
             <template v-else>
               <i class="like-icon"></i>
@@ -48,19 +37,19 @@
           </div>
           <div
             class="other collection"
-            :class="{ 'collection-sub': mvsubed }"
-            @click="handleCollection(mvsubed)"
+            :class="{ 'collection-sub': mvSubed }"
+            @click="handleCollection(mvSubed)"
           >
-            <template v-if="mvDetailData?.subCount > 0">
-              <span class="icon">({{ mvDetailData?.subCount }})</span>
+            <template v-if="mvDetailData.subCount && mvDetailData.subCount > 0">
+              <span class="icon">({{ mvDetailData.subCount }})</span>
             </template>
             <template v-else>
               <span class="icon">收藏</span>
             </template>
           </div>
           <div class="other share" @click="handleShare">
-            <template v-if="mvDetailData?.shareCount > 0">
-              <span class="icon">({{ mvDetailData?.shareCount }})</span>
+            <template v-if="mvDetailData.shareCount && mvDetailData.shareCount > 0">
+              <span class="icon">({{ mvDetailData.shareCount }})</span>
             </template>
             <template v-else>
               <span class="icon">分享</span>
@@ -68,235 +57,185 @@
           </div>
         </div>
         <div class="comment-component">
-          <Comment
-            :commentParams="commentParams"
-            @commentRefresh="commentRefresh"
-          />
+          <Comment :params="commentParams" @onRefresh="refreshComment" />
         </div>
         <Page
           v-if="commentParams.total > commentParams.limit"
           :page="commentParams.offset"
           :pageSize="commentParams.limit"
           :total="commentParams.total"
-          @changPage="changPage"
+          @onChange="handlePageChange"
         />
       </div>
       <div class="detail-side">
-        <MvDetailSide :detail="mvDetailData" />
+        <MvSide :detail="mvDetailData" />
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import {
-  defineComponent,
-  ref,
-  reactive,
-  computed,
-  watch,
-  nextTick,
-  onMounted
-} from 'vue';
+<script lang="ts" setup>
+import { ref, reactive, computed, watch, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
-import { handleCommentData } from '@components/comment/handleCommentData';
-import { mvDetail } from '@api/mv-detail';
-import { mvUrl, mvSub } from '@api/mv-detail';
-import { commentMv } from '@api/comment';
-import type { ResponseType } from '@/types/types';
-import type { CommentParams } from '@components/comment/Comment.vue';
-import type { Video } from '@store/video/state';
-import VideoPlayer from '@components/video-player/VideoPlayer.vue';
-import Comment from '@components/comment/Comment.vue';
-import MvDetailSide from './mv-detail-side/MvDetailSide.vue';
-import Page from '@components/page/Page.vue';
+import { setMessage } from '@/hooks/useMessage';
+import { formatComment } from '@/components/comment/formatComment';
+import { mvDetail } from '@/api/mv-detail';
+import { mvSub } from '@/api/mv-detail';
+import { mvComment } from '@/api/comment';
+import type { ResponseType } from '@/types';
+import type { CommentParams } from '@/components/comment/Comment.vue';
+import VideoPlayer from '@/components/video-player/VideoPlayer.vue';
+import Comment from '@/components/comment/Comment.vue';
+import Page from '@/components/page/Page.vue';
+import MvSide from './mv-side/MvSide.vue';
 
-export default defineComponent({
-  name: 'VideoDetail',
-  components: {
-    VideoPlayer,
-    Comment,
-    MvDetailSide,
-    Page
-  },
-  setup() {
-    const $store = useStore();
+type MvDetailData = {
+  name?: string;
+  artists: {
+    id: number;
+    name: string;
+  }[];
+  praisedCount?: number;
+  subCount?: number;
+  shareCount?: number;
+  subed?: boolean;
+};
 
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const video = computed<Video>(() => $store.getters['video/video']);
+const route = useRoute();
+const router = useRouter();
+const store = useStore();
+const isLogin = computed(() => store.getters.isLogin);
 
-    watch(
-      () => video.value.id,
-      curVal => {
-        if (curVal) {
-          nextTick(() => {
-            getMvDetail();
-            getVideoSrc();
-            getCommentData();
-          });
-        }
-      },
-      {
-        immediate: true
-      }
-    );
+// 获取详情
+const mvSubed = ref(false);
+const mvDetailData = ref<MvDetailData>({
+  artists: []
+});
 
-    const mvDetailData = ref<unknown>({});
-    // 是否收藏
-    const mvsubed = ref<boolean>(false);
-    // 获取mv详情
-    function getMvDetail(): void {
-      mvDetail({
-        mvid: video.value.id
-      })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            mvDetailData.value = res?.data;
-            mvsubed.value = res?.subed;
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 获取播放地址
-    function getVideoSrc(): void {
-      mvUrl({ id: video.value.id })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            $store.commit('video/setVideo', {
-              ...video.value,
-              url: res?.data?.url
-            });
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 喜欢
-    function handleLike(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
+function getMvDetail(): void {
+  mvDetail({ mvid: Number(route.query.id) })
+    .then((res: ResponseType) => {
+      if (res?.code !== 200) {
+        return;
       }
 
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
+      mvSubed.value = res.subed ?? false;
+      mvDetailData.value = res.data ?? {};
+    })
+    .catch(() => ({}));
+}
 
-    // 收藏
-    function handleCollection(followed: boolean): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      // 1:收藏 2:取消收藏
-      const t = followed ? 2 : 1;
-
-      mvSub({ mvid: video.value.id, t })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            if (t === 1) {
-              setMessage({ type: 'info', title: '收藏成功' });
-
-              mvsubed.value = true;
-            }
-            if (t === 2) {
-              setMessage({ type: 'info', title: '取消收藏成功' });
-
-              mvsubed.value = false;
-            }
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 分享
-    function handleShare(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 获取评论数据
-    const commentParams = reactive<CommentParams>({
-      type: 1,
-      id: video.value.id,
-      offset: 1,
-      limit: 20,
-      total: 0,
-      hotList: [],
-      list: []
-    });
-    function getCommentData(): void {
-      const params = {
-        id: video.value.id,
-        limit: commentParams.limit
-      };
-      // 精彩评论不加offset
-      if (commentParams.offset > 1) {
-        params['offset'] = (commentParams.offset - 1) * commentParams.limit;
-      }
-      commentMv({ ...params })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            const result = handleCommentData(res);
-            // 精彩评论
-            commentParams.hotList = result.hotList;
-            // 最新评论
-            commentParams.list = result.list;
-            // 最新评论 - 总数
-            commentParams.total = res.total;
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 刷新评论
-    function commentRefresh(): void {
-      getCommentData();
-    }
-
-    // 分页
-    function changPage(current: number): void {
-      commentParams.offset = current;
-      jumpToComments();
-      getCommentData();
-    }
-
-    // 跳转至评论
-    function jumpToComments(): void {
-      const commentDom = document.querySelector(
-        '.comment-component'
-      ) as HTMLElement;
-
-      window.scrollTo(0, Number(commentDom.offsetTop) + 20);
-    }
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    onMounted(() => {
-      $store.commit('setMenuIndex', 0);
-      $store.commit('setSubMenuIndex', -1);
-    });
-
-    return {
-      mvDetailData,
-      mvsubed,
-      handleLike,
-      handleCollection,
-      handleShare,
-      commentParams,
-      commentRefresh,
-      changPage,
-      jumpSingerDetail
-    };
+function handleLike(): void {
+  if (!isLogin.value) {
+    store.commit('setLoginDialog', true);
+    return;
   }
+
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+function handleCollection(followed: boolean): void {
+  if (!isLogin.value) {
+    store.commit('setLoginDialog', true);
+    return;
+  }
+
+  // 1: 收藏 2: 取消收藏
+  const t = followed ? 2 : 1;
+
+  mvSub({ mvid: Number(route.query.id), t })
+    .then((res: ResponseType) => {
+      if (res?.code !== 200) {
+        return;
+      }
+
+      if (t === 1) {
+        mvSubed.value = true;
+        setMessage({ type: 'info', title: '收藏成功' });
+      }
+      if (t === 2) {
+        mvSubed.value = false;
+        setMessage({ type: 'info', title: '取消收藏成功' });
+      }
+    })
+    .catch(() => ({}));
+}
+
+function handleShare(): void {
+  if (!isLogin.value) {
+    store.commit('setLoginDialog', true);
+    return;
+  }
+
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+// 获取评论
+const commentParams = reactive<CommentParams>({
+  type: 1,
+  id: undefined,
+  offset: 1,
+  limit: 20,
+  hotList: [],
+  list: [],
+  total: 0
+});
+
+function getCommentList(): void {
+  const params = {
+    id: commentParams.id,
+    offset: (commentParams.offset - 1) * commentParams.limit,
+    limit: commentParams.limit
+  };
+
+  mvComment({ ...params })
+    .then((res: ResponseType) => {
+      if (res?.code !== 200) {
+        return;
+      }
+
+      const comment = formatComment(res);
+      commentParams.hotList = comment.hotList;
+      commentParams.list = comment.list;
+      commentParams.total = comment.total;
+    })
+    .catch(() => ({}));
+}
+
+function refreshComment(): void {
+  getCommentList();
+}
+
+function handlePageChange(current: number): void {
+  commentParams.offset = current;
+  getCommentList();
+  jumpToComment();
+}
+
+function jumpToComment(): void {
+  const element: HTMLElement = document.querySelector('.comment-component')!;
+  window.scrollTo(0, element.offsetTop + 20);
+}
+
+function jumpSingerDetail(id: number): void {
+  router.push({ path: '/singer-detail', query: { id } });
+}
+
+watch(
+  () => route.query.id,
+  () => {
+    commentParams.id = Number(route.query.id);
+    commentParams.offset = 1;
+    getMvDetail();
+    getCommentList();
+  },
+  { immediate: true }
+);
+
+onMounted(() => {
+  store.commit('setMenuIndex', 0);
+  store.commit('setSubMenuIndex', -1);
 });
 </script>
 

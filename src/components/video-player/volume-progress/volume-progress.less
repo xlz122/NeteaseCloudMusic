@@ -1,33 +1,4 @@
-.volume-progress {
-  position: relative;
-  position: absolute;
-  top: 4px;
-  left: 16px;
-  z-index: 1;
-  width: 22px;
-  height: 86px;
-  background: rgb(0 0 0 / 70%);
-  border: 1px solid rgb(255 255 255 / 20%);
-  transform: translateY(-100%);
-  transform: translateY(-100%);
-  border-bottom: none;
-
-  .volume-progress-bar-arrow {
-    position: absolute;
-    top: auto;
-    right: auto;
-    bottom: -6px;
-    left: 0;
-    display: block;
-    width: 100%;
-    height: 7px;
-    cursor: default;
-    background: url('~@/assets/image/video/volume-dot-arrow.png') no-repeat;
-    background-position: center top;
-  }
-}
-
-::v-deep(.progress) {
+.vertical-progress {
   position: absolute;
   top: 12px;
   left: 9px;
@@ -35,7 +6,7 @@
   height: 64px;
   background: transparent;
 
-  .current-progress {
+  ::v-deep(.current-progress) {
     height: 0;
     background-color: #b2072a;
 
@@ -43,11 +14,11 @@
       bottom: -10px;
       width: 20px;
       height: 20px;
-      background: url('~@/assets/image/video/volume-dot.png') no-repeat center;
+      background: url('@/assets/image/video/volume-dot.png') no-repeat center;
     }
 
     .icon-round:hover {
-      background: url('~@/assets/image/video/volume-hover-dot.png') no-repeat center;
+      background: url('@/assets/image/video/volume-dot-hover.png') no-repeat center;
     }
   }
 }

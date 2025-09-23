@@ -21,16 +21,16 @@
                 { theme: index === 4 }
               ]"
             ></i>
-            <span class="text">{{ item?.title }}</span>
+            <span class="text">{{ item.title }}</span>
           </div>
           <ul class="sub-list">
             <li
               class="sub-list-item"
-              v-for="(i, ind) in item?.list"
+              v-for="(i, ind) in item.list"
               :key="ind"
-              @click="catChange(i?.name)"
+              @click="catChange(i.name)"
             >
-              <span class="text">{{ i?.name }}</span>
+              <span class="text">{{ i.name }}</span>
               <span class="line">|</span>
             </li>
           </ul>
@@ -41,84 +41,82 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive } from 'vue';
-import { playlistCatlist } from '@api/home-song-sheet';
-import type { ResponseType } from '@/types/types';
+<script lang="ts" setup>
+import { reactive } from 'vue';
+import { playlistCatlist } from '@/api/home-song-sheet';
+import type { ResponseType } from '@/types';
 
-type CatList = {
+type MenuItem = {
   title: string;
-  list: unknown[];
+  list: {
+    name?: string;
+    category?: number;
+  }[];
 };
 
-export default defineComponent({
-  emits: ['catChange'],
-  setup(props, { emit }) {
-    const catlist = reactive<CatList[]>([
-      {
-        title: '',
-        list: []
-      },
-      {
-        title: '',
-        list: []
-      },
-      {
-        title: '',
-        list: []
-      },
-      {
-        title: '',
-        list: []
-      },
-      {
-        title: '',
-        list: []
-      }
-    ]);
+const emits = defineEmits(['catChange']);
 
-    // 获取分类标签列表
-    function getCatlist(): void {
-      playlistCatlist()
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            for (const value in res.categories) {
-              catlist[value].title = res.categories[value];
-            }
-            res?.sub.forEach((item: { category: number }) => {
-              if (item.category === 0) {
-                catlist[0].list.push(item);
-              }
-              if (item.category === 1) {
-                catlist[1].list.push(item);
-              }
-              if (item.category === 2) {
-                catlist[2].list.push(item);
-              }
-              if (item.category === 3) {
-                catlist[3].list.push(item);
-              }
-              if (item.category === 4) {
-                catlist[4].list.push(item);
-              }
-            });
-          }
-        })
-        .catch(() => ({}));
-    }
-    getCatlist();
-
-    // 标签点击
-    function catChange(name: string): void {
-      emit('catChange', name);
-    }
-
-    return {
-      catlist,
-      catChange
-    };
+// 获取分类标签
+const catlist = reactive<MenuItem[]>([
+  {
+    title: '',
+    list: []
+  },
+  {
+    title: '',
+    list: []
+  },
+  {
+    title: '',
+    list: []
+  },
+  {
+    title: '',
+    list: []
+  },
+  {
+    title: '',
+    list: []
   }
-});
+]);
+
+function getCatlist(): void {
+  playlistCatlist()
+    .then((res: ResponseType) => {
+      if (res?.code !== 200) {
+        return;
+      }
+
+      for (const value in res.categories) {
+        catlist[value as typeof res.categories].title = res.categories[value];
+      }
+
+      res.sub?.forEach?.((item: { category: number }) => {
+        if (item.category === 0) {
+          catlist[0].list.push(item);
+        }
+        if (item.category === 1) {
+          catlist[1].list.push(item);
+        }
+        if (item.category === 2) {
+          catlist[2].list.push(item);
+        }
+        if (item.category === 3) {
+          catlist[3].list.push(item);
+        }
+        if (item.category === 4) {
+          catlist[4].list.push(item);
+        }
+      });
+    })
+    .catch(() => ({}));
+}
+getCatlist();
+
+// 标签点击
+function catChange(name: string | undefined): void {
+  emits('catChange', name);
+}
 </script>
 
 <style lang="less" scoped>

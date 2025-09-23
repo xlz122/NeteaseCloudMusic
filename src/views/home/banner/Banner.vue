@@ -2,247 +2,186 @@
   <div
     class="home-banner"
     ref="bannerRef"
-    @mouseenter="bannerEnter"
-    @mouseleave="bannerLeave"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
   >
-    <div class="banner-warp">
+    <div class="h-banner-warp">
       <div class="banner-content">
-        <div class="banner-img">
-          <template v-for="(item, index) in banner?.list" :key="index">
-            <img
-              class="img"
-              :class="{
-                'switching-img':
-                  bannerImgSwitching && item?.imageUrl === banner?.currentUrl
-              }"
-              v-show="item?.imageUrl === banner?.currentUrl"
-              :src="item?.imageUrl"
-              @click="jumpDetail(item)"
-              alt=""
-            />
-          </template>
-        </div>
-        <button
-          class="banner-btn banner-left-btn"
-          @click="bannerPrev"
-          @mouseenter="bannerEnter"
-        ></button>
-        <button
-          class="banner-btn banner-right-btn"
-          @click="bannerNext"
-          @mouseenter="bannerEnter"
-        ></button>
+        <img
+          class="img"
+          :class="{ 'img-switching': imageSwitching }"
+          :src="banner.currentUrl"
+          @click="jumpPageDetail"
+          alt=""
+        />
+        <button class="btn left-btn" @click="handlePrev" @mouseenter="handleMouseEnter"></button>
+        <button class="btn right-btn" @click="handleNext" @mouseenter="handleMouseEnter"></button>
       </div>
-      <ul class="warp-dots">
+      <ul class="banner-dots">
         <li
-          class="dots-item"
-          :class="{ 'dots-active-item': index === banner?.index }"
-          v-for="(item, index) in banner?.list"
+          class="item"
+          :class="{ 'active-item': index === banner.index }"
+          v-for="(_item, index) in banner.list"
           :key="index"
-          @click="dotChange(index)"
+          @click="handleDotChange(index)"
         ></li>
       </ul>
       <div class="download">
-        <div class="download-link">
-          <router-link class="link" to="/download"></router-link>
-        </div>
-        <p class="desc">PC 安卓 iPhone WP iPad Mac 六大客户端</p>
-        <span class="shadow"></span>
-        <span class="shadowr"></span>
+        <router-link class="link" to="/download"></router-link>
+        <p class="intro">PC 安卓 iPhone WP iPad Mac 六大客户端</p>
+        <i class="shadowl"></i>
+        <i class="shadowr"></i>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, reactive, watch, onUnmounted } from 'vue';
-import { useStore } from 'vuex';
-import { bannerImgUrl } from '@api/home';
-import type { ResponseType } from '@/types/types';
+<script lang="ts" setup>
+import { ref, reactive, watch, onUnmounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { bannerImgUrl } from '@/api/home';
+import type { ResponseType } from '@/types';
 
 type Banner = {
-  list: BannerItem[];
-  currentUrl: string;
   index: number;
+  currentUrl: string;
+  list: ItemType[];
 };
 
-type BannerItem = {
+type ItemType = {
   imageUrl: string;
   targetType: number;
   targetId: number;
   url: string;
 };
 
-export default defineComponent({
-  name: 'HomeBanner',
-  setup() {
-    const $store = useStore();
+const router = useRouter();
 
-    const banner = reactive<Banner>({
-      list: [],
-      currentUrl: '',
-      index: 0
-    });
+const banner = reactive<Banner>({
+  index: 0,
+  currentUrl: '',
+  list: []
+});
 
-    function getbannerList() {
-      bannerImgUrl()
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            if (res.banners.length > 0) {
-              banner.list = res.banners;
-              banner.currentUrl = res.banners[0].imageUrl;
-
-              autoBanner();
-            }
-          }
-        })
-        .catch(() => ({}));
-    }
-    getbannerList();
-
-    // 上一张
-    function bannerPrev(): boolean | undefined {
-      if (banner.list.length === 0) {
-        return false;
+function getBannerList(): void {
+  bannerImgUrl()
+    .then((res: ResponseType) => {
+      if (res?.code !== 200) {
+        return;
+      }
+      if (res.banners?.length === 0) {
+        return;
       }
 
+      banner.currentUrl = res.banners?.[0]?.imageUrl ?? '';
+      banner.list = res.banners ?? [];
+      handleAutoPlay();
+    })
+    .catch(() => ({}));
+}
+getBannerList();
+
+function handlePrev(): void {
+  if (banner.index === 0) {
+    banner.index = banner.list.length - 1;
+    return;
+  }
+
+  banner.index--;
+}
+
+function handleNext(): void {
+  if (banner.index === banner.list.length - 1) {
+    banner.index = 0;
+    return;
+  }
+
+  banner.index++;
+}
+
+function handleDotChange(index: number): void {
+  banner.index = index;
+}
+
+// 轮播背景图
+const bannerRef = ref<HTMLElement | null>(null);
+
+watch(
+  () => banner.index,
+  () => {
+    banner.currentUrl = banner.list[banner.index].imageUrl;
+  }
+);
+
+watch(
+  () => banner.currentUrl,
+  () => {
+    const element = bannerRef.value;
+    if (!element) {
+      return;
+    }
+
+    element.style.backgroundImage = `url(${banner.currentUrl}?imageView&blur=40x20)`;
+    element.style.backgroundPosition = 'center center';
+    element.style.backgroundSize = '6000px';
+  }
+);
+
+// 自动轮播
+const timer = ref<number | null>(null);
+// 图片是否正在切换
+const imageSwitching = ref(false);
+
+function handleAutoPlay(): void {
+  timer.value && clearInterval(timer.value);
+
+  // 图片切换时增加动画, 1s后显示下一张图片并清除动画
+  timer.value = setInterval(() => {
+    imageSwitching.value = true;
+
+    setTimeout(() => {
       if (banner.index === 0) {
         banner.index = banner.list.length - 1;
-      } else {
-        banner.index--;
-      }
-      banner.currentUrl = banner.list[banner.index].imageUrl;
-    }
-
-    // 下一张
-    function bannerNext(): boolean | undefined {
-      if (banner.list.length === 0) {
-        return false;
+        imageSwitching.value = false;
+        return;
       }
 
-      if (banner.index === banner.list.length - 1) {
-        banner.index = 0;
-      } else {
-        banner.index++;
-      }
-      banner.currentUrl = banner.list[banner.index].imageUrl;
-    }
+      banner.index--;
+      imageSwitching.value = false;
+    }, 1000);
+  }, 4000);
+}
 
-    // 小圆点切换
-    function dotChange(index: number): boolean | undefined {
-      if (banner.list.length === 0) {
-        return false;
-      }
+function handleMouseEnter(): void {
+  timer.value && clearInterval(timer.value);
+}
 
-      banner.index = index;
-      banner.currentUrl = banner.list[banner.index].imageUrl;
-    }
+function handleMouseLeave(): void {
+  handleAutoPlay();
+}
 
-    // 监听轮播图片切换
-    const bannerRef = ref<HTMLElement>();
-    watch(
-      () => banner.currentUrl,
-      () => {
-        if (!banner.currentUrl) {
-          return false;
-        }
+function jumpPageDetail(): void {
+  const { targetType, targetId, url } = banner.list[banner.index];
 
-        // 修复切换背景图时出现的“白色闪屏”现象
-        const img = new Image();
-        img.src = `${banner.currentUrl}?imageView&blur=40x20`;
-        img.onload = function () {
-          const bannerDom = bannerRef.value as HTMLElement;
-          if (bannerDom) {
-            bannerDom.style.backgroundImage = `url(${banner.currentUrl}?imageView&blur=40x20)`;
-            bannerDom.style.backgroundSize = '6000px';
-            bannerDom.style.backgroundPosition = 'center center';
-          }
-        };
-      }
-    );
-
-    // 图片是否在切换中
-    const bannerImgSwitching = ref<boolean>(false);
-
-    // 自动轮播
-    const bannerTimer = ref<number>();
-    function autoBanner(): boolean | undefined {
-      if (banner.list.length === 0) {
-        return false;
-      }
-      if (bannerTimer.value) {
-        clearInterval(bannerTimer.value);
-      }
-
-      bannerTimer.value = setInterval(() => {
-        // 图片切换增加动画，1s后清除动画并显示下一张图片
-        bannerImgSwitching.value = true;
-        if (banner.index === banner.list.length - 1) {
-          banner.index = 0;
-        } else {
-          banner.index++;
-        }
-        setTimeout(() => {
-          bannerImgSwitching.value = false;
-          banner.currentUrl = banner.list[banner.index].imageUrl;
-        }, 1000);
-      }, 4000);
-    }
-
-    // 轮播区域鼠标移入
-    function bannerEnter(): void {
-      clearInterval(bannerTimer.value);
-    }
-
-    // 轮播区域鼠标移出
-    function bannerLeave(): void {
-      autoBanner();
-    }
-
-    // 跳转详情
-    function jumpDetail(item: BannerItem): void {
-      const { targetType, targetId, url } = item;
-
-      // 跳转歌曲详情
-      if (targetType === 1) {
-        $store.commit('jumpSongDetail', targetId);
-      }
-
-      // 跳转专辑详情
-      if (targetType === 10) {
-        $store.commit('jumpAlbumDetail', targetId);
-      }
-
-      // 跳转歌单详情
-      if (targetType === 1000) {
-        $store.commit('jumpSongSheetDetail', targetId);
-      }
-
-      // 跳转外部链接
-      if (targetType === 3000) {
-        window.open(url, '', '');
-      }
-    }
-
-    onUnmounted(() => {
-      // 清除定时器
-      if (bannerTimer.value) {
-        clearInterval(bannerTimer.value);
-      }
-    });
-
-    return {
-      bannerRef,
-      banner,
-      bannerImgSwitching,
-      bannerPrev,
-      bannerNext,
-      dotChange,
-      bannerEnter,
-      bannerLeave,
-      jumpDetail
-    };
+  if (targetType === 1) {
+    router.push({ path: '/song-detail', query: { id: targetId } });
   }
+
+  if (targetType === 10) {
+    router.push({ path: '/album-detail', query: { id: targetId } });
+  }
+
+  if (targetType === 1000) {
+    router.push({ path: '/song-sheet-detail', query: { id: targetId } });
+  }
+
+  if (targetType === 3000) {
+    window.open(url, '_blank');
+  }
+}
+
+onUnmounted(() => {
+  timer.value && clearInterval(timer.value);
 });
 </script>
 

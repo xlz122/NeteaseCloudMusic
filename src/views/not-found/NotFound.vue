@@ -1,49 +1,43 @@
 <template>
   <div class="not-found">
     <HeaderView />
-    <div class="content">
-      <i class="img"></i>
+    <div class="tip">
+      <i class="icon"></i>
       <p class="text">很抱歉，你要查找的网页找不到</p>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import HeaderView from '@views/header/Header.vue';
-
-export default defineComponent({
-  name: 'NotFound',
-  components: {
-    HeaderView
-  }
-});
+<script lang="ts" setup>
+import HeaderView from '@/views/header/Header.vue';
 </script>
 
 <style lang="less" scoped>
 .not-found {
   display: flex;
   flex-flow: column;
+  width: 100%;
   height: 100vh;
-  background: #fcfcfc;
+  background-color: #fcfcfc;
 
-  .content {
+  .tip {
     flex-grow: 1;
-    padding-top: 27px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    padding-top: 165px;
 
-    .img {
-      display: inline-block;
+    .icon {
       width: 281px;
       height: 115px;
-      text-align: center;
-      background: url('~@/assets/image/not-found.jpg');
+      background: url('@/assets/image/not-found.jpg') no-repeat;
     }
 
     .text {
-      margin: 15px 0;
-      font-size: 16px;
+      font-family: 'Microsoft Yahei';
+      font-size: 18px;
       color: #666;
-      text-align: center;
     }
   }
 }

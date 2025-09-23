@@ -1,38 +1,46 @@
 .side-user {
-  .side-user-login {
+  width: 100%;
+
+  .user-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
     height: 126px;
-    background: url('~@/assets/image/home/home-icon.png');
+    background: url('@/assets/image/home/home-icon.png') no-repeat;
     background-position: 0 0;
 
     .login-title {
       width: 205px;
       padding: 16px 0;
-      margin: 0 auto;
       line-height: 22px;
+      font-size: 12px;
       color: #666;
     }
 
     .login-btn {
-      display: block;
       width: 100px;
       height: 31px;
-      margin: 0 auto;
       line-height: 31px;
+      border: none;
+      background: url('@/assets/image/home/home-icon.png');
+      background-position: 0 -195px;
+      font-size: 12px;
       color: #fff;
-      text-align: center;
       text-shadow: 0 1px 0 #8a060b;
       cursor: pointer;
-      background: url('~@/assets/image/home/home-icon.png');
-      border: none;
-      outline: none;
-      background-position: 0 -195px;
+
+      &:hover {
+        background-position: -110px -195px;
+      }
     }
   }
 
-  .side-user-container {
+  .user-content {
+    width: 100%;
     height: 165px;
     padding-top: 20px;
-    background: url('~@/assets/image/home/home-icon.png');
+    background: url('@/assets/image/home/home-icon.png') no-repeat;
     background-position: 0 -270px;
 
     .user-info {
@@ -44,7 +52,7 @@
         margin-left: 10px;
         vertical-align: top;
         cursor: pointer;
-        background: #fff;
+        background-color: #fff;
         border: 1px solid #dadada;
 
         .user-avatar-img {
@@ -104,7 +112,7 @@
             font-weight: bold;
             line-height: 18px;
             color: #999;
-            background: url('~@/assets/image/icon2.png');
+            background: url('@/assets/image/icon2.png');
             background-position: -130px -64px;
           }
 
@@ -112,7 +120,7 @@
             display: inline-block;
             width: 8px;
             height: 17px;
-            background: url('~@/assets/image/icon2.png');
+            background: url('@/assets/image/icon2.png');
             background-position: -192px -64px;
           }
 
@@ -140,7 +148,7 @@
           color: #fff;
           vertical-align: top;
           cursor: pointer;
-          background: url('~@/assets/image/icon-button.png');
+          background: url('@/assets/image/icon-button.png');
           border: none;
           outline: none;
           background-position: right -428px;
@@ -163,8 +171,9 @@
             text-align: center;
             vertical-align: top;
             cursor: pointer;
-            background: url('~@/assets/image/icon-button.png');
+            background: url('@/assets/image/icon-button.png');
             background-position: 0 -387px;
+            font-style: normal;
           }
         }
 

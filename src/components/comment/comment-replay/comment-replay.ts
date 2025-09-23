@@ -1,9 +1,9 @@
-export type Expression = {
+type ExpressionItem = {
   title: string;
   num: number;
 };
 
-export const expressionList: Expression[] = [
+export const expressionList: ExpressionItem[] = [
   {
     title: '大笑',
     num: 86

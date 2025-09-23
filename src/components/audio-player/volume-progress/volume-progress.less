@@ -1,0 +1,26 @@
+.vertical-progress {
+  position: absolute;
+  top: 16px;
+  left: 14px;
+  width: 4px;
+  height: 86px;
+  background: transparent;
+
+  ::v-deep(.current-progress) {
+    height: 0;
+    background-color: #b2072a;
+
+    .icon-round {
+      bottom: -11px;
+      width: 18px;
+      height: 20px;
+      background: url('@/assets/image/video/play-dot.png') no-repeat;
+      background-position: center;
+    }
+
+    .icon-round:hover {
+      background: url('@/assets/image/video/play-dot-hover.png');
+      background-position: center;
+    }
+  }
+}

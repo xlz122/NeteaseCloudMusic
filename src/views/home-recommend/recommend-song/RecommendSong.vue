@@ -2,9 +2,9 @@
   <div class="music-table-container">
     <div class="loading" v-if="loading">
       <i class="loading-icon"></i>
-      加载中...
+      <span>加载中...</span>
     </div>
-    <table class="play-list-table" v-if="recommendSong?.length > 0">
+    <table class="play-list-table" v-if="list.length > 0">
       <thead>
         <tr>
           <th class="th first-th">
@@ -25,32 +25,26 @@
         </tr>
       </thead>
       <tbody class="tbody">
-        <tr
-          v-for="(item, index) in recommendSong"
-          :key="index"
-          :class="[{ 'even-item': (index + 1) % 2 }]"
-        >
+        <tr v-for="(item, index) in list" :key="index" :class="[{ 'even-item': (index + 1) % 2 }]">
           <td class="tbody-left">
             <div class="hd">
               <span class="text">{{ index + 1 }}</span>
               <i
                 class="icon-play"
-                :class="{ 'active-play': item.id === playMusicId }"
-                @click="playSingleMusic(item)"
+                :class="{ 'active-play': item.id === playSongId }"
+                @click="playSingleSong(item)"
               ></i>
             </div>
           </td>
           <td class="tbody-td">
             <div class="hd">
-              <span class="text" @click="jumpSongDetail(item?.id)">
-                <span class="title" :title="`${item?.name}`">
-                  {{ item?.name }}
+              <span class="text" @click="jumpSongDetail(item.id)">
+                <span class="title" :title="item.name">
+                  {{ item.name }}
                 </span>
-                <span class="no-click" v-if="item?.alia[0]">
-                  - {{ item?.alia[0] }}
-                </span>
+                <span class="no-click" v-if="item.alia?.[0]"> - {{ item.alia[0] }} </span>
               </span>
-              <i class="icon-play" v-if="item?.mv > 0"></i>
+              <i class="icon-play" v-if="item.mv && item.mv > 0"></i>
             </div>
           </td>
           <td class="tbody-td">
@@ -59,50 +53,34 @@
                 {{ timeStampToDuration(item.dt / 1000) }}
               </span>
               <div class="operate-btn">
-                <i
-                  class="icon add"
-                  title="添加到播放列表"
-                  @click="singleMusicToPlayList(item)"
-                ></i>
-                <i
-                  class="icon collect"
-                  title="收藏"
-                  @click="handleCollection(item?.id)"
-                ></i>
+                <i class="icon add" title="添加到播放列表" @click="singleSongToPlaylist(item)"></i>
+                <i class="icon collect" title="收藏" @click="handleCollection(item.id)"></i>
                 <i class="icon share" title="分享" @click="handleShare"></i>
-                <i
-                  class="icon download"
-                  title="下载"
-                  @click="handleDownload"
-                ></i>
+                <i class="icon download" title="下载" @click="handleDownload"></i>
               </div>
             </div>
           </td>
           <td class="tbody-td singer">
             <div class="hd">
-              <div class="text" v-for="(i, ind) in item?.ar" :key="ind">
-                <span
-                  class="name"
-                  :title="i?.name"
-                  @click="jumpSingerDetail(i?.id)"
-                >
-                  {{ i?.name }}
+              <div class="text" v-for="(i, ind) in item.ar" :key="ind">
+                <span class="name" :title="i.name" @click="jumpSingerDetail(i.id)">
+                  {{ i.name }}
                 </span>
-                <span class="line" v-if="ind !== item?.ar?.length - 1">/</span>
+                <span class="line" v-if="ind !== item.ar?.length - 1">/</span>
               </div>
             </div>
           </td>
-          <td class="tbody-td" @click="jumpAlbumDetail(item?.al?.id)">
+          <td class="tbody-td" @click="jumpAlbumDetail(item.al?.id)">
             <div class="hd">
-              <span class="text" :title="item?.al?.name">
-                {{ item?.al?.name }}
+              <span class="text" :title="item.al?.name">
+                {{ item.al?.name }}
               </span>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
-    <div class="no-data" v-if="!loading && recommendSong?.length === 0">
+    <div class="no-data" v-if="!loading && list.length === 0">
       <div class="title">
         <i class="icon"></i>
         <h3 class="text">暂无音乐！</h3>
@@ -118,108 +96,92 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, computed, watch, toRefs } from 'vue';
+<script lang="ts" setup>
+import { ref, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
-import useMusicToPlayList from '@/common/useMusicToPlayList';
-import usePlaySingleMusic from '@/common/usePlaySingleMusic';
-import { timeStampToDuration } from '@utils/utils';
-import type { SongType } from '@/common/audio';
+import { setMessage } from '@/hooks/useMessage';
+import usePlaySong from '@/hooks/usePlaySong';
+import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
+import { timeStampToDuration } from '@/utils/utils';
+import type { SongType } from '@/hooks/useFormatSong';
 
-export default defineComponent({
-  props: {
-    recommendSong: {
-      type: Array,
-      default: () => []
-    }
-  },
-  setup(props) {
-    const { recommendSong } = toRefs(props);
+type ItemType = {
+  alia: string[];
+  al: {
+    id: number;
+    name: string;
+  };
+  ar: {
+    id: number;
+  }[];
+  dt: number;
+} & SongType;
 
-    const $store = useStore();
-
-    const isLogin = computed<boolean>(() => $store.getters.isLogin);
-    const playMusicId = computed<number>(
-      () => $store.getters['music/playMusicId']
-    );
-
-    const loading = ref<boolean>(true);
-    watch(
-      () => recommendSong.value,
-      () => {
-        loading.value = false;
-      }
-    );
-
-    // 单个歌曲添加到播放列表
-    function singleMusicToPlayList(item: Partial<SongType>): void {
-      useMusicToPlayList({ music: item });
-    }
-
-    // 播放单个歌曲
-    function playSingleMusic(item: Partial<SongType>): void {
-      usePlaySingleMusic(item);
-    }
-
-    // 收藏
-    function handleCollection(id: number): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      $store.commit('collectPlayMusic', {
-        visible: true,
-        songIds: id
-      });
-    }
-
-    // 分享
-    function handleShare(): boolean | undefined {
-      if (!isLogin.value) {
-        $store.commit('setLoginDialog', true);
-        return false;
-      }
-
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 下载
-    function handleDownload(): void {
-      setMessage({ type: 'error', title: '该功能暂未开发' });
-    }
-
-    // 跳转歌曲详情
-    function jumpSongDetail(id: number): void {
-      $store.commit('jumpSongDetail', id);
-    }
-
-    // 跳转歌手详情
-    function jumpSingerDetail(id: number): void {
-      $store.commit('jumpSingerDetail', id);
-    }
-
-    // 跳转专辑详情
-    function jumpAlbumDetail(id: number): void {
-      $store.commit('jumpAlbumDetail', id);
-    }
-
-    return {
-      timeStampToDuration,
-      playMusicId,
-      loading,
-      playSingleMusic,
-      singleMusicToPlayList,
-      handleCollection,
-      handleShare,
-      handleDownload,
-      jumpSongDetail,
-      jumpSingerDetail,
-      jumpAlbumDetail
-    };
+const props = defineProps({
+  list: {
+    type: Array as () => ItemType[],
+    default: () => []
   }
 });
+
+const router = useRouter();
+const store = useStore();
+const isLogin = computed(() => store.getters.isLogin);
+const playSongId = computed(() => store.getters['music/playSongId']);
+
+const loading = ref(true);
+watch(
+  () => props.list,
+  () => {
+    loading.value = false;
+  }
+);
+
+// 播放单个歌曲
+function playSingleSong(item: SongType): void {
+  usePlaySong(item);
+  useSongAddPlaylist(item);
+}
+
+// 单个歌曲添加到播放列表
+function singleSongToPlaylist(item: SongType): void {
+  useSongAddPlaylist(item);
+}
+
+function handleCollection(id: number): void {
+  if (!isLogin.value) {
+    store.commit('setLoginDialog', true);
+    return;
+  }
+
+  store.commit('setSongCollect', { visible: true, songIds: id });
+}
+
+function handleShare(): void {
+  if (!isLogin.value) {
+    store.commit('setLoginDialog', true);
+    return;
+  }
+
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+function handleDownload(): void {
+  setMessage({ type: 'error', title: '该功能暂未开发' });
+}
+
+function jumpSongDetail(id: number): void {
+  router.push({ path: '/song-detail', query: { id } });
+}
+
+function jumpSingerDetail(id: number): void {
+  router.push({ path: '/singer-detail', query: { id } });
+}
+
+function jumpAlbumDetail(id: number): void {
+  router.push({ path: '/album-detail', query: { id } });
+}
 </script>
 
 <style lang="less" scoped>

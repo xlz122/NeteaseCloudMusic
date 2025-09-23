@@ -7,12 +7,12 @@
       <div class="my-music-main">
         <MySinger
           v-if="options.mySinger.visible"
-          :options="options"
+          :count="options.mySinger.count"
           @handleOptions="handleOptions"
         />
         <MyVideo
           v-if="options.myVideo.visible"
-          :options="options"
+          :count="options.myVideo.count"
           @handleOptions="handleOptions"
         />
         <SongSheetDetail v-if="options.songSheet.visible" />
@@ -22,124 +22,108 @@
   <div class="my-music" v-else>
     <div class="my-music-login">
       <div class="login-content">
-        <button class="login-btn" @click="openLogin"></button>
+        <button class="login-btn" @click="handleLogin"></button>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import {
-  defineComponent,
-  reactive,
-  computed,
-  watch,
-  onMounted,
-  onUnmounted,
-  nextTick
-} from 'vue';
+<script lang="ts" setup>
+import { reactive, computed, watch, nextTick, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
-import { userSubcount } from '@api/my-music';
-import type { ResponseType } from '@/types/types';
-import OptionList from '@views/my-music/option-list/OptionList.vue';
-import MySinger from '@/views/my-music/my-singer/MySinger.vue';
-import MyVideo from '@/views/my-music/my-video/MyVideo.vue';
-import SongSheetDetail from '@/views/my-music/song-sheet-detail/SongSheetDetail.vue';
+import { userSubcount } from '@/api/my-music';
+import type { ResponseType } from '@/types';
+import OptionList from './option-list/OptionList.vue';
+import MySinger from './my-singer/MySinger.vue';
+import MyVideo from './my-video/MyVideo.vue';
+import SongSheetDetail from './song-sheet-detail/SongSheetDetail.vue';
 
-export default defineComponent({
-  name: 'my-music',
-  components: {
-    OptionList,
-    MySinger,
-    MyVideo,
-    SongSheetDetail
+type ParamsType = {
+  type: string;
+  data: (typeof options)[keyof typeof options];
+};
+
+const store = useStore();
+const isLogin = computed(() => store.getters.isLogin);
+
+function handleLogin(): void {
+  store.commit('setLoginDialog', true);
+}
+
+// 获取统计数量
+const options = reactive({
+  mySinger: {
+    visible: false,
+    count: 0
   },
-  setup() {
-    const $store = useStore();
-
-    const isLogin = computed(() => $store.getters.isLogin);
-
-    const options = reactive({
-      mySinger: {
-        visible: false,
-        count: 0
-      },
-      myVideo: {
-        visible: false,
-        count: 0
-      },
-      songSheet: {
-        visible: true,
-        createCount: 0,
-        collectionCount: 0
-      }
-    });
-
-    // 获取统计数量
-    function getUserSubcount(): void {
-      userSubcount()
-        .then((res: ResponseType) => {
-          options.mySinger.count = res?.artistCount || 0;
-          options.myVideo.count = res?.mvCount || 0;
-          options.songSheet.createCount = res?.createdPlaylistCount || 0;
-          options.songSheet.collectionCount = res?.subPlaylistCount || 0;
-        })
-        .catch(() => ({}));
-    }
-
-    function handleOptions(params: {
-      type: string;
-      data: (typeof options)[keyof typeof options];
-    }): void {
-      for (const value in options) {
-        options[value].visible = false;
-      }
-
-      options[params.type] = { ...options[params.type], ...params.data };
-    }
-
-    function openLogin(): void {
-      $store.commit('setLoginDialog', true);
-    }
-
-    watch(
-      () => isLogin.value,
-      () => {
-        // 处理样式
-        nextTick(() => {
-          const footerDom = document.querySelector('.footer') as HTMLElement;
-          if (isLogin.value) {
-            footerDom.style.display = 'none';
-            getUserSubcount();
-          } else {
-            footerDom.style.display = 'block';
-          }
-        });
-      }
-    );
-
-    onMounted(() => {
-      const footerDom = document.querySelector('.footer') as HTMLElement;
-      if (isLogin.value) {
-        footerDom.style.display = 'none';
-        getUserSubcount();
-      } else {
-        footerDom.style.display = 'block';
-      }
-    });
-
-    onUnmounted(() => {
-      const footerDom = document.querySelector('.footer') as HTMLElement;
-      footerDom.style.display = 'block';
-    });
-
-    return {
-      isLogin,
-      options,
-      handleOptions,
-      openLogin
-    };
+  myVideo: {
+    visible: false,
+    count: 0
+  },
+  songSheet: {
+    visible: true,
+    createCount: 0,
+    collectionCount: 0
   }
+});
+
+function getUserSubcount(): void {
+  userSubcount()
+    .then((res: ResponseType) => {
+      if (res?.code !== 200) {
+        return;
+      }
+
+      options.mySinger.count = res.artistCount ?? 0;
+      options.myVideo.count = res.mvCount ?? 0;
+      options.songSheet.createCount = res.createdPlaylistCount ?? 0;
+      options.songSheet.collectionCount = res.subPlaylistCount ?? 0;
+    })
+    .catch(() => ({}));
+}
+
+function handleOptions(params: ParamsType): void {
+  for (const value in options) {
+    options[value as keyof typeof options].visible = false;
+  }
+
+  // @ts-expect-error - unknown
+  options[params.type] = { ...options[params.type], ...params.data };
+}
+
+// 页脚显隐
+watch(
+  () => isLogin.value,
+  () => {
+    nextTick(() => {
+      const element: HTMLElement = document.querySelector('.footer')!;
+
+      if (isLogin.value) {
+        element.style.display = 'none';
+        getUserSubcount();
+        return;
+      }
+
+      element.style.display = 'block';
+    });
+  }
+);
+
+onMounted(() => {
+  const element: HTMLElement = document.querySelector('.footer')!;
+
+  if (isLogin.value) {
+    element.style.display = 'none';
+    getUserSubcount();
+    return;
+  }
+
+  element.style.display = 'block';
+});
+
+onUnmounted(() => {
+  const element: HTMLElement = document.querySelector('.footer')!;
+  element.style.display = 'block';
 });
 </script>
 

@@ -10,202 +10,146 @@
       </div>
       <div class="home-toplist-content">
         <ToplistContent
-          :updateFrequency="updateFrequency"
           :songSheetDetail="songSheetDetail"
           :commentParams="commentParams"
-          @commentRefresh="commentRefresh"
-          @changPage="changPage"
+          @refreshComment="refreshComment"
+          @handlePageChange="handlePageChange"
         />
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, reactive, computed, watch } from 'vue';
-import { useRoute } from 'vue-router';
-import { useStore } from 'vuex';
-import { setMessage } from '@/components/message/useMessage';
-import { handleCommentData } from '@components/comment/handleCommentData';
-import { playlistDetail } from '@api/song-sheet-detail';
-import { commentPlayList } from '@api/comment';
-import { topList } from '@api/home-toplist';
-import type { ResponseType } from '@/types/types';
-import type { CommentParams } from '@components/comment/Comment.vue';
+<script lang="ts" setup>
+import { ref, reactive, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { formatComment } from '@/components/comment/formatComment';
+import { playlistDetail } from '@/api/song-sheet-detail';
+import { playlistComment } from '@/api/comment';
+import { topList } from '@/api/home-toplist';
+import type { ResponseType } from '@/types';
+import type { CommentParams } from '@/components/comment/Comment.vue';
 import ToplistMenu from './toplist-menu/ToplistMenu.vue';
 import ToplistContent from './toplist-content/ToplistContent.vue';
 
-type List = {
+type TopList = {
+  character: SongSheetItem[];
+  media: SongSheetItem[];
+};
+
+type SongSheetItem = {
   id: number;
+  name: string;
+  coverImgUrl: string;
   updateFrequency: string;
 };
 
-export default defineComponent({
-  name: 'home-toplist',
-  components: {
-    ToplistMenu,
-    ToplistContent
-  },
-  setup() {
-    const $route = useRoute();
-    const $store = useStore();
+const route = useRoute();
+const router = useRouter();
 
-    const songSheetId = computed<number>(() => $store.getters.songSheetId);
-
-    // 更新字符串
-    const updateFrequency = ref<string>('');
-
-    // 监听路由传参，获取歌单详情
-    watch(
-      () => $route,
-      curVal => {
-        if (curVal.path !== '/home-toplist') {
-          return false;
-        }
-
-        if (curVal.params?.id) {
-          (async () => {
-            const list: List[] = await getTopList();
-            const ItemId = list.findIndex(
-              (item: List) => item.id === songSheetId.value
-            );
-            list.forEach((item: List) => {
-              if (ItemId !== -1) {
-                if (item.id === songSheetId.value) {
-                  updateFrequency.value = item.updateFrequency;
-                }
-              } else {
-                $store.commit('setSongSheetId', list[0].id);
-                updateFrequency.value = list[0].updateFrequency;
-              }
-            });
-            getSongSheetDetail();
-            getCommentData();
-          })();
-        } else {
-          (async () => {
-            const list: List[] = await getTopList();
-            $store.commit('setSongSheetId', list[0].id);
-            updateFrequency.value = list[0].updateFrequency;
-            getSongSheetDetail();
-            getCommentData();
-          })();
-        }
-      },
-      {
-        immediate: true
-      }
-    );
-
-    const toplist = reactive({
-      character: [],
-      media: []
-    });
-
-    // 获取所有榜单
-    function getTopList(): Promise<List[]> {
-      return new Promise(resolve => {
-        topList()
-          .then((res: ResponseType) => {
-            if (res?.code === 200) {
-              toplist.character = res.list.slice(0, 4);
-              toplist.media = res.list.slice(4);
-              resolve(res.list);
-            } else {
-              setMessage({ type: 'error', title: res?.msg });
-            }
-          })
-          .catch(() => ({}));
-      });
-    }
-
-    // 菜单选择
-    function menuChange(id: number, frequency: string): void {
-      $store.commit('setSongSheetId', id);
-      updateFrequency.value = frequency;
-      getSongSheetDetail();
-      getCommentData();
-    }
-
-    const songSheetDetail = ref<unknown>({});
-
-    // 获取歌单详情
-    function getSongSheetDetail(): void {
-      playlistDetail({
-        id: songSheetId.value
-      })
-        .then((res: ResponseType) => {
-          if (res?.code === 200) {
-            songSheetDetail.value = res;
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 获取评论数据
-    const commentParams = reactive<CommentParams>({
-      type: 2,
-      id: 0,
-      offset: 1,
-      limit: 20,
-      total: 0,
-      hotList: [],
-      list: []
-    });
-
-    watch(
-      () => songSheetId.value,
-      () => {
-        commentParams.id = songSheetId.value;
-      }
-    );
-
-    function getCommentData(): void {
-      const params = {
-        id: songSheetId.value,
-        limit: commentParams.limit
-      };
-      // 精彩评论不加offset
-      if (commentParams.offset > 1) {
-        params['offset'] = (commentParams.offset - 1) * commentParams.limit;
-      }
-      commentPlayList({ ...params })
-        .then((res: ResponseType) => {
-          if (res.code === 200) {
-            const result = handleCommentData(res);
-            // 精彩评论
-            commentParams.hotList = result.hotList;
-            // 最新评论
-            commentParams.list = result.list;
-            // 最新评论 - 总数
-            commentParams.total = res.total;
-          }
-        })
-        .catch(() => ({}));
-    }
-
-    // 刷新评论
-    function commentRefresh(): void {
-      getCommentData();
-    }
-
-    // 分页
-    function changPage(current: number): void {
-      commentParams.offset = current;
-      getCommentData();
-    }
-
-    return {
-      toplist,
-      updateFrequency,
-      menuChange,
-      songSheetDetail,
-      commentParams,
-      commentRefresh,
-      changPage
-    };
-  }
+// 获取特色榜、媒体榜
+const toplist = reactive<TopList>({
+  character: [],
+  media: []
 });
+
+function getTopList(): Promise<null> {
+  return new Promise((resolve) => {
+    topList()
+      .then((res: ResponseType) => {
+        if (res?.code !== 200) {
+          return;
+        }
+
+        toplist.character = res.list?.slice?.(0, 4) ?? [];
+        toplist.media = res.list?.slice?.(4) ?? [];
+        resolve(null);
+      })
+      .catch(() => ({}));
+  });
+}
+
+// 菜单选择
+function menuChange(id: number): void {
+  router.push({ path: '/home-toplist', query: { id } });
+}
+
+// 获取歌单详情
+const songSheetDetail = ref({});
+
+function getSongSheetDetail(): void {
+  playlistDetail({ id: Number(route.query.id) })
+    .then((res: ResponseType) => {
+      if (res?.code !== 200) {
+        return;
+      }
+
+      songSheetDetail.value = res ?? {};
+    })
+    .catch(() => ({}));
+}
+
+// 获取评论
+const commentParams = reactive<CommentParams>({
+  type: 2,
+  id: undefined,
+  offset: 1,
+  limit: 20,
+  hotList: [],
+  list: [],
+  total: 0
+});
+
+function getCommentList(): void {
+  const params = {
+    id: commentParams.id,
+    offset: (commentParams.offset - 1) * commentParams.limit,
+    limit: commentParams.limit
+  };
+
+  playlistComment({ ...params })
+    .then((res: ResponseType) => {
+      if (res?.code !== 200) {
+        return;
+      }
+
+      const comment = formatComment(res);
+      commentParams.hotList = comment.hotList;
+      commentParams.list = comment.list;
+      commentParams.total = comment.total;
+    })
+    .catch(() => ({}));
+}
+
+function refreshComment(): void {
+  getCommentList();
+}
+
+function handlePageChange(current: number): void {
+  commentParams.offset = current;
+  getCommentList();
+}
+
+watch(
+  () => route.query.id,
+  async () => {
+    await getTopList();
+
+    if (!route.query.id) {
+      router.replace({
+        path: '/home-toplist',
+        query: { id: toplist.character[0].id }
+      });
+      return;
+    }
+
+    commentParams.id = Number(route.query.id);
+    commentParams.offset = 1;
+    getSongSheetDetail();
+    getCommentList();
+  },
+  { immediate: true, deep: true }
+);
 </script>
 
 <style lang="less">

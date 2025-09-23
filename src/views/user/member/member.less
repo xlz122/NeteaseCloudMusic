@@ -1,281 +1,47 @@
-.message {
-  font-size: 14px;
-  text-align: left;
+.member {
+  background-color: #f2f2f2;
 
-  .user-info {
+  .member-container {
     width: 980px;
-    height: 200px;
-    background: #f3f4f5 url('~@/assets/image/user/member.png') no-repeat 100% 100%;
-    background-size: 50%;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 1px solid #d3d3d3;
+    border-width: 0 1px;
+    font-size: 14px;
+    text-align: left;
 
-    .user-head {
-      padding: 20px 30px;
+    .user-info {
+      height: 200px;
+      background-color: #f3f4f5 url('@/assets/image/user/member.png') no-repeat 100% 100%;
+      background-size: 50%;
 
-      .payment {
-        text-align: right;
+      .user-head {
+        padding: 20px 30px;
 
-        a {
-          margin-left: 20px;
-          color: #328ad4;
+        .payment {
+          text-align: right;
 
-          i {
-            font-family: simsun, '\5b8b\4f53', sans-serif;
-            font-weight: 700;
+          a {
+            margin-left: 20px;
             color: #328ad4;
-            pointer-events: none;
-          }
-        }
-      }
 
-      .member {
-        padding: 0 40px;
-
-        .avatar {
-          width: 120px;
-          height: 120px;
-          padding: 3px;
-          border: 1px solid #d5d5d5;
-
-          img {
-            width: 100%;
-            height: 100%;
-          }
-        }
-
-        .user-content {
-          margin-left: 20px;
-
-          .vip-level {
-            width: auto;
-            height: 20px;
-            margin-left: 10px;
-            vertical-align: super;
-          }
-
-          .btn-gray {
-            padding: 0 20px;
-            margin-right: 10px;
-            line-height: 38px;
-            background: none;
-            border: 1px solid #bbb;
-            box-sizing: border-box;
-
-            &:hover {
-              color: #fff;
-              cursor: pointer;
-              background-color: #bbb;
+            i {
+              font-family: simsun, '\5b8b\4f53', sans-serif;
+              font-weight: 700;
+              color: #328ad4;
+              pointer-events: none;
             }
           }
         }
-      }
-    }
-  }
 
-  .scene-card {
-    margin: 20px auto;
+        .user-profile {
+          padding: 0 40px;
 
-    .vip-tab {
-      border-bottom: 1px solid #eee;
-      height: 36px;
-
-      .lia {
-        width: 50%;
-        text-align: center;
-
-        img {
-          height: 12px;
-        }
-
-        &.active {
-          position: relative;
-          color: #333;
-
-          &::before {
-            position: absolute;
-            bottom: 0;
-            left: 45%;
-            width: 48px;
-            height: 3px;
-            content: '';
-            background-image: linear-gradient(-133deg, #ff8063, #fb5758);
-          }
-        }
-      }
-    }
-
-    .vip-product {
-      padding: 30px 64px 0;
-
-      .lia {
-        position: relative;
-        width: calc(25% - 16px);
-        height: 148px;
-        margin: 0 6px 18px;
-        text-align: center;
-        border: 2px solid #eee;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px 0 rgb(0 0 0 / 8%);
-
-        .name {
-          padding-top: 29px;
-          font-size: 17px;
-          font-weight: 700;
-        }
-
-        .origin {
-          font-size: 20px;
-          line-height: 36px;
-          color: #ff3a3a;
-          vertical-align: text-bottom;
-        }
-
-        .price {
-          font-size: 14px;
-          color: #999;
-        }
-
-        .discount {
-          position: absolute;
-          bottom: 0;
-          width: 100%;
-          height: 25px;
-          line-height: 25px;
-          color: #ff3a3a;
-          background: #ffeded;
-          border-radius: 0 0 6px 6px;
-        }
-
-        .corner {
-          position: absolute;
-          top: -8px;
-          left: -2px;
-          height: 26px;
-          max-width: 85%;
-          padding: 0 8px;
-          line-height: 26px;
-          color: #fff;
-          background: linear-gradient(90deg, #ff5a4c, #ff1d12);
-          border-radius: 10px 10px 10px 0;
-        }
-
-        &.active {
-          border-color: rgb(255 58 58 / 75%);
-
-          .discount {
-            color: #fff;
-            background: rgb(255 58 58 / 75%);
-          }
-        }
-      }
-
-      .help {
-        width: 15px;
-        height: 15px;
-        background: url('~@/assets/image/user/help.png') no-repeat;
-        background-size: 100% 100%;
-      }
-
-      .coupon {
-        position: relative;
-        width: 300px;
-
-        .coupon-form-select {
-          position: relative;
-          width: 300px;
-          height: 40px;
-          line-height: 40px;
-          border: 1px solid rgb(238 238 238);
-          border-radius: 6px;
-
-          .select-placeholder {
-            width: 100%;
-            font-size: 100%;
-            color: #aaa;
-            background: transparent;
-            border: none;
-            outline: 0;
-          }
-
-          .select-arrow {
-            position: absolute;
-            top: 50%;
-            right: 8px;
-            width: 0;
-            height: 0;
-            margin-top: -2px;
-            margin-left: -4px;
-            border-color: #999 transparent transparent;
-            border-style: solid;
-            border-width: 5px 4px 0;
-          }
-        }
-
-        .select-dropdown {
-          position: absolute;
-          top: 52px;
-          left: 10px;
-          z-index: 100;
-          width: 300px;
-          background-color: #fff;
-          border: 1px solid #d9d9d9;
-          border-radius: 4px;
-          outline: none;
-          box-shadow: 0 0 4px #d9d9d9;
-          box-sizing: border-box;
-
-          .dropdown-menu {
-            position: relative;
-            display: block;
-            padding: 7px 10px;
-            margin: 0;
-            font-weight: 400;
-            color: #666;
-            white-space: nowrap;
-          }
-        }
-      }
-
-      .exchange {
-        input {
-          width: 225px;
-          height: 40px;
-          padding: 0 20px;
-          line-height: 40px;
-          background: #fff;
-          border: 1px solid #eee;
-          border-radius: 2px 0 0 2px;
-          outline: none;
-          box-sizing: border-box;
-        }
-
-        button {
-          width: 75px;
-          height: 40px;
-          line-height: 40px;
-          text-align: center;
-          background: #fff;
-          border: 1px solid #eee;
-          border-radius: 0 2px 2px 0;
-          outline: none;
-          box-sizing: border-box;
-          border-left: none;
-
-          &:hover {
-            background-color: #eee;
-          }
-        }
-      }
-
-      .payment {
-        .scan {
-          width: calc(100% - 40px);
-          padding: 20px;
-          margin: 20px auto;
-          border: 1px solid #eee;
-
-          .scan-img {
-            width: 100px;
-            height: 100px;
+          .avatar {
+            width: 120px;
+            height: 120px;
+            padding: 3px;
+            border: 1px solid #d5d5d5;
 
             img {
               width: 100%;
@@ -283,95 +49,337 @@
             }
           }
 
-          .pay-img {
-            img {
-              width: 18px;
-              height: 18px;
+          .user-content {
+            margin-left: 20px;
+
+            .vip-level {
+              width: auto;
+              height: 20px;
+              margin-left: 10px;
+              vertical-align: super;
+            }
+
+            .btn-gray {
+              padding: 0 20px;
+              margin-right: 10px;
+              line-height: 38px;
+              background: none;
+              border: 1px solid #bbb;
+              box-sizing: border-box;
+
+              &:hover {
+                color: #fff;
+                cursor: pointer;
+                background-color: #bbb;
+              }
             }
           }
         }
       }
     }
-  }
 
-  .privilege {
-    margin: 60px auto 0;
+    .scene-card {
+      margin: 20px auto;
 
-    .title {
-      em {
-        position: relative;
-        display: inline-block;
-        height: 100%;
-        font-style: normal;
-        line-height: 22px;
-        background: #fff;
+      .vip-tab {
+        border-bottom: 1px solid #eee;
+        height: 36px;
 
-        &::before,
-        &::after {
-          position: absolute;
-          top: 0;
-          width: 36px;
-          height: 12px;
-          content: '';
-          border-bottom: 1px solid #e6e6e6;
-        }
-
-        &::before {
-          left: -50px;
-        }
-
-        &::after {
-          right: -50px;
-        }
-      }
-    }
-
-    .slogan {
-      margin-top: 10px;
-      font-size: 32px;
-      line-height: 45px;
-      text-align: center;
-    }
-
-    .privilege-icon-list {
-      width: 811px;
-      margin: 0 auto;
-      line-height: 20px;
-
-      li {
-        width: 140px;
-        margin: 40px 10px 0;
-        text-align: center;
-      }
-    }
-
-    .song {
-      .songlist {
-        width: 840px;
-        margin: 20px auto 0;
-
-        li {
-          position: relative;
+        .lia {
+          width: 50%;
+          text-align: center;
 
           img {
-            width: 160px;
-            height: 160px;
+            height: 12px;
           }
 
-          .mask {
+          &.active {
+            position: relative;
+            color: #333;
+
+            &::before {
+              position: absolute;
+              bottom: 0;
+              left: 45%;
+              width: 48px;
+              height: 3px;
+              content: '';
+              background-image: linear-gradient(-133deg, #ff8063, #fb5758);
+            }
+          }
+        }
+      }
+
+      .vip-product {
+        padding: 30px 64px 0;
+
+        .lia {
+          position: relative;
+          width: calc(25% - 16px);
+          height: 148px;
+          margin: 0 6px 18px;
+          text-align: center;
+          border: 2px solid #eee;
+          border-radius: 10px;
+          box-shadow: 0 2px 10px 0 rgb(0 0 0 / 8%);
+
+          .name {
+            padding-top: 29px;
+            font-size: 17px;
+            font-weight: 700;
+          }
+
+          .origin {
+            font-size: 20px;
+            line-height: 36px;
+            color: #ff3a3a;
+            vertical-align: text-bottom;
+          }
+
+          .price {
+            font-size: 14px;
+            color: #999;
+          }
+
+          .discount {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 191px;
-            height: 160px;
-            background: url('~@/assets/image/user/songs/bg.png') no-repeat;
+            bottom: 0;
+            width: 100%;
+            height: 25px;
+            line-height: 25px;
+            color: #ff3a3a;
+            background-color: #ffeded;
+            border-radius: 0 0 6px 6px;
+          }
+
+          .corner {
+            position: absolute;
+            top: -8px;
+            left: -2px;
+            height: 26px;
+            max-width: 85%;
+            padding: 0 8px;
+            line-height: 26px;
+            color: #fff;
+            background: linear-gradient(90deg, #ff5a4c, #ff1d12);
+            border-radius: 10px 10px 10px 0;
+          }
+
+          &.active {
+            border-color: rgb(255 58 58 / 75%);
+
+            .discount {
+              color: #fff;
+              background: rgb(255 58 58 / 75%);
+            }
+          }
+        }
+
+        .help {
+          width: 15px;
+          height: 15px;
+          background: url('@/assets/image/user/help.png') no-repeat;
+          background-size: 100% 100%;
+        }
+
+        .coupon {
+          position: relative;
+          width: 300px;
+
+          .coupon-form-select {
+            position: relative;
+            width: 300px;
+            height: 40px;
+            line-height: 40px;
+            border: 1px solid rgb(238 238 238);
+            border-radius: 6px;
+
+            .select-placeholder {
+              width: 100%;
+              font-size: 100%;
+              color: #aaa;
+              background: transparent;
+              border: none;
+              outline: 0;
+            }
+
+            .select-arrow {
+              position: absolute;
+              top: 50%;
+              right: 8px;
+              width: 0;
+              height: 0;
+              margin-top: -2px;
+              margin-left: -4px;
+              border-color: #999 transparent transparent;
+              border-style: solid;
+              border-width: 5px 4px 0;
+            }
+          }
+
+          .select-dropdown {
+            position: absolute;
+            top: 52px;
+            left: 10px;
+            z-index: 100;
+            width: 300px;
+            background-color: #fff;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            outline: none;
+            box-shadow: 0 0 4px #d9d9d9;
+            box-sizing: border-box;
+
+            .dropdown-menu {
+              position: relative;
+              display: block;
+              padding: 7px 10px;
+              margin: 0;
+              font-weight: 400;
+              color: #666;
+              white-space: nowrap;
+            }
+          }
+        }
+
+        .exchange {
+          input {
+            width: 225px;
+            height: 40px;
+            padding: 0 20px;
+            line-height: 40px;
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 2px 0 0 2px;
+            outline: none;
+            box-sizing: border-box;
+          }
+
+          button {
+            width: 75px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 0 2px 2px 0;
+            outline: none;
+            box-sizing: border-box;
+            border-left: none;
+
+            &:hover {
+              background-color: #eee;
+            }
+          }
+        }
+
+        .payment {
+          .scan {
+            width: calc(100% - 40px);
+            padding: 20px;
+            margin: 20px auto;
+            border: 1px solid #eee;
+
+            .scan-img {
+              width: 100px;
+              height: 100px;
+
+              img {
+                width: 100%;
+                height: 100%;
+              }
+            }
+
+            .pay-img {
+              img {
+                width: 18px;
+                height: 18px;
+              }
+            }
           }
         }
       }
     }
-  }
 
-  .service {
-    padding: 80px 0 40px;
+    .privilege {
+      margin: 60px auto 0;
+
+      .title {
+        em {
+          position: relative;
+          display: inline-block;
+          height: 100%;
+          font-style: normal;
+          line-height: 22px;
+          background-color: #fff;
+
+          &::before,
+          &::after {
+            position: absolute;
+            top: 0;
+            width: 36px;
+            height: 12px;
+            content: '';
+            border-bottom: 1px solid #e6e6e6;
+          }
+
+          &::before {
+            left: -50px;
+          }
+
+          &::after {
+            right: -50px;
+          }
+        }
+      }
+
+      .slogan {
+        margin-top: 10px;
+        font-size: 32px;
+        line-height: 45px;
+        text-align: center;
+      }
+
+      .privilege-icon-list {
+        width: 811px;
+        margin: 0 auto;
+        line-height: 20px;
+
+        li {
+          width: 140px;
+          margin: 40px 10px 0;
+          text-align: center;
+        }
+      }
+
+      .song {
+        .songlist {
+          width: 840px;
+          margin: 20px auto 0;
+
+          li {
+            position: relative;
+
+            img {
+              width: 160px;
+              height: 160px;
+            }
+
+            .mask {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 191px;
+              height: 160px;
+              background: url('@/assets/image/user/songs/bg.png') no-repeat;
+            }
+          }
+        }
+      }
+    }
+
+    .service {
+      padding: 80px 0 40px;
+    }
   }
 }

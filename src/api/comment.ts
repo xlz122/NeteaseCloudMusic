@@ -1,8 +1,8 @@
-import axios from '@utils/axios';
+import axios from '@/utils/axios';
 import type { AxiosPromise } from 'axios';
 
-export type CommentParams = {
-  id: number;
+type CommentParams = {
+  id?: number | string;
   offset?: number;
   limit?: number;
   before?: number;
@@ -10,18 +10,13 @@ export type CommentParams = {
 
 /**
  * @description 获取歌曲评论列表
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 歌曲id
- * @param { Number } [offset] - 页数
- * @param { Number } [limit] - 偏移数量，默认20
- * @param { Number } [before] - 分页参数,取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到)
+ * @param { Object } params
+ * @param { number } params.id - 歌曲id
+ * @param { number } [params.offset] - 页数(默认为0)
+ * @param { number } [params.limit] - 偏移量(默认为20)
+ * @param { number } [params.before] - 分页参数, 取上一页最后一项的 time 获取下一页数据
  */
-export const commentMusic = ({
-  id,
-  offset,
-  limit,
-  before
-}: CommentParams): AxiosPromise => {
+export const musicComment = ({ id, offset, limit, before }: CommentParams): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -29,6 +24,7 @@ export const commentMusic = ({
     limit,
     before
   };
+
   return axios.request({
     url: '/comment/music',
     method: 'get',
@@ -38,18 +34,13 @@ export const commentMusic = ({
 
 /**
  * @description 获取歌单评论列表
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 歌单id
- * @param { Number } [offset] - 页数
- * @param { Number } [limit] - 偏移数量，默认20
- * @param { Number } [before] - 分页参数,取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到)
+ * @param { Object } params
+ * @param { number } params.id - 歌单id
+ * @param { number } [params.offset] - 页数(默认为0)
+ * @param { number } [params.limit] - 偏移量(默认为20)
+ * @param { number } [params.before] - 分页参数, 取上一页最后一项的 time 获取下一页数据
  */
-export const commentPlayList = ({
-  id,
-  offset,
-  limit,
-  before
-}: CommentParams): AxiosPromise => {
+export const playlistComment = ({ id, offset, limit, before }: CommentParams): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -57,6 +48,7 @@ export const commentPlayList = ({
     limit,
     before
   };
+
   return axios.request({
     url: '/comment/playlist',
     method: 'get',
@@ -66,18 +58,13 @@ export const commentPlayList = ({
 
 /**
  * @description 获取专辑评论列表
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 专辑id
- * @param { Number } [offset] - 页数
- * @param { Number } [limit] - 偏移数量，默认20
- * @param { Number } [before] - 分页参数,取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到)
+ * @param { Object } params
+ * @param { number } params.id - 专辑id
+ * @param { number } [params.offset] - 页数(默认为0)
+ * @param { number } [params.limit] - 偏移量(默认为20)
+ * @param { number } [params.before] - 分页参数, 取上一页最后一项的 time 获取下一页数据
  */
-export const commentAlbum = ({
-  id,
-  offset,
-  limit,
-  before
-}: CommentParams): AxiosPromise => {
+export const albumComment = ({ id, offset, limit, before }: CommentParams): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -85,6 +72,7 @@ export const commentAlbum = ({
     limit,
     before
   };
+
   return axios.request({
     url: '/comment/album',
     method: 'get',
@@ -94,18 +82,13 @@ export const commentAlbum = ({
 
 /**
  * @description 获取电台节目评论列表
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 节目id
- * @param { Number } [offset] - 页数
- * @param { Number } [limit] - 偏移数量，默认20
- * @param { Number } [before] - 分页参数,取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到)
+ * @param { Object } params
+ * @param { number } params.id - 节目id
+ * @param { number } [params.offset] - 页数(默认为0)
+ * @param { number } [params.limit] - 偏移量(默认为20)
+ * @param { number } [params.before] - 分页参数, 取上一页最后一项的 time 获取下一页数据
  */
-export const commentDjprogram = ({
-  id,
-  offset,
-  limit,
-  before
-}: CommentParams): AxiosPromise => {
+export const djprogramComment = ({ id, offset, limit, before }: CommentParams): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -113,6 +96,7 @@ export const commentDjprogram = ({
     limit,
     before
   };
+
   return axios.request({
     url: '/comment/dj',
     method: 'get',
@@ -122,18 +106,13 @@ export const commentDjprogram = ({
 
 /**
  * @description 获取视频评论列表
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - 视频id
- * @param { Number } [offset] - 页数
- * @param { Number } [limit] - 偏移数量，默认20
- * @param { Number } [before] - 分页参数,取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到)
+ * @param { Object } params
+ * @param { number } params.id - 视频id
+ * @param { number } [params.offset] - 页数(默认为0)
+ * @param { number } [params.limit] - 偏移量(默认为20)
+ * @param { number } [params.before] - 分页参数, 取上一页最后一项的 time 获取下一页数据
  */
-export const commentVideo = ({
-  id,
-  offset,
-  limit,
-  before
-}: CommentParams): AxiosPromise => {
+export const videoComment = ({ id, offset, limit, before }: CommentParams): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -141,6 +120,7 @@ export const commentVideo = ({
     limit,
     before
   };
+
   return axios.request({
     url: '/comment/video',
     method: 'get',
@@ -149,19 +129,14 @@ export const commentVideo = ({
 };
 
 /**
- * @description 获取视频评论列表
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } id - mvid
- * @param { Number } [offset] - 页数
- * @param { Number } [limit] - 偏移数量，默认20
- * @param { Number } [before] - 分页参数,取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到)
+ * @description 获取MV评论列表
+ * @param { Object } params
+ * @param { number } params.id - mvid
+ * @param { number } [params.offset] - 页数(默认为0)
+ * @param { number } [params.limit] - 偏移量(默认为20)
+ * @param { number } [params.before] - 分页参数, 取上一页最后一项的 time 获取下一页数据
  */
-export const commentMv = ({
-  id,
-  offset,
-  limit,
-  before
-}: CommentParams): AxiosPromise => {
+export const mvComment = ({ id, offset, limit, before }: CommentParams): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
@@ -169,6 +144,7 @@ export const commentMv = ({
     limit,
     before
   };
+
   return axios.request({
     url: '/comment/mv',
     method: 'get',
@@ -176,24 +152,23 @@ export const commentMv = ({
   });
 };
 
-/**
- * @description 新增评论
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
- * @param { Number } id - type类型id
- * @param { String } content - 评论内容
- */
-
 type AddComment = {
   type: number;
   id: number;
   content: string;
 };
 
+/**
+ * @description 新增评论
+ * @param { Object } params
+ * @param { number } params.type -  0: 歌曲, 1: mv, 2: 歌单, 3: 专辑, 4: 电台, 5: 视频, 6: 动态
+ * @param { number } params.id - type类型id
+ * @param { string } params.content - 评论内容
+ */
 export const addComment = ({ type, id, content }: AddComment): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    t: 1, // t 1为新增评论
+    t: 1, // 1: 新增评论
     type,
     id,
     content
@@ -207,15 +182,6 @@ export const addComment = ({ type, id, content }: AddComment): AxiosPromise => {
   });
 };
 
-/**
- * @description 回复歌单评论
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
- * @param { Number } id - type类型id
- * @param { String } content - 评论内容
- * @param { Number } commentId - 内容id
- */
-
 type ReplyComment = {
   type: number;
   id: number;
@@ -223,15 +189,18 @@ type ReplyComment = {
   commentId: number;
 };
 
-export const replyComment = ({
-  type,
-  id,
-  content,
-  commentId
-}: ReplyComment): AxiosPromise => {
+/**
+ * @description 回复歌单评论
+ * @param { Object } params
+ * @param { number } params.type -  0: 歌曲, 1: mv, 2: 歌单, 3: 专辑, 4: 电台, 5: 视频, 6: 动态
+ * @param { number } params.id - type类型id
+ * @param { string } params.content - 评论内容
+ * @param { number } params.commentId - 内容id
+ */
+export const replyComment = ({ type, id, content, commentId }: ReplyComment): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    t: 2, // t 2为回复评论
+    t: 2, // 2: 回复评论
     type,
     id,
     content,
@@ -246,28 +215,23 @@ export const replyComment = ({
   });
 };
 
-/**
- * @description 删除评论
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
- * @param { Number } id - type类型id
- * @param { Number } commentId - 内容id
- */
-
 type DeleteComment = {
   type: number;
   id: number;
   commentId: number;
 };
 
-export const deleteComment = ({
-  type,
-  id,
-  commentId
-}: DeleteComment): AxiosPromise => {
+/**
+ * @description 删除评论
+ * @param { Object } params
+ * @param { number } params.type -  0: 歌曲, 1: mv, 2: 歌单, 3: 专辑, 4: 电台, 5: 视频, 6: 动态
+ * @param { number } params.id - type类型id
+ * @param { number } params.commentId - 内容id
+ */
+export const deleteComment = ({ type, id, commentId }: DeleteComment): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    t: 0, // t 0为删除
+    t: 0, // 0: 删除
     type,
     id,
     commentId
@@ -281,15 +245,6 @@ export const deleteComment = ({
   });
 };
 
-/**
- * @description 评论点赞
- * @param { Number } timestamp - 防止接口缓存
- * @param { Number } type -  0: 歌曲,1: mv,2: 歌单,3: 专辑,4: 电台,5: 视频,6: 动态
- * @param { Number } id - type类型id
- * @param { Number } cid - 评论id
- * @param { Number } t - 是否点赞 ,1 为点赞 ,0 为取消点赞
- */
-
 type SongSheetLike = {
   type: number;
   id: number;
@@ -297,12 +252,15 @@ type SongSheetLike = {
   t: number;
 };
 
-export const commentLike = ({
-  type,
-  id,
-  cid,
-  t
-}: SongSheetLike): AxiosPromise => {
+/**
+ * @description 评论点赞
+ * @param { Object } params
+ * @param { number } params.type -  0: 歌曲, 1: mv, 2: 歌单, 3: 专辑, 4: 电台, 5: 视频, 6: 动态
+ * @param { number } params.id - type类型id
+ * @param { number } params.cid - 评论id
+ * @param { number } params.t - 是否点赞(0: 取消点赞, 1: 点赞)
+ */
+export const commentLike = ({ type, id, cid, t }: SongSheetLike): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     type,

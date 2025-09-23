@@ -12,47 +12,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineAsyncComponent, defineComponent } from 'vue';
+<script lang="ts" setup>
 import Banner from './banner/Banner.vue';
-const HomeContent = defineAsyncComponent(() => import('./content/Content.vue'));
-const HomeSide = defineAsyncComponent(() => import('./side/Side.vue'));
-
-export default defineComponent({
-  name: 'HomeView',
-  components: {
-    Banner,
-    HomeContent,
-    HomeSide
-  }
-});
+import HomeContent from './content/Content.vue';
+import HomeSide from './side/Side.vue';
 </script>
 
 <style lang="less" scoped>
-.home {
-  background-color: #f5f5f5;
-
-  .home-container {
-    position: relative;
-    width: 980px;
-    min-height: 700px;
-    margin: 0 auto;
-    background: url('~@/assets/image/home/wrap1.png') repeat-y 100% 100%;
-    background-color: #fff;
-    border: 1px solid #d3d3d3;
-    border-width: 0 1px;
-
-    .container-content {
-      display: inline-block;
-      width: calc(980px - 250px);
-      vertical-align: top;
-    }
-
-    .container-side {
-      display: inline-block;
-      width: 250px;
-      vertical-align: top;
-    }
-  }
-}
+@import url('./home.less');
 </style>
