@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="album-detail">
     <div class="detail-container">
       <div class="album-content">
@@ -39,7 +39,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { reactive, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
@@ -67,7 +67,7 @@ const store = useStore();
 const album = reactive<Album>({
   loading: false,
   userInfo: {},
-  songs: []
+  songs: [],
 });
 
 function getAlbumDetail(): void {
@@ -99,14 +99,14 @@ const commentParams = reactive<CommentParams>({
   limit: 20,
   hotList: [],
   list: [],
-  total: 0
+  total: 0,
 });
 
 function getCommentList(): void {
   const params = {
     id: commentParams.id,
     offset: (commentParams.offset - 1) * commentParams.limit,
-    limit: commentParams.limit
+    limit: commentParams.limit,
   };
 
   albumComment({ ...params })
@@ -141,7 +141,7 @@ watch(
     getAlbumDetail();
     getCommentList();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 onMounted(() => {
@@ -150,6 +150,6 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./album-detail.less');
+<style scoped lang="scss">
+@use './album-detail.scss';
 </style>

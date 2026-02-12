@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="side-container">
     <h3 class="title">
       更多节目
@@ -24,7 +24,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { djProgramList } from '@/api/program-detail';
@@ -41,8 +41,8 @@ type ProgramItem = {
 const props = defineProps({
   rid: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
 });
 
 const router = useRouter();
@@ -71,7 +71,7 @@ watch(
 
     getProgramList();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 function jumpDjradioDetail(id: number): void {
@@ -83,6 +83,6 @@ function jumpProgramDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./program-side.less');
+<style scoped lang="scss">
+@use './program-side.scss';
 </style>

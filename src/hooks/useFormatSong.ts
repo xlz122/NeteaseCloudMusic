@@ -48,7 +48,7 @@ function useFormatSong(song: SongType): MusicItemType {
     picUrl: '',
     duration: 0,
     mv: 0,
-    artists: []
+    artists: [],
   };
 
   musicItem.id = song.id;

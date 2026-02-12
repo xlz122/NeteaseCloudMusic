@@ -12,22 +12,23 @@ const routes: RouteRecordRaw[] = [
         // meta: {
         //   keepAlive: true
         // },
-        component: () => import('../views/home/Home.vue')
+        component: () => import('../views/home/Home.vue'),
       },
       {
         path: '/my-music',
         name: 'my-music',
-        component: () => import(/* webpackChunkName: "my-music" */ '../views/my-music/MyMusic.vue')
+        component: () => import(/* webpackChunkName: "my-music" */ '../views/my-music/MyMusic.vue'),
       },
       {
         path: '/friend',
         name: 'friend',
-        component: () => import(/* webpackChunkName: "friend" */ '../views/friend/Friend.vue')
+        component: () => import(/* webpackChunkName: "friend" */ '../views/friend/Friend.vue'),
       },
       {
         path: '/download',
         name: 'download',
-        component: () => import(/* webpackChunkName: "download" */ '../views/download/Download.vue')
+        component: () =>
+          import(/* webpackChunkName: "download" */ '../views/download/Download.vue'),
       },
       {
         path: '/creator-center',
@@ -35,7 +36,7 @@ const routes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "creator-center" */ '../views/header/creator-center/CreatorCenter.vue'
-          )
+          ),
       },
       {
         path: '/home-recommend',
@@ -43,13 +44,13 @@ const routes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "home-recommend" */ '../views/home-recommend/HomeRecommend.vue'
-          )
+          ),
       },
       {
         path: '/home-toplist',
         name: 'home-toplist',
         component: () =>
-          import(/* webpackChunkName: "home-toplist" */ '../views/home-toplist/HomeToplist.vue')
+          import(/* webpackChunkName: "home-toplist" */ '../views/home-toplist/HomeToplist.vue'),
       },
       {
         path: '/home-song-sheet',
@@ -57,7 +58,7 @@ const routes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "home-song-sheet" */ '../views/home-song-sheet/HomeSongSheet.vue'
-          )
+          ),
       },
       {
         path: '/home-djprogram',
@@ -65,25 +66,25 @@ const routes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "home-djprogram" */ '../views/home-djprogram/HomeDjprogram.vue'
-          )
+          ),
       },
       {
         path: '/home-singer',
         name: 'home-singer',
         component: () =>
-          import(/* webpackChunkName: "home-singer" */ '../views/home-singer/HomeSinger.vue')
+          import(/* webpackChunkName: "home-singer" */ '../views/home-singer/HomeSinger.vue'),
       },
       {
         path: '/home-album',
         name: 'home-album',
         component: () =>
-          import(/* webpackChunkName: "home-album" */ '../views/home-album/HomeAlbum.vue')
+          import(/* webpackChunkName: "home-album" */ '../views/home-album/HomeAlbum.vue'),
       },
       {
         path: '/song-detail',
         name: 'song-detail',
         component: () =>
-          import(/* webpackChunkName: "song-detail" */ '../views/song-detail/SongDetail.vue')
+          import(/* webpackChunkName: "song-detail" */ '../views/song-detail/SongDetail.vue'),
       },
       {
         path: '/song-sheet-detail',
@@ -91,7 +92,7 @@ const routes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "song-sheet-detail" */ '../views/song-sheet-detail/SongSheetDetail.vue'
-          )
+          ),
       },
       {
         path: '/djradio-detail',
@@ -99,7 +100,7 @@ const routes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "djradio-detail" */ '../views/djradio-detail/DjradioDetail.vue'
-          )
+          ),
       },
       {
         path: '/program-detail',
@@ -107,43 +108,43 @@ const routes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "program-detail" */ '../views/program-detail/ProgramDetail.vue'
-          )
+          ),
       },
       {
         path: '/singer-detail',
         name: 'singer-detail',
         component: () =>
-          import(/* webpackChunkName: "singer-detail" */ '../views/singer-detail/SingerDetail.vue')
+          import(/* webpackChunkName: "singer-detail" */ '../views/singer-detail/SingerDetail.vue'),
       },
       {
         path: '/album-detail',
         name: 'album-detail',
         component: () =>
-          import(/* webpackChunkName: "album-detail" */ '../views/album-detail/AlbumDetail.vue')
+          import(/* webpackChunkName: "album-detail" */ '../views/album-detail/AlbumDetail.vue'),
       },
       {
         path: '/video-detail',
         name: 'video-detail',
         component: () =>
-          import(/* webpackChunkName: "video-detail" */ '../views/video-detail/VideoDetail.vue')
+          import(/* webpackChunkName: "video-detail" */ '../views/video-detail/VideoDetail.vue'),
       },
       {
         path: '/mv-detail',
         name: 'mv-detail',
         component: () =>
-          import(/* webpackChunkName: "mv-detail" */ '../views/mv-detail/MvDetail.vue')
+          import(/* webpackChunkName: "mv-detail" */ '../views/mv-detail/MvDetail.vue'),
       },
       {
         path: '/user-profile',
         name: 'user-profile',
         component: () =>
-          import(/* webpackChunkName: "user-profile" */ '../views/user-profile/UserProfile.vue')
+          import(/* webpackChunkName: "user-profile" */ '../views/user-profile/UserProfile.vue'),
       },
       {
         path: '/level',
         name: 'level',
         component: () =>
-          import(/* webpackChunkName: "user-level" */ '../views/user/level/Level.vue')
+          import(/* webpackChunkName: "user-level" */ '../views/user/level/Level.vue'),
       },
       {
         path: '/level-detail',
@@ -151,13 +152,13 @@ const routes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "level-detail" */ '../views/user/level-detail/LevelDetail.vue'
-          )
+          ),
       },
       {
         path: '/member',
         name: 'member',
         component: () =>
-          import(/* webpackChunkName: "user-level" */ '../views/user/member/Member.vue')
+          import(/* webpackChunkName: "user-level" */ '../views/user/member/Member.vue'),
       },
       {
         path: '/search-details',
@@ -165,16 +166,16 @@ const routes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "search-details" */ '../views/search-details/SearchDetails.vue'
-          )
-      }
-    ]
+          ),
+      },
+    ],
   },
   // 未匹配的路径名称导航到该路径
   {
     path: '/:pathMatch(.*)*',
     name: 'not-found',
-    component: () => import(/* webpackChunkName: "not-found" */ '../views/not-found/NotFound.vue')
-  }
+    component: () => import(/* webpackChunkName: "not-found" */ '../views/not-found/NotFound.vue'),
+  },
 ];
 
 const router = createRouter({
@@ -185,8 +186,8 @@ const router = createRouter({
       return savedPosition;
     }
 
-    return { left: 0, top: 0 };
-  }
+    return { top: 0, left: 0 };
+  },
 });
 
 export default router;

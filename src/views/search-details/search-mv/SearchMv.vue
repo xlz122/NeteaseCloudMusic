@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="loading" v-if="mvData.loading">
     <i class="loading-icon"></i>
     <span>加载中...</span>
@@ -47,7 +47,7 @@
   />
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { reactive, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -88,7 +88,7 @@ const mvData = reactive<MvData>({
   offset: 1,
   limit: 30,
   total: 0,
-  list: []
+  list: [],
 });
 
 watch(
@@ -98,7 +98,7 @@ watch(
 
     getSearchMv();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 function getSearchMv(): void {
@@ -108,7 +108,7 @@ function getSearchMv(): void {
     keywords: String(route.query.keyword),
     type: Number(route.query.type),
     offset: (mvData.offset - 1) * mvData.limit,
-    limit: isLogin.value ? mvData.limit : 20
+    limit: isLogin.value ? mvData.limit : 20,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -149,6 +149,6 @@ function jumpSingerDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./search-mv.less');
+<style scoped lang="scss">
+@use './search-mv.scss';
 </style>

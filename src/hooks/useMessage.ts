@@ -9,7 +9,7 @@ type Message = {
 const message = reactive<Message>({
   type: 'info',
   title: '',
-  time: 1000
+  time: 1000,
 });
 
 function setMessage<T extends Message>({ type, title, time }: T): void {

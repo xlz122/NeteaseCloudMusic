@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="search-detail">
     <div class="detail-container">
       <SearchHeader />
@@ -46,7 +46,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import SearchHeader from './search-header/SearchHeader.vue';
@@ -67,6 +67,6 @@ function searchCountChange(count: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./search-details.less');
+<style scoped lang="scss">
+@use './search-details.scss';
 </style>

@@ -63,7 +63,7 @@ const mutations: Mutations<State> = {
     state.userInfo = {};
     localStorage.clear();
     clearAllCookie();
-  }
+  },
 };
 
 export default mutations;

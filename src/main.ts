@@ -8,7 +8,7 @@ import loginDialog from '@/components/login-dialog';
 import songCollect from '@/components/song-collect';
 import copyrightDialog from '@/components/copyright-dialog';
 import verifyDialog from '@/components/verify-dialog';
-import '@/index.css';
+import './assets/styles/global.css';
 
 const app = createApp(App);
 

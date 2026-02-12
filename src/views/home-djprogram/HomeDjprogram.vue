@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="home-djprogram">
     <div class="home-djprogram-container">
       <Category @categoryChange="categoryChange" />
@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { setMessage } from '@/hooks/useMessage';
 import { djCatelist, recommendTypeList } from '@/api/home-djprogram';
@@ -103,6 +103,6 @@ function getDjcateRecommend(id: number): Promise<RecommendItem[]> {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./home-djprogram.less');
+<style scoped lang="scss">
+@use './home-djprogram.scss';
 </style>

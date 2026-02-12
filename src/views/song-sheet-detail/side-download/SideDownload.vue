@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="side-download">
     <ul class="download-list">
       <li class="item">
@@ -19,6 +19,6 @@
   </div>
 </template>
 
-<style lang="less" scoped>
-@import url('./side-download.less');
+<style scoped lang="scss">
+@use './side-download.scss';
 </style>

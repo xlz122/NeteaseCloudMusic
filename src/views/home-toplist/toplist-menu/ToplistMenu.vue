@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="toplist-menu">
     <h2 class="menu-title">云音乐特色榜</h2>
     <ul class="menu-list">
@@ -39,7 +39,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { useRoute } from 'vue-router';
 
 type ItemType = {
@@ -52,12 +52,12 @@ type ItemType = {
 defineProps({
   character: {
     type: Array as () => ItemType[],
-    default: () => []
+    default: () => [],
   },
   media: {
     type: Array as () => ItemType[],
-    default: () => []
-  }
+    default: () => [],
+  },
 });
 const emits = defineEmits(['menuChange']);
 
@@ -68,6 +68,6 @@ function menuChange(id: number): void {
 }
 </script>
 
-<style lang="less">
-@import url('./toplist-menu.less');
+<style lang="scss">
+@use './toplist-menu.scss';
 </style>

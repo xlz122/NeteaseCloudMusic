@@ -1,6 +1,6 @@
-<template>
+﻿<template>
   <div class="qrcode" v-if="!qrcodeAuthorized">
-    <img class="icon-phone" src="../../../assets/image/login/qrcode-phone.png" alt="" />
+    <img class="icon-phone" src="../../../assets/images/login/qrcode-phone.png" alt="" />
     <div class="qrcode-right">
       <p class="title">扫码登录</p>
       <div class="qrcode-img">
@@ -20,14 +20,14 @@
     </div>
   </div>
   <div class="qrcode-authorized" v-else>
-    <img class="icon-phone" src="../../../assets/image/login/qrcode-authorized.png" alt="" />
+    <img class="icon-phone" src="../../../assets/images/login/qrcode-authorized.png" alt="" />
     <p class="title">扫描成功</p>
     <p class="text">请在手机上确认登录</p>
   </div>
   <button class="other-btn" @click="otherLogin">选择其他登录模式</button>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { qrcodeKey, qrcodeImg, qrcodeStatus, accountInfo, userInfo } from '@/api/login';
@@ -60,7 +60,7 @@ const qrcodeImgSrc = ref('');
 function getQrcodeImg(): void {
   qrcodeImg({
     key: qrcodeImgKey.value,
-    qrimg: true
+    qrimg: true,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -170,6 +170,6 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="less">
-@import url('./qrcode.less');
+<style lang="scss">
+@use './qrcode.scss';
 </style>

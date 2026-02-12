@@ -1,0 +1,172 @@
+﻿.singer-content {
+  padding: 40px 0;
+
+  .title {
+    height: 40px;
+    margin: 0 40px;
+    border-bottom: 2px solid #C20C0C;
+    text-align: left;
+
+    .text {
+      font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
+      font-size: 24px;
+      font-weight: normal;
+    }
+  }
+
+  .list-screen {
+    padding: 0 40px;
+    margin-top: 20px;
+    margin-left: -3px;
+
+    .item {
+      display: inline-block;
+      margin-left: 3px;
+      font-size: 14px;
+      vertical-align: middle;
+
+      .item-text {
+        display: inline-block;
+        width: 21px;
+        height: 24px;
+        line-height: 24px;
+        color: #333333;
+        text-align: center;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .hot {
+      .item-text {
+        width: 45px;
+      }
+    }
+
+    .active-item {
+      background-color: #C20C0C;
+      border-radius: 2px;
+
+      .item-text {
+        color: #FFFFFF;
+      }
+    }
+  }
+
+  .list {
+    padding: 0 40px;
+    margin-top: 20px;
+    margin-left: -17px;
+    text-align: left;
+
+    .item {
+      display: inline-block;
+      width: 130px;
+      height: 154px;
+      padding: 0 0 30px 17px;
+      overflow: hidden;
+      line-height: 1.4;
+      vertical-align: top;
+
+      .item-cover {
+        width: 130px;
+        height: 130px;
+        cursor: pointer;
+
+        .item-cover-img {
+          display: block;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .item-desc {
+        position: relative;
+        margin-top: 8px;
+
+        .item-desc-text {
+          display: inline-block;
+          max-width: 80%;
+          overflow: hidden;
+          color: #000000;
+          text-overflow: ellipsis;
+          word-wrap: normal;
+          white-space: nowrap;
+          vertical-align: middle;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .item-desc-icon {
+          position: absolute;
+          right: 0;
+          display: inline-block;
+          width: 17px;
+          height: 18px;
+          overflow: hidden;
+          vertical-align: middle;
+          cursor: pointer;
+          background: url('@/assets/images/icon.png') no-repeat;
+          background-position: 0 -740px;
+        }
+      }
+    }
+  }
+
+  .line {
+    margin: 10px 40px 12px;
+    border-bottom: 1px dotted #999999;
+  }
+
+  .list-small {
+    display: inline-block;
+    padding-left: 17px;
+    margin: 0 40px 0 23px;
+    overflow: hidden;
+    line-height: 23px;
+
+    .item {
+      position: relative;
+      display: inline-block;
+      width: 144px;
+      height: 30px;
+      vertical-align: top;
+
+      .item-text {
+        display: inline-block;
+        max-width: 105px;
+        overflow: hidden;
+        color: #000000;
+        text-overflow: ellipsis;
+        word-wrap: normal;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .item-icon {
+        display: inline-block;
+        display: inline-block;
+        width: 17px;
+        height: 18px;
+        margin-left: 2px;
+        overflow: hidden;
+        vertical-align: middle;
+        vertical-align: middle;
+        cursor: pointer;
+        background: url('@/assets/images/icon.png') no-repeat;
+        background-position: 0 -740px;
+      }
+    }
+  }
+}

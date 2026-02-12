@@ -9,13 +9,13 @@ import type { AxiosPromise } from 'axios';
 export const videoDetail = ({ id }: { id: string }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    id
+    id,
   };
 
   return axios.request({
     url: '/video/detail',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -27,13 +27,13 @@ export const videoDetail = ({ id }: { id: string }): AxiosPromise => {
 export const relatedVideo = ({ id }: { id: string }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    id
+    id,
   };
 
   return axios.request({
     url: '/related/allvideo',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -45,13 +45,13 @@ export const relatedVideo = ({ id }: { id: string }): AxiosPromise => {
 export const videoUrl = ({ id }: { id: string }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    id
+    id,
   };
 
   return axios.request({
     url: '/video/url',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -70,12 +70,12 @@ export const videoSub = ({ id, t }: VideoSub): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
-    t
+    t,
   };
 
   return axios.request({
     url: '/video/sub',
     method: 'get',
-    params
+    params,
   });
 };

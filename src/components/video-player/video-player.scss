@@ -1,0 +1,329 @@
+﻿.video-player {
+  position: relative;
+  width: 100%;
+  height: 100%;
+
+  .full-operate {
+    display: none;
+  }
+
+  .play {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: rgb(255 255 255 / 0%);
+
+    .icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      display: block;
+      width: 74px;
+      height: 74px;
+      margin-top: -37px;
+      margin-left: -37px;
+      cursor: pointer;
+    }
+
+    .icon-pause {
+      background: url('@/assets/images/video/pause.png') no-repeat center center;
+
+      &:hover {
+        background: url('@/assets/images/video/pause-hover.png') no-repeat center center;
+      }
+    }
+
+    .icon-replay {
+      top: 40%;
+      background: url('@/assets/images/video/replay.png') no-repeat center center;
+
+      &:hover {
+        background: url('@/assets/images/video/replay-hover.png') no-repeat center center;
+      }
+    }
+
+    .text {
+      position: absolute;
+      bottom: -28px;
+      left: 50%;
+      display: inline-block;
+      width: 40px;
+      height: 26px;
+      padding: 0 10px;
+      margin-top: 8px;
+      font-size: 14px;
+      line-height: 26px;
+      color: #A5A7A8;
+      transform: translateX(-50%);
+    }
+  }
+
+  .wrap {
+    position: absolute;
+    bottom: 6px;
+    left: 0;
+    z-index: 2;
+    display: flex;
+    width: 100%;
+    align-items: center;
+
+    .icon {
+      display: inline-block;
+      width: 34px;
+      height: 32px;
+      margin: 0 6px;
+      vertical-align: middle;
+      cursor: pointer;
+    }
+
+    .icon-pause {
+      background: url('@/assets/images/video/small-pause.png') no-repeat center center;
+
+      &:hover {
+        background: url('@/assets/images/video/small-pause-hover.png') no-repeat center center;
+      }
+    }
+
+    .icon-play {
+      background: url('@/assets/images/video/play.png') no-repeat center center;
+
+      &:hover {
+        background: url('@/assets/images/video/play-hover.png') no-repeat center center;
+      }
+    }
+
+    .time {
+      display: inline-block;
+      color: rgb(255 255 255 / 50%);
+      vertical-align: middle;
+    }
+
+    .video-progress {
+      flex: 1;
+    }
+
+    .other {
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
+
+      .icon-volume {
+        display: inline-block;
+        width: 16px;
+        height: 12px;
+        margin: 0 10px 0 20px;
+        vertical-align: middle;
+        cursor: pointer;
+        background: url('@/assets/images/video/volume.png') no-repeat center center;
+
+        &:hover {
+          background: url('@/assets/images/video/volume-hover.png') no-repeat center center;
+        }
+      }
+
+      .icon-mute {
+        background: url('@/assets/images/video/mute.png') no-repeat center center;
+
+        &:hover {
+          background: url('@/assets/images/video/mute-hover.png') no-repeat center center;
+        }
+      }
+
+      .volume-progress {
+        position: relative;
+        position: absolute;
+        top: -5px;
+        left: 16px;
+        z-index: 1;
+        width: 22px;
+        height: 86px;
+        background: rgb(0 0 0 / 70%);
+        border: 1px solid rgb(255 255 255 / 20%);
+        transform: translateY(-100%);
+        transform: translateY(-100%);
+        border-bottom: none;
+      
+        .volume-progress-bar-arrow {
+          position: absolute;
+          top: auto;
+          right: auto;
+          bottom: -6px;
+          left: 0;
+          display: block;
+          width: 100%;
+          height: 7px;
+          cursor: default;
+          background: url('@/assets/images/video/volume-dot-arrow.png') no-repeat;
+          background-position: center top;
+        }
+      }
+
+      .mode {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        color: rgb(255 255 255 / 50%);
+        text-align: center;
+        vertical-align: middle;
+        cursor: default;
+
+        &:hover {
+          color: #FFFFFF;
+        }
+
+        &::before {
+          position: absolute;
+          top: 0;
+          left: 0;
+          display: block;
+          width: 1px;
+          height: 100%;
+          background: rgb(255 255 255 / 20%);
+          content: '';
+        }
+
+        &::after {
+          position: absolute;
+          top: 0;
+          right: 0;
+          display: block;
+          width: 1px;
+          height: 100%;
+          background: rgb(255 255 255 / 20%);
+          content: '';
+        }
+      }
+
+      .full {
+        display: inline-block;
+        width: 34px;
+        height: 34px;
+        vertical-align: middle;
+        cursor: pointer;
+        background: url('@/assets/images/video/full.png') no-repeat center center;
+        border: none;
+
+        &:hover {
+          background: url('@/assets/images/video/full-hover.png') no-repeat center center;
+        }
+      }
+
+      .narrow {
+        display: inline-block;
+        width: 34px;
+        height: 34px;
+        vertical-align: middle;
+        cursor: pointer;
+        background: url('@/assets/images/video/narrow.png') no-repeat center center;
+        border: none;
+
+        &:hover {
+          background: url('@/assets/images/video/narrow-hover.png') no-repeat center center;
+        }
+      }
+    }
+  }
+}
+
+.video-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 20001009;
+  background-color: #000000;
+
+  .full-operate {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    text-align: left;
+
+    .title {
+      width: auto;
+      height: 50px;
+      padding-left: 20px;
+      margin-right: 200px;
+      overflow: hidden;
+      font-size: 18px;
+      font-weight: normal;
+      line-height: 50px;
+      color: #FFFFFF;
+      text-overflow: ellipsis;
+      word-wrap: normal;
+      white-space: nowrap;
+    }
+
+    .list {
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      .item {
+        position: relative;
+        display: inline-block;
+        width: 61px;
+        height: 50px;
+        padding: 0;
+        vertical-align: middle;
+        border: none;
+
+        .icon {
+          position: absolute;
+          top: 50%;
+          display: inline-block;
+          width: 36px;
+          height: 36px;
+          cursor: pointer;
+          transform: translateY(-50%);
+        }
+
+        .like {
+          background: url('@/assets/images/video/like.png') no-repeat center center;
+
+          &:hover {
+            background: url('@/assets/images/video/like-hover.png') no-repeat center center;
+          }
+        }
+
+        .liked {
+          background: url('@/assets/images/video/liked.png') no-repeat center center;
+
+          &:hover {
+            background: url('@/assets/images/video/liked-hover.png') no-repeat center center;
+          }
+        }
+
+        .collection {
+          background: url('@/assets/images/video/collection.png') no-repeat center center;
+
+          &:hover {
+            background: url('@/assets/images/video/collection-hover.png') no-repeat center center;
+          }
+        }
+
+        .collectioned {
+          background: url('@/assets/images/video/collectioned.png') no-repeat center center;
+
+          &:hover {
+            background: url('@/assets/images/video/collectioned-hover.png') no-repeat center center;
+          }
+        }
+
+        .share {
+          background: url('@/assets/images/video/share.png') no-repeat center center;
+
+          &:hover {
+            background: url('@/assets/images/video/share-hover.png') no-repeat center center;
+          }
+        }
+      }
+    }
+  }
+}

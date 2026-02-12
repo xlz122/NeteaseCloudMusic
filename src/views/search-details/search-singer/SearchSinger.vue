@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="loading" v-if="singerData.loading">
     <i class="loading-icon"></i>
     <span>加载中...</span>
@@ -36,7 +36,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { reactive, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -71,7 +71,7 @@ const singerData = reactive<SingerData>({
   offset: 1,
   limit: 30,
   total: 0,
-  list: []
+  list: [],
 });
 
 function getSearchSinger(): void {
@@ -81,7 +81,7 @@ function getSearchSinger(): void {
     keywords: String(route.query.keyword),
     type: Number(route.query.type),
     offset: (singerData.offset - 1) * singerData.limit,
-    limit: isLogin.value ? singerData.limit : 20
+    limit: isLogin.value ? singerData.limit : 20,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -108,7 +108,7 @@ watch(
     singerData.offset = 1;
     getSearchSinger();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 function handlePageChange(current: number): void {
@@ -125,6 +125,6 @@ function jumpUserProfile(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./search-singer.less');
+<style scoped lang="scss">
+@use './search-singer.scss';
 </style>

@@ -57,5 +57,5 @@ export const drag = {
       vnodeEl.style.left = '50%';
       vnodeEl.style.top = '50%';
     };
-  }
+  },
 };

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="singer-introduce">
     <h2 class="desc-title">
       <i class="desc-line"></i>
@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { artistDesc } from '@/api/singer-detail';
@@ -33,8 +33,8 @@ type SingerDesc = {
 defineProps({
   singerDetail: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 
 const route = useRoute();
@@ -42,7 +42,7 @@ const route = useRoute();
 // 获取歌手 - 简介
 const singerDesc = ref<SingerDesc>({
   briefDesc: '',
-  introduction: []
+  introduction: [],
 });
 
 function getArtistDetail(): void {
@@ -60,6 +60,6 @@ function getArtistDetail(): void {
 getArtistDetail();
 </script>
 
-<style lang="less" scoped>
-@import url('./singer-introduce.less');
+<style scoped lang="scss">
+@use './singer-introduce.scss';
 </style>

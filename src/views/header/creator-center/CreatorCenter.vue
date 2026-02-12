@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="creator-center" v-if="isLogin">
     <div class="creator-container">
       <p class="title">创作者中心</p>
@@ -56,14 +56,14 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import Qrcode from '@/components/login-dialog/qrcode/Qrcode.vue';
 import Other from '@/components/login-dialog/other/Other.vue';
-import musicianSvg from '../../../assets/image/header/creator-center/musician.svg';
-import talentSvg from '../../../assets/image/header/creator-center/talent.svg';
-import anchorSvg from '../../../assets/image/header/creator-center/anchor.svg';
+import musicianSvg from '../../../assets/images/header/creator-center/musician.svg';
+import talentSvg from '../../../assets/images/header/creator-center/talent.svg';
+import anchorSvg from '../../../assets/images/header/creator-center/anchor.svg';
 
 const store = useStore();
 const isLogin = computed(() => store.getters.isLogin);
@@ -84,6 +84,6 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./creator-center.less');
+<style scoped lang="scss">
+@use './creator-center.scss';
 </style>

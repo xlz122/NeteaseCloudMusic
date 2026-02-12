@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="singer-menu">
     <div
       class="group"
@@ -23,7 +23,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 
 type MenuItem = {
@@ -48,14 +48,14 @@ const menu = ref<MenuItem[]>([
       {
         type: 1,
         title: '推荐歌手',
-        selected: true
+        selected: true,
       },
       {
         type: 2,
         title: '入驻歌手',
-        selected: false
-      }
-    ]
+        selected: false,
+      },
+    ],
   },
   {
     type: 7,
@@ -64,19 +64,19 @@ const menu = ref<MenuItem[]>([
       {
         type: 1,
         title: '华语男歌手',
-        selected: false
+        selected: false,
       },
       {
         type: 2,
         title: '华语女歌手',
-        selected: false
+        selected: false,
       },
       {
         type: 3,
         title: '华语组合/乐队',
-        selected: false
-      }
-    ]
+        selected: false,
+      },
+    ],
   },
   {
     type: 96,
@@ -85,19 +85,19 @@ const menu = ref<MenuItem[]>([
       {
         type: 1,
         title: '欧美男歌手',
-        selected: false
+        selected: false,
       },
       {
         type: 2,
         title: '欧美女歌手',
-        selected: false
+        selected: false,
       },
       {
         type: 3,
         title: '欧美组合/乐队',
-        selected: false
-      }
-    ]
+        selected: false,
+      },
+    ],
   },
   {
     type: 8,
@@ -106,19 +106,19 @@ const menu = ref<MenuItem[]>([
       {
         type: 1,
         title: '日本男歌手',
-        selected: false
+        selected: false,
       },
       {
         type: 2,
         title: '日本女歌手',
-        selected: false
+        selected: false,
       },
       {
         type: 3,
         title: '日本组合/乐队',
-        selected: false
-      }
-    ]
+        selected: false,
+      },
+    ],
   },
   {
     type: 16,
@@ -127,19 +127,19 @@ const menu = ref<MenuItem[]>([
       {
         type: 1,
         title: '韩国男歌手',
-        selected: false
+        selected: false,
       },
       {
         type: 2,
         title: '韩国女歌手',
-        selected: false
+        selected: false,
       },
       {
         type: 3,
         title: '韩国组合/乐队',
-        selected: false
-      }
-    ]
+        selected: false,
+      },
+    ],
   },
   {
     type: 0,
@@ -148,20 +148,20 @@ const menu = ref<MenuItem[]>([
       {
         type: 1,
         title: '其他男歌手',
-        selected: false
+        selected: false,
       },
       {
         type: 2,
         title: '其他女歌手',
-        selected: false
+        selected: false,
       },
       {
         type: 3,
         title: '其他组合/乐队',
-        selected: false
-      }
-    ]
-  }
+        selected: false,
+      },
+    ],
+  },
 ]);
 
 function menuSelete(item: MenuItem, title: string, type: number): void {
@@ -180,6 +180,6 @@ function menuSelete(item: MenuItem, title: string, type: number): void {
 }
 </script>
 
-<style lang="less">
-@import url('./singer-menu.less');
+<style lang="scss">
+@use './singer-menu.scss';
 </style>

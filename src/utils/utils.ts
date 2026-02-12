@@ -32,16 +32,14 @@ export function throttle<T extends (...args: any[]) => any>(fn: T, delay: number
 }
 
 /**
- * @description 获取图片资源
- * @param { string } path - 资源路径
+ * @description 获取图片路径
  */
-export const getImageUrl = (path: string): string | undefined => {
+export const getImageUrl = (path: string): string => {
   const modules: Record<string, { default: string }> = import.meta.glob('/src/assets/**/*', {
     query: '?url',
-    eager: true
+    eager: true,
   });
-
-  if (!modules[path]) return;
+  if (!modules[path]) return '';
 
   return modules[path].default;
 };
@@ -60,7 +58,7 @@ export function getTodayDayOfWeek(): string {
  */
 export function formatTimestamp(
   timestamp: number,
-  formatString: string = 'YYYY-MM-DD HH:mm:ss'
+  formatString: string = 'YYYY-MM-DD HH:mm:ss',
 ): string {
   const date = new Date(timestamp);
 
@@ -70,7 +68,7 @@ export function formatTimestamp(
     DD: String(date.getDate()).padStart(2, '0'),
     HH: String(date.getHours()).padStart(2, '0'),
     mm: String(date.getMinutes()).padStart(2, '0'),
-    ss: String(date.getSeconds()).padStart(2, '0')
+    ss: String(date.getSeconds()).padStart(2, '0'),
   };
 
   return formatString.replace(/YYYY|MM|DD|HH|mm|ss/g, (match) => map[match]);
@@ -167,7 +165,7 @@ export function formatDate(timestamp: number): string {
 
   // 去年
   const lastYear = new Date(
-    Date.parse(`${new Date().getFullYear() - 1}-12-31 23:59:59`.replace(/-/g, '/'))
+    Date.parse(`${new Date().getFullYear() - 1}-12-31 23:59:59`.replace(/-/g, '/')),
   ).getTime();
   if (timestamp < lastYear) {
     return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
@@ -175,7 +173,7 @@ export function formatDate(timestamp: number): string {
 
   // 三天前
   const threeDaysAgo = new Date(
-    new Date(new Date().toLocaleDateString()).getTime() - 24 * 60 * 60 * 1000 * 2 - 1000
+    new Date(new Date().toLocaleDateString()).getTime() - 24 * 60 * 60 * 1000 * 2 - 1000,
   ).getTime();
   if (timestamp < threeDaysAgo) {
     return `${date.getMonth() + 1}月${date.getDate()}日 ${date.getHours()}:${date.getMinutes()}`;
@@ -183,7 +181,7 @@ export function formatDate(timestamp: number): string {
 
   // 前天
   const dayBeforeYesterday = new Date(
-    new Date(new Date().toLocaleDateString()).getTime() - 24 * 60 * 60 * 1000 - 1000
+    new Date(new Date().toLocaleDateString()).getTime() - 24 * 60 * 60 * 1000 - 1000,
   ).getTime();
   if (timestamp < dayBeforeYesterday) {
     return `前天 ${date.getHours()}:${date.getMinutes()}`;

@@ -11,25 +11,25 @@
   ></audio>
 </template>
 
-<script lang="ts" setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { useTemplateRef } from 'vue';
 
 defineProps({
   src: {
     type: String,
-    default: ''
+    default: '',
   },
   volume: {
     type: Number,
-    default: 1
-  }
+    default: 1,
+  },
 });
 const emits = defineEmits(['play', 'timeupdate', 'pause', 'ended']);
 
-const audioRef = ref<HTMLVideoElement | null>(null);
+const audioRef = useTemplateRef('audioRef');
 
 defineExpose({
-  ref: audioRef
+  ref: audioRef,
 });
 
 // 开始播放
@@ -59,7 +59,7 @@ function ended(): void {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped lang="scss">
 .audio {
   position: fixed;
   top: 220405px;

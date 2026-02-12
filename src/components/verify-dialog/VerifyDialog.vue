@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="verify-dialog" v-if="verifyDialog.visible">
     <div class="dialog-container">
       <div class="dialog-close" @click="close">
@@ -23,7 +23,7 @@
         </div>
         <div class="qrcode-authorized" v-else>
           <p class="title">账号一致</p>
-          <img class="icon-phone" src="../../assets/image/verify/qrcode-authorized.png" alt="" />
+          <img class="icon-phone" src="../../assets/images/verify/qrcode-authorized.png" alt="" />
           <div class="tip">
             <p class="tip-text">扫描成功</p>
             <p class="tip-text">请在手机上完成验证</p>
@@ -34,7 +34,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { verifyQrcode, verifyQrcodeStatus } from '@/api/user';
@@ -127,10 +127,10 @@ watch(
     qrcodeInvalid.value = false;
     qrcodeAuthorized.value = false;
     getQrcodeImg();
-  }
+  },
 );
 </script>
 
-<style lang="less" scoped>
-@import url('./verify-dialog.less');
+<style scoped lang="scss">
+@use './verify-dialog.scss';
 </style>

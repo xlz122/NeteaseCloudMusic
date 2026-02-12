@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="content">
     <div class="group">
       <div class="list-title">
@@ -126,7 +126,7 @@
           v-for="(item, index) in individualizat.slice?.(0, 3)"
           :key="index"
           :class="{
-            'last-item': index === individualizat.slice?.(0, 3)?.length - 1
+            'last-item': index === individualizat.slice?.(0, 3)?.length - 1,
           }"
         >
           <div class="item-top">
@@ -175,7 +175,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -224,7 +224,7 @@ watch(
 
     getHotSongSheet();
     getIndividualizat();
-  }
+  },
 );
 
 // 热门推荐 - 跳转歌单
@@ -251,7 +251,7 @@ function songSheetToPlaylistPlay(id: number): void {
       // 过滤无版权
       res.songs = res.songs?.slice?.(0, 20) ?? [];
       const songList: SongType[] = res.songs?.filter?.(
-        (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
+        (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd,
       );
 
       usePlaySong(songList[0]);
@@ -359,19 +359,19 @@ function albumToPlaylistPlay(id: number): void {
 
       // 全部无版权
       const allNoCopyright = res.songs?.some?.(
-        (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+        (item: Record<string, { cp: number }>) => item.privilege?.cp === 1,
       );
       if (!allNoCopyright) {
         store.commit('setCopyrightDialog', {
           visible: true,
-          message: '版权方要求，当前专辑需单独付费，购买数字专辑即可无限畅享'
+          message: '版权方要求，当前专辑需单独付费，购买数字专辑即可无限畅享',
         });
         return;
       }
 
       // 过滤无版权
       const songList: SongType[] = res.songs?.filter?.(
-        (item: Record<string, { cp: number }>) => item.privilege?.cp !== 0
+        (item: Record<string, { cp: number }>) => item.privilege?.cp !== 0,
       );
 
       usePlaySong(songList[0]);
@@ -407,6 +407,6 @@ function jumpProgramDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./content.less');
+<style scoped lang="scss">
+@use './content.scss';
 </style>

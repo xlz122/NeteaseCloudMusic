@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="mv-detail">
     <div class="detail-container">
       <div class="detail-content">
@@ -74,7 +74,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -110,7 +110,7 @@ const isLogin = computed(() => store.getters.isLogin);
 // 获取详情
 const mvSubed = ref(false);
 const mvDetailData = ref<MvDetailData>({
-  artists: []
+  artists: [],
 });
 
 function getMvDetail(): void {
@@ -179,14 +179,14 @@ const commentParams = reactive<CommentParams>({
   limit: 20,
   hotList: [],
   list: [],
-  total: 0
+  total: 0,
 });
 
 function getCommentList(): void {
   const params = {
     id: commentParams.id,
     offset: (commentParams.offset - 1) * commentParams.limit,
-    limit: commentParams.limit
+    limit: commentParams.limit,
   };
 
   mvComment({ ...params })
@@ -230,7 +230,7 @@ watch(
     getMvDetail();
     getCommentList();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 onMounted(() => {
@@ -239,6 +239,6 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./mv-detail.less');
+<style scoped lang="scss">
+@use './mv-detail.scss';
 </style>

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <h2
     v-if="options.mySinger?.count > 0"
     class="music-my-singer"
@@ -34,7 +34,7 @@
   />
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { reactive, computed, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { userPlayList, addPlayList, deletePlayList } from '@/api/my-music';
@@ -61,8 +61,8 @@ type SongSheetItem = {
 defineProps({
   options: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 const emits = defineEmits(['handleOptions']);
 
@@ -84,7 +84,7 @@ function handleMyVideo(): void {
 // 获取歌单列表
 const songSheetList = reactive<SongSheet>({
   create: [],
-  collect: []
+  collect: [],
 });
 
 function getSongSheetList(): Promise<SongSheetItem[]> {
@@ -142,8 +142,8 @@ function handleAddConfirm(name: string): void {
         type: 'songSheet',
         data: {
           visible: true,
-          createCount: songSheetList.create.length + 1
-        }
+          createCount: songSheetList.create.length + 1,
+        },
       });
       songSheetList.create.splice?.(1, 0, res.playlist);
 
@@ -168,8 +168,8 @@ function handleDeleteConfirm(id: number): void {
             type: 'songSheet',
             data: {
               visible: true,
-              createCount: songSheetList.create?.length - 1
-            }
+              createCount: songSheetList.create?.length - 1,
+            },
           });
           songSheetList.create.splice?.(index, 1);
         }
@@ -187,8 +187,8 @@ function handleDeleteConfirm(id: number): void {
             type: 'songSheet',
             data: {
               visible: true,
-              collectionCount: songSheetList.collect?.length - 1
-            }
+              collectionCount: songSheetList.collect?.length - 1,
+            },
           });
           songSheetList.collect.splice?.(index, 1);
         }
@@ -214,6 +214,6 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./option-list.less');
+<style scoped lang="scss">
+@use './option-list.scss';
 </style>

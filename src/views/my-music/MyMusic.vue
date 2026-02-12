@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="my-music" v-if="isLogin">
     <div class="my-music-container">
       <div class="my-music-scroll">
@@ -28,7 +28,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { reactive, computed, watch, nextTick, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { userSubcount } from '@/api/my-music';
@@ -54,17 +54,17 @@ function handleLogin(): void {
 const options = reactive({
   mySinger: {
     visible: false,
-    count: 0
+    count: 0,
   },
   myVideo: {
     visible: false,
-    count: 0
+    count: 0,
   },
   songSheet: {
     visible: true,
     createCount: 0,
-    collectionCount: 0
-  }
+    collectionCount: 0,
+  },
 });
 
 function getUserSubcount(): void {
@@ -106,7 +106,7 @@ watch(
 
       element.style.display = 'block';
     });
-  }
+  },
 );
 
 onMounted(() => {
@@ -127,6 +127,6 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./my-music.less');
+<style scoped lang="scss">
+@use './my-music.scss';
 </style>

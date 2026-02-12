@@ -1,0 +1,37 @@
+﻿.user-profile-container {
+  width: 100%;
+  background-color: #F5F5F5;
+
+  .user-info {
+    width: 980px;
+    padding: 40px;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    border-left: 1px solid #D3D3D3;
+    border-right: 1px solid #D3D3D3;
+    border-width: 0 1px;
+    box-sizing: border-box;
+  }
+
+  .user-record {
+    width: 980px;
+    padding-bottom: 36px;
+    margin: 0 auto;
+    text-align: left;
+    background-color: #FFFFFF;
+    border: 1px solid #D3D3D3;
+    box-sizing: border-box;
+    border-width: 0 1px;
+  }
+
+  .song-sheet {
+    width: 980px;
+    padding-bottom: 30px;
+    margin: 0 auto;
+    text-align: left;
+    background-color: #FFFFFF;
+    border: 1px solid #D3D3D3;
+    box-sizing: border-box;
+    border-width: 0 1px;
+  }
+}

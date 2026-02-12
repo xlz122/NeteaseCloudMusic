@@ -17,7 +17,7 @@ type Actions<T, U = any> = {
 const actions: Actions<Store> = {
   setMsg({ commit }, msg: string) {
     commit('setMsg', msg);
-  }
+  },
 };
 
 export default actions;

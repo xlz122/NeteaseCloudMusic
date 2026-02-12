@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="comment-replay">
     <div class="comment-content">
       <!-- :placeholder="`回复${nickname}:`" -->
@@ -72,7 +72,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, computed, watch } from 'vue';
 import { onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
@@ -90,16 +90,16 @@ type ExproessionPage = {
 const props = defineProps({
   isClearText: {
     type: Boolean,
-    default: false
+    default: false,
   },
   rows: {
     type: [Number, String],
-    default: 1
+    default: 1,
   },
   nickname: {
     type: String,
-    default: ''
-  }
+    default: '',
+  },
 });
 const emits = defineEmits(['submit']);
 
@@ -109,7 +109,7 @@ const isLogin = computed(() => store.getters.isLogin);
 // 回复数据
 const replay = reactive({
   text: '',
-  length: 140
+  length: 140,
 });
 
 // 监听最大可以输入数量
@@ -117,7 +117,7 @@ watch(
   () => replay.text,
   () => {
     replay.length = 140 - replay.text.length;
-  }
+  },
 );
 
 // 监听清除文本内容
@@ -129,7 +129,7 @@ watch(
     }
 
     replay.text = '';
-  }
+  },
 );
 
 // 未登录点击评论框
@@ -142,7 +142,7 @@ const expressionShow = ref(false);
 const exproessionPage = reactive<ExproessionPage>({
   current: 1,
   total: 0,
-  list: []
+  list: [],
 });
 
 function isEmoj(): void {
@@ -176,7 +176,7 @@ function expressionSwitch(type: string): void {
     exproessionPage.current++;
     exproessionPage.list = expressionList.slice?.(
       (exproessionPage.current - 1) * 50,
-      (exproessionPage.current - 1) * 50 + 50
+      (exproessionPage.current - 1) * 50 + 50,
     );
   }
 }
@@ -213,6 +213,6 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./comment-replay.less');
+<style scoped lang="scss">
+@use './comment-replay.scss';
 </style>

@@ -15,7 +15,7 @@ const getters: Getters<State> = {
   singerTabIndex: (state) => state.singerTabIndex,
   songCollect: (state) => state.songCollect,
   copyrightDialog: (state) => state.copyrightDialog,
-  verifyDialog: (state) => state.verifyDialog
+  verifyDialog: (state) => state.verifyDialog,
 };
 
 export default getters;

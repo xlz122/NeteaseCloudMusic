@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="singer-album">
     <div class="singer-album-container">
       <ul class="new-disc-list">
@@ -27,7 +27,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -57,17 +57,17 @@ const store = useStore();
 const params = reactive({
   offset: 1,
   limit: 12,
-  total: 0
+  total: 0,
 });
 const singerAlbum = ref<SingerAlbum>({
-  hotAlbums: []
+  hotAlbums: [],
 });
 
 function getArtistAlbum(): void {
   artistAlbum({
     id: Number(route.query.id),
     offset: (params.offset - 1) * params.limit,
-    limit: params.limit
+    limit: params.limit,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -85,7 +85,7 @@ watch(
   () => {
     getArtistAlbum();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 // 专辑添加到播放列表并播放
@@ -101,19 +101,19 @@ function albumToPlaylistPlay(id: number): void {
 
       // 全部无版权
       const allNoCopyright = res.songs?.some?.(
-        (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+        (item: Record<string, { cp: number }>) => item.privilege?.cp === 1,
       );
       if (!allNoCopyright) {
         store.commit('setCopyrightDialog', {
           visible: true,
-          message: '版权方要求，当前专辑需单独付费，购买数字专辑即可无限畅享'
+          message: '版权方要求，当前专辑需单独付费，购买数字专辑即可无限畅享',
         });
         return;
       }
 
       // 过滤无版权
       const songList: SongType[] = res.songs?.filter?.(
-        (item: Record<string, { cp: number }>) => item.privilege?.cp !== 0
+        (item: Record<string, { cp: number }>) => item.privilege?.cp !== 0,
       );
 
       usePlaySong(songList[0]);
@@ -132,6 +132,6 @@ function jumpAlbumDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./singer-album.less');
+<style scoped lang="scss">
+@use './singer-album.scss';
 </style>

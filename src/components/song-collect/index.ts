@@ -12,7 +12,7 @@ const SongCollect = {
     // 挂载
     const element = document.getElementById('songCollect')!;
     render(vm, element);
-  }
+  },
 };
 
 export default SongCollect;

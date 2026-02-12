@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="download-container">
     <div class="qrcode">
       <img
@@ -62,7 +62,7 @@
         </div>
         <div class="main-pc">
           <div class="title">在电脑上听</div>
-          <img class="img" src="../../assets/image/download/pc.png" alt="" />
+          <img class="img" src="../../assets/images/download/pc.png" alt="" />
           <div class="type">
             <span class="info">
               <i class="icon mac"></i>
@@ -79,7 +79,7 @@
         </div>
         <div class="main-mobile">
           <div class="title">在手机上听</div>
-          <img class="img" src="../../assets/image/download/mobile.png" alt="" />
+          <img class="img" src="../../assets/images/download/mobile.png" alt="" />
           <div class="type">
             <span class="info">
               <i class="icon iphone"></i>
@@ -105,14 +105,14 @@
           <p class="text">也能感受到纤毫毕现的CD音质，更能免费离线收听</p>
         </div>
         <div class="img">
-          <img src="../../assets/image/download/quku.jpg" alt="千万曲库  首首CD音质" />
+          <img src="../../assets/images/download/quku.jpg" alt="千万曲库  首首CD音质" />
         </div>
       </div>
     </div>
     <div class="group star">
       <div class="group-container">
         <div class="img">
-          <img src="../../assets/image/download/star.jpg" alt="千位明星  亲自推荐音乐" />
+          <img src="../../assets/images/download/star.jpg" alt="千位明星  亲自推荐音乐" />
         </div>
         <div class="content">
           <h3 class="title">千位明星 亲自推荐音乐</h3>
@@ -137,14 +137,14 @@
           <p class="text">分享，发现更多全新好音乐</p>
         </div>
         <div class="img">
-          <img src="../../assets/image/download/social-contact.jpg" alt="社交关系  发现全新音乐" />
+          <img src="../../assets/images/download/social-contact.jpg" alt="社交关系  发现全新音乐" />
         </div>
       </div>
     </div>
     <div class="group real-time">
       <div class="group-container">
         <div class="img">
-          <img src="../../assets/image/download/real-time.jpg" alt="手机电脑  歌单实时同步" />
+          <img src="../../assets/images/download/real-time.jpg" alt="手机电脑  歌单实时同步" />
         </div>
         <div class="content">
           <h3 class="title">手机电脑 歌单实时同步</h3>
@@ -169,7 +169,7 @@
         </div>
         <div class="img">
           <img
-            src="../../assets/image/download/recognizing-music.jpg"
+            src="../../assets/images/download/recognizing-music.jpg"
             alt="听歌识曲  助你疯狂猜歌"
           />
         </div>
@@ -178,7 +178,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 
 // 其他操作系统
@@ -222,6 +222,6 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./download.less');
+<style scoped lang="scss">
+@use './download.scss';
 </style>

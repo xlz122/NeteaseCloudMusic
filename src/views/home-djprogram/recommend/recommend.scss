@@ -1,0 +1,93 @@
+﻿.recommend {
+  width: 426px;
+  font-size: 12px;
+  text-align: left;
+
+  .title {
+    height: 40px;
+    border-bottom: 2px solid #C20C0C;
+    padding-bottom: 10px;
+
+    .txt:hover,
+    .more:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .recommend-list {
+    width: 424px;
+    height: 600px;
+    border: 1px solid #E2E2E2;
+    border-top: none;
+
+    .item {
+      height: 40px;
+      padding: 10px 0 10px 20px;
+      line-height: 40px;
+
+      &-lf {
+        .cover-img {
+          position: relative;
+          width: 40px;
+          height: 40px;
+
+          img {
+            width: 100%;
+            height: 100%;
+          }
+
+          .play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            display: none;
+            width: 22px;
+            height: 22px;
+            margin: -11px 0 0 -11px;
+            overflow: hidden;
+            background: url('@/assets/images/music-audio/iconall.png') no-repeat;
+            background-position: 0 -85px;
+          }
+        }
+
+        .item-content {
+          width: 254px;
+          margin: 1px 0 0 10px;
+          line-height: 20px;
+        }
+      }
+
+      &-ri {
+        height: 16px;
+        padding: 0 6px;
+        margin: 1px 0 0 10px;
+        font-size: 12px;
+        line-height: 16px;
+        color: #999999;
+        border: 1px solid #999999;
+
+        &:hover {
+          color: #666666;
+          cursor: pointer;
+        }
+      }
+
+      &:nth-child(even),
+      &:hover {
+        background-color: #F7F7F7;
+      }
+
+      .item-content div:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+
+      &:hover {
+        .play {
+          display: block;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

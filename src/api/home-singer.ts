@@ -16,13 +16,13 @@ export const topArtists = ({ offset, limit }: TopArtists): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     offset,
-    limit
+    limit,
   };
 
   return axios.request({
     url: '/top/artists',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -44,12 +44,12 @@ export const artistList = ({ area, type, initial }: ArtistList): AxiosPromise =>
     timestamp: new Date().getTime(),
     area,
     type,
-    initial
+    initial,
   };
 
   return axios.request({
     url: '/artist/list',
     method: 'get',
-    params
+    params,
   });
 };

@@ -16,13 +16,13 @@ export const friendEvent = ({ pagesize, lasttime }: FirendEvent): AxiosPromise =
   const params = {
     timestamp: new Date().getTime(),
     pagesize,
-    lasttime
+    lasttime,
   };
 
   return axios.request({
     url: '/event',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -45,13 +45,13 @@ export const dynamicLike = ({ cid, threadId, t }: DynamicLike): AxiosPromise => 
     tpye: 6, // 6: 动态
     cid,
     threadId,
-    t
+    t,
   };
 
   const paramsStr = `type=${params.tpye}&cid=${params.cid}&threadId=${params.threadId}&t=${params.t}`;
 
   return axios.request({
     url: `/comment/like?timestamp=${params.timestamp}&${paramsStr}`,
-    method: 'get'
+    method: 'get',
   });
 };

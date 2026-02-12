@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="user-profile">
     <div class="user-profile-container">
       <div class="user-info">
@@ -113,7 +113,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -135,20 +135,20 @@ const starList = ref<MenuItem[]>([
     src: 'http://p1.music.126.net/RQT6l2Vd9mQ9bSA_9MdWBw==/109951163720144425.jpg?param=45y45',
     name: '品冠victor',
     desc: '台湾流行歌手品冠',
-    follow: false
+    follow: false,
   },
   {
     src: 'http://p1.music.126.net/fBd9G5UPnAkN5GJhD27f7w==/109951164233456965.jpg?param=45y45',
     name: '池约翰CJohnny',
     desc: 'MIC男团成员池约翰',
-    follow: false
+    follow: false,
   },
   {
     src: 'http://p1.music.126.net/HiaQmvjTbEXfo8bsiPv9rQ==/109951165312873539.jpg?param=45y45',
     name: '朱云',
     desc: '北京音乐台资深DJ',
-    follow: false
-  }
+    follow: false,
+  },
 ]);
 
 const interestedList = ref<MenuItem[]>([
@@ -156,32 +156,32 @@ const interestedList = ref<MenuItem[]>([
     src: 'http://p1.music.126.net/cX7kFto1nsneNwo6jA9LfQ==/18531168976478340.jpg?param=30y30',
     name: '倒影着稚嫩的少年QAQ',
     desc: '手机联系人: xlz122',
-    follow: false
+    follow: false,
   },
   {
     src: 'http://p1.music.126.net/5SbSJXBSKFf7L_Etq0uNfA==/109951164928424086.jpg?param=30y30',
     name: '谈情了解一下啊',
     desc: '手机联系人: xlz122',
-    follow: false
+    follow: false,
   },
   {
     src: 'http://p1.music.126.net/KMqDxNvSaFIiZzE-crDTaA==/109951163209469519.jpg?param=30y30',
     name: 'Decennium青春世界',
     desc: '手机联系人: xlz122',
-    follow: false
+    follow: false,
   },
   {
     src: 'http://p1.music.126.net/464PBoavkf5z7a5hIwvhWw==/18738976673835955.jpg?param=30y30',
     name: 'Dreads丶流年',
     desc: '手机联系人: xlz122',
-    follow: false
+    follow: false,
   },
   {
     src: 'http://p1.music.126.net/SUeqMM8HOIpHv9Nhl9qt9w==/109951165647004069.jpg?param=30y30',
     name: 'E晓fire',
     desc: '手机联系人: xlz122',
-    follow: false
-  }
+    follow: false,
+  },
 ]);
 
 // 换一批
@@ -230,6 +230,6 @@ function jumpUserProfile(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./side.less');
+<style scoped lang="scss">
+@use './side.scss';
 </style>

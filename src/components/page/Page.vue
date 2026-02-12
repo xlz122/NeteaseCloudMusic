@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="page">
     <span
       class="page-btn prev-btn"
@@ -48,26 +48,26 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, toRefs, watch } from 'vue';
 
 const props = defineProps({
   page: {
     type: Number,
-    default: 1
+    default: 1,
   },
   pageSize: {
     type: Number,
-    default: 10
+    default: 10,
   },
   total: {
     type: Number,
-    default: 10
+    default: 10,
   },
   displayPage: {
     type: Number,
-    default: 8
-  }
+    default: 8,
+  },
 });
 const emits = defineEmits(['onChange']);
 
@@ -128,7 +128,7 @@ watch(
   () => props.page,
   () => {
     current.value = props.page;
-  }
+  },
 );
 
 // 监听总页数更改
@@ -137,7 +137,7 @@ watch(
   () => {
     init();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 // 上一页
@@ -166,7 +166,7 @@ watch(
   () => current.value,
   () => {
     changePage();
-  }
+  },
 );
 
 // 处理当前页改变
@@ -211,6 +211,6 @@ function changePage(): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./page.less');
+<style scoped lang="scss">
+@use './page.scss';
 </style>

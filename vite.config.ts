@@ -1,8 +1,8 @@
 import { defineConfig, loadEnv } from 'vite';
+import type { ConfigEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import viteCompression from 'vite-plugin-compression';
 import path from 'path';
-import type { ConfigEnv } from 'vite';
 
 export default ({ mode }: ConfigEnv) => {
   const env = loadEnv(mode, process.cwd());
@@ -11,9 +11,7 @@ export default ({ mode }: ConfigEnv) => {
     base: '',
     plugins: [vue(), viteCompression()],
     resolve: {
-      alias: {
-        '@': path.resolve(__dirname, './src')
-      }
+      alias: { '@': path.resolve(__dirname, './src') },
     },
     server: {
       open: false,
@@ -24,30 +22,24 @@ export default ({ mode }: ConfigEnv) => {
           target: env.VITE_API_BASE_URL,
           ws: true,
           changeOrigin: true,
-          rewrite: (path) => path.replace(new RegExp(`^${env.VITE_APP_BASE_API}`), '')
-        }
-      }
+          rewrite: (path) => path.replace(new RegExp(`^${env.VITE_APP_BASE_API}`), ''),
+        },
+      },
     },
     build: {
       outDir: 'dist',
       assetsDir: 'static',
       sourcemap: false,
-      rollupOptions: {
+      rolldownOptions: {
         output: {
+          minify: {
+            compress: { dropConsole: true },
+          },
           chunkFileNames: 'static/js/[name]-[hash].js',
           entryFileNames: 'static/js/[name]-[hash].js',
-          assetFileNames: 'static/[ext]/name-[hash].[ext]'
-        }
-      },
-      minify: 'terser',
-      terserOptions: {
-        compress: {
-          drop_console: true,
-          drop_debugger: true,
-          pure_funcs: ['console.log', 'console.dir']
+          assetFileNames: 'static/[ext]/name-[hash].[ext]',
         },
-        output: { comments: false }
-      }
-    }
+      },
+    },
   });
 };

@@ -38,11 +38,11 @@ const state: State = {
   singerTabIndex: getLocalStorage('singerTabIndex', 0), // 歌手详情导航
   songCollect: {
     visible: false,
-    songIds: ''
+    songIds: '',
   }, // 歌曲收藏
   copyrightDialog: {
     visible: false,
-    message: ''
+    message: '',
   }, // 版权对话框
   verifyDialog: {
     visible: false,
@@ -50,8 +50,8 @@ const state: State = {
     vid: 0,
     type: 0,
     evid: '',
-    sign: ''
-  } // 验证对话框
+    sign: '',
+  }, // 验证对话框
 };
 
 function getLocalStorage<T>(key: string, defaultValue: T): T {

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="form-content">
     <div class="mobmie-phone-input">
       <div class="country-code" @click="toggleCountryCode">
@@ -8,7 +8,7 @@
       <input
         class="input"
         :class="{
-          'verify-error': mobileVerify.show && mobileVerify.type === 'phone'
+          'verify-error': mobileVerify.show && mobileVerify.type === 'phone',
         }"
         v-model="mobileFormData.phone"
         @keyup="mobilePhoneChange"
@@ -31,7 +31,7 @@
       <input
         class="input input-password"
         :class="{
-          'verify-error': mobileVerify.show && mobileVerify.type === 'captcha'
+          'verify-error': mobileVerify.show && mobileVerify.type === 'captcha',
         }"
         v-model="mobileFormData.captcha"
         placeholder="请输入验证码"
@@ -52,7 +52,7 @@
       <input
         class="input input-password"
         :class="{
-          'verify-error': mobileVerify.show && mobileVerify.type === 'password'
+          'verify-error': mobileVerify.show && mobileVerify.type === 'password',
         }"
         v-model="mobileFormData.password"
         type="password"
@@ -84,7 +84,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, onMounted, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
@@ -128,7 +128,7 @@ const mobileFormData = reactive<MobileFormData>({
   code: '86',
   phone: '',
   password: '',
-  captcha: ''
+  captcha: '',
 });
 
 // 获取国家编码列表
@@ -169,7 +169,7 @@ const captcha = reactive<Captcha>({
   show: false,
   text: '',
   time: 60,
-  timer: null
+  timer: null,
 });
 
 // 验证码定时器计时
@@ -190,7 +190,7 @@ function captchaTiming(): void {
 
 const loginType = reactive({
   text: '密码登录',
-  type: 0
+  type: 0,
 });
 
 function typeChange(): void {
@@ -218,7 +218,7 @@ function mobilePhoneChange(): void {
 const mobileVerify = reactive<MobileVerify>({
   show: false,
   type: '',
-  text: ''
+  text: '',
 });
 
 // 表单验证方法
@@ -238,7 +238,7 @@ function sendVerificationCode(): void {
 
   captchaSent({
     ctcode: mobileFormData.code,
-    phone: mobileFormData.phone
+    phone: mobileFormData.phone,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -285,7 +285,7 @@ function mobileSubmit(): void {
       countrycode: mobileFormData.code,
       phone: mobileFormData.phone,
       password: mobileFormData.password,
-      captcha: mobileFormData.captcha
+      captcha: mobileFormData.captcha,
     })
       .then((res: ResponseType) => {
         // 账号或密码错误
@@ -326,7 +326,7 @@ function getTestCellphone(): Promise<void> {
   return new Promise((resolve) => {
     testCellphone({
       countrycode: mobileFormData.code,
-      phone: mobileFormData.phone
+      phone: mobileFormData.phone,
     })
       .then((res: ResponseType) => {
         if (res?.code !== 200) {
@@ -389,6 +389,6 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./mobile-login.less');
+<style scoped lang="scss">
+@use './mobile-login.scss';
 </style>

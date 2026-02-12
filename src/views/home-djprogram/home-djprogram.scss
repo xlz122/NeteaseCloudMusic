@@ -1,0 +1,17 @@
+﻿.home-djprogram {
+  background-color: #F2F2F2;
+
+  .home-djprogram-container {
+    width: 898px;
+    padding: 40px;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    border: 1px solid #D3D3D3;
+    border-width: 0 1px;
+
+    .ranking-list {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}

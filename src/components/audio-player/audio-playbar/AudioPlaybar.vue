@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <AudioView
     ref="audioRef"
     :src="playUrl"
@@ -83,7 +83,7 @@
         :class="[
           { 'mode-single': modeType === 0 },
           { 'mode-loop': modeType === 1 },
-          { 'mode-random': modeType === 2 }
+          { 'mode-random': modeType === 2 },
         ]"
         @click="modeTypeChange"
       ></i>
@@ -100,7 +100,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, computed, watch, provide, toRef } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -150,7 +150,7 @@ const modeType = ref(0);
 // 播放状态
 const playStatus = ref({
   loading: false,
-  look: false
+  look: false,
 });
 
 function togglePlayStatus(): void {
@@ -173,7 +173,7 @@ const playProgress = ref({
   duration: 0,
   progress: 0,
   cacheProgress: 0,
-  manualUpdate: false
+  manualUpdate: false,
 });
 // 进度数据传递给歌词组件
 provide('playProgress', toRef(playProgress, 'value'));
@@ -188,7 +188,7 @@ function audioTimeUpdate(currentTime: number, duration: number, cache: number) {
     currentTime: currentTime,
     duration: duration,
     progress: currentTime / duration,
-    cacheProgress: cache / duration
+    cacheProgress: cache / duration,
   };
 }
 
@@ -198,7 +198,7 @@ function audioProgressChange(value: number): void {
   playProgress.value = {
     ...playProgress.value,
     currentTime: playProgress.value.duration * value,
-    progress: value
+    progress: value,
   };
 
   // 更新播放器时间
@@ -245,7 +245,7 @@ watch(
 
     playStatus.value.loading = false;
     playProgress.value.manualUpdate = false;
-  }
+  },
 );
 
 // 音量
@@ -264,7 +264,7 @@ function volumeProgressChange(value: number): void {
 // 播放模式
 const modeTip = reactive<{ visible: boolean; timer: number | null }>({
   visible: false,
-  timer: null
+  timer: null,
 });
 
 function modeTypeChange(): void {
@@ -290,7 +290,7 @@ watch(
   () => route.path,
   () => {
     playlistVisible.value = false;
-  }
+  },
 );
 
 function playlistStatusToggle(): void {
@@ -309,7 +309,7 @@ function handleCollection(): void {
 
   store.commit('setSongCollect', {
     visible: true,
-    songIds: playSongItem.value.id
+    songIds: playSongItem.value.id,
   });
 }
 
@@ -340,6 +340,6 @@ function jumpSongPosition(): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./audio-playbar.less');
+<style scoped lang="scss">
+@use './audio-playbar.scss';
 </style>

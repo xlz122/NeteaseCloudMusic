@@ -13,7 +13,7 @@ const state: State = {
   playSongItem: getLocalStorage('playSongItem', {}), // 当前播放歌曲
   playSongRefresh: false, // 播放歌曲刷新
   songPlaylist: getLocalStorage('songPlaylist', []), // 播放列表
-  audioPlayerLock: getLocalStorage('audioPlayerLock', false) // 播放器锁定
+  audioPlayerLock: getLocalStorage('audioPlayerLock', false), // 播放器锁定
 };
 
 function getLocalStorage(key: string, defaultValue: unknown) {

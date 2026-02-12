@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="song-sheet-detail">
     <SongSheetInfo
       class="user-info"
@@ -36,7 +36,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
@@ -72,7 +72,7 @@ const songSheetId = computed(() => store.getters.songSheetId);
 const loading = ref(false);
 const songSheetDetail = reactive<SongSheetDetail>({
   playlist: {},
-  privileges: []
+  privileges: [],
 });
 
 function getSongSheetDetail(): void {
@@ -138,14 +138,14 @@ const commentParams = reactive<CommentParams>({
   limit: 20,
   hotList: [],
   list: [],
-  total: 0
+  total: 0,
 });
 
 function getCommentList(): void {
   const params = {
     id: commentParams.id,
     offset: (commentParams.offset - 1) * commentParams.limit,
-    limit: commentParams.limit
+    limit: commentParams.limit,
   };
 
   playlistComment({ ...params })
@@ -184,10 +184,10 @@ watch(
     getSongSheetDetail();
     getCommentList();
   },
-  { immediate: true }
+  { immediate: true },
 );
 </script>
 
-<style lang="less" scoped>
-@import url('./song-sheet-detail.less');
+<style scoped lang="scss">
+@use './song-sheet-detail.scss';
 </style>

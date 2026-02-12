@@ -7,7 +7,7 @@
   ></i>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 
 function handleBackToTop(): void {
@@ -36,7 +36,7 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
+<style scoped lang="scss">
 .back-top {
   display: none;
   position: fixed;
@@ -45,7 +45,7 @@ onUnmounted(() => {
   width: 49px;
   height: 44px;
   margin-left: 500px;
-  background: url('@/assets/image/song-sheet/icon-download.png') no-repeat;
+  background: url('@/assets/images/song-sheet/icon-download.png') no-repeat;
   background-position: -265px -47px;
   cursor: pointer;
 

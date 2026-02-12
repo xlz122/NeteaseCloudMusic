@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="home-singer">
     <div class="home-singer-container">
       <div class="home-singer-menu">
@@ -19,7 +19,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -36,14 +36,14 @@ const singer = reactive({
   title: '热门歌手',
   sort: false,
   main: [],
-  second: []
+  second: [],
 });
 
 // 菜单选择
 const params = reactive({
   area: -1,
   type: -1,
-  initial: ''
+  initial: '',
 });
 
 function menuSelete(title: string, area: number, type: number) {
@@ -119,6 +119,6 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less">
-@import url('./home-singer.less');
+<style lang="scss">
+@use './home-singer.scss';
 </style>

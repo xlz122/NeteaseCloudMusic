@@ -9,13 +9,13 @@ import type { AxiosPromise } from 'axios';
 export const bannerImgUrl = (): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    type: 0
+    type: 0,
   };
 
   return axios.request({
     url: '/banner',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -26,13 +26,13 @@ export const bannerImgUrl = (): AxiosPromise => {
 export const recommendSongList = ({ limit }: { limit?: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    limit
+    limit,
   };
 
   return axios.request({
     url: '/personalized',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -45,7 +45,7 @@ export const recommendDjprogram = (): AxiosPromise => {
   return axios.request({
     url: '/personalized/djprogram',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -58,7 +58,7 @@ export const recommendResource = (): AxiosPromise => {
   return axios.request({
     url: '/recommend/resource',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -71,7 +71,7 @@ export const albumNewest = (): AxiosPromise => {
   return axios.request({
     url: '/album/newest',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -84,7 +84,7 @@ export const userEvent = (): AxiosPromise => {
   return axios.request({
     url: '/user/event',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -97,7 +97,7 @@ export const userFollows = (): AxiosPromise => {
   return axios.request({
     url: '/user/follows',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -110,7 +110,7 @@ export const userFolloweds = (): AxiosPromise => {
   return axios.request({
     url: '/user/followeds',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -122,12 +122,12 @@ export const userFolloweds = (): AxiosPromise => {
 export const dailySignin = (): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    type: 1
+    type: 1,
   };
 
   return axios.request({
     url: '/daily_signin',
     method: 'get',
-    params
+    params,
   });
 };

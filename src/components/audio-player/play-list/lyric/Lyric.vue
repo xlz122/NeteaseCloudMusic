@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <i class="icon-doubt"></i>
   <div class="lyric" v-if="playSongId">
     <div class="not-lyric" v-if="lyric.nolyric">
@@ -31,7 +31,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, computed, watch, inject } from 'vue';
 import { useStore } from 'vuex';
 import { getLyric } from '@/api/my-music';
@@ -61,7 +61,7 @@ const lyric = reactive<Lyric>({
   nolyric: false, // 无歌词
   isScroll: true, // 是否支持滚动
   index: 0, // 播放索引
-  list: []
+  list: [],
 });
 
 watch(
@@ -74,7 +74,7 @@ watch(
 
     getLyricData();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 function getLyricData(): void {
@@ -119,14 +119,14 @@ function handlerLyricFormat(lyricStr: string): void {
     if (!lyric.isScroll) {
       lyric.list.push({
         lyric: item,
-        time: -1
+        time: -1,
       });
       return;
     }
 
     const obj = {
       lyric: '',
-      time: -1
+      time: -1,
     };
     const time = item.match(regTime);
 
@@ -206,7 +206,7 @@ watch(
       }
     });
   },
-  { deep: true }
+  { deep: true },
 );
 
 // 歌词滚动
@@ -227,7 +227,7 @@ watch(
     timer.value && clearInterval(timer.value);
 
     scrollAnimation();
-  }
+  },
 );
 
 // 动画过渡函数
@@ -258,6 +258,6 @@ function scrollAnimation(): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./lyric.less');
+<style scoped lang="scss">
+@use './lyric.scss';
 </style>

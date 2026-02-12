@@ -12,7 +12,7 @@ const CopyrightDialog = {
     // 挂载
     const element = document.getElementById('copyrightDialog')!;
     render(vm, element);
-  }
+  },
 };
 
 export default CopyrightDialog;

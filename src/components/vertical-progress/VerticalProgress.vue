@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div id="VerticalProgress" class="progress" @click="handleProgressClick">
     <div class="current-progress" ref="currentProgressRef" :style="{ height: currentProgress }">
       <i class="icon-round" ref="roundProgressRef"></i>
@@ -7,28 +7,25 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { ref, reactive, computed, onMounted, onBeforeUnmount } from 'vue';
-
-type ProgressRef = HTMLDivElement | HTMLElement | null;
+<script setup lang="ts">
+import { useTemplateRef, reactive, computed, onMounted, onBeforeUnmount } from 'vue';
 
 const props = defineProps({
   // 当前进度
   current: {
     type: String,
-    default: ''
+    default: '',
   },
   // 拖动生效范围
   range: {
     type: String,
-    default: ''
-  }
+    default: '',
+  },
 });
 const emits = defineEmits(['progressChange']);
 
-const roundProgressRef = ref<ProgressRef>(null);
-const currentProgressRef = ref<ProgressRef>(null);
-const totalProgressRef = ref<ProgressRef>(null);
+const currentProgressRef = useTemplateRef('currentProgressRef');
+const totalProgressRef = useTemplateRef('totalProgressRef');
 
 /**
  * initOffest 初始偏移量
@@ -40,7 +37,7 @@ const progress = reactive({
   initOffest: 0,
   current: 0,
   isDown: false,
-  isDrag: false
+  isDrag: false,
 });
 
 // 当前进度
@@ -145,6 +142,6 @@ onBeforeUnmount(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./vertical-progress.less');
+<style scoped lang="scss">
+@use './vertical-progress.scss';
 </style>

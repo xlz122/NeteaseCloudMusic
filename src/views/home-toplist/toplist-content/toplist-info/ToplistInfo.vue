@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="toplist-user-info">
     <div class="header-info">
       <div class="info-img">
@@ -23,7 +23,7 @@
           <div
             class="play"
             :class="{
-              'disable-play': songSheetDetail.playlist?.tracks?.length === 0
+              'disable-play': songSheetDetail.playlist?.tracks?.length === 0,
             }"
             title="播放"
             @click="playAllSong"
@@ -33,7 +33,7 @@
           <div
             class="play-add"
             :class="{
-              'disable-add': songSheetDetail.playlist?.tracks?.length === 0
+              'disable-add': songSheetDetail.playlist?.tracks?.length === 0,
             }"
             title="添加到播放列表"
             @click="allSongToPlaylist"
@@ -53,7 +53,7 @@
           <div
             class="other share"
             :class="{
-              'disable-share': songSheetDetail.playlist?.tracks?.length === 0
+              'disable-share': songSheetDetail.playlist?.tracks?.length === 0,
             }"
             @click="handleShare"
           >
@@ -67,7 +67,7 @@
           <div
             class="other download"
             :class="{
-              'disable-download': songSheetDetail.playlist?.tracks?.length === 0
+              'disable-download': songSheetDetail.playlist?.tracks?.length === 0,
             }"
             @click="handleDownload"
           >
@@ -76,7 +76,7 @@
           <div
             class="other comment"
             :class="{
-              'disable-comment': songSheetDetail.playlist?.tracks?.length === 0
+              'disable-comment': songSheetDetail.playlist?.tracks?.length === 0,
             }"
             @click="jumpToComment"
           >
@@ -93,7 +93,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
@@ -105,8 +105,8 @@ import type { SongType } from '@/hooks/useFormatSong';
 const props = defineProps({
   songSheetDetail: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 
 const store = useStore();
@@ -115,7 +115,7 @@ const isLogin = computed(() => store.getters.isLogin);
 // 歌曲是否有版权
 function isCopyright(id: number): boolean {
   const privilege = props.songSheetDetail.privileges?.find?.(
-    (item: { id: number }) => item.id === id
+    (item: { id: number }) => item.id === id,
   );
   if (privilege.cp === 0) {
     return true;
@@ -132,7 +132,7 @@ function playAllSong(): void {
 
   // 过滤无版权
   const songList: SongType[] = props.songSheetDetail.playlist?.tracks?.filter?.(
-    (item: { id: number }) => !isCopyright(item.id)
+    (item: { id: number }) => !isCopyright(item.id),
   );
 
   usePlaySong(songList[0]);
@@ -147,7 +147,7 @@ function allSongToPlaylist(): void {
 
   // 过滤无版权
   const songList: SongType[] = props.songSheetDetail.playlist?.tracks?.filter?.(
-    (item: { id: number }) => !isCopyright(item.id)
+    (item: { id: number }) => !isCopyright(item.id),
   );
 
   useSongAddPlaylist(songList);
@@ -184,6 +184,6 @@ function jumpToComment(): void {
 }
 </script>
 
-<style lang="less">
-@import url('./toplist-info.less');
+<style lang="scss">
+@use './toplist-info.scss';
 </style>

@@ -32,7 +32,7 @@ const actions: Actions<Store, unknown> = {
         })
         .catch(() => ({}));
     });
-  }
+  },
 };
 
 export default actions;

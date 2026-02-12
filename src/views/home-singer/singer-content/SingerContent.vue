@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="singer-content">
     <div class="title" v-if="title">
       <span class="text">
@@ -14,7 +14,7 @@
         :class="[
           { hot: index === 0 },
           { hot: index === menu.length - 1 },
-          { 'active-item': index === activeScreen }
+          { 'active-item': index === activeScreen },
         ]"
         @click="screenChange(index, item.small)"
       >
@@ -65,7 +65,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, watch } from 'vue';
 
 type ItemType = {
@@ -83,136 +83,136 @@ type MenuItem = {
 const props = defineProps({
   title: {
     type: String,
-    default: ''
+    default: '',
   },
   sort: {
     type: Boolean,
-    default: false
+    default: false,
   },
   main: {
     type: Array as () => ItemType[],
-    default: () => []
+    default: () => [],
   },
   second: {
     type: Array as () => ItemType[],
-    default: () => []
-  }
+    default: () => [],
+  },
 });
 const emits = defineEmits(['screenChange', 'jumpSingerDetail', 'jumpUserProfile']);
 
 const menu = reactive<MenuItem[]>([
   {
     large: '热门',
-    small: -1
+    small: -1,
   },
   {
     large: 'A',
-    small: 'a'
+    small: 'a',
   },
   {
     large: 'B',
-    small: 'b'
+    small: 'b',
   },
   {
     large: 'C',
-    small: 'c'
+    small: 'c',
   },
   {
     large: 'D',
-    small: 'd'
+    small: 'd',
   },
   {
     large: 'E',
-    small: 'e'
+    small: 'e',
   },
   {
     large: 'F',
-    small: 'f'
+    small: 'f',
   },
   {
     large: 'G',
-    small: 'g'
+    small: 'g',
   },
   {
     large: 'H',
-    small: 'h'
+    small: 'h',
   },
   {
     large: 'I',
-    small: 'i'
+    small: 'i',
   },
   {
     large: 'J',
-    small: 'j'
+    small: 'j',
   },
   {
     large: 'K',
-    small: 'k'
+    small: 'k',
   },
   {
     large: 'L',
-    small: 'l'
+    small: 'l',
   },
   {
     large: 'M',
-    small: 'm'
+    small: 'm',
   },
   {
     large: 'N',
-    small: 'n'
+    small: 'n',
   },
   {
     large: 'O',
-    small: 'o'
+    small: 'o',
   },
   {
     large: 'P',
-    small: 'p'
+    small: 'p',
   },
   {
     large: 'Q',
-    small: 'q'
+    small: 'q',
   },
   {
     large: 'R',
-    small: 'r'
+    small: 'r',
   },
   {
     large: 'S',
-    small: 's'
+    small: 's',
   },
   {
     large: 'T',
-    small: 't'
+    small: 't',
   },
   {
     large: 'U',
-    small: 'u'
+    small: 'u',
   },
   {
     large: 'V',
-    small: 'v'
+    small: 'v',
   },
   {
     large: 'W',
-    small: 'w'
+    small: 'w',
   },
   {
     large: 'X',
-    small: 'x'
+    small: 'x',
   },
   {
     large: 'Y',
-    small: 'y'
+    small: 'y',
   },
   {
     large: 'Z',
-    small: 'z'
+    small: 'z',
   },
   {
     large: '其他',
-    small: 0
-  }
+    small: 0,
+  },
 ]);
 
 // 字母选择
@@ -227,7 +227,7 @@ watch(
   () => props.title,
   () => {
     activeScreen.value = 0;
-  }
+  },
 );
 
 function jumpSingerDetail(id: number): void {
@@ -239,6 +239,6 @@ function jumpUserProfile(id: number): void {
 }
 </script>
 
-<style lang="less">
-@import url('./singer-content.less');
+<style lang="scss">
+@use './singer-content.scss';
 </style>

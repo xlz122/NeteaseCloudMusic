@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="user-info-container">
     <img class="avatar-url" :src="currentUserInfo.profile?.avatarUrl" />
     <div class="info-right">
@@ -46,7 +46,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
@@ -60,16 +60,16 @@ type VipInfo = {
 defineProps({
   currentUserInfo: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
   provinceName: {
     type: String,
-    default: ''
+    default: '',
   },
   cityName: {
     type: String,
-    default: ''
-  }
+    default: '',
+  },
 });
 
 const route = useRoute();
@@ -99,10 +99,10 @@ watch(
     }
 
     getUserVipInfo();
-  }
+  },
 );
 </script>
 
-<style lang="less" scoped>
-@import url('./user-info.less');
+<style scoped lang="scss">
+@use './user-info.scss';
 </style>

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="level">
     <div class="level-container">
       <div class="level-title">
@@ -80,7 +80,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -100,7 +100,7 @@ const router = useRouter();
 // 用户等级
 const level = reactive({
   current: 0,
-  list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 });
 // 用户特权
 const privilege = ref<string[]>([]);
@@ -109,7 +109,7 @@ const nextLevel = reactive<NextLevel>({
   playCount: 0,
   playProgress: 0,
   loginCount: 0,
-  loginProgress: 0
+  loginProgress: 0,
 });
 
 function getUserLevel(): void {
@@ -146,6 +146,6 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./level.less');
+<style scoped lang="scss">
+@use './level.scss';
 </style>

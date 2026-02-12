@@ -9,13 +9,13 @@ import type { AxiosPromise } from 'axios';
 export const searchPropose = ({ keywords }: { keywords: string }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    keywords
+    keywords,
   };
 
   return axios.request({
     url: '/search/suggest',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -41,13 +41,13 @@ export const searchKeywords = ({ type, keywords, offset, limit }: SearchKeywords
     type,
     keywords,
     offset,
-    limit
+    limit,
   };
 
   return axios.request({
     url: '/cloudsearch',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -66,12 +66,12 @@ export const followUser = ({ id, t }: FollowUser): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
-    t
+    t,
   };
 
   return axios.request({
     url: '/follow',
     method: 'get',
-    params
+    params,
   });
 };

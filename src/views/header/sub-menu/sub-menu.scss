@@ -1,0 +1,48 @@
+﻿.h-sub-menu {
+  width: 100%;
+  min-height: 5px;
+  background-color: #C20C0C;
+
+  .h-sub-menu-warp {
+    display: flex;
+    flex-direction: row;
+    width: 1100px;
+    height: 34px;
+    margin: 0 auto;
+
+    .nav {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: auto;
+      height: 34px;
+      margin-left: 180px;
+
+      .item {
+        height: 20px;
+        line-height: 20px;
+        padding-inline: 17px;
+        cursor: pointer;
+
+        &:hover {
+          .link {
+            background-color: #9B0909;
+          }
+        }
+
+        .link {
+          padding-inline: 13px;
+          font-size: 12px;
+          color: #FFFFFF;
+          border-radius: 20px;
+        }
+      }
+
+      .active-item {
+        .link {
+          background-color: #9B0909;
+        }
+      }
+    }
+  }
+}

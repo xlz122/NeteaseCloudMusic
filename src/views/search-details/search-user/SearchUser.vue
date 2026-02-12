@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="loading" v-if="userData.loading">
     <i class="loading-icon"></i>
     <span>加载中...</span>
@@ -41,7 +41,7 @@
   />
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { reactive, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -80,7 +80,7 @@ const userData = reactive<UserData>({
   offset: 1,
   limit: 30,
   total: 0,
-  list: []
+  list: [],
 });
 
 function getSearchUser(): void {
@@ -90,7 +90,7 @@ function getSearchUser(): void {
     keywords: String(route.query.keyword),
     type: Number(route.query.type),
     offset: (userData.offset - 1) * userData.limit,
-    limit: isLogin.value ? userData.limit : 20
+    limit: isLogin.value ? userData.limit : 20,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -117,7 +117,7 @@ watch(
     userData.offset = 1;
     getSearchUser();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 function follow(userId: number): void {
@@ -143,7 +143,7 @@ function follow(userId: number): void {
           vid: error.response?.data?.data?.verifyId,
           type: error.response?.data?.data?.verifyType,
           evid: error.response?.data?.data?.params?.event_id,
-          sign: error.response?.data?.data?.params?.sign
+          sign: error.response?.data?.data?.params?.sign,
         });
       }
     });
@@ -159,6 +159,6 @@ function jumpUserProfile(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./search-user.less');
+<style scoped lang="scss">
+@use './search-user.scss';
 </style>

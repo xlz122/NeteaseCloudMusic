@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="toplist-content">
     <ToplistInfo :songSheetDetail="songSheetDetail" />
     <div class="table-title">
@@ -28,7 +28,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import Comment from '@/components/comment/Comment.vue';
 import Page from '@/components/page/Page.vue';
 import ToplistInfo from './toplist-info/ToplistInfo.vue';
@@ -37,12 +37,12 @@ import ToplistSong from './toplist-song/ToplistSong.vue';
 defineProps({
   songSheetDetail: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
   commentParams: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 const emits = defineEmits(['handlePageChange', 'refreshComment']);
 
@@ -55,6 +55,6 @@ function handlePageChange(current: number): void {
 }
 </script>
 
-<style lang="less">
-@import url('./toplist-content.less');
+<style lang="scss">
+@use './toplist-content.scss';
 </style>

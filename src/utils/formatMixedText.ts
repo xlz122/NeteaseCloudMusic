@@ -19,7 +19,7 @@ export function formatMixedText(content: string): string {
     const expressionText = item.split('[')[1].split(']')[0];
     // 匹配表情对应的数据项
     const expressionItem = expressionList.find?.(
-      (item: { title: string }) => item.title === expressionText
+      (item: { title: string }) => item.title === expressionText,
     );
 
     // 表情替换为img标签
@@ -29,7 +29,7 @@ export function formatMixedText(content: string): string {
         `<img 
           src='http://s1.music.126.net/style/web2/emt/emoji_${expressionItem.num}.png'
           style="display: inline-block; vertical-align: middle;"
-        />`
+        />`,
       );
     }
 

@@ -10,7 +10,7 @@ export const djCatelist = (): AxiosPromise => {
   return axios.request({
     url: '/dj/catelist',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -23,7 +23,7 @@ export const programRecommend = (): AxiosPromise => {
   return axios.request({
     url: '/program/recommend',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -42,13 +42,13 @@ export const programTopList = ({ limit, offset }: TopListType): AxiosPromise => 
   const params = {
     timestamp: new Date().getTime(),
     limit,
-    offset
+    offset,
   };
 
   return axios.request({
     url: '/dj/program/toplist',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -64,13 +64,13 @@ type RecommendType = {
 export const recommendTypeList = ({ type }: RecommendType): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    type
+    type,
   };
 
   return axios.request({
     url: '/dj/recommend/type',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -86,12 +86,12 @@ type DjDetailType = {
 export const djDetail = ({ rid }: DjDetailType): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    rid
+    rid,
   };
 
   return axios.request({
     url: '/dj/detail',
-    params
+    params,
   });
 };
 
@@ -116,11 +116,11 @@ export const djProgram = ({ rid, asc, limit, offset }: DjProgramType): AxiosProm
     rid,
     asc,
     limit,
-    offset
+    offset,
   };
 
   return axios.request({
     url: '/dj/program',
-    params
+    params,
   });
 };

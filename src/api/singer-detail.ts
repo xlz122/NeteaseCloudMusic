@@ -9,13 +9,13 @@ import type { AxiosPromise } from 'axios';
 export const artistDetail = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    id
+    id,
   };
 
   return axios.request({
     url: '/artist/detail',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -34,13 +34,13 @@ export const artistSub = ({ id, t }: ArtistSub): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
-    t
+    t,
   };
 
   return axios.request({
     url: '/artist/sub',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -52,13 +52,13 @@ export const artistSub = ({ id, t }: ArtistSub): AxiosPromise => {
 export const artistSong = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    id
+    id,
   };
 
   return axios.request({
     url: '/artists',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -80,13 +80,13 @@ export const artistMv = ({ id, offset, limit }: ArtistMv): AxiosPromise => {
     timestamp: new Date().getTime(),
     id,
     offset,
-    limit
+    limit,
   };
 
   return axios.request({
     url: '/artist/mv',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -98,13 +98,13 @@ export const artistMv = ({ id, offset, limit }: ArtistMv): AxiosPromise => {
 export const artistDesc = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    id
+    id,
   };
 
   return axios.request({
     url: '/artist/desc',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -123,13 +123,13 @@ export const topArtists = ({ offset, limit }: TopArtists): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     offset,
-    limit
+    limit,
   };
 
   return axios.request({
     url: '/top/artists',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -141,12 +141,12 @@ export const topArtists = ({ offset, limit }: TopArtists): AxiosPromise => {
 export const simiArtist = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    id
+    id,
   };
 
   return axios.request({
     url: '/simi/artist',
     method: 'get',
-    params
+    params,
   });
 };

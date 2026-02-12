@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <HorizontalProgress
     class="horizontal-progress"
     :range="'.audio-player .horizontal-progress'"
@@ -9,22 +9,22 @@
   />
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import HorizontalProgress from '@/components/progress/Progress.vue';
 
 defineProps({
   loading: {
     type: Boolean,
-    default: false
+    default: false,
   },
   progress: {
     type: Number,
-    default: 0
+    default: 0,
   },
   cacheProgress: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
 });
 const emits = defineEmits(['progressChange']);
 
@@ -33,6 +33,6 @@ function progressChange(value: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./play-progress.less');
+<style scoped lang="scss">
+@use './play-progress.scss';
 </style>

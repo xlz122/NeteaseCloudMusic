@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="recommend">
     <div class="title dis-flex justify-between align-end">
       <router-link to="" class="text-gray3 f24 txt">推荐节目</router-link>
@@ -36,7 +36,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import usePlaySong from '@/hooks/usePlaySong';
@@ -92,7 +92,7 @@ function jumpProgramDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('@/assets/style/base.less');
-@import url('./recommend.less');
+<style scoped lang="scss">
+@use '@/assets/styles/base.scss';
+@use './recommend.scss';
 </style>

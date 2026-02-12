@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="music-table-container">
     <div class="loading" v-if="loading">
       <i class="loading-icon"></i>
@@ -25,17 +25,20 @@
         <tr
           v-for="(item, index) in songSheetDetail.playlist?.tracks"
           :key="index"
-          :class="[{ 'even-item': (index + 1) % 2 }, { 'no-copyright': isCopyright(item.id) }]"
+          :class="[
+            { 'even-item': (Number(index) + 1) % 2 },
+            { 'no-copyright': isCopyright(item.id) },
+          ]"
         >
           <td class="tbody-left">
             <div class="hd">
-              <span class="text">{{ index + 1 }}</span>
+              <span class="text">{{ Number(index) + 1 }}</span>
               <i class="icon-new"></i>
             </div>
           </td>
-          <td class="tbody-td" :class="{ song: index < 3 }">
+          <td class="tbody-td" :class="{ song: Number(index) < 3 }">
             <div class="hd">
-              <template v-if="index < 3 && item.al?.picUrl">
+              <template v-if="Number(index) < 3 && item.al?.picUrl">
                 <img
                   class="song-img"
                   :src="`${item.al?.picUrl}?param=50y50&quality=100`"
@@ -97,7 +100,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -110,8 +113,8 @@ import type { SongType } from '@/hooks/useFormatSong';
 const props = defineProps({
   songSheetDetail: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 
 const router = useRouter();
@@ -124,13 +127,13 @@ watch(
   () => props.songSheetDetail,
   () => {
     loading.value = false;
-  }
+  },
 );
 
 // 歌曲是否有版权
 function isCopyright(id: number): boolean {
   const privilege = props.songSheetDetail.privileges?.find?.(
-    (item: { id: number }) => item.id === id
+    (item: { id: number }) => item.id === id,
   );
   if (privilege.cp === 0) {
     return true;
@@ -144,7 +147,7 @@ function playSingleSong(item: SongType): void {
   if (isCopyright(item.id)) {
     store.commit('setCopyrightDialog', {
       visible: true,
-      message: '由于版权保护，您所在的地区暂时无法使用。'
+      message: '由于版权保护，您所在的地区暂时无法使用。',
     });
     return;
   }
@@ -166,7 +169,7 @@ function handleCollection(id: number): void {
   if (isCopyright(id)) {
     store.commit('setCopyrightDialog', {
       visible: true,
-      message: '由于版权保护，您所在的地区暂时无法使用。'
+      message: '由于版权保护，您所在的地区暂时无法使用。',
     });
     return;
   }
@@ -200,6 +203,6 @@ function jumpSingerDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./toplist-song.less');
+<style scoped lang="scss">
+@use './toplist-song.scss';
 </style>

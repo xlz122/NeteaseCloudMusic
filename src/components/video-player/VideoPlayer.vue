@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="video-player" :class="{ 'video-fullscreen': fullscreen }">
     <VideoView
       ref="videoRef"
@@ -61,7 +61,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, watch, onMounted, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { timeStampToDuration } from '@/utils/utils';
@@ -76,12 +76,12 @@ import VolumeProgress from './volume-progress/VolumeProgress.vue';
 defineProps({
   detail: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
   subed: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 const emits = defineEmits(['handleCollection']);
 
@@ -100,7 +100,7 @@ watch(
       getVideoPlayUrl();
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 function getMvPlayUrl(): void {
@@ -156,7 +156,7 @@ const playProgress = ref({
   currentTime: 0,
   duration: 0,
   progress: 0,
-  manualUpdate: false
+  manualUpdate: false,
 });
 
 function videoTimeUpdate(currentTime: number, duration: number): void {
@@ -168,7 +168,7 @@ function videoTimeUpdate(currentTime: number, duration: number): void {
     ...playProgress.value,
     currentTime: currentTime,
     duration: duration,
-    progress: currentTime / duration
+    progress: currentTime / duration,
   };
 }
 
@@ -178,7 +178,7 @@ function videoProgressChange(value: number): void {
   playProgress.value = {
     ...playProgress.value,
     currentTime: playProgress.value.duration * value,
-    progress: value
+    progress: value,
   };
 
   // 更新播放器时间
@@ -260,6 +260,6 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./video-player.less');
+<style scoped lang="scss">
+@use './video-player.scss';
 </style>

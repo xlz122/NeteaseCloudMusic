@@ -4,11 +4,12 @@ import type {
   AxiosInstance,
   InternalAxiosRequestConfig,
   AxiosResponse,
-  AxiosError
+  AxiosError,
 } from 'axios';
 import store from '@/store';
 import { setMessage } from '@/hooks/useMessage';
 
+// 标识请求
 const getRequestIdentify = (config: AxiosRequestConfig, isReuest = false) => {
   let url = config.url;
   if (config.url && isReuest) {
@@ -19,7 +20,7 @@ const getRequestIdentify = (config: AxiosRequestConfig, isReuest = false) => {
     ? encodeURIComponent(url + JSON.stringify(config.params))
     : encodeURIComponent(config.url + JSON.stringify(config.data));
 };
-
+// 取消重复请求
 const pending: { [key: string]: () => void } = {};
 const removePending = (key: string, isRequest = false) => {
   if (pending[key] && isRequest) {
@@ -35,7 +36,7 @@ class HttpRequest {
       baseURL: import.meta.env.VITE_APP_BASE_API,
       headers: { 'Content-Type': 'application/json;charset=UTF-8' },
       withCredentials: true,
-      timeout: 60000
+      timeout: 60000,
     };
 
     return config;
@@ -45,9 +46,7 @@ class HttpRequest {
     // 请求拦截
     instance.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
-        // 标识请求
         const requestIdentify: string = getRequestIdentify(config, true);
-        // 取消重复请求
         removePending(requestIdentify, true);
         config.cancelToken = new axios.CancelToken((cancel) => {
           pending[requestIdentify] = cancel;
@@ -57,7 +56,7 @@ class HttpRequest {
       },
       (error: AxiosError) => {
         return Promise.reject(error);
-      }
+      },
     );
     // 响应拦截
     instance.interceptors.response.use(
@@ -78,7 +77,7 @@ class HttpRequest {
         }
 
         return Promise.reject(error);
-      }
+      },
     );
   }
 

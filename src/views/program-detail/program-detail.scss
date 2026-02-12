@@ -1,0 +1,42 @@
+﻿.program-detail {
+  background-color: #F2F2F2;
+
+  .detail-container {
+    width: 980px;
+    margin: 0 auto;
+    background: url('@/assets/images/song-sheet/background.png') repeat-y center 0;
+    background-color: #FFFFFF;
+    border: 1px solid #D3D3D3;
+    border-width: 0 1px;
+
+    .program-content {
+      display: inline-block;
+      width: calc(100% - 274px);
+      padding-bottom: 40px;
+      vertical-align: top;
+
+      ::v-deep(.comment-component) {
+        margin-right: 30px;
+        margin-left: 39px;
+
+        .detail-comment {
+          width: 637px;
+        }
+
+        .list-title {
+          padding-left: 0;
+        }
+
+        .comment-textarea {
+          width: 558px;
+        }
+      }
+    }
+
+    .program-side {
+      display: inline-block;
+      width: 270px;
+      vertical-align: top;
+    }
+  }
+}

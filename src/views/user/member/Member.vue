@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="member">
     <div class="member-container">
       <!-- 用户信息 -->
@@ -46,7 +46,7 @@
             @click="changeTab(0)"
           >
             黑胶VIP
-            <img src="../../../assets/image/user/member-vip.png" alt="VIP" />
+            <img src="../../../assets/images/user/member-vip.png" alt="VIP" />
           </div>
           <div
             class="f14 text-gray9 pointer lia"
@@ -54,7 +54,7 @@
             @click="changeTab(1)"
           >
             音乐包
-            <img src="../../../assets/image/user/member-music.png" alt="音乐包" />
+            <img src="../../../assets/images/user/member-music.png" alt="音乐包" />
           </div>
         </div>
         <div class="vip-product">
@@ -134,13 +134,13 @@
             <div class="f14 text-gray3">支付方式</div>
             <div class="scan dis-flex">
               <div class="scan-img">
-                <img src="../../../assets/image/user/scanImg.png" alt="二维码" />
+                <img src="../../../assets/images/user/scanImg.png" alt="二维码" />
               </div>
               <div class="ml20">
                 <div class="f14 text-gray3">使用支付宝、微信扫码支付</div>
                 <div class="pay-img mt10">
-                  <img src="../../../assets/image/user/pay-zfb.png" alt="支付宝" />
-                  <img src="../../../assets/image/user/pay-wx.png" alt="微信" class="ml10" />
+                  <img src="../../../assets/images/user/pay-zfb.png" alt="支付宝" />
+                  <img src="../../../assets/images/user/pay-wx.png" alt="微信" class="ml10" />
                 </div>
                 <div class="text-gray3"><span class="f45">13</span>元</div>
               </div>
@@ -334,7 +334,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { getImageUrl } from '@/utils/utils';
@@ -399,7 +399,7 @@ const vip = [
     price: 13,
     amount: 13,
     type: 1,
-    discount: ''
+    discount: '',
   },
   {
     name: '连续包年',
@@ -407,7 +407,7 @@ const vip = [
     price: 128,
     amount: 138,
     type: 2,
-    discount: '9.3'
+    discount: '9.3',
   },
   {
     name: '连续包季',
@@ -415,7 +415,7 @@ const vip = [
     price: 30,
     amount: 10,
     type: 1,
-    discount: '7.7'
+    discount: '7.7',
   },
   {
     name: '12个月',
@@ -423,7 +423,7 @@ const vip = [
     price: 158,
     amount: 216,
     type: 2,
-    discount: ''
+    discount: '',
   },
   {
     name: '6个月',
@@ -431,7 +431,7 @@ const vip = [
     price: 88,
     amount: 108,
     type: 2,
-    discount: ''
+    discount: '',
   },
   {
     name: '3个月',
@@ -439,7 +439,7 @@ const vip = [
     price: 45,
     amount: 54,
     type: 2,
-    discount: ''
+    discount: '',
   },
   {
     name: '1个月',
@@ -447,8 +447,8 @@ const vip = [
     price: 16,
     amount: 18,
     type: 2,
-    discount: ''
-  }
+    discount: '',
+  },
 ];
 // 音乐包列表
 const music = [
@@ -458,7 +458,7 @@ const music = [
     price: 8,
     amount: 8,
     type: 1,
-    discount: ''
+    discount: '',
   },
   {
     name: '12个月',
@@ -466,7 +466,7 @@ const music = [
     price: 88,
     amount: 7.33,
     type: 1,
-    discount: ''
+    discount: '',
   },
   {
     name: '6个月',
@@ -474,7 +474,7 @@ const music = [
     price: 45,
     amount: 7.5,
     type: 1,
-    discount: ''
+    discount: '',
   },
   {
     name: '1个月',
@@ -482,8 +482,8 @@ const music = [
     price: 8,
     amount: 8,
     type: 1,
-    discount: ''
-  }
+    discount: '',
+  },
 ];
 // 特权列表
 const privilege = reactive({
@@ -492,59 +492,59 @@ const privilege = reactive({
     {
       code: 1,
       name: '会员曲库',
-      img: getImageUrl('/src/assets/image/user/privilege/1.png')
+      img: getImageUrl('/src/assets/images/user/privilege/1.png'),
     },
     {
       code: 2,
       name: '免费下载',
-      img: getImageUrl('/src/assets/image/user/privilege/2.png')
+      img: getImageUrl('/src/assets/images/user/privilege/2.png'),
     },
     {
       code: 1,
       name: '铃声',
-      img: getImageUrl('/src/assets/image/user/privilege/1.png')
+      img: getImageUrl('/src/assets/images/user/privilege/1.png'),
     },
     {
       code: 3,
       name: '历史日推',
-      img: getImageUrl('/src/assets/image/user/privilege/3.png')
+      img: getImageUrl('/src/assets/images/user/privilege/3.png'),
     },
     {
       code: 4,
       name: '歌词图片',
-      img: getImageUrl('/src/assets/image/user/privilege/4.png'),
-      imgNo: getImageUrl('/src/assets/image/user/privilege/4-no.png')
+      img: getImageUrl('/src/assets/images/user/privilege/4.png'),
+      imgNo: getImageUrl('/src/assets/images/user/privilege/4-no.png'),
     },
     {
       code: 5,
       name: '无损音质',
-      img: getImageUrl('/src/assets/image/user/privilege/5.png')
+      img: getImageUrl('/src/assets/images/user/privilege/5.png'),
     },
     {
       code: 6,
       name: '广告特权',
-      img: getImageUrl('/src/assets/image/user/privilege/6.png'),
-      imgNo: getImageUrl('/src/assets/image/user/privilege/6-no.png')
+      img: getImageUrl('/src/assets/images/user/privilege/6.png'),
+      imgNo: getImageUrl('/src/assets/images/user/privilege/6-no.png'),
     },
     {
       code: 7,
       name: '鲸云音效',
-      img: getImageUrl('/src/assets/image/user/privilege/7.png'),
-      imgNo: getImageUrl('/src/assets/image/user/privilege/7-no.png')
+      img: getImageUrl('/src/assets/images/user/privilege/7.png'),
+      imgNo: getImageUrl('/src/assets/images/user/privilege/7-no.png'),
     },
     {
       code: 8,
       name: '头像挂件',
-      img: getImageUrl('/src/assets/image/user/privilege/8.png'),
-      imgNo: getImageUrl('/src/assets/image/user/privilege/8-no.png')
+      img: getImageUrl('/src/assets/images/user/privilege/8.png'),
+      imgNo: getImageUrl('/src/assets/images/user/privilege/8-no.png'),
     },
     {
       code: 9,
       name: '个性皮肤',
-      img: getImageUrl('/src/assets/image/user/privilege/9.png'),
-      imgNo: getImageUrl('/src/assets/image/user/privilege/9-no.png')
-    }
-  ]
+      img: getImageUrl('/src/assets/images/user/privilege/9.png'),
+      imgNo: getImageUrl('/src/assets/images/user/privilege/9-no.png'),
+    },
+  ],
 });
 
 // 页面显示列表
@@ -576,7 +576,7 @@ const coupon = reactive<CouponType>({
   dropdown: false, // 优惠券选择
   couponList: ['优惠券1', '优惠券2', '优惠券3'], // 优惠券列表
   couponValue: '', // 优惠券选择
-  exchangeCode: '' // 兑换码
+  exchangeCode: '', // 兑换码
 });
 
 // 优惠券选择显示下拉
@@ -613,7 +613,7 @@ watch(
     } else {
       document.body.removeEventListener('mousedown', mousedown);
     }
-  }
+  },
 );
 
 // help问号提示
@@ -630,11 +630,11 @@ const dialog = reactive<DialogType>({
     '8.仅支持中国大陆手机号绑定；',
     '9.使用手机话费支付不能参与领取芒果TV会员；',
     '10. 芒果TV会员权益为PC移动影视会员，权益支持在电脑/手机/PAD端体验；',
-    '11. 取消自动续费：进入“网易云音乐”-点击左侧边栏-我的客服-管理自动续费，取消订阅自动续费即可，您也可以直接在微信、支付宝等第三方支付客户端内取消自动扣款设置（具体操作方式以各产品实际功能为准）。'
+    '11. 取消自动续费：进入“网易云音乐”-点击左侧边栏-我的客服-管理自动续费，取消订阅自动续费即可，您也可以直接在微信、支付宝等第三方支付客户端内取消自动扣款设置（具体操作方式以各产品实际功能为准）。',
   ],
   promptShow: false, // 提示
   promptIcon: 'success', // 提示图标
-  promptContent: '' // 提示文字
+  promptContent: '', // 提示文字
 });
 
 // 兑换提示
@@ -653,20 +653,20 @@ function closePrompt(val: boolean) {
 const songList = ref([
   {
     id: 1,
-    img: getImageUrl('/src/assets/image/user/songs/1.png')
+    img: getImageUrl('/src/assets/images/user/songs/1.png'),
   },
   {
     id: 2,
-    img: getImageUrl('/src/assets/image/user/songs/2.png')
+    img: getImageUrl('/src/assets/images/user/songs/2.png'),
   },
   {
     id: 3,
-    img: getImageUrl('/src/assets/image/user/songs/3.png')
+    img: getImageUrl('/src/assets/images/user/songs/3.png'),
   },
   {
     id: 4,
-    img: getImageUrl('/src/assets/image/user/songs/4.png')
-  }
+    img: getImageUrl('/src/assets/images/user/songs/4.png'),
+  },
 ]);
 
 // vip常见问题
@@ -678,12 +678,12 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('@/assets/style/base.less');
-@import url('./member.less');
+<style scoped lang="scss">
+@use '@/assets/styles/base.scss';
+@use './member.scss';
 </style>
 
-<style lang="less">
+<style lang="scss">
 .vip-service-modal .dialog-box {
   width: 760px !important;
   min-height: auto !important;
@@ -727,7 +727,7 @@ onMounted(() => {
         padding-bottom: 8px;
         font-size: 12px;
         line-height: 16px;
-        color: #666;
+        color: #666666;
       }
     }
   }

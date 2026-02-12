@@ -1,0 +1,158 @@
+﻿.footer {
+  width: 100%;
+  height: 325px;
+  border-top: 1px solid #D3D3D3;
+  background: #F2F2F2;
+
+  .f-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 980px;
+    margin: 33px auto 0;
+
+    .item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      min-width: 125px;
+
+      .icon {
+        width: 45px;
+        height: 45px;
+        background: url('@/assets/images/footer/enter.png') no-repeat;
+        background-size: 220px 220px;
+      }
+
+      .icon-openplatform {
+        background-position: -170px -5px;
+
+        &:hover {
+          background-position: -5px -115px;
+        }
+      }
+
+      .icon-trade {
+        background-position: -5px -170px;
+
+        &:hover {
+          background-position: -60px -170px;
+        }
+      }
+
+      .icon-xstudio {
+        background: url('@/assets/images/footer/xstudio.png') no-repeat;
+        background-size: 45px;
+
+        &:hover {
+          background: url('@/assets/images/footer/xstudio-hover.png') no-repeat;
+          background-size: 45px;
+        }
+      }
+
+      .icon-auth {
+        background-position: -60px -60px;
+
+        &:hover {
+          background-position: -115px -5px;
+        }
+      }
+
+      .icon-musician {
+        background: url('@/assets/images/footer/musician.png') no-repeat;
+        background-size: 45px;
+
+        &:hover {
+          background: url('@/assets/images/footer/musician-hover.png') no-repeat;
+          background-size: 45px;
+        }
+      }
+
+      .icon-cloudsong {
+        background: url('@/assets/images/footer/cloudsong.png') no-repeat;
+        background-size: 45px;
+
+        &:hover {
+          background: url('@/assets/images/footer/cloudsong-hover.png') no-repeat;
+          background-size: 45px;
+        }
+      }
+
+      .icon-reward {
+        background-position: -170px -115px;
+
+        &:hover {
+          background-position: -60px -115px;
+        }
+      }
+
+      .text {
+        font-weight: 400;
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+
+  .f-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 980px;
+    margin: 60px auto 0;
+
+    .group {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      .link {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 12px;
+        color: #666666;
+
+        &:hover {
+          text-decoration: underline;
+        }
+
+        .icon {
+          width: 14px;
+          height: 14px;
+          margin: 0 2px 0 4px;
+          background: url('@/assets/images/footer/police-logo.png') no-repeat;
+          background-size: cover;
+        }
+      }
+
+      .divider {
+        margin-inline: 10px;
+        color: #D9D9D9;
+      }
+
+      .text {
+        font-size: 12px;
+        color: #666666;
+      }
+    }
+
+    .report {
+      gap: 14px;
+    }
+
+    .license {
+      gap: 3px;
+    }
+
+    .copyright {
+      gap: 3px;
+
+      .c-text {
+        margin-right: 10px;
+      }
+    }
+  }
+}

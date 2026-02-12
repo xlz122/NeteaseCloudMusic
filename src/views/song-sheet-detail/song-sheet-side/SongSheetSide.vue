@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="side-container">
     <template v-if="subscribers.length > 0">
       <h3 class="title">喜欢这个歌单的人</h3>
@@ -51,7 +51,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { topPlaylist } from '@/api/home-song-sheet';
@@ -77,8 +77,8 @@ type SongSheetItem = {
 defineProps({
   subscribers: {
     type: Array as () => ItemType[],
-    default: () => []
-  }
+    default: () => [],
+  },
 });
 
 const route = useRoute();
@@ -89,7 +89,7 @@ const params = reactive({
   order: 'hot',
   cat: '全部',
   offset: 1,
-  limit: 5
+  limit: 5,
 });
 const songSheet = ref<SongSheetItem[]>([]);
 
@@ -98,7 +98,7 @@ function getTopPlaylist(): void {
     order: params.order,
     cat: params.cat,
     offset: params.offset - 1,
-    limit: params.limit
+    limit: params.limit,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -115,7 +115,7 @@ watch(
   () => {
     getTopPlaylist();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 function jumpUserProfile(id: number): void {
@@ -127,6 +127,6 @@ function jumpSongSheetDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./song-sheet-side.less');
+<style scoped lang="scss">
+@use './song-sheet-side.scss';
 </style>

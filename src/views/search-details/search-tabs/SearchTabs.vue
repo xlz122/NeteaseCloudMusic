@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <ul class="search-tabs">
     <li
       class="item-tab"
@@ -12,7 +12,7 @@
   </ul>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -22,46 +22,46 @@ const router = useRouter();
 const tab = ref([
   {
     title: '单曲',
-    type: 1
+    type: 1,
   },
   {
     title: '歌手',
-    type: 100
+    type: 100,
   },
   {
     title: '专辑',
-    type: 10
+    type: 10,
   },
   {
     title: '视频',
-    type: 1014
+    type: 1014,
   },
   {
     title: '歌词',
-    type: 1006
+    type: 1006,
   },
   {
     title: '歌单',
-    type: 1000
+    type: 1000,
   },
   {
     title: '声音主播',
-    type: 1009
+    type: 1009,
   },
   {
     title: '用户',
-    type: 1002
-  }
+    type: 1002,
+  },
 ]);
 
 function tabChange(type: number): void {
   router.push({
     name: 'search-details',
-    query: { keyword: route.query.keyword, type }
+    query: { keyword: route.query.keyword, type },
   });
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./search-tabs.less');
+<style scoped lang="scss">
+@use './search-tabs.scss';
 </style>

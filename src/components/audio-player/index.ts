@@ -12,7 +12,7 @@ const AudioPlayer = {
     // 挂载
     const element = document.getElementById('audioPlayer')!;
     render(vm, element);
-  }
+  },
 };
 
 export default AudioPlayer;

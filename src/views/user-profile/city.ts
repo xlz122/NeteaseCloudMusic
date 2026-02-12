@@ -3239,7 +3239,7 @@ const cityZipCode = [
   { code: '659001', name: '石河子市' },
   { code: '659002', name: '阿拉尔市' },
   { code: '659003', name: '图木舒克市' },
-  { code: '659004', name: '五家渠市' }
+  { code: '659004', name: '五家渠市' },
 ];
 
 export default function findCityZipCode(code: string | number): string {

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="friend" v-if="isLogin">
     <div class="friend-container">
       <div class="container-content">
@@ -18,7 +18,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import FriendContent from './content/Content.vue';
@@ -32,6 +32,6 @@ function handleLogin(): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./friend.less');
+<style scoped lang="scss">
+@use './friend.scss';
 </style>

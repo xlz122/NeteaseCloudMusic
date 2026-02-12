@@ -10,7 +10,7 @@ export const hotAlbum = (): AxiosPromise => {
   return axios.request({
     url: '/album/newest',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -32,12 +32,12 @@ export const nweAlbum = ({ area, limit, offset }: NweAlbum): AxiosPromise => {
     timestamp: new Date().getTime(),
     area,
     limit,
-    offset
+    offset,
   };
 
   return axios.request({
     url: '/album/new',
     method: 'get',
-    params
+    params,
   });
 };

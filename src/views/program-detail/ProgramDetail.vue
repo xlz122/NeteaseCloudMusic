@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="program-detail">
     <div class="detail-container">
       <div class="program-content">
@@ -25,7 +25,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
@@ -71,14 +71,14 @@ const commentParams = reactive<CommentParams>({
   limit: 20,
   hotList: [],
   list: [],
-  total: 0
+  total: 0,
 });
 
 function getCommentList(): void {
   const params = {
     id: commentParams.id,
     offset: (commentParams.offset - 1) * commentParams.limit,
-    limit: commentParams.limit
+    limit: commentParams.limit,
   };
 
   djprogramComment({ ...params })
@@ -118,7 +118,7 @@ watch(
     getProgramDetail();
     getCommentList();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 onMounted(() => {
@@ -127,6 +127,6 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./program-detail.less');
+<style scoped lang="scss">
+@use './program-detail.scss';
 </style>

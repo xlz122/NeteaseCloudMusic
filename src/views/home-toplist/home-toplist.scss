@@ -1,0 +1,28 @@
+﻿.home-toplist {
+  background-color: #F2F2F2;
+
+  .home-toplist-container {
+    width: 980px;
+    height: 100%;
+    margin: 0 auto;
+    background: url('@/assets/images/my-music/my-music-scroll.png') repeat-y center 0;
+    background-color: #FFFFFF;
+    border: 1px solid #D3D3D3;
+    background-size: contain;
+    border-width: 0 1px;
+
+    .home-toplist-menu {
+      position: relative;
+      display: inline-block;
+      width: 239px;
+      vertical-align: top;
+    }
+
+    .home-toplist-content {
+      position: relative;
+      display: inline-block;
+      width: 740px;
+      vertical-align: top;
+    }
+  }
+}

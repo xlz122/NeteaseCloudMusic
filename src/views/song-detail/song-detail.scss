@@ -1,0 +1,83 @@
+﻿.song-sheet-detail {
+  background-color: #F2F2F2;
+
+  .detail-container {
+    width: 980px;
+    margin: 0 auto;
+    background: url('@/assets/images/song-sheet/background.png') repeat-y center 0;
+    background-color: #FFFFFF;
+    border: 1px solid #D3D3D3;
+    border-width: 0 1px;
+
+    .detail-content {
+      display: inline-block;
+      width: calc(100% - 274px);
+      padding-bottom: 40px;
+      vertical-align: top;
+
+      .song-user-operate {
+        padding-right: 30px;
+        margin-top: 13px;
+        line-height: 30px;
+        text-align: right;
+
+        .operate-top {
+          .text {
+            color: #999999;
+            text-decoration: underline;
+            cursor: pointer;
+          }
+
+          .lyric {
+            margin-right: 3px;
+          }
+        }
+
+        .operate-bottom {
+          .text {
+            color: #666666;
+          }
+
+          .name {
+            margin-left: 4px;
+            color: #0C73C2;
+            text-decoration: underline;
+            cursor: pointer;
+          }
+
+          .temporary {
+            margin-left: 13px;
+          }
+
+          .translate {
+            text-decoration: underline;
+            cursor: pointer;
+          }
+        }
+      }
+
+      ::v-deep(.comment-component) {
+        margin-right: 30px;
+        margin-left: 39px;
+
+        .detail-comment {
+          width: 637px;
+        }
+
+        .list-title {
+          padding-left: 0;
+        }
+
+        .comment-textarea {
+          width: 558px;
+        }
+      }
+    }
+
+    .detail-side {
+      display: inline-block;
+      width: 270px;
+      vertical-align: top;
+    }
+  }
+}

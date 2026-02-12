@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="level-detail">
     <div class="detail-container">
       <h2 class="title">
@@ -37,7 +37,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -47,12 +47,12 @@ const list = ref([
   {
     level: 1,
     capacity: '5G音乐云盘免费容量',
-    blacklist: '黑名单上限20'
+    blacklist: '黑名单上限20',
   },
   {
     level: 2,
     capacity: '20G音乐云盘免费容量',
-    blacklist: '黑名单上限20'
+    blacklist: '黑名单上限20',
   },
   {
     level: 3,
@@ -60,13 +60,13 @@ const list = ref([
     blacklist: '黑名单上限20',
     additional: {
       coupon: '云音乐商城满100减3元优惠券',
-      value: '价值50云贝'
-    }
+      value: '价值50云贝',
+    },
   },
   {
     level: 4,
     capacity: '40G音乐云盘免费容量',
-    blacklist: '黑名单上限20'
+    blacklist: '黑名单上限20',
   },
   {
     level: 5,
@@ -74,13 +74,13 @@ const list = ref([
     blacklist: '黑名单上限20',
     additional: {
       coupon: '云音乐商城满100减6元优惠券',
-      value: '价值100云贝'
-    }
+      value: '价值100云贝',
+    },
   },
   {
     level: 6,
     capacity: '60G音乐云盘免费容量',
-    blacklist: '黑名单上限40'
+    blacklist: '黑名单上限40',
   },
   {
     level: 7,
@@ -88,13 +88,13 @@ const list = ref([
     blacklist: '黑名单上限80',
     additional: {
       coupon: '云音乐商城满100减9元优惠券',
-      value: '价值400云贝'
-    }
+      value: '价值400云贝',
+    },
   },
   {
     level: 8,
     capacity: '60G音乐云盘免费容量',
-    blacklist: '黑名单上限100'
+    blacklist: '黑名单上限100',
   },
   {
     level: 9,
@@ -102,14 +102,14 @@ const list = ref([
     blacklist: '黑名单上限120',
     additional: {
       coupon: '云音乐商城满100减12元优惠券',
-      value: '价值1200云贝'
-    }
+      value: '价值1200云贝',
+    },
   },
   {
     level: 10,
     capacity: '100G音乐云盘免费容量',
-    blacklist: '黑名单上限140'
-  }
+    blacklist: '黑名单上限140',
+  },
 ]);
 
 function jumpLevel(): void {
@@ -117,6 +117,6 @@ function jumpLevel(): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./level-detail.less');
+<style scoped lang="scss">
+@use './level-detail.scss';
 </style>

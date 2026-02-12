@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="song-sheet-container">
     <template v-if="songSheetList.create?.length > 0">
       <div class="title">
@@ -85,7 +85,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { reactive, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -122,7 +122,7 @@ const userInfo = computed(() => store.getters.userInfo);
 // 获取歌单列表
 const songSheetList = reactive<SongSheet>({
   create: [],
-  collect: []
+  collect: [],
 });
 
 function getUserPlayList(): void {
@@ -141,10 +141,10 @@ function getUserPlayList(): void {
 
       // 其他用户
       songSheetList.create = res.playlist?.filter?.(
-        (item: SongSheetItem) => item.userId === Number(route.query.id)
+        (item: SongSheetItem) => item.userId === Number(route.query.id),
       );
       songSheetList.collect = res.playlist?.filter?.(
-        (item: SongSheetItem) => item.userId !== Number(route.query.id)
+        (item: SongSheetItem) => item.userId !== Number(route.query.id),
       );
     })
     .catch(() => ({}));
@@ -155,7 +155,7 @@ watch(
   () => {
     getUserPlayList();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 // 歌单添加到播放列表并播放
@@ -171,7 +171,7 @@ function songSheetToPlaylistPlay(id: number): void {
 
       // 过滤无版权
       const songList: SongType[] = res.songs?.filter?.(
-        (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
+        (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd,
       );
 
       usePlaySong(songList[0]);
@@ -185,6 +185,6 @@ function jumpSongSheetDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./song-sheet.less');
+<style scoped lang="scss">
+@use './song-sheet.scss';
 </style>

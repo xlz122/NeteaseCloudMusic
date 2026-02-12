@@ -10,6 +10,6 @@ export const topList = (): AxiosPromise => {
   return axios.request({
     url: '/toplist',
     method: 'get',
-    params
+    params,
   });
 };

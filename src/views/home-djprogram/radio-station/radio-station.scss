@@ -1,0 +1,67 @@
+﻿.radio-station {
+  margin-top: 35px;
+  font-size: 14px;
+  text-align: left;
+
+  .top {
+    height: 40px;
+    border-bottom: 2px solid #C20C0C;
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .title {
+      font-size: 24px;
+      color: #333333;
+
+      a {
+        color: #333333;
+      }
+    }
+
+    .more {
+      font-size: 12px;
+      color: #666666;
+      cursor: pointer;
+    }
+  }
+
+  .rdilist {
+    width: 435px;
+    height: 120px;
+    padding: 20px 0;
+
+    .pic-url {
+      width: 120px;
+      height: 120px;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .cnt {
+      margin-left: 22px;
+
+      .name {
+        margin: 16px 0 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #333333;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .note {
+        margin-bottom: 6px;
+        line-height: 20px;
+        color: #999999;
+      }
+    }
+  }
+}

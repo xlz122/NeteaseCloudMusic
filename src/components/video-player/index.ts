@@ -12,7 +12,7 @@ const VideoPlayer = {
     // 挂载
     const element = document.getElementById('video-palyer')!;
     render(vm, element);
-  }
+  },
 };
 
 export default VideoPlayer;

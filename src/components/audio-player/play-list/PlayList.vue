@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="play-list" v-if="visible">
     <div class="play-list-title">
       <h4 class="title">播放列表({{ songPlaylist.length }})</h4>
@@ -74,7 +74,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { computed, watch, nextTick } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -88,8 +88,8 @@ import Lyric from './lyric/Lyric.vue';
 const props = defineProps({
   visible: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 const emits = defineEmits(['close']);
 
@@ -106,7 +106,7 @@ watch(
     if (props.visible) {
       playSongPosition();
     }
-  }
+  },
 );
 
 // 播放歌曲定位
@@ -190,6 +190,6 @@ function close(): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./play-list.less');
+<style scoped lang="scss">
+@use './play-list.scss';
 </style>

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="prompt" v-if="dialogShow">
     <div class="prompt-mask"></div>
     <div class="prompt-box">
@@ -11,22 +11,22 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue';
 
 const props = defineProps({
   show: {
     type: Boolean,
-    default: false
+    default: false,
   },
   icon: {
     type: String,
-    default: 'success'
+    default: 'success',
   },
   content: {
     type: String,
-    default: '提示'
-  }
+    default: '提示',
+  },
 });
 const emits = defineEmits(['close']);
 
@@ -36,7 +36,7 @@ watch(
   (val) => {
     dialogShow.value = val;
     if (val) close();
-  }
+  },
 );
 
 function close(): void {
@@ -47,7 +47,7 @@ function close(): void {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped lang="scss">
 .prompt {
   position: fixed;
   top: 0;
@@ -74,7 +74,7 @@ function close(): void {
   z-index: 10000;
   width: 180px;
   min-height: 116px;
-  color: #fff;
+  color: #FFFFFF;
   text-align: center;
   background: rgb(0 0 0 / 55%);
   border-radius: 6px;
@@ -85,7 +85,7 @@ function close(): void {
     width: 35px;
     height: 35px;
     margin: 27px 0 6px;
-    background: url('@/assets/image/user/prompt-icon.png') no-repeat;
+    background: url('@/assets/images/user/prompt-icon.png') no-repeat;
     background-size: 35px auto;
 
     &.fail-icon {

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="list-title">
     <h3 class="title-text">评论</h3>
     <span class="title-text-num">共{{ params.total }}条评论</span>
@@ -52,7 +52,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed, nextTick } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
@@ -61,7 +61,7 @@ import type { ResponseType } from '@/types';
 import CommentReplay from '@/components/comment/comment-replay/CommentReplay.vue';
 import CommentList from '@/components/comment/comment-list/CommentList.vue';
 import Dialog from '@/components/Dialog.vue';
-import defaultAvatarImg from '@/assets/image/user/default_avatar.jpg';
+import defaultAvatarImg from '@/assets/images/user/default_avatar.jpg';
 
 export type CommentParams = {
   type: number;
@@ -84,8 +84,8 @@ export type CommentParams = {
 const props = defineProps({
   params: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 const emits = defineEmits(['onRefresh']);
 
@@ -113,7 +113,7 @@ function submit(replayText: string): void {
   addComment({
     type: props.params.type,
     id: props.params.id,
-    content: replayText
+    content: replayText,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -147,7 +147,7 @@ function deleteCommentConfirm(): void {
   deleteComment({
     type: props.params.type,
     id: props.params.id,
-    commentId: deleteCommentId.value
+    commentId: deleteCommentId.value,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -178,7 +178,7 @@ function handleLikeComment(t: number, commentId: number, type: number): void {
   let likeIndex = 0;
   if (t === 0) {
     likeIndex = props.params.hotList?.findIndex?.(
-      (item: { commentId: number }) => item.commentId === commentId
+      (item: { commentId: number }) => item.commentId === commentId,
     );
     if (type === 0) {
       props.params.hotList[likeIndex].liked = false;
@@ -190,7 +190,7 @@ function handleLikeComment(t: number, commentId: number, type: number): void {
   }
   if (t === 1) {
     likeIndex = props.params.list?.findIndex?.(
-      (item: { commentId: number }) => item.commentId === commentId
+      (item: { commentId: number }) => item.commentId === commentId,
     );
     if (type === 0) {
       props.params.list[likeIndex].liked = false;
@@ -206,7 +206,7 @@ function handleLikeComment(t: number, commentId: number, type: number): void {
     type: props.params.type,
     id: props.params.id,
     cid: commentId,
-    t: type
+    t: type,
   });
 }
 
@@ -247,7 +247,7 @@ function replySubmit(replayText: string, commentId: number): void {
     type: props.params.type,
     id: props.params.id,
     content: replayText,
-    commentId
+    commentId,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -262,6 +262,6 @@ function replySubmit(replayText: string, commentId: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./comment.less');
+<style scoped lang="scss">
+@use './comment.scss';
 </style>

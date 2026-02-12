@@ -9,13 +9,13 @@ import type { AxiosPromise } from 'axios';
 export const mvDetail = ({ mvid }: { mvid: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    mvid
+    mvid,
   };
 
   return axios.request({
     url: '/mv/detail',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -27,13 +27,13 @@ export const mvDetail = ({ mvid }: { mvid: number }): AxiosPromise => {
 export const mvUrl = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    id
+    id,
   };
 
   return axios.request({
     url: '/mv/url',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -52,12 +52,12 @@ export const mvSub = ({ mvid, t }: MvSub): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     mvid,
-    t
+    t,
   };
 
   return axios.request({
     url: '/mv/sub',
     method: 'get',
-    params
+    params,
   });
 };

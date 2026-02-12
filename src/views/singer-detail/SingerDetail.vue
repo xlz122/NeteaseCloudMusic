@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="singer-detail">
     <div class="detail-container">
       <div class="detail-content">
@@ -65,7 +65,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -111,7 +111,7 @@ function getSingerDetail(): void {
       if (briefDesc.indexOf('（') && briefDesc.indexOf('）')) {
         res.data.artist.englishName = briefDesc.substring(
           briefDesc.indexOf('（') + 1,
-          briefDesc.indexOf('）')
+          briefDesc.indexOf('）'),
         );
       }
 
@@ -140,7 +140,7 @@ function setArtistSub(followed?: boolean): void {
       if (t === 1) {
         Object.assign(singerDetail.value, {
           ...singerDetail.value.user,
-          followed: true
+          followed: true,
         });
         setMessage({ type: 'info', title: '收藏成功' });
       }
@@ -148,7 +148,7 @@ function setArtistSub(followed?: boolean): void {
       if (t === 2) {
         Object.assign(singerDetail.value, {
           ...singerDetail.value.user,
-          followed: false
+          followed: false,
         });
         setMessage({ type: 'info', title: '取消收藏成功' });
       }
@@ -159,20 +159,20 @@ function setArtistSub(followed?: boolean): void {
 const singerTabs = reactive([
   {
     title: '热门作品',
-    component: 'SingerSong'
+    component: 'SingerSong',
   },
   {
     title: '所有专辑',
-    component: 'SingerAlbum'
+    component: 'SingerAlbum',
   },
   {
     title: '相似MV',
-    component: 'SingerMv'
+    component: 'SingerMv',
   },
   {
     title: '艺人介绍',
-    component: 'SingerIntroduce'
-  }
+    component: 'SingerIntroduce',
+  },
 ]);
 
 function tabChange(index: number): void {
@@ -188,7 +188,7 @@ watch(
   () => {
     getSingerDetail();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 onMounted(() => {
@@ -198,6 +198,6 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./singer-detail.less');
+<style scoped lang="scss">
+@use './singer-detail.scss';
 </style>

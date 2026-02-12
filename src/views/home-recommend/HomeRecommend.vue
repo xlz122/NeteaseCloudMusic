@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="home-recommend">
     <div class="home-recommend-container">
       <div class="recommend-content">
@@ -40,7 +40,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import usePlaySong from '@/hooks/usePlaySong';
@@ -129,6 +129,6 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./home-recommend.less');
+<style scoped lang="scss">
+@use './home-recommend.scss';
 </style>

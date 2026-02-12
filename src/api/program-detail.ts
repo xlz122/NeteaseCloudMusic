@@ -9,13 +9,13 @@ import type { AxiosPromise } from 'axios';
 export const djProgramDetail = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    id
+    id,
   };
 
   return axios.request({
     url: '/dj/program/detail',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -40,12 +40,12 @@ export const djProgramList = ({ rid, offest, limit, asc }: ProgramList): AxiosPr
     rid,
     offest,
     limit,
-    asc
+    asc,
   };
 
   return axios.request({
     url: '/dj/program',
     method: 'get',
-    params
+    params,
   });
 };
