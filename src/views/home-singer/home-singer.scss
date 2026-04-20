@@ -1,0 +1,28 @@
+﻿.home-singer {
+  background-color: #F2F2F2;
+
+  .home-singer-container {
+    width: 980px;
+    min-height: 700px;
+    margin: 0 auto;
+    text-align: left;
+    background: url('@/assets/images/home/wrap2.png') repeat-y center 0;
+    background-color: #FFFFFF;
+    border: 1px solid #D3D3D3;
+    border-width: 0 1px;
+
+    .home-singer-menu {
+      position: relative;
+      display: inline-block;
+      width: 180px;
+      vertical-align: top;
+    }
+
+    .home-singer-content {
+      position: relative;
+      display: inline-block;
+      width: 800px;
+      vertical-align: top;
+    }
+  }
+}

@@ -12,7 +12,7 @@ const VerifyDialog = {
     // 挂载
     const element = document.getElementById('verifyDialog')!;
     render(vm, element);
-  }
+  },
 };
 
 export default VerifyDialog;

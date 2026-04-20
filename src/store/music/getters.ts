@@ -9,7 +9,7 @@ const getters: Getters<State> = {
   playSongItem: (state) => state.playSongItem,
   playSongRefresh: (state) => state.playSongRefresh,
   songPlaylist: (state) => state.songPlaylist,
-  audioPlayerLock: (state) => state.audioPlayerLock
+  audioPlayerLock: (state) => state.audioPlayerLock,
 };
 
 export default getters;

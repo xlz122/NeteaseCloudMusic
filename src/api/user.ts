@@ -10,7 +10,7 @@ export const userAccount = (): AxiosPromise => {
   return axios.request({
     url: '/user/account',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -23,7 +23,7 @@ export const userVipInfo = (): AxiosPromise => {
   return axios.request({
     url: '/vip/info',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -42,13 +42,13 @@ export const userRecord = ({ uid, type }: UserRecord): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     uid,
-    type
+    type,
   };
 
   return axios.request({
     url: '/user/record',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -61,7 +61,7 @@ export const userLevel = (): AxiosPromise => {
   return axios.request({
     url: '/user/level',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -73,13 +73,13 @@ export const userLevel = (): AxiosPromise => {
 export const userDetail = ({ uid }: { uid: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    uid
+    uid,
   };
 
   return axios.request({
     url: '/user/detail',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -98,12 +98,12 @@ export const messageEv = ({ offset, limit }: MessagType): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     offset,
-    limit
+    limit,
   };
 
   return axios.request({
     url: '/msg/private',
-    params
+    params,
   });
 };
 
@@ -131,13 +131,13 @@ export const verifyQrcode = ({ token, vid, type, evid, sign }: VerifyQrcode): Ax
     vid,
     type,
     evid,
-    sign
+    sign,
   };
 
   return axios.request({
     url: '/verify/getQr',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -149,12 +149,12 @@ export const verifyQrcode = ({ token, vid, type, evid, sign }: VerifyQrcode): Ax
 export const verifyQrcodeStatus = ({ qr }: { qr: string }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    qr
+    qr,
   };
 
   return axios.request({
     url: '/verify/qrcodestatus',
     method: 'get',
-    params
+    params,
   });
 };

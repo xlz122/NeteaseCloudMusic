@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="home-toplist">
     <div class="home-toplist-container">
       <div class="home-toplist-menu">
@@ -20,7 +20,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { formatComment } from '@/components/comment/formatComment';
@@ -50,7 +50,7 @@ const router = useRouter();
 // 获取特色榜、媒体榜
 const toplist = reactive<TopList>({
   character: [],
-  media: []
+  media: [],
 });
 
 function getTopList(): Promise<null> {
@@ -97,14 +97,14 @@ const commentParams = reactive<CommentParams>({
   limit: 20,
   hotList: [],
   list: [],
-  total: 0
+  total: 0,
 });
 
 function getCommentList(): void {
   const params = {
     id: commentParams.id,
     offset: (commentParams.offset - 1) * commentParams.limit,
-    limit: commentParams.limit
+    limit: commentParams.limit,
   };
 
   playlistComment({ ...params })
@@ -138,7 +138,7 @@ watch(
     if (!route.query.id) {
       router.replace({
         path: '/home-toplist',
-        query: { id: toplist.character[0].id }
+        query: { id: toplist.character[0].id },
       });
       return;
     }
@@ -148,10 +148,10 @@ watch(
     getSongSheetDetail();
     getCommentList();
   },
-  { immediate: true, deep: true }
+  { immediate: true, deep: true },
 );
 </script>
 
-<style lang="less">
-@import url('./home-toplist.less');
+<style lang="scss">
+@use './home-toplist.scss';
 </style>

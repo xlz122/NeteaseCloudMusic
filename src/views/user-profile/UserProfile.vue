@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="user-profile-container">
     <div class="user-info">
       <UserInfo
@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
@@ -62,7 +62,7 @@ watch(
   () => {
     getUserDetail();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 onMounted(() => {
@@ -71,6 +71,6 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./user-profile.less');
+<style scoped lang="scss">
+@use './user-profile.scss';
 </style>

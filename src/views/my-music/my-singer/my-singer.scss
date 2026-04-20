@@ -1,0 +1,75 @@
+﻿.my-singer {
+  width: 100%;
+  height: 100%;
+  padding-top: 40px;
+  padding-bottom: 90px;
+
+  .title {
+    height: 40px;
+    margin: 0 40px;
+    border-bottom: 2px solid #C20C0C;
+    text-align: left;
+
+    .text {
+      font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
+      font-size: 24px;
+      font-weight: normal;
+    }
+  }
+
+  .list {
+    margin: 0 40px;
+    margin-bottom: 50px;
+    text-align: left;
+
+    .item {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      padding: 10px 0;
+      border-bottom: 1px solid #DDDDDD;
+
+      .cover {
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+        vertical-align: top;
+        cursor: pointer;
+
+        .img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .info {
+        display: inline-block;
+        width: 150px;
+        height: 100%;
+        margin-left: 15px;
+        vertical-align: top;
+
+        .info-name {
+          height: 21px;
+          margin: 10px 0;
+          font-size: 16px;
+          line-height: 21px;
+          color: #333333;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .info-desc {
+          color: #666666;
+
+          .mv {
+            margin-left: 12px;
+          }
+        }
+      }
+    }
+  }
+}

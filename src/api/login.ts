@@ -10,7 +10,7 @@ export const qrcodeKey = (): AxiosPromise => {
   return axios.request({
     url: '/login/qr/key',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -29,13 +29,13 @@ export const qrcodeImg = ({ key, qrimg }: GetQrcodeImg): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     key,
-    qrimg
+    qrimg,
   };
 
   return axios.request({
     url: '/login/qr/create',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -47,13 +47,13 @@ export const qrcodeImg = ({ key, qrimg }: GetQrcodeImg): AxiosPromise => {
 export const qrcodeStatus = ({ key }: { key: string }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    key
+    key,
   };
 
   return axios.request({
     url: '/login/qr/check',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -66,7 +66,7 @@ export const countryCode = (): AxiosPromise => {
   return axios.request({
     url: '/countries/code/list',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -85,13 +85,13 @@ export const testCellphone = ({ phone, countrycode }: TestCellphone): AxiosPromi
   const params = {
     timestamp: new Date().getTime(),
     phone,
-    countrycode
+    countrycode,
   };
 
   return axios.request({
     url: '/cellphone/existence/check',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -114,20 +114,20 @@ export const cellphoneLogin = ({
   phone,
   password,
   countrycode,
-  captcha
+  captcha,
 }: CellphoneLogin): AxiosPromise => {
   const data = {
     timestamp: new Date().getTime(),
     phone,
     password,
     countrycode,
-    captcha
+    captcha,
   };
 
   return axios.request({
     url: '/login/cellphone',
     method: 'post',
-    data
+    data,
   });
 };
 
@@ -146,13 +146,13 @@ export const captchaSent = ({ phone, ctcode }: CaptchaSent): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     phone,
-    ctcode
+    ctcode,
   };
 
   return axios.request({
     url: '/captcha/sent',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -174,13 +174,13 @@ export const captchaVerify = ({ phone, captcha, ctcode }: CaptchaVerify): AxiosP
     timestamp: new Date().getTime(),
     phone,
     captcha,
-    ctcode
+    ctcode,
   };
 
   return axios.request({
     url: '/captcha/verify',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -202,13 +202,13 @@ export const mailboxLogin = ({ email, password, md5Password }: MailboxLogin): Ax
     timestamp: new Date().getTime(),
     email,
     password,
-    ['md5_password']: md5Password
+    ['md5_password']: md5Password,
   };
 
   return axios.request({
     url: '/login',
     method: 'post',
-    data
+    data,
   });
 };
 
@@ -221,7 +221,7 @@ export const accountInfo = (): AxiosPromise => {
   return axios.request({
     url: '/user/account',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -233,13 +233,13 @@ export const accountInfo = (): AxiosPromise => {
 export const userInfo = ({ uid }: { uid: number }): AxiosPromise => {
   const data = {
     timestamp: new Date().getTime(),
-    uid
+    uid,
   };
 
   return axios.request({
     url: '/user/detail',
     method: 'post',
-    data
+    data,
   });
 };
 
@@ -252,6 +252,6 @@ export const logout = (): AxiosPromise => {
   return axios.request({
     url: '/logout',
     method: 'get',
-    params
+    params,
   });
 };

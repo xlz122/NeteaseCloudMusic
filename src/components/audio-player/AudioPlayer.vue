@@ -1,11 +1,11 @@
-<template>
+﻿<template>
   <div class="audio-player">
     <div
       class="player-container"
       :class="[
         { 'mouse-enter': mouseStutas === 'enter' },
         { 'mouse-leave': mouseStutas === 'leave' },
-        { 'player-lock': audioPlayerLock }
+        { 'player-lock': audioPlayerLock },
       ]"
       @mouseenter="audioMouseEnter"
       @mouseleave="audioMouseLeave"
@@ -23,7 +23,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import AudioPlaybar from './audio-playbar/AudioPlaybar.vue';
@@ -56,6 +56,6 @@ function audioMouseLeave(): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./audio-player.less');
+<style scoped lang="scss">
+@use './audio-player.scss';
 </style>

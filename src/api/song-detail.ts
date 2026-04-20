@@ -9,13 +9,13 @@ import type { AxiosPromise } from 'axios';
 export const songDetail = ({ ids }: { ids: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    ids
+    ids,
   };
 
   return axios.request({
     url: '/song/detail',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -27,13 +27,13 @@ export const songDetail = ({ ids }: { ids: number }): AxiosPromise => {
 export const simiPlaylist = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    id
+    id,
   };
 
   return axios.request({
     url: '/simi/playlist',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -45,12 +45,12 @@ export const simiPlaylist = ({ id }: { id: number }): AxiosPromise => {
 export const simiSong = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    id
+    id,
   };
 
   return axios.request({
     url: '/simi/song',
     method: 'get',
-    params
+    params,
   });
 };

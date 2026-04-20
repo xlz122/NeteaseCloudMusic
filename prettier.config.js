@@ -6,11 +6,11 @@ export default {
   // 字符串单引号
   singleQuote: true,
   // 多行尾随逗号
-  trailingComma: 'none',
+  trailingComma: 'all',
   // 对象括号空格
   bracketSpacing: true,
   // 箭头函数括号
   arrowParens: 'always',
-  // 行尾符号
-  endOfLine: 'auto'
+  // 行尾序列符号
+  endOfLine: 'auto',
 };

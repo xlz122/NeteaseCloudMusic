@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="music-play-list">
     <div class="title">
       <div class="title-left" @click="listToggle">
@@ -73,7 +73,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
@@ -103,24 +103,24 @@ type DialogType = {
 defineProps({
   visible: {
     type: Boolean,
-    default: true
+    default: true,
   },
   title: {
     type: String,
-    default: ''
+    default: '',
   },
   count: {
     type: Number,
-    default: 0
+    default: 0,
   },
   list: {
     type: Array as () => ItemType[],
-    default: () => []
+    default: () => [],
   },
   addBtnShow: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 const emits = defineEmits(['handleListChange', 'dialogConfirm']);
 
@@ -146,7 +146,7 @@ const dialog = reactive<DialogType>({
   id: 0,
   name: '',
   title: '提示',
-  confirmtext: '确定'
+  confirmtext: '确定',
 });
 
 function handleAdd(): void {
@@ -173,7 +173,7 @@ function dialogConfirm(): void {
   emits('dialogConfirm', {
     type: dialog.type,
     name: dialog.name,
-    id: dialog.id
+    id: dialog.id,
   });
   dialog.visible = false;
 }
@@ -183,7 +183,7 @@ function dialogCancel(): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('../option-list.less');
-@import url('./song-sheet-toggle.less');
+<style scoped lang="scss">
+@use '../option-list.scss';
+@use './song-sheet-toggle.scss';
 </style>

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="my-video">
     <div class="title">
       <span class="text">我的视频({{ count }})</span>
@@ -30,7 +30,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { timeStampToDuration } from '@/utils/utils';
@@ -53,8 +53,8 @@ type VideoItem = {
 defineProps({
   count: {
     type: Number,
-    default: () => 0
-  }
+    default: () => 0,
+  },
 });
 const emits = defineEmits(['handleOptions']);
 
@@ -74,7 +74,7 @@ function getVideoList(): void {
 
       emits('handleOptions', {
         type: 'myVideo',
-        data: { visible: true, count: res.count ?? 0 }
+        data: { visible: true, count: res.count ?? 0 },
       });
     })
     .catch(() => ({}));
@@ -102,6 +102,6 @@ function jumpUserProfile(id: number, type: number): void {
 }
 </script>
 
-<style lang="less" scopde>
-@import url('./my-video.less');
+<style scoped lang="scss">
+@use './my-video.scss';
 </style>

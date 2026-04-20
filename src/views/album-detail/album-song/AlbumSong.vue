@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="music-table-container">
     <div class="loading" v-if="loading">
       <i class="loading-icon"></i>
@@ -92,7 +92,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -120,12 +120,12 @@ type ItemType = {
 const props = defineProps({
   loading: {
     type: Boolean,
-    default: false
+    default: false,
   },
   songs: {
     type: Array as () => ItemType[],
-    default: () => []
-  }
+    default: () => [],
+  },
 });
 
 const router = useRouter();
@@ -138,7 +138,7 @@ function playSingleSong(item: SongType): void {
   if (isCopyright(item.id)) {
     store.commit('setCopyrightDialog', {
       visible: true,
-      message: '由于版权保护，您所在的地区暂时无法使用。'
+      message: '由于版权保护，您所在的地区暂时无法使用。',
     });
     return;
   }
@@ -196,7 +196,7 @@ function jumpMvDetail(songId: number, id: number): void {
   if (isCopyright(songId)) {
     store.commit('setCopyrightDialog', {
       visible: true,
-      message: '由于版权保护，您所在的地区暂时无法使用。'
+      message: '由于版权保护，您所在的地区暂时无法使用。',
     });
     return;
   }
@@ -205,6 +205,6 @@ function jumpMvDetail(songId: number, id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./album-song.less');
+<style scoped lang="scss">
+@use './album-song.scss';
 </style>

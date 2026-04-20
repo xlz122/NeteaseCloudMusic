@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="my-singer">
     <div class="title">
       <span class="text">我的歌手 ({{ count }})</span>
@@ -22,7 +22,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { subPlayList } from '@/api/my-music';
@@ -39,8 +39,8 @@ type SingerItem = {
 defineProps({
   count: {
     type: Number,
-    default: () => 0
-  }
+    default: () => 0,
+  },
 });
 const emits = defineEmits(['handleOptions']);
 
@@ -60,7 +60,7 @@ function getSingerList(): void {
 
       emits('handleOptions', {
         type: 'mySinger',
-        data: { visible: true, count: res.count ?? 0 }
+        data: { visible: true, count: res.count ?? 0 },
       });
     })
     .catch(() => ({}));
@@ -72,6 +72,6 @@ function jumpSingerDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scopde>
-@import url('./my-singer.less');
+<style scoped lang="scss">
+@use './my-singer.scss';
 </style>

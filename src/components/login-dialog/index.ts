@@ -12,7 +12,7 @@ const LoginDialog = {
     // 挂载
     const element = document.getElementById('loginDialog')!;
     render(vm, element);
-  }
+  },
 };
 
 export default LoginDialog;

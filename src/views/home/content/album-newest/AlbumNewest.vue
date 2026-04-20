@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="album-newest">
     <div class="warp">
       <div class="content">
@@ -35,8 +35,8 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { ref, reactive, computed } from 'vue';
+<script setup lang="ts">
+import { ref, useTemplateRef, reactive, computed } from 'vue';
 import { throttle } from '@/utils/utils';
 import { albumNewest } from '@/api/home';
 import type { ResponseType } from '@/types';
@@ -78,17 +78,17 @@ getAlbumNewest();
 const listOffest = reactive({
   index: 0,
   transform: 0,
-  duration: 0
+  duration: 0,
 });
 
 const listStyle = computed(() => {
   return {
     transform: `translate3d(-${listOffest.transform}px, 0, 0)`,
-    transition: `${listOffest.duration}s`
+    transition: `${listOffest.duration}s`,
   };
 });
 
-const listRef = ref<HTMLElement>();
+const listRef = useTemplateRef('listRef');
 
 // 上一轮
 const albumPrev = throttle(function () {
@@ -150,6 +150,6 @@ function jumpSingerDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./album-newest.less');
+<style scoped lang="scss">
+@use './album-newest.scss';
 </style>

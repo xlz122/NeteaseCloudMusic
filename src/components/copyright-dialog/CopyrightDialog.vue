@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <Dialog
     class="copyright-dialog"
     :visible="copyrightDialog.visible"
@@ -16,7 +16,7 @@
   </Dialog>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import Dialog from '@/components/Dialog.vue';
@@ -27,19 +27,19 @@ const copyrightDialog = computed(() => store.getters.copyrightDialog);
 function confirm(): void {
   store.commit('setCopyrightDialog', {
     visible: false,
-    message: ''
+    message: '',
   });
 }
 
 function cancel(): void {
   store.commit('setCopyrightDialog', {
     visible: false,
-    message: ''
+    message: '',
   });
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped lang="scss">
 .copyright-dialog {
   .dialog-box {
     width: 480px;
@@ -48,7 +48,7 @@ function cancel(): void {
   .content {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
-    color: #333;
+    color: #333333;
     text-align: center;
   }
 }

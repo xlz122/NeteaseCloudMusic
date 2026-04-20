@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="djradio-detail">
     <div class="detail-container">
       <div class="detail-content">
@@ -112,7 +112,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -184,7 +184,7 @@ function getDjradioDetail(): void {
 const sort = ref(true);
 const programs = reactive<Programs>({
   list: [],
-  count: 0
+  count: 0,
 });
 
 function getDjradioPrograms(): void {
@@ -235,11 +235,11 @@ watch(
     getDjradioDetail();
     getDjradioPrograms();
   },
-  { immediate: true }
+  { immediate: true },
 );
 </script>
 
-<style lang="less" scoped>
-@import url('@/assets/style/base.less');
-@import url('./djradio-detail.less');
+<style scoped lang="scss">
+@use '@/assets/styles/base.scss';
+@use './djradio-detail.scss';
 </style>

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="header">
     <div class="h-menu">
       <div class="h-menu-warp">
@@ -39,7 +39,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -72,32 +72,32 @@ function handleLogoJump(): void {
 const menu = ref<MenuItem[]>([
   {
     title: '发现音乐',
-    link: '/'
+    link: '/',
   },
   {
     title: '我的音乐',
-    link: '/my-music'
+    link: '/my-music',
   },
   {
     title: '关注',
-    link: '/friend'
+    link: '/friend',
   },
   {
     title: '商城',
-    link: 'https://music.163.com/store/product'
+    link: 'https://music.163.com/store/product',
   },
   {
     title: '音乐人',
-    link: 'https://music.163.com/st/musician'
+    link: 'https://music.163.com/st/musician',
   },
   {
     title: '云推歌',
-    link: 'https://music.163.com/st/ad-song'
+    link: 'https://music.163.com/st/ad-song',
   },
   {
     title: '下载客户端',
-    link: '/download'
-  }
+    link: '/download',
+  },
 ]);
 
 function handleMenuChange(item: MenuItem): void {
@@ -137,7 +137,7 @@ watch(
 
     getMessageMv();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 watch(
@@ -150,10 +150,10 @@ watch(
 
     store.commit('setMenuIndex', index);
   },
-  { immediate: true }
+  { immediate: true },
 );
 </script>
 
-<style lang="less" scoped>
-@import url('./header.less');
+<style scoped lang="scss">
+@use './header.scss';
 </style>

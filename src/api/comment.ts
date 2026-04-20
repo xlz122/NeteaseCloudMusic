@@ -22,13 +22,13 @@ export const musicComment = ({ id, offset, limit, before }: CommentParams): Axio
     id,
     offset,
     limit,
-    before
+    before,
   };
 
   return axios.request({
     url: '/comment/music',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -46,13 +46,13 @@ export const playlistComment = ({ id, offset, limit, before }: CommentParams): A
     id,
     offset,
     limit,
-    before
+    before,
   };
 
   return axios.request({
     url: '/comment/playlist',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -70,13 +70,13 @@ export const albumComment = ({ id, offset, limit, before }: CommentParams): Axio
     id,
     offset,
     limit,
-    before
+    before,
   };
 
   return axios.request({
     url: '/comment/album',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -94,13 +94,13 @@ export const djprogramComment = ({ id, offset, limit, before }: CommentParams): 
     id,
     offset,
     limit,
-    before
+    before,
   };
 
   return axios.request({
     url: '/comment/dj',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -118,13 +118,13 @@ export const videoComment = ({ id, offset, limit, before }: CommentParams): Axio
     id,
     offset,
     limit,
-    before
+    before,
   };
 
   return axios.request({
     url: '/comment/video',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -142,13 +142,13 @@ export const mvComment = ({ id, offset, limit, before }: CommentParams): AxiosPr
     id,
     offset,
     limit,
-    before
+    before,
   };
 
   return axios.request({
     url: '/comment/mv',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -171,14 +171,14 @@ export const addComment = ({ type, id, content }: AddComment): AxiosPromise => {
     t: 1, // 1: 新增评论
     type,
     id,
-    content
+    content,
   };
 
   const paramsStr = `t=${params.t}&type=${params.type}&id=${params.id}&content=${params.content}`;
 
   return axios.request({
     url: `/comment?timestamp=${params.timestamp}&${paramsStr}`,
-    method: 'get'
+    method: 'get',
   });
 };
 
@@ -204,14 +204,14 @@ export const replyComment = ({ type, id, content, commentId }: ReplyComment): Ax
     type,
     id,
     content,
-    commentId
+    commentId,
   };
 
   const paramsStr = `t=${params.t}&type=${params.type}&id=${params.id}&content=${params.content}`;
 
   return axios.request({
     url: `/comment?timestamp=${params.timestamp}&${paramsStr}&commentId=${params.commentId}`,
-    method: 'get'
+    method: 'get',
   });
 };
 
@@ -234,14 +234,14 @@ export const deleteComment = ({ type, id, commentId }: DeleteComment): AxiosProm
     t: 0, // 0: 删除
     type,
     id,
-    commentId
+    commentId,
   };
 
   const paramsStr = `t=${params.t}&type=${params.type}&id=${params.id}&commentId=${params.commentId}`;
 
   return axios.request({
     url: `/comment?timestamp=${params.timestamp}&${paramsStr}`,
-    method: 'get'
+    method: 'get',
   });
 };
 
@@ -266,13 +266,13 @@ export const commentLike = ({ type, id, cid, t }: SongSheetLike): AxiosPromise =
     type,
     id,
     cid,
-    t
+    t,
   };
 
   const paramsStr = `type=${params.type}&id=${params.id}&cid=${params.cid}&t=${params.t}`;
 
   return axios.request({
     url: `/comment/like?timestamp=${params.timestamp}&${paramsStr}`,
-    method: 'get'
+    method: 'get',
   });
 };

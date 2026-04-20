@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="music-table-container">
     <div class="loading" v-if="loading">
       <i class="loading-icon"></i>
@@ -96,7 +96,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -121,8 +121,8 @@ type ItemType = {
 const props = defineProps({
   list: {
     type: Array as () => ItemType[],
-    default: () => []
-  }
+    default: () => [],
+  },
 });
 
 const router = useRouter();
@@ -135,7 +135,7 @@ watch(
   () => props.list,
   () => {
     loading.value = false;
-  }
+  },
 );
 
 // 播放单个歌曲
@@ -184,6 +184,6 @@ function jumpAlbumDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./recommend-song.less');
+<style scoped lang="scss">
+@use './recommend-song.scss';
 </style>

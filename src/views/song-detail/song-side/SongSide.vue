@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="side-container">
     <template v-if="songSheet.length > 0">
       <h3 class="title">包含这首歌的歌单</h3>
@@ -62,7 +62,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import usePlaySong from '@/hooks/usePlaySong';
@@ -132,7 +132,7 @@ watch(
     getSimiPlaylist();
     getSimiSong();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 // 播放单个歌曲
@@ -173,6 +173,6 @@ function jumpSingerDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./song-side.less');
+<style scoped lang="scss">
+@use './song-side.scss';
 </style>

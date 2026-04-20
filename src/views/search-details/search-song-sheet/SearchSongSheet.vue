@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="loading" v-if="songSheetData.loading">
     <i class="loading-icon"></i>
     <span>加载中...</span>
@@ -64,7 +64,7 @@
   />
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { reactive, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -111,7 +111,7 @@ const songSheetData = reactive<SongSheetData>({
   offset: 1,
   limit: 30,
   total: 0,
-  list: []
+  list: [],
 });
 
 function getSearchSongSheet(): void {
@@ -121,7 +121,7 @@ function getSearchSongSheet(): void {
     keywords: String(route.query.keyword),
     type: Number(route.query.type),
     offset: (songSheetData.offset - 1) * songSheetData.limit,
-    limit: isLogin.value ? songSheetData.limit : 20
+    limit: isLogin.value ? songSheetData.limit : 20,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -148,7 +148,7 @@ watch(
     songSheetData.offset = 1;
     getSearchSongSheet();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 // 歌单添加到播放列表并播放
@@ -165,7 +165,7 @@ function songSheetToPlaylistPlay(id: number): void {
       // 过滤无版权
       res.songs = res.songs?.slice?.(0, 20) ?? [];
       const songList: SongType[] = res.songs?.filter?.(
-        (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
+        (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd,
       );
 
       usePlaySong(songList[0]);
@@ -188,7 +188,7 @@ function songSheetToPlaylist(id: number): void {
       // 过滤无版权
       res.songs = res.songs?.slice?.(0, 20) ?? [];
       const songList: SongType[] = res.songs?.filter?.(
-        (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
+        (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd,
       );
 
       useSongAddPlaylist(songList, { clear: true });
@@ -247,6 +247,6 @@ function jumpUserProfile(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./search-song-sheet.less');
+<style scoped lang="scss">
+@use './search-song-sheet.scss';
 </style>

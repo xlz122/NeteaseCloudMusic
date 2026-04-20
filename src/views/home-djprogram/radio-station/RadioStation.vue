@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="radio-station">
     <div class="top dis-flex align-center justify-between">
       <div class="title ff2">
@@ -24,7 +24,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { useRouter } from 'vue-router';
 
 type ItemType = {
@@ -37,12 +37,12 @@ type ItemType = {
 defineProps({
   name: {
     type: String,
-    default: ''
+    default: '',
   },
   list: {
     type: Array as () => ItemType[],
-    default: () => []
-  }
+    default: () => [],
+  },
 });
 
 const router = useRouter();
@@ -52,7 +52,7 @@ function jumpDjradioDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('@/assets/style/base.less');
-@import url('./radio-station.less');
+<style scoped lang="scss">
+@use '@/assets/styles/base.scss';
+@use './radio-station.scss';
 </style>

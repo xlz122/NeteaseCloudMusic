@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="footer">
     <ul class="f-top">
       <li class="item">
@@ -110,6 +110,6 @@
   </div>
 </template>
 
-<style lang="less" scoped>
-@import url('./footer.less');
+<style scoped lang="scss">
+@use './footer.scss';
 </style>

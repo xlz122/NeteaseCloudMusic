@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="dialog" v-if="visible">
     <div class="dialog-mask"></div>
     <div class="dialog-box" v-drag>
@@ -26,47 +26,47 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { drag } from '@/utils/drag';
 
 defineOptions({
   directives: {
-    drag
-  }
+    drag,
+  },
 });
 defineProps({
   visible: {
     type: Boolean,
-    default: false
+    default: false,
   },
   title: {
     type: String,
-    default: '提示'
+    default: '提示',
   },
   confirmtext: {
     type: String,
-    default: '确定'
+    default: '确定',
   },
   canceltext: {
     type: String,
-    default: '取消'
+    default: '取消',
   },
   customText: {
     type: String,
-    default: '我知道了'
+    default: '我知道了',
   },
   showConfirmButton: {
     type: Boolean,
-    default: false
+    default: false,
   },
   showCancelButton: {
     type: Boolean,
-    default: false
+    default: false,
   },
   showCustomButton: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 const eimts = defineEmits(['confirm', 'cancel']);
 
@@ -79,7 +79,7 @@ function cancel(): void {
 }
 </script>
 
-<style lang="less" scoped>
+<style scoped lang="scss">
 .dialog {
   position: fixed;
   top: 0;
@@ -106,7 +106,7 @@ function cancel(): void {
   width: 530px;
   max-width: 100%;
   overflow: hidden;
-  background-color: #fff;
+  background-color: #ffffff;
   border: none;
   border-radius: 4px;
   transform: translate(-50%, -50%);
@@ -131,7 +131,7 @@ function cancel(): void {
   font-size: 14px;
   font-weight: bold;
   line-height: 40px;
-  color: #fff;
+  color: #ffffff;
   text-overflow: ellipsis;
   word-break: keep-all;
   white-space: nowrap;
@@ -151,12 +151,12 @@ function cancel(): void {
   overflow: hidden;
   text-indent: -9999px;
   cursor: pointer;
-  background: url('@/assets/image/dialog.png');
+  background: url('@/assets/images/dialog.png');
   background-position: 0 -95px;
 }
 
 .dialog-close:hover {
-  color: #ccc;
+  color: #cccccc;
 }
 
 .dialog-bottom {
@@ -188,14 +188,14 @@ function cancel(): void {
 
 .confirm-btn {
   padding: 0 5px 0 0;
-  color: #fff;
-  background: url('@/assets/image/icon-button.png') no-repeat;
+  color: #ffffff;
+  background: url('@/assets/images/icon-button.png') no-repeat;
   background-position: right -428px;
 
   .icon {
     display: inline-block;
     padding: 0 23px 0 28px;
-    background: url('@/assets/image/icon-button.png') no-repeat;
+    background: url('@/assets/images/icon-button.png') no-repeat;
     background-position: 0 -387px;
   }
 }
@@ -210,14 +210,14 @@ function cancel(): void {
 
 .cancel-btn {
   padding: 0 5px 0 0;
-  color: #333;
-  background: url('@/assets/image/icon-button.png') no-repeat;
+  color: #333333;
+  background: url('@/assets/images/icon-button.png') no-repeat;
   background-position: right -100px;
 
   .icon {
     display: inline-block;
     padding: 0 23px 0 28px;
-    background: url('@/assets/image/icon-button.png') no-repeat;
+    background: url('@/assets/images/icon-button.png') no-repeat;
     background-position: 0 -59px;
   }
 }
@@ -250,7 +250,7 @@ button + button {
     text-align: center;
     vertical-align: top;
     cursor: pointer;
-    background: url('@/assets/image/icon-button.png') no-repeat;
+    background: url('@/assets/images/icon-button.png') no-repeat;
     border: none;
     border-radius: 3px;
     background-position: right -387px;

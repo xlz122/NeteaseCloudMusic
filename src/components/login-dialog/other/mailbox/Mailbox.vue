@@ -1,9 +1,9 @@
-<template>
+﻿<template>
   <div class="form-content">
     <input
       class="input"
       :class="{
-        'verify-error': mailboxVerify.show && mailboxVerify.type === 'mailbox'
+        'verify-error': mailboxVerify.show && mailboxVerify.type === 'mailbox',
       }"
       v-model="mailboxFormData.mailbox"
       type="text"
@@ -12,7 +12,7 @@
     <input
       class="input input-password"
       :class="{
-        'verify-error': mailboxVerify.show && mailboxVerify.type === 'password'
+        'verify-error': mailboxVerify.show && mailboxVerify.type === 'password',
       }"
       v-model="mailboxFormData.password"
       type="password"
@@ -42,7 +42,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { reactive, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { mailboxLogin, userInfo } from '@/api/login';
@@ -69,13 +69,13 @@ const store = useStore();
 // 邮箱数据
 const mailboxFormData = reactive<MailboxFormData>({
   mailbox: '',
-  password: ''
+  password: '',
 });
 // 邮箱登录验证
 const mailboxVerify = reactive<MailboxVerify>({
   show: false,
   type: '',
-  text: ''
+  text: '',
 });
 
 // 邮箱验证方法
@@ -98,7 +98,7 @@ function mailboxSubmit(): void {
 
   mailboxLogin({
     email: mailboxFormData.mailbox,
-    password: mailboxFormData.password
+    password: mailboxFormData.password,
   })
     .then((res: ResponseType) => {
       // 账号或密码错误
@@ -146,6 +146,6 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./mailbox.less');
+<style scoped lang="scss">
+@use './mailbox.scss';
 </style>

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <VerticalProgress
     class="vertical-progress"
     :current="progress * 100 + '%'"
@@ -7,14 +7,14 @@
   />
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import VerticalProgress from '@/components/vertical-progress/VerticalProgress.vue';
 
 defineProps({
   progress: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
 });
 const emits = defineEmits(['progressChange']);
 
@@ -23,6 +23,6 @@ function progressChange(value: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./volume-progress.less');
+<style scoped lang="scss">
+@use './volume-progress.scss';
 </style>

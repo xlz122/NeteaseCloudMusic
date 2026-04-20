@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="music-table-container">
     <div class="loading" v-if="loading">
       <i class="loading-icon"></i>
@@ -28,11 +28,14 @@
         <tr
           v-for="(item, index) in songSheetDetail.playlist?.tracks"
           :key="index"
-          :class="[{ 'even-item': (index + 1) % 2 }, { 'no-copyright': isCopyright(item.id) }]"
+          :class="[
+            { 'even-item': (Number(index) + 1) % 2 },
+            { 'no-copyright': isCopyright(item.id) },
+          ]"
         >
           <td class="tbody-left">
             <div class="hd">
-              <span class="text">{{ index + 1 }}</span>
+              <span class="text">{{ Number(index) + 1 }}</span>
               <i
                 class="icon-play"
                 :class="{ 'active-play': item.id === playSongId }"
@@ -119,7 +122,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -134,12 +137,12 @@ import Dialog from '@/components/Dialog.vue';
 const props = defineProps({
   loading: {
     type: Boolean,
-    default: false
+    default: false,
   },
   songSheetDetail: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 const emits = defineEmits(['handleSongDelete']);
 
@@ -152,7 +155,7 @@ const playSongId = computed(() => store.getters['music/playSongId']);
 // 歌曲是否有版权
 function isCopyright(id: number): boolean {
   const privilege = props.songSheetDetail.privileges?.find?.(
-    (item: { id: number }) => item.id === id
+    (item: { id: number }) => item.id === id,
   );
   if (privilege.cp === 0) {
     return true;
@@ -166,7 +169,7 @@ function playSingleSong(item: SongType): void {
   if (isCopyright(item.id)) {
     store.commit('setCopyrightDialog', {
       visible: true,
-      message: '由于版权保护，您所在的地区暂时无法使用。'
+      message: '由于版权保护，您所在的地区暂时无法使用。',
     });
     return;
   }
@@ -215,7 +218,7 @@ function deleteSongShow(id: number): void {
 function deleteSongConfirm(): void {
   deleteSong({
     pid: props.songSheetDetail.playlist.id,
-    tracks: deleteMuiscId.value
+    tracks: deleteMuiscId.value,
   })
     .then(() => {
       deleteSongDialog.value = false;
@@ -246,7 +249,7 @@ function jumpMvDetail(songId: number, id: number): void {
   if (isCopyright(songId)) {
     store.commit('setCopyrightDialog', {
       visible: true,
-      message: '由于版权保护，您所在的地区暂时无法使用。'
+      message: '由于版权保护，您所在的地区暂时无法使用。',
     });
     return;
   }
@@ -255,6 +258,6 @@ function jumpMvDetail(songId: number, id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./music-table.less');
+<style scoped lang="scss">
+@use './music-table.scss';
 </style>

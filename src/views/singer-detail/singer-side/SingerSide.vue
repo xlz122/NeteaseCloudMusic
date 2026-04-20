@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="side-container">
     <template v-if="hotSinger.length > 0">
       <h3 class="title">热门歌手</h3>
@@ -46,7 +46,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { topArtists, simiArtist } from '@/api/singer-detail';
@@ -68,8 +68,8 @@ type SimilarSingerItem = {
 defineProps({
   likePeople: {
     type: Array,
-    default: () => []
-  }
+    default: () => [],
+  },
 });
 
 const route = useRoute();
@@ -115,7 +115,7 @@ watch(
   () => {
     getTopArtists();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 function jumpSingerDetail(id: number): void {
@@ -123,6 +123,6 @@ function jumpSingerDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./singer-side.less');
+<style scoped lang="scss">
+@use './singer-side.scss';
 </style>

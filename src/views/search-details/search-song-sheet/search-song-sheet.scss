@@ -1,0 +1,271 @@
+﻿.loading {
+  width: 100%;
+  height: 26px;
+  padding: 20px 0;
+  color: #999999;
+  text-align: center;
+
+  .loading-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 2px;
+    vertical-align: middle;
+    background: url('@/assets/images/loading.gif') no-repeat;
+  }
+}
+
+.search-song-sheet {
+  margin-top: 20px;
+  text-align: left;
+
+  .item {
+    padding: 3px 10px 3px 18px;
+    border: 1px solid #FFFFFF;
+
+    .td {
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      vertical-align: middle;
+
+      .text {
+        position: relative;
+        display: inline-block;
+        width: auto;
+        height: 100%;
+        max-width: 100%;
+        padding-right: 25px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        vertical-align: middle;
+
+        .name {
+          color: #333333;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .desc {
+          color: #AEAEAE;
+        }
+
+        .icon-mv {
+          display: inline-block;
+          width: 23px;
+          height: 17px;
+          margin-top: -3px;
+          vertical-align: middle;
+          cursor: pointer;
+          background: url('@/assets/images/icon-table.png');
+          background-position: 0 -151px;
+
+          &:hover {
+            background-position: -30px -151px;
+          }
+        }
+      }
+    }
+
+    .play-icon {
+      display: inline-block;
+      width: 17px;
+      height: 17px;
+      margin-right: 15px;
+      vertical-align: middle;
+      cursor: pointer;
+      background: url('@/assets/images/icon-table.png');
+      background-position: 0 -103px;
+
+      &:hover {
+        background-position: 0 -128px;
+      }
+    }
+
+    .active-play {
+      background-position: -20px -128px;
+
+      &:hover {
+        background-position: -20px -128px;
+      }
+    }
+
+    .td1 {
+      margin: 0 10px 0 5px;
+
+      .cover-img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+
+    .td2 {
+      width: 255px;
+      max-width: 99%;
+      margin: 0 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      .text {
+        color: #333333;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .td3-sheet {
+      width: 65px;
+      margin-right: 5px;
+
+      .operate-btn {
+        display: inline-block;
+        width: 100%;
+        height: 28px;
+        line-height: 28px;
+        vertical-align: middle;
+        visibility: hidden;
+
+        .icon {
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          margin-right: 10px;
+          margin-left: 0;
+          vertical-align: top;
+          cursor: pointer;
+          background: url('@/assets/images/icon-table.png');
+        }
+
+        .add {
+          width: 16px;
+          height: 16px;
+          background: url('@/assets/images/icon.png');
+          background-position: 0 -700px;
+
+          &:hover {
+            background-position: -22px -700px;
+          }
+        }
+
+        .collect {
+          width: 18px;
+          background-position: 0 -174px;
+
+          &:hover {
+            background-position: -20px -174px;
+          }
+        }
+
+        .collectd {
+          background-position: -40px -174px;
+          cursor: default;
+
+          &:hover {
+            background-position: -40px -174px;
+          }
+        }
+
+        .share {
+          background-position: 0 -195px;
+
+          &:hover {
+            background-position: -20px -195px;
+          }
+        }
+
+        .download {
+          background-position: -81px -174px;
+
+          &:hover {
+            background-position: -104px -174px;
+          }
+        }
+
+        .delete {
+          margin-right: 0;
+          background-position: 0 -217px;
+
+          &:hover {
+            background-position: -20px -217px;
+          }
+        }
+      }
+    }
+
+    .td4-sheet {
+      display: inline-block;
+      width: 35px;
+      padding-right: 0;
+      padding-left: 6px;
+      color: #999999;
+      vertical-align: middle;
+    }
+
+    .td5-sheet {
+      display: inline-block;
+      width: 20%;
+      margin: 0 10px;
+      vertical-align: middle;
+
+      .name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        .by {
+          margin-right: 5px;
+          color: #666666;
+        }
+
+        .text {
+          color: #666666;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .td6-sheet {
+      display: inline-block;
+      width: 78px;
+      margin: 0 8px;
+      color: #999999;
+      vertical-align: middle;
+    }
+  }
+
+  .item:hover {
+    background-color: #F2F2F2;
+    border: 1px solid #E1E1E1;
+
+    .operate-btn {
+      display: inline-block;
+      width: 100%;
+      vertical-align: middle;
+      visibility: visible;
+
+      .icon {
+        display: inline-block;
+        margin-right: 4px;
+        vertical-align: middle;
+      }
+    }
+  }
+
+  .even-item {
+    background-color: #F7F7F7;
+    border-color: #F7F7F7;
+  }
+}

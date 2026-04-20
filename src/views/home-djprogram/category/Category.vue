@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="category-box">
     <ul class="category-list" v-show="mainMenuShow">
       <li
@@ -49,7 +49,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive } from 'vue';
 import { djCatelist } from '@/api/home-djprogram';
 import type { ResponseType } from '@/types';
@@ -70,7 +70,7 @@ const emits = defineEmits(['categoryChange']);
 // 获取电台分类列表
 const menu = reactive<Menu>({
   main: [],
-  second: []
+  second: [],
 });
 
 function getMenuList(): void {
@@ -122,6 +122,6 @@ function dotChange(index: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./category.less');
+<style scoped lang="scss">
+@use './category.scss';
 </style>

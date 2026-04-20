@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="singer-mv">
     <div class="singer-mv-container">
       <ul class="new-disc-list">
@@ -22,7 +22,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { artistMv } from '@/api/singer-detail';
@@ -40,8 +40,8 @@ type SingerMv = {
 const props = defineProps({
   singerDetail: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 
 const route = useRoute();
@@ -51,10 +51,10 @@ const router = useRouter();
 const params = reactive({
   offset: 1,
   limit: 12,
-  total: 0
+  total: 0,
 });
 const singerMv = ref<SingerMv>({
-  mvs: []
+  mvs: [],
 });
 
 watch(
@@ -62,14 +62,14 @@ watch(
   () => {
     params.total = props.singerDetail.artist?.mvSize;
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 function getArtistMv(): void {
   artistMv({
     id: Number(route.query.id),
     offset: (params.offset - 1) * params.limit,
-    limit: params.limit
+    limit: params.limit,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -86,7 +86,7 @@ watch(
   () => {
     getArtistMv();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 function handlePageChange(current: number): void {
@@ -99,6 +99,6 @@ function jumpMvDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./singer-mv.less');
+<style scoped lang="scss">
+@use './singer-mv.scss';
 </style>

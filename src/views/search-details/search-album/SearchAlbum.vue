@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="loading" v-if="albumData.loading">
     <i class="loading-icon"></i>
     <span>加载中...</span>
@@ -33,7 +33,7 @@
   />
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { reactive, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -75,7 +75,7 @@ const albumData = reactive<AlbumData>({
   offset: 1,
   limit: 30,
   total: 0,
-  list: []
+  list: [],
 });
 
 function getSearchAlbum(): void {
@@ -85,7 +85,7 @@ function getSearchAlbum(): void {
     keywords: String(route.query.keyword),
     type: Number(route.query.type),
     offset: (albumData.offset - 1) * albumData.limit,
-    limit: isLogin.value ? albumData.limit : 20
+    limit: isLogin.value ? albumData.limit : 20,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -112,7 +112,7 @@ watch(
     albumData.offset = 1;
     getSearchAlbum();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 // 专辑添加到播放列表并播放
@@ -128,19 +128,19 @@ function albumToPlaylistPlay(id: number): void {
 
       // 全部无版权
       const allNoCopyright = res.songs?.some?.(
-        (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+        (item: Record<string, { cp: number }>) => item.privilege?.cp === 1,
       );
       if (!allNoCopyright) {
         store.commit('setCopyrightDialog', {
           visible: true,
-          message: '由于版权保护，您所在的地区暂时无法使用。'
+          message: '由于版权保护，您所在的地区暂时无法使用。',
         });
         return;
       }
 
       // 过滤无版权
       const songList: SongType[] = res.songs?.filter?.(
-        (item: Record<string, { cp: number }>) => item.privilege?.cp !== 0
+        (item: Record<string, { cp: number }>) => item.privilege?.cp !== 0,
       );
 
       usePlaySong(songList[0]);
@@ -163,6 +163,6 @@ function jumpSingerDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./search-album.less');
+<style scoped lang="scss">
+@use './search-album.scss';
 </style>

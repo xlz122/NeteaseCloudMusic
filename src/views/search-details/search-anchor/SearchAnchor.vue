@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="loading" v-if="anchorData.loading">
     <i class="loading-icon"></i>
     <span>加载中...</span>
@@ -31,7 +31,7 @@
   />
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { reactive, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -70,7 +70,7 @@ const anchorData = reactive<AnchorData>({
   offset: 1,
   limit: 30,
   total: 0,
-  list: []
+  list: [],
 });
 
 function getSearchAnchor(): void {
@@ -80,7 +80,7 @@ function getSearchAnchor(): void {
     keywords: String(route.query.keyword),
     type: Number(route.query.type),
     offset: (anchorData.offset - 1) * anchorData.limit,
-    limit: isLogin.value ? anchorData.limit : 20
+    limit: isLogin.value ? anchorData.limit : 20,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -107,7 +107,7 @@ watch(
     anchorData.offset = 1;
     getSearchAnchor();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 function handlePageChange(current: number): void {
@@ -124,6 +124,6 @@ function jumpUserProfile(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./search-anchor.less');
+<style scoped lang="scss">
+@use './search-anchor.scss';
 </style>

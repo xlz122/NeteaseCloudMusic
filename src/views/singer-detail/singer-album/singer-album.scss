@@ -1,0 +1,90 @@
+﻿.singer-album {
+  padding-left: 12px;
+
+  .singer-album-container {
+    margin: 0 auto;
+    background-color: #FFFFFF;
+
+    .new-disc-list {
+      margin: 20px 0 0 -33px;
+      text-align: left;
+
+      .new-disc-item {
+        display: inline-block;
+        width: 145px;
+        height: 175px;
+        padding: 0 0 30px 18px;
+        vertical-align: top;
+
+        .item-cover {
+          position: relative;
+          display: block;
+          width: 120px;
+          height: 120px;
+          cursor: pointer;
+
+          .item-cover-img {
+            display: block;
+            width: 100%;
+            height: 100%;
+          }
+
+          .item-cover-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 145px;
+            height: 120px;
+            background: url('@/assets/images/my-music/coverall.png') no-repeat;
+            background-position: -170px -850px;
+          }
+
+          .item-cover-play {
+            position: absolute;
+            right: 10px;
+            bottom: 5px;
+            left: 94px;
+            display: none;
+            width: 28px;
+            height: 28px;
+            background: url('@/assets/images/music-audio/iconall.png') no-repeat;
+            background-position: 0 -140px;
+          }
+        }
+
+        .desc {
+          margin: 8px 0 3px;
+          overflow: hidden;
+          font-size: 14px;
+          color: #000000;
+          text-overflow: ellipsis;
+          word-wrap: normal;
+          white-space: nowrap;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .name {
+          display: inline-block;
+          max-width: 85%;
+          overflow: hidden;
+          font-size: 12px;
+          color: #666666;
+          text-overflow: ellipsis;
+          word-wrap: normal;
+          white-space: nowrap;
+          vertical-align: middle;
+        }
+      }
+
+      .new-disc-item:hover {
+        .item-cover-play {
+          display: block;
+        }
+      }
+    }
+  }
+}

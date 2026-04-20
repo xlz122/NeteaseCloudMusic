@@ -25,7 +25,7 @@ export function formatComment(res: ResponseType): Comment {
   const comment: Comment = {
     hotList: [],
     list: [],
-    total: 0
+    total: 0,
   };
 
   // 精彩评论

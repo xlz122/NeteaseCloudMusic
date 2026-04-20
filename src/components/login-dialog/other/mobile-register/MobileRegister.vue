@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <template v-if="!nextLook">
     <div class="form-content">
       <div class="label">手机号：</div>
@@ -10,7 +10,7 @@
         <input
           class="input"
           :class="{
-            'verify-error': mobileVerify.show && mobileVerify.type === 'phone'
+            'verify-error': mobileVerify.show && mobileVerify.type === 'phone',
           }"
           v-model="mobileFormData.phone"
           @keyup="mobilePhoneChange"
@@ -33,7 +33,7 @@
       <input
         class="input input-password"
         :class="{
-          'verify-error': mobileVerify.show && mobileVerify.type === 'password'
+          'verify-error': mobileVerify.show && mobileVerify.type === 'password',
         }"
         v-model="mobileFormData.password"
         type="password"
@@ -97,7 +97,7 @@
   </template>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, onMounted, onUnmounted } from 'vue';
 import { setMessage } from '@/hooks/useMessage';
 import { countryCode, captchaSent, captchaVerify } from '@/api/login';
@@ -138,7 +138,7 @@ type VerificationCodeVerify = {
 const mobileFormData = reactive<MobileFormData>({
   code: '86',
   phone: '',
-  password: ''
+  password: '',
 });
 
 // 获取国家编码列表
@@ -185,7 +185,7 @@ const mobileVerify = reactive<MobileVerify>({
   space: false,
   contain: false,
   length: false,
-  allPassed: false // 验证全部通过
+  allPassed: false, // 验证全部通过
 });
 
 // 密码输入
@@ -243,7 +243,7 @@ const verificationCodeText = ref('');
 const verificationCodeVerify = reactive<VerificationCodeVerify>({
   show: false,
   text: '',
-  time: 60 // 验证码定时器时间
+  time: 60, // 验证码定时器时间
 });
 
 // 表单验证方法
@@ -256,7 +256,7 @@ function verifyMethod({ text }: VerifyMethod) {
 function sendVerificationCode(): void {
   captchaSent({
     ctcode: mobileFormData.code,
-    phone: mobileFormData.phone
+    phone: mobileFormData.phone,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -321,7 +321,7 @@ function getCaptchaVerify(): Promise<void> {
     captchaVerify({
       captcha: verificationCodeText.value,
       phone: mobileFormData.phone,
-      ctcode: mobileFormData.code
+      ctcode: mobileFormData.code,
     })
       .then(() => {
         resolve();
@@ -355,6 +355,6 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./mobile-register.less');
+<style scoped lang="scss">
+@use './mobile-register.scss';
 </style>

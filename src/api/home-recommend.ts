@@ -10,6 +10,6 @@ export const recommendSongs = (): AxiosPromise => {
   return axios.request({
     url: '/recommend/songs',
     method: 'get',
-    params
+    params,
   });
 };

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="program-user-info-container">
     <div class="cover-warp">
       <div class="cover">
@@ -91,7 +91,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
 import { setMessage } from '@/hooks/useMessage';
 import usePlaySong from '@/hooks/usePlaySong';
@@ -102,12 +102,12 @@ import type { SongType } from '@/hooks/useFormatSong';
 defineProps({
   detail: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
   commentTotal: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
 });
 const emits = defineEmits(['jumpToComment']);
 
@@ -141,6 +141,6 @@ function jumpDjradioDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./program-info.less');
+<style scoped lang="scss">
+@use './program-info.scss';
 </style>

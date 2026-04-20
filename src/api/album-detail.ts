@@ -9,13 +9,13 @@ import type { AxiosPromise } from 'axios';
 export const albumDetail = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    id
+    id,
   };
 
   return axios.request({
     url: '/album',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -37,12 +37,12 @@ export const artistAlbum = ({ id, offset, limit }: ArtistAlbum): AxiosPromise =>
     timestamp: new Date().getTime(),
     id,
     offset,
-    limit
+    limit,
   };
 
   return axios.request({
     url: '/artist/album',
     method: 'get',
-    params
+    params,
   });
 };

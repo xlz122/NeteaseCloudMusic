@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="side-container">
     <h3 class="title">MV简介</h3>
     <div class="video-desc">
@@ -32,18 +32,18 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { formatLargeNumber } from '@/utils/utils';
 import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
 
 defineProps({
   detail: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./mv-side.less');
+<style scoped lang="scss">
+@use './mv-side.scss';
 </style>

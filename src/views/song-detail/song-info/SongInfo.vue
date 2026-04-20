@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="user-info-container">
     <template v-if="songDetailData.songs?.length">
       <div class="cover-warp">
@@ -92,7 +92,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -103,16 +103,16 @@ import useSongAddPlaylist from '@/hooks/useSongAddPlaylist';
 const props = defineProps({
   songDetailData: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
   lyric: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
   commentTotal: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
 });
 const emits = defineEmits(['jumpToComment']);
 
@@ -149,7 +149,7 @@ function handleCollection(id: number): void {
   if (props.songDetailData?.privileges?.[0]?.cp === 0) {
     store.commit('setCopyrightDialog', {
       visible: true,
-      message: '由于版权保护，您所在的地区暂时无法使用。'
+      message: '由于版权保护，您所在的地区暂时无法使用。',
     });
     return;
   }
@@ -166,7 +166,7 @@ function handleShare(): void {
   if (props.songDetailData?.privileges?.[0]?.cp === 0) {
     store.commit('setCopyrightDialog', {
       visible: true,
-      message: '由于版权保护，您所在的地区暂时无法使用。'
+      message: '由于版权保护，您所在的地区暂时无法使用。',
     });
     return;
   }
@@ -203,6 +203,6 @@ function jumpAlbumDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./song-info.less');
+<style scoped lang="scss">
+@use './song-info.scss';
 </style>

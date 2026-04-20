@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="side-container">
     <h3 class="title">喜欢这张专辑的人</h3>
     <ul class="like-list"></ul>
@@ -28,7 +28,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { formatTimestamp } from '@/utils/utils';
@@ -46,8 +46,8 @@ type AlbumItem = {
 const props = defineProps({
   singerId: {
     type: Number,
-    default: () => 0
-  }
+    default: () => 0,
+  },
 });
 
 const router = useRouter();
@@ -55,7 +55,7 @@ const router = useRouter();
 // 获取歌手辑列表
 const params = reactive({
   offset: 1,
-  limit: 5
+  limit: 5,
 });
 const albumList = ref<AlbumItem[]>([]);
 
@@ -63,7 +63,7 @@ function getArtistAlbum(): void {
   artistAlbum({
     id: props.singerId,
     offset: params.offset - 1,
-    limit: params.limit
+    limit: params.limit,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -92,10 +92,10 @@ watch(
 
     getArtistAlbum();
   },
-  { immediate: true }
+  { immediate: true },
 );
 </script>
 
-<style lang="less" scoped>
-@import url('./album-side.less');
+<style scoped lang="scss">
+@use './album-side.scss';
 </style>

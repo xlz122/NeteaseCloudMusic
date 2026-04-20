@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="classify-modal">
     <div class="hd">
       <i class="icon"></i>
@@ -18,7 +18,7 @@
                 { style: index === 1 },
                 { scene: index === 2 },
                 { emotion: index === 3 },
-                { theme: index === 4 }
+                { theme: index === 4 },
               ]"
             ></i>
             <span class="text">{{ item.title }}</span>
@@ -41,7 +41,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { reactive } from 'vue';
 import { playlistCatlist } from '@/api/home-song-sheet';
 import type { ResponseType } from '@/types';
@@ -60,24 +60,24 @@ const emits = defineEmits(['catChange']);
 const catlist = reactive<MenuItem[]>([
   {
     title: '',
-    list: []
+    list: [],
   },
   {
     title: '',
-    list: []
+    list: [],
   },
   {
     title: '',
-    list: []
+    list: [],
   },
   {
     title: '',
-    list: []
+    list: [],
   },
   {
     title: '',
-    list: []
-  }
+    list: [],
+  },
 ]);
 
 function getCatlist(): void {
@@ -119,6 +119,6 @@ function catChange(name: string | undefined): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./classify-modal.less');
+<style scoped lang="scss">
+@use './classify-modal.scss';
 </style>

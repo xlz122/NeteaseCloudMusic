@@ -10,7 +10,7 @@ export const playlistCatlist = (): AxiosPromise => {
   return axios.request({
     url: '/playlist/catlist',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -35,12 +35,12 @@ export const topPlaylist = ({ order, cat, offset, limit }: TopPlaylist): AxiosPr
     order,
     cat,
     offset,
-    limit
+    limit,
   };
 
   return axios.request({
     url: '/top/playlist',
     method: 'get',
-    params
+    params,
   });
 };

@@ -10,7 +10,7 @@ export const userSubcount = (): AxiosPromise => {
   return axios.request({
     url: '/user/subcount',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -23,7 +23,7 @@ export const subPlayList = (): AxiosPromise => {
   return axios.request({
     url: '/artist/sublist',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -36,7 +36,7 @@ export const videoSbulist = (): AxiosPromise => {
   return axios.request({
     url: '/mv/sublist',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -48,13 +48,13 @@ export const videoSbulist = (): AxiosPromise => {
 export const userPlayList = ({ uid }: { uid: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    uid
+    uid,
   };
 
   return axios.request({
     url: '/user/playlist',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -66,13 +66,13 @@ export const userPlayList = ({ uid }: { uid: number }): AxiosPromise => {
 export const addPlayList = ({ name }: { name: string }): AxiosPromise => {
   const data = {
     timestamp: new Date().getTime(),
-    name
+    name,
   };
 
   return axios.request({
     url: '/playlist/create',
     method: 'post',
-    data
+    data,
   });
 };
 
@@ -84,13 +84,13 @@ export const addPlayList = ({ name }: { name: string }): AxiosPromise => {
 export const deletePlayList = ({ id }: { id: number }): AxiosPromise => {
   const data = {
     timestamp: new Date().getTime(),
-    id
+    id,
   };
 
   return axios.request({
     url: '/playlist/delete',
     method: 'post',
-    data
+    data,
   });
 };
 
@@ -102,13 +102,13 @@ export const deletePlayList = ({ id }: { id: number }): AxiosPromise => {
 export const playListDetail = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    id
+    id,
   };
 
   return axios.request({
     url: '/playlist/detail',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -129,13 +129,13 @@ export const collectSong = ({ pid, tracks }: CollectSong): AxiosPromise => {
     timestamp: new Date().getTime(),
     op: 'add',
     pid,
-    tracks
+    tracks,
   };
 
   return axios.request({
     url: '/playlist/tracks',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -156,13 +156,13 @@ export const deleteSong = ({ pid, tracks }: DeleteSong): AxiosPromise => {
     timestamp: new Date().getTime(),
     op: 'del',
     pid,
-    tracks
+    tracks,
   };
 
   return axios.request({
     url: '/playlist/tracks',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -181,13 +181,13 @@ export const getSongPlayUrl = ({ id, br }: GetSongPlayUrl): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
     id,
-    br
+    br,
   };
 
   return axios.request({
     url: '/song/url',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -203,12 +203,12 @@ type GetLyric = {
 export const getLyric = ({ id }: GetLyric): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    id
+    id,
   };
 
   return axios.request({
     url: '/lyric',
     method: 'get',
-    params
+    params,
   });
 };

@@ -33,7 +33,7 @@ const mutations: Mutations<State> = {
     localStorage.setItem('songPlaylist', '[]');
     localStorage.setItem('playSongId', '');
     localStorage.setItem('playSongItem', '');
-  }
+  },
 };
 
 export default mutations;

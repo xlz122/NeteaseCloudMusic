@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="album-info-container">
     <div class="cover-warp">
       <img class="cover-img" :src="`${userInfo.picUrl}?param=177y177`" alt="" />
@@ -88,7 +88,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -101,12 +101,12 @@ import type { SongType } from '@/hooks/useFormatSong';
 const props = defineProps({
   userInfo: {
     type: Object,
-    default: () => ({})
+    default: () => ({}),
   },
   songs: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 const emits = defineEmits(['jumpToComment']);
 
@@ -129,19 +129,19 @@ function playAllSong(): void {
 
   // 全部无版权
   const allNoCopyright = props.songs?.some?.(
-    (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+    (item: Record<string, { cp: number }>) => item.privilege?.cp === 1,
   );
   if (!allNoCopyright) {
     store.commit('setCopyrightDialog', {
       visible: true,
-      message: '由于版权保护，您所在的地区暂时无法使用。'
+      message: '由于版权保护，您所在的地区暂时无法使用。',
     });
     return;
   }
 
   // 过滤无版权
   const songList: SongType[] = props.songs.filter?.(
-    (item: Record<string, { cp: number }>) => item.privilege?.cp !== 0
+    (item: Record<string, { cp: number }>) => item.privilege?.cp !== 0,
   );
 
   usePlaySong(songList[0]);
@@ -156,19 +156,19 @@ function allSongToPlaylist(): void {
 
   // 全部无版权
   const allNoCopyright = props.songs?.some?.(
-    (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+    (item: Record<string, { cp: number }>) => item.privilege?.cp === 1,
   );
   if (!allNoCopyright) {
     store.commit('setCopyrightDialog', {
       visible: true,
-      message: '由于版权保护，您所在的地区暂时无法使用。'
+      message: '由于版权保护，您所在的地区暂时无法使用。',
     });
     return;
   }
 
   // 过滤无版权
   const songList: SongType[] = props.songs.filter?.(
-    (item: Record<string, { cp: number }>) => item.privilege?.cp !== 0
+    (item: Record<string, { cp: number }>) => item.privilege?.cp !== 0,
   );
 
   useSongAddPlaylist(songList);
@@ -183,19 +183,19 @@ function handleCollectAll(): void {
 
   // 全部无版权
   const allNoCopyright = props.songs?.some?.(
-    (item: Record<string, { cp: number }>) => item.privilege?.cp === 1
+    (item: Record<string, { cp: number }>) => item.privilege?.cp === 1,
   );
   if (!allNoCopyright) {
     store.commit('setCopyrightDialog', {
       visible: true,
-      message: '由于版权保护，您所在的地区暂时无法使用。'
+      message: '由于版权保护，您所在的地区暂时无法使用。',
     });
     return;
   }
 
   // 过滤无版权
   const songs = props.songs.filter?.(
-    (item: Record<string, { cp: number }>) => item.privilege.cp !== 0
+    (item: Record<string, { cp: number }>) => item.privilege.cp !== 0,
   );
   const ids = songs.map?.((item: { id: number }) => item.id).join?.(',');
 
@@ -229,6 +229,6 @@ function jumpSingerDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./album-info.less');
+<style scoped lang="scss">
+@use './album-info.scss';
 </style>

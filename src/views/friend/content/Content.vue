@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="content">
     <div class="header">
       <span class="title">动态</span>
@@ -35,7 +35,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { setMessage } from '@/hooks/useMessage';
@@ -70,7 +70,7 @@ function releaseVideo(): void {
 // 获取动态列表
 const params = reactive({
   pagesize: 20,
-  lasttime: -1
+  lasttime: -1,
 });
 const loading = ref(false);
 const eventList = ref<EventItem[]>([]);
@@ -178,6 +178,6 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./content.less');
+<style scoped lang="scss">
+@use './content.scss';
 </style>

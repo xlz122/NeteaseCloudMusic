@@ -1,0 +1,259 @@
+﻿.home-recommend {
+  background-color: #F2F2F2;
+
+  .home-recommend-container {
+    width: 980px;
+    margin: 0 auto;
+    background: url('@/assets/images/song-sheet/background.png') repeat-y center 0;
+    background-color: #FFFFFF;
+    border: 1px solid #D3D3D3;
+    border-width: 0 1px;
+
+    .recommend-content {
+      display: inline-block;
+      width: calc(100% - 274px);
+      padding-bottom: 40px;
+      vertical-align: top;
+
+      .header-info {
+        position: relative;
+        width: 100%;
+        height: 179px;
+        margin: 20px 39px 30px;
+        background: url('@/assets/images/home-recommend/header-bg.jpg') no-repeat;
+
+        .item-top {
+          position: absolute;
+          top: 34px;
+          left: 54px;
+          width: 114px;
+          height: 114px;
+
+          .img {
+            display: block;
+            height: 100%;
+            background: url('@/assets/images/home/date.png');
+            background-position: 0 -270px;
+            border: none;
+          }
+
+          .head {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            display: block;
+            height: 26px;
+            font-size: 12px;
+            line-height: 26px;
+            color: #FED9D9;
+            text-align: center;
+            text-shadow: 0 -1px #962626;
+            transform: translateX(-50%);
+          }
+
+          .head-text {
+            position: absolute;
+            top: 35px;
+            left: 50%;
+            display: block;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 74px;
+            font-weight: bold;
+            line-height: 80px;
+            color: #202020;
+            text-align: center;
+            transform: translateX(-50%);
+          }
+
+          .mask {
+            position: absolute;
+            top: 26px;
+            left: 0;
+            width: 114px;
+            height: 88px;
+            background: url('@/assets/images/home/date.png');
+            background-position: 0 -400px;
+          }
+        }
+      }
+
+      .operate-btn {
+        margin: 20px 39px 10px;
+        text-align: left;
+
+        .play {
+          display: inline-block;
+          width: 85px;
+          height: 31px;
+          padding-right: 5px;
+          line-height: 31px;
+          vertical-align: top;
+          background: url('@/assets/images/icon-button.png') no-repeat;
+          background-position: right -428px;
+
+          .icon-play {
+            display: inline-block;
+            width: 100%;
+            height: 31px;
+            margin-top: -1px;
+            line-height: 31px;
+            color: #FFFFFF;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            background: url('@/assets/images/icon-button.png') no-repeat;
+            background-position: 0 -387px;
+          }
+
+          .icon-play::before {
+            display: inline-block;
+            width: 20px;
+            height: 18px;
+            margin: 0 2px 2px 0;
+            vertical-align: middle;
+            background: url('@/assets/images/icon-button.png') no-repeat;
+            content: '';
+            background-position: 0 -1622px;
+          }
+        }
+
+        .play:hover {
+          background-position: right -510px;
+
+          .icon-play {
+            background-position: 0 -469px;
+          }
+
+          .icon-play::before {
+            background-position: -28px -1622px;
+          }
+        }
+
+        .disable-play,
+        .disable-play:hover {
+          width: 67px;
+          margin-right: 8px;
+          color: #BEBEBE;
+          background-position: right -934px;
+
+          .icon-play {
+            color: #BEBEBE;
+            background-position: 0 -891px;
+            cursor: default;
+          }
+
+          .icon-play::before {
+            margin-right: 12px;
+            background-position: 0 9999px;
+          }
+        }
+
+        .play-add {
+          display: inline-block;
+          width: 31px;
+          height: 31px;
+          padding-right: 0;
+          margin-right: 8px;
+          margin-left: -3px;
+          line-height: 30px;
+          vertical-align: top;
+          cursor: pointer;
+          background: url('@/assets/images/icon-button.png') no-repeat;
+          background-position: 0 -1588px;
+        }
+
+        .play-add:hover {
+          background-position: -40px -1588px;
+        }
+
+        .disable-add {
+          display: none;
+        }
+
+        .other {
+          display: inline-block;
+          height: 32px;
+          padding-right: 0;
+          margin-right: 8px;
+          margin-left: -3px;
+          font-family: simsun, '\5b8b\4f53', sans-serif;
+          font-size: inherit;
+          font-style: normal;
+          line-height: 30px;
+          color: #333333;
+          text-align: left;
+          vertical-align: middle;
+          cursor: pointer;
+          background: url('@/assets/images/icon-button.png') no-repeat;
+          background-position: right -1192px;
+
+          .icon {
+            display: inline-block;
+            height: 32px;
+            padding-left: 30px;
+            margin-top: -1px;
+            margin-right: 4px;
+            font-family: simsun, '\5b8b\4f53', sans-serif;
+            vertical-align: middle;
+            background: url('@/assets/images/icon-button.png') no-repeat;
+            background-position: 0 -1149px;
+          }
+        }
+
+        .collection {
+          background-position: right -1020px;
+
+          .icon {
+            background-position: 0 -977px;
+          }
+        }
+
+        .collection:hover {
+          background-position: right -1106px;
+
+          .icon {
+            background-position: 0 -1063px;
+          }
+        }
+      }
+
+      .list-title {
+        position: relative;
+        padding: 0 0 6px;
+        margin-right: 30px;
+        margin-left: 39px;
+        text-align: left;
+        border-bottom: 2px solid #C20C0C;
+
+        .title-text {
+          display: inline-block;
+          font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
+          font-size: 20px;
+          font-weight: normal;
+          line-height: 28px;
+          vertical-align: middle;
+        }
+
+        .title-text-num {
+          display: inline-block;
+          margin-top: 5px;
+          margin-left: 20px;
+          color: #666666;
+          vertical-align: middle;
+        }
+      }
+
+      .music-table {
+        margin-right: 30px;
+        margin-left: 39px;
+        border: 1px solid #D9D9D9;
+      }
+    }
+
+    .recommend-side {
+      display: inline-block;
+      width: 270px;
+      vertical-align: top;
+    }
+  }
+}

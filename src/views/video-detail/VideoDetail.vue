@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="video-detail">
     <div class="detail-container">
       <div class="detail-content">
@@ -74,7 +74,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -196,14 +196,14 @@ const commentParams = reactive<CommentParams>({
   limit: 20,
   hotList: [],
   list: [],
-  total: 0
+  total: 0,
 });
 
 function getCommentList(): void {
   const params = {
     id: commentParams.id,
     offset: (commentParams.offset - 1) * commentParams.limit,
-    limit: commentParams.limit
+    limit: commentParams.limit,
   };
 
   videoComment({ ...params })
@@ -248,7 +248,7 @@ watch(
     getVideoSbulist();
     getCommentList();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 onMounted(() => {
@@ -257,6 +257,6 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./video-detail.less');
+<style scoped lang="scss">
+@use './video-detail.scss';
 </style>

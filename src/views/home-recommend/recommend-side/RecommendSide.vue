@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="recommend-side-container">
     <div class="recommend-top">
       <div class="top-title">
@@ -34,7 +34,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import SideDownload from '@/views/song-sheet-detail/side-download/SideDownload.vue';
@@ -43,6 +43,6 @@ const store = useStore();
 const userInfo = computed(() => store.getters.userInfo);
 </script>
 
-<style lang="less" scoped>
-@import url('./recommend-side.less');
+<style scoped lang="scss">
+@use './recommend-side.scss';
 </style>

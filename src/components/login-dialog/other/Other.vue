@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <!-- 其他登录 -->
   <div class="other" v-if="loginMode.allOtherLogin">
     <div class="phone-login">
@@ -81,7 +81,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive } from 'vue';
 import { setMessage } from '@/hooks/useMessage';
 import MobilePhoneLogin from './mobile-login/MobileLogin.vue';
@@ -100,7 +100,7 @@ const loginMode = reactive({
   mobileLogin: false,
   mobileRegister: false,
   mailboxLogin: false,
-  allOtherLogin: true
+  allOtherLogin: true,
 });
 // 协议勾选
 const officialCheckbox = ref(false);
@@ -169,6 +169,6 @@ function returnOtherLogin(): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./other.less');
+<style scoped lang="scss">
+@use './other.scss';
 </style>

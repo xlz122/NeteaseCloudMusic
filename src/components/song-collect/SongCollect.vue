@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="song-collect">
     <Dialog
       class="collect-dialog"
@@ -32,7 +32,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { setMessage } from '@/hooks/useMessage';
@@ -65,7 +65,7 @@ watch(
 
     getUserPlayList();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 // 获取歌单列表
@@ -116,13 +116,13 @@ function handleCollection(id: number): void {
 function collectCancel(): void {
   store.commit('setSongCollect', {
     visible: false,
-    songIds: ''
+    songIds: '',
   });
 
   store.commit('setSongCollect', { visible: false, songIds: '' });
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./song-collect.less');
+<style scoped lang="scss">
+@use './song-collect.scss';
 </style>

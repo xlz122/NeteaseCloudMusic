@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="search">
     <span class="search-icon"></span>
     <input
@@ -102,7 +102,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -167,7 +167,7 @@ watch(
     }
 
     getSearchPropos();
-  }
+  },
 );
 
 const searchPlaceholder = ref('音乐/视频/电台/用户');
@@ -201,7 +201,7 @@ function searchEnter(): void {
 
   router.push({
     name: 'search-details',
-    query: { keyword: searchKeyword.value, type: route.query.type ?? 1 }
+    query: { keyword: searchKeyword.value, type: route.query.type ?? 1 },
   });
   store.commit('setMenuIndex', -1);
 }
@@ -209,7 +209,7 @@ function searchEnter(): void {
 function jumpSearchUser(): void {
   router.push({
     name: 'search-details',
-    query: { keyword: searchKeyword.value, type: 1002 }
+    query: { keyword: searchKeyword.value, type: 1002 },
   });
   store.commit('setMenuIndex', -1);
 }
@@ -231,6 +231,6 @@ function jumpSongSheetDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./search.less');
+<style scoped lang="scss">
+@use './search.scss';
 </style>

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <!-- 歌单 -->
   <template v-if="item.type === 13">
     <div class="cover" @click="jumpUserProfile(item.user?.userId)">
@@ -313,15 +313,15 @@
   </template>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { formatDate } from '@/utils/utils';
 import type { SongType } from '@/hooks/useFormatSong';
 
 defineProps({
   item: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 const emits = defineEmits([
   'playSingleSong',
@@ -329,7 +329,7 @@ const emits = defineEmits([
   'jumpUserProfile',
   'jumpSongDetail',
   'jumpSingerDetail',
-  'jumpAlbumDetail'
+  'jumpAlbumDetail',
 ]);
 
 function playSingleSong(item: SongType): void {
@@ -357,6 +357,6 @@ function jumpAlbumDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./item.less');
+<style scoped lang="scss">
+@use './item.scss';
 </style>

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="user-record-container">
     <div class="title">
       <span class="title-text">听歌排行</span>
@@ -21,7 +21,7 @@
     <ul class="list" v-if="!loading">
       <li class="item" v-for="(item, index) in recordList.slice?.(0, 10)" :key="index">
         <div class="hd">
-          <span class="text">{{ index + 1 }}.</span>
+          <span class="text">{{ Number(index) + 1 }}.</span>
           <i
             class="icon-play"
             :class="{ 'active-play': item.song?.id === playSongId }"
@@ -63,7 +63,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -90,8 +90,8 @@ type RecordItem = {
 defineProps({
   listenSongs: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
 });
 
 const route = useRoute();
@@ -136,7 +136,7 @@ watch(
   () => {
     getUserRecord();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 // 播放单个歌曲
@@ -181,6 +181,6 @@ function jumpSingerDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./user-record.less');
+<style scoped lang="scss">
+@use './user-record.scss';
 </style>

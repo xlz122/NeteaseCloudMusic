@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="singer-song">
     <div class="operate-btn">
       <div
@@ -98,7 +98,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -137,7 +137,7 @@ const playSongId = computed(() => store.getters['music/playSongId']);
 // 获取歌手 - 歌曲
 const loading = ref(false);
 const singerSong = ref<SingerSong>({
-  hotSongs: []
+  hotSongs: [],
 });
 
 function getArtistSong(): void {
@@ -160,7 +160,7 @@ watch(
   () => {
     getArtistSong();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 // 播放全部 - 默认播放列表第一项
@@ -207,7 +207,7 @@ function playSingleSong(item: SongType): void {
   if (isCopyright(item.id)) {
     store.commit('setCopyrightDialog', {
       visible: true,
-      message: '由于版权保护，您所在的地区暂时无法使用。'
+      message: '由于版权保护，您所在的地区暂时无法使用。',
     });
     return;
   }
@@ -261,7 +261,7 @@ function jumpMvDetail(songId: number, id: number): void {
   if (isCopyright(songId)) {
     store.commit('setCopyrightDialog', {
       visible: true,
-      message: '由于版权保护，您所在的地区暂时无法使用。'
+      message: '由于版权保护，您所在的地区暂时无法使用。',
     });
     return;
   }
@@ -274,6 +274,6 @@ function jumpAlbumDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./singer-song.less');
+<style scoped lang="scss">
+@use './singer-song.scss';
 </style>

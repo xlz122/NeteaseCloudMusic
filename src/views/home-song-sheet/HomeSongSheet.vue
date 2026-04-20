@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="home-song-sheet">
     <div class="home-song-sheet-container">
       <div class="title">
@@ -66,7 +66,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -105,7 +105,7 @@ const params = reactive({
   cat: '全部',
   offset: 1,
   limit: 50,
-  total: 0
+  total: 0,
 });
 const title = ref('全部');
 const songSheet = ref<SongSheetItem[]>([]);
@@ -115,7 +115,7 @@ function getTopPlaylist(): void {
     order: params.order,
     cat: params.cat,
     offset: (params.offset - 1) * params.limit,
-    limit: params.limit
+    limit: params.limit,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -141,7 +141,7 @@ watch(
 
     getTopPlaylist();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 // 热门
@@ -188,7 +188,7 @@ function songSheetToPlaylistPlay(id: number): void {
       // 过滤无版权
       res.songs = res.songs?.slice?.(0, 20) ?? [];
       const songList: SongType[] = res.songs?.filter?.(
-        (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd
+        (item: { noCopyrightRcmd: unknown }) => !item.noCopyrightRcmd,
       );
 
       usePlaySong(songList[0]);
@@ -215,6 +215,6 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./home-song-sheet.less');
+<style scoped lang="scss">
+@use './home-song-sheet.scss';
 </style>

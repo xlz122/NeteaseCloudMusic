@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="loading" v-if="songData.loading">
     <i class="loading-icon"></i>
     <span>加载中...</span>
@@ -64,7 +64,7 @@
   />
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { reactive, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -111,7 +111,7 @@ const songData = reactive<SongData>({
   offset: 1,
   limit: 30,
   total: 0,
-  list: []
+  list: [],
 });
 
 function getSearchSong(): void {
@@ -121,7 +121,7 @@ function getSearchSong(): void {
     keywords: String(route.query.keyword),
     type: Number(route.query.type),
     offset: (songData.offset - 1) * songData.limit,
-    limit: isLogin.value ? songData.limit : 20
+    limit: isLogin.value ? songData.limit : 20,
   })
     .then((res: ResponseType) => {
       if (res?.code !== 200) {
@@ -148,7 +148,7 @@ watch(
     songData.offset = 1;
     getSearchSong();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 // 播放单个歌曲
@@ -156,7 +156,7 @@ function playSingleSong(item: SongType): void {
   if (isCopyright(item.id)) {
     store.commit('setCopyrightDialog', {
       visible: true,
-      message: '由于版权保护，您所在的地区暂时无法使用。'
+      message: '由于版权保护，您所在的地区暂时无法使用。',
     });
     return;
   }
@@ -229,6 +229,6 @@ function jumpAlbumDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./search-song.less');
+<style scoped lang="scss">
+@use './search-song.scss';
 </style>

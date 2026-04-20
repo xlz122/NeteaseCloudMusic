@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="home">
     <banner />
     <div class="home-container">
@@ -12,12 +12,12 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import Banner from './banner/Banner.vue';
 import HomeContent from './content/Content.vue';
 import HomeSide from './side/Side.vue';
 </script>
 
-<style lang="less" scoped>
-@import url('./home.less');
+<style scoped lang="scss">
+@use './home.scss';
 </style>

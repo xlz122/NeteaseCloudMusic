@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <ul class="user-nav-list">
     <li class="item" v-for="(item, index) in menu" :key="index" @click="jumpPageDetail(item)">
       <i :class="`icon ${item.icon}`"></i>
@@ -15,7 +15,7 @@
   </ul>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -30,8 +30,8 @@ type MenuItem = {
 defineProps({
   msgCount: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
 });
 
 const router = useRouter();
@@ -42,38 +42,38 @@ const menu = ref<MenuItem[]>([
   {
     title: '我的主页',
     link: '/user-profile',
-    icon: 'homepage'
+    icon: 'homepage',
   },
   {
     title: '我的消息',
     link: '',
-    icon: 'message'
+    icon: 'message',
   },
   {
     title: '我的等级',
     link: '/level',
-    icon: 'grade'
+    icon: 'grade',
   },
   {
     title: 'VIP会员',
     link: '/member',
-    icon: 'member'
+    icon: 'member',
   },
   {
     title: '个人设置',
     link: '',
-    icon: 'setting'
+    icon: 'setting',
   },
   {
     title: '实名认证',
     link: 'https://music.163.com/st/userbasic/?module=st%2Fuserbasic%2F#/nameverify',
-    icon: 'real-name'
+    icon: 'real-name',
   },
   {
     title: '退出',
     link: '/logout',
-    icon: 'logout'
-  }
+    icon: 'logout',
+  },
 ]);
 
 function jumpPageDetail(item: MenuItem): void {
@@ -85,7 +85,7 @@ function jumpPageDetail(item: MenuItem): void {
   if (item.link === '/user-profile') {
     router.push({
       path: '/user-profile',
-      query: { id: userInfo.value.profile?.userId }
+      query: { id: userInfo.value.profile?.userId },
     });
     return;
   }
@@ -99,6 +99,6 @@ function jumpPageDetail(item: MenuItem): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./user.less');
+<style scoped lang="scss">
+@use './user.scss';
 </style>

@@ -1,0 +1,93 @@
+﻿.page {
+  width: 100%;
+  margin: 20px 0;
+  font-size: 12px;
+  text-align: center;
+
+  .page-btn {
+    display: inline-block;
+    height: 24px;
+    margin: 0 1px 0 2px;
+    line-height: 24px;
+    color: #333333;
+    text-align: left;
+    vertical-align: middle;
+    cursor: pointer;
+    background: url('@/assets/images/my-music/icon-button.png') no-repeat 0 9999px;
+    border: 1px solid #CCCCCC;
+    border-radius: 2px;
+  }
+
+  .prev-btn {
+    width: 47px;
+    padding-left: 22px;
+    background-position: 0 -560px;
+
+    &:hover {
+      background-position: 0 -590px;
+    }
+  }
+
+  .prev-disabled-btn {
+    background-position: 0 -620px;
+    color: #CACACA;
+    cursor: default;
+
+    &:hover {
+      background-position: 0 -620px;
+      color: #CACACA;
+      cursor: default;
+    }
+  }
+
+  .next-btn {
+    width: 57px;
+    padding-left: 12px;
+    background-position: -75px -560px;
+
+    &:hover {
+      background-position: -75px -590px;
+    }
+  }
+
+  .next-disabled-btn {
+    background-position: -75px -620px;
+    color: #CACACA;
+    cursor: default;
+
+    &:hover {
+      background-position: -75px -620px;
+      color: #CACACA;
+      cursor: default;
+    }
+  }
+
+  .page-num {
+    display: inline-block;
+    height: 22px;
+    padding: 0 8px;
+    margin: 0 1px 0 2px;
+    line-height: 22px;
+    vertical-align: middle;
+    cursor: pointer;
+    background: url('@/assets/images/my-music/icon-button.png') no-repeat 0 9999px;
+    background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 2px;
+
+    &:hover {
+      border-color: #666666;
+    }
+  }
+
+  .page-active-num {
+    background-position: 0 -650px;
+    border-color: #A2161B;
+    color: #FFFFFF;
+    cursor: default;
+  }
+
+  .page-dot {
+    font-size: 12px;
+  }
+}

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <ul class="comment-list">
     <li class="item" v-for="(item, index) in list" :key="index">
       <img
@@ -72,7 +72,7 @@
   </ul>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -83,18 +83,18 @@ const props = defineProps({
   // 0: 精彩评论 1: 最新评论
   type: {
     type: Number,
-    default: 0
+    default: 0,
   },
   list: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 const emits = defineEmits([
   'handleDeleteComment',
   'handleLikeComment',
   'setComments',
-  'replySubmit'
+  'replySubmit',
 ]);
 
 const router = useRouter();
@@ -126,6 +126,6 @@ function jumpUserProfile(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./comment-list.less');
+<style scoped lang="scss">
+@use './comment-list.scss';
 </style>

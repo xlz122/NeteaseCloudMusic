@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="side-user" v-if="isLogin">
     <div class="user-content">
       <div class="user-info">
@@ -50,7 +50,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -92,7 +92,7 @@ watch(
 
     getVipInfo();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 // 签到状态
@@ -131,7 +131,7 @@ function handleLogin(): void {
 function jumpUserProfile(): void {
   router.push({
     path: '/user-profile',
-    query: { id: userInfo.value.profile?.userId }
+    query: { id: userInfo.value.profile?.userId },
   });
 }
 
@@ -140,6 +140,6 @@ function jumpLevel(): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./side-user.less');
+<style scoped lang="scss">
+@use './side-user.scss';
 </style>

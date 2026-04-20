@@ -9,13 +9,13 @@ import type { AxiosPromise } from 'axios';
 export const playlistTrack = ({ id }: { id: number }): AxiosPromise => {
   const params = {
     timestamp: new Date().getTime(),
-    id
+    id,
   };
 
   return axios.request({
     url: '/playlist/track/all',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -29,13 +29,13 @@ export const playlistDetail = ({ id, s }: { id: number; s?: number }): AxiosProm
   const params = {
     timestamp: new Date().getTime(),
     id,
-    s
+    s,
   };
 
   return axios.request({
     url: '/playlist/detail',
     method: 'get',
-    params
+    params,
   });
 };
 
@@ -49,12 +49,12 @@ export const playlistSubscribe = ({ id, t }: { id: number; t: number }): AxiosPr
   const params = {
     timestamp: new Date().getTime(),
     id,
-    t
+    t,
   };
 
   return axios.request({
     url: '/playlist/subscribe',
     method: 'get',
-    params
+    params,
   });
 };

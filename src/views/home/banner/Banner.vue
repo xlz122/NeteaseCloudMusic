@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div
     class="home-banner"
     ref="bannerRef"
@@ -36,8 +36,8 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { ref, reactive, watch, onUnmounted } from 'vue';
+<script setup lang="ts">
+import { ref, useTemplateRef, reactive, watch, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { bannerImgUrl } from '@/api/home';
 import type { ResponseType } from '@/types';
@@ -60,7 +60,7 @@ const router = useRouter();
 const banner = reactive<Banner>({
   index: 0,
   currentUrl: '',
-  list: []
+  list: [],
 });
 
 function getBannerList(): void {
@@ -104,13 +104,13 @@ function handleDotChange(index: number): void {
 }
 
 // 轮播背景图
-const bannerRef = ref<HTMLElement | null>(null);
+const bannerRef = useTemplateRef('bannerRef');
 
 watch(
   () => banner.index,
   () => {
     banner.currentUrl = banner.list[banner.index].imageUrl;
-  }
+  },
 );
 
 watch(
@@ -124,7 +124,7 @@ watch(
     element.style.backgroundImage = `url(${banner.currentUrl}?imageView&blur=40x20)`;
     element.style.backgroundPosition = 'center center';
     element.style.backgroundSize = '6000px';
-  }
+  },
 );
 
 // 自动轮播
@@ -185,6 +185,6 @@ onUnmounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./banner.less');
+<style scoped lang="scss">
+@use './banner.scss';
 </style>

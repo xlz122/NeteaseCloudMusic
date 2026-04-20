@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="song-sheet-detail">
     <div class="detail-container">
       <div class="detail-content">
@@ -67,7 +67,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -122,7 +122,7 @@ function getSongDetail(): void {
 const lyric = reactive<Lyric>({
   lyricUser: {},
   transUser: {},
-  list: []
+  list: [],
 });
 
 function getLyricData(): void {
@@ -151,7 +151,7 @@ function handlerLyric(lyricStr: string): void {
     if (item === '') return;
     const obj = {
       lyric: '',
-      time: -1
+      time: -1,
     };
     const time = item.match(regTime);
     if (item.includes?.('[')) {
@@ -204,14 +204,14 @@ const commentParams = reactive<CommentParams>({
   limit: 20,
   hotList: [],
   list: [],
-  total: 0
+  total: 0,
 });
 
 function getCommentList(): void {
   const params = {
     id: commentParams.id,
     offset: (commentParams.offset - 1) * commentParams.limit,
-    limit: commentParams.limit
+    limit: commentParams.limit,
   };
 
   musicComment({ ...params })
@@ -266,7 +266,7 @@ watch(
     getLyricData();
     getCommentList();
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 onMounted(() => {
@@ -275,6 +275,6 @@ onMounted(() => {
 });
 </script>
 
-<style lang="less" scoped>
-@import url('./song-detail.less');
+<style scoped lang="scss">
+@use './song-detail.scss';
 </style>

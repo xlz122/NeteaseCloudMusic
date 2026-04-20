@@ -1,0 +1,26 @@
+﻿.home {
+  background-color: #F5F5F5;
+
+  .home-container {
+    position: relative;
+    width: 980px;
+    min-height: 700px;
+    margin: 0 auto;
+    background: url('@/assets/images/home/wrap1.png') repeat-y 100% 100%;
+    background-color: #FFFFFF;
+    border: 1px solid #D3D3D3;
+    border-width: 0 1px;
+
+    .container-content {
+      display: inline-block;
+      width: calc(980px - 250px);
+      vertical-align: top;
+    }
+
+    .container-side {
+      display: inline-block;
+      width: 250px;
+      vertical-align: top;
+    }
+  }
+}

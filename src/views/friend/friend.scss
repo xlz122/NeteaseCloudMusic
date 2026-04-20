@@ -1,0 +1,63 @@
+﻿.friend {
+  width: 100%;
+  background-color: #F5F5F5;
+
+  .friend-container {
+    display: flex;
+    flex-direction: row;
+    width: 980px;
+    min-height: 700px;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+
+    .container-content {
+      width: calc(100% - 300px);
+      height: 100%;
+      background: url('@/assets/images/home/wrap1.png') repeat-y 17% 100%;
+    }
+
+    .container-side {
+      width: 300px;
+      height: 100%;
+    }
+  }
+
+  .friend-login {
+    width: 980px;
+    min-height: 700px;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    border: 1px solid #D3D3D3;
+    border-width: 0 1px;
+
+    .login-content {
+      position: relative;
+      width: 902px;
+      height: 414px;
+      padding-top: 104px;
+      margin: 0 auto;
+      background: url('@/assets/images/friend/not-login.jpg') no-repeat;
+      background-position: 0 104px;
+      background-size: contain;
+
+      .login-btn {
+        position: absolute;
+        top: 379px;
+        left: 563px;
+        width: 167px;
+        height: 49px;
+        text-indent: -9999px;
+        cursor: pointer;
+        background: url('@/assets/images/friend/not-login.jpg') no-repeat;
+        border: none;
+        outline: none;
+        background-position: 0 9999px;
+        background-size: contain;
+      }
+
+      .login-btn:hover {
+        background-position: 0 -278px;
+      }
+    }
+  }
+}

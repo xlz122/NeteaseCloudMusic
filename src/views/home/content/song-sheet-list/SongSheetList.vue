@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="song-sheet-list">
     <dl class="group" v-for="(item, index) in songSheet" :key="index">
       <dt class="top">
@@ -40,7 +40,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -165,6 +165,6 @@ function jumpSongDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./song-sheet-list.less');
+<style scoped lang="scss">
+@use './song-sheet-list.scss';
 </style>

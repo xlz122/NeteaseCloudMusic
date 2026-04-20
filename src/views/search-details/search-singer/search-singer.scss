@@ -1,0 +1,84 @@
+﻿.loading {
+  width: 100%;
+  height: 26px;
+  padding: 20px 0;
+  color: #999999;
+  text-align: center;
+
+  .loading-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 2px;
+    vertical-align: middle;
+    background: url('@/assets/images/loading.gif') no-repeat;
+  }
+}
+
+.search-singer {
+  margin-top: 20px;
+
+  .search-singer-list {
+    text-align: left;
+
+    .search-singer-item {
+      display: inline-block;
+      width: 130px;
+      height: 154px;
+      padding-bottom: 30px;
+      margin-left: 0;
+      text-align: left;
+      vertical-align: top;
+
+      .item-cover {
+        width: 130px;
+        height: 130px;
+        cursor: pointer;
+
+        .item-cover-img {
+          display: block;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .item-info {
+        position: relative;
+        margin-top: 8px;
+
+        .item-info-text {
+          display: inline-block;
+          max-width: 85%;
+          overflow: hidden;
+          color: #000000;
+          text-overflow: ellipsis;
+          word-wrap: normal;
+          white-space: nowrap;
+          vertical-align: middle;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .item-info-icon {
+          position: absolute;
+          right: 0;
+          display: inline-block;
+          width: 17px;
+          height: 18px;
+          overflow: hidden;
+          vertical-align: middle;
+          cursor: pointer;
+          background: url('@/assets/images/icon.png') no-repeat;
+          background-position: 0 -740px;
+        }
+      }
+    }
+
+    .first-item {
+      margin-left: 23px;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="side-container">
     <h3 class="title">视频简介</h3>
     <div class="video-desc">
@@ -48,7 +48,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { formatTimestamp, formatLargeNumber, timeStampToDuration } from '@/utils/utils';
@@ -71,8 +71,8 @@ type VideoItem = {
 defineProps({
   detail: {
     type: Object,
-    default: () => ({})
-  }
+    default: () => ({}),
+  },
 });
 
 const route = useRoute();
@@ -104,6 +104,6 @@ function jumpVideoDetail(id: number): void {
 }
 </script>
 
-<style lang="less" scoped>
-@import url('./video-side.less');
+<style scoped lang="scss">
+@use './video-side.scss';
 </style>

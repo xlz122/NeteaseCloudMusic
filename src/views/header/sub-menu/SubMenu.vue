@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="h-sub-menu">
     <div class="h-sub-menu-warp" v-if="menuIndex === 0">
       <ul class="nav">
@@ -16,7 +16,7 @@
   </div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -35,28 +35,28 @@ const subMenuIndex = computed(() => store.getters.subMenuIndex);
 const subMenu = ref<SubMenuItem[]>([
   {
     title: '推荐',
-    link: '/'
+    link: '/',
   },
   {
     title: '排行榜',
-    link: '/home-toplist'
+    link: '/home-toplist',
   },
   {
     title: '歌单',
-    link: '/home-song-sheet'
+    link: '/home-song-sheet',
   },
   {
     title: '主播电台',
-    link: '/home-djprogram'
+    link: '/home-djprogram',
   },
   {
     title: '歌手',
-    link: '/home-singer'
+    link: '/home-singer',
   },
   {
     title: '新碟上架',
-    link: '/home-album'
-  }
+    link: '/home-album',
+  },
 ]);
 
 function handleSubMenuChange(item: SubMenuItem): void {
@@ -76,10 +76,10 @@ watch(
 
     store.commit('setSubMenuIndex', index);
   },
-  { immediate: true }
+  { immediate: true },
 );
 </script>
 
-<style lang="less" scoped>
-@import url('./sub-menu.less');
+<style scoped lang="scss">
+@use './sub-menu.scss';
 </style>

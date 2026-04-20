@@ -14,7 +14,7 @@ export async function playPrevSong(modeType: number): Promise<void> {
   }
 
   const index: number = songPlaylist.findIndex?.(
-    (item: MusicItemType) => item.id === playSongItem.id
+    (item: MusicItemType) => item.id === playSongItem.id,
   );
 
   if (index === -1 || index === 0) {
@@ -45,7 +45,7 @@ export async function playNextSong(modeType: number): Promise<void> {
   }
 
   const index: number = songPlaylist.findIndex?.(
-    (item: MusicItemType) => item.id === playSongItem.id
+    (item: MusicItemType) => item.id === playSongItem.id,
   );
 
   if (index === -1 || index === songPlaylist.length - 1) {

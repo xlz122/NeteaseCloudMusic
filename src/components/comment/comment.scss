@@ -1,0 +1,86 @@
+﻿.list-title {
+  position: relative;
+  padding: 40px 10px 6px 32px;
+  border-bottom: 2px solid #C20C0C;
+
+  .title-text {
+    display: inline-block;
+    font-family: 'Microsoft Yahei', Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: normal;
+    line-height: 28px;
+    vertical-align: middle;
+  }
+
+  .title-text-num {
+    display: inline-block;
+    margin-top: 5px;
+    margin-left: 20px;
+    color: #666666;
+    vertical-align: middle;
+  }
+
+  .title-play-num {
+    position: absolute;
+    top: 7px;
+    right: 15px;
+    color: #666666;
+
+    .eye-catching {
+      font-weight: bold;
+      color: #C20C0C;
+    }
+  }
+}
+
+.detail-comment {
+  position: relative;
+  width: 676px;
+  padding: 0 0 10px;
+  margin: 0 auto;
+
+  .comment-content {
+    margin: 20px auto 0;
+
+    .user-avatar {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      vertical-align: top;
+    }
+
+    ::v-deep(.comment-content-replay) {
+      margin-bottom: 12px;
+      margin-left: 15px;
+
+      .list-title {
+        padding-left: 0;
+      }
+
+      .comment-textarea {
+        width: 576px;
+      }
+    }
+  }
+
+  .comment-title {
+    height: 20px;
+    border-bottom: 1px solid #CFCFCF;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #333333;
+  }
+}
+
+::v-deep(.comment-dialog) {
+  .dialog-box {
+    width: 480px;
+  }
+
+  .content {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #333333;
+    text-align: center;
+  }
+}
